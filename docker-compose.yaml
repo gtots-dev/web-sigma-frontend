@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    container_name: sigma-frontend
+    image: sigma-frontend-image
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - sigma-network
+
+networks:
+  sigma-network:
+    driver: bridge
+    name: sigma-network
