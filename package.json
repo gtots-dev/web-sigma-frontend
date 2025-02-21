@@ -10,9 +10,10 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "next": "latest",
+    "next": "15.1.7",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "latest",
@@ -20,8 +21,8 @@
     "@types/react-dom": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
-    "prettier": "latest",
     "postcss": "^8",
+    "prettier": "latest",
     "tailwindcss": "^3.4.1",
     "typescript": "latest"
   },
