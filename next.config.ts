@@ -1,7 +1,9 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  env: {
+    REDIRECT_ROUTER_DEFAULT: process.env.REDIRECT_ROUTER_DEFAULT
+  }
 }
 
 export default nextConfig
