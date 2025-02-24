@@ -25,7 +25,7 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
 2. **Configure as variáveis de ambiente:**
 
-   Copie o arquivo `.env-example` para a raiz do projeto e renomeie-o para `.env`.
+   Copie o arquivo `.env.example` para a raiz do projeto e renomeie-o para `.env`.
 
 3. **(Opcional) Configuração do DevContainer para VS Code:**
 
