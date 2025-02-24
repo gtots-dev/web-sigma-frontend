@@ -39,13 +39,17 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
      "dockerComposeFile": "../docker-compose.yaml",
      "service": "app",
      "workspaceFolder": "/app",
+     "remoteEnv": {
+       "SSH": "/root/.ssh/{SUA_SSH}"
+     },
+     "postCreateCommand": "apk add --no-cache openssh-client",
      "settings": {},
      "extensions": [
-      "EditorConfig.EditorConfig",
-      "bradlc.vscode-tailwindcss",
-      "esbenp.prettier-vscode",
-      "editorconfig.editorconfig",
-      "dbaeumer.vscode-eslint",
+       "EditorConfig.EditorConfig",
+       "bradlc.vscode-tailwindcss",
+       "esbenp.prettier-vscode",
+       "editorconfig.editorconfig",
+       "dbaeumer.vscode-eslint"
      ]
    }
    ```
