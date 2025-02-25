@@ -11,13 +11,16 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/form'
 import { InputPassword } from '@/modules/shared/presentation/components/input-password/input-password.component'
 import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
+import type { ReactNode } from 'react'
 
 interface AuthenticationFormInputPasswordComponentProps {
   description?: string
+  children: ReactNode
 }
 
 export function AuthenticationFormInputPasswordComponent({
-  description
+  description,
+  children
 }: AuthenticationFormInputPasswordComponentProps) {
   const { control } = useFormContext()
 
@@ -48,9 +51,7 @@ export function AuthenticationFormInputPasswordComponent({
           <FormMessage />
 
           <FormDescription className="flex justify-end">
-            <span className="text-xs underline text-end text-zinc-950 dark:text-zinc-50">
-              Esqueci a minha senha
-            </span>
+            {children}
           </FormDescription>
         </FormItem>
       )}
