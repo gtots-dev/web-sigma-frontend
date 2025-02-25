@@ -23,6 +23,7 @@ interface Data {
   copyright: string
   helpMeUsername: string
   helpMePassword: string
+  helpMeForgotPassword: string
   images: Images
 }
 
@@ -32,6 +33,7 @@ const data: Data = {
   copyright: MESSAGES_AUTHENTICATION['1.6'],
   helpMeUsername: MESSAGES_HELP_ME['username'],
   helpMePassword: MESSAGES_HELP_ME['password'],
+  helpMeForgotPassword: MESSAGES_HELP_ME['forgotPassword'],
   images: {
     bannerImageSrc: process.env.BANNER_IMAGE_SRC,
     lightLogoSrc: process.env.LIGHT_LOGO_SRC,
@@ -87,7 +89,11 @@ export default function AuthenticationPage() {
               />
               <AuthenticationForm.InputPassword
                 description={data.helpMePassword}
-              />
+              >
+                <AuthenticationForm.ForgotPassword
+                  description={data.helpMeForgotPassword}
+                />
+              </AuthenticationForm.InputPassword>
             </AuthenticationFormCard.Content>
 
             <AuthenticationFormCard.Footer>
