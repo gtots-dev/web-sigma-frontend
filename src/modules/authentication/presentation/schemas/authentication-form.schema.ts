@@ -26,3 +26,5 @@ export const AuthenticationFormSchema = z.object({
       message: MESSAGES_AUTHENTICATION['1.13']
     })
 })
+
+export type AuthenticationFormType = z.infer<typeof AuthenticationFormSchema>
