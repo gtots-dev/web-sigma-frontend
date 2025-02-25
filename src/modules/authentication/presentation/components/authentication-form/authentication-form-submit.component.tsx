@@ -3,7 +3,7 @@
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useFormContext } from 'react-hook-form'
 import { useAuthenticationFormSubmitHook } from '../../hooks/use-authentication-form-submit.hook'
-import type { AuthenticationFormType } from '@/modules/authentication/domain/types/authentication-form.type'
+import type { AuthenticationFormType } from '../../schemas/authentication-form.schema'
 
 export function AuthenticationFormInputSubmitComponent() {
   const { handleSubmit } = useFormContext<AuthenticationFormType>()

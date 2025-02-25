@@ -1,10 +1,12 @@
 'use client'
 
-import type { AuthenticationFormType } from '@/modules/authentication/domain/types/authentication-form.type'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AuthenticationFormSchema } from '@/modules/authentication/presentation/schemas/authentication-form.schema'
+import {
+  AuthenticationFormSchema,
+  type AuthenticationFormType
+} from '@/modules/authentication/presentation/schemas/authentication-form.schema'
 import { useForm, FormProvider } from 'react-hook-form'
-import type { ReactNode } from "react"
+import type { ReactNode } from 'react'
 
 interface AuthenticationFormRootComponentProps {
   children: ReactNode
@@ -13,7 +15,6 @@ interface AuthenticationFormRootComponentProps {
 export function AuthenticationFormRootComponent({
   children
 }: AuthenticationFormRootComponentProps) {
-
   const defaultValues: AuthenticationFormType = {
     username: '',
     password: ''
