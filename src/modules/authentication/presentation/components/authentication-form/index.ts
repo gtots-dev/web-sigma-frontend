@@ -1,3 +1,4 @@
+import { AuthenticationFormForgotPasswordComponent } from './authentication-form-forgot-password.component'
 import { AuthenticationFormInputPasswordComponent } from './authentication-form-password-input.component'
 import { AuthenticationFormRootComponent } from './authentication-form-root.component'
 import { AuthenticationFormInputSubmitComponent } from './authentication-form-submit.component'
@@ -7,5 +8,6 @@ export const AuthenticationForm = {
   Root: AuthenticationFormRootComponent,
   InputSubmit: AuthenticationFormInputSubmitComponent,
   InputUsername: AuthenticationFormInputUsernameComponent,
-  InputPassword: AuthenticationFormInputPasswordComponent
+  InputPassword: AuthenticationFormInputPasswordComponent,
+  ForgotPassword: AuthenticationFormForgotPasswordComponent
 }
