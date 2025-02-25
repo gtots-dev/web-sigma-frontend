@@ -1,6 +1,7 @@
 type MessagesHelpMeType = {
   username: string
   password: string
+  forgotPassword: string
 }
 
 export const MESSAGES_HELP_ME: MessagesHelpMeType = {
@@ -12,5 +13,7 @@ export const MESSAGES_HELP_ME: MessagesHelpMeType = {
   - 1 letra maiúscula (A-Z)
   - 1 letra minúscula (a-z)
   - 1 número (0-9)
-  - 1 caractere especial: #, @, $, !, %, *, ?, &.`
+  - 1 caractere especial: #, @, $, !, %, *, ?, &.`,
+  forgotPassword: `Entre em contato com seu gestor para que ele possa solicitar a redefinição de sua senha.
+  `
 }
