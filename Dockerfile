@@ -1,5 +1,7 @@
 FROM node:22-alpine
 
+RUN apk update
+
 WORKDIR /app
 
 COPY package*.json ./
