@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 export default {
-  darkMode: ['class'],
+  darkMode: ['media', 'class'],
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
@@ -17,12 +17,22 @@ export default {
           foreground: 'hsl(var(--popover-foreground))'
         },
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
+          '50': '#F5F9FF',
+          '100': '#DCE9FE',
+          '200': '#ABCAFD',
+          '300': '#7AABFA',
+          '400': '#498Af8',
+          '500': '#186Af7',
+          '600': '#0C52D3',
+          '700': '#063DA2',
+          '800': '#042A71',
+          '900': '#021740'
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
+          frasco: '#F3DE8A',
+          coral: '#EF8354',
+          'verde-mar': '#1A936F',
+          amora: '#AA4465'
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
