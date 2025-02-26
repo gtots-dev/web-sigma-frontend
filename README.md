@@ -29,7 +29,7 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
 3. **(Opcional) Configuração do DevContainer para VS Code:**
 
-   - Instale a extenção do [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) em seu VS Code.
+   - Instale a extensão do [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) em seu VS Code.
    - Crie uma pasta chamada `.devcontainer` na raiz do projeto.
    - Dentro dessa pasta, crie um arquivo chamado `devcontainer.json` com o seguinte conteúdo:
 
@@ -39,10 +39,6 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
      "dockerComposeFile": "../docker-compose.yaml",
      "service": "app",
      "workspaceFolder": "/app",
-     "remoteEnv": {
-       "SSH": "/root/.ssh/{SUA_SSH}"
-     },
-     "postCreateCommand": "apk add --no-cache openssh-client",
      "settings": {},
      "extensions": [
        "EditorConfig.EditorConfig",
