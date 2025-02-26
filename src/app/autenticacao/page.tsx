@@ -35,11 +35,11 @@ const data: Data = {
   helpMePassword: MESSAGES_HELP_ME['password'],
   helpMeForgotPassword: MESSAGES_HELP_ME['forgotPassword'],
   images: {
-    bannerImageSrc: process.env.BANNER_IMAGE_SRC,
-    lightLogoSrc: process.env.LIGHT_LOGO_SRC,
-    darkLogoSrc: process.env.DARK_LOGO_SRC,
-    mobileLightLogoSrc: process.env.MOBILE_LIGHT_LOGO_SRC,
-    mobileDarkLogoSrc: process.env.MOBILE_DARK_LOGO_SRC,
+    bannerImageSrc: '/backgrounds/authentication_roads.jpg',
+    lightLogoSrc: '/logos/gtots_principal_hor_margem.svg',
+    darkLogoSrc: '/logos/gtots_preto_hor_margem.svg',
+    mobileLightLogoSrc: '/logos/gtots_principal_hor.svg',
+    mobileDarkLogoSrc: '/logos/gtots_branco_hor.svg',
 
     bannerImageAlt: 'Imagem de uma estrada ao amanhecer',
     lightLogoAlt: 'Logotipo claro da GTOTS',
