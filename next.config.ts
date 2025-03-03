@@ -3,6 +3,8 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   env: {
     REDIRECT_ROUTER_DEFAULT: process.env.REDIRECT_ROUTER_DEFAULT,
+    HOST_API: process.env.HOST_API,
+    PATH_LOGIN_FOR_ACCESS_TOKEN: process.env.PATH_LOGIN_FOR_ACCESS_TOKEN
   },
   async redirects() {
     return [
