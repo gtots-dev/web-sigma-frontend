@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'axios'
-import type { HttpRequestConfig } from '../../domain/types/http-request-config.type'
+import type { HttpRequestConfig } from '../../domain/interfaces/http-request-config.interface'
 import axios from 'axios'
-import type { HttpResponse } from '../../domain/types/http-response.type'
+import type { HttpResponse } from '../../domain/interfaces/http-response.interface'
 import type { HttpClientInterface } from '../../domain/interfaces/http-client.interface'
 
 export class AxiosHttpClient implements HttpClientInterface {
