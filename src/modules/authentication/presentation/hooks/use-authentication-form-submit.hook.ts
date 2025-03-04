@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { AuthenticationFormType } from '../schemas/authentication-form.schema'
-import { authenticationService } from '@/modules/shared/infrastructure/services/authentication.service'
+import { authenticationService } from '@/modules/authentication/infrastructure/services/authentication.service'
 
 export function useAuthenticationFormSubmitHook() {
   const [error, setError] = useState<string | null>(null)
