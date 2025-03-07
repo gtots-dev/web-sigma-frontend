@@ -9,10 +9,6 @@ type MessageKeys =
   | '1.8'
   | '1.9'
   | '1.10'
-  | '1.11'
-  | '1.12'
-  | '1.13'
-  | '1.14'
 
 export const MESSAGES_AUTHENTICATION: Record<MessageKeys, string> = {
   '1.1': 'Bem-vindo de volta!',
@@ -26,11 +22,6 @@ export const MESSAGES_AUTHENTICATION: Record<MessageKeys, string> = {
   '1.7': 'O campo de nome de usuário é obrigatório.',
   '1.8': 'O campo de senha é obrigatório.',
   '1.9': 'A senha pode ter no máximo 64 caracteres.',
-  '1.10': 'A senha deve conter pelo menos uma letra maiúscula.',
-  '1.11': 'A senha deve conter pelo menos uma letra minúscula.',
-  '1.12': 'A senha deve conter pelo menos um número.',
-  '1.13':
-    'A senha deve conter pelo menos um caractere especial (#, @, $, !, %, *, ?, &).',
-  '1.14':
+  '1.10':
     'Ocorreu um erro inesperado ao processar sua solicitação. Por favor, tente novamente mais tarde.'
 }
