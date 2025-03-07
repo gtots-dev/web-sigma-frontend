@@ -4,8 +4,8 @@ interface PathnamesInterface {
 }
 
 export const PATHNAMES: PathnamesInterface = {
-  AUTHENTICATION: process.env.AUTHENTICATION_ROUTE_PATH,
-  SYSTEM: process.env.SYSTEM_ROUTE_PATH
+  AUTHENTICATION: '/authentication',
+  SYSTEM: '/system'
 }
 
 export const publicRoutes: Array<string> = [PATHNAMES.AUTHENTICATION]
