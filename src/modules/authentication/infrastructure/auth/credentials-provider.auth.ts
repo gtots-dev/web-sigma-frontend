@@ -22,7 +22,7 @@ export const CredentialsProviderAuth = CredentialsProvider({
 
     const settingsAuthHTTP: HttpRequestConfig = {
       method: 'POST',
-      url: process.env.PATH_LOGIN_FOR_ACCESS_TOKEN,
+      url: '/oauth2/token',
       data: formDataConverter.execute(credentials),
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }
