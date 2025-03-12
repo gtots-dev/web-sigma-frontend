@@ -1,44 +1,39 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { FormDataConverterFactory } from '../../../shared/infrastructure/factories/form-data-converter.factory'
-import { HttpClientFactory } from '../../../shared/infrastructure/factories/http-client.factory'
-import { ExecuteRequest } from '../../../shared/infrastructure/services/execute-request.service'
-import type { HttpResponse } from '../../../shared/domain/interfaces/http-response.interface'
-import type { HttpRequestConfig } from '../../../shared/domain/interfaces/http-request-config.interface'
 import type { AuthenticatedUserInterface } from '../../domain/interfaces/authenticate-user.interface'
-import type { OAuthResponseInterface } from '../../domain/interfaces/o-auth-response.interface'
-
+import { TokenService } from '../services/token.service'
+import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
+import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
 import { InvalidAuthError } from './error.auth'
+import { TokenValidatorFactory } from '../factories/token-validator.factory'
+import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 
-const formDataConverter = FormDataConverterFactory.create()
 const httpClient = HttpClientFactory.create(process.env.HOST_API)
-const executeRequest = new ExecuteRequest(httpClient)
+const executeRequest = ExecuteRequestFactory.create(httpClient)
+const tokenValidator = TokenValidatorFactory.create(
+  process.env.SECRET_KEY_ACCESS_TOKEN
+)
+const tokenService = new TokenService(executeRequest, tokenValidator)
 
 export const CredentialsProviderAuth = CredentialsProvider({
   async authorize(
     credentials?: Record<string, string>
   ): Promise<AuthenticatedUserInterface> {
-    if (!credentials?.username || !credentials?.password)
-      throw new InvalidAuthError('401')
+    try {
+      const { access_token, token_type } = await tokenService.getToken({
+        username: credentials?.username,
+        password: credentials?.password
+      })
 
-    const settingsAuthHTTP: HttpRequestConfig = {
-      method: 'POST',
-      url: process.env.PATH_LOGIN_FOR_ACCESS_TOKEN,
-      data: formDataConverter.execute(credentials),
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }
-
-    const { success, data, status }: HttpResponse<OAuthResponseInterface> =
-      await executeRequest.execute(settingsAuthHTTP)
-
-    if (success && data && status === '200') {
       return {
         id: crypto.randomUUID(),
-        username: credentials.username,
-        accessToken: data.access_token,
-        tokenType: data.token_type
+        username: credentials?.username,
+        accessToken: access_token,
+        tokenType: token_type
+      }
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw new InvalidAuthError(error.message)
       }
     }
-
-    throw new InvalidAuthError(status)
   }
 })
