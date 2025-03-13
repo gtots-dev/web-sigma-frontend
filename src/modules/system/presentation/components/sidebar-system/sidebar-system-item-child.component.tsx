@@ -27,7 +27,7 @@ export function SidebarSystemItemChildComponent({
   const buttonClassNames = clsx(
     'flex items-center h-9 w-full mb-1.5 min-w-0 gap-2 overflow-hidden rounded-md px-2 [&>span:last-child]:truncate [&>svg]:size-4 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
     {
-      'disabled:opacity-100 bg-primary-600 text-white [&>svg]:text-white hover:bg-primary-600 hover:text-white dark:hover:bg-primary-600 dark:hover:text-white active:bg-primary-600 active:text-white':
+      'disabled:opacity-100 bg-primary-600 text-white [&>svg]:text-white hover:!bg-primary-600 hover:!text-white dark:!hover:bg-primary-600 dark:!hover:text-white active:bg-primary-600 active:text-white':
         isActive,
       'hover:underline hover:underline-offset-2 cursor-pointer': !isActive
     }
