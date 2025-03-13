@@ -9,6 +9,7 @@ import { UserDataAccount } from '@/test/mocks/user-data.mock'
 import { SidebarSystem } from '@/modules/system/presentation/components/sidebar-system'
 import { UserDropdown } from '@/modules/system/presentation/components/user-dropdown'
 import type { ReactNode } from 'react'
+import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
 
 interface LayoutProps {
   children: ReactNode
@@ -31,12 +32,10 @@ export default async function Layout({ children }: LayoutProps) {
       </SidebarSystem.Root>
 
       <SidebarInset>
-        <header className="flex h-16 border-b shrink-0 items-center gap-2 px-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2">
-            <SidebarTrigger className="h-12 w-12 aspect-square" />
-          </div>
+        <HeaderSystem.Root>
+          <SidebarTrigger className="h-12 w-12 aspect-square" />
           <Separator orientation="vertical" className="h-9" />
-        </header>
+        </HeaderSystem.Root>
         <div className="flex flex-1 p-4">{children}</div>
       </SidebarInset>
     </SidebarProvider>
