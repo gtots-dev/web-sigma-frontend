@@ -10,6 +10,7 @@ import { SidebarSystem } from '@/modules/system/presentation/components/sidebar-
 import { UserDropdown } from '@/modules/system/presentation/components/user-dropdown'
 import type { ReactNode } from 'react'
 import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
+import { ContentSystem } from '@/modules/system/presentation/components/content-system'
 
 interface LayoutProps {
   children: ReactNode
@@ -36,7 +37,9 @@ export default async function Layout({ children }: LayoutProps) {
           <SidebarTrigger className="h-12 w-12 aspect-square" />
           <Separator orientation="vertical" className="h-9" />
         </HeaderSystem.Root>
-        <div className="flex flex-1 p-4">{children}</div>
+        <ContentSystem.Root>
+          {children}
+        </ContentSystem.Root>
       </SidebarInset>
     </SidebarProvider>
   )
