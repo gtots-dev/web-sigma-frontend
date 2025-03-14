@@ -13,7 +13,7 @@ export function SidebarSystemContentComponent({
 }: SidebarSystemContentComponentProps) {
   return (
     <SidebarContent className="p-0">
-      <SidebarMenu className="border-t h-16">{children}</SidebarMenu>
+      <SidebarMenu className="h-16">{children}</SidebarMenu>
     </SidebarContent>
   )
 }
