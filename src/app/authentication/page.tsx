@@ -1,6 +1,7 @@
 import { AuthenticationCard } from '@/modules/authentication/presentation/components/authentication-card'
 import { AuthenticationForm } from '@/modules/authentication/presentation/components/authentication-form'
 import { AuthenticationFormCard } from '@/modules/authentication/presentation/components/authentication-form-card'
+import { ThemeLogoComponent } from '@/modules/shared/presentation/components/theme-logo/theme-logo.component'
 import { MESSAGES_AUTHENTICATION } from '@/modules/shared/presentation/messages/authentication'
 import { MESSAGES_HELP_ME } from '@/modules/shared/presentation/messages/help-me'
 
@@ -56,7 +57,7 @@ export default function AuthenticationPage() {
         src={data.images.bannerImageSrc}
         alt={data.images.bannerImageAlt}
       >
-        <AuthenticationCard.Logo
+        <ThemeLogoComponent
           className="absolute z-50 bottom-4 left-4 h-[70px] bg-white"
           logoLightSrc={data.images.lightLogoSrc}
           logoLightAlt={data.images.lightLogoAlt}
@@ -69,7 +70,7 @@ export default function AuthenticationPage() {
         <AuthenticationForm.Root>
           <AuthenticationFormCard.Root>
             <AuthenticationFormCard.Header>
-              <AuthenticationCard.Logo
+              <ThemeLogoComponent
                 isMobileOnly={true}
                 className="h-[50px] mb-2"
                 logoLightSrc={data.images.mobileLightLogoSrc}
