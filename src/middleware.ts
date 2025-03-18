@@ -4,6 +4,8 @@ import { middlewares } from './modules/shared/infrastructure/http/middlewares'
 export async function middleware(req: NextRequest) {
   const authResponse = await middlewares.auth(req)
   if (authResponse) return authResponse
+  const operationsResponse = await middlewares.operations(req)
+  if (operationsResponse) return operationsResponse
 
   return NextResponse.next()
 }

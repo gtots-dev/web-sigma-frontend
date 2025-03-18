@@ -9,7 +9,7 @@ export function DeauthenticationButton() {
   return (
     <Button
       disabled={loading}
-      className="bg-primary-600 text-zinc-50 hover:bg-primary-600/90"
+      className="justify-start w-full h-auto cursor-pointer p-1.5 ps-3 rounded-none text-sm disabled:bg-muted-foreground [&>svg]:size-4 [&>svg]:shrink-0 shadow-none"
       onClick={() => onSubmitSignOut()}
     >
       {loading ? <LoaderCircle className="animate-spin" /> : <LogOut />}
