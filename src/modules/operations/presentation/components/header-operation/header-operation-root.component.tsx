@@ -8,7 +8,7 @@ export function HeaderSystemRootComponent({
   children
 }: HeaderSystemRootComponentProps) {
   return (
-    <header className="flex flex-col w-full justify-center gap-4 mb-4">
+    <header className="flex flex-col w-full justify-center gap-5 mb-4">
       {children}
     </header>
   )
