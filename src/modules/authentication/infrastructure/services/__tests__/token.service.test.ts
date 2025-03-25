@@ -1,6 +1,6 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import { TokenService } from '../token.service'
-import type { TokenValidator } from '@/modules/authentication/domain/validators/token.validator'
+import { JwtValidator } from '@/modules/shared/domain/validators/jwt.validator'
 import type { UserCredentialsInterface } from '@/modules/authentication/domain/interfaces/user-credentials.interface'
 import type { OAuthResponseInterface } from '@/modules/authentication/domain/interfaces/o-auth-response.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
@@ -8,12 +8,12 @@ import { TokenEntities } from '@/modules/authentication/domain/entities/token.en
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 
 jest.mock('@/modules/shared/infrastructure/services/execute-request.service')
-jest.mock('@/modules/authentication/domain/validators/token.validator')
+jest.mock('@/modules/shared/domain/validators/jwt.validator')
 
 describe('TokenService', () => {
   let tokenService: TokenService
   let executeRequestMock: jest.Mocked<ExecuteRequest>
-  let tokenValidatorMock: jest.Mocked<TokenValidator>
+  let tokenValidatorMock: jest.Mocked<JwtValidator>
   const invalidStatusMock = HttpStatusCodeEnum.UNAUTHORIZED
   const validStatusMock = HttpStatusCodeEnum.OK
 
@@ -24,7 +24,7 @@ describe('TokenService', () => {
 
     tokenValidatorMock = {
       validate: jest.fn()
-    } as unknown as jest.Mocked<TokenValidator>
+    } as unknown as jest.Mocked<JwtValidator>
 
     tokenService = new TokenService(executeRequestMock, tokenValidatorMock)
   })
