@@ -7,5 +7,5 @@ interface HeaderSystemTitleComponentProps {
 export function HeaderSystemTitleComponent({
   children
 }: HeaderSystemTitleComponentProps) {
-  return <h2 className='text-4xl'>{children}</h2>
+  return <h2 className='text-4xl font-medium'>{children}</h2>
 }
