@@ -9,7 +9,8 @@ export type Item = {
   title: string
   url: string
   icon?: LucideIcon
-  isActive?: boolean
+  isActive?: boolean,
+  isToExpand?: boolean,
   items?: Item[]
 }
 
