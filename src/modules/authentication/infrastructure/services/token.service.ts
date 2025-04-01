@@ -8,6 +8,7 @@ import { HttpResponseTokenValidator } from '../../domain/validators/http-respons
 import { CredentialsValidator } from '../../domain/validators/credentials.validator'
 import type { TokenServiceInterface } from '../../domain/interfaces/token-service.interface'
 import type { JwtValidator } from '../../../shared/domain/validators/jwt.validator'
+import { FormDataConverterFactory } from '@/modules/shared/infrastructure/factories/form-data-converter.factory'
 
 export class TokenService implements TokenServiceInterface {
   constructor(
@@ -18,11 +19,12 @@ export class TokenService implements TokenServiceInterface {
   getHttpRequestConfig(
     credentials: UserCredentialsInterface
   ): HttpRequestConfig {
+    const converterJsonToFormData = FormDataConverterFactory.create()
+    const credentialsFormData = converterJsonToFormData.execute(credentials)
     return {
       method: 'POST',
       url: '/oauth2/token',
-      data: credentials,
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      data: credentialsFormData
     }
   }
 
@@ -30,7 +32,6 @@ export class TokenService implements TokenServiceInterface {
     credentials: UserCredentialsInterface
   ): Promise<TokenEntities> {
     CredentialsValidator.validate(credentials)
-
     const settingsAuthHTTP = this.getHttpRequestConfig(credentials)
 
     const { success, data, status }: HttpResponse<OAuthResponseInterface> =
