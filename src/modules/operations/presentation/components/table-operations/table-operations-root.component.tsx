@@ -15,7 +15,7 @@ import { usePagination } from '@/modules/shared/presentation/hooks/use-paginatio
 import { PaginationLocalComponent } from '@/modules/shared/presentation/components/pagination-local/pagination-local.component'
 import { MESSAGES_OPERATIONS } from '@/modules/shared/presentation/messages/operations'
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
-import { useSelectionOperation } from '../../hook/use-selection-operation.hook'
+import { useSelectionOperation } from '../../hooks/use-selection-operation.hook'
 
 interface TableOperationsRootComponentProps {
   limitTo?: number
