@@ -16,18 +16,18 @@ export function useAuthenticationFormSubmitHook() {
   ): Promise<void> => {
     setError(null)
     setLoading(true)
-    const errorMessage = await authSignIn.signIn(data)
+    const errorMessage = await authSignIn
+      .signIn(data)
+      .then(() => redirect(PATHNAMES.SYSTEM))
     if (errorMessage) setError(errorMessage)
     setLoading(false)
-    redirect(PATHNAMES.SYSTEM)
   }
 
-  const onSubmitSignOut = (): Promise<void> => {
+  const onSubmitSignOut = async (): Promise<void> => {
     const authSignOut = AuthSignOutFactory.create()
     setLoading(true)
-    authSignOut.signOut()
+    await authSignOut.signOut().then(() => redirect(PATHNAMES.AUTHENTICATION))
     setLoading(false)
-    redirect(PATHNAMES.AUTHENTICATION)
   }
 
   return { onSubmitSignIn, onSubmitSignOut, error, loading }
