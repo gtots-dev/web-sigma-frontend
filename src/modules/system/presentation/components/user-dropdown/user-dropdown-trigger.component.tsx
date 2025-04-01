@@ -7,17 +7,21 @@ import {
 import { useInitialsFromText } from '../../hooks/use-initials-from-text.hook'
 import { SidebarMenuButton } from '@/modules/shared/presentation/components/shadcn/sidebar'
 import { ChevronsUpDown } from 'lucide-react'
+import type { ComponentProps } from 'react'
 
-interface UserDropdownTriggerComponentProps {
+interface UserDropdownTriggerComponentProps extends ComponentProps<'button'> {
   user: UserAccountInterface
+  isInfoEnabled?: boolean
 }
 
 export function UserDropdownTriggerComponent({
-  user: { name, email }
+  user: { name, email },
+  isInfoEnabled = true,
+  ...props
 }: UserDropdownTriggerComponentProps) {
   const { getInitials } = useInitialsFromText()
   return (
-    <DropdownMenuTrigger asChild>
+    <DropdownMenuTrigger asChild {...props}>
       <SidebarMenuButton
         size="lg"
         className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
@@ -27,11 +31,15 @@ export function UserDropdownTriggerComponent({
             {getInitials(name)}
           </AvatarFallback>
         </Avatar>
-        <div className="grid flex-1 text-left text-sm leading-tight">
-          <span className="truncate font-semibold">{name}</span>
-          <span className="truncate text-xs">{email}</span>
-        </div>
-        <ChevronsUpDown className="ml-auto size-4" />
+        {isInfoEnabled && (
+          <>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-semibold">{name}</span>
+              <span className="truncate text-xs">{email}</span>
+            </div>
+            <ChevronsUpDown className="ml-auto size-4" />
+          </>
+        )}
       </SidebarMenuButton>
     </DropdownMenuTrigger>
   )
