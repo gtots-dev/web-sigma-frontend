@@ -19,7 +19,7 @@ export class SetSelectionOperationService
     }
   }
 
-  async setSelectionOperation(operation: OperationInterface): Promise<void> {
+  async execute(operation: OperationInterface): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(operation)
     const { success, data, status }: HttpResponse<null> =
       await this.executeRequest.execute(settingsAuthHTTP)
