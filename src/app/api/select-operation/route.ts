@@ -1,22 +1,23 @@
-import { SelectOperationRepository } from '@/modules/api/infrastructure/repositories/select-operation.repository'
-import { OperationFactory } from '@/modules/api/infrastructure/services/operation.factory'
+import { SelectOperationFactory } from '@/modules/api/infrastructure/factories/select-operation.factory'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
-import { NextResponse, type NextRequest } from 'next/server'
+import { OperationFactory } from '@/modules/operations/infrastructure/factories/operation.factory'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
-    if (!body?.id || !body?.name) {
+    const { id, name } = await req.json()
+    if (!id || !name) {
       throw new Error('Missing fields')
     }
 
     const operation = OperationFactory.create({
-      id: body.id,
-      name: body.name
+      id,
+      name
     })
-    
     const response = NextResponse.json({ message: 'Operation Selected' })
-    SelectOperationRepository.saveToCookies(response, operation)
+    const repository = SelectOperationFactory.create(req, response)
+    repository.saveToCookies(operation)
 
     return response
   } catch (error) {
@@ -29,13 +30,17 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const operation = SelectOperationRepository.getFromCookies(req)
+    const response = NextResponse.next()
+    const repository = SelectOperationFactory.create(req, response)
+    const operation = repository.getFromCookies()
+
     if (!operation) {
       return NextResponse.json(
         { error: 'No operation found' },
         { status: Number(HttpStatusCodeEnum.NOT_FOUND) }
       )
     }
+
     return NextResponse.json(operation)
   } catch (error) {
     return NextResponse.json(
