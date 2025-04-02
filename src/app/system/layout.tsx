@@ -17,7 +17,11 @@ interface LayoutProps {
 }
 
 export default async function Layout({ children }: LayoutProps) {
-  const { sub } = await useJwtInfo()
+  const { login_name } = await useJwtInfo()
+  const user = {
+    name: login_name,
+    email: `${login_name}@email.com.br`
+  }
   return (
     <SidebarProvider>
       <SidebarSystem.Root>
@@ -27,26 +31,28 @@ export default async function Layout({ children }: LayoutProps) {
         </SidebarSystem.Content>
         <SidebarSystem.Footer>
           <UserDropdown.Root>
-            <UserDropdown.Trigger
-              user={{
-                name: sub,
-                email: ''
-              }}
-            />
-            <UserDropdown.Menu
-              user={{
-                name: sub,
-                email: ''
-              }}
-            />
+            <UserDropdown.Trigger user={user} />
+            <UserDropdown.Menu user={user} />
           </UserDropdown.Root>
         </SidebarSystem.Footer>
       </SidebarSystem.Root>
 
       <SidebarInset>
         <HeaderSystem.Root>
-          <SidebarTrigger className="h-12 w-12 aspect-square" />
-          <Separator orientation="vertical" className="h-9" />
+          <div className="flex items-center gap-x-2">
+            <SidebarTrigger className="h-12 w-12 aspect-square" />
+            <Separator orientation="vertical" className="h-9" />
+          </div>
+          <div className="sm:hidden">
+            <UserDropdown.Root>
+              <UserDropdown.Trigger
+                className="ms-auto h-auto w-auto aspect-square"
+                isInfoEnabled={false}
+                user={user}
+              />
+              <UserDropdown.Menu align="end" side="bottom" user={user} />
+            </UserDropdown.Root>
+          </div>
         </HeaderSystem.Root>
         <ContentSystem.Root>{children}</ContentSystem.Root>
       </SidebarInset>
