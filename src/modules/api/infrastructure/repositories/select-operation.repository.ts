@@ -34,4 +34,12 @@ export class SelectOperationRepository {
       return null
     }
   }
+
+  removeFromCookies() {
+    this.cookie.set('operation', '', {
+      httpOnly: true,
+      path: '/',
+      maxAge: 0
+    })
+  }
 }
