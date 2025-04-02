@@ -49,3 +49,19 @@ export async function GET(req: NextRequest) {
     )
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const response = NextResponse.json({
+      message: 'Operation selection removed'
+    })
+    const repository = SelectOperationFactory.create(req, response)
+    repository.removeFromCookies()
+    return response
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Failed to remove operation selection' },
+      { status: 400 }
+    )
+  }
+}
