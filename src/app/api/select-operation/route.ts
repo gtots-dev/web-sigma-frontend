@@ -61,7 +61,7 @@ export async function DELETE(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to remove operation selection' },
-      { status: 400 }
+      { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
     )
   }
 }
