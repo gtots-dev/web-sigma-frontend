@@ -4,9 +4,11 @@ import { PATHNAMES } from '@/modules/shared/infrastructure/config/pathnames.conf
 import { redirect } from 'next/navigation'
 import { AuthSignInFactory } from '../../infrastructure/factories/auth-sign-in.factory'
 import { AuthSignOutFactory } from '../../infrastructure/factories/auth-sign-out.factory'
+import { DeleteSelectionOperationFactory } from '@/modules/operations/infrastructure/factories/delete-selection-operation-factory'
 
 export function useAuthenticationFormSubmitHook() {
   const authSignIn = AuthSignInFactory.create()
+  const deleteSelectionOperation = DeleteSelectionOperationFactory.create()
 
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -26,6 +28,7 @@ export function useAuthenticationFormSubmitHook() {
   const onSubmitSignOut = async (): Promise<void> => {
     const authSignOut = AuthSignOutFactory.create()
     setLoading(true)
+    await deleteSelectionOperation.execute()
     await authSignOut.signOut().then(() => redirect(PATHNAMES.AUTHENTICATION))
     setLoading(false)
   }
