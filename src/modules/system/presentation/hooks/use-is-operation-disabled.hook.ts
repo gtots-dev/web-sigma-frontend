@@ -1,4 +1,4 @@
-import { PATHNAMES } from '@/modules/shared/infrastructure/config/pathnames.config'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { usePathname } from 'next/navigation'
 
 export function useIsOperationDisabled() {

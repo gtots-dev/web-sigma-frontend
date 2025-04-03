@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 
-import { PATHNAMES } from '../../config/pathnames.config'
+import { PATHNAMES } from '../../configs/pathnames.config'
 import { JwtTokenDecodeFactory } from '../../factories/jwt-decode.factory'
 import { SelectOperationFactory } from '@/modules/api/infrastructure/factories/select-operation.factory'
 import { OperationFactory } from '@/modules/operations/infrastructure/factories/operation.factory'

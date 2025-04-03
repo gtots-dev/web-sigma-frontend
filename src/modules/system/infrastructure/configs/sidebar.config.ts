@@ -1,5 +1,3 @@
-'use client'
-
 import {
   ArrowUpDown,
   Building2,
@@ -12,7 +10,7 @@ import {
   UsersRound
 } from 'lucide-react'
 
-import { PATHNAMES } from '@/modules/shared/infrastructure/config/pathnames.config'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
 export const SidebarData = {
   title: 'Operações',
@@ -26,7 +24,7 @@ export const SidebarData = {
       url: PATHNAMES.OPERATION_OPTIONS,
       icon: List,
       isActive: true,
-      isToExpand: false,      
+      isToExpand: false,
       items: [
         {
           title: 'Contratos',

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { isSelectionOperationRoutes, PATHNAMES } from '../../config/pathnames.config';
+import { isSelectionOperationRoutes, PATHNAMES } from '../../configs/pathnames.config';
 
 export async function OperationSelectionVerifyMiddleware(req: NextRequest) {
   const { pathname } = req.nextUrl;

@@ -4,7 +4,7 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import { HttpResponseOperationValidator } from '../../domain/validators/http-response-operation.validator'
 import type { GetSelectionOperationServiceInterface } from '../../domain/interfaces/get-selection-operation-service.interface'
-import { OperationEntities } from '../../domain/entities/operation.entities'
+import { OperationEntities } from '../../domain/entities/operation.entity'
 
 export class GetSelectionOperationService
   implements GetSelectionOperationServiceInterface

@@ -4,7 +4,7 @@ import {
   isPublicRoute,
   PATHNAMES,
   protectedRoutes
-} from '../../config/pathnames.config'
+} from '../../configs/pathnames.config'
 
 export async function WithAuthMiddleware(req: NextRequest) {
   const currentPathname = req.nextUrl.pathname
