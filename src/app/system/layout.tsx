@@ -4,7 +4,7 @@ import {
   SidebarProvider,
   SidebarTrigger
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
-import { SidebarData } from '@/test/mocks/sidebar-data.mock'
+import { SidebarData } from '@/modules/system/infrastructure/configs/sidebar.config'
 import { SidebarSystem } from '@/modules/system/presentation/components/sidebar-system'
 import { UserDropdown } from '@/modules/system/presentation/components/user-dropdown'
 import type { ReactNode } from 'react'

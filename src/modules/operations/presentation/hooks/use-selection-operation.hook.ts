@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import type { OperationInterface } from '../../domain/interfaces/operation.interface'
-import { PATHNAMES } from '@/modules/shared/infrastructure/config/pathnames.config'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { GetSelectionOperationFactory } from '../../infrastructure/factories/get-selection-operation-factory'
 import { SetSelectionOperationFactory } from '../../infrastructure/factories/set-selection-operation-factory'
 

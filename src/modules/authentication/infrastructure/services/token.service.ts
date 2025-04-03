@@ -3,7 +3,7 @@ import type { OAuthResponseInterface } from '../../domain/interfaces/o-auth-resp
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { ExecuteRequest } from '../../../shared/infrastructure/services/execute-request.service'
 import type { UserCredentialsInterface } from '../../domain/interfaces/user-credentials.interface'
-import { TokenEntities } from '../../domain/entities/token.entities'
+import { TokenEntities } from '../../domain/entities/token.entity'
 import { HttpResponseTokenValidator } from '../../domain/validators/http-response-token.validator'
 import { CredentialsValidator } from '../../domain/validators/credentials.validator'
 import type { TokenServiceInterface } from '../../domain/interfaces/token-service.interface'

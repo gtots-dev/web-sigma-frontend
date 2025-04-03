@@ -1,6 +1,6 @@
 'use client'
 
-import { PATHNAMES } from '@/modules/shared/infrastructure/config/pathnames.config'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 

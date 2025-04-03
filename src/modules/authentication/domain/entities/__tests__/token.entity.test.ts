@@ -1,4 +1,4 @@
-import { TokenEntities } from '../token.entities'
+import { TokenEntities } from '../token.entity'
 
 describe('TokenEntities', () => {
   test('should correctly instantiate with given accessToken and tokenType', () => {

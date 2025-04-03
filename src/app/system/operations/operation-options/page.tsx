@@ -6,7 +6,7 @@ import { CardOption } from '@/modules/operation-options/presentation/components/
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
 import { SelectOperation } from '@/modules/operation-options/presentation/components/select-operation'
 import { useSelectionOperation } from '@/modules/operations/presentation/hooks/use-selection-operation.hook'
-import { PATHNAMES } from '@/modules/shared/infrastructure/config/pathnames.config'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_OPTIONS_OPERATION } from '@/modules/shared/presentation/messages/options-operation'
 import { FileKey2, FileText, UsersRound, type LucideIcon } from 'lucide-react'
 

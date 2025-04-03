@@ -1,6 +1,6 @@
 import type { CookieInterface } from '@/modules/api/domain/interfaces/cookie-storage.interface'
 import { SelectOperationRepository } from '../select-operation.repository'
-import { OperationEntities } from '@/modules/operations/domain/entities/operation.entities'
+import { OperationEntities } from '@/modules/operations/domain/entities/operation.entity'
 
 describe('OperationRepository', () => {
   class MockCookieStorage implements CookieInterface {
