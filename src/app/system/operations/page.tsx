@@ -1,8 +1,8 @@
+import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
 import { HeaderOperation } from '@/modules/operations/presentation/components/header-operation'
 import { TableOperations } from '@/modules/operations/presentation/components/table-operations'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_OPERATIONS } from '@/modules/shared/presentation/messages/operations'
-import { useJwtInfo } from '@/modules/system/presentation/hooks/use-jwt-Info.hook'
 
 interface Data {
   title: string
@@ -10,13 +10,8 @@ interface Data {
 }
 
 export default async function OperationsPage() {
-  const { operation_ids } = await useJwtInfo()
-  const listModifier = operation_ids.map((id) => {
-    return {
-      name: `Operation ${id}`,
-      id: String(id)
-    }
-  })
+  const getOperation = GetOperationsFactory.create()
+  const operations = await getOperation.execute()
 
   const data: Data = {
     title: MESSAGES_OPERATIONS['4.1'],
@@ -32,7 +27,7 @@ export default async function OperationsPage() {
         </HeaderOperation.Description>
       </HeaderOperation.Root>
       <Separator orientation="horizontal" />
-      <TableOperations.Root limitTo={11} data={listModifier} />
+      <TableOperations.Root limitTo={11} data={operations} />
     </main>
   )
 }
