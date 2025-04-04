@@ -15,7 +15,6 @@ export class GetSelectionOperationService
     return {
       method: 'GET',
       url: 'api/select-operation',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }
   }
 
