@@ -15,7 +15,7 @@ import { usePagination } from '@/modules/shared/presentation/hooks/use-paginatio
 import { PaginationLocalComponent } from '@/modules/shared/presentation/components/pagination-local/pagination-local.component'
 import { MESSAGES_OPERATIONS } from '@/modules/shared/presentation/messages/operations'
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
-import { useSelectionOperation } from '../../hooks/use-selection-operation.hook'
+import { useSetSelectOperation } from '../../hooks/use-set-selection-operation.hook'
 
 interface TableOperationsRootComponentProps {
   limitTo?: number
@@ -34,7 +34,7 @@ export function TableOperationsRootComponent({
     handleNext,
     setCurrentPage
   } = usePagination(data, limitTo)
-  const { setOperation } = useSelectionOperation()
+  const { setOperation } = useSetSelectOperation()
   const sizeContainerSection = 69 + 36 + 53 * limitTo
 
   return (
@@ -57,7 +57,7 @@ export function TableOperationsRootComponent({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {currentData && currentData.length > 0 ? (
+          {currentData && currentData?.length > 0 ? (
             currentData.map((operation: OperationInterface, index) => (
               <TableRow key={index}>
                 <TableCell
