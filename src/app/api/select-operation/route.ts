@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(operation)
   } catch (error) {
     return NextResponse.json(
-      { error: 'Invalid cookie data' },
+      { message: 'Invalid cookie data', error: error },
       { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
     )
   }
@@ -60,7 +60,7 @@ export async function DELETE(req: NextRequest) {
     return response
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to remove operation selection' },
+      { message: 'Failed to remove operation selection', error: error },
       { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
     )
   }
