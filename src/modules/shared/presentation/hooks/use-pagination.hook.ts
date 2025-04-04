@@ -4,14 +4,14 @@ import type { OperationInterface } from '@/modules/operations/domain/interfaces/
 import { useState } from 'react'
 
 export function usePagination(
-  data: OperationInterface[],
+  data: OperationInterface[] = [],
   itemsPerPage: number
 ) {
   const [currentPage, setCurrentPage] = useState(1)
 
-  const totalPages = Math.ceil(data.length / itemsPerPage)
+  const totalPages = Math.ceil((data?.length ?? 0) / itemsPerPage)
   const startIndex = (currentPage - 1) * itemsPerPage
-  const currentData = data.slice(startIndex, startIndex + itemsPerPage)
+  const currentData = data?.slice(startIndex, startIndex + itemsPerPage)
 
   const handlePrevious = () => {
     if (currentPage > 1) {
