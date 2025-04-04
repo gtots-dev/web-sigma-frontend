@@ -1,3 +1,3 @@
 export interface FormDataConverterInterface {
-  convert(data: Record<string, any>): FormData
+  convert<T extends Record<string, unknown>>(data: T): FormData
 }
