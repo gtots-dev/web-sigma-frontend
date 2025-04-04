@@ -1,7 +1,8 @@
-export interface HttpRequestConfig {
+export interface HttpRequestConfig<TData = unknown, TParams = Record<string, string | number | boolean>> {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   url: string
-  data?: any
-  params?: Record<string, any>
+  data?: TData
+  params?: TParams
   headers?: Record<string, string>
 }
+  

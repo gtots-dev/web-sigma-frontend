@@ -30,7 +30,6 @@ export class SelectOperationRepository {
       const { id, name } = JSON.parse(cookieValue)
       return id && name ? new OperationEntities(id, name) : null
     } catch (error) {
-      console.error('Failed to parse operation cookie:', error)
       return null
     }
   }
