@@ -1,3 +1,5 @@
+'use client'
+
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 import { Building2, ChevronsUpDown } from 'lucide-react'
 
