@@ -5,10 +5,10 @@ import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status
 export class HttpResponseOperationValidator {
   static validate(
     success: boolean,
-    response: OperationInterface | null | undefined,
+    response: OperationInterface | OperationInterface[] | null | undefined,
     status: string
   ): void {
-    if (!success || !response || status !== HttpStatusCodeEnum.OK) {      
+    if (!success || !response || status !== HttpStatusCodeEnum.OK) {
       throw new HttpResponseError(status)
     }
   }
