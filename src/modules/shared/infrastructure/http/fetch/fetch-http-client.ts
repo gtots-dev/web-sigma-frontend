@@ -3,46 +3,44 @@ import type { HttpResponse } from '../../../domain/interfaces/http-response.inte
 import type { HttpClientInterface } from '../../../domain/interfaces/http-client.interface'
 
 export class FetchHttpClient implements HttpClientInterface {
-  private baseURL: string
-
-  constructor(baseURL: string) {
-    this.baseURL = baseURL
-  }
+  constructor(private readonly baseURL: string) {}
 
   async request<T>(config: HttpRequestConfig): Promise<HttpResponse<T>> {
-    const fullUrl = `${this.baseURL}${config.url}`
+    const url = `${this.baseURL}${config.url}`
 
     try {
-      const response = await fetch(fullUrl, {
+      const response = await fetch(url, {
         method: config.method,
-        headers: {
-          ...config.headers
-        },
+        headers: config.headers,
         body: config.data
       })
 
-      let data: any = null
+      const rawText = await response.text()
+      const parsedData = this.safeParseJSON<T>(rawText)
 
-      const text = await response.text()
-      if (text) {
-        try {
-          data = JSON.parse(text)
-        } catch (jsonError) {
-          console.error('Failed to parse JSON:', jsonError)
-        }
-      }
       return {
         success: response.ok,
         status: String(response.status),
-        data: response.ok ? data : null
+        data: response.ok ? parsedData : null,
+        message: response.ok ? undefined : response.statusText
       }
-    } catch (error: any) {
+    } catch (err) {
+      const error = err as Error
       return {
         success: false,
-        status: String(error.response?.status) || '500',
-        data: null as any,
-        message: error.message || 'Unexpected error occurred'
+        status: '500',
+        data: null,
+        message: error?.message
       }
+    }
+  }
+
+  private safeParseJSON<T>(text: string): T | null {
+    if (!text) return null
+    try {
+      return JSON.parse(text) as T
+    } catch (error) {
+      return error
     }
   }
 }
