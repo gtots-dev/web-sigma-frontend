@@ -2,10 +2,7 @@ import { SidebarHeader } from '@/modules/shared/presentation/components/shadcn/s
 import { ThemeLogoComponent } from '@/modules/shared/presentation/components/theme-logo/theme-logo.component'
 import { ThemeToggle } from '@/modules/shared/presentation/components/theme-toggle/theme-toggle.component'
 
-interface SidebarSystemHeaderComponentProps {}
-
-
-export function SidebarSystemHeaderComponent({}: SidebarSystemHeaderComponentProps) {
+export function SidebarSystemHeaderComponent() {
   const images = {
     lightLogoSrc: '/logos/gtots_principal_hor.svg',
     darkLogoSrc: '/logos/gtots_branco_hor.svg',
