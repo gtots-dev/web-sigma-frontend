@@ -1,11 +1,7 @@
-'use client'
-
-import { useEffect, useState } from 'react'
 import { CardOperationOptions } from '@/modules/operation-options/presentation/components/card-operation-options'
 import { CardOption } from '@/modules/operation-options/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
 import { SelectOperation } from '@/modules/operation-options/presentation/components/select-operation'
-import { useSelectionOperation } from '@/modules/operations/presentation/hooks/use-selection-operation.hook'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_OPTIONS_OPERATION } from '@/modules/shared/presentation/messages/options-operation'
 import { FileKey2, FileText, UsersRound, type LucideIcon } from 'lucide-react'
@@ -24,20 +20,7 @@ interface Data {
   operationOptions: OperationOptions[]
 }
 
-export default function OperationOptionsPage() {
-  const { getOperation } = useSelectionOperation()
-  const [operationName, setOperationName] = useState<string | undefined>(
-    undefined
-  )
-  const fetchOperation = async () => {
-    const { name } = await getOperation()
-    setOperationName(name)
-  }
-
-  useEffect(() => {
-    fetchOperation()
-  }, [getOperation])
-
+export default async function OperationOptionsPage() {
   const data: Data = {
     title: MESSAGES_OPTIONS_OPERATION['11.1'],
     description: MESSAGES_OPTIONS_OPERATION['11.2'],
@@ -75,9 +58,7 @@ export default function OperationOptionsPage() {
             </HeaderOptions.Description>
             <HeaderOptions.Description>
               {data.subDescription}
-              <b className="text-primary-300 font-medium underline underline-offset-4">
-                {operationName}
-              </b>
+              <b className="text-primary-300 font-medium underline underline-offset-4"></b>
             </HeaderOptions.Description>
           </div>
           <SelectOperation />
