@@ -1,4 +1,3 @@
-import { AxiosHttpClient } from '../http/axios/axios-http-client'
 import { FetchHttpClient } from '../http/fetch/fetch-http-client'
 
 export class HttpClientFactory {
