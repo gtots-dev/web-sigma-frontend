@@ -18,7 +18,8 @@ export class FetchHttpClient implements HttpClientInterface {
         headers: {
           ...config.headers
         },
-        body: config.data
+        body: config.data,
+        cache: 'no-cache'
       })
 
       let data: any = null
