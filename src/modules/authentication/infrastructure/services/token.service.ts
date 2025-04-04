@@ -18,9 +18,10 @@ export class TokenService implements TokenServiceInterface {
 
   getHttpRequestConfig(
     credentials: UserCredentialsInterface
-  ): HttpRequestConfig {
+  ): HttpRequestConfig<FormData> {
     const converterJsonToFormData = FormDataConverterFactory.create()
     const credentialsFormData = converterJsonToFormData.execute(credentials)
+    
     return {
       method: 'POST',
       url: '/oauth2/token',
