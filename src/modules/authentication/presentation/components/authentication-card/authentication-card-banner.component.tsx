@@ -13,6 +13,9 @@ export function AuthenticationCardBannerComponent({
       <img
         {...props}
         className="absolute inset-0 h-full w-full dark:brightness-[0.9] dark:grayscale"
+        height="100%"
+        width="100%"
+        fetchPriority="high"
       />
       {children}
     </picture>
