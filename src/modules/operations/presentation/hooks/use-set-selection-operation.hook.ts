@@ -1,14 +1,13 @@
-import { useCallback } from 'react'
+'use client'
+
 import { useRouter } from 'next/navigation'
 import type { OperationInterface } from '../../domain/interfaces/operation.interface'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
-import { GetSelectionOperationFactory } from '../../infrastructure/factories/get-selection-operation-factory'
 import { SetSelectionOperationFactory } from '../../infrastructure/factories/set-selection-operation-factory'
 
-export function useSelectionOperation() {
-  const getSelectionOperation = GetSelectionOperationFactory.create()
-  const setSelectionOperation = SetSelectionOperationFactory.create()
+const setSelectionOperation = SetSelectionOperationFactory.create()
 
+export function useSetSelectOperation() {
   const { replace } = useRouter()
 
   async function setOperation(operation: OperationInterface) {
@@ -19,11 +18,6 @@ export function useSelectionOperation() {
       console.error('Error setting operation:', error)
     }
   }
-
-  const getOperation = useCallback(async () => {
-    const { id, name } = await getSelectionOperation.execute()
-    return { id, name }
-  }, [])
-
-  return { setOperation, getOperation }
+  
+  return { setOperation }
 }
