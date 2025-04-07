@@ -8,7 +8,7 @@ import { HttpResponseOperationValidator } from '../../domain/validators/http-res
 export class GetOperationsService implements GetOperationsServiceInterface {
   constructor(private readonly executeRequest: ExecuteRequest) {}
 
-  getHttpRequestConfig(params?: number[]): HttpRequestConfig {
+  getHttpRequestConfig(params?: number[]): HttpRequestConfig<null, number[]> {
     return {
       method: 'GET',
       url: '/operations',
