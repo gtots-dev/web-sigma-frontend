@@ -1,3 +1,5 @@
+'use client'
+
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import {
   SidebarInset,
@@ -16,12 +18,14 @@ interface LayoutProps {
   children: ReactNode
 }
 
-export default async function Layout({ children }: LayoutProps) {
-  const { login_name } = await useJwtInfo()
+export default function Layout({ children }: LayoutProps) {
+  const { jwtInfo } = useJwtInfo()
+
   const user = {
-    name: login_name,
-    email: `${login_name}@email.com.br`
+    name: jwtInfo?.login_name,
+    email: `${jwtInfo?.login_name}@email.com.br`
   }
+
   return (
     <SidebarProvider>
       <SidebarSystem.Root>
