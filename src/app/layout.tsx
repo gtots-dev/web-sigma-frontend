@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '@/modules/shared/presentation/styles/globals.css'
 import { ThemeProvider } from '@/modules/shared/presentation/components/shadcn/theme-provider'
+import { SessionProvider } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,14 +22,16 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-white sm:bg-muted dark:bg-zinc-950`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   )
