@@ -1,5 +1,5 @@
 export interface  UserCredentialsInterface {
-  [key: string]: unknown;
+  [key: string]: unknown
   username: string
   password: string
 }
