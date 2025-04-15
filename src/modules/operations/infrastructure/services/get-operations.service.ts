@@ -4,20 +4,30 @@ import type { OperationInterface } from '../../domain/interfaces/operation.inter
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import { HttpResponseOperationValidator } from '../../domain/validators/http-response-operation.validator'
+import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 
 export class GetOperationsService implements GetOperationsServiceInterface {
   constructor(private readonly executeRequest: ExecuteRequest) {}
 
-  getHttpRequestConfig(params?: number[]): HttpRequestConfig<null, number[]> {
+  getHttpRequestConfig(
+    token: TokenEntities,
+    ids?: number[]
+  ): HttpRequestConfig<null, { id: number[] }> {
     return {
       method: 'GET',
       url: '/operations',
-      params
+      headers: token.access_token && {
+        Authorization: `${token.token_type} ${token.access_token}`
+      },
+      params: { id: ids }
     }
   }
 
-  async execute(params?: number[]): Promise<OperationInterface[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(params)
+  async execute(
+    token: TokenEntities,
+    ids?: number[]
+  ): Promise<OperationInterface[]> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, ids)
     const { success, data, status }: HttpResponse<OperationInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseOperationValidator.validate(success, data, status)
