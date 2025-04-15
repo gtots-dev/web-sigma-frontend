@@ -3,7 +3,7 @@ import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories
 import { SetSelectionOperationService } from '../services/set-operation.service'
 
 export class SetSelectionOperationFactory {
-  static create() {
+  static create(): SetSelectionOperationService {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     return new SetSelectionOperationService(executeRequest)
