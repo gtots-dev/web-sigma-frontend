@@ -3,7 +3,7 @@ import type { JwtDecodeInterface } from '@/modules/shared/domain/interfaces/jwt-
 import jwt from 'jsonwebtoken'
 
 export class JwtTokenDecode implements JwtDecodeInterface {
-  decode(token: string): JwtDecodeDataInterface {
+  decode(token: string) {
     return jwt.decode(token) as JwtDecodeDataInterface
   }
 }
