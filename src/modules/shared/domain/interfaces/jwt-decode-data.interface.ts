@@ -3,4 +3,5 @@ export interface JwtDecodeDataInterface {
   id: number
   operation_ids: number[]
   exp: number
+  accessToken: string
 }
