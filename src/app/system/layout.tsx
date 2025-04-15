@@ -1,5 +1,3 @@
-'use client'
-
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import {
   SidebarInset,
@@ -12,20 +10,14 @@ import { UserDropdown } from '@/modules/system/presentation/components/user-drop
 import type { ReactNode } from 'react'
 import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
 import { ContentSystem } from '@/modules/system/presentation/components/content-system'
-import { useJwtInfo } from '@/modules/system/presentation/hooks/use-jwt-Info.hook'
+import { getUser } from '@/modules/users/presentation/utils/get-user.util'
 
 interface LayoutProps {
   children: ReactNode
 }
 
-export default function Layout({ children }: LayoutProps) {
-  const { jwtInfo } = useJwtInfo()
-
-  const user = {
-    name: jwtInfo?.login_name,
-    email: `${jwtInfo?.login_name}@email.com.br`
-  }
-
+export default async function Layout({ children }: LayoutProps) {
+  const { name, email } = await getUser()
   return (
     <SidebarProvider>
       <SidebarSystem.Root>
@@ -35,8 +27,8 @@ export default function Layout({ children }: LayoutProps) {
         </SidebarSystem.Content>
         <SidebarSystem.Footer>
           <UserDropdown.Root>
-            <UserDropdown.Trigger user={user} />
-            <UserDropdown.Menu user={user} />
+            <UserDropdown.Trigger user={{ name, email }} />
+            <UserDropdown.Menu user={{ name, email }} />
           </UserDropdown.Root>
         </SidebarSystem.Footer>
       </SidebarSystem.Root>
@@ -52,9 +44,13 @@ export default function Layout({ children }: LayoutProps) {
               <UserDropdown.Trigger
                 className="ms-auto h-auto w-auto aspect-square"
                 isInfoEnabled={false}
-                user={user}
+                user={{ name, email }}
               />
-              <UserDropdown.Menu align="end" side="bottom" user={user} />
+              <UserDropdown.Menu
+                align="end"
+                side="bottom"
+                user={{ name, email }}
+              />
             </UserDropdown.Root>
           </div>
         </HeaderSystem.Root>
