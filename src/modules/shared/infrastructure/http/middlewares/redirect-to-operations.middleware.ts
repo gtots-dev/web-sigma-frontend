@@ -6,7 +6,9 @@ import { JwtTokenDecodeFactory } from '../../factories/jwt-decode.factory'
 import { SelectOperationFactory } from '@/modules/api/infrastructure/factories/select-operation.factory'
 import { OperationFactory } from '@/modules/operations/infrastructure/factories/operation.factory'
 
-export async function RedirectToOperationsMiddleware(req: NextRequest) {
+export async function RedirectToOperationsMiddleware(
+  req: NextRequest
+): Promise<NextResponse> {
   const token = await getToken({ req, secret: process.env.AUTH_SECRET })
 
   if (!token?.accessToken) return NextResponse.next()

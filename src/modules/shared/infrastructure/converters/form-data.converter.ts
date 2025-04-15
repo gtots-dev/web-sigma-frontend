@@ -24,9 +24,13 @@ export class FormDataConverter implements FormDataConverterInterface {
           value !== null &&
           !(value instanceof Date)
         ) {
-          this.appendFormData(formData, value as Record<string, unknown>, fullKey)
+          this.appendFormData(
+            formData,
+            value as Record<string, unknown>,
+            fullKey
+          )
         } else if (value !== undefined && value !== null) {
-          formData.append(fullKey, value === null ? 'null' : String(value));
+          formData.append(fullKey, value === null ? null : String(value))
         }
       }
     }
