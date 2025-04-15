@@ -1,6 +1,5 @@
 import type { User } from 'next-auth'
 import type { JWT } from 'next-auth/jwt'
-import type { TokenEntities } from '../../domain/entities/token.entity'
 
 export async function JWTCallbackAuth({
   token,

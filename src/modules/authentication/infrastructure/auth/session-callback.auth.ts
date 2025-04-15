@@ -16,7 +16,7 @@ export async function SessionCallbackAuth({
       username: token.username as string
     },
     token: {
-      access_token: token.accessToken as string,
+      access_token: token.access_token as string,
       token_type: 'Bearer' as string
     }
   }
