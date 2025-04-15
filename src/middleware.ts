@@ -1,7 +1,7 @@
-import { type NextRequest } from 'next/server'
+import { type NextRequest, type NextResponse } from 'next/server'
 import { middlewares } from './modules/shared/infrastructure/http/middlewares'
 
-export async function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest): Promise<NextResponse> {
   const authResponse = await middlewares.auth(req)
   if (authResponse) return authResponse
   const operationsResponse = await middlewares.operations(req)
