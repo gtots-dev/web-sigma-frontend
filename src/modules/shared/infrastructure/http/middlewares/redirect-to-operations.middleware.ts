@@ -7,31 +7,31 @@ import { GetOperationsFactory } from '@/modules/operations/infrastructure/factor
 import { auth } from '@/auth'
 
 export async function RedirectToOperationsMiddleware(req: NextRequest) {
+  const { pathname, origin } = req.nextUrl
+  const { SYSTEM, OPERATIONS, OPERATION_OPTIONS, AUTHENTICATION } = PATHNAMES
+
+  if (pathname !== SYSTEM) return
+
   const { token } = await auth()
-  if (!token?.access_token) return
+  const accessToken = token?.access_token
+  if (!accessToken) NextResponse.redirect(new URL(AUTHENTICATION, origin))
 
-  const jwtDecode = JwtTokenDecodeFactory.create()
-  const { operation_ids } = jwtDecode.decode(token.access_token)
-  if (!operation_ids?.length) return
+  const jwtDecoder = JwtTokenDecodeFactory.create()
+  const { operation_ids: operationIds } = jwtDecoder.decode(accessToken)
 
-  const currentPathname = req.nextUrl.pathname
-  const { SYSTEM, OPERATIONS, OPERATION_OPTIONS } = PATHNAMES
+  if (!operationIds?.length) return
 
-  if (currentPathname !== SYSTEM) return
+  const getOperations = GetOperationsFactory.create()
+  const operations = await getOperations.execute(token, operationIds)
 
-  const getOperation = GetOperationsFactory.create()
-  const operations = await getOperation.execute(token, operation_ids)
+  const hasSingleOperation = operationIds.length === 1
+  const redirectTarget = hasSingleOperation ? OPERATION_OPTIONS : OPERATIONS
+  const response = NextResponse.redirect(new URL(redirectTarget, origin))
 
-  const response = NextResponse.redirect(
-    new URL(
-      operation_ids.length === 1 ? OPERATION_OPTIONS : OPERATIONS,
-      req.url
-    )
-  )
-
-  if (operation_ids.length === 1 && operations.length) {
-    const repository = SelectOperationFactory.create(req, response)
-    repository.saveToCookies(OperationFactory.create(operations[0]))
+  if (hasSingleOperation && operations.length) {
+    const operation = OperationFactory.create(operations[0])
+    const operationRepository = SelectOperationFactory.create(req, response)
+    operationRepository.saveToCookies(operation)
   }
 
   return response
