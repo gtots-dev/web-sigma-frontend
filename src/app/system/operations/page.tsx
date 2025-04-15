@@ -1,4 +1,3 @@
-import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
 import { HeaderOperation } from '@/modules/operations/presentation/components/header-operation'
 import { TableOperations } from '@/modules/operations/presentation/components/table-operations'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
@@ -10,9 +9,6 @@ interface Data {
 }
 
 export default async function OperationsPage() {
-  const getOperation = GetOperationsFactory.create()
-  const operations = await getOperation.execute()
-
   const data: Data = {
     title: MESSAGES_OPERATIONS['4.1'],
     description: MESSAGES_OPERATIONS['4.2']
@@ -27,7 +23,7 @@ export default async function OperationsPage() {
         </HeaderOperation.Description>
       </HeaderOperation.Root>
       <Separator orientation="horizontal" />
-      <TableOperations.Root limitTo={11} data={operations} />
+      <TableOperations />
     </main>
   )
 }
