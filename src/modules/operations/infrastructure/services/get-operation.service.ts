@@ -4,7 +4,7 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import { HttpResponseOperationValidator } from '../../domain/validators/http-response-operation.validator'
 import type { GetSelectionOperationServiceInterface } from '../../domain/interfaces/get-selection-operation-service.interface'
-import { OperationEntities } from '../../domain/entities/operation.entity'
+import { OperationFactory } from '../factories/operation.factory'
 
 export class GetSelectionOperationService
   implements GetSelectionOperationServiceInterface
@@ -14,7 +14,7 @@ export class GetSelectionOperationService
   getHttpRequestConfig(): HttpRequestConfig {
     return {
       method: 'GET',
-      url: 'api/select-operation',
+      url: 'api/select-operation'
     }
   }
 
@@ -23,6 +23,6 @@ export class GetSelectionOperationService
     const { success, data, status }: HttpResponse<OperationInterface> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseOperationValidator.validate(success, data, status)
-    return new OperationEntities(data.id, data.name)
+    return OperationFactory.create(data)
   }
 }
