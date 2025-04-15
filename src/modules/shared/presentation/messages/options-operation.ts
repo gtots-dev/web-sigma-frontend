@@ -8,6 +8,8 @@ type MessageKeys =
   | '11.7'
   | '11.8'
   | '11.9'
+  | '11.10'
+  | '11.11'
 
 export const MESSAGES_OPTIONS_OPERATION: Record<MessageKeys, string> = {
   '11.1': 'Opções de operação',
@@ -18,5 +20,7 @@ export const MESSAGES_OPTIONS_OPERATION: Record<MessageKeys, string> = {
   '11.6': 'Usuários',
   '11.7': 'Navegue, gerencie e adicione usuários',
   '11.8': 'Permissões',
-  '11.9': 'Navegue, gerencie e adicione novos perfis de permissões.'
+  '11.9': 'Navegue, gerencie e adicione novos perfis de permissões.',
+  '11.10': 'Selecione a Operação',
+  '11.11': 'Selecione uma operação abaixo para gerenciar suas funcionalidades.'
 }
