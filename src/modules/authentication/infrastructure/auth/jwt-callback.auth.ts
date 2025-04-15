@@ -8,7 +8,7 @@ export async function JWTCallbackAuth({
 }: {
   token: JWT
   user?: User
-}): Promise<TokenEntities> {
+}): Promise<JWT> {
   if (user) {
     token.access_token = user.accessToken as string
     token.token_type = 'Bearer' as string
