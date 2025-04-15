@@ -10,7 +10,7 @@ export function MenuSelectOperationFooterComponent({
   children
 }: MenuSelectOperationFooterComponentProps) {
   return (
-    <div className="flex w-full justify-end gap-x-5">
+    <div className="flex w-full justify-end gap-x-5 px-10 pb-6">
       <DrawerDialog.Close>
         <Button className="w-[150px]">Cancelar</Button>
       </DrawerDialog.Close>
