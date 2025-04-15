@@ -5,18 +5,29 @@ import type { HttpClientInterface } from '../../../domain/interfaces/http-client
 export class FetchHttpClient implements HttpClientInterface {
   constructor(private readonly baseURL: string) {}
 
-  async request<T>(config: HttpRequestConfig): Promise<HttpResponse<T>> {
-    const url = `${this.baseURL}${config.url}`
-
+  async request<T, TData = unknown, TParams = unknown>(
+    config: HttpRequestConfig<TData, TParams>
+  ): Promise<HttpResponse<T>> {
     try {
-      const response = await fetch(url, {
-        method: config.method,
-        headers: {
-          ...config.headers
-        },
-        body: config.data,
-        cache: 'no-cache'
-      })
+      const queryString = this.buildQueryString(
+        config.params as Record<string, any>
+      )
+      const response = await fetch(
+        `${this.baseURL}${config.url}${queryString}`,
+        {
+          method: config.method,
+          headers: {
+            ...config.headers
+          },
+          body:
+            typeof config.data === 'string' || config.data instanceof FormData
+              ? config.data
+              : config.data
+                ? JSON.stringify(config.data)
+                : undefined,
+          cache: 'no-cache'
+        }
+      )
 
       const rawText = await response.text()
       const parsedData = this.safeParseJSON<T>(rawText)
@@ -38,12 +49,29 @@ export class FetchHttpClient implements HttpClientInterface {
     }
   }
 
+  private buildQueryString(params?: Record<string, any>): string {
+    if (!params) return ''
+    const query = new URLSearchParams()
+
+    for (const key in params) {
+      const value = params[key]
+      if (Array.isArray(value)) {
+        value.forEach((val) => query.append(key, String(val)))
+      } else if (value !== undefined && value !== null) {
+        query.append(key, String(value))
+      }
+    }
+
+    const queryString = query.toString()
+    return queryString ? `?${queryString}` : ''
+  }
+
   private safeParseJSON<T>(text: string): T | null {
     if (!text) return null
     try {
       return JSON.parse(text) as T
-    } catch (error) {
-      return error
+    } catch {
+      return null
     }
   }
 }
