@@ -1,3 +1,4 @@
+import { DialogWithDrawerCloseComponent } from './dialog-with-drawer-close.component'
 import { DialogWithDrawerContentComponent } from './dialog-with-drawer-content.component'
 import { DialogWithDrawerDescriptionComponent } from './dialog-with-drawer-description.component'
 import { DialogWithDrawerHeaderComponent } from './dialog-with-drawer-header.component'
@@ -11,5 +12,6 @@ export const DrawerDialog = {
   Header: DialogWithDrawerHeaderComponent,
   Content: DialogWithDrawerContentComponent,
   Title: DialogWithDrawerTitleComponent,
-  Description: DialogWithDrawerDescriptionComponent
+  Description: DialogWithDrawerDescriptionComponent,
+  Close: DialogWithDrawerCloseComponent
 }
