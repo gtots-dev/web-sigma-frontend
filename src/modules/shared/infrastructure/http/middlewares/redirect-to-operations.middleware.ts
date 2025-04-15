@@ -1,45 +1,32 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 
-import { PATHNAMES } from '../../config/pathnames.config'
-import { JwtTokenDecodeFactory } from '../../factories/jwt-decode.factory'
 import { SelectOperationFactory } from '@/modules/api/infrastructure/factories/select-operation.factory'
 import { OperationFactory } from '@/modules/operations/infrastructure/factories/operation.factory'
+import { handleRedirectToOperationsUtil } from '@/modules/shared/presentation/utils/handle-redirect-to-operations.util'
 
 export async function RedirectToOperationsMiddleware(
   req: NextRequest
 ): Promise<NextResponse> {
   const token = await getToken({ req, secret: process.env.AUTH_SECRET })
+  const result = handleRedirectToOperationsUtil({
+    pathname: req.nextUrl.pathname,
+    accessToken: token?.accessToken,
+    baseUrl: req.url
+  })
 
-  if (!token?.accessToken) return NextResponse.next()
+  if (!result.shouldRedirect) return NextResponse.next()
 
-  const jwtDecode = JwtTokenDecodeFactory.create()
-  const { operation_ids } = jwtDecode.decode(token.accessToken)
+  const response = NextResponse.redirect(result.redirectUrl!)
 
-  if (!operation_ids?.length) return NextResponse.next()
-
-  const currentPathname = req.nextUrl.pathname
-  const { SYSTEM, OPERATIONS, OPERATION_OPTIONS } = PATHNAMES
-
-  if (currentPathname === SYSTEM) {
-    const response = NextResponse.redirect(
-      new URL(
-        operation_ids.length === 1 ? OPERATION_OPTIONS : OPERATIONS,
-        req.url
-      )
-    )
-
-    if (operation_ids.length === 1) {
-      const repository = SelectOperationFactory.create(req, response)
-      const operation = OperationFactory.create({
-        id: String(operation_ids[0]),
-        name: 'operation-automatic'
-      })
-      repository.saveToCookies(operation)
-    }
-
-    return response
+  if (result.selectedOperationId) {
+    const repository = SelectOperationFactory.create(req, response)
+    const operation = OperationFactory.create({
+      id: result.selectedOperationId,
+      name: 'operation-automatic'
+    })
+    repository.saveToCookies(operation)
   }
 
-  return NextResponse.next()
+  return response
 }
