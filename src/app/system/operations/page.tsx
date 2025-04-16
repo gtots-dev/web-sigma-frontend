@@ -15,7 +15,7 @@ export default async function OperationsPage() {
   }
 
   return (
-    <main className="flex flex-col flex-1 p-10 pb-0 gap-5">
+    <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
       <HeaderOperation.Root>
         <HeaderOperation.Title>{data.title}</HeaderOperation.Title>
         <HeaderOperation.Description>

@@ -16,5 +16,5 @@ export function DialogWithDrawerDescriptionComponent({
     return <DialogDescription className='text-[1.05rem]'>{children}</DialogDescription>
   }
 
-  return <DrawerDescription className="text-[1rem] text-left">{children}</DrawerDescription>
+  return <DrawerDescription className="text-[1rem] text-left mb-3 sm:mb-0">{children}</DrawerDescription>
 }

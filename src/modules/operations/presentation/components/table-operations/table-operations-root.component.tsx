@@ -17,9 +17,9 @@ export async function TableOperationsRootComponent() {
   return (
     <section
       style={{ height: `${containerHeight}px` }}
-      className="flex flex-col"
+      className="flex flex-col w-full"
     >
-      <Table className="w-full">
+      <Table className="w-full overflow-x-hidden">
         <TableHeader>
           <TableOperationHeaderRowComponent />
         </TableHeader>
