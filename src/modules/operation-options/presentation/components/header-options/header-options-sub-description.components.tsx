@@ -1,8 +1,8 @@
 'use client'
 
-import { useSelectedOperation } from '@/modules/operations/presentation/hooks/use-get-selection-operation.hook'
 import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
-import type { ReactNode } from 'react'
+import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
+import { ReactNode } from 'react'
 
 interface HeaderOptionsSubDescriptionComponentProps {
   children: ReactNode
@@ -11,13 +11,13 @@ interface HeaderOptionsSubDescriptionComponentProps {
 export function HeaderOptionsSubDescriptionComponent({
   children
 }: HeaderOptionsSubDescriptionComponentProps) {
-  const { name } = useSelectedOperation()
+  const { operation } = useOperationStore()
 
-  return name ? (
+  return operation.id && operation.name ? (
     <p className="text-muted-foreground font-light">
       {children}
       <b className="text-primary-300 font-medium underline underline-offset-4 ml-1">
-        {name}
+        {operation.name}
       </b>
     </p>
   ) : (

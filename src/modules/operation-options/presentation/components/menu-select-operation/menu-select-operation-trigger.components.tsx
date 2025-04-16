@@ -1,13 +1,13 @@
 'use client'
 
-import { useSelectedOperation } from '@/modules/operations/presentation/hooks/use-get-selection-operation.hook'
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
+import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
 import { Building2, ChevronsUpDown } from 'lucide-react'
 
 export function MenuSelectOperationTriggerComponent() {
-  const { name } = useSelectedOperation()
-
+  const { operation } = useOperationStore()
+    
   return (
     <DrawerDialog.Trigger>
       <div className="h-16 flex bg-white dark:bg-zinc-950 border rounded-lg fill: w-full gap-x-3 p-3 xl:w-[350px] cursor-pointer hover:bg-white/50 dark:hover:bg-zinc-950/50">
@@ -16,9 +16,9 @@ export function MenuSelectOperationTriggerComponent() {
         </div>
         <div className="flex flex-col items-start h-auto">
           <span className="font-bold text-sm">Operação</span>
-          {name ? (
+          {operation.id && operation.name ? (
             <span className="text-start font-medium underline underline-offset-4 text-xs">
-              {name}
+              {operation.name}
             </span>
           ) : (
             <Skeleton className="w-[150px] !h-[10px] mt-1.5 bg-white dark:bg-zinc-800 rounded-full" />

@@ -2,9 +2,9 @@
 
 import { MenuSelectOperation } from '@/modules/operation-options/presentation/components/menu-select-operation'
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
-import { useSelectedOperation } from '@/modules/operations/presentation/hooks/use-get-selection-operation.hook'
 import { useState } from 'react'
 import { OperationForm } from '../operation-form'
+import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
 
 interface OperationSelectorRootProps {
   title: string
@@ -18,13 +18,13 @@ export function OperationSelectorRoot({
   operations
 }: OperationSelectorRootProps) {
   const [open, setOpen] = useState(false)
-  const operationSelect = useSelectedOperation()
+  const { operation } = useOperationStore()
 
   return (
     <MenuSelectOperation.Root open={open} onOpenChange={setOpen}>
       <MenuSelectOperation.Trigger />
       <MenuSelectOperation.Content title={title} description={description}>
-        <OperationForm.Provider operation={operationSelect}>
+        <OperationForm.Provider operation={operation}>
           <OperationForm.Form>
             <OperationForm.Search />
             <OperationForm.Radios operations={operations} />

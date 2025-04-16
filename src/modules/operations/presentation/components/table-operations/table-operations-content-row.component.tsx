@@ -7,7 +7,9 @@ import {
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
 import { LogIn } from 'lucide-react'
-import { useSetSelectOperation } from '../../hooks/use-set-selection-operation.hook'
+import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
+import { useRouter } from 'next/navigation'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
 interface TableOperationContentRowComponentProps {
   operation: OperationInterface
@@ -16,7 +18,8 @@ interface TableOperationContentRowComponentProps {
 export function TableOperationContentRowComponent({
   operation
 }: TableOperationContentRowComponentProps) {
-  const { setOperation } = useSetSelectOperation()
+  const { replace } = useRouter()
+  const { setOperation } = useOperationStore()
 
   return (
     <TableRow>
@@ -27,7 +30,10 @@ export function TableOperationContentRowComponent({
         <Button
           size="icon"
           variant="outline"
-          onClick={() => setOperation(operation)}
+          onClick={() => {
+            setOperation(operation)
+            replace(PATHNAMES.OPERATION_OPTIONS)
+          }}
         >
           <LogIn />
         </Button>
