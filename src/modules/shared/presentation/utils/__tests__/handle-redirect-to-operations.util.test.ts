@@ -2,7 +2,7 @@ import { handleRedirectToOperationsUtil } from "../handle-redirect-to-operations
 
 describe('handleRedirectToOperationsUtil', () => {
   const baseDeps = {
-    getAuthToken: jest.fn(),
+    getAuthToken: jest.fn(),Control
     decodeToken: jest.fn(),
     getOperations: jest.fn(),
     createOperation: jest.fn(),
