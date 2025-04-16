@@ -20,5 +20,7 @@ export function DialogWithDrawerContentComponent({
     )
   }
 
-  return <DrawerContent className='h-[85vh] px-0 py-5'>{children}</DrawerContent>
+  return (
+    <DrawerContent className="h-[85vh]  px-0 py-5">{children}</DrawerContent>
+  )
 }
