@@ -15,7 +15,7 @@ export function OperationFormSearchComponent() {
       <Search className="h-4 w-4 text-muted-foreground" />
       <Input
         {...register('search')}
-        className="border-none shadow-none ring-0 focus-visible:!ring-0"
+        className="border-none shadow-none ring-0 focus-visible:!ring-0 text-sm"
         type="text"
         placeholder="Procure aqui o desejado"
         id="input-search"

@@ -16,5 +16,5 @@ export function DialogWithDrawerTitleComponent({
     return <DialogTitle className='text-[2.5rem]'>{children}</DialogTitle>
   }
 
-  return <DrawerTitle className="font-medium text-[1.9rem] text-left">{children}</DrawerTitle>
+  return <DrawerTitle className="font-medium text-[1.7rem] text-left">{children}</DrawerTitle>
 }

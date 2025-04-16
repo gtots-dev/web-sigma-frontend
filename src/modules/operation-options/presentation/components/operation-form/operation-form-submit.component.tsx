@@ -36,7 +36,7 @@ export function OperationFormSubmitComponent({
 
   return (
     <Button
-      className="w-[150px] text-sm bg-primary-600 text-zinc-50 hover:bg-primary-600/90"
+      className="w-full sm:w-[150px] text-sm bg-primary-600 text-zinc-50 hover:bg-primary-600/90"
       type="submit"
       onClick={handleSubmit(onSubmit)}
     >
