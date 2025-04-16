@@ -7,7 +7,7 @@ import { Building2, ChevronsUpDown } from 'lucide-react'
 
 export function MenuSelectOperationTriggerComponent() {
   const { operation } = useOperationStore()
-    
+
   return (
     <DrawerDialog.Trigger>
       <div className="h-16 flex bg-white dark:bg-zinc-950 border rounded-lg fill: w-full gap-x-3 p-3 xl:w-[350px] cursor-pointer hover:bg-white/50 dark:hover:bg-zinc-950/50">
@@ -21,7 +21,7 @@ export function MenuSelectOperationTriggerComponent() {
               {operation.name}
             </span>
           ) : (
-            <Skeleton className="w-[150px] !h-[10px] mt-1.5 bg-white dark:bg-zinc-800 rounded-full" />
+            <Skeleton className="w-[150px] !h-[10px] mt-1.5 rounded-full" />
           )}
         </div>
         <div className="grid place-content-center h-10 w-10 rounded-md ms-auto">

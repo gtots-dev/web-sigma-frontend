@@ -21,6 +21,6 @@ export function HeaderOptionsSubDescriptionComponent({
       </b>
     </p>
   ) : (
-    <Skeleton className="w-[250px] !h-[10px] mt-1.5 bg-white dark:bg-zinc-800 rounded-full" />
+    <Skeleton className="w-[250px] !h-[10px] mt-1.5 rounded-full" />
   )
 }
