@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import '@/modules/shared/presentation/styles/globals.css'
 import { ThemeProvider } from '@/modules/shared/presentation/components/shadcn/theme-provider'
@@ -11,7 +11,13 @@ export const metadata: Metadata = {
   title: 'SIGMA',
   description:
     'O SIGMA (Sistema Integrado de Gestão, Medição e Avaliação) é uma plataforma web para recepção, gerenciamento e processamento de dados produzidos pelos equipamentos de campo.',
-    viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({
