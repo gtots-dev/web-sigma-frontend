@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import type { SidebarSystemItemComponentProps } from '.'
 import {
@@ -13,6 +14,11 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
 import { useSidebarSystemItem } from '../../hooks/use-sidebar-system-item.hook'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
+
+const variants = {
+  open: { opacity: 1, height: 'auto', transition: { duration: 0.3 } },
+  closed: { opacity: 0, height: 0, transition: { duration: 0.3 } }
+}
 
 export function SidebarSystemItemGrandchildComponent({
   item,
@@ -39,22 +45,27 @@ export function SidebarSystemItemGrandchildComponent({
       <SidebarMenuSubItem className="w-full">
         <div className={sidebarButtonClass}>
           <Button
-            className="justify-start w-full px-0 disabled:opacity-100"
+            className="overflow-hidden justify-start w-full px-0 disabled:opacity-100"
             variant="ghost"
             disabled={isActive}
             onClick={handleClick}
           >
             {item.icon && <item.icon />}
-            <span>{item.title}</span>
+            <span className='truncate' title={item.title}>{item.title}</span>
           </Button>
-          {item.items && (
+          {item.items && item.isToExpand && (
             <CollapsibleTrigger className="group aspect-square">
               <ChevronRight className={rotateArrowClassNames} />
             </CollapsibleTrigger>
           )}
         </div>
         {item.items && (
-          <CollapsibleContent className="h-full">
+          <motion.div
+            initial="closed"
+            animate={isOpen ? 'open' : 'closed'}
+            variants={variants}
+            className="overflow-hidden"
+          >
             <SidebarMenuSub className="h-full !me-0 pe-0">
               {item.items.map((subItem) => (
                 <SidebarSystemItemGrandchildComponent
@@ -64,7 +75,7 @@ export function SidebarSystemItemGrandchildComponent({
                 />
               ))}
             </SidebarMenuSub>
-          </CollapsibleContent>
+          </motion.div>
         )}
       </SidebarMenuSubItem>
     </Collapsible>

@@ -5,18 +5,23 @@ import {
   SidebarTrigger
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
 import { SidebarData } from '@/test/mocks/sidebar-data.mock'
-import { UserDataAccount } from '@/test/mocks/user-data.mock'
 import { SidebarSystem } from '@/modules/system/presentation/components/sidebar-system'
 import { UserDropdown } from '@/modules/system/presentation/components/user-dropdown'
 import type { ReactNode } from 'react'
 import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
 import { ContentSystem } from '@/modules/system/presentation/components/content-system'
+import { useJwtInfo } from '@/modules/system/presentation/hooks/use-jwt-Info.hook'
 
 interface LayoutProps {
   children: ReactNode
 }
 
 export default async function Layout({ children }: LayoutProps) {
+  const { login_name } = await useJwtInfo()
+  const user = {
+    name: login_name,
+    email: `${login_name}@email.com.br`
+  }
   return (
     <SidebarProvider>
       <SidebarSystem.Root>
@@ -26,20 +31,30 @@ export default async function Layout({ children }: LayoutProps) {
         </SidebarSystem.Content>
         <SidebarSystem.Footer>
           <UserDropdown.Root>
-            <UserDropdown.Trigger user={UserDataAccount} />
-            <UserDropdown.Menu user={UserDataAccount} />
+            <UserDropdown.Trigger user={user} />
+            <UserDropdown.Menu user={user} />
           </UserDropdown.Root>
         </SidebarSystem.Footer>
       </SidebarSystem.Root>
 
       <SidebarInset>
         <HeaderSystem.Root>
-          <SidebarTrigger className="h-12 w-12 aspect-square" />
-          <Separator orientation="vertical" className="h-9" />
+          <div className="flex items-center gap-x-2">
+            <SidebarTrigger className="h-12 w-12 aspect-square" />
+            <Separator orientation="vertical" className="h-9" />
+          </div>
+          <div className="sm:hidden">
+            <UserDropdown.Root>
+              <UserDropdown.Trigger
+                className="ms-auto h-auto w-auto aspect-square"
+                isInfoEnabled={false}
+                user={user}
+              />
+              <UserDropdown.Menu align="end" side="bottom" user={user} />
+            </UserDropdown.Root>
+          </div>
         </HeaderSystem.Root>
-        <ContentSystem.Root>
-          {children}
-        </ContentSystem.Root>
+        <ContentSystem.Root>{children}</ContentSystem.Root>
       </SidebarInset>
     </SidebarProvider>
   )

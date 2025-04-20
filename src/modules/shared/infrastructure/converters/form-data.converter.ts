@@ -1,7 +1,7 @@
 import { FormDataConverterInterface } from '../../domain/interfaces/form-data-converter.interface'
 
 export class FormDataConverter implements FormDataConverterInterface {
-  convert(data: Record<string, any>): FormData {
+  convert<T extends Record<string, unknown>>(data: T): FormData {
     const formData = new FormData()
     this.appendFormData(formData, data)
     return formData
@@ -9,20 +9,28 @@ export class FormDataConverter implements FormDataConverterInterface {
 
   private appendFormData(
     formData: FormData,
-    data: Record<string, any>,
+    data: Record<string, unknown>,
     parentKey = ''
   ): void {
     for (const key in data) {
-      if (data.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
         const value = data[key]
         const fullKey = parentKey ? `${parentKey}[${key}]` : key
 
-        if (value instanceof File) {
+        if (value instanceof File || value instanceof Blob) {
           formData.append(fullKey, value)
-        } else if (typeof value === 'object' && value !== null) {
-          this.appendFormData(formData, value, fullKey)
-        } else {
-          formData.append(fullKey, value)
+        } else if (
+          typeof value === 'object' &&
+          value !== null &&
+          !(value instanceof Date)
+        ) {
+          this.appendFormData(
+            formData,
+            value as Record<string, unknown>,
+            fullKey
+          )
+        } else if (value !== undefined && value !== null) {
+          formData.append(fullKey, value === null ? null : String(value))
         }
       }
     }

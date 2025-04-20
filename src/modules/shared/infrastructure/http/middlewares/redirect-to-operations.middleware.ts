@@ -1,15 +1,32 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { PATHNAMES } from '../../config/pathnames.config'
+import { getToken } from 'next-auth/jwt'
+
+import { SelectOperationFactory } from '@/modules/api/infrastructure/factories/select-operation.factory'
+import { OperationFactory } from '@/modules/operations/infrastructure/factories/operation.factory'
+import { handleRedirectToOperationsUtil } from '@/modules/shared/presentation/utils/handle-redirect-to-operations.util'
 
 export async function RedirectToOperationsMiddleware(
   req: NextRequest
-) {
-  const currentPathname = req.nextUrl.pathname
-  const { SYSTEM, OPERATIONS } = PATHNAMES
+): Promise<NextResponse> {
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET })
+  const result = handleRedirectToOperationsUtil({
+    pathname: req.nextUrl.pathname,
+    accessToken: token?.accessToken,
+    baseUrl: req.url
+  })
 
-  if (currentPathname === SYSTEM) {
-    return NextResponse.redirect(new URL(OPERATIONS, req.url))
+  if (!result.shouldRedirect) return NextResponse.next()
+
+  const response = NextResponse.redirect(result.redirectUrl!)
+
+  if (result.selectedOperationId) {
+    const repository = SelectOperationFactory.create(req, response)
+    const operation = OperationFactory.create({
+      id: result.selectedOperationId,
+      name: 'operation-automatic'
+    })
+    repository.saveToCookies(operation)
   }
 
-  return null
+  return response
 }

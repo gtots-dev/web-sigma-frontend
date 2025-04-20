@@ -14,13 +14,15 @@ import {
 import { DeauthenticationButton } from '../deauthentication/deauthentication-button.component'
 import { useInitialsFromText } from '../../hooks/use-initials-from-text.hook'
 import { useSidebar } from '@/modules/shared/presentation/components/shadcn/sidebar'
+import type { DropdownMenuContentProps } from '@radix-ui/react-dropdown-menu'
 
-interface UserDropdownMenuComponentProps {
+interface UserDropdownMenuComponentProps extends DropdownMenuContentProps {
   user: UserAccountInterface
 }
 
 export function UserDropdownMenuComponent({
-  user: { name, email }
+  user: { name, email },
+  ...props
 }: UserDropdownMenuComponentProps) {
   const { getInitials } = useInitialsFromText()
   const { isMobile } = useSidebar()
@@ -31,6 +33,7 @@ export function UserDropdownMenuComponent({
       side={isMobile ? 'bottom' : 'right'}
       align="end"
       sideOffset={4}
+      {...props}
     >
       <DropdownMenuLabel className="p-0 font-normal">
         <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
