@@ -4,12 +4,12 @@ import { TokenService } from '../services/token.service'
 import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
 import { InvalidAuthError } from './error.auth'
-import { TokenValidatorFactory } from '../factories/token-validator.factory'
+import { JwtValidatorFactory } from '../../../shared/infrastructure/factories/jwt-validator.factory'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 
 const httpClient = HttpClientFactory.create(process.env.HOST_API)
 const executeRequest = ExecuteRequestFactory.create(httpClient)
-const tokenValidator = TokenValidatorFactory.create(
+const tokenValidator = JwtValidatorFactory.create(
   process.env.SECRET_KEY_ACCESS_TOKEN
 )
 const tokenService = new TokenService(executeRequest, tokenValidator)
@@ -23,7 +23,7 @@ export const CredentialsProviderAuth = CredentialsProvider({
         username: credentials?.username,
         password: credentials?.password
       })
-
+    
       return {
         id: crypto.randomUUID(),
         username: credentials?.username,

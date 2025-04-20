@@ -3,7 +3,7 @@ import type { FormDataConverterInterface } from '../../domain/interfaces/form-da
 export class ConvertJsonToFormData {
   constructor(private formDataConverter: FormDataConverterInterface) {}
 
-  execute(data: Record<string, any>): FormData {
+  execute<T extends Record<string, unknown>>(data: T): FormData {
     return this.formDataConverter.convert(data)
   }
 }

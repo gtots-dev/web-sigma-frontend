@@ -1,7 +1,7 @@
-import type { TokenVerifierInterface } from '@/modules/authentication/domain/interfaces/token-verifier.interface'
+import type { JwtVerifierInterface } from '@/modules/shared/domain/interfaces/jwt-verifier.interface'
 import jwt from 'jsonwebtoken'
 
-export class JwtTokenVerifier implements TokenVerifierInterface {
+export class JwtTokenVerifier implements JwtVerifierInterface {
   verify(token: string, secret: string): unknown {
     return jwt.verify(token, secret)
   }
