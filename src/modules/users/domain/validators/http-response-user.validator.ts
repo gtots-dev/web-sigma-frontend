@@ -7,7 +7,7 @@ export class HttpResponseUserValidator {
     success: boolean,
     response: UserInterface | UserInterface[] | null | undefined,
     status: string
-  ): void {    
+  ): void {
     if (!success || !response || status !== HttpStatusCodeEnum.OK) {
       throw new HttpResponseError(status)
     }
