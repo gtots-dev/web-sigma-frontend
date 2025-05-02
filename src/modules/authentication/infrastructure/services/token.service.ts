@@ -7,22 +7,23 @@ import { TokenEntities } from '../../domain/entities/token.entities'
 import { HttpResponseTokenValidator } from '../../domain/validators/http-response-token.validator'
 import { CredentialsValidator } from '../../domain/validators/credentials.validator'
 import type { TokenServiceInterface } from '../../domain/interfaces/token-service.interface'
-import type { TokenValidator } from '../../domain/validators/token.validator'
+import { FormDataConverterFactory } from '@/modules/shared/infrastructure/factories/form-data-converter.factory'
 
 export class TokenService implements TokenServiceInterface {
   constructor(
     private readonly executeRequest: ExecuteRequest,
-    private readonly tokenValidator: TokenValidator
   ) {}
 
   getHttpRequestConfig(
     credentials: UserCredentialsInterface
   ): HttpRequestConfig {
+    const converterJsonToFormData = FormDataConverterFactory.create()
+    const credentialsFormData = converterJsonToFormData.execute(credentials)
+    
     return {
       method: 'POST',
       url: '/oauth2/token',
-      data: credentials,
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      data: credentialsFormData
     }
   }
 
@@ -30,23 +31,13 @@ export class TokenService implements TokenServiceInterface {
     credentials: UserCredentialsInterface
   ): Promise<TokenEntities> {
     CredentialsValidator.validate(credentials)
-
     const settingsAuthHTTP = this.getHttpRequestConfig(credentials)
 
-    const response: HttpResponse<OAuthResponseInterface> =
+    const { success, data, status }: HttpResponse<OAuthResponseInterface> =
       await this.executeRequest.execute(settingsAuthHTTP)
 
-    HttpResponseTokenValidator.validate(
-      response.success,
-      response.data,
-      response.status
-    )
+    HttpResponseTokenValidator.validate(success, data, status)
 
-    this.tokenValidator.validate(response.data.access_token)
-
-    return new TokenEntities(
-      response.data.access_token,
-      response.data.token_type
-    )
+    return new TokenEntities(data.access_token, data.token_type)
   }
 }
