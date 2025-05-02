@@ -27,9 +27,17 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
 
    Copie o arquivo `.env.example` para a raiz do projeto e renomeie-o para `.env`.
 
-3. **(Opcional) Configuração do DevContainer para VS Code:**
+3. **Geração chave secreta (JWT):**
 
-   - Instale a extenção do [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) em seu VS Code.
+   Execute o comando abaixo em seu terminal, em seguida adicione no campo `AUTH_SECRET` localizado em sua `.env`.
+
+   ```bash
+   openssl rand -base64 33
+   ```
+
+4. **(Opcional) Configuração do DevContainer para VS Code:**
+
+   - Instale a extensão do [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) em seu VS Code.
    - Crie uma pasta chamada `.devcontainer` na raiz do projeto.
    - Dentro dessa pasta, crie um arquivo chamado `devcontainer.json` com o seguinte conteúdo:
 
@@ -39,10 +47,6 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
      "dockerComposeFile": "../docker-compose.yaml",
      "service": "app",
      "workspaceFolder": "/app",
-     "remoteEnv": {
-       "SSH": "/root/.ssh/{SUA_SSH}"
-     },
-     "postCreateCommand": "apk add --no-cache openssh-client",
      "settings": {},
      "extensions": [
        "EditorConfig.EditorConfig",
@@ -54,7 +58,7 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
    }
    ```
 
-4. **Criação do container Docker:**
+5. **Criação do container Docker:**
 
    Execute o comando abaixo para criar a imagem e o container do projeto:
 
@@ -62,7 +66,7 @@ Siga os passos abaixo para configurar o ambiente de desenvolvimento:
    docker-compose up --build
    ```
 
-5. **Acesse o projeto:**
+6. **Acesse o projeto:**
 
    O sistema estará disponível em [http://localhost:3000](http://localhost:3000).
 
