@@ -28,7 +28,7 @@ export function SidebarSystemItemChildComponent({
   item,
   activePath
 }: SidebarSystemItemComponentProps) {
-  const { isCurrentPathOperation } = useIsOperationDisabled()
+  const isCurrentPathOperation = useIsOperationDisabled()
   const { handleClick, isActive } = useSidebarSystemItem(item)
   const [isOpen, setIsOpen] = useState(true)
 
@@ -96,8 +96,8 @@ export function SidebarSystemItemChildComponent({
         >
           <Separator className="my-4" />
           <div className="flex flex-col gap-1.5 p-4 rounded-lg border text-muted-foreground bg-white dark:bg-zinc-950">
-            <div className='flex items-center gap-x-1.5'>
-              <CircleAlert className='h-4 w-4' />
+            <div className="flex items-center gap-x-1.5">
+              <CircleAlert className="h-4 w-4" />
               <span className="text-xs font-bold">Aviso:</span>
             </div>
             <span className="text-xs">

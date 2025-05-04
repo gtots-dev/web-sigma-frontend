@@ -6,25 +6,27 @@ import { SetSelectionOperationFactory } from '@/modules/operations/infrastructur
 import type { OperationEntities } from '@/modules/operations/domain/entities/operation.entity'
 
 interface OperationState {
-  operation: OperationEntities
+  operation: OperationEntities | null
   fetchOperation: () => Promise<void>
   setOperation: (operation: OperationEntities) => Promise<void>
 }
 
-export const useOperationStore = create<OperationState>((set) => {
-  return {
-    operation: { id: null, name: null },
+export const useOperationStore = create<OperationState>(
+  (set): OperationState => {
+    return {
+      operation: { id: null, name: null },
 
-    fetchOperation: async () => {
-      const getSelectionOperation = GetSelectionOperationFactory.create()
-      const operation = await getSelectionOperation.execute()
-      set({ operation })
-    },
+      fetchOperation: async (): Promise<void> => {
+        const getSelectionOperation = GetSelectionOperationFactory.create()
+        const operation = await getSelectionOperation.execute()
+        set({ operation })
+      },
 
-    setOperation: async (operation: OperationEntities) => {
-      const setSelectionOperation = SetSelectionOperationFactory.create()
-      await setSelectionOperation.execute(operation)
-      set({ operation })
+      setOperation: async (operation: OperationEntities): Promise<void> => {
+        const setSelectionOperation = SetSelectionOperationFactory.create()
+        await setSelectionOperation.execute(operation)
+        set({ operation })
+      }
     }
   }
-})
+)
