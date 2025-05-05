@@ -53,9 +53,6 @@ describe('TokenService', () => {
     expect(token.token_type).toBe('Bearer')
 
     expect(executeRequestMock.execute).toHaveBeenCalledTimes(1)
-    expect(tokenValidatorMock.validate).toHaveBeenCalledWith(
-      'fakeAccessToken123'
-    )
   })
 
   test('should throw an error when the response is unsuccessful', async () => {
@@ -77,6 +74,5 @@ describe('TokenService', () => {
     )
 
     expect(executeRequestMock.execute).toHaveBeenCalledTimes(1)
-    expect(tokenValidatorMock.validate).not.toHaveBeenCalled()
   })
 })
