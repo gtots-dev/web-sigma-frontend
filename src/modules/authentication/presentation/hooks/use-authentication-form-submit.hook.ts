@@ -22,10 +22,10 @@ export function useAuthenticationFormSubmitHook() {
     redirect(PATHNAMES.SYSTEM)
   }
 
-  const onSubmitSignOut = async (): Promise<void> => {
+  const onSubmitSignOut = (): Promise<void> => {
     const authSignOut = AuthSignOutFactory.create()
     setLoading(true)
-    await authSignOut.signOut()
+    authSignOut.signOut()
     setLoading(false)
     redirect(PATHNAMES.AUTHENTICATION)
   }
