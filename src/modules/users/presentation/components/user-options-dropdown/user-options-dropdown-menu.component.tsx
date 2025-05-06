@@ -25,7 +25,7 @@ export function UserOptionsDropdownMenuComponent({
       sideOffset={4}
       {...props}
     >
-      <DropdownMenuLabel className="p-0 font-normal">Opções</DropdownMenuLabel>
+      <DropdownMenuLabel className="font-normal p-1.5">Opções</DropdownMenuLabel>
       <DropdownMenuSeparator />
       {children}
     </DropdownMenuContent>
