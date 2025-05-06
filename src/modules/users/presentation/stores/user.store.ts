@@ -4,12 +4,13 @@ import type { UserEntity } from '../../domain/entities/user.entity'
 import { PutUserRouterApiFactory } from '@/modules/api/infrastructure/factories/put-user-router-api.factory'
 import { PostUserRouterApiFactory } from '@/modules/api/infrastructure/factories/post-user-router-api.factory'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
+import type { UserWithFiles } from '../../domain/types/user-with-files'
 
 type UserState = {
   users: UserEntity[]
   getUsers: () => Promise<void>
-  addUser: (user: Omit<UserEntity, 'id'>) => Promise<void>
-  updateUser: (user: UserEntity) => Promise<void>
+  addUser: (user: Omit<UserWithFiles, 'id'>) => Promise<void>
+  updateUser: (user: UserWithFiles) => Promise<void>
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -27,7 +28,7 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 
-  addUser: async (user: UserEntity) => {
+  addUser: async (user: UserWithFiles) => {
     try {
       const postUsersRouterApiFactory = PostUserRouterApiFactory.create()
       await postUsersRouterApiFactory.execute(user)
@@ -38,7 +39,7 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 
-  updateUser: async (user: UserEntity) => {
+  updateUser: async (user: UserWithFiles) => {
     try {
       const putUsersRouterApiFactory = PutUserRouterApiFactory.create()
       await putUsersRouterApiFactory.execute(user)

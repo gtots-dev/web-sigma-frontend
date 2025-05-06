@@ -1,14 +1,14 @@
 import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
-import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { useUserStore } from '../stores/user.store'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
+import type { UserWithFiles } from '../../domain/types/user-with-files'
 
 export function useEditUserSubmit() {
   const { updateUser, getUsers } = useUserStore()
 
   const onAction = useCallback(
-    async (data: UserEntity): Promise<void> => {
+    async (data: UserWithFiles): Promise<void> => {
       try {
         await updateUser(data)
         await getUsers()
