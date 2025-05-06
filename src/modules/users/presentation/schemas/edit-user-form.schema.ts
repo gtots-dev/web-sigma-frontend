@@ -17,18 +17,19 @@ export const EditUserFormSchema = z.object({
   position: z.string().optional(),
   login_name: z.string().optional(),
   enabled: z.boolean().nullable(),
-  files: z
-    .array(z.instanceof(File))
-    .min(1, { message: MESSAGES_USERS['5.26'] })
-    .refine((files) => files.every((file) => VALID_TYPES.includes(file.type)), {
-      message: 'Formato de arquivo inválido. Permitidos: PNG, JPG, JPEG e PDF.'
-    })
-    .refine(
-      (files) => files.every((file) => file.size <= MAX_SIZE_MB * 1024 * 1024),
-      { message: 'Cada arquivo deve ter no máximo 10MB.' }
-    )
-    .optional(),
-  description: z.string().optional()
+    files: z
+      .array(z.instanceof(File))
+      .refine((files: Blob[]) => files.every((file: Blob) => VALID_TYPES.includes(file.type)), {
+        message: MESSAGES_USERS['5.20']
+      })
+      .refine(
+        (files: Blob[]) => files.every((file: Blob) => file.size <= MAX_SIZE_MB * 1024 * 1024),
+        { message: MESSAGES_USERS['5.31'] }
+      )
+      .optional(),
+    description: z.string().max(255, {
+      message: MESSAGES_USERS['5.32']
+    }).optional()
 })
 
 export type EditUserFormType = z.infer<typeof EditUserFormSchema>
