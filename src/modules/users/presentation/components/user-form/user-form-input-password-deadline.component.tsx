@@ -1,5 +1,4 @@
 import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
-import { InputPassword } from '@/modules/shared/presentation/components/input-password/input-password.component'
 import {
   FormControl,
   FormField,
@@ -7,39 +6,40 @@ import {
   FormLabel,
   FormMessage
 } from '@/modules/shared/presentation/components/shadcn/form'
+import { Input } from '@/modules/shared/presentation/components/shadcn/input'
 import { useFormContext } from 'react-hook-form'
 
-interface UserFormInputPasswordComponentProps {
+interface UserFormInputPasswordDeadlineComponentProps {
   require?: boolean
   description?: string
 }
 
-export function UserFormInputPasswordComponent({
+export function UserFormInputPasswordDeadlineComponent({
   require,
   description
-}: UserFormInputPasswordComponentProps) {
+}: UserFormInputPasswordDeadlineComponentProps) {
   const { control } = useFormContext()
+
   return (
     <FormField
-      name="password"
+      name="passwd_reg_deadline"
       control={control}
       render={({ field }) => (
         <FormItem>
           <FormLabel
             className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50"
-            htmlFor="password-user"
+            htmlFor="password-deadline-user"
           >
-            Senha{require ? ': *' : ':'}
+            Tempo de expiração de senha (Dias){require ? ': *' : ':'}
             <HelpMeButtonComponent description={description} />
           </FormLabel>
           <FormControl>
-            <InputPassword
-              className="text-zinc-950 focus:dark:border-zinc-50 dark:text-zinc-50 dark:border-zinc-800 !mt-1
-              autofill:dark:border-zinc-800 autofill::dark:shadow-none"
-              id="password-user"
-              name="password-user"
+            <Input
+              type="number"
+              id="password-deadline-user"
               autoComplete="off"
-              placeholder="Digite sua senha aqui"
+              className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"
+              onChange={(e) => field.onChange(e.target.valueAsNumber)}
               {...field}
             />
           </FormControl>

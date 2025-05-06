@@ -5,7 +5,7 @@ import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { useFormContext } from 'react-hook-form'
 
 interface UserFormSubmitComponentProps {
-  onSubmit: (user: UserEntity) => Promise<void>
+  onSubmit: (user: UserEntity) => void
 }
 
 export function UserFormSubmitComponent({
