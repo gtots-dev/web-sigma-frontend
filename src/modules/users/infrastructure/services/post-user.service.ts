@@ -4,29 +4,20 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
 import type { PostUserServiceInterface } from '../../domain/interfaces/post-user-service.interface'
-import type { UserEntity } from '../../domain/entities/user.entity'
-import { FormDataConverterFactory } from '@/modules/shared/infrastructure/factories/form-data-converter.factory'
 
 export class PostUserService implements PostUserServiceInterface {
   constructor(private readonly executeRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(
     token: TokenEntities,
-    user: UserEntity,
+    user: FormData,
     operationSelectedId?: number
   ): HttpRequestConfig<FormData> {
-    const converterJsonToFormData = FormDataConverterFactory.create()
-    const userFormData = converterJsonToFormData.execute<
-      Partial<UserEntity> & { operation_id?: number }
-    >({
-      ...user,
-      operation_id: operationSelectedId
-    })
-
+    user.append('operation_id', String(operationSelectedId))
     return {
       method: 'POST',
       url: `/users/`,
-      data: userFormData,
+      data: user,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
@@ -35,7 +26,7 @@ export class PostUserService implements PostUserServiceInterface {
 
   async execute(
     token: TokenEntities,
-    user: UserEntity,
+    user: FormData,
     operationSelectedId?: number
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
@@ -43,9 +34,8 @@ export class PostUserService implements PostUserServiceInterface {
       user,
       operationSelectedId
     )
-    const { success, data, status, message }: HttpResponse<null> =
+    const { success, data, status }: HttpResponse<null> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    console.table({ success, data, status, message })
     HttpResponseUserValidator.validate(success, data, status)
   }
 }
