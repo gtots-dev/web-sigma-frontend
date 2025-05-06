@@ -6,24 +6,23 @@ import {
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
 import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
-import type { UserInterface } from '@/modules/users/domain/interfaces/user.interface'
 import type { ReactNode } from 'react'
+import { useTableUser } from '../../contexts/table-user.context'
 
 interface TableUsersItemComponentProps {
   children: ReactNode
-  user: UserInterface
 }
 
 const truncateText =
-  'h-[52.5px] max-w-[150px] truncate whitespace-nowrap overflow-hidden'
-const baseCell = 'px-5 sm:px-10 text-zinc-700 dark:text-zinc-50'
+  'h-auto md:h-[52.5px] sm:max-w-full truncate whitespace-nowrap overflow-hidden'
+const baseCell = 'ps-5 sm:ps-10 text-zinc-700 dark:text-zinc-50'
 
 export function TableUsersItemComponent({
-  user,
   children
 }: TableUsersItemComponentProps) {
-  const isMedium = useMediaQuery('(min-width: 768px)')
+  const user = useTableUser()
   const isLarge = useMediaQuery('(min-width: 1024px)')
+  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
 
   const renderSkeleton = () => (
     <TableRow>
@@ -35,10 +34,10 @@ export function TableUsersItemComponent({
 
   const renderCompactView = () => (
     <TableCell className={`${baseCell} flex flex-col gap-y-0.5`}>
-      <span title={user.name} className={truncateText}>
+      <span title={user.name} className={`${truncateText} !h-auto`}>
         {user.name}
       </span>
-      <span title={user.email} className={truncateText}>
+      <span title={user.email} className={`${truncateText} !h-auto`}>
         {user.email}
       </span>
     </TableCell>
@@ -46,28 +45,38 @@ export function TableUsersItemComponent({
 
   const renderExpandedView = () => (
     <>
-      <TableCell className={`${baseCell} ${truncateText}`}>
+      <TableCell
+        className={`${baseCell} ${truncateText} flex items-center gap-x-3.5`}
+      >
+        {!user.enabled ? (
+          <span className="block bg-red-500 outline-2 outline outline-red-600 h-1 w-1 rounded-full"></span>
+        ) : (
+          <span className="block bg-green-500 outline-2 outline outline-green-600 h-1 w-1 rounded-full"></span>
+        )}
+
         {user.name}
       </TableCell>
-      <TableCell className={`${baseCell} ${truncateText}`}>
-        {user.email}
-      </TableCell>
       {isLarge && (
+        <TableCell className={`${baseCell} ${truncateText}`}>
+          {user.email}
+        </TableCell>
+      )}
+      {isExtraLarge && (
         <TableCell className={`${baseCell} ${truncateText}`}>
           {user.company}
         </TableCell>
       )}
     </>
   )
-  
-  if (isMedium === undefined || isLarge === undefined) {
+
+  if (isExtraLarge === undefined || isLarge === undefined) {
     return renderSkeleton()
   }
 
   return (
     <TableRow>
-      {isMedium ? renderExpandedView() : renderCompactView()}
-      <TableCell className="px-5 sm:px-10 text-right" colSpan={1}>
+      {isLarge ? renderExpandedView() : renderCompactView()}
+      <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
         {children}
       </TableCell>
     </TableRow>
