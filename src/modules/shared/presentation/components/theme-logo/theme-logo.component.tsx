@@ -1,6 +1,6 @@
 import { cn } from '@/modules/shared/presentation/lib/utils'
 
-interface AuthenticationCardThemeLogoComponentProps {
+interface ThemeLogoComponentProps {
   logoLightSrc: string
   logoLightAlt: string
   logoDarkSrc: string
@@ -9,14 +9,14 @@ interface AuthenticationCardThemeLogoComponentProps {
   isMobileOnly?: boolean
 }
 
-export function AuthenticationCardThemeLogoComponent({
+export function ThemeLogoComponent({
   logoLightSrc,
   logoLightAlt,
   logoDarkSrc,
   logoDarkAlt,
   className,
   isMobileOnly = false
-}: AuthenticationCardThemeLogoComponentProps) {
+}: ThemeLogoComponentProps) {
   return (
     <picture>
       {['light', 'dark'].map((mode) => (
