@@ -7,4 +7,5 @@ export interface UserInterface {
   position: string
   enabled?: boolean
   password?: string
+  description?: string
 }
