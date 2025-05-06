@@ -13,8 +13,17 @@ export function DialogWithDrawerTriggerComponent({
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
-    return <DialogTrigger>{children}</DialogTrigger>
+    return (
+      <DialogTrigger
+        asChild
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
+      >
+        {children}
+      </DialogTrigger>
+    )
   }
 
-  return <DrawerTrigger>{children}</DrawerTrigger>
+  return <DrawerTrigger asChild>{children}</DrawerTrigger>
 }

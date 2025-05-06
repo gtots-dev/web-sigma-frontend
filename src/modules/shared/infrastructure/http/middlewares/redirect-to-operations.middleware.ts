@@ -17,23 +17,21 @@ export async function RedirectToOperationsMiddleware(
   const { pathname, origin } = req.nextUrl
   const { SYSTEM, OPERATION_OPTIONS, OPERATIONS } = PATHNAMES
 
-  const response = NextResponse.next()
+  let response = NextResponse.next()
 
-  const redirectUrl = await handleRedirectToOperationsUtil(pathname, SYSTEM, {
+  const redirectTo = await handleRedirectToOperationsUtil(pathname, SYSTEM, {
     async getAuthToken(): Promise<TokenEntities | null> {
-      const result = await auth()
-      return result?.token || null
+      const session = await auth()
+      return session?.token ?? null
     },
     decodeToken(token: TokenEntities): JwtDecodeDataInterface {
-      const jwtDecoder = JwtTokenDecodeFactory.create()
-      return jwtDecoder.decode(token.access_token)
+      return JwtTokenDecodeFactory.create().decode(token.access_token)
     },
     async getOperations(
       token: TokenEntities,
       ids: number[]
     ): Promise<OperationInterface[]> {
-      const getOperations = GetOperationsFactory.create()
-      return await getOperations.execute(token, ids)
+      return await GetOperationsFactory.create().execute(token, ids)
     },
     createOperation(data): OperationEntities {
       return OperationFactory.create(data)
@@ -42,11 +40,20 @@ export async function RedirectToOperationsMiddleware(
       const repo = SelectOperationFactory.create(req, response)
       repo.saveToCookies(operation)
     },
-    getRedirectUrl(single: boolean): string {
-      const path = single ? OPERATION_OPTIONS : OPERATIONS
-      return new URL(path, origin).toString()
+    getRedirectUrl(isSingle: boolean): string {
+      const targetPath = isSingle ? OPERATION_OPTIONS : OPERATIONS
+      return new URL(targetPath, origin).toString()
     }
   })
 
-  return redirectUrl ? NextResponse.redirect(redirectUrl) : response
+  if (redirectTo) {
+    const redirectResponse = NextResponse.redirect(redirectTo)
+    response.cookies
+      .getAll()
+      .forEach((cookie) =>
+        redirectResponse.cookies.set(cookie.name, cookie.value, cookie)
+      )
+    return redirectResponse
+  }
+  return response
 }

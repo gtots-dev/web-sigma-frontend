@@ -1,13 +1,17 @@
+'use client'
+
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import type { AuthenticationFormType } from '../schemas/authentication-form.schema'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
-import { redirect } from 'next/navigation'
 import { AuthSignInFactory } from '../../infrastructure/factories/auth-sign-in.factory'
 import { AuthSignOutFactory } from '../../infrastructure/factories/auth-sign-out.factory'
 import { DeleteSelectionOperationFactory } from '@/modules/operations/infrastructure/factories/delete-selection-operation-factory'
 
 export function useAuthenticationFormSubmitHook() {
+  const router = useRouter()
   const authSignIn = AuthSignInFactory.create()
+  const authSignOut = AuthSignOutFactory.create()
   const deleteSelectionOperation = DeleteSelectionOperationFactory.create()
 
   const [error, setError] = useState<string | null>(null)
@@ -18,19 +22,25 @@ export function useAuthenticationFormSubmitHook() {
   ): Promise<void> => {
     setError(null)
     setLoading(true)
-    const errorMessage = await authSignIn
-      .signIn(data)
-      .then(() => redirect(PATHNAMES.SYSTEM))
-    if (errorMessage) setError(errorMessage)
-    setLoading(false)
+    try {
+      await authSignIn.signIn(data)
+      router.push(PATHNAMES.SYSTEM)
+    } catch (errorMessage) {
+      setError(errorMessage)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const onSubmitSignOut = async (): Promise<void> => {
-    const authSignOut = AuthSignOutFactory.create()
     setLoading(true)
-    await deleteSelectionOperation.execute()
-    await authSignOut.signOut().then(() => redirect(PATHNAMES.AUTHENTICATION))
-    setLoading(false)
+    try {
+      await deleteSelectionOperation.execute()
+      await authSignOut.signOut()
+      router.push(PATHNAMES.AUTHENTICATION)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return { onSubmitSignIn, onSubmitSignOut, error, loading }

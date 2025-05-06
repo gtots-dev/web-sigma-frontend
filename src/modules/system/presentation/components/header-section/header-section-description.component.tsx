@@ -1,11 +1,11 @@
 import type { ReactNode } from "react"
 
-interface HeaderSystemDescriptionComponentProps {
+interface HeaderSectionDescriptionComponentProps {
   children: ReactNode
 }
 
-export function HeaderSystemDescriptionComponent({
+export function HeaderSectionDescriptionComponent({
   children
-}: HeaderSystemDescriptionComponentProps) {
+}: HeaderSectionDescriptionComponentProps) {
   return <p className="text-muted-foreground font-light text-sm">{children}</p>
 }
