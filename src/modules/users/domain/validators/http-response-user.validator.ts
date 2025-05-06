@@ -8,7 +8,9 @@ export class HttpResponseUserValidator {
     response: UserInterface | UserInterface[] | null | undefined,
     status: string
   ): void {
-    if (!success || !response || status !== HttpStatusCodeEnum.OK) {
+    const isValidStatus =
+      status === HttpStatusCodeEnum.OK || status === HttpStatusCodeEnum.CREATE
+    if (!success || !isValidStatus) {
       throw new HttpResponseError(status)
     }
   }
