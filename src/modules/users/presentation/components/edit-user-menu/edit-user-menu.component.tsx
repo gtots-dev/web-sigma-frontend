@@ -7,14 +7,17 @@ import { EditUserMenu } from '.'
 import { EditUserForm } from '../edit-user-form-provider'
 import { useTableUser } from '../../contexts/table-user.context'
 import { useEditUserSubmit } from '../../hooks/use-update-user-submit.hook'
-import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files'
 
-interface Props {
+interface AddUserMenuComponentProps {
   title: string
   description: string
 }
 
-export function EditUserMenuComponent({ title, description }: Props) {
+export function EditUserMenuComponent({
+  title,
+  description
+}: AddUserMenuComponentProps) {
   const { isOpen, close } = useDialog()
   const { onAction } = useEditUserSubmit()
   const user = useTableUser()
@@ -45,7 +48,7 @@ export function EditUserMenuComponent({ title, description }: Props) {
               Cancelar
             </Button>
             <UserForm.Submit
-              onSubmit={(user: UserEntity) => {
+              onSubmit={(user: UserWithFiles) => {
                 onAction(user)
                 close()
               }}

@@ -1,5 +1,5 @@
-import type { UserEntity } from '../../../users/domain/entities/user.entity'
+import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files'
 
 export interface PostUserRouterApiServiceInterface {
-  execute(user: UserEntity): Promise<void>
+  execute(user: UserWithFiles): Promise<void>
 }

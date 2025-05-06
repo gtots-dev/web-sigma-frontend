@@ -7,8 +7,8 @@ import { Button } from '../shadcn/button'
 
 type FileInputProps = {
   id: string
-  value?: File[]
-  onChange?: (files: File[]) => void
+  value?: Blob[]
+  onChange?: (files: Blob[]) => void
   accept?: string
   multiple?: boolean
   className?: string
@@ -16,7 +16,7 @@ type FileInputProps = {
 
 const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
   ({ id, value = [], onChange, accept, multiple, className }, ref) => {
-    const [files, setFiles] = React.useState<File[]>(value)
+    const [files, setFiles] = React.useState<Blob[]>(value)
     const [isDragging, setIsDragging] = React.useState(false)
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +25,7 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
       e.target.value = ''
     }
 
-    const handleNewFiles = (newFiles: File[]) => {
+    const handleNewFiles = (newFiles: Blob[]) => {
       const updated = [...files, ...newFiles]
       setFiles(updated)
       onChange?.(updated)

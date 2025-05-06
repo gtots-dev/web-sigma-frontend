@@ -23,7 +23,7 @@ export function UserFormInputFilesComponent({
   description
 }: UserFormInputFilesComponentProps) {
   const { control } = useFormContext()
-  const [fileList, setFileList] = useState<File[]>([])
+  const [fileList, setFileList] = useState<Blob[]>([])
 
   return (
     <FormField
