@@ -29,6 +29,8 @@ type MessageKeys =
   | '5.28'
   | '5.29'
   | '5.30'
+  | '5.31'
+  | '5.32'
 
 export const MESSAGES_USERS: Record<MessageKeys, string> = {
   '5.1': 'Usuários',
@@ -62,4 +64,6 @@ export const MESSAGES_USERS: Record<MessageKeys, string> = {
   '5.28': 'Veja mais informações sobre o usuário selecionado',
   '5.29': 'Editar Usuário',
   '5.30': 'Realize a edição dos dados para atualizar o usuário existente.',
+  '5.31': 'Cada arquivo deve ter no máximo 10MB.',
+  '5.32': 'A descrição deve ter no máximo 255 caracteres.'
 }
