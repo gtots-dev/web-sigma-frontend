@@ -40,7 +40,6 @@ export const privateRoutes: Array<string> = [
   PATHNAMES.PERMISSIONS
 ]
 export const protectedRoutes: Array<string> = [
-  PATHNAMES.AUTHENTICATION,
   PATHNAMES.SYSTEM,
   PATHNAMES.OPERATIONS,
   PATHNAMES.CONTRACTS,
