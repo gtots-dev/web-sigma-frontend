@@ -5,8 +5,7 @@ import clsx from 'clsx'
 import type { SidebarSystemItemComponentProps } from '.'
 import {
   Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent
+  CollapsibleTrigger
 } from '@/modules/shared/presentation/components/shadcn/collapsible'
 import {
   SidebarMenuSubItem,
@@ -51,7 +50,9 @@ export function SidebarSystemItemGrandchildComponent({
             onClick={handleClick}
           >
             {item.icon && <item.icon />}
-            <span className='truncate' title={item.title}>{item.title}</span>
+            <span className="truncate" title={item.title}>
+              {item.title}
+            </span>
           </Button>
           {item.items && item.isToExpand && (
             <CollapsibleTrigger className="group aspect-square">

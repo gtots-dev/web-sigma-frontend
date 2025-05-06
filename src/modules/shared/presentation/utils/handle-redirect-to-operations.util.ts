@@ -1,40 +1,36 @@
-import { PATHNAMES } from '../../infrastructure/config/pathnames.config'
-import { JwtTokenDecodeFactory } from '../../infrastructure/factories/jwt-decode.factory'
+import type { TokenEntities } from "@/modules/authentication/domain/entities/token.entity"
+import type { OperationEntities } from "@/modules/operations/domain/entities/operation.entity"
 
-interface RedirectToOperationsParams {
-  pathname: string
-  accessToken?: string
-  baseUrl: string
+export interface handleRedirectToOperationsDependencies {
+  getAuthToken(): Promise<TokenEntities | null>
+  decodeToken(token: TokenEntities): { operation_ids: number[] }
+  getOperations(token: TokenEntities, ids: number[]): Promise<OperationEntities[]>
+  createOperation(data: OperationEntities): OperationEntities
+  saveOperationToCookies(operation: OperationEntities): void
+  getRedirectUrl(single: boolean): string
 }
 
-interface RedirectResult {
-  shouldRedirect: boolean
-  redirectUrl?: string
-  selectedOperationId?: string
-}
+export async function handleRedirectToOperationsUtil(
+  pathname: string,
+  systemPath: string,
+  deps: handleRedirectToOperationsDependencies
+): Promise<string | null> {
+  if (pathname !== systemPath) return null
 
-export function handleRedirectToOperationsUtil({
-  pathname,
-  accessToken,
-  baseUrl
-}: RedirectToOperationsParams): RedirectResult {
-  if (!accessToken) return { shouldRedirect: false }
+  const token = await deps.getAuthToken()
+  if (!token?.access_token) return deps.getRedirectUrl(false)
 
-  const jwtDecode = JwtTokenDecodeFactory.create()
-  const { operation_ids } = jwtDecode.decode(accessToken)
+  const { operation_ids: operationIds } = deps.decodeToken(token)
+  if (!operationIds?.length) return null
 
-  if (!operation_ids?.length || pathname !== PATHNAMES.SYSTEM)
-    return { shouldRedirect: false }
+  const operations = await deps.getOperations(token, operationIds)
+  const hasSingleOperation = operationIds.length === 1
+  const redirectTarget = deps.getRedirectUrl(hasSingleOperation)
 
-  const redirectPath =
-    operation_ids.length === 1
-      ? PATHNAMES.OPERATION_OPTIONS
-      : PATHNAMES.OPERATIONS
-
-  return {
-    shouldRedirect: true,
-    redirectUrl: new URL(redirectPath, baseUrl).toString(),
-    selectedOperationId:
-      operation_ids.length === 1 ? String(operation_ids[0]) : undefined
+  if (hasSingleOperation && operations.length) {
+    const operation = deps.createOperation(operations[0])
+    deps.saveOperationToCookies(operation)
   }
+
+  return redirectTarget
 }

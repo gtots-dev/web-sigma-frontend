@@ -18,5 +18,5 @@ export function DialogWithDrawerHeaderComponent({
     )
   }
 
-  return <DrawerHeader className="text-left">{children}</DrawerHeader>
+  return <DrawerHeader className="py-2 px-5 border-b sm:py-6 sm:px-10 text-left">{children}</DrawerHeader>
 }

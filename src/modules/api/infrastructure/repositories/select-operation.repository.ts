@@ -1,6 +1,6 @@
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
 import type { CookieInterface } from '../../domain/interfaces/cookie-storage.interface'
-import { OperationEntities } from '@/modules/operations/domain/entities/operation.entities'
+import { OperationEntities } from '@/modules/operations/domain/entities/operation.entity'
 
 export class SelectOperationRepository {
   private static readonly COOKIE_NAME = 'operation'

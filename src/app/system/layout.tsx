@@ -4,24 +4,20 @@ import {
   SidebarProvider,
   SidebarTrigger
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
-import { SidebarData } from '@/test/mocks/sidebar-data.mock'
+import { SidebarData } from '@/modules/system/infrastructure/configs/sidebar.config'
 import { SidebarSystem } from '@/modules/system/presentation/components/sidebar-system'
 import { UserDropdown } from '@/modules/system/presentation/components/user-dropdown'
 import type { ReactNode } from 'react'
 import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
 import { ContentSystem } from '@/modules/system/presentation/components/content-system'
-import { useJwtInfo } from '@/modules/system/presentation/hooks/use-jwt-Info.hook'
+import { getUser } from '@/modules/users/presentation/utils/get-user.util'
 
 interface LayoutProps {
   children: ReactNode
 }
 
 export default async function Layout({ children }: LayoutProps) {
-  const { login_name } = await useJwtInfo()
-  const user = {
-    name: login_name,
-    email: `${login_name}@email.com.br`
-  }
+  const { name, email } = await getUser()
   return (
     <SidebarProvider>
       <SidebarSystem.Root>
@@ -31,8 +27,8 @@ export default async function Layout({ children }: LayoutProps) {
         </SidebarSystem.Content>
         <SidebarSystem.Footer>
           <UserDropdown.Root>
-            <UserDropdown.Trigger user={user} />
-            <UserDropdown.Menu user={user} />
+            <UserDropdown.Trigger user={{ name, email }} />
+            <UserDropdown.Menu user={{ name, email }} />
           </UserDropdown.Root>
         </SidebarSystem.Footer>
       </SidebarSystem.Root>
@@ -48,9 +44,13 @@ export default async function Layout({ children }: LayoutProps) {
               <UserDropdown.Trigger
                 className="ms-auto h-auto w-auto aspect-square"
                 isInfoEnabled={false}
-                user={user}
+                user={{ name, email }}
               />
-              <UserDropdown.Menu align="end" side="bottom" user={user} />
+              <UserDropdown.Menu
+                align="end"
+                side="bottom"
+                user={{ name, email }}
+              />
             </UserDropdown.Root>
           </div>
         </HeaderSystem.Root>
