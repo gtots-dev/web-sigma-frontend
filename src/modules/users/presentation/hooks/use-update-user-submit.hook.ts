@@ -8,7 +8,7 @@ export function useEditUserSubmit() {
   const { updateUser, getUsers } = useUserStore()
 
   const onAction = useCallback(
-    async (data: UserEntity) => {
+    async (data: UserEntity): Promise<void> => {
       try {
         await updateUser(data)
         await getUsers()
