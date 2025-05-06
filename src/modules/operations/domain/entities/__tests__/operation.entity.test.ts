@@ -1,4 +1,4 @@
-import { OperationEntities } from '../operation.entities'
+import { OperationEntities } from '../operation.entity'
 
 describe('OperationEntities', () => {
   test('should correctly instantiate with given operation and data', () => {

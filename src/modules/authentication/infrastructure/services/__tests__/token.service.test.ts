@@ -4,7 +4,7 @@ import { JwtValidator } from '@/modules/shared/domain/validators/jwt.validator'
 import type { UserCredentialsInterface } from '@/modules/authentication/domain/interfaces/user-credentials.interface'
 import type { OAuthResponseInterface } from '@/modules/authentication/domain/interfaces/o-auth-response.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import { TokenEntities } from '@/modules/authentication/domain/entities/token.entities'
+import { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 
 jest.mock('@/modules/shared/infrastructure/services/execute-request.service')

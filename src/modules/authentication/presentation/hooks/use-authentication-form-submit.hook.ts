@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { AuthenticationFormType } from '../schemas/authentication-form.schema'
-import { PATHNAMES } from '@/modules/shared/infrastructure/config/pathnames.config'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { redirect } from 'next/navigation'
 import { AuthSignInFactory } from '../../infrastructure/factories/auth-sign-in.factory'
 import { AuthSignOutFactory } from '../../infrastructure/factories/auth-sign-out.factory'
