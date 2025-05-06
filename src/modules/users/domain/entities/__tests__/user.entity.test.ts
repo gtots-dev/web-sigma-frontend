@@ -9,25 +9,31 @@ describe('UserEntity', () => {
     const company = 'Company Inc.'
     const position = 'Developer'
     const enabled = true
+    const password = '123'
+    const description = 'teste'
 
     const user = new UserEntity(
-      id,
       login_name,
       name,
       email,
       company,
       position,
-      enabled
+      id,
+      enabled,
+      password,
+      description
     )
 
     expect(user).toMatchObject({
-      id,
       login_name,
       name,
       email,
       company,
       position,
-      enabled
+      id,
+      enabled,
+      password,
+      description
     })
   })
 })
