@@ -1,3 +1,5 @@
+'use client'
+
 import { useForm, FormProvider } from 'react-hook-form'
 import { useEffect, useMemo } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -18,14 +20,21 @@ export function AddUserFormContextProviderComponent({
   children,
   isOpen
 }: AddUserFormContextProviderComponentProps) {
-  const defaultValues = useMemo<UserInterface>(() => ({
-    login_name: "lucas_martinez",
-    name: "Lucas Martinez",
-    email: "lucas.martinez@gtots.com.br",
-    company: "gtots",
-    position: "Desenvolvedor",
-    password: "123"
-  }), [])
+  const randomId = Math.floor(Math.random() * 1000000)
+  const defaultValues = useMemo<UserInterface>(
+    () => ({
+      login_name: '',
+      name: '',
+      email: '',
+      company: '',
+      position: '',
+      password: '',
+      files: [],
+      passwd_reg_deadline: 30,
+      description: ''
+    }),
+    []
+  )
 
   const methods = useForm<AddUserFormType>({
     resolver: zodResolver(AddUserFormSchema),
@@ -38,9 +47,5 @@ export function AddUserFormContextProviderComponent({
     }
   }, [isOpen, defaultValues, methods])
 
-  return (
-    <FormProvider {...methods}>
-      {children}
-    </FormProvider>
-  )
+  return <FormProvider {...methods}>{children}</FormProvider>
 }
