@@ -30,6 +30,7 @@ export function ThemeLogoComponent({
             className,
             isMobileOnly ? 'block sm:hidden' : 'sm:block'
           )}
+          fetchPriority="high"
         />
       ))}
     </picture>

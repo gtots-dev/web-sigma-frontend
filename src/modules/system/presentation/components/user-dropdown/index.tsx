@@ -4,7 +4,7 @@ import { UserDropdownTriggerComponent } from './user-dropdown-trigger.component'
 
 export interface UserAccountInterface {
   name: string
-  email: string
+  email?: string
 }
 
 export const UserDropdown = {
