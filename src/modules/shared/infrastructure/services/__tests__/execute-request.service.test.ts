@@ -20,7 +20,7 @@ describe('ExecuteRequest', () => {
       method: 'GET'
     }
 
-    const mockResponse: HttpResponse<any> = {
+    const mockResponse: HttpResponse<string> = {
       success: true,
       status: '200',
       data: 'Success'
@@ -28,7 +28,7 @@ describe('ExecuteRequest', () => {
 
     httpClientMock.request.mockResolvedValue(mockResponse)
 
-    const response = await executeRequest.execute<any>(mockConfig)
+    const response = await executeRequest.execute<string>(mockConfig)
 
     expect(httpClientMock.request).toHaveBeenCalledWith(mockConfig)
     expect(response).toBe(mockResponse)
@@ -44,7 +44,7 @@ describe('ExecuteRequest', () => {
 
     httpClientMock.request.mockRejectedValue(mockError)
 
-    await expect(executeRequest.execute<any>(mockConfig)).rejects.toThrow(
+    await expect(executeRequest.execute<string>(mockConfig)).rejects.toThrow(
       'Request failed'
     )
   })
