@@ -1,9 +1,11 @@
 export interface UserInterface {
-  id: number
+  id?: number
   login_name: string
   name: string
   email: string
   company: string
   position: string
-  enabled: boolean
+  enabled?: boolean
+  password?: string
+  description?: string
 }

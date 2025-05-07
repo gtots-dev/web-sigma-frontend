@@ -14,7 +14,13 @@ export function DialogWithDrawerContentComponent({
 
   if (isDesktop) {
     return (
-      <DialogContent className="flex flex-col p-0 gap-0 !rounded-2xl h-[85vh] sm:max-w-[90vw] lg:max-w-[768px] xl:max-w-[862px]">
+      <DialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        onInteractOutside={(e) => {
+          e.preventDefault()
+        }}
+        className="flex flex-col p-0 gap-0 !rounded-2xl h-[85vh] sm:max-w-[90vw] lg:max-w-[768px] xl:max-w-[862px]"
+      >
         {children}
       </DialogContent>
     )

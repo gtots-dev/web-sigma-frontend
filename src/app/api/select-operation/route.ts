@@ -4,7 +4,7 @@ import { OperationFactory } from '@/modules/operations/infrastructure/factories/
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const { id, name } = await req.json()
     if (!id || !name) {
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const response = NextResponse.next()
     const repository = SelectOperationFactory.create(req, response)
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
     if (!operation) {
       return NextResponse.json(
         { error: 'No operation found' },
-        { status: Number(HttpStatusCodeEnum.NOT_FOUND) }
+        { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
       )
     }
 
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(req: NextRequest): Promise<NextResponse> {
   try {
     const response = NextResponse.json({
       message: 'Operation selection removed'
