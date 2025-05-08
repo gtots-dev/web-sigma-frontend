@@ -6,7 +6,7 @@ import {
   FileText,
   HardDrive,
   List,
-  MapPin,
+  Columns3,
   Shield,
   UserRoundPen,
   UsersRound
@@ -68,9 +68,9 @@ export const SidebarData = {
                   ]
                 },
                 {
-                  title: 'Pontos',
+                  title: 'Grupos de Faixas',
                   url: PATHNAMES.POINTS,
-                  icon: MapPin,
+                  icon: Columns3,
                   isToExpand: true,
                   isActive: true
                 },
