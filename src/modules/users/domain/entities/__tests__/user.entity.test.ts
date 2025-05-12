@@ -9,6 +9,7 @@ describe('UserEntity', () => {
     const company = 'Company Inc.'
     const position = 'Developer'
     const enabled = true
+    const passwd_reg_deadline = 30
     const description = 'teste'
 
     const user = new UserEntity(
@@ -19,6 +20,7 @@ describe('UserEntity', () => {
       position,
       id,
       enabled,
+      passwd_reg_deadline,
       description
     )
 
@@ -30,6 +32,7 @@ describe('UserEntity', () => {
       position,
       id,
       enabled,
+      passwd_reg_deadline,
       description
     })
   })
