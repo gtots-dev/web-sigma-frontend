@@ -47,11 +47,11 @@ export class FetchHttpClient implements HttpClientInterface {
         data: parsedData
       }
     } catch (err) {
-      if (err === HttpStatusCodeEnum.INTERNAL_SERVER_ERROR) {
+      if (err === HttpStatusCodeEnum.INTERNAL_SERVER_ERROR) {        
         return {
           success: false,
           status: '500',
-          message: err?.message ?? 'Erro inesperado',
+          message: err?.detail ?? 'Erro inesperado',
           data: null
         }
       }
