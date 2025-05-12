@@ -9,7 +9,6 @@ describe('UserEntity', () => {
     const company = 'Company Inc.'
     const position = 'Developer'
     const enabled = true
-    const password = '123'
     const description = 'teste'
 
     const user = new UserEntity(
@@ -20,7 +19,6 @@ describe('UserEntity', () => {
       position,
       id,
       enabled,
-      password,
       description
     )
 
@@ -32,7 +30,6 @@ describe('UserEntity', () => {
       position,
       id,
       enabled,
-      password,
       description
     })
   })
