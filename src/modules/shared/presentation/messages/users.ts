@@ -9,6 +9,7 @@ type MessageKeys =
   | '5.8'
   | '5.9'
   | '5.10'
+  | '5.11'
   | '5.12'
   | '5.13'
   | '5.14'
@@ -42,6 +43,7 @@ export const MESSAGES_USERS: Record<MessageKeys, string> = {
   '5.8': 'A empresa é obrigatória.',
   '5.9': 'A posição é obrigatória.',
   '5.10': 'O nome de usuário é obrigatório.',
+  '5.11': 'A senha do usuário é obrigatória.',
   '5.12': 'O e-mail informado é inválido.',
   '5.13': 'Usuário já cadastrado.',
   '5.14': 'Deseja vincular este usuário ao um contrato?',
