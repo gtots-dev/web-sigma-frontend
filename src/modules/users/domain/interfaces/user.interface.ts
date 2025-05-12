@@ -5,7 +5,7 @@ export interface UserInterface {
   email: string
   company: string
   position: string
-  passwd_reg_deadline?: number
+  days_passwd_reg_deadline?: number
   enabled?: boolean
   password?: string
   description?: string

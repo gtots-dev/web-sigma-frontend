@@ -9,7 +9,7 @@ export class UserEntity implements UserInterface {
     public position: string,
     public id?: number,
     public enabled?: boolean,
-    public passwd_reg_deadline?: number,
+    public days_passwd_reg_deadline?: number,
     public password?: string,
     public description?: string
   ) {}
