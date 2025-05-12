@@ -6,6 +6,5 @@ export interface UserInterface {
   company: string
   position: string
   enabled?: boolean
-  password?: string
   description?: string
 }
