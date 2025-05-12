@@ -25,6 +25,14 @@
     login_name: z.string().nonempty({
       message: MESSAGES_USERS['5.10']
     }),
+    password: z
+      .string()
+      .nonempty({
+        message: MESSAGES_USERS['5.11']
+      })
+      .max(64, {
+        message: MESSAGES_USERS['5.9']
+      }),
     passwd_reg_deadline: z.number().nullable(),
     files: z
       .array(z.instanceof(File))

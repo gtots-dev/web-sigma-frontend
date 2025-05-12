@@ -11,6 +11,7 @@ export class UserFactory {
       company,
       position,
       enabled,
+      password,
       description
     } = user
     return new UserEntity(
@@ -21,6 +22,7 @@ export class UserFactory {
       position,
       id,
       enabled,
+      password,
       description
     )
   }
