@@ -1,3 +1,4 @@
+import { type ChangeEvent } from 'react'
 import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 import {
   FormControl,
@@ -35,12 +36,15 @@ export function UserFormInputPasswordDeadlineComponent({
           </FormLabel>
           <FormControl>
             <Input
-              type="number"
-              id="password-deadline-user"
-              autoComplete="off"
-              className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"
-              onChange={(e) => field.onChange(e.target.valueAsNumber)}
-              {...field}
+                type="number"
+                id="password-deadline-user"
+                autoComplete="off"
+                className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"
+                {...field}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const value = e.target.valueAsNumber
+                  field.onChange(Number.isNaN(value) ? undefined : value)
+                }}
             />
           </FormControl>
           <FormMessage />
