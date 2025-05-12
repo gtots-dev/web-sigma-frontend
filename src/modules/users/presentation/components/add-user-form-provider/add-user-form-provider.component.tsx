@@ -28,7 +28,7 @@ export function AddUserFormContextProviderComponent({
       position: '',
       password: '',
       files: [],
-      passwd_reg_deadline: 30,
+      days_passwd_reg_deadline: 30,
       description: ''
     }),
     []

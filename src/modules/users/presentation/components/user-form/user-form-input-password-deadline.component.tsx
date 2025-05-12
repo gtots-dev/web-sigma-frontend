@@ -23,7 +23,7 @@ export function UserFormInputPasswordDeadlineComponent({
 
   return (
     <FormField
-      name="passwd_reg_deadline"
+      name="days_passwd_reg_deadline"
       control={control}
       render={({ field }) => (
         <FormItem>

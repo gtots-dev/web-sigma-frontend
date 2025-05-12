@@ -33,7 +33,7 @@
       .max(64, {
         message: MESSAGES_USERS['5.9']
       }),
-    passwd_reg_deadline: z.number().nullable(),
+    days_passwd_reg_deadline: z.number().nullable(),
     files: z
       .array(z.instanceof(File))
       .refine((files: Blob[]) => files.every((file: Blob) => VALID_TYPES.includes(file.type)), {
