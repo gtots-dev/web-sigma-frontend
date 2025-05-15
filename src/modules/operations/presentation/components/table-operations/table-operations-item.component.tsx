@@ -11,19 +11,22 @@ import { useOperationStore } from '@/modules/system/presentation/store/operation
 import { useRouter } from 'next/navigation'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
-interface TableOperationContentRowComponentProps {
+interface TableOperationItemComponentProps {
   operation: OperationInterface
 }
 
-export function TableOperationContentRowComponent({
+export function TableOperationItemComponent({
   operation
-}: TableOperationContentRowComponentProps) {
+}: TableOperationItemComponentProps) {
   const { replace } = useRouter()
   const { setOperation } = useOperationStore()
 
   return (
     <TableRow>
-      <TableCell className="px-5 sm:px-10 text-zinc-700 dark:text-zinc-50" colSpan={3}>
+      <TableCell
+        className="px-5 sm:px-10 text-zinc-700 dark:text-zinc-50"
+        colSpan={3}
+      >
         {operation.name}
       </TableCell>
       <TableCell className="px-5 sm:px-10 text-right" colSpan={1}>

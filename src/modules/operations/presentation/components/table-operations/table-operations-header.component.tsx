@@ -3,12 +3,15 @@ import {
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
 
-interface TableOperationHeaderRowComponentProps {}
+interface TableOperationHeaderComponentProps {}
 
-export function TableOperationHeaderRowComponent({}: TableOperationHeaderRowComponentProps) {
+export function TableOperationHeaderComponent({}: TableOperationHeaderComponentProps) {
   return (
     <TableRow className="bg-muted !border-0">
-      <TableHead className="h-9 px-5 sm:px-10 text-xs rounded-tl-lg" colSpan={3}>
+      <TableHead
+        className="h-9 px-5 sm:px-10 text-xs rounded-tl-lg"
+        colSpan={3}
+      >
         Nome
       </TableHead>
       <TableHead
