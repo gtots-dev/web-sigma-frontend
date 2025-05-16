@@ -1,8 +1,7 @@
 export interface ContractInterface {
-  name: string
-  alias: string
-  enabled?: boolean
-  operation_id: number
-  cfg: string
-  id?: number
+  name: string,
+  alias: string,
+  enabled?: boolean,
+  cfg: string,
+  id?: number,
 }

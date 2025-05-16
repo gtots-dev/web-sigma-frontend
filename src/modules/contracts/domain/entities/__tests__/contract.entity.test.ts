@@ -6,13 +6,11 @@ describe('ContractEntity', () => {
     const name = 'São Paulo'
     const alias = 'Exemplo alias'
     const cfg = 'Exemplo cfg'
-    const operation_id = 1
     const enabled = true
 
     const contract = new ContractEntity(
       name,
       alias,
-      operation_id,
       cfg,
       id,
       enabled
@@ -21,7 +19,6 @@ describe('ContractEntity', () => {
     expect(contract).toMatchObject({
       name,
       alias,
-      operation_id,
       cfg,
       id,
       enabled
