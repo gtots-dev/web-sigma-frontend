@@ -1,10 +1,10 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { getToken } from 'next-auth/jwt'
 import {
   isPublicRoute,
   PATHNAMES,
   protectedRoutes
 } from '../../configs/pathnames.config'
+import { auth } from '@/auth'
 
 export async function WithAuthMiddleware(req: NextRequest) {
   const currentPathname = req.nextUrl.pathname
@@ -12,15 +12,15 @@ export async function WithAuthMiddleware(req: NextRequest) {
     currentPathname.startsWith(route)
   )
 
-  if (requiresAuth) {    
-    const token = await getToken({ req, secret: process.env.AUTH_SECRET })
+  if (requiresAuth) {
+    const session = await auth()
     const { AUTHENTICATION, SYSTEM } = PATHNAMES
 
-    if (!isPublicRoute(currentPathname) && !token) {
+    if (!session || !session.token?.access_token) {
       return NextResponse.redirect(new URL(AUTHENTICATION, req.url))
     }
 
-    if (isPublicRoute(currentPathname) && token) {
+    if (isPublicRoute(currentPathname) && session.token?.access_token) {
       return NextResponse.redirect(new URL(SYSTEM, req.url))
     }
   }

@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react'
 
-interface HeaderSystemRootComponentProps {
+interface HeaderSectionRootComponentProps {
   children: ReactNode
 }
 
-export function HeaderSystemRootComponent({
+export function HeaderSectionRootComponent({
   children
-}: HeaderSystemRootComponentProps) {
+}: HeaderSectionRootComponentProps) {
   return (
     <header className="flex flex-col w-full justify-center gap-2">
       {children}

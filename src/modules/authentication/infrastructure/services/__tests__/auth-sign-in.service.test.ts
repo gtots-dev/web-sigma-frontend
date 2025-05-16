@@ -43,6 +43,7 @@ describe('AuthSignInService', () => {
     }
 
     const errorMessage = 'Invalid credentials'
+
     ;(authSignInRepositoryMock.execute as jest.Mock).mockResolvedValue({
       code: 'INVALID_CREDENTIALS',
       error: true
@@ -50,13 +51,12 @@ describe('AuthSignInService', () => {
 
     jest.spyOn(AuthMessagesError, 'message').mockReturnValue(errorMessage)
 
-    const result = await authSignInService.signIn(data)
+    await expect(authSignInService.signIn(data)).rejects.toBe(errorMessage)
 
     expect(authSignInRepositoryMock.execute).toHaveBeenCalledWith({
       data,
       type: 'credentials',
       options: { redirect: false }
     })
-    expect(result).toBe(errorMessage)
   })
 })

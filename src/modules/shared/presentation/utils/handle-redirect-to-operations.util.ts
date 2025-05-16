@@ -1,10 +1,13 @@
-import type { TokenEntities } from "@/modules/authentication/domain/entities/token.entity"
-import type { OperationEntities } from "@/modules/operations/domain/entities/operation.entity"
+import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
+import type { OperationEntities } from '@/modules/operations/domain/entities/operation.entity'
 
 export interface handleRedirectToOperationsDependencies {
   getAuthToken(): Promise<TokenEntities | null>
   decodeToken(token: TokenEntities): { operation_ids: number[] }
-  getOperations(token: TokenEntities, ids: number[]): Promise<OperationEntities[]>
+  getOperations(
+    token: TokenEntities,
+    ids: number[]
+  ): Promise<OperationEntities[]>
   createOperation(data: OperationEntities): OperationEntities
   saveOperationToCookies(operation: OperationEntities): void
   getRedirectUrl(single: boolean): string

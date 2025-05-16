@@ -1,6 +1,7 @@
 import type { HttpRequestConfig } from '../../../domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '../../../domain/interfaces/http-response.interface'
 import type { HttpClientInterface } from '../../../domain/interfaces/http-client.interface'
+import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 
 export class FetchHttpClient implements HttpClientInterface {
   constructor(private readonly baseURL: string) {}
@@ -29,23 +30,32 @@ export class FetchHttpClient implements HttpClientInterface {
         }
       )
 
-      const rawText = await response.text()
-      const parsedData = this.safeParseJSON<T>(rawText)
+      const parsedData = await response.json()
+      const status = String(response.status)
+      const success = response.ok
 
+      if (!success) {
+        throw {
+          success,
+          status,
+          message: JSON.stringify(parsedData)
+        }
+      }
       return {
-        success: response.ok,
-        status: String(response.status),
-        data: response.ok ? parsedData : null,
-        message: response.ok ? undefined : response.statusText
+        success,
+        status,
+        data: parsedData
       }
     } catch (err) {
-      const error = err as Error
-      return {
-        success: false,
-        status: '500',
-        data: null,
-        message: error?.message
+      if (err === HttpStatusCodeEnum.INTERNAL_SERVER_ERROR) {        
+        return {
+          success: false,
+          status: '500',
+          message: err?.detail ?? 'Erro inesperado',
+          data: null
+        }
       }
+      return err
     }
   }
 
@@ -64,14 +74,5 @@ export class FetchHttpClient implements HttpClientInterface {
 
     const queryString = query.toString()
     return queryString ? `?${queryString}` : ''
-  }
-
-  private safeParseJSON<T>(text: string): T | null {
-    if (!text) return null
-    try {
-      return JSON.parse(text) as T
-    } catch {
-      return null
-    }
   }
 }

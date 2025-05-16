@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react'
 
-interface HeaderSystemTitleComponentProps {
+interface HeaderSectionTitleComponentProps {
   children: ReactNode
 }
 
-export function HeaderSystemTitleComponent({
+export function HeaderSectionTitleComponent({
   children
-}: HeaderSystemTitleComponentProps) {
+}: HeaderSectionTitleComponentProps) {
   return <h2 className='text-4xl font-medium'>{children}</h2>
 }
