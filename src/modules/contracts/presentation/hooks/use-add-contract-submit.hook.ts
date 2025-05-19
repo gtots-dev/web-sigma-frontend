@@ -15,6 +15,7 @@ export function useAddContractSubmit() {
           title: 'Contrato adicionado com sucesso!',
           variant: 'success'
         })
+        await getContracts()
         onSuccess?.()
       } catch (error) {
         if (error instanceof HttpResponseError) {
