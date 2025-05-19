@@ -28,7 +28,7 @@ export function AddContractMenuComponent({
           <ContractForm.Form>
             <ContractForm.Input.Name require />
             <ContractForm.Input.Alias require />
-            <ContractForm.Input.cfg require />
+            <ContractForm.Input.cfg />
           </ContractForm.Form>
 
           <AddContractMenu.Footer>
