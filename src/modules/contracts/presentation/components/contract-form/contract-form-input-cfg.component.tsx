@@ -6,7 +6,8 @@ import {
   FormLabel,
   FormMessage
 } from '@/modules/shared/presentation/components/shadcn/form'
-import { Input } from '@/modules/shared/presentation/components/shadcn/input'
+import { Textarea } from '@/modules/shared/presentation/components/shadcn/textarea'
+import { useEffect, useRef } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 interface ContractFormInputCfgComponentProps {
@@ -19,6 +20,19 @@ export function ContractFormInputCfgComponent({
   description
 }: ContractFormInputCfgComponentProps) {
   const { control } = useFormContext()
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const autoResize = () => {
+    const el = textareaRef.current
+    if (el) {
+      el.style.height = 'auto'
+      el.style.height = `${el.scrollHeight}px`
+    }
+  }
+
+  useEffect(() => {
+    autoResize()
+  }, [])
 
   return (
     <FormField
@@ -34,13 +48,20 @@ export function ContractFormInputCfgComponent({
             <HelpMeButtonComponent description={description} />
           </FormLabel>
           <FormControl>
-            <Input
-              type="text"
+            <Textarea
               id="cfg-contract"
               autoComplete="off"
               className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"
-              placeholder="Coloque aqui a configuração"
+              placeholder="Adicione a configuração desejada."
               {...field}
+              ref={(el) => {
+                textareaRef.current = el
+                field.ref(el)
+              }}
+              onInput={(e) => {
+                field.onChange(e)
+                autoResize()
+              }}
             />
           </FormControl>
           <FormMessage />
