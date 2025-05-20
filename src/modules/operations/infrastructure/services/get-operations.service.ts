@@ -12,14 +12,14 @@ export class GetOperationsService implements GetOperationsServiceInterface {
   getHttpRequestConfig(
     token: TokenEntities,
     ids?: number[]
-  ): HttpRequestConfig<null, { id: number[] }> {
+  ): HttpRequestConfig<null, { ids: number[] }> {
     return {
       method: 'GET',
       url: '/operations',
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       },
-      params: { id: ids }
+      params: { ids }
     }
   }
 
