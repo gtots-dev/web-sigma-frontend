@@ -5,12 +5,12 @@ import type { UserFileInterface } from '../interfaces/user-file.interface'
 export class HttpResponseUserFilesValidator {
   static validate(
     success: boolean,
-    response: UserFileInterface | UserFileInterface[] | null | undefined,
+    response: UserFileInterface | UserFileInterface[],
     status: string
   ): void {
     const isValidStatus =
       status === HttpStatusCodeEnum.OK
-    if (!success || !isValidStatus) {
+    if (!success || !response || !isValidStatus) {
       throw new HttpResponseError(status)
     }
   }
