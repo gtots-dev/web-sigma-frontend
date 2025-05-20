@@ -1,12 +1,10 @@
 'use client'
 
-import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_USERS } from '@/modules/shared/presentation/messages/users'
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { TableUsers } from '@/modules/users/presentation/components/table-users'
-import { Filter, Search } from 'lucide-react'
 import { UserOptionsDropdown } from '@/modules/users/presentation/components/user-options-dropdown'
 import { AddUserMenuComponent } from '@/modules/users/presentation/components/add-user-menu/add-user-menu.component'
 import { AddUserMenu } from '@/modules/users/presentation/components/add-user-menu'
