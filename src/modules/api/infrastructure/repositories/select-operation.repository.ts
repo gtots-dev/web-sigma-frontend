@@ -35,7 +35,7 @@ export class SelectOperationRepository {
   }
 
   removeFromCookies() {
-    this.cookie.set('operation', '', {
+    this.cookie.set(SelectOperationRepository.COOKIE_NAME, '', {
       httpOnly: true,
       path: '/',
       maxAge: 0
