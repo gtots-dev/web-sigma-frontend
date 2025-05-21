@@ -4,6 +4,8 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { ViewMoreUserMenu } from '.'
 import { useDialog } from './view-more-user-menu-provider.component'
 import { useTableUser } from '../../contexts/table-user.context'
+import { useUserFilesStore } from '../../stores/user-files.store'
+import type { UserFileInterface } from '@/modules/users/domain/interfaces/user-file.interface'
 
 interface ViewMoreUserMenuComponentProps {
   title: string
@@ -15,6 +17,7 @@ export function ViewMoreUserMenuComponent({
   description
 }: ViewMoreUserMenuComponentProps) {
   const { close } = useDialog()
+  const { files } = useUserFilesStore()
   const {
     name,
     email,
@@ -81,12 +84,17 @@ export function ViewMoreUserMenuComponent({
               title="Arquivos anexados"
               notFoundData="Sem Informação"
             >
-              <ViewMoreUserMenu.Group>
-                <ViewMoreUserMenu.Item.file
-                  title="Nome"
-                  fileName="simple.pdf"
-                />
-              </ViewMoreUserMenu.Group>
+              {files.length !== 0 && (
+                <ViewMoreUserMenu.Group>
+                  {files.map(({ id, original_name }: UserFileInterface) => (
+                    <ViewMoreUserMenu.Item.file
+                      key={id}
+                      title="Nome"
+                      fileName={original_name}
+                    />
+                  ))}
+                </ViewMoreUserMenu.Group>
+              )}
             </ViewMoreUserMenu.Item.data>
           </ViewMoreUserMenu.Group>
         </main>
