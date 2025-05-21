@@ -6,6 +6,8 @@ import { useDialog } from './view-more-user-menu-provider.component'
 import { useTableUser } from '../../contexts/table-user.context'
 import { useUserFilesStore } from '../../stores/user-files.store'
 import type { UserFileInterface } from '@/modules/users/domain/interfaces/user-file.interface'
+import { useUserFileStore } from '../../stores/user-file.store'
+import { useDownloadFile } from '@/modules/shared/presentation/hooks/use-download-file'
 
 interface ViewMoreUserMenuComponentProps {
   title: string
@@ -16,8 +18,10 @@ export function ViewMoreUserMenuComponent({
   title,
   description
 }: ViewMoreUserMenuComponentProps) {
+  const { download } = useDownloadFile()
   const { close } = useDialog()
   const { files } = useUserFilesStore()
+  const { getUserFile } = useUserFileStore()
   const {
     name,
     email,
@@ -86,13 +90,20 @@ export function ViewMoreUserMenuComponent({
             >
               {files.length !== 0 && (
                 <ViewMoreUserMenu.Group>
-                  {files.map(({ id, original_name }: UserFileInterface) => (
-                    <ViewMoreUserMenu.Item.file
-                      key={id}
-                      title="Nome"
-                      fileName={original_name}
-                    />
-                  ))}
+                  {files.map(
+                    ({ id, original_name, user_id }: UserFileInterface) => (
+                      <ViewMoreUserMenu.Item.file
+                        key={id}
+                        title="Nome"
+                        fileName={original_name}
+                        action={() =>
+                          getUserFile(user_id, id).then((file: Blob) =>
+                            download(file, original_name)
+                          )
+                        }
+                      />
+                    )
+                  )}
                 </ViewMoreUserMenu.Group>
               )}
             </ViewMoreUserMenu.Item.data>
