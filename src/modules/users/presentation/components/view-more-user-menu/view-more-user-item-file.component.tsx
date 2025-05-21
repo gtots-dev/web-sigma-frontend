@@ -16,7 +16,10 @@ export function ViewMoreUserItemFileComponent({
     <section className="flex items-center justify-between w-full h-[60px] gap-4 rounded-md border border-input p-3.5">
       <div className="flex flex-col gap-0.5 overflow-hidden">
         <h4 className="text-xs truncate">{title}:</h4>
-        <span className="text-sm underline underline-offset-4 opacity-80 truncate">
+        <span
+          className="text-sm underline underline-offset-4 opacity-80 truncate"
+          title={fileName}
+        >
           {fileName}
         </span>
       </div>
