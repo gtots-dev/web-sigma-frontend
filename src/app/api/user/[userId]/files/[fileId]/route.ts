@@ -1,18 +1,28 @@
 import { auth } from '@/auth'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import { GetUserFilesFactory } from '@/modules/users/infrastructure/factories/get-user-files.factory'
+import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import type { UserFileInterface } from '@/modules/users/domain/interfaces/user-file.interface'
+import { GetUserFileFactory } from '@/modules/users/infrastructure/factories/get-user-file.factory'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: number } }
-): Promise<NextResponse> {
+  {
+    params
+  }: {
+    params: Promise<{
+      userId: UserEntity['id']
+      fileId: UserFileInterface['id']
+    }>
+  }
+): Promise<Blob | NextResponse> {
   try {
+    const { fileId, userId } = await params
     const { token } = await auth()
-    const getUserFilesFactory = GetUserFilesFactory.create()
-    const response = await getUserFilesFactory.execute(token, params.id)
-    return NextResponse.json(response, {
+    const getUserFileFactory = GetUserFileFactory.create()
+    const response = await getUserFileFactory.execute(token, userId, fileId)
+    return new NextResponse(response, {
       status: Number(HttpStatusCodeEnum.OK)
     })
   } catch (error) {
