@@ -11,7 +11,7 @@ export class UserFactory {
       company,
       position,
       enabled,
-      password,
+      days_passwd_reg_deadline,
       description
     } = user
     return new UserEntity(
@@ -22,7 +22,7 @@ export class UserFactory {
       position,
       id,
       enabled,
-      password,
+      days_passwd_reg_deadline,
       description
     )
   }
