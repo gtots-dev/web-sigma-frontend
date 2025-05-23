@@ -14,6 +14,11 @@ export const InputPassword = forwardRef<
     setIsPasswordVisible((prevState) => !prevState)
   }, [])
 
+  const cleanedProps = {
+    ...props,
+    ...(value !== undefined ? { defaultValue: undefined } : {})
+  }
+
   const isInputEmpty = !value
 
   return (
@@ -23,7 +28,7 @@ export const InputPassword = forwardRef<
         type={isPasswordVisible ? 'text' : 'password'}
         className={cn('hide-password-toggle pr-10', className)}
         value={value}
-        {...props}
+        {...cleanedProps}
       />
       <Button
         type="button"
@@ -40,7 +45,10 @@ export const InputPassword = forwardRef<
             aria-hidden="true"
           />
         ) : (
-          <EyeOffIcon className="h-4 w-4 text-zinc-950 dark:text-zinc-50" aria-hidden="true" />
+          <EyeOffIcon
+            className="h-4 w-4 text-zinc-950 dark:text-zinc-50"
+            aria-hidden="true"
+          />
         )}
       </Button>
     </div>
