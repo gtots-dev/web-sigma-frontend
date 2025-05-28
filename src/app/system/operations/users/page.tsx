@@ -12,6 +12,9 @@ import { EditUserMenu } from '@/modules/users/presentation/components/edit-user-
 import { EditUserMenuComponent } from '@/modules/users/presentation/components/edit-user-menu/edit-user-menu.component'
 import { ViewMoreUserMenu } from '@/modules/users/presentation/components/view-more-user-menu'
 import { ViewMoreUserMenuComponent } from '@/modules/users/presentation/components/view-more-user-menu/view-more-user-menu.component'
+import { PutUserPasswordResetMenuComponent } from '@/modules/users/presentation/components/put-user-password-reset-menu/put-user-password-reset-menu.component'
+import { PutUserPasswordResetMenu } from '@/modules/users/presentation/components/put-user-password-reset-menu'
+import { MESSAGES_PASSWORD_RESET } from '@/modules/shared/presentation/messages/password-reset'
 
 interface Data {
   title: string
@@ -22,6 +25,8 @@ interface Data {
   menuEditUserDescription: string
   menuViewMoreUserTitle: string
   menuViewMoreUserDescription: string
+  menuPasswordResetUserTitle: string
+  menuPasswordResetUserDescription: string
 }
 
 export default function UsersPage() {
@@ -33,7 +38,9 @@ export default function UsersPage() {
     menuEditUserTitle: MESSAGES_USERS['5.29'],
     menuEditUserDescription: MESSAGES_USERS['5.30'],
     menuViewMoreUserTitle: MESSAGES_USERS['5.27'],
-    menuViewMoreUserDescription: MESSAGES_USERS['5.28']
+    menuViewMoreUserDescription: MESSAGES_USERS['5.28'],
+    menuPasswordResetUserTitle: MESSAGES_PASSWORD_RESET['2.14'],
+    menuPasswordResetUserDescription: MESSAGES_PASSWORD_RESET['2.15']
   }
 
   return (
@@ -60,25 +67,34 @@ export default function UsersPage() {
           <TableUsers.Item>
             <ViewMoreUserMenu.Provider>
               <EditUserMenu.Provider>
-                <UserOptionsDropdown.Root>
-                  <UserOptionsDropdown.Trigger />
-                  <UserOptionsDropdown.Menu>
-                    <UserOptionsDropdown.Item>
-                      <EditUserMenu.Trigger />
-                    </UserOptionsDropdown.Item>
-                    <UserOptionsDropdown.Item>
-                      <ViewMoreUserMenu.Trigger />
-                    </UserOptionsDropdown.Item>
-                  </UserOptionsDropdown.Menu>
-                </UserOptionsDropdown.Root>
-                <ViewMoreUserMenuComponent
-                  title={data.menuViewMoreUserTitle}
-                  description={data.menuViewMoreUserDescription}
-                />
-                <EditUserMenuComponent
-                  title={data.menuEditUserTitle}
-                  description={data.menuEditUserDescription}
-                />
+                <PutUserPasswordResetMenu.Provider>
+                  <UserOptionsDropdown.Root>
+                    <UserOptionsDropdown.Trigger />
+                    <UserOptionsDropdown.Menu>
+                      <UserOptionsDropdown.Item>
+                        <EditUserMenu.Trigger />
+                      </UserOptionsDropdown.Item>
+                      <UserOptionsDropdown.Item>
+                        <ViewMoreUserMenu.Trigger />
+                      </UserOptionsDropdown.Item>
+                      <UserOptionsDropdown.Item>
+                        <PutUserPasswordResetMenu.Trigger />
+                      </UserOptionsDropdown.Item>
+                    </UserOptionsDropdown.Menu>
+                  </UserOptionsDropdown.Root>
+                  <ViewMoreUserMenuComponent
+                    title={data.menuViewMoreUserTitle}
+                    description={data.menuViewMoreUserDescription}
+                  />
+                  <PutUserPasswordResetMenuComponent
+                    title={data.menuPasswordResetUserTitle}
+                    description={data.menuPasswordResetUserDescription}
+                  />
+                  <EditUserMenuComponent
+                    title={data.menuEditUserTitle}
+                    description={data.menuEditUserDescription}
+                  />
+                </PutUserPasswordResetMenu.Provider>
               </EditUserMenu.Provider>
             </ViewMoreUserMenu.Provider>
           </TableUsers.Item>
