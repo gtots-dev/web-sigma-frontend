@@ -9,35 +9,34 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/form'
 import { useFormContext } from 'react-hook-form'
 
-interface UserFormInputPasswordComponentProps {
+interface PasswordResetFormInputPasswordComponentProps {
   require?: boolean
   description?: string
 }
 
-export function UserFormInputPasswordComponent({
+export function PasswordResetFormInputPasswordComponent({
   require,
   description
-}: UserFormInputPasswordComponentProps) {
+}: PasswordResetFormInputPasswordComponentProps) {
   const { control } = useFormContext()
   return (
     <FormField
-      name="password"
+      name="newPassword"
       control={control}
       render={({ field }) => (
         <FormItem>
           <FormLabel
             className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50"
-            htmlFor="password-user"
+            htmlFor="newPassword-user"
           >
-            Senha{require ? ': *' : ':'}
+            Nova Senha{require ? ': *' : ':'}
             <HelpMeButtonComponent description={description} />
           </FormLabel>
           <FormControl>
             <InputPassword
-              className="text-zinc-950 focus:dark:border-zinc-50 dark:text-zinc-50 dark:border-zinc-800 !mt-1
-              autofill:dark:border-zinc-800 autofill::dark:shadow-none"
-              id="password-user"
-              name="password-user"
+              className="text-zinc-950 focus:dark:border-zinc-50 dark:text-zinc-50 dark:border-zinc-800 !mt-1 autofill:dark:border-zinc-800 autofill::dark:shadow-none"
+              id="newPassword-user"
+              name="newPassword-user"
               autoComplete="off"
               placeholder="Digite sua senha aqui"
               {...field}
