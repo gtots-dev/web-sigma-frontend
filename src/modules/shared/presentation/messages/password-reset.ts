@@ -12,6 +12,9 @@ type MessageKeys =
   | '2.11'
   | '2.12'
   | '2.13'
+  | '2.14'
+  | '2.15'
+  | '2.16'
 
 export const MESSAGES_PASSWORD_RESET: Record<MessageKeys, string> = {
   '2.1': 'Defina sua nova senha',
@@ -28,5 +31,9 @@ export const MESSAGES_PASSWORD_RESET: Record<MessageKeys, string> = {
   '2.11': 'A senha deve conter pelo menos um número.',
   '2.12':
     'A senha deve conter pelo menos um caractere especial (#, @, $, !, %, *, ?, &).',
-  '2.13': '© Copyright Traffic Safe Tecnologia S/A'
+  '2.13': '© Copyright Traffic Safe Tecnologia S/A',
+  '2.14': 'Solicitação de redefinição',
+  '2.15':
+    'Solicite a redefinição abaixo. Um e-mail com o link será enviado ao usuário.',
+  '2.16': 'O prazo deve ser um número inteiro maior que 0'
 }
