@@ -1,7 +1,7 @@
 'use client'
 
 import { use } from 'react'
-import type { PasswordResetFormInterface } from '@/modules/password-reset/domain/interfaces/password-reset.interface'
+import type { PasswordResetFormInterface } from '@/modules/password-reset/domain/interfaces/password-reset-form.interface'
 import { PasswordResetCard } from '@/modules/password-reset/presentation/components/password-reset-card'
 import { PasswordResetForm } from '@/modules/password-reset/presentation/components/password-reset-form'
 import { PasswordResetFormCard } from '@/modules/password-reset/presentation/components/password-reset-form-card'
