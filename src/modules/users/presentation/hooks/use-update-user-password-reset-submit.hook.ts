@@ -3,9 +3,11 @@ import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useUserStore } from '../stores/user.store'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UserPasswordResetInterface } from '../../domain/interfaces/user-password-reset.interface'
+import { useUserPasswordResetStore } from '../stores/user-password-reset.store'
 
 export function usePutUserPasswordResetSubmit() {
   const { getUsers } = useUserStore()
+  const { solicitedNewPassword } = useUserPasswordResetStore()
 
   const onAction = useCallback(
     async (
@@ -13,19 +15,21 @@ export function usePutUserPasswordResetSubmit() {
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
+        await solicitedNewPassword(userPasswordReset)
         await getUsers()
         toast({
-          title: 'Usuário atualizado com sucesso!',
+          title: 'Redefinição de senha enviada com sucesso!',
           variant: 'success',
-          description: JSON.stringify(userPasswordReset)
+          description:
+            'Verifique o e-mail do usuário selecionado, siga as instruções para redefinir a senha.'
         })
         onSuccess?.()
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao atualizar usuário',
+            title: 'Erro ao redefinir a senha',
             description:
-              'Ocorreu um problema ao tentar atualizar o usuário. Verifique e tente novamente',
+              'Ocorreu um problema ao tentar solicitar a redefinição de senha. Verifique e tente novamente',
             variant: 'destructive'
           })
         }
