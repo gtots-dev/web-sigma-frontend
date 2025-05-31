@@ -1,6 +1,6 @@
 import { MESSAGES_PASSWORD_RESET } from '@/modules/shared/presentation/messages/password-reset'
 import { z } from 'zod'
-import type { PasswordResetFormInterface } from '../../domain/interfaces/password-reset.interface'
+import type { PasswordResetFormInterface } from '../../domain/interfaces/password-reset-form.interface'
 
 export const PasswordResetFormSchema = z
   .object({
