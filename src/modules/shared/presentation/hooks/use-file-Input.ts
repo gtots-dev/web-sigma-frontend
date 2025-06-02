@@ -1,11 +1,13 @@
 import { useState, useCallback, type ChangeEvent, type DragEvent } from 'react'
-
-export interface UseFileInputOptions {
+import {
+  processNewFiles,
+  formatFileSize,
+  type FileValidationOptions
+} from '../utils/file.util'
+export interface UseFileInputOptions extends FileValidationOptions {
   initialFiles?: File[]
   onChange?: (files: File[]) => void
   maxFiles?: number
-  maxSizeInBytes?: number
-  acceptTypes?: string[]
 }
 
 export interface UseFileInputResult {
@@ -35,52 +37,20 @@ export function useFileInput(
   const [isDragging, setIsDragging] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
 
-  const validateFile = useCallback(
-    (file: File): string | null => {
-      if (maxSizeInBytes && file.size > maxSizeInBytes) {
-        return `O arquivo "${file.name}" excede o tamanho máximo permitido.`
-      }
-
-      if (
-        acceptTypes &&
-        acceptTypes.length > 0 &&
-        !acceptTypes.includes(file.type)
-      ) {
-        return `O tipo de arquivo "${file.name}" (${file.type}) não é aceito.`
-      }
-
-      return null
-    },
-    [maxSizeInBytes, acceptTypes]
-  )
-
   const updateFiles = useCallback(
     (newFiles: File[]) => {
-      const current = [...files]
-      const newValidFiles: File[] = []
-      const newErrors: string[] = []
+      const { combinedFiles, errors: newErrors } = processNewFiles(newFiles, {
+        currentFiles: files,
+        maxFiles,
+        maxSizeInBytes,
+        acceptTypes
+      })
 
-      for (const file of newFiles) {
-        const error = validateFile(file)
-        if (error) {
-          newErrors.push(error)
-        } else {
-          newValidFiles.push(file)
-        }
-      }
-
-      const combined = [...current, ...newValidFiles]
-
-      if (maxFiles && combined.length > maxFiles) {
-        newErrors.push(`Você pode enviar no máximo ${maxFiles} arquivos.`)
-        return
-      }
-
-      setFiles(combined)
+      setFiles(combinedFiles)
       setErrors(newErrors)
-      onChange?.(combined)
+      onChange?.(combinedFiles)
     },
-    [files, onChange, validateFile, maxFiles]
+    [files, onChange, maxFiles, maxSizeInBytes, acceptTypes]
   )
 
   const removeFile = useCallback(
@@ -126,17 +96,6 @@ export function useFileInput(
     },
     [updateFiles]
   )
-
-  const formatFileSize = (sizeInBytes: number) => {
-    const units = ['B', 'KB', 'MB', 'GB', 'TB']
-    let size = sizeInBytes
-    let unitIndex = 0
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024
-      unitIndex++
-    }
-    return `${size.toFixed(1)} ${units[unitIndex]}`
-  }
 
   return {
     files,
