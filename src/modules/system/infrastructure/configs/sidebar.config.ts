@@ -37,7 +37,7 @@ export const SidebarData = {
           items: [
             {
               title: 'Opções do contrato',
-              url: '',
+              url: PATHNAMES.CONTRACT_OPTIONS,
               icon: List,
               isActive: true,
               isToExpand: false,
