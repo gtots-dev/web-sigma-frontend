@@ -1,6 +1,6 @@
 'use client'
 
-import type { PasswordResetFormInterface } from '@/modules/password-reset/domain/interfaces/password-reset.interface'
+import type { PasswordResetFormInterface } from '@/modules/password-reset/domain/interfaces/password-reset-form.interface'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useFormContext } from 'react-hook-form'
 
