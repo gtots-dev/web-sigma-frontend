@@ -30,7 +30,20 @@ export class FetchHttpClient implements HttpClientInterface {
         }
       )
 
-      const parsedData = await response.json()
+      const contentType = response.headers.get('content-type') || ''
+
+      let parsedData: any
+      if (contentType.includes('application/json')) {
+        parsedData = await response.json()
+      } else if (
+        contentType.includes('application/pdf') ||
+        contentType.includes('application/octet-stream')
+      ) {
+        parsedData = await response.blob()
+      } else {
+        parsedData = await response.text()
+      }
+
       const status = String(response.status)
       const success = response.ok
 
@@ -47,7 +60,7 @@ export class FetchHttpClient implements HttpClientInterface {
         data: parsedData
       }
     } catch (err) {
-      if (err === HttpStatusCodeEnum.INTERNAL_SERVER_ERROR) {        
+      if (err === HttpStatusCodeEnum.INTERNAL_SERVER_ERROR) {
         return {
           success: false,
           status: '500',

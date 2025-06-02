@@ -7,6 +7,5 @@ export interface UserInterface {
   position: string
   days_passwd_reg_deadline?: number
   enabled?: boolean
-  password?: string
   description?: string
 }

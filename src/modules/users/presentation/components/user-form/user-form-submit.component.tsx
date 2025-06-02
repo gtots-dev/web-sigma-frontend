@@ -1,17 +1,16 @@
 'use client'
 
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
-import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files'
 import { useFormContext } from 'react-hook-form'
 
-interface UserFormSubmitComponentProps {
-  onSubmit: (user: UserWithFiles) => void
+interface UserFormSubmitComponentProps<T> {
+  onSubmit: (data: T) => void
 }
 
-export function UserFormSubmitComponent({
-  onSubmit
-}: UserFormSubmitComponentProps) {
-  const { handleSubmit } = useFormContext()
+export function UserFormSubmitComponent<T>({
+  onSubmit,
+}: UserFormSubmitComponentProps<T>) {
+  const { handleSubmit } = useFormContext<T>()
 
   return (
     <Button
