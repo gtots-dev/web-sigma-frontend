@@ -7,6 +7,7 @@ import type { ContractEntity } from '@/modules/contracts/domain/entities/contrac
 import { EditContractForm } from '../edit-contract-form-provider'
 import { ContractForm } from '../contract-form'
 import { useEditContractSubmit } from '../../hooks/use-edit-contract-submit.hook'
+import { useTableContract } from '../../contexts/table-contract.context'
 
 interface EditContractMenuComponentProps {
   title: string
@@ -18,17 +19,19 @@ export function EditContractMenuComponent({
   description
 }: EditContractMenuComponentProps) {
   const { isOpen, close } = useDialog()
+  const contract = useTableContract()
   const { onAction } = useEditContractSubmit()
 
   return (
     <EditContractMenu.Root>
       <EditContractMenu.Content>
         <EditContractMenu.Header title={title} description={description} />
-        <EditContractForm.Provider isOpen={isOpen}>
+        <EditContractForm.Provider isOpen={isOpen} contract={contract}>
           <ContractForm.Form>
             <ContractForm.Input.Name />
             <ContractForm.Input.Alias />
             <ContractForm.Input.cfg />
+            <ContractForm.Input.Enabled />
           </ContractForm.Form>
 
           <EditContractMenu.Footer>
