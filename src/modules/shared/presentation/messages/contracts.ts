@@ -17,6 +17,8 @@ type MessageKeys =
   | '3.19'
   | '3.20'
   | '3.21'
+  | '3.22'
+  | '3.23'
 
 export const MESSAGES_CONTRACTS: Record<MessageKeys, string> = {
   '3.1': 'Contratos',
@@ -37,5 +39,7 @@ export const MESSAGES_CONTRACTS: Record<MessageKeys, string> = {
   '3.18': 'Atribua as permissões desejadas ao usuário selecionado.',
   '3.19': 'Nenhuma permissão encontrada.',
   '3.20': 'Sair da vinculação de usuário?',
-  '3.21': 'Ao sair, o progresso da vinculação será perdido. Deseja continuar?'
+  '3.21': 'Ao sair, o progresso da vinculação será perdido. Deseja continuar?',
+  '3.22': 'Editar contrato',
+  '3.23': 'Altere os dados desejados para editar o contrato.'
 }

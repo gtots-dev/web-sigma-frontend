@@ -5,12 +5,17 @@ import { MESSAGES_CONTRACTS } from '@/modules/shared/presentation/messages/contr
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { AddContractMenu } from '@/modules/contracts/presentation/components/add-contract-menu'
 import { AddContractMenuComponent } from '@/modules/contracts/presentation/components/add-contract-menu/add-contract-menu.component'
+import { EditContractMenu } from '@/modules/contracts/presentation/components/edit-contract-menu'
+import { ContractOptionsDropdown } from '@/modules/contracts/presentation/components/contract-options-dropdown'
+import { EditContractMenuComponent } from '@/modules/contracts/presentation/components/edit-contract-menu/edit-contract-menu.component'
 
 interface Data {
   title: string
   description: string
   menuAddContractTitle: string
   menuAddContractDescription: string
+  menuEditContractTitle: string
+  menuEditContractDescription: string
 }
 
 export default async function ContractsPage() {
@@ -18,7 +23,9 @@ export default async function ContractsPage() {
     title: MESSAGES_CONTRACTS['3.1'],
     description: MESSAGES_CONTRACTS['3.2'],
     menuAddContractTitle: MESSAGES_CONTRACTS['3.4'],
-    menuAddContractDescription: MESSAGES_CONTRACTS['3.5']
+    menuAddContractDescription: MESSAGES_CONTRACTS['3.5'],
+    menuEditContractTitle: MESSAGES_CONTRACTS['3.22'],
+    menuEditContractDescription: MESSAGES_CONTRACTS['3.23']
   }
 
   return (
@@ -42,7 +49,22 @@ export default async function ContractsPage() {
       <TableContracts.Root>
         <TableContracts.Header />
         <TableContracts.Body>
-          <TableContracts.Item />
+          <TableContracts.Item>
+            <EditContractMenu.Provider>
+              <ContractOptionsDropdown.Root>
+                <ContractOptionsDropdown.Trigger />
+                <ContractOptionsDropdown.Menu>
+                  <ContractOptionsDropdown.Item>
+                    <EditContractMenu.Trigger />
+                  </ContractOptionsDropdown.Item>
+                </ContractOptionsDropdown.Menu>
+                <EditContractMenuComponent
+                  title={data.menuEditContractTitle}
+                  description={data.menuEditContractDescription}
+                />
+              </ContractOptionsDropdown.Root>
+            </EditContractMenu.Provider>
+          </TableContracts.Item>
         </TableContracts.Body>
       </TableContracts.Root>
     </main>
