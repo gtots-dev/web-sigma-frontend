@@ -26,7 +26,8 @@ export function EditContractFormContextProviderComponent({
       id: contract?.id,
       name: contract?.name,
       alias: contract?.alias,
-      cfg: contract?.cfg
+      cfg: contract?.cfg,
+      enabled: contract?.enabled
     }),
     [contract]
   )
