@@ -71,7 +71,9 @@ export function TableContractsItemComponent({
   return (
     <TableRow>
       {isLarge ? renderExpandedView() : renderCompactView()}
-      <TableCell className="pe-5 sm:pe-10 text-right">{children}</TableCell>
+      <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
+        {children}
+      </TableCell>
     </TableRow>
   )
 }
