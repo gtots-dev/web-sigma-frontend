@@ -97,9 +97,9 @@ export function ViewMoreUserMenuComponent({
                         title="Nome"
                         fileName={original_name}
                         action={() =>
-                          getUserFile(user_id, id).then((file: Blob) =>
+                          getUserFile(user_id, id).then((file: File) => {
                             download(file, original_name)
-                          )
+                          })
                         }
                       />
                     )

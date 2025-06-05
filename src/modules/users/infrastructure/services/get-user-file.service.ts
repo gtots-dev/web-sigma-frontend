@@ -27,9 +27,9 @@ export class GetUserFileService implements GetUserFileServiceInterface {
     token: TokenEntities,
     userId: UserEntity['id'],
     fileId: UserFileInterface['id']
-  ): Promise<Blob> {
+  ): Promise<File> {
     const settingsAuthHTTP = this.getHttpRequestConfig(token, userId, fileId)
-    const { data }: HttpResponse<Blob> =
+    const { data }: HttpResponse<File> =
       await this.executeRequest.execute(settingsAuthHTTP)
     return data
   }
