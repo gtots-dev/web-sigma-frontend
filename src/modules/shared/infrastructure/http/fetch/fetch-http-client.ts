@@ -36,9 +36,12 @@ export class FetchHttpClient implements HttpClientInterface {
       if (contentType.includes('application/json')) {
         parsedData = await response.json()
       } else if (
+        contentType.includes('image/png') ||
+        contentType.includes('image/jpeg') ||
+        contentType.includes('image/jpg') ||
         contentType.includes('application/pdf') ||
         contentType.includes('application/octet-stream')
-      ) {
+      ) {    
         parsedData = await response.blob()
       } else {
         parsedData = await response.text()
