@@ -8,7 +8,7 @@ import type { GetStaticPropsContext } from 'next'
 export async function GET(
   req: NextRequest,
   context: GetStaticPropsContext<{ userId: string; fileId: string }>
-): Promise<Response> {
+): Promise<File | Response> {
   try {
     const { fileId, userId } = context.params
     const { token } = await auth()
