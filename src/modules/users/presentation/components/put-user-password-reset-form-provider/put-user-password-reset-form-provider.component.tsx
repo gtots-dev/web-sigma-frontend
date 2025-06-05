@@ -27,7 +27,7 @@ export function PutUserPasswordResetFormContextProviderComponent({
       userId: user?.id,
       days_passwd_reg_deadline: 30
     }),
-    []
+    [user?.id]
   )
 
   const methods = useForm<PutUserPasswordResetFormType>({
