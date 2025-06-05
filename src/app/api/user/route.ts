@@ -45,41 +45,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   }
 }
 
-export async function PUT(req: NextRequest): Promise<NextResponse> {
-  const { token } = await auth()
-  const putUserFactory = PutUserFactory.create()
-  const user = await req.json()
-  try {
-    const response = await putUserFactory.execute(token, user)
-    return NextResponse.json(
-      {
-        success: true,
-        data: response
-      },
-      { status: Number(HttpStatusCodeEnum.OK) }
-    )
-  } catch (error) {
-    if (error instanceof HttpResponseError) {
-      return NextResponse.json(
-        {
-          success: false,
-          data: null,
-          message: error.message
-        },
-        { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
-      )
-    }
-    return NextResponse.json(
-      {
-        success: false,
-        data: null,
-        message: 'Erro inesperado'
-      },
-      { status: Number(HttpStatusCodeEnum.INTERNAL_SERVER_ERROR) }
-    )
-  }
-}
-
 export async function GET(): Promise<NextResponse> {
   const { token } = await auth()
   const getUsersFactory = GetUsersFactory.create()
