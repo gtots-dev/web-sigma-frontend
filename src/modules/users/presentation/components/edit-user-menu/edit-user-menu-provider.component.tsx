@@ -7,9 +7,9 @@ type EditUserMenuContextType = {
   toggle: () => void
 }
 
-const EditUserMenuContext = createContext<
-  EditUserMenuContextType | undefined
->(undefined)
+const EditUserMenuContext = createContext<EditUserMenuContextType | undefined>(
+  undefined
+)
 
 export const EditUserMenuProviderComponent = ({
   children
