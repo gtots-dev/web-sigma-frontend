@@ -24,7 +24,7 @@ export function usePasswordResetSubmit() {
         setTimeout(() => {
           redirect(PATHNAMES.AUTHENTICATION)
         }, 1000)
-      } catch (error) {
+      } catch {
         toast({
           title: 'Erro ao atualizar senha',
           description:
