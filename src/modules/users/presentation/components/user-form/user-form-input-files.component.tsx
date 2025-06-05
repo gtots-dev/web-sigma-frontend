@@ -7,10 +7,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/modules/shared/presentation/components/shadcn/form'
-import { Input } from '@/modules/shared/presentation/components/shadcn/input'
 import { useFormContext } from 'react-hook-form'
-import { Trash, X } from 'lucide-react'
-import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { FileInput } from '@/modules/shared/presentation/components/input-file/input-file.component'
 
 interface UserFormInputFilesComponentProps {
