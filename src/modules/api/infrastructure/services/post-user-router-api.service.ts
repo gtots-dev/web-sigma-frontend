@@ -19,7 +19,7 @@ export class PostUserRouterApiService
 
     if (files) {
       Object.values(files)
-        .filter((file): file is Blob => file instanceof Blob)
+        .filter((file): file is File => file instanceof File)
         .forEach((file) => {
           userFormData.append('files', file)
         })
