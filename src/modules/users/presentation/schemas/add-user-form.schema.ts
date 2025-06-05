@@ -32,15 +32,15 @@ export const AddUserFormSchema = z.object({
   files: z
     .array(z.instanceof(File))
     .refine(
-      (files: Blob[]) =>
-        files.every((file: Blob) => VALID_TYPES.includes(file.type)),
+      (files: File[]) =>
+        files.every((file: File) => VALID_TYPES.includes(file.type)),
       {
         message: MESSAGES_USERS['5.20']
       }
     )
     .refine(
-      (files: Blob[]) =>
-        files.every((file: Blob) => file.size <= MAX_SIZE_MB * 1024 * 1024),
+      (files: File[]) =>
+        files.every((file: File) => file.size <= MAX_SIZE_MB * 1024 * 1024),
       { message: MESSAGES_USERS['5.31'] }
     )
     .optional(),
