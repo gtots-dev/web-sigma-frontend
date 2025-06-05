@@ -1,4 +1,5 @@
 import { cn } from '@/modules/shared/presentation/lib/utils'
+import Image from 'next/image'
 
 interface ThemeLogoComponentProps {
   logoLightSrc: string
@@ -20,7 +21,7 @@ export function ThemeLogoComponent({
   return (
     <picture>
       {['light', 'dark'].map((mode) => (
-        <img
+        <Image
           key={mode}
           src={mode === 'light' ? logoLightSrc : logoDarkSrc}
           alt={mode === 'light' ? logoLightAlt : logoDarkAlt}
