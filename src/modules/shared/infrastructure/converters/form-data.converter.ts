@@ -21,7 +21,7 @@ export class FormDataConverter implements FormDataConverterInterface {
       if (
         key === 'files' &&
         Array.isArray(value) &&
-        value.every((item) => item instanceof File || item instanceof File)
+        value.every((item) => item instanceof File)
       ) {
         for (const file of value) {
           formData.append('files', file)
