@@ -29,7 +29,7 @@ export class FormDataConverter implements FormDataConverterInterface {
         continue
       }
 
-      if (value instanceof File || value instanceof File) {
+      if (value instanceof File) {
         formData.append(formKey, value)
         continue
       }
