@@ -16,7 +16,7 @@ export async function GET(
       fileId: UserFileInterface['id']
     }>
   }
-): Promise<Blob | NextResponse> {
+): Promise<File | NextResponse> {
   try {
     const { fileId, userId } = await params
     const { token } = await auth()
