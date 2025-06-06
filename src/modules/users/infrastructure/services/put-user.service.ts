@@ -5,22 +5,20 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
 import type { PutUserServiceInterface } from '../../domain/interfaces/put-user-service.interface'
-import { FormDataConverterFactory } from '@/modules/shared/infrastructure/factories/form-data-converter.factory'
+import type { UserEntity } from '../../domain/entities/user.entity'
 
 export class PutUserService implements PutUserServiceInterface {
-  constructor(private readonly executeRequest: ExecuteRequest) {}
+  constructor(private readonly httpRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(
     token: TokenEntities,
-    user: UserInterface
+    userId: UserEntity['id'],
+    user: FormData
   ): HttpRequestConfig<FormData> {
-    const converterJsonToFormData = FormDataConverterFactory.create()
-    const userFormData =
-      converterJsonToFormData.execute<Partial<UserInterface>>(user)
     return {
       method: 'PATCH',
-      url: `/users/${user.id}`,
-      data: userFormData,
+      url: `/users/${userId}`,
+      data: user,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
@@ -29,12 +27,12 @@ export class PutUserService implements PutUserServiceInterface {
 
   async execute(
     token: TokenEntities,
-    user: UserInterface
-  ): Promise<UserInterface> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(token, user)
+    userId: UserEntity['id'],
+    user: FormData
+  ): Promise<void> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, userId, user)
     const { success, data, status }: HttpResponse<UserInterface> =
-      await this.executeRequest.execute(settingsAuthHTTP)
+      await this.httpRequest.execute(settingsAuthHTTP)
     HttpResponseUserValidator.validate(success, data, status)
-    return data
   }
 }
