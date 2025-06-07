@@ -19,7 +19,7 @@ export async function RedirectToOperationsMiddleware(
   const { pathname, origin } = req.nextUrl
   const { SYSTEM, OPERATION_OPTIONS, OPERATIONS } = PATHNAMES
 
-  let response = NextResponse.next()
+  const response = NextResponse.next()
 
   try {
     const redirectTo = await handleRedirectToOperationsUtil(pathname, SYSTEM, {

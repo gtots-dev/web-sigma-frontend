@@ -3,9 +3,7 @@
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useDialog } from './edit-user-menu-provider.component'
 
-interface EditUserMenuTriggerComponentProps {}
-
-export function EditUserMenuTriggerComponent({}: EditUserMenuTriggerComponentProps) {
+export function EditUserMenuTriggerComponent() {
   const { open } = useDialog()
   return (
     <Button

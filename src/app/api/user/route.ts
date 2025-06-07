@@ -4,7 +4,6 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
 import { GetUsersFactory } from '@/modules/users/infrastructure/factories/get-users.factory'
 import { PostUserFactory } from '@/modules/users/infrastructure/factories/post-user.factory'
-import { PutUserFactory } from '@/modules/users/infrastructure/factories/put-user.factory'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
