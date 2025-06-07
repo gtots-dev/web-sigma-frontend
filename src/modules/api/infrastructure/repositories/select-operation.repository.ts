@@ -29,7 +29,7 @@ export class SelectOperationRepository {
       if (!cookieValue) return null
       const { id, name } = JSON.parse(cookieValue)
       return id && name ? new OperationEntities(id, name) : null
-    } catch (error) {
+    } catch {
       return null
     }
   }
