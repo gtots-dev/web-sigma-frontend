@@ -3,15 +3,9 @@ import { DropdownMenuTrigger } from '@/modules/shared/presentation/components/sh
 import { Ellipsis } from 'lucide-react'
 import type { ComponentProps } from 'react'
 
-interface UserOptionsDropdownTriggerComponentProps
-  extends ComponentProps<'button'> {
-  isInfoEnabled?: boolean
-}
-
-export function UserOptionsDropdownTriggerComponent({
-  isInfoEnabled = true,
-  ...props
-}: UserOptionsDropdownTriggerComponentProps) {
+export function UserOptionsDropdownTriggerComponent(
+  props: ComponentProps<'button'>
+) {
   return (
     <DropdownMenuTrigger asChild {...props}>
       <Button size="icon" variant="ghost" aria-label="Mais ações">

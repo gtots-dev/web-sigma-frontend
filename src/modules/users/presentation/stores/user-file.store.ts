@@ -8,7 +8,7 @@ type UserFileState = {
   getUserFile: (
     userId: UserEntity['id'],
     fileId: UserFileInterface['id']
-  ) => Promise<Blob>
+  ) => Promise<File>
 }
 
 export const useUserFileStore = create<UserFileState>(() => ({
