@@ -58,7 +58,9 @@ export default function AuthenticationPage() {
         alt={data.images.bannerImageAlt}
       >
         <ThemeLogoComponent
-          className="absolute z-50 bottom-4 left-4 h-[70px] bg-white"
+          className="absolute z-50 bottom-4 left-4 bg-white"
+          width={139}
+          height={70}
           logoLightSrc={data.images.lightLogoSrc}
           logoLightAlt={data.images.lightLogoAlt}
           logoDarkSrc={data.images.darkLogoSrc}
@@ -72,7 +74,9 @@ export default function AuthenticationPage() {
             <AuthenticationFormCard.Header>
               <ThemeLogoComponent
                 isMobileOnly={true}
-                className="h-[50px] mb-2"
+                height={50}
+                width={121}
+                className="mb-2"
                 logoLightSrc={data.images.mobileLightLogoSrc}
                 logoLightAlt={data.images.mobileLightLogoAlt}
                 logoDarkSrc={data.images.mobileDarkLogoSrc}
