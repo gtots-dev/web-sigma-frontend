@@ -9,7 +9,7 @@ export function PasswordResetFormCardFooterComponent({
 }: PasswordResetFormCardFooterComponentProps) {
   return (
     <footer className="flex gap-2">
-      <div className='h-full w-full mt-5'>{children}</div>
+      <div className="h-full w-full mt-5">{children}</div>
     </footer>
   )
 }

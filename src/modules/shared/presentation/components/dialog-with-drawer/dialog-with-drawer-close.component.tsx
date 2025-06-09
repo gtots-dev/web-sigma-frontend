@@ -15,8 +15,16 @@ export function DialogWithDrawerCloseComponent({
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
-    return <DialogClose {...props} asChild>{children}</DialogClose>
+    return (
+      <DialogClose {...props} asChild>
+        {children}
+      </DialogClose>
+    )
   }
 
-  return <DrawerClose {...props} asChild>{children}</DrawerClose>
+  return (
+    <DrawerClose {...props} asChild>
+      {children}
+    </DrawerClose>
+  )
 }

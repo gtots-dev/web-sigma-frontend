@@ -10,7 +10,7 @@ export function ThemeToggle() {
 
   return (
     <Button
-    className='bg-transparent'
+      className="bg-transparent"
       variant="outline"
       size="icon"
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}

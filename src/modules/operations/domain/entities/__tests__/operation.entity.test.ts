@@ -9,7 +9,7 @@ describe('OperationEntities', () => {
 
     expect(operation).toMatchObject({
       id: idOperation,
-      name: nameOperation,
+      name: nameOperation
     })
   })
 })

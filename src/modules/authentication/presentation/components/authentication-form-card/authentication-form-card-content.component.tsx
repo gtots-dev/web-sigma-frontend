@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import type { ReactNode } from 'react'
 
 interface AuthenticationFormCardContentComponentProps {
   children: ReactNode
@@ -7,9 +7,5 @@ interface AuthenticationFormCardContentComponentProps {
 export function AuthenticationFormCardContentComponent({
   children
 }: AuthenticationFormCardContentComponentProps) {
-  return (
-    <main className="grid gap-6">
-      {children}
-    </main>
-  )
+  return <main className="grid gap-6">{children}</main>
 }

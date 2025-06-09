@@ -7,5 +7,5 @@ interface HeaderSectionTitleComponentProps {
 export function HeaderSectionTitleComponent({
   children
 }: HeaderSectionTitleComponentProps) {
-  return <h2 className='text-4xl font-medium'>{children}</h2>
+  return <h2 className="text-4xl font-medium">{children}</h2>
 }
