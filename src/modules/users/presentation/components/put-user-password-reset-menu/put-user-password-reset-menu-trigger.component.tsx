@@ -3,9 +3,7 @@
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useDialog } from './put-user-password-reset-menu-provider.component'
 
-interface PutUserPasswordResetMenuTriggerComponentProps {}
-
-export function PutUserPasswordResetMenuTriggerComponent({}: PutUserPasswordResetMenuTriggerComponentProps) {
+export function PutUserPasswordResetMenuTriggerComponent() {
   const { open } = useDialog()
   return (
     <Button
