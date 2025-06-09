@@ -8,7 +8,7 @@ interface UserFormSubmitComponentProps<T> {
 }
 
 export function UserFormSubmitComponent<T>({
-  onSubmit,
+  onSubmit
 }: UserFormSubmitComponentProps<T>) {
   const { handleSubmit } = useFormContext<T>()
 

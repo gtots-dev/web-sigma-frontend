@@ -10,7 +10,10 @@ export function PasswordResetFormCardTitleComponent({
   ...props
 }: PasswordResetFormCardTitleComponentProps) {
   return (
-    <h1 className="text-start text-[36px] font-medium dark:text-zinc-50" {...props}>
+    <h1
+      className="text-start text-[36px] font-medium dark:text-zinc-50"
+      {...props}
+    >
       {title}
     </h1>
   )

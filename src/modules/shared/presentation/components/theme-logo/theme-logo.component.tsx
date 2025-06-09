@@ -7,6 +7,8 @@ interface ThemeLogoComponentProps {
   logoDarkSrc: string
   logoDarkAlt: string
   className?: string
+  width: number
+  height: number
   isMobileOnly?: boolean
 }
 
@@ -16,6 +18,8 @@ export function ThemeLogoComponent({
   logoDarkSrc,
   logoDarkAlt,
   className,
+  width,
+  height,
   isMobileOnly = false
 }: ThemeLogoComponentProps) {
   return (
@@ -25,8 +29,9 @@ export function ThemeLogoComponent({
           key={mode}
           src={mode === 'light' ? logoLightSrc : logoDarkSrc}
           alt={mode === 'light' ? logoLightAlt : logoDarkAlt}
+          width={width}
+          height={height}
           className={cn(
-            'aspect-auto',
             mode === 'light' ? 'dark:!hidden' : 'dark:!block grayscale !hidden',
             className,
             isMobileOnly ? 'block sm:hidden' : 'sm:block'
