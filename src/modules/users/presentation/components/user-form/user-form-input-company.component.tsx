@@ -35,7 +35,7 @@ export function UserFormInputCompanyComponent({
           <FormControl>
             <Input
               type="text"
-              name='company-user'
+              name="company-user"
               id="company-user"
               autoComplete="off"
               className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"

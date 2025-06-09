@@ -40,7 +40,7 @@ export function TableUsersBodyComponent({
           >
             <div className="flex justify-center items-center h-full gap-x-2 w-full">
               <Loader2 className="animate-spin h-4 w-4" />
-              <span className='text-sm'>Carregando ...</span>
+              <span className="text-sm">Carregando ...</span>
             </div>
           </TableCell>
         </TableRow>
