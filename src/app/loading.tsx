@@ -8,6 +8,7 @@ export default function Loading() {
         alt="Logotipo da empresa Traffic Safe"
         className="h-[100px] aspect-auto animate-pulse duration-1000"
         height={100}
+        width={250}
         fetchPriority="high"
       />
     </main>
