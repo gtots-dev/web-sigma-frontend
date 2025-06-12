@@ -50,63 +50,69 @@ export function SidebarSystemItemChildComponent({
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className="group">
-      <SidebarMenuSubItem>
-        <div className={buttonClassNames}>
-          <Button
-            className="overflow-hidden justify-start px-0 w-full hover:bg-transparent disabled:opacity-100"
-            variant="ghost"
-            disabled={isActive}
-            onClick={handleClick}
-          >
-            {item.icon && <item.icon />}
-            <span className="truncate" title={item.title}>
-              {item.title}
-            </span>
-          </Button>
-          <CollapsibleTrigger
-            className="group aspect-square"
-            disabled={isCurrentPathOperation}
-          >
-            {item.items && !isCurrentPathOperation && item.isToExpand && (
-              <ChevronRight className={rotateArrowClassNames} />
-            )}
-          </CollapsibleTrigger>
-        </div>
-        <motion.div
-          initial="closed"
-          animate={!isCurrentPathOperation && isOpen ? 'open' : 'closed'}
-          variants={variants}
-          className="overflow-hidden"
-        >
-          <SidebarMenuSub className="!me-0 pe-0">
-            {item.items.map((subItem) => (
-              <SidebarSystemItemGrandchildComponent
-                key={subItem.title}
-                item={subItem}
-                activePath={activePath}
-              />
-            ))}
-          </SidebarMenuSub>
-        </motion.div>
-        <motion.div
-          initial="closed"
-          animate={isCurrentPathOperation ? 'open' : 'closed'}
-          variants={variants}
-          className="overflow-hidden"
-        >
-          <Separator className="my-4" />
-          <div className="flex flex-col gap-1.5 p-4 rounded-lg border text-muted-foreground bg-white dark:bg-zinc-950">
-            <div className="flex items-center gap-x-1.5">
-              <CircleAlert className="h-4 w-4" />
-              <span className="text-xs font-bold">Aviso:</span>
-            </div>
-            <span className="text-xs">
-              Selecione uma operação ao lado para visualizar as seções e opções
-              correspondentes.
-            </span>
+      {item.isActive && (
+        <SidebarMenuSubItem>
+          <div className={buttonClassNames}>
+            <Button
+              className="overflow-hidden justify-start px-0 w-full hover:bg-transparent disabled:opacity-100"
+              variant="ghost"
+              disabled={isActive}
+              onClick={handleClick}
+            >
+              {item.icon && <item.icon />}
+              <span className="truncate" title={item.title}>
+                {item.title}
+              </span>
+            </Button>
+            <CollapsibleTrigger
+              className="group aspect-square"
+              disabled={isCurrentPathOperation}
+            >
+              {item.items && !isCurrentPathOperation && item.isToExpand && (
+                <ChevronRight className={rotateArrowClassNames} />
+              )}
+            </CollapsibleTrigger>
           </div>
-        </motion.div>
-      </SidebarMenuSubItem>
+          <motion.div
+            initial="closed"
+            animate={!isCurrentPathOperation && isOpen ? 'open' : 'closed'}
+            variants={variants}
+            className="overflow-hidden"
+          >
+            <SidebarMenuSub className="!me-0 pe-0">
+              {item.items.map(
+                (subItem, index, array) =>
+                  subItem.isActive && (
+                    <SidebarSystemItemGrandchildComponent
+                      key={subItem.title}
+                      item={subItem}
+                      activePath={activePath}
+                      className={index === array.length - 1 && 'mb-1'}
+                    />
+                  )
+              )}
+            </SidebarMenuSub>
+          </motion.div>
+          <motion.div
+            initial="closed"
+            animate={isCurrentPathOperation ? 'open' : 'closed'}
+            variants={variants}
+            className="overflow-hidden"
+          >
+            <Separator className="my-4" />
+            <div className="flex flex-col gap-1.5 p-4 rounded-lg border text-muted-foreground bg-white dark:bg-zinc-950">
+              <div className="flex items-center gap-x-1.5">
+                <CircleAlert className="h-4 w-4" />
+                <span className="text-xs font-bold">Aviso:</span>
+              </div>
+              <span className="text-xs">
+                Selecione uma operação ao lado para visualizar as seções e
+                opções correspondentes.
+              </span>
+            </div>
+          </motion.div>
+        </SidebarMenuSubItem>
+      )}
     </Collapsible>
   )
 }
