@@ -5,6 +5,7 @@ import { OperationSelector } from '@/modules/operation-options/presentation/comp
 import { getOperations } from '@/modules/operations/presentation/utils/get-operations.util'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_OPTIONS_OPERATION } from '@/modules/shared/presentation/messages/options-operation'
+import { PERMISSIONS_ACCESS } from '@/modules/system/infrastructure/configs/permission-access'
 import { FileKey2, FileText, UsersRound, type LucideIcon } from 'lucide-react'
 
 interface OperationCardOption {
@@ -12,6 +13,7 @@ interface OperationCardOption {
   description: string
   icon: LucideIcon
   pathName: string
+  accessAllowed: boolean
 }
 
 export default async function OperationOptionsPage() {
@@ -28,19 +30,22 @@ export default async function OperationOptionsPage() {
       title: MESSAGES_OPTIONS_OPERATION['11.4'],
       description: MESSAGES_OPTIONS_OPERATION['11.5'],
       pathName: PATHNAMES.CONTRACTS,
-      icon: FileText
+      icon: FileText,
+      accessAllowed: PERMISSIONS_ACCESS.contracts
     },
     {
       title: MESSAGES_OPTIONS_OPERATION['11.6'],
       description: MESSAGES_OPTIONS_OPERATION['11.7'],
       pathName: PATHNAMES.USERS,
-      icon: UsersRound
+      icon: UsersRound,
+      accessAllowed: PERMISSIONS_ACCESS.users
     },
     {
       title: MESSAGES_OPTIONS_OPERATION['11.8'],
       description: MESSAGES_OPTIONS_OPERATION['11.9'],
       pathName: PATHNAMES.PERMISSIONS,
-      icon: FileKey2
+      icon: FileKey2,
+      accessAllowed: PERMISSIONS_ACCESS.permissions
     }
   ]
 
@@ -63,17 +68,20 @@ export default async function OperationOptionsPage() {
         </HeaderOptions.Root>
       </CardOperationOptions.Header>
       <CardOperationOptions.Content>
-        {operationOptions.map((option, index) => (
-          <CardOption.Root key={index} pathName={option.pathName}>
-            <CardOption.Header Icon={option.icon} />
-            <CardOption.Footer>
-              <CardOption.Title>{option.title}</CardOption.Title>
-              <CardOption.Description>
-                {option.description}
-              </CardOption.Description>
-            </CardOption.Footer>
-          </CardOption.Root>
-        ))}
+        {operationOptions.map(
+          (option, index) =>
+            option.accessAllowed && (
+              <CardOption.Root key={index} pathName={option.pathName}>
+                <CardOption.Header Icon={option.icon} />
+                <CardOption.Footer>
+                  <CardOption.Title>{option.title}</CardOption.Title>
+                  <CardOption.Description>
+                    {option.description}
+                  </CardOption.Description>
+                </CardOption.Footer>
+              </CardOption.Root>
+            )
+        )}
       </CardOperationOptions.Content>
     </CardOperationOptions.Root>
   )
