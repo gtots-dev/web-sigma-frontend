@@ -16,7 +16,7 @@ export default function HeaderSystemRootComponent({
   return (
     <header
       className={cn(
-        'fixed right-0 flex-1 w-full flex justify-between h-16 border-b shrink-0 items-center gap-2 px-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-white dark:bg-zinc-950',
+        'z-50 fixed right-0 flex-1 w-full flex justify-between h-16 border-b shrink-0 items-center gap-2 px-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 bg-white dark:bg-zinc-950',
         {
           'md:w-[calc(100%-var(--sidebar-width))]': state === 'expanded'
         }
