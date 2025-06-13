@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        - APP_PORT=${APP_PORT}
+    container_name: sigma-frontend-dev
+    image: sigma-frontend-dev
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    networks:
+      - sigma-network
+
+networks:
+  sigma-network:
+    driver: bridge
+    name: sigma-network
