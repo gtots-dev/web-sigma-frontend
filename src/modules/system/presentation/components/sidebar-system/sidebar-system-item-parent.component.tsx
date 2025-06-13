@@ -22,11 +22,13 @@ export default function SidebarSystemItemParentComponent({
     <SidebarGroup className="h-full">
       <SidebarGroupLabel>Menu</SidebarGroupLabel>
       <SidebarMenu className="h-full">
-        <SidebarSystemItemChildComponent
-          key={item.title}
-          item={item}
-          activePath={pathname}
-        />
+        {item.isActive && (
+          <SidebarSystemItemChildComponent
+            key={item.title}
+            item={item}
+            activePath={pathname}
+          />
+        )}
       </SidebarMenu>
     </SidebarGroup>
   )
