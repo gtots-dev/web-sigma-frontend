@@ -9,5 +9,5 @@ export const PERMISSIONS_ACCESS = {
   points: false,
   operators: false,
   users: true,
-  permissions: false
+  permissions: true
 }
