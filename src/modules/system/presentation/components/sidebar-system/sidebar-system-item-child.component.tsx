@@ -42,7 +42,7 @@ export function SidebarSystemItemChildComponent({
   )
 
   const rotateArrowClassNames = clsx(
-    'ml-auto transition-transform duration-200 h-5 w-5 hover:opacity-50',
+    'ml-auto transition-transform duration-200 h-4 w-4 hover:opacity-50',
     {
       'rotate-90': isOpen
     }
@@ -53,25 +53,25 @@ export function SidebarSystemItemChildComponent({
       {item.isActive && (
         <SidebarMenuSubItem>
           <div className={buttonClassNames}>
+            {item.items && !isCurrentPathOperation && item.isToExpand && (
+              <CollapsibleTrigger
+                className="group aspect-square"
+                disabled={isCurrentPathOperation}
+              >
+                <ChevronRight className={rotateArrowClassNames} />
+              </CollapsibleTrigger>
+            )}
             <Button
               className="overflow-hidden justify-start px-0 w-full hover:bg-transparent disabled:opacity-100"
               variant="ghost"
               disabled={isActive}
               onClick={handleClick}
             >
-              {item.icon && <item.icon />}
+              {item.icon && <item.icon className="!w-3.5 !h-3.5" />}
               <span className="truncate" title={item.title}>
                 {item.title}
               </span>
             </Button>
-            <CollapsibleTrigger
-              className="group aspect-square"
-              disabled={isCurrentPathOperation}
-            >
-              {item.items && !isCurrentPathOperation && item.isToExpand && (
-                <ChevronRight className={rotateArrowClassNames} />
-              )}
-            </CollapsibleTrigger>
           </div>
           <motion.div
             initial="closed"
