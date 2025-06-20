@@ -27,7 +27,7 @@ export const SidebarData = {
       url: PATHNAMES.OPERATION_OPTIONS,
       icon: List,
       isActive: PERMISSIONS_ACCESS.optionsOperation,
-      isToExpand: false,
+      isToExpand: true,
       items: [
         {
           title: 'Contratos',
@@ -41,7 +41,7 @@ export const SidebarData = {
               url: '',
               icon: List,
               isActive: PERMISSIONS_ACCESS.optionsContract,
-              isToExpand: false,
+              isToExpand: true,
               items: [
                 {
                   title: 'U.P.s',
@@ -55,7 +55,7 @@ export const SidebarData = {
                       url: '',
                       icon: List,
                       isActive: PERMISSIONS_ACCESS.optionsProcessingUnits,
-                      isToExpand: false,
+                      isToExpand: true,
                       items: [
                         {
                           title: 'Faixas',
