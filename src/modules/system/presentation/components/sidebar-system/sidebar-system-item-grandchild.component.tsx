@@ -37,7 +37,7 @@ export function SidebarSystemItemGrandchildComponent({
   )
 
   const rotateArrowClassNames = clsx(
-    'ml-auto transition-transform duration-200 h-5 w-5 hover:opacity-50',
+    'ml-auto transition-transform duration-200 h-4 w-4 hover:opacity-50',
     { 'rotate-90': isOpen }
   )
 
@@ -45,24 +45,24 @@ export function SidebarSystemItemGrandchildComponent({
     <>
       {item.isActive && (
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-          <SidebarMenuSubItem className="w-full">
+          <SidebarMenuSubItem>
             <div className={cn(sidebarButtonClass, className)}>
-              <Button
-                className="overflow-hidden justify-start w-full px-0 disabled:opacity-100"
-                variant="ghost"
-                disabled={isActive}
-                onClick={handleClick}
-              >
-                {item.icon && <item.icon />}
-                <span className="truncate" title={item.title}>
-                  {item.title}
-                </span>
-              </Button>
               {item.items && item.isToExpand && (
                 <CollapsibleTrigger className="group aspect-square">
                   <ChevronRight className={rotateArrowClassNames} />
                 </CollapsibleTrigger>
               )}
+              <Button
+                className="overflow-hidden justify-start w-full h-7 px-0 py-0 disabled:opacity-100"
+                variant="ghost"
+                disabled={isActive}
+                onClick={handleClick}
+              >
+                {item.icon && <item.icon className="!h-3.5 !w-3.5" />}
+                <span className="truncate" title={item.title}>
+                  {item.title}
+                </span>
+              </Button>
             </div>
             {item.items && (
               <motion.div

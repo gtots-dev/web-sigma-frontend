@@ -2,6 +2,7 @@ import { AuthenticationCard } from '@/modules/authentication/presentation/compon
 import { AuthenticationForm } from '@/modules/authentication/presentation/components/authentication-form'
 import { AuthenticationFormCard } from '@/modules/authentication/presentation/components/authentication-form-card'
 import { ThemeLogoComponent } from '@/modules/shared/presentation/components/theme-logo/theme-logo.component'
+import { ThemeToggle } from '@/modules/shared/presentation/components/theme-toggle/theme-toggle.component'
 import { MESSAGES_AUTHENTICATION } from '@/modules/shared/presentation/messages/authentication'
 import { MESSAGES_HELP_ME } from '@/modules/shared/presentation/messages/help-me'
 
@@ -107,6 +108,7 @@ export default function AuthenticationPage() {
           </AuthenticationFormCard.Root>
         </AuthenticationForm.Root>
       </AuthenticationCard.Content>
+      <ThemeToggle className="fixed top-10 right-10" title="Altere seu tema" />
     </AuthenticationCard.Root>
   )
 }
