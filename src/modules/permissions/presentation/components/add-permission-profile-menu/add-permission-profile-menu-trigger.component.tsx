@@ -9,7 +9,7 @@ export function AddPermissionProfileMenuTriggerComponent() {
   return (
     <Button variant="primary" className="w-full sm:w-auto" onClick={open}>
       <Shield />
-      <span className="truncate">Adicionar Perfil de Permissão</span>
+      <span className="truncate">Adicionar Perfil</span>
     </Button>
   )
 }
