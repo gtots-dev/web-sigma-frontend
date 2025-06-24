@@ -8,6 +8,7 @@ import {
 import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 import { useFormContext } from 'react-hook-form'
 import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
+import { MESSAGES_PERMISSIONS } from '@/modules/shared/presentation/messages/permissions'
 
 export interface featuresInterface {
   id: number
@@ -56,7 +57,7 @@ export function PermissionProfileFormInputFeaturesComponent({
               </FormLabel>
 
               <FormControl>
-                <GroupSelector.List>
+                <GroupSelector.List messageEmpty={MESSAGES_PERMISSIONS[6.6]}>
                   {(group, item) => (
                     <GroupSelector.Item key={item.id} item={item} />
                   )}
