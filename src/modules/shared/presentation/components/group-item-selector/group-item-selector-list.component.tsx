@@ -8,7 +8,6 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/command'
 import { Fragment, ReactNode } from 'react'
 import { useGroupItemSelectorContext } from '../../contexts/group-item-selector.context'
-import { MESSAGES_PERMISSIONS } from '../../messages/permissions'
 
 export interface BaseItem {
   id: number
@@ -23,9 +22,11 @@ export interface Group<Item = BaseItem> {
 export function GroupItemSelectorList<
   Item extends { id: number; name: string }
 >({
-  children
+  children,
+  messageEmpty
 }: {
   children: (group: { name: string }, item: Item) => ReactNode
+  messageEmpty: string
 }) {
   const { searchValue, setSearchValue, searchableGroups } =
     useGroupItemSelectorContext<Item>()
@@ -39,7 +40,7 @@ export function GroupItemSelectorList<
       />
       <CommandList>
         {searchableGroups.length === 0 ? (
-          <CommandEmpty>{MESSAGES_PERMISSIONS[6.6]}</CommandEmpty>
+          <CommandEmpty>{messageEmpty}</CommandEmpty>
         ) : (
           searchableGroups.map((group, index) => (
             <Fragment key={group.name}>
