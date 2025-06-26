@@ -2,10 +2,10 @@ export const FEATURES = [
   {
     name: 'Usuários',
     features: [
-      { id: 3, name: 'Visualizar' },
-      { id: 1, name: 'Adicionar' },
-      { id: 2, name: 'Desabilitar' },
-      { id: 5, name: 'Redefinição de Senha' }
+      { id: 1, name: 'Visualizar' },
+      { id: 2, name: 'Editar' },
+      { id: 3, name: 'Desabilitar' },
+      { id: 4, name: 'Redefinição de Senha' }
     ]
   }
 ]
