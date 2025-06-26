@@ -1,10 +1,10 @@
 'use client'
 
 import { createContext, useContext } from 'react'
-import type { PermissionProfilesInterface } from '../../domain/interfaces/permission-profiles.interface'
+import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 
 export const TablePermissionProfilesContext =
-  createContext<PermissionProfilesInterface | null>(null)
+  createContext<PermissionProfileInterface | null>(null)
 
 export const useTablePermissionProfile = () => {
   const context = useContext(TablePermissionProfilesContext)

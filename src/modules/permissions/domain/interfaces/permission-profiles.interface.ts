@@ -1,6 +1,6 @@
-export interface PermissionProfilesInterface {
+export interface PermissionProfileInterface {
   id?: number
   name: string
-  features: number[]
-  enabled?: boolean
+  operation_id?: number
+  description: string
 }
