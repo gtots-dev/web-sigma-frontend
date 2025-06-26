@@ -7,7 +7,7 @@ import { AddPermissionProfileForm } from '../add-permission-profile-form-provide
 import { useDialog } from '@/modules/permissions/presentation/components/add-permission-profile-menu/add-permission-profile-menu-provider.component'
 import { FEATURES } from '@/modules/permissions/infrastructure/configs/features.config'
 import { useAddPermissionProfileSubmit } from '../../hooks/use-add-permission-profile-submit.hook'
-import type { PermissionProfilesInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
+import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 
 interface AddPermissionProfileMenuComponentProps {
   title: string
@@ -46,7 +46,7 @@ export function AddPermissionProfileMenuComponent({
               Cancelar
             </Button>
             <PermissionProfileForm.Submit
-              onSubmit={(permissionProfile: PermissionProfilesInterface) =>
+              onSubmit={(permissionProfile: PermissionProfileInterface) =>
                 onAction(permissionProfile, close)
               }
             />
