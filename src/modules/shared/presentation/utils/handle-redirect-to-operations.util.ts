@@ -4,10 +4,7 @@ import type { OperationEntity } from '@/modules/operations/domain/entities/opera
 export interface handleRedirectToOperationsDependencies {
   getAuthToken(): Promise<TokenEntities | null>
   decodeToken(token: TokenEntities): { operation_ids: number[] }
-  getOperations(
-    token: TokenEntities,
-    ids: number[]
-  ): Promise<OperationEntity[]>
+  getOperations(token: TokenEntities, ids: number[]): Promise<OperationEntity[]>
   createOperation(data: OperationEntity): OperationEntity
   saveOperationToCookies(operation: OperationEntity): void
   getRedirectUrl(single: boolean): string
