@@ -3,12 +3,12 @@
 import { create } from 'zustand'
 import { GetSelectionOperationFactory } from '@/modules/operations/infrastructure/factories/get-selection-operation-factory'
 import { SetSelectionOperationFactory } from '@/modules/operations/infrastructure/factories/set-selection-operation-factory'
-import type { OperationEntities } from '@/modules/operations/domain/entities/operation.entity'
+import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 
 interface OperationState {
-  operation: OperationEntities | null
+  operation: OperationEntity | null
   fetchOperation: () => Promise<void>
-  setOperation: (operation: OperationEntities) => Promise<void>
+  setOperation: (operation: OperationEntity) => Promise<void>
 }
 
 export const useOperationStore = create<OperationState>(
@@ -22,7 +22,7 @@ export const useOperationStore = create<OperationState>(
         set({ operation })
       },
 
-      setOperation: async (operation: OperationEntities): Promise<void> => {
+      setOperation: async (operation: OperationEntity): Promise<void> => {
         const setSelectionOperation = SetSelectionOperationFactory.create()
         await setSelectionOperation.execute(operation)
         set({ operation })

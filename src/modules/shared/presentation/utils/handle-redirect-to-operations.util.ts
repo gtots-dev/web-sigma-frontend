@@ -1,5 +1,5 @@
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { OperationEntities } from '@/modules/operations/domain/entities/operation.entity'
+import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 
 export interface handleRedirectToOperationsDependencies {
   getAuthToken(): Promise<TokenEntities | null>
@@ -7,9 +7,9 @@ export interface handleRedirectToOperationsDependencies {
   getOperations(
     token: TokenEntities,
     ids: number[]
-  ): Promise<OperationEntities[]>
-  createOperation(data: OperationEntities): OperationEntities
-  saveOperationToCookies(operation: OperationEntities): void
+  ): Promise<OperationEntity[]>
+  createOperation(data: OperationEntity): OperationEntity
+  saveOperationToCookies(operation: OperationEntity): void
   getRedirectUrl(single: boolean): string
 }
 

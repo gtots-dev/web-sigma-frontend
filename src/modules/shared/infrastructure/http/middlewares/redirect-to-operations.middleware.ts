@@ -9,7 +9,7 @@ import { JwtTokenDecodeFactory } from '../../factories/jwt-decode.factory'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { PATHNAMES } from '../../configs/pathnames.config'
 import type { JwtDecodeDataInterface } from '@/modules/shared/domain/interfaces/jwt-decode-data.interface'
-import type { OperationEntities } from '@/modules/operations/domain/entities/operation.entity'
+import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 import { HttpResponseError } from '../../errors/http-response.error'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 
@@ -36,7 +36,7 @@ export async function RedirectToOperationsMiddleware(
       ): Promise<OperationInterface[]> {
         return await GetOperationsFactory.create().execute(token, ids)
       },
-      createOperation(data): OperationEntities {
+      createOperation(data): OperationEntity {
         return OperationFactory.create(data)
       },
       saveOperationToCookies(operation): void {
