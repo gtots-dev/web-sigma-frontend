@@ -17,9 +17,7 @@ export function GroupItemSelectorToggleButton({
       onClick={toggleShowOnlySelected}
       {...props}
     >
-      {showOnlySelected
-        ? 'Mostrar todos'
-        : 'Mostrar selecionados'}
+      {showOnlySelected ? 'Mostrar todos' : 'Mostrar selecionados'}
       <Filter />
     </Button>
   )
