@@ -10,7 +10,7 @@ import type { ReactNode } from 'react'
 import { useTablePermissionProfile } from '../../contexts/table-permission-profiles.context'
 
 interface TablePermissionProfilesItemComponentProps {
-  children: ReactNode
+  children?: ReactNode
 }
 
 const truncateText =
