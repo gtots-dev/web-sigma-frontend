@@ -17,6 +17,7 @@ export type Item = {
 export interface SidebarSystemItemComponentProps {
   item: Item
   activePath: string | null
+  className?: string
 }
 
 export const SidebarSystem = {
