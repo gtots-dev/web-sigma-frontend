@@ -4,17 +4,32 @@ import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
+import { usePermissionProfileStore } from '../stores/permission-profile.store'
+import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
+
+type ExtendedPermissionProfile = PermissionProfileInterface & {
+  features: number[]
+}
 
 export function useAddPermissionProfileSubmit() {
+  const { fetchOperation } = useOperationStore()
+  const { addPermissionProfile, getPermissionProfiles, addFeatures } =
+    usePermissionProfileStore()
   const onAction = useCallback(
     async (
-      permissionProfile: PermissionProfileInterface,
+      permissionProfileForm: ExtendedPermissionProfile,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
+        const { id: operationId } = await fetchOperation()
+        const { id: permissionProfileId } = await addPermissionProfile({
+          ...permissionProfileForm,
+          operation_id: Number(operationId)
+        })
+        await addFeatures(permissionProfileForm.features, permissionProfileId)
+        await getPermissionProfiles()
         toast({
           title: 'Perfil de permissão adicionado com sucesso!',
-          description: JSON.stringify(permissionProfile),
           variant: 'success'
         })
         onSuccess?.()
@@ -29,7 +44,7 @@ export function useAddPermissionProfileSubmit() {
         }
       }
     },
-    []
+    [addPermissionProfile, getPermissionProfiles]
   )
 
   return { onAction }
