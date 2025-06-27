@@ -7,6 +7,8 @@ import { PostPermissionProfileRouterApiFactory } from '@/modules/api/infrastruct
 import { PostFeatureRouterApiFactory } from '@/modules/api/infrastructure/factories/post-feature-router-api.factory'
 import { GetFeatureRouterApiFactory } from '@/modules/api/infrastructure/factories/get-feature-router-api.factory'
 import type { PermissionProfileWithFeatureInterface } from '../../domain/interfaces/permission-profile-with-feature.interface'
+import type { FeaturesInterface } from '../../domain/interfaces/features.interface'
+import { DeleteFeatureRouterApiFactory } from '@/modules/api/infrastructure/factories/delete-feature-router-api.factory'
 
 type UserState = {
   permissionProfiles: PermissionProfileInterface[]
@@ -25,6 +27,11 @@ type UserState = {
 
   addFeatures: (
     features: number[],
+    permissionProfileId: PermissionProfileInterface['id']
+  ) => Promise<void>
+
+  deleteFeature: (
+    featureId: FeaturesInterface['id'],
     permissionProfileId: PermissionProfileInterface['id']
   ) => Promise<void>
 }
@@ -89,6 +96,24 @@ export const usePermissionProfileStore = create<UserState>((set) => ({
     try {
       const postFeatureRouterApiFactory = PostFeatureRouterApiFactory.create()
       await postFeatureRouterApiFactory.execute(features, permissionProfileId)
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
+  deleteFeature: async (
+    featureId: FeaturesInterface['id'],
+    permissionProfileId: PermissionProfileInterface['id']
+  ) => {
+    try {
+      const deleteFeatureRouterApiFactory =
+        DeleteFeatureRouterApiFactory.create()
+      await deleteFeatureRouterApiFactory.execute(
+        featureId,
+        permissionProfileId
+      )
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
