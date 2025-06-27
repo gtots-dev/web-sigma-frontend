@@ -5,15 +5,24 @@ import { GetPermissionProfilesRouterApiFactory } from '@/modules/api/infrastruct
 import type { PermissionProfileEntity } from '../../domain/entities/permission-profile.entity'
 import { PostPermissionProfileRouterApiFactory } from '@/modules/api/infrastructure/factories/post-permission-profile-router-api.factory'
 import { PostFeatureRouterApiFactory } from '@/modules/api/infrastructure/factories/post-feature-router-api.factory'
+import { GetFeatureRouterApiFactory } from '@/modules/api/infrastructure/factories/get-feature-router-api.factory'
+import type { PermissionProfileWithFeatureInterface } from '../../domain/interfaces/permission-profile-with-feature.interface'
 
 type UserState = {
   permissionProfiles: PermissionProfileInterface[]
   permissionProfile: PermissionProfileEntity | null
-  features: number[] | []
+  features: PermissionProfileWithFeatureInterface[] | []
+
   getPermissionProfiles: () => Promise<void>
+
   addPermissionProfile: (
     permissionProfileData: PermissionProfileInterface
   ) => Promise<PermissionProfileInterface>
+
+  getFeatures: (
+    permissionProfileId: PermissionProfileInterface['id']
+  ) => Promise<void>
+
   addFeatures: (
     features: number[],
     permissionProfileId: PermissionProfileInterface['id']
@@ -58,6 +67,21 @@ export const usePermissionProfileStore = create<UserState>((set) => ({
     }
   },
 
+  getFeatures: async (
+    permissionProfileId: PermissionProfileInterface['id']
+  ) => {
+    try {
+      const getFeaturesRouterApiFactory = GetFeatureRouterApiFactory.create()
+      const features =
+        await getFeaturesRouterApiFactory.execute(permissionProfileId)
+      set({ features })
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
   addFeatures: async (
     features: number[],
     permissionProfileId: PermissionProfileInterface['id']
@@ -65,7 +89,6 @@ export const usePermissionProfileStore = create<UserState>((set) => ({
     try {
       const postFeatureRouterApiFactory = PostFeatureRouterApiFactory.create()
       await postFeatureRouterApiFactory.execute(features, permissionProfileId)
-      set({ features })
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
