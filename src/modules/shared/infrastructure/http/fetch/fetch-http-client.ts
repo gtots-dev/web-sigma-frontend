@@ -68,6 +68,8 @@ export class FetchHttpClient implements HttpClientInterface {
         data: parsedData
       }
     } catch (err) {
+      console.log(err)
+
       if (err === HttpStatusCodeEnum.INTERNAL_SERVER_ERROR) {
         return {
           success: false,
