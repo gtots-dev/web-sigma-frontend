@@ -48,10 +48,7 @@ export function EditUserMenuComponent({
               Cancelar
             </Button>
             <UserForm.Submit
-              onSubmit={(user: UserWithFiles) => {
-                onAction(user)
-                close()
-              }}
+              onSubmit={(user: UserWithFiles) => onAction(user, close)}
             />
           </EditUserMenu.Footer>
         </EditUserForm.Provider>
