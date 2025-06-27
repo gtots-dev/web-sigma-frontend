@@ -3,12 +3,12 @@
 import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import type { PermissionProfilesInterface } from '../../domain/interfaces/permission-profiles.interface'
+import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 
 export function useAddPermissionProfileSubmit() {
   const onAction = useCallback(
     async (
-      permissionProfile: PermissionProfilesInterface,
+      permissionProfile: PermissionProfileInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
