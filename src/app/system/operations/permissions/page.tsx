@@ -42,7 +42,7 @@ export default function PermissionsPage() {
       <TablePermissionProfiles.Root>
         <TablePermissionProfiles.Header />
         <TablePermissionProfiles.Body>
-          <TablePermissionProfiles.Item>...</TablePermissionProfiles.Item>
+          <TablePermissionProfiles.Item />
         </TablePermissionProfiles.Body>
       </TablePermissionProfiles.Root>
     </main>

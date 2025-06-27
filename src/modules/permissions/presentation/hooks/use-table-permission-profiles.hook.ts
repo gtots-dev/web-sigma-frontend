@@ -1,21 +1,21 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import type { PermissionProfilesInterface } from '../../domain/interfaces/permission-profiles.interface'
+import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
+import { usePermissionProfileStore } from '../stores/permission-profile.store'
 
 export interface useTablePermissionProfilesResult {
-  permissions: PermissionProfilesInterface[]
+  permissionProfiles: PermissionProfileInterface[]
   loading: boolean
 }
 export function useTablePermissionProfiles(): useTablePermissionProfilesResult {
-  const [permissions, setPermissionProfiles] = useState<
-    PermissionProfilesInterface[]
-  >([])
+  const { getPermissionProfiles, permissionProfiles } =
+    usePermissionProfileStore()
   const [loading, setLoading] = useState<boolean>(true)
 
   const fetchPermissionProfiles = async () => {
     setLoading(true)
-    setPermissionProfiles([])
+    await getPermissionProfiles()
     setLoading(false)
   }
 
@@ -23,5 +23,5 @@ export function useTablePermissionProfiles(): useTablePermissionProfilesResult {
     fetchPermissionProfiles()
   }, [])
 
-  return { permissions, loading }
+  return { permissionProfiles, loading }
 }
