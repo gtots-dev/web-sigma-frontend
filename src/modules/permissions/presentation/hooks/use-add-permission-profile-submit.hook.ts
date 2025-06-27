@@ -44,7 +44,7 @@ export function useAddPermissionProfileSubmit() {
         }
       }
     },
-    [addPermissionProfile, getPermissionProfiles]
+    [fetchOperation, addPermissionProfile, addFeatures, getPermissionProfiles]
   )
 
   return { onAction }

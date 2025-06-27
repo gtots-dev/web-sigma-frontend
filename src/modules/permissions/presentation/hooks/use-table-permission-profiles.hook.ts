@@ -13,15 +13,14 @@ export function useTablePermissionProfiles(): useTablePermissionProfilesResult {
     usePermissionProfileStore()
   const [loading, setLoading] = useState<boolean>(true)
 
-  const fetchPermissionProfiles = async () => {
-    setLoading(true)
-    await getPermissionProfiles()
-    setLoading(false)
-  }
-
   useEffect(() => {
-    fetchPermissionProfiles()
-  }, [])
+    const fetchData = async () => {
+      setLoading(true)
+      await getPermissionProfiles()
+      setLoading(false)
+    }
+    fetchData()
+  }, [getPermissionProfiles])
 
   return { permissionProfiles, loading }
 }
