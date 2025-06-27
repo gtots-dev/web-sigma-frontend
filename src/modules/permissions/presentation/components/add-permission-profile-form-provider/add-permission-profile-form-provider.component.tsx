@@ -8,7 +8,7 @@ import {
   AddPermissionProfilesFormSchema,
   type AddPermissionProfileFormType
 } from '../../schemas/add-permission-profile-form.schema'
-import type { PermissionProfilesInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
+import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 
 interface AddPermissionProfileFormContextProviderComponentProps {
   children: ReactNode
@@ -19,9 +19,10 @@ export function AddPermissionProfileFormContextProviderComponent({
   children,
   isOpen
 }: AddPermissionProfileFormContextProviderComponentProps) {
-  const defaultValues = useMemo<PermissionProfilesInterface>(
+  const defaultValues = useMemo<PermissionProfileInterface>(
     () => ({
       name: '',
+      description: '',
       features: []
     }),
     []
