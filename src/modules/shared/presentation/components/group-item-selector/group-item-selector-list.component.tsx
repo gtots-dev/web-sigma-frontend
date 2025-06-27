@@ -8,7 +8,6 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/command'
 import { Fragment, ReactNode } from 'react'
 import { useGroupItemSelectorContext } from '../../contexts/group-item-selector.context'
-import { Check, Square } from 'lucide-react'
 
 export interface BaseItem {
   id: number
