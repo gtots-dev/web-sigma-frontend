@@ -22,7 +22,8 @@ export function AddPermissionProfileFormContextProviderComponent({
   const defaultValues = useMemo<PermissionProfileInterface>(
     () => ({
       name: '',
-      description: ''
+      description: '',
+      features: []
     }),
     []
   )
