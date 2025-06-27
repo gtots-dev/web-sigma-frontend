@@ -8,7 +8,8 @@ import { FEATURES } from '@/modules/permissions/infrastructure/configs/features.
 import { useEditPermissionProfileSubmit } from '../../hooks/use-edit-permission-profile-submit.hook'
 import { EditPermissionProfileForm } from '../edit-permission-profile-form-provider'
 import { useTablePermissionProfile } from '../../contexts/table-permission-profiles.context'
-import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
+import { usePermissionProfileStore } from '../../stores/permission-profile.store'
+import type { ExtendedPermissionProfile } from '../../hooks/use-add-permission-profile-submit.hook'
 
 interface EditPermissionProfileMenuComponentProps {
   title: string
@@ -21,6 +22,7 @@ export function EditPermissionProfileMenuComponent({
 }: EditPermissionProfileMenuComponentProps) {
   const { isOpen, close } = useDialog()
   const permissionProfile = useTablePermissionProfile()
+  const { features } = usePermissionProfileStore()
   const { onAction } = useEditPermissionProfileSubmit()
 
   return (
@@ -31,28 +33,7 @@ export function EditPermissionProfileMenuComponent({
           description={description}
         />
         <EditPermissionProfileForm.Provider
-          features={[
-            {
-              id: 8,
-              feature_id: 4,
-              perm_profile_id: 10
-            },
-            {
-              id: 11,
-              feature_id: 1,
-              perm_profile_id: 10
-            },
-            {
-              id: 12,
-              feature_id: 2,
-              perm_profile_id: 10
-            },
-            {
-              id: 13,
-              feature_id: 3,
-              perm_profile_id: 10
-            }
-          ]}
+          features={features}
           profile={permissionProfile}
           isOpen={isOpen}
         >
@@ -71,7 +52,7 @@ export function EditPermissionProfileMenuComponent({
               Cancelar
             </Button>
             <PermissionProfileForm.Submit
-              onSubmit={(permissionProfile: PermissionProfileInterface) =>
+              onSubmit={(permissionProfile: ExtendedPermissionProfile) =>
                 onAction(permissionProfile, close)
               }
             />

@@ -36,7 +36,9 @@ export class FetchHttpClient implements HttpClientInterface {
       const contentType = response.headers.get('content-type') || ''
 
       let parsedData: T
-      if (contentType.includes('application/json')) {
+      if (response.status === 204) {
+        parsedData = null as unknown as T
+      } else if (contentType.includes('application/json')) {
         parsedData = (await response.json()) as T
       } else if (
         contentType.includes('image/png') ||

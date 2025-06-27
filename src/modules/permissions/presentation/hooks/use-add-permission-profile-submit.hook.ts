@@ -7,7 +7,7 @@ import type { PermissionProfileInterface } from '../../domain/interfaces/permiss
 import { usePermissionProfileStore } from '../stores/permission-profile.store'
 import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
 
-type ExtendedPermissionProfile = PermissionProfileInterface & {
+export type ExtendedPermissionProfile = PermissionProfileInterface & {
   features: number[]
 }
 
@@ -44,7 +44,7 @@ export function useAddPermissionProfileSubmit() {
         }
       }
     },
-    [addPermissionProfile, getPermissionProfiles]
+    [fetchOperation, addPermissionProfile, addFeatures, getPermissionProfiles]
   )
 
   return { onAction }
