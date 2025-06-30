@@ -2,12 +2,18 @@
 
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { Shield } from 'lucide-react'
-import { useDialog } from './add-permission-profile-menu-provider.component'
+import { useAddPermissionProfileMenuTrigger } from '../../hooks/use-add-permission-profile-menu-trigger.hook'
 
 export function AddPermissionProfileMenuTriggerComponent() {
-  const { open } = useDialog()
+  const { loadPermissionProfileAddOpenDialog } =
+    useAddPermissionProfileMenuTrigger()
+
   return (
-    <Button variant="primary" className="w-full sm:w-auto" onClick={open}>
+    <Button
+      variant="primary"
+      className="w-full sm:w-auto"
+      onClick={loadPermissionProfileAddOpenDialog}
+    >
       <Shield />
       <span className="truncate">Adicionar Perfil</span>
     </Button>
