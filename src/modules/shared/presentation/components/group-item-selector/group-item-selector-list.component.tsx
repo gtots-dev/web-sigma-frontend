@@ -8,7 +8,7 @@ import { Fragment, ReactNode } from 'react'
 import { useGroupItemSelectorContext } from '../../contexts/group-item-selector.context'
 
 export interface BaseItem {
-  id: number
+  id?: number
   name: string
 }
 
