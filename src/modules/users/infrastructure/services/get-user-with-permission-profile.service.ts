@@ -2,22 +2,23 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
+import type { UserEntity } from '../../domain/entities/user.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
-import type { PostUserServiceInterface } from '../../domain/interfaces/post-user-service.interface'
+import type { PermissionProfileWithUserInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-user.interface'
+import type { GetUserWithPermissionProfileServiceInterface } from '../../domain/interfaces/get-user-with-permission-profile-service.interface'
 
-export class PostUserService implements PostUserServiceInterface {
+export class GetUserWithPermissionProfileService
+  implements GetUserWithPermissionProfileServiceInterface
+{
   constructor(private readonly executeRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(
     token: TokenEntities,
-    user: FormData,
-    operationSelectedId?: number
+    userId: UserEntity['id']
   ): HttpRequestConfig<FormData> {
-    user.append('operation_id', String(operationSelectedId))
     return {
-      method: 'POST',
-      url: `/users/`,
-      data: user,
+      method: 'GET',
+      url: `/users/${userId}/perm-profiles/`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
@@ -26,16 +27,16 @@ export class PostUserService implements PostUserServiceInterface {
 
   async execute(
     token: TokenEntities,
-    user: FormData,
-    operationSelectedId?: number
-  ): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      token,
-      user,
-      operationSelectedId
-    )
-    const { success, status }: HttpResponse<null> =
+    userId: UserEntity['id']
+  ): Promise<PermissionProfileWithUserInterface[]> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, userId)
+    const {
+      success,
+      data,
+      status
+    }: HttpResponse<PermissionProfileWithUserInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseUserValidator.validate(success, status)
+    return data
   }
 }

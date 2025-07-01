@@ -30,8 +30,8 @@ export class PutUserRouterApiService
       userWithFiles.id,
       userFormData
     )
-    const { success, data, status }: HttpResponse<null> =
+    const { success, status }: HttpResponse<null> =
       await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, data, status)
+    HttpResponseUserValidator.validate(success, status)
   }
 }
