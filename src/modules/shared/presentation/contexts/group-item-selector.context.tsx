@@ -5,9 +5,7 @@ import type {
   Group
 } from '../components/group-item-selector/group-item-selector-list.component'
 
-const GroupItemSelectorContext = createContext<ReturnType<
-  typeof useGroupItemSelector
-> | null>(null)
+const GroupItemSelectorContext = createContext<unknown>(null)
 
 export function GroupItemSelectorProvider<Item extends BaseItem>({
   value,
@@ -30,9 +28,7 @@ export function GroupItemSelectorProvider<Item extends BaseItem>({
 }
 
 export function useGroupItemSelectorContext<Item extends BaseItem>() {
-  const ctx = useContext(GroupItemSelectorContext) as ReturnType<
-    typeof useGroupItemSelector<Item>
-  > | null
+  const ctx = useContext(GroupItemSelectorContext)
 
   if (!ctx) {
     throw new Error(
@@ -40,5 +36,5 @@ export function useGroupItemSelectorContext<Item extends BaseItem>() {
     )
   }
 
-  return ctx
+  return ctx as ReturnType<typeof useGroupItemSelector<Item>>
 }
