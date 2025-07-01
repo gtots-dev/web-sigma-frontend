@@ -53,12 +53,13 @@ export function UserFormInputPermissionProfilesComponent({
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pelo perfil desejado ..." />
                   <GroupSelector.List<PermissionProfilesInterface>
-                    messageEmpty={MESSAGES_USERS[1.19]}
+                    messageEmpty={MESSAGES_USERS[5.19]}
                   >
                     {(item) => (
                       <GroupSelector.Item
                         item={item}
                         id={item.id}
+                        key={item.id}
                         className="!p-0 hover:bg-transparent"
                       >
                         {({ selected }) => (
