@@ -45,9 +45,9 @@ export default function UsersPage() {
     menuViewMoreUserDescription: MESSAGES_USERS['5.28'],
     menuPasswordResetUserTitle: MESSAGES_PASSWORD_RESET['2.14'],
     menuPasswordResetUserDescription: MESSAGES_PASSWORD_RESET['2.15'],
-    menuBindUserWithPermissionProfilesTitle: MESSAGES_PASSWORD_RESET['2.16'],
+    menuBindUserWithPermissionProfilesTitle: MESSAGES_USERS['5.16'],
     menuBindUserWithPermissionProfilesDescription:
-      MESSAGES_PASSWORD_RESET['2.17']
+      MESSAGES_USERS['5.17']
   }
 
   return (
