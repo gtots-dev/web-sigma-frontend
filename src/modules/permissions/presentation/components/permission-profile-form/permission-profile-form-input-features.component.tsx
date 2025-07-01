@@ -63,7 +63,11 @@ export function PermissionProfileFormInputFeaturesComponent({
                     messageEmpty={MESSAGES_PERMISSIONS[6.6]}
                   >
                     {(item) => (
-                      <GroupSelector.Item item={item} id={item.id}>
+                      <GroupSelector.Item
+                        key={item.id}
+                        item={item}
+                        id={item.id}
+                      >
                         {({ selected }) => (
                           <div
                             className="flex items-center gap-x-4 w-full h-full"
