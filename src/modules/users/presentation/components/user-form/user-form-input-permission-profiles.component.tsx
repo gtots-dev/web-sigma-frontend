@@ -9,18 +9,12 @@ import { useFormContext } from 'react-hook-form'
 import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
 import { cn } from '@/modules/shared/presentation/lib/utils'
 import { MESSAGES_USERS } from '@/modules/shared/presentation/messages/users'
-
-interface PermissionProfilesInterface {
-  name: string
-  operation_id: number
-  description: string
-  id: number
-}
+import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 
 interface UserFormInputPermissionProfilesComponentProps {
   require?: boolean
   description?: string
-  permissions: PermissionProfilesInterface[]
+  permissions: PermissionProfileInterface[]
 }
 
 export function UserFormInputPermissionProfilesComponent({
@@ -52,7 +46,7 @@ export function UserFormInputPermissionProfilesComponent({
               <FormControl>
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pelo perfil desejado ..." />
-                  <GroupSelector.List<PermissionProfilesInterface>
+                  <GroupSelector.List<PermissionProfileInterface>
                     messageEmpty={MESSAGES_USERS[5.19]}
                   >
                     {(item) => (
