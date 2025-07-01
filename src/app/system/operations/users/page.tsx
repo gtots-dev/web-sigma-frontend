@@ -15,6 +15,8 @@ import { ViewMoreUserMenuComponent } from '@/modules/users/presentation/componen
 import { PutUserPasswordResetMenuComponent } from '@/modules/users/presentation/components/put-user-password-reset-menu/put-user-password-reset-menu.component'
 import { PutUserPasswordResetMenu } from '@/modules/users/presentation/components/put-user-password-reset-menu'
 import { MESSAGES_PASSWORD_RESET } from '@/modules/shared/presentation/messages/password-reset'
+import { BindUserWithPermissionProfilesMenuComponent } from '@/modules/users/presentation/components/bind-user-with-permission-profiles-menu/bind-user-with-permission-profiles-menu.component'
+import { BindUserWithPermissionProfilesMenu } from '@/modules/users/presentation/components/bind-user-with-permission-profiles-menu'
 
 interface Data {
   title: string
@@ -27,6 +29,8 @@ interface Data {
   menuViewMoreUserDescription: string
   menuPasswordResetUserTitle: string
   menuPasswordResetUserDescription: string
+  menuBindUserWithPermissionProfilesTitle: string
+  menuBindUserWithPermissionProfilesDescription: string
 }
 
 export default function UsersPage() {
@@ -40,7 +44,10 @@ export default function UsersPage() {
     menuViewMoreUserTitle: MESSAGES_USERS['5.27'],
     menuViewMoreUserDescription: MESSAGES_USERS['5.28'],
     menuPasswordResetUserTitle: MESSAGES_PASSWORD_RESET['2.14'],
-    menuPasswordResetUserDescription: MESSAGES_PASSWORD_RESET['2.15']
+    menuPasswordResetUserDescription: MESSAGES_PASSWORD_RESET['2.15'],
+    menuBindUserWithPermissionProfilesTitle: MESSAGES_USERS['5.16'],
+    menuBindUserWithPermissionProfilesDescription:
+      MESSAGES_USERS['5.17']
   }
 
   return (
@@ -65,38 +72,49 @@ export default function UsersPage() {
         <TableUsers.Header />
         <TableUsers.Body>
           <TableUsers.Item>
-            <ViewMoreUserMenu.Provider>
-              <EditUserMenu.Provider>
-                <PutUserPasswordResetMenu.Provider>
-                  <UserOptionsDropdown.Root>
-                    <UserOptionsDropdown.Trigger />
-                    <UserOptionsDropdown.Menu>
-                      <UserOptionsDropdown.Item>
-                        <EditUserMenu.Trigger />
-                      </UserOptionsDropdown.Item>
-                      <UserOptionsDropdown.Item>
-                        <ViewMoreUserMenu.Trigger />
-                      </UserOptionsDropdown.Item>
-                      <UserOptionsDropdown.Item>
-                        <PutUserPasswordResetMenu.Trigger />
-                      </UserOptionsDropdown.Item>
-                    </UserOptionsDropdown.Menu>
-                  </UserOptionsDropdown.Root>
-                  <ViewMoreUserMenuComponent
-                    title={data.menuViewMoreUserTitle}
-                    description={data.menuViewMoreUserDescription}
-                  />
-                  <PutUserPasswordResetMenuComponent
-                    title={data.menuPasswordResetUserTitle}
-                    description={data.menuPasswordResetUserDescription}
-                  />
-                  <EditUserMenuComponent
-                    title={data.menuEditUserTitle}
-                    description={data.menuEditUserDescription}
-                  />
-                </PutUserPasswordResetMenu.Provider>
-              </EditUserMenu.Provider>
-            </ViewMoreUserMenu.Provider>
+            <BindUserWithPermissionProfilesMenu.Provider>
+              <ViewMoreUserMenu.Provider>
+                <EditUserMenu.Provider>
+                  <PutUserPasswordResetMenu.Provider>
+                    <UserOptionsDropdown.Root>
+                      <UserOptionsDropdown.Trigger />
+                      <UserOptionsDropdown.Menu>
+                        <UserOptionsDropdown.Item>
+                          <ViewMoreUserMenu.Trigger />
+                        </UserOptionsDropdown.Item>
+                        <UserOptionsDropdown.Item>
+                          <EditUserMenu.Trigger />
+                        </UserOptionsDropdown.Item>
+                        <UserOptionsDropdown.Item>
+                          <BindUserWithPermissionProfilesMenu.Trigger />
+                        </UserOptionsDropdown.Item>
+                        <UserOptionsDropdown.Item>
+                          <PutUserPasswordResetMenu.Trigger />
+                        </UserOptionsDropdown.Item>
+                      </UserOptionsDropdown.Menu>
+                    </UserOptionsDropdown.Root>
+                    <BindUserWithPermissionProfilesMenuComponent
+                      title={data.menuBindUserWithPermissionProfilesTitle}
+                      description={
+                        data.menuBindUserWithPermissionProfilesDescription
+                      }
+                    />
+                    <ViewMoreUserMenuComponent
+                      title={data.menuViewMoreUserTitle}
+                      description={data.menuViewMoreUserDescription}
+                    />
+                    <PutUserPasswordResetMenuComponent
+                      title={data.menuPasswordResetUserTitle}
+                      description={data.menuPasswordResetUserDescription}
+                    />
+                    <EditUserMenuComponent
+                      title={data.menuEditUserTitle}
+                      description={data.menuEditUserDescription}
+                    />
+                  </PutUserPasswordResetMenu.Provider>
+                </EditUserMenu.Provider>
+              </ViewMoreUserMenu.Provider>
+            </BindUserWithPermissionProfilesMenu.Provider>
           </TableUsers.Item>
         </TableUsers.Body>
       </TableUsers.Root>

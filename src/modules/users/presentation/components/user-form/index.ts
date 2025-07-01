@@ -7,6 +7,7 @@ import { UserFormInputEnabledComponent } from './user-form-input-enabled.compone
 import { UserFormInputFilesComponent } from './user-form-input-files.component'
 import { UserFormInputNameComponent } from './user-form-input-name.component'
 import { UserFormInputPasswordDeadlineComponent } from './user-form-input-password-deadline.component'
+import { UserFormInputPermissionProfilesComponent } from './user-form-input-permission-profiles.component'
 import { UserFormInputPositionComponent } from './user-form-input-position.component'
 import { UserFormInputUsernameComponent } from './user-form-input-username.component'
 import { UserFormSubmitComponent } from './user-form-submit.component'
@@ -24,6 +25,7 @@ export const UserForm = {
     Files: UserFormInputFilesComponent,
     Description: UserFormInputDescriptionComponent,
     PasswordRegDeadline: UserFormInputPasswordDeadlineComponent,
+    Profiles: UserFormInputPermissionProfilesComponent,
     Enabled: UserFormInputEnabledComponent
   }
 }
