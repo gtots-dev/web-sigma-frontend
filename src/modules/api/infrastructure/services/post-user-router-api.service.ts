@@ -23,8 +23,8 @@ export class PostUserRouterApiService
   async execute(userWithFiles: UserWithFiles): Promise<void> {
     const userFormData = this.formData.execute(userWithFiles)
     const settingsAuthHTTP = this.getHttpRequestConfig(userFormData)
-    const { success, data, status } =
+    const { success, status } =
       await this.httpRequest.execute<null>(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, data, status)
+    HttpResponseUserValidator.validate(success, status)
   }
 }
