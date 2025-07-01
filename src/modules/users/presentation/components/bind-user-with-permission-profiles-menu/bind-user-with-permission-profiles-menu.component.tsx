@@ -7,6 +7,8 @@ import { BindUserWithPermissionProfilesMenu } from '.'
 import { BindUserWithPermissionProfileForm } from '../bind-user-with-permission-profiles-form-provider'
 import { useBindUserWithPermissionProfileSubmit } from '../../hooks/use-bind-user-with-permission-profile-submit.hook'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
+import { usePermissionProfileWithUserStore } from '../../stores/user-permission-profile.store'
+import { usePermissionProfileStore } from '@/modules/permissions/presentation/stores/permission-profile.store'
 
 interface BindUserWithPermissionProfilesMenuComponentProps {
   title: string
@@ -19,6 +21,8 @@ export function BindUserWithPermissionProfilesMenuComponent({
 }: BindUserWithPermissionProfilesMenuComponentProps) {
   const { isOpen, close } = useDialog()
   const { onAction } = useBindUserWithPermissionProfileSubmit()
+  const { userWithPermissionProfiles } = usePermissionProfileWithUserStore()
+  const { permissionProfiles } = usePermissionProfileStore()
 
   return (
     <BindUserWithPermissionProfilesMenu.Root>
@@ -30,50 +34,10 @@ export function BindUserWithPermissionProfilesMenuComponent({
 
         <BindUserWithPermissionProfileForm.Provider
           isOpen={isOpen}
-          permissionProfiles={[
-            {
-              id: 1,
-              user_id: 1,
-              perm_profile_id: 1
-            },
-            {
-              id: 2,
-              user_id: 1,
-              perm_profile_id: 2
-            },
-            {
-              id: 3,
-              user_id: 1,
-              perm_profile_id: 3
-            }
-          ]}
+          permissionProfiles={userWithPermissionProfiles}
         >
           <UserForm.Form>
-            <UserForm.Input.Profiles
-              permissions={[
-                {
-                  name: 'Administrador',
-                  operation_id: 1,
-                  description:
-                    'Usuário responsável por gerenciar todos os recursos do sistema.',
-                  id: 1
-                },
-                {
-                  name: 'Coordenador',
-                  operation_id: 1,
-                  description:
-                    'Usuário responsável por supervisionar e orientar outros usuários.',
-                  id: 2
-                },
-                {
-                  name: 'Desenvolvedor',
-                  operation_id: 1,
-                  description:
-                    'Usuário especializado na manutenção e evolução do sistema.',
-                  id: 3
-                }
-              ]}
-            />
+            <UserForm.Input.Profiles permissions={permissionProfiles} />
           </UserForm.Form>
           <BindUserWithPermissionProfilesMenu.Footer>
             <Button
