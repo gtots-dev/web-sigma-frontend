@@ -23,6 +23,7 @@ export function BindUserWithPermissionProfileFormContextProviderComponent({
 }: BindUserWithPermissionProfileFormContextProviderComponentProps) {
   const defaultValues = useMemo<BindUserWithPermissionProfileFormType>(
     () => ({
+      user_id: permissionProfiles[0].user_id,
       perm_profile_id: permissionProfiles.map(
         ({ perm_profile_id }) => perm_profile_id
       )
