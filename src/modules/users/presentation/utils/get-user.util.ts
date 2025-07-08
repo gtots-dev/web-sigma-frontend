@@ -1,12 +1,9 @@
 import { auth } from '@/auth'
-import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
-import { GetUserFactory } from '@/modules/users/infrastructure/factories/get-user.factory'
 import type { UserInterface } from '../../domain/interfaces/user.interface'
+import { GetUserMeFactory } from '../../infrastructure/factories/get-user-me.factory'
 
-export async function getUser(): Promise<UserInterface> {
+export async function getUserMe(): Promise<UserInterface> {
   const { token } = await auth()
-  const jwtDecode = JwtTokenDecodeFactory.create()
-  const { id } = jwtDecode.decode(token.access_token)
-  const getUserFactory = GetUserFactory.create()
-  return await getUserFactory.execute(token, id)
+  const getUserMeFactory = GetUserMeFactory.create()
+  return await getUserMeFactory.execute(token)
 }

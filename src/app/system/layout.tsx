@@ -10,14 +10,14 @@ import { UserDropdown } from '@/modules/system/presentation/components/user-drop
 import type { ReactNode } from 'react'
 import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
 import { ContentSystem } from '@/modules/system/presentation/components/content-system'
-import { getUser } from '@/modules/users/presentation/utils/get-user.util'
+import { getUserMe } from '@/modules/users/presentation/utils/get-user.util'
 
 interface LayoutProps {
   children: ReactNode
 }
 
 export default async function Layout({ children }: LayoutProps) {
-  const { name, email } = await getUser()
+  const { name, email } = await getUserMe()
   return (
     <SidebarProvider>
       <SidebarSystem.Root>
