@@ -1,6 +1,5 @@
 import { auth } from '@/auth'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
-import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { GetUserWithPermissionProfileFactory } from '@/modules/users/infrastructure/factories/get-user-with-permission-profile.factory'
