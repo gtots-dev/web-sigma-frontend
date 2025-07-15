@@ -17,19 +17,27 @@ export const EditUserFormSchema = z.object({
   position: z.string().optional(),
   login_name: z.string().optional(),
   enabled: z.boolean().nullable(),
-    files: z
-      .array(z.instanceof(File))
-      .refine((files: Blob[]) => files.every((file: Blob) => VALID_TYPES.includes(file.type)), {
+  files: z
+    .array(z.instanceof(File))
+    .refine(
+      (files: File[]) =>
+        files.every((file: File) => VALID_TYPES.includes(file.type)),
+      {
         message: MESSAGES_USERS['5.20']
-      })
-      .refine(
-        (files: Blob[]) => files.every((file: Blob) => file.size <= MAX_SIZE_MB * 1024 * 1024),
-        { message: MESSAGES_USERS['5.31'] }
-      )
-      .optional(),
-    description: z.string().max(255, {
+      }
+    )
+    .refine(
+      (files: File[]) =>
+        files.every((file: File) => file.size <= MAX_SIZE_MB * 1024 * 1024),
+      { message: MESSAGES_USERS['5.31'] }
+    )
+    .optional(),
+  description: z
+    .string()
+    .max(255, {
       message: MESSAGES_USERS['5.32']
-    }).optional()
+    })
+    .optional()
 })
 
 export type EditUserFormType = z.infer<typeof EditUserFormSchema>

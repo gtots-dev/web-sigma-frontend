@@ -23,10 +23,7 @@ export class PutPasswordResetService
     }
   }
 
-  async execute({
-    token,
-    newPassword
-  }: PasswordResetInterface): Promise<void> {
+  async execute({ token, newPassword }: PasswordResetInterface): Promise<void> {
     const enrichedPasswordReset = {
       token: token,
       new_password: newPassword
