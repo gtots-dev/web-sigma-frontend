@@ -26,21 +26,27 @@ export const AddUserFormSchema = z.object({
   login_name: z.string().nonempty({
     message: MESSAGES_USERS['5.10']
   }),
-  days_passwd_reg_deadline: z.number().int().gt(0, {
-    message: MESSAGES_PASSWORD_RESET['2.16']
-  }),
+  days_passwd_reg_deadline: z
+    .number()
+    .int()
+    .gt(0, {
+      message: MESSAGES_PASSWORD_RESET['2.16']
+    })
+    .max(365, {
+      message: MESSAGES_PASSWORD_RESET['2.17']
+    }),
   files: z
     .array(z.instanceof(File))
     .refine(
-      (files: Blob[]) =>
-        files.every((file: Blob) => VALID_TYPES.includes(file.type)),
+      (files: File[]) =>
+        files.every((file: File) => VALID_TYPES.includes(file.type)),
       {
         message: MESSAGES_USERS['5.20']
       }
     )
     .refine(
-      (files: Blob[]) =>
-        files.every((file: Blob) => file.size <= MAX_SIZE_MB * 1024 * 1024),
+      (files: File[]) =>
+        files.every((file: File) => file.size <= MAX_SIZE_MB * 1024 * 1024),
       { message: MESSAGES_USERS['5.31'] }
     )
     .optional(),

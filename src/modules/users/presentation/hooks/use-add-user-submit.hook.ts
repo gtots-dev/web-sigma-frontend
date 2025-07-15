@@ -8,10 +8,7 @@ export function useAddUserSubmit() {
   const { addUser, getUsers } = useUserStore()
 
   const onAction = useCallback(
-    async (
-      data: UserWithFiles,
-      onSuccess: VoidFunction
-    ): Promise<void> => {
+    async (data: UserWithFiles, onSuccess: VoidFunction): Promise<void> => {
       try {
         await addUser(data)
         await getUsers()

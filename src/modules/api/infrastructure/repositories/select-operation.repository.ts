@@ -1,6 +1,6 @@
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
 import type { CookieInterface } from '../../domain/interfaces/cookie-storage.interface'
-import { OperationEntities } from '@/modules/operations/domain/entities/operation.entity'
+import { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 
 export class SelectOperationRepository {
   private static readonly COOKIE_NAME = 'operation'
@@ -28,8 +28,8 @@ export class SelectOperationRepository {
       const cookieValue = this.cookie.get(SelectOperationRepository.COOKIE_NAME)
       if (!cookieValue) return null
       const { id, name } = JSON.parse(cookieValue)
-      return id && name ? new OperationEntities(id, name) : null
-    } catch (error) {
+      return id && name ? new OperationEntity(id, name) : null
+    } catch {
       return null
     }
   }

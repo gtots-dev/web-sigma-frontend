@@ -11,7 +11,10 @@ export class FetchHttpClient implements HttpClientInterface {
   ): Promise<HttpResponse<T>> {
     try {
       const queryString = this.buildQueryString(
-        config.params as Record<string, any>
+        config.params as Record<
+          string,
+          string | number | boolean | string[] | number[]
+        >
       )
       const response = await fetch(
         `${this.baseURL}${config.url}${queryString}`,
@@ -32,16 +35,21 @@ export class FetchHttpClient implements HttpClientInterface {
 
       const contentType = response.headers.get('content-type') || ''
 
-      let parsedData: any
-      if (contentType.includes('application/json')) {
-        parsedData = await response.json()
+      let parsedData: T
+      if (response.status === 204) {
+        parsedData = null as unknown as T
+      } else if (contentType.includes('application/json')) {
+        parsedData = (await response.json()) as T
       } else if (
+        contentType.includes('image/png') ||
+        contentType.includes('image/jpeg') ||
+        contentType.includes('image/jpg') ||
         contentType.includes('application/pdf') ||
         contentType.includes('application/octet-stream')
       ) {
-        parsedData = await response.blob()
+        parsedData = (await response.blob()) as T
       } else {
-        parsedData = await response.text()
+        parsedData = (await response.text()) as T
       }
 
       const status = String(response.status)
@@ -72,7 +80,9 @@ export class FetchHttpClient implements HttpClientInterface {
     }
   }
 
-  private buildQueryString(params?: Record<string, any>): string {
+  private buildQueryString(
+    params?: Record<string, string | number | boolean | string[] | number[]>
+  ): string {
     if (!params) return ''
     const query = new URLSearchParams()
 
