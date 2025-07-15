@@ -2,7 +2,10 @@ import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import { usePermissionProfileWithUserStore } from '../stores/user-permission-profile.store'
-import type { PermissionProfileWithUserInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-user.interface'
+import {
+  getProfilesToAddUtil,
+  getProfilesToDeleteUtil
+} from '../utils/permissions-profiles-diff.util'
 import type { PermissionsProfileIdsWithUserIdInterface } from '../../domain/interfaces/permissions-profile-ids-with-user-id.interface'
 
 export function useBindUserWithPermissionProfileSubmit() {
@@ -16,29 +19,25 @@ export function useBindUserWithPermissionProfileSubmit() {
     async (
       {
         user_id: userId,
-        perm_profile_id: permissionProfileIds
+        perm_profile_id: selectedPermissionsProfiles
       }: PermissionsProfileIdsWithUserIdInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        const currentProfileIds = userWithPermissionProfiles.map(
-          ({ id }: PermissionProfileWithUserInterface) => id
+        const toDelete = getProfilesToDeleteUtil(
+          userWithPermissionProfiles,
+          selectedPermissionsProfiles
         )
-        const toDelete = currentProfileIds.filter(
-          (id) => !permissionProfileIds.includes(id)
+        const toAdd = getProfilesToAddUtil(
+          userWithPermissionProfiles,
+          selectedPermissionsProfiles
         )
-        const toAdd = permissionProfileIds.filter(
-          (id) => !currentProfileIds.includes(id)
+        await Promise.all(
+          toDelete.map((bindingId) =>
+            deleteBindUserWithPermissionProfile(bindingId, userId)
+          )
         )
-        await Promise.all([
-          ...toDelete.map((id) =>
-            deleteBindUserWithPermissionProfile(id, userId)
-          ),
-          toAdd.length > 0
-            ? bindUserWithPermissionProfile(toAdd, userId)
-            : Promise.resolve()
-        ])
-
+        if (toAdd.length > 0) await bindUserWithPermissionProfile(toAdd, userId)
         toast({
           title: 'Perfis de permissão vinculados com sucesso!',
           description: `Os perfis selecionados foram atribuídos ao usuário.`,
