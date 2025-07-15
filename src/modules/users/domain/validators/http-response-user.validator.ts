@@ -3,7 +3,9 @@ import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status
 export class HttpResponseUserValidator {
   static validate(success: boolean, status: string): void {
     const isValidStatus =
-      status === HttpStatusCodeEnum.OK || status === HttpStatusCodeEnum.CREATE
+      status === HttpStatusCodeEnum.OK ||
+      status === HttpStatusCodeEnum.CREATE ||
+      status === HttpStatusCodeEnum.NO_CONTENT
     if (!success || !isValidStatus) {
       throw new HttpResponseError(status)
     }
