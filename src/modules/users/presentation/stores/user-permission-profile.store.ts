@@ -5,12 +5,17 @@ import { GetUserWithPermissionProfileRouterApiFactory } from '@/modules/api/infr
 import type { UserEntity } from '../../domain/entities/user.entity'
 import { PostBindUserWithPermissionProfileRouterApiFactory } from '@/modules/api/infrastructure/factories/post-bind-user-with-permission-profile-router-api.factory'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
+import { DeleteBindUserWithPermissionProfileRouterApiFactory } from '@/modules/api/infrastructure/factories/delete-bind-user-with-permission-profile-router-api.factory'
 
 type PermissionProfileWithUserState = {
   userWithPermissionProfiles: PermissionProfileWithUserInterface[]
   getUserWithPermissionProfiles: (userId: UserEntity['id']) => Promise<void>
   bindUserWithPermissionProfile: (
     permissionProfilesIds: PermissionProfileEntity['id'][],
+    userId: UserEntity['id']
+  ) => Promise<void>
+  deleteBindUserWithPermissionProfile: (
+    permissionProfilesId: PermissionProfileEntity['id'],
     userId: UserEntity['id']
   ) => Promise<void>
 }
@@ -43,6 +48,24 @@ export const usePermissionProfileWithUserStore =
         await postBindUserWithPermissionProfileRouterApiFactory.execute(
           userId,
           permissionProfilesIds
+        )
+      } catch (error) {
+        if (error instanceof HttpResponseError) {
+          throw error
+        }
+      }
+    },
+
+    deleteBindUserWithPermissionProfile: async (
+      permissionProfilesId: PermissionProfileEntity['id'],
+      userId: UserEntity['id']
+    ) => {
+      try {
+        const deleteBindUserWithPermissionProfileRouterApiFactory =
+          DeleteBindUserWithPermissionProfileRouterApiFactory.create()
+        await deleteBindUserWithPermissionProfileRouterApiFactory.execute(
+          userId,
+          permissionProfilesId
         )
       } catch (error) {
         if (error instanceof HttpResponseError) {
