@@ -6,9 +6,10 @@ import { useDialog } from './bind-user-with-permission-profiles-menu-provider.co
 import { BindUserWithPermissionProfilesMenu } from '.'
 import { BindUserWithPermissionProfileForm } from '../bind-user-with-permission-profiles-form-provider'
 import { useBindUserWithPermissionProfileSubmit } from '../../hooks/use-bind-user-with-permission-profile-submit.hook'
-import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import { usePermissionProfileWithUserStore } from '../../stores/user-permission-profile.store'
 import { usePermissionProfileStore } from '@/modules/permissions/presentation/stores/permission-profile.store'
+import { useTableUser } from '../../contexts/table-user.context'
+import type { PermissionsProfileIdsWithUserIdInterface } from '@/modules/users/domain/interfaces/permissions-profile-ids-with-user-id.interface'
 
 interface BindUserWithPermissionProfilesMenuComponentProps {
   title: string
@@ -23,6 +24,7 @@ export function BindUserWithPermissionProfilesMenuComponent({
   const { onAction } = useBindUserWithPermissionProfileSubmit()
   const { userWithPermissionProfiles } = usePermissionProfileWithUserStore()
   const { permissionProfiles } = usePermissionProfileStore()
+  const { id: userId } = useTableUser()
 
   return (
     <BindUserWithPermissionProfilesMenu.Root>
@@ -34,6 +36,7 @@ export function BindUserWithPermissionProfilesMenuComponent({
 
         <BindUserWithPermissionProfileForm.Provider
           isOpen={isOpen}
+          userId={userId}
           permissionProfiles={userWithPermissionProfiles}
         >
           <UserForm.Form>
@@ -48,9 +51,9 @@ export function BindUserWithPermissionProfilesMenuComponent({
               Cancelar
             </Button>
             <UserForm.Submit
-              onSubmit={(permissionProfiles: PermissionProfileEntity['id'][]) =>
-                onAction(permissionProfiles, close)
-              }
+              onSubmit={(
+                permissionProfilesWithUserId: PermissionsProfileIdsWithUserIdInterface
+              ) => onAction(permissionProfilesWithUserId, close)}
             />
           </BindUserWithPermissionProfilesMenu.Footer>
         </BindUserWithPermissionProfileForm.Provider>
