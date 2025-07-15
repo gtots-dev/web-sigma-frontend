@@ -18,9 +18,7 @@ export function ViewMoreUserItemDataComponent({
       {hasContent ? (
         <div className="font-normal">{children}</div>
       ) : (
-        <div className="font-normal opacity-70">
-          {notFoundData}
-        </div>
+        <div className="font-normal opacity-70">{notFoundData}</div>
       )}
     </div>
   )

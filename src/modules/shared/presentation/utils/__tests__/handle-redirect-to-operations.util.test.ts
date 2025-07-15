@@ -1,4 +1,4 @@
-import { handleRedirectToOperationsUtil } from "../handle-redirect-to-operations.util"
+import { handleRedirectToOperationsUtil } from '../handle-redirect-to-operations.util'
 
 describe('handleRedirectToOperationsUtil', () => {
   const baseDeps = {
@@ -7,13 +7,17 @@ describe('handleRedirectToOperationsUtil', () => {
     getOperations: jest.fn(),
     createOperation: jest.fn(),
     saveOperationToCookies: jest.fn(),
-    getRedirectUrl: jest.fn(),
+    getRedirectUrl: jest.fn()
   }
 
   const systemPath = '/system'
 
   test('should return null if not system path', async () => {
-    const result = await handleRedirectToOperationsUtil('/other', systemPath, baseDeps)
+    const result = await handleRedirectToOperationsUtil(
+      '/other',
+      systemPath,
+      baseDeps
+    )
     expect(result).toBeNull()
   })
 
@@ -21,10 +25,14 @@ describe('handleRedirectToOperationsUtil', () => {
     const deps = {
       ...baseDeps,
       getAuthToken: jest.fn().mockResolvedValue(null),
-      getRedirectUrl: jest.fn().mockReturnValue('/login'),
+      getRedirectUrl: jest.fn().mockReturnValue('/login')
     }
 
-    const result = await handleRedirectToOperationsUtil(systemPath, systemPath, deps)
+    const result = await handleRedirectToOperationsUtil(
+      systemPath,
+      systemPath,
+      deps
+    )
     expect(result).toBe('/login')
   })
 
@@ -36,10 +44,14 @@ describe('handleRedirectToOperationsUtil', () => {
       getOperations: jest.fn().mockResolvedValue([{ id: '1' }]),
       createOperation: jest.fn().mockReturnValue({ id: '1' }),
       saveOperationToCookies: jest.fn(),
-      getRedirectUrl: jest.fn().mockReturnValue('/operation-options'),
+      getRedirectUrl: jest.fn().mockReturnValue('/operation-options')
     }
 
-    const result = await handleRedirectToOperationsUtil(systemPath, systemPath, deps)
+    const result = await handleRedirectToOperationsUtil(
+      systemPath,
+      systemPath,
+      deps
+    )
     expect(result).toBe('/operation-options')
     expect(deps.saveOperationToCookies).toHaveBeenCalled()
   })
