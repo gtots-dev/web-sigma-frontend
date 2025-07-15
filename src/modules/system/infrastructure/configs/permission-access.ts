@@ -1,7 +1,7 @@
 export const PERMISSIONS_ACCESS = {
   operations: true,
   optionsOperation: true,
-  contracts: false,
+  contracts: true,
   optionsContract: false,
   processingUnits: false,
   optionsProcessingUnits: false,
