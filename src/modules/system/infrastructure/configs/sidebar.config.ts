@@ -34,7 +34,7 @@ export const SidebarData = {
           url: PATHNAMES.CONTRACTS,
           icon: FileText,
           isActive: PERMISSIONS_ACCESS.contracts,
-          isToExpand: true,
+          isToExpand: false,
           items: [
             {
               title: 'Opções do contrato',
