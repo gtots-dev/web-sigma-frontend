@@ -11,9 +11,9 @@ export function CardOperationOptionsHeaderComponent({
   children
 }: CardOperationOptionsHeaderComponentProps) {
   const { fetchOperation } = useOperationStore()
-  useEffect(()=> {
+  useEffect(() => {
     fetchOperation()
-  },[fetchOperation])
-  
+  }, [fetchOperation])
+
   return <>{children}</>
 }

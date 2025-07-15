@@ -13,7 +13,8 @@ export function SidebarSystemHeaderComponent() {
   return (
     <SidebarHeader className="flex flex-row justify-between h-16 p-3 border-b shrink-0 items-center">
       <ThemeLogoComponent
-        className="h-9"
+        height={36}
+        width={87}
         logoLightSrc={images.lightLogoSrc}
         logoLightAlt={images.lightLogoAlt}
         logoDarkSrc={images.darkLogoSrc}
