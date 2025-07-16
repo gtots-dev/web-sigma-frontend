@@ -19,7 +19,8 @@ export function useBindUserWithPermissionProfileSubmit() {
     async (
       {
         user_id: userId,
-        perm_profile_id: selectedPermissionsProfiles
+        perm_profile_id: selectedPermissionsProfiles,
+        contract_id: selectedContracts
       }: PermissionsProfileIdsWithUserIdInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
@@ -37,7 +38,8 @@ export function useBindUserWithPermissionProfileSubmit() {
             deleteBindUserWithPermissionProfile(bindingId, userId)
           )
         )
-        if (toAdd.length > 0) await bindUserWithPermissionProfile(toAdd, userId)
+        if (toAdd.length > 0 && selectedContracts.length === 0)
+          await bindUserWithPermissionProfile(toAdd, userId)
         toast({
           title: 'Perfis de permissão vinculados com sucesso!',
           description: `Os perfis selecionados foram atribuídos ao usuário.`,
