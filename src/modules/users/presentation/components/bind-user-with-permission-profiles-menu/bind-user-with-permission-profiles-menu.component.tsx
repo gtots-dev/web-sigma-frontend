@@ -10,6 +10,7 @@ import { usePermissionProfileWithUserStore } from '../../stores/user-permission-
 import { usePermissionProfileStore } from '@/modules/permissions/presentation/stores/permission-profile.store'
 import { useTableUser } from '../../contexts/table-user.context'
 import type { PermissionsProfileIdsWithUserIdInterface } from '@/modules/users/domain/interfaces/permissions-profile-ids-with-user-id.interface'
+import { useContractStore } from '@/modules/contracts/presentation/stores/contract.store'
 
 interface BindUserWithPermissionProfilesMenuComponentProps {
   title: string
@@ -24,6 +25,7 @@ export function BindUserWithPermissionProfilesMenuComponent({
   const { onAction } = useBindUserWithPermissionProfileSubmit()
   const { userWithPermissionProfiles } = usePermissionProfileWithUserStore()
   const { permissionProfiles } = usePermissionProfileStore()
+  const { contracts } = useContractStore()
   const { id: userId } = useTableUser()
 
   return (
@@ -37,10 +39,12 @@ export function BindUserWithPermissionProfilesMenuComponent({
         <BindUserWithPermissionProfileForm.Provider
           isOpen={isOpen}
           userId={userId}
+          contracts={[]}
           permissionProfiles={userWithPermissionProfiles}
         >
           <UserForm.Form>
             <UserForm.Input.Profiles permissions={permissionProfiles} />
+            <UserForm.Input.Contracts contracts={contracts} />
           </UserForm.Form>
           <BindUserWithPermissionProfilesMenu.Footer>
             <Button
