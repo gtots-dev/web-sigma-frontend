@@ -11,6 +11,7 @@ type MessageKeys =
   | '6.10'
   | '6.11'
   | '6.12'
+  | '6.13'
 
 export const MESSAGES_PERMISSIONS: Record<MessageKeys, string> = {
   '6.1': 'Permissões',
@@ -24,5 +25,7 @@ export const MESSAGES_PERMISSIONS: Record<MessageKeys, string> = {
   '6.9': 'A descrição deve ter no máximo 255 caracteres.',
   '6.10': 'Editar perfil de permissão',
   '6.11': 'Atualize os dados para editar o perfil desejado.',
-  '6.12': 'Selecione um perfil para vincular ao usuário'
+  '6.12': 'Selecione um perfil para vincular ao usuário',
+  '6.13':
+    'O usuário só poderá exercer as permissões desse perfil nos contratos selecionados. Se nenhum contrato for selecionado, as permissões serão aplicadas globalmente a todos os contratos.'
 }
