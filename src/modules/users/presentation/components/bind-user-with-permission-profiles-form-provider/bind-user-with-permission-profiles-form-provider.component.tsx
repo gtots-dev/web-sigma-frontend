@@ -10,16 +10,19 @@ import {
 } from '../../schemas/bind-user-with-permission-profiles-form.schema'
 import type { PermissionProfileWithUserInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-user.interface'
 import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import type { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
 
 interface BindUserWithPermissionProfileFormContextProviderComponentProps {
   children: ReactNode
   permissionProfiles: PermissionProfileWithUserInterface[]
+  contracts: ContractEntity[]
   userId: UserEntity['id']
   isOpen: boolean
 }
 
 export function BindUserWithPermissionProfileFormContextProviderComponent({
   permissionProfiles,
+  contracts,
   children,
   userId,
   isOpen
@@ -29,7 +32,8 @@ export function BindUserWithPermissionProfileFormContextProviderComponent({
       user_id: userId,
       perm_profile_id: permissionProfiles.map(
         ({ perm_profile_id }) => perm_profile_id
-      )
+      ),
+      contract_id: contracts?.map(({ id }) => id) || []
     }),
     [permissionProfiles, userId]
   )
