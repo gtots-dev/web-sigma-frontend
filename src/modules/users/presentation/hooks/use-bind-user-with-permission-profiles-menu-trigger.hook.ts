@@ -3,19 +3,22 @@ import { useDialog } from '../components/bind-user-with-permission-profiles-menu
 import { usePermissionProfileWithUserStore } from '../stores/user-permission-profile.store'
 import { useTableUser } from '../contexts/table-user.context'
 import { usePermissionProfileStore } from '@/modules/permissions/presentation/stores/permission-profile.store'
+import { useContractStore } from '@/modules/contracts/presentation/stores/contract.store'
 
 export function useBindUserWithPermissionProfilesMenuTrigger() {
   const { open: openDialog } = useDialog()
   const { id: userId } = useTableUser()
   const { getUserWithPermissionProfiles } = usePermissionProfileWithUserStore()
   const { getPermissionProfiles } = usePermissionProfileStore()
+  const { getContracts } = useContractStore()
 
   const loadUserWithPermissionProfileBindOpenDialog = () => {
     queueMicrotask(async () => {
       try {
         await Promise.all([
           getUserWithPermissionProfiles(userId),
-          getPermissionProfiles()
+          getPermissionProfiles(),
+          getContracts()
         ])
         openDialog()
       } catch {
