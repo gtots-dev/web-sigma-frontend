@@ -10,6 +10,7 @@ import { GroupSelector } from '@/modules/shared/presentation/components/group-it
 import { cn } from '@/modules/shared/presentation/lib/utils'
 import { MESSAGES_USERS } from '@/modules/shared/presentation/messages/users'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
+import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 
 interface UserFormInputPermissionProfilesComponentProps {
   require?: boolean
@@ -18,7 +19,9 @@ interface UserFormInputPermissionProfilesComponentProps {
 }
 
 export function UserFormInputPermissionProfilesComponent({
-  permissions
+  permissions,
+  require,
+  description
 }: UserFormInputPermissionProfilesComponentProps) {
   const { control } = useFormContext()
 
@@ -39,8 +42,10 @@ export function UserFormInputPermissionProfilesComponent({
             }))}
           >
             <FormItem>
-              <FormLabel>
-                <GroupSelector.Toggle />
+              <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
+                Perfis de Permissões{require ? ': *' : ':'}
+                <HelpMeButtonComponent description={description} />
+                <GroupSelector.Toggle className="ms-auto" />
               </FormLabel>
 
               <FormControl>
