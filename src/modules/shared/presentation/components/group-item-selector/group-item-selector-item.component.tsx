@@ -1,26 +1,32 @@
 import { CommandItem } from '@/modules/shared/presentation/components/shadcn/command'
-import { Check, Square } from 'lucide-react'
+import { ReactNode } from 'react'
+import type { BaseItem } from './group-item-selector-list.component'
+import { cn } from '../../lib/utils'
 import { useGroupItemSelectorContext } from '../../contexts/group-item-selector.context'
 
-export function GroupItemSelectorItem<
-  Item extends { id: number; name: string }
->({ item }: { item: Item }) {
+interface GroupItemSelectorItemProps<Item extends BaseItem> {
+  id: number
+  item: Item
+  className?: string
+  children: (props: { selected: boolean }) => ReactNode
+}
+
+export function GroupItemSelectorItem<Item extends BaseItem>({
+  id,
+  item,
+  className,
+  children
+}: GroupItemSelectorItemProps<Item>) {
   const { isSelected, toggleItem } = useGroupItemSelectorContext<Item>()
-  const selected = isSelected(item.id)
+  const selected = isSelected(id)
 
   return (
     <CommandItem
-      key={item.id}
       onSelect={() => toggleItem(item)}
-      className="flex gap-x-4 items-center justify-start"
+      className={cn('flex gap-x-4 items-center justify-start', className)}
       forceMount
     >
-      {selected ? (
-        <Check className="!w-3.5 !h-3.5" />
-      ) : (
-        <Square className="!w-3.5 !h-3.5 opacity-50" />
-      )}
-      <span>{item.name}</span>
+      {children({ selected })}
     </CommandItem>
   )
 }

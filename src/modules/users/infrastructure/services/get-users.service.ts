@@ -30,7 +30,7 @@ export class GetUsersService implements GetUsersServiceInterface {
     const settingsAuthHTTP = this.getHttpRequestConfig(token, ids)
     const { success, data, status }: HttpResponse<UserInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, data, status)
+    HttpResponseUserValidator.validate(success, status)
     return data
   }
 }
