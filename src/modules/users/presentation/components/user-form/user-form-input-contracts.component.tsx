@@ -49,11 +49,14 @@ export function UserFormInputContractsComponent({
                 <HelpMeButtonComponent description={description} />
                 <GroupSelector.Toggle className="ms-auto" />
               </FormLabel>
+
               <FormDescription>
                 <strong>
                   Escolha os contratos vinculados ao perfil do usuário.
                 </strong>
-                <p>{MESSAGES_PERMISSIONS[6.13]}</p>
+              </FormDescription>
+              <FormDescription className="!mt-0">
+                {MESSAGES_PERMISSIONS[6.13]}
               </FormDescription>
 
               <FormControl>
