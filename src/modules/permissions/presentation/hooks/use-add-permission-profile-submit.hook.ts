@@ -13,7 +13,7 @@ export type ExtendedPermissionProfile = PermissionProfileInterface & {
 
 export function useAddPermissionProfileSubmit() {
   const { fetchOperation } = useOperationStore()
-  const { addPermissionProfile, getPermissionProfiles, addFeatures } =
+  const { addPermissionProfileAndFeatures, getPermissionProfiles } =
     usePermissionProfileStore()
   const onAction = useCallback(
     async (
@@ -22,11 +22,12 @@ export function useAddPermissionProfileSubmit() {
     ): Promise<void> => {
       try {
         const { id: operationId } = await fetchOperation()
-        const { id: permissionProfileId } = await addPermissionProfile({
-          ...permissionProfileForm,
-          operation_id: Number(operationId)
+        await addPermissionProfileAndFeatures({
+          operation_id: Number(operationId),
+          perm_profile_name: permissionProfileForm.name,
+          perm_profile_description: permissionProfileForm.description,
+          feature_ids: permissionProfileForm.features
         })
-        await addFeatures(permissionProfileForm.features, permissionProfileId)
         await getPermissionProfiles()
         toast({
           title: 'Perfil de permissão adicionado com sucesso!',
@@ -44,7 +45,7 @@ export function useAddPermissionProfileSubmit() {
         }
       }
     },
-    [fetchOperation, addPermissionProfile, addFeatures, getPermissionProfiles]
+    [fetchOperation, getPermissionProfiles]
   )
 
   return { onAction }
