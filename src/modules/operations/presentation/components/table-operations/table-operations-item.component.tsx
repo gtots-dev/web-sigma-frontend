@@ -11,13 +11,13 @@ import { useOperationStore } from '@/modules/system/presentation/store/operation
 import { useRouter } from 'next/navigation'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
-interface TableOperationContentRowComponentProps {
+interface TableOperationItemComponentProps {
   operation: OperationInterface
 }
 
-export function TableOperationContentRowComponent({
+export function TableOperationItemComponent({
   operation
-}: TableOperationContentRowComponentProps) {
+}: TableOperationItemComponentProps) {
   const { replace } = useRouter()
   const { setOperation } = useOperationStore()
 
