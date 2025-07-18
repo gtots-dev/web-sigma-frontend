@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
+import { useContractStore } from '../stores/contract.store'
 
 export interface UseTableContractsResult {
   contracts: ContractEntity[]
@@ -9,14 +10,13 @@ export interface UseTableContractsResult {
 }
 
 export function useTableContracts(): UseTableContractsResult {
-  const [contracts, setContracts] = useState<ContractEntity[]>([])
+  const { contracts, getContracts } = useContractStore()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchContract = async () => {
       setLoading(true)
-      const data: ContractEntity[] = []
-      setContracts(data)
+      await getContracts()
       setLoading(false)
     }
     fetchContract()
