@@ -24,7 +24,7 @@ export class GetUserMeService implements GetUserMeServiceInterface {
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
     const { success, data, status }: HttpResponse<UserEntity> =
       await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, data, status)
+    HttpResponseUserValidator.validate(success, status)
     return UserFactory.create(data)
   }
 }
