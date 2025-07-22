@@ -47,10 +47,11 @@ export const MESSAGES_USERS: Record<MessageKeys, string> = {
   '5.14': 'Deseja vincular este usuário ao um contrato?',
   '5.15':
     'Avance para vincular o usuário ao contrato. Este passo é obrigatório.',
-  '5.16': 'Vinculação de contrato',
-  '5.17': 'Preencha os dados obrigatórios para vincular o contrato ao usuário.',
-  '5.18': 'Este usuário já está vinculado ao contrato.',
-  '5.19': 'Nenhum contrato encontrado.',
+  '5.16': 'Vinculação de Permissões',
+  '5.17':
+    'Preencha os dados obrigatórios para vincular os perfis de permissões ao usuário.',
+  '5.18': 'Este perfil já está vinculado ao usuário.',
+  '5.19': 'Nenhum perfil encontrado.',
   '5.20': 'Formato de arquivo inválido. Utilize um formato compatível.',
   '5.21': 'Permissões',
   '5.22': 'Atribua as permissões desejadas ao usuário selecionado.',
