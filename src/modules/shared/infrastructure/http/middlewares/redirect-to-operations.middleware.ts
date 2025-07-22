@@ -30,11 +30,8 @@ export async function RedirectToOperationsMiddleware(
       decodeToken(token: TokenEntities): JwtDecodeDataInterface {
         return JwtTokenDecodeFactory.create().decode(token.access_token)
       },
-      async getOperations(
-        token: TokenEntities,
-        ids: number[]
-      ): Promise<OperationInterface[]> {
-        return await GetOperationsFactory.create().execute(token, ids)
+      async getOperations(token: TokenEntities): Promise<OperationInterface[]> {
+        return await GetOperationsFactory.create().execute(token)
       },
       createOperation(data): OperationEntity {
         return OperationFactory.create(data)
