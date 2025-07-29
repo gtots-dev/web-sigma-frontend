@@ -6,13 +6,11 @@ import type { AuthenticationFormType } from '../schemas/authentication-form.sche
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { AuthSignInFactory } from '../../infrastructure/factories/auth-sign-in.factory'
 import { AuthSignOutFactory } from '../../infrastructure/factories/auth-sign-out.factory'
-import { DeleteSelectionOperationFactory } from '@/modules/operations/infrastructure/factories/delete-selection-operation-factory'
 
 export function useAuthenticationFormSubmitHook() {
   const router = useRouter()
   const authSignIn = AuthSignInFactory.create()
   const authSignOut = AuthSignOutFactory.create()
-  const deleteSelectionOperation = DeleteSelectionOperationFactory.create()
 
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
@@ -35,7 +33,6 @@ export function useAuthenticationFormSubmitHook() {
   const onSubmitSignOut = async (): Promise<void> => {
     setLoading(true)
     try {
-      await deleteSelectionOperation.execute()
       await authSignOut.signOut()
       router.push(PATHNAMES.AUTHENTICATION)
     } finally {
