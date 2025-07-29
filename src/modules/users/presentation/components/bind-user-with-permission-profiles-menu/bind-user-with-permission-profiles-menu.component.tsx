@@ -11,7 +11,7 @@ import { usePermissionProfileStore } from '@/modules/permissions/presentation/st
 import { useTableUser } from '../../contexts/table-user.context'
 import type { PermissionsProfileIdsWithUserIdInterface } from '@/modules/users/domain/interfaces/permissions-profile-ids-with-user-id.interface'
 import { useContractStore } from '@/modules/contracts/presentation/stores/contract.store'
-
+import { useSelectablePermissionProfile } from '../../hooks/use-selectable-permission-profile.hook'
 interface BindUserWithPermissionProfilesMenuComponentProps {
   title: string
   description: string
@@ -23,6 +23,8 @@ export function BindUserWithPermissionProfilesMenuComponent({
 }: BindUserWithPermissionProfilesMenuComponentProps) {
   const { isOpen, close } = useDialog()
   const { onAction } = useBindUserWithPermissionProfileSubmit()
+  const { selectedProfile, toggleProfile } =
+    useSelectablePermissionProfile(isOpen)
   const { userWithPermissionProfiles } = usePermissionProfileWithUserStore()
   const { permissionProfiles } = usePermissionProfileStore()
   const { contracts } = useContractStore()
@@ -43,8 +45,14 @@ export function BindUserWithPermissionProfilesMenuComponent({
           permissionProfiles={userWithPermissionProfiles}
         >
           <UserForm.Form>
-            <UserForm.Input.Profiles permissions={permissionProfiles} />
-            <UserForm.Input.Contracts contracts={contracts} />
+            <UserForm.Input.Profiles
+              permissions={permissionProfiles}
+              onSelectProfile={toggleProfile}
+            />
+            <UserForm.Input.Contracts
+              contracts={contracts}
+              selectedPermissionProfile={selectedProfile}
+            />
           </UserForm.Form>
           <BindUserWithPermissionProfilesMenu.Footer>
             <Button
