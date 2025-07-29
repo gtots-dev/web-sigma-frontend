@@ -5,14 +5,14 @@ import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 import { usePermissionProfileStore } from '../stores/permission-profile.store'
-import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
+import { usePathname } from 'next/navigation'
+import { extractOperationId } from '@/modules/system/presentation/utils/export-operation-id.util'
 
 export type ExtendedPermissionProfile = PermissionProfileInterface & {
   features: number[]
 }
 
 export function useAddPermissionProfileSubmit() {
-  const { fetchOperation } = useOperationStore()
   const { addPermissionProfileAndFeatures, getPermissionProfiles } =
     usePermissionProfileStore()
   const onAction = useCallback(
@@ -21,7 +21,8 @@ export function useAddPermissionProfileSubmit() {
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        const { id: operationId } = await fetchOperation()
+        const pathname = usePathname()
+        const operationId = extractOperationId(pathname)
         await addPermissionProfileAndFeatures({
           operation_id: Number(operationId),
           perm_profile_name: permissionProfileForm.name,
@@ -45,7 +46,7 @@ export function useAddPermissionProfileSubmit() {
         }
       }
     },
-    [fetchOperation, getPermissionProfiles]
+    [getPermissionProfiles]
   )
 
   return { onAction }
