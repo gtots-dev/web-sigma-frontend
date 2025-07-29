@@ -27,5 +27,5 @@ export const MESSAGES_PERMISSIONS: Record<MessageKeys, string> = {
   '6.11': 'Atualize os dados para editar o perfil desejado.',
   '6.12': 'Selecione um perfil para vincular ao usuário',
   '6.13':
-    'O usuário só poderá exercer as permissões desse perfil nos contratos selecionados. Se nenhum contrato for selecionado, as permissões serão aplicadas globalmente a todos os contratos.'
+    'O perfil de permissão selecionado será aplicado apenas aos contratos escolhidos. Caso nenhum contrato seja selecionado, as permissões serão aplicadas globalmente a todos os contratos.'
 }
