@@ -1,36 +1,24 @@
-'use client'
-
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_USERS } from '@/modules/shared/presentation/messages/users'
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { TableUsers } from '@/modules/users/presentation/components/table-users'
-import { UserOptionsDropdown } from '@/modules/users/presentation/components/user-options-dropdown'
-import { AddUserMenuComponent } from '@/modules/users/presentation/components/add-user-menu/add-user-menu.component'
-import { AddUserMenu } from '@/modules/users/presentation/components/add-user-menu'
-import { EditUserMenu } from '@/modules/users/presentation/components/edit-user-menu'
-import { EditUserMenuComponent } from '@/modules/users/presentation/components/edit-user-menu/edit-user-menu.component'
-import { ViewMoreUserMenu } from '@/modules/users/presentation/components/view-more-user-menu'
-import { ViewMoreUserMenuComponent } from '@/modules/users/presentation/components/view-more-user-menu/view-more-user-menu.component'
-import { PutUserPasswordResetMenuComponent } from '@/modules/users/presentation/components/put-user-password-reset-menu/put-user-password-reset-menu.component'
-import { PutUserPasswordResetMenu } from '@/modules/users/presentation/components/put-user-password-reset-menu'
+import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { MESSAGES_PASSWORD_RESET } from '@/modules/shared/presentation/messages/password-reset'
+import { auth } from '@/auth'
+import { UserOptionsDropdown } from '@/modules/users/presentation/components/user-options-dropdown'
+import { AddUserMenu } from '@/modules/users/presentation/components/add-user-menu'
 
-interface Data {
-  title: string
-  description: string
-  menuAddUserTitle: string
-  menuAddUserDescription: string
-  menuEditUserTitle: string
-  menuEditUserDescription: string
-  menuViewMoreUserTitle: string
-  menuViewMoreUserDescription: string
-  menuPasswordResetUserTitle: string
-  menuPasswordResetUserDescription: string
+interface UsersPageProps {
+  params: Promise<{ operationId: string }>
 }
 
-export default function UsersPage() {
-  const data: Data = {
+export default async function UsersPage({ params }: UsersPageProps) {
+  const { token: JWT } = await auth()
+  const { operationId: rawOperationId } = await params
+  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+
+  const data = {
     title: MESSAGES_USERS['5.1'],
     description: MESSAGES_USERS['5.2'],
     menuAddUserTitle: MESSAGES_USERS['5.4'],
@@ -51,52 +39,30 @@ export default function UsersPage() {
           {data.description}
         </HeaderSection.Description>
       </HeaderSection.Root>
+
       <Separator orientation="horizontal" />
+
       <ActionSection.Root>
-        <AddUserMenu.Provider>
-          <AddUserMenu.Trigger />
-          <AddUserMenuComponent
-            title={data.menuAddUserTitle}
-            description={data.menuAddUserDescription}
-          />
-        </AddUserMenu.Provider>
+        <AddUserMenu.Client
+          permissions={userPermissions}
+          title={data.menuAddUserTitle}
+          description={data.menuAddUserDescription}
+        />
       </ActionSection.Root>
+
       <TableUsers.Root>
         <TableUsers.Header />
         <TableUsers.Body>
           <TableUsers.Item>
-            <ViewMoreUserMenu.Provider>
-              <EditUserMenu.Provider>
-                <PutUserPasswordResetMenu.Provider>
-                  <UserOptionsDropdown.Root>
-                    <UserOptionsDropdown.Trigger />
-                    <UserOptionsDropdown.Menu>
-                      <UserOptionsDropdown.Item>
-                        <EditUserMenu.Trigger />
-                      </UserOptionsDropdown.Item>
-                      <UserOptionsDropdown.Item>
-                        <ViewMoreUserMenu.Trigger />
-                      </UserOptionsDropdown.Item>
-                      <UserOptionsDropdown.Item>
-                        <PutUserPasswordResetMenu.Trigger />
-                      </UserOptionsDropdown.Item>
-                    </UserOptionsDropdown.Menu>
-                  </UserOptionsDropdown.Root>
-                  <ViewMoreUserMenuComponent
-                    title={data.menuViewMoreUserTitle}
-                    description={data.menuViewMoreUserDescription}
-                  />
-                  <PutUserPasswordResetMenuComponent
-                    title={data.menuPasswordResetUserTitle}
-                    description={data.menuPasswordResetUserDescription}
-                  />
-                  <EditUserMenuComponent
-                    title={data.menuEditUserTitle}
-                    description={data.menuEditUserDescription}
-                  />
-                </PutUserPasswordResetMenu.Provider>
-              </EditUserMenu.Provider>
-            </ViewMoreUserMenu.Provider>
+            <UserOptionsDropdown.Client
+              permissions={userPermissions}
+              viewMoreTitle={data.menuViewMoreUserTitle}
+              viewMoreDescription={data.menuViewMoreUserDescription}
+              editTitle={data.menuEditUserTitle}
+              editDescription={data.menuEditUserDescription}
+              resetTitle={data.menuPasswordResetUserTitle}
+              resetDescription={data.menuPasswordResetUserDescription}
+            />
           </TableUsers.Item>
         </TableUsers.Body>
       </TableUsers.Root>
