@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import {
-  isSelectionOperationRoutes,
+  isSelectionOperationRoute,
   PATHNAMES
 } from '../../configs/pathnames.config'
 
@@ -10,7 +10,7 @@ export async function OperationSelectionVerifyMiddleware(req: NextRequest) {
   const { OPERATIONS } = PATHNAMES
   const operationId = req.cookies.get('operation')
 
-  const isRestrictedRoute = !!isSelectionOperationRoutes(pathname)
+  const isRestrictedRoute = !!isSelectionOperationRoute(pathname)
   const isMissingOperationId = !operationId
 
   if (isRestrictedRoute && isMissingOperationId) {
