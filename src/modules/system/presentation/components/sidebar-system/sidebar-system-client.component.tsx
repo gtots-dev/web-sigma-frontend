@@ -5,9 +5,10 @@ import { UserDropdown } from '../user-dropdown'
 import { SidebarSystemItemChildComponent } from './sidebar-system-item-child.component'
 import { SidebarSystemItemGrandchildComponent } from './sidebar-system-item-grandchild.component'
 import { useSidebarSystemData } from '../../hooks/use-sidebar-system-data.hook'
+import type { UserPermissionsInterface } from '@/modules/users/domain/interfaces/user-permissions.interface'
 
 interface SidebarSystemClientComponentProps {
-  permissions: string[]
+  permissions: UserPermissionsInterface
   user: {
     name: string
     email: string

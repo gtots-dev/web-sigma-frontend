@@ -4,8 +4,8 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
-import { UserFactory } from '../factories/user.factory'
 import type { UserEntity } from '../../domain/entities/user.entity'
+import type { UserPermissionsInterface } from '../../domain/interfaces/user-permissions.interface'
 
 export class GetUserMeService implements GetUserMeServiceInterface {
   constructor(private readonly httpRequest: ExecuteRequest) {}
@@ -20,11 +20,17 @@ export class GetUserMeService implements GetUserMeServiceInterface {
     }
   }
 
-  async execute(token: TokenEntities): Promise<UserEntity> {
+  async execute(
+    token: TokenEntities
+  ): Promise<UserEntity & UserPermissionsInterface> {
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
-    const { success, data, status }: HttpResponse<UserEntity> =
+    const {
+      success,
+      data,
+      status
+    }: HttpResponse<UserEntity & UserPermissionsInterface> =
       await this.httpRequest.execute(settingsAuthHTTP)
     HttpResponseUserValidator.validate(success, data, status)
-    return UserFactory.create(data)
+    return data
   }
 }
