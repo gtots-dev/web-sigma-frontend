@@ -6,24 +6,27 @@ import {
   FormMessage
 } from '@/modules/shared/presentation/components/shadcn/form'
 import { useFormContext } from 'react-hook-form'
-import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
 import { cn } from '@/modules/shared/presentation/lib/utils'
 import { MESSAGES_USERS } from '@/modules/shared/presentation/messages/users'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
-
+import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
+import { useState } from 'react'
 interface UserFormInputPermissionProfilesComponentProps {
   require?: boolean
   description?: string
   permissions: PermissionProfileInterface[]
+  onSelectProfile?: (profile: PermissionProfileInterface | null) => void
 }
 
 export function UserFormInputPermissionProfilesComponent({
   permissions,
   require,
-  description
+  description,
+  onSelectProfile
 }: UserFormInputPermissionProfilesComponentProps) {
   const { control } = useFormContext()
+  const [highlightedId, setHighlightedId] = useState<number | null>(null)
 
   return (
     <FormField
@@ -36,54 +39,71 @@ export function UserFormInputPermissionProfilesComponent({
           <GroupSelector.Provider
             value={value}
             onChange={onChange}
-            groups={[1].map(() => ({
-              name: 'Perfis de Permissão',
-              items: permissions
-            }))}
+            groups={[
+              {
+                name: 'Perfis de Permissão',
+                items: permissions
+              }
+            ]}
           >
             <FormItem>
               <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
                 Perfis de Permissões{require ? ': *' : ':'}
                 <HelpMeButtonComponent description={description} />
-                <GroupSelector.Toggle className="ms-auto" />
+                 <GroupSelector.Toggle className="ms-auto" />
               </FormLabel>
 
               <FormControl>
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pelo perfil desejado ..." />
                   <GroupSelector.List<PermissionProfileInterface>
-                    messageEmpty={MESSAGES_USERS[5.19]}
+                    messageItemEmpty={MESSAGES_USERS[5.19]}
+                    messageGroupEmpty={MESSAGES_USERS[5.19]}
                   >
-                    {(item) => (
-                      <GroupSelector.Item
-                        item={item}
-                        id={item.id}
-                        key={item.id}
-                        className="!p-0 hover:bg-transparent"
-                      >
-                        {({ selected }) => (
-                          <div
-                            className={cn(
-                              'flex items-center gap-x-4 !px-2 !py-1.5 w-full h-full mt-1.5',
-                              selected
-                                ? 'outline !outline-1 outline-primary-500 dark:outline-primary-300 bg-[#7aabfa0f]'
-                                : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'
-                            )}
-                          >
-                            <GroupSelector.Checkbox.Check
-                              selected={selected}
-                              className="ms-2"
-                            />
-                            <ul className="flex flex-col" key={item.id}>
-                              <li>{item.name}</li>
-                              <li className="text-xs opacity-60">
-                                {item.description}
-                              </li>
-                            </ul>
-                          </div>
-                        )}
-                      </GroupSelector.Item>
-                    )}
+                    {(itemList) => {
+                      const isHighlighted = highlightedId === itemList.id
+
+                      return (
+                        <GroupSelector.Item
+                          className="!p-0 hover:bg-transparent"
+                          id={itemList.id}
+                          key={itemList.id}
+                        >
+                          {({ selected }) => (
+                            <div className="flex items-center gap-x-4 !ps-2 !py-0 w-full h-full mt-1.5">
+                              <div className="ms-2">
+                                <GroupSelector.Checkbox.Check
+                                  item={itemList}
+                                  className={cn(
+                                    isHighlighted && '!text-primary-500'
+                                  )}
+                                  selected={selected}
+                                />
+                              </div>
+                              <ul
+                                className={cn(
+                                  'flex flex-col flex-1 !py-1.5 px-2',
+                                  isHighlighted
+                                    ? 'outline !outline-1 outline-primary-500 dark:outline-primary-300 bg-[#7aabfa0f]'
+                                    : 'hover:!bg-zinc-100 dark:hover:!bg-zinc-900 cursor-pointer'
+                                )}
+                                onClick={() => {
+                                  setHighlightedId((prev) =>
+                                    prev === itemList.id ? null : itemList.id
+                                  )
+                                  onSelectProfile?.(itemList)
+                                }}
+                              >
+                                <li>{itemList.name}</li>
+                                <li className="text-xs opacity-60">
+                                  {itemList.description}
+                                </li>
+                              </ul>
+                            </div>
+                          )}
+                        </GroupSelector.Item>
+                      )
+                    }}
                   </GroupSelector.List>
                 </GroupSelector.Root>
               </FormControl>
