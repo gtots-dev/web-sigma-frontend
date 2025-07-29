@@ -17,6 +17,6 @@ export class MiddlewareCookieAdapter implements CookieInterface {
     options?: Record<string, unknown>
   ): void {
     if (!this.res) throw new Error('Response object is required to set cookies')
-    this.res.cookies.set(cookieName, value, options as any)
+    this.res.cookies.set(cookieName, value, options as unknown)
   }
 }

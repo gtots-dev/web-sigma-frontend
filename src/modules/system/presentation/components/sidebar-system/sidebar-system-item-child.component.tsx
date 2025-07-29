@@ -88,7 +88,7 @@ export function SidebarSystemItemChildComponent({
               className="overflow-hidden"
             >
               <SidebarMenuSub className="!me-0 pe-0">
-                {item.items.map((subItem, index, array) =>
+                {item.items.map((subItem) =>
                   subItem.permissions && children ? children(subItem) : null
                 )}
               </SidebarMenuSub>
