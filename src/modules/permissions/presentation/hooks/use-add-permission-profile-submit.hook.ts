@@ -13,6 +13,7 @@ export type ExtendedPermissionProfile = PermissionProfileInterface & {
 }
 
 export function useAddPermissionProfileSubmit() {
+  const pathname = usePathname()
   const { addPermissionProfileAndFeatures, getPermissionProfiles } =
     usePermissionProfileStore()
   const onAction = useCallback(
@@ -21,7 +22,6 @@ export function useAddPermissionProfileSubmit() {
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        const pathname = usePathname()
         const operationId = extractOperationId(pathname)
         await addPermissionProfileAndFeatures({
           operation_id: Number(operationId),
@@ -46,7 +46,7 @@ export function useAddPermissionProfileSubmit() {
         }
       }
     },
-    [getPermissionProfiles]
+    [pathname, addPermissionProfileAndFeatures, getPermissionProfiles]
   )
 
   return { onAction }
