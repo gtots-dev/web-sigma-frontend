@@ -1,64 +1,74 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { SelectOperationFactory } from '@/modules/api/infrastructure/factories/select-operation.factory'
 import { OperationFactory } from '@/modules/operations/infrastructure/factories/operation.factory'
-import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
 import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
 import { auth } from '@/auth'
 import { handleRedirectToOperationsUtil } from '@/modules/shared/presentation/utils/handle-redirect-to-operations.util'
 import { JwtTokenDecodeFactory } from '../../factories/jwt-decode.factory'
-import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { PATHNAMES } from '../../configs/pathnames.config'
-import type { JwtDecodeDataInterface } from '@/modules/shared/domain/interfaces/jwt-decode-data.interface'
-import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 import { HttpResponseError } from '../../errors/http-response.error'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
+import { CookiesFactory } from '@/modules/api/infrastructure/factories/cookies.factory'
 
 export async function RedirectToOperationsMiddleware(
   req: NextRequest
 ): Promise<NextResponse> {
   const { pathname, origin } = req.nextUrl
-  const { SYSTEM, OPERATION_OPTIONS, OPERATIONS } = PATHNAMES
-
-  const response = NextResponse.next()
+  const { SYSTEM, OPERATIONS } = PATHNAMES
 
   try {
+    let response = NextResponse.next()
+
     const redirectTo = await handleRedirectToOperationsUtil(pathname, SYSTEM, {
-      async getAuthToken(): Promise<TokenEntities | null> {
+      async getAuthToken() {
         const session = await auth()
         return session?.token ?? null
       },
-      decodeToken(token: TokenEntities): JwtDecodeDataInterface {
+      decodeToken(token) {
         return JwtTokenDecodeFactory.create().decode(token.access_token)
       },
-      async getOperations(token: TokenEntities): Promise<OperationInterface[]> {
+      async getOperations(token) {
         return await GetOperationsFactory.create().execute(token)
       },
-      createOperation(data): OperationEntity {
+      createOperation(data) {
         return OperationFactory.create(data)
       },
-      saveOperationToCookies(operation): void {
-        const repo = SelectOperationFactory.create(req, response)
-        repo.saveToCookies(operation)
+      saveOperationToCookies(operation) {
+        const writer = CookiesFactory.createWriter(req, response, 'operation')
+        writer.saveToCookies(operation)
       },
-      getRedirectUrl(isSingle: boolean): string {
-        const targetPath = isSingle ? OPERATION_OPTIONS : OPERATIONS
-        return new URL(targetPath, origin).toString()
+      getRedirectUrl(isSingle, id) {
+        const pathname =
+          isSingle && id != null
+            ? `${OPERATIONS}/${id}/operation-options`
+            : `${OPERATIONS}`
+        return new URL(pathname, origin).toString()
       }
     })
 
     if (redirectTo) {
       const redirectResponse = NextResponse.redirect(redirectTo)
-      response.cookies
-        .getAll()
-        .forEach((cookie) =>
-          redirectResponse.cookies.set(cookie.name, cookie.value, cookie)
-        )
+      response.cookies.getAll().forEach((cookie) => {
+        redirectResponse.cookies.set(cookie.name, cookie.value, cookie)
+      })
       return redirectResponse
     }
+
+    return response
   } catch (error) {
-    if (error instanceof HttpResponseError) {
-      if (error.message === HttpStatusCodeEnum.UNAUTHORIZED) req.cookies.clear()
+    if (
+      error instanceof HttpResponseError &&
+      error.message === HttpStatusCodeEnum.UNAUTHORIZED
+    ) {
+      const clearCookiesResponse = NextResponse.next()
+      req.cookies.getAll().forEach((cookie) => {
+        clearCookiesResponse.cookies.set(cookie.name, '', {
+          expires: new Date(0),
+          path: '/'
+        })
+      })
+      return clearCookiesResponse
     }
+
+    throw error
   }
-  return response
 }
