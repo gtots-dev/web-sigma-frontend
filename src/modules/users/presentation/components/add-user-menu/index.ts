@@ -1,3 +1,4 @@
+import { AddUserMenuClient } from './add-user-menu-client.component'
 import { AddUserMenuContentComponent } from './add-user-menu-content.component'
 import { AddUserMenuFooterComponent } from './add-user-menu-footer.component'
 import { AddUserMenuHeaderComponent } from './add-user-menu-header.component'
@@ -6,6 +7,7 @@ import { AddUserMenuRootComponent } from './add-user-menu-root.component'
 import { AddUserMenuTriggerComponent } from './add-user-menu-trigger.component'
 
 export const AddUserMenu = {
+  Client: AddUserMenuClient,
   Root: AddUserMenuRootComponent,
   Trigger: AddUserMenuTriggerComponent,
   Content: AddUserMenuContentComponent,
