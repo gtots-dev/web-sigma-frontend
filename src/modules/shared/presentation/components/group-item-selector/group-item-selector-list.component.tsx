@@ -19,12 +19,14 @@ export interface Group<Item = BaseItem> {
 
 interface GroupItemSelectorListProps<Item> {
   children: (item: Item, group?: Group<Item>) => ReactNode
-  messageEmpty: string
+  messageGroupEmpty: string
+  messageItemEmpty: string
 }
 
 export function GroupItemSelectorList<Item extends BaseItem>({
   children,
-  messageEmpty
+  messageGroupEmpty,
+  messageItemEmpty
 }: GroupItemSelectorListProps<Item>) {
   const { searchableGroups, areAllGroupItemsSelected, toggleAllInGroup } =
     useGroupItemSelectorContext<Item>()
@@ -32,7 +34,7 @@ export function GroupItemSelectorList<Item extends BaseItem>({
   if (searchableGroups.length === 0) {
     return (
       <CommandList>
-        <CommandEmpty>{messageEmpty}</CommandEmpty>
+        <CommandEmpty>{messageItemEmpty}</CommandEmpty>
       </CommandList>
     )
   }
@@ -41,27 +43,33 @@ export function GroupItemSelectorList<Item extends BaseItem>({
     <CommandList>
       {searchableGroups.map((group, index) => {
         const allSelected = areAllGroupItemsSelected(group)
+        const isGroupEmpty = group.items.length === 0
 
         return (
           <Fragment key={group.name}>
-            <CommandGroup
-              heading={
-                <div className="flex items-center justify-between">
-                  <span>{group.name}</span>
-                  <button
-                    type="button"
-                    onClick={() => toggleAllInGroup(group)}
-                    className="flex items-center gap-2 focus:outline-none underline underline-offset-2 text-primary-300"
-                  >
-                    {allSelected ? 'Remover seleção' : 'Selecionar todos'}
-                  </button>
-                </div>
-              }
-              forceMount
-            >
-              {group.items.map((item) => children(item, group))}
-            </CommandGroup>
-
+            {isGroupEmpty ? (
+              <CommandEmpty>{messageGroupEmpty}</CommandEmpty>
+            ) : (
+              <CommandGroup
+                heading={
+                  !isGroupEmpty ? (
+                    <div className="flex items-center justify-between">
+                      <span>{group.name}</span>
+                      <button
+                        type="button"
+                        onClick={() => toggleAllInGroup(group)}
+                        className="flex items-center gap-2 focus:outline-none underline underline-offset-2 text-primary-300"
+                      >
+                        {allSelected ? 'Remover seleção' : 'Selecionar todos'}
+                      </button>
+                    </div>
+                  ) : undefined
+                }
+                forceMount
+              >
+                {group.items.map((item) => children(item, group))}
+              </CommandGroup>
+            )}
             {index < searchableGroups.length - 1 && <CommandSeparator />}
           </Fragment>
         )
