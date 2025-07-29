@@ -35,7 +35,7 @@ export function TableOperationItemComponent({
           variant="outline"
           onClick={() => {
             setOperation(operation)
-            replace(PATHNAMES.OPERATION_OPTIONS)
+            replace(PATHNAMES.OPERATION_OPTIONS(Number(operation.id)))
           }}
         >
           <LogIn />
