@@ -1,7 +1,9 @@
+import { auth } from '@/auth'
 import { CardOperationOptions } from '@/modules/operation-options/presentation/components/card-operation-options'
 import { CardOption } from '@/modules/operation-options/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
 import { OperationSelector } from '@/modules/operation-options/presentation/components/operation-selector/'
+import { getOperations } from '@/modules/operations/presentation/utils/get-operations.util'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_OPTIONS_OPERATION } from '@/modules/shared/presentation/messages/options-operation'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
@@ -23,9 +25,13 @@ interface OperationCardOption {
 export default async function OperationOptionsPage({
   params
 }: OperationOptionsPageProps) {
+  const { token: JWT } = await auth()
   const { operationId: rawOperationId } = await params
-  const { operationId, userPermissions, operations } =
-    await loadAuthContext(rawOperationId)
+  const operations = await getOperations(JWT)
+  const { operationId, userPermissions } = await loadAuthContext(
+    JWT,
+    rawOperationId
+  )
 
   const title = MESSAGES_OPTIONS_OPERATION['11.1']
   const description = MESSAGES_OPTIONS_OPERATION['11.2']
