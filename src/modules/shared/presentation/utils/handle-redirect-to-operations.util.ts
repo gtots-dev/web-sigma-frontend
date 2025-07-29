@@ -7,7 +7,7 @@ export interface handleRedirectToOperationsDependencies {
   getOperations(token: TokenEntities): Promise<OperationEntity[]>
   createOperation(data: OperationEntity): OperationEntity
   saveOperationToCookies(operation: OperationEntity): void
-  getRedirectUrl(single: boolean): string
+  getRedirectUrl(single: boolean, id?: string): string
 }
 
 export async function handleRedirectToOperationsUtil(
@@ -25,12 +25,13 @@ export async function handleRedirectToOperationsUtil(
 
   const operations = await deps.getOperations(token)
   const hasSingleOperation = operationIds.length === 1
-  const redirectTarget = deps.getRedirectUrl(hasSingleOperation)
 
+  let operationId: string | undefined = undefined
   if (hasSingleOperation && operations.length) {
     const operation = deps.createOperation(operations[0])
+    operationId = operation.id
     deps.saveOperationToCookies(operation)
   }
 
-  return redirectTarget
+  return deps.getRedirectUrl(hasSingleOperation, operationId)
 }

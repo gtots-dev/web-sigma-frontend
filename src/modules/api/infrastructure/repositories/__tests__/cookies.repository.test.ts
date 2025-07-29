@@ -1,5 +1,5 @@
 import type { CookieInterface } from '@/modules/api/domain/interfaces/cookie-storage.interface'
-import { SelectOperationRepository } from '../select-operation.repository'
+import { CookiesRepository } from '../cookies.repository'
 import { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 
 describe('OperationRepository', () => {
@@ -15,19 +15,19 @@ describe('OperationRepository', () => {
     }
   }
 
-  let repository: SelectOperationRepository
+  let repository: CookiesRepository
   let storage: MockCookieStorage
 
   beforeEach(() => {
     storage = new MockCookieStorage()
-    repository = new SelectOperationRepository(storage)
+    repository = new CookiesRepository(storage, 'operation')
   })
 
   test('should save and retrieve operation from cookies', () => {
     const operation = new OperationEntity('123', 'Test Operation')
     repository.saveToCookies(operation)
 
-    const retrieved = repository.getFromCookies()
+    const retrieved = repository.getFromCookies<OperationEntity>()
     expect(retrieved).not.toBeNull()
     expect(retrieved?.id).toBe('123')
     expect(retrieved?.name).toBe('Test Operation')

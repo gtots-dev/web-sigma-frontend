@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import { CardOperationOptions } from '@/modules/operation-options/presentation/components/card-operation-options'
 import { CardOption } from '@/modules/operation-options/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
@@ -5,8 +6,13 @@ import { OperationSelector } from '@/modules/operation-options/presentation/comp
 import { getOperations } from '@/modules/operations/presentation/utils/get-operations.util'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_OPTIONS_OPERATION } from '@/modules/shared/presentation/messages/options-operation'
-import { PERMISSIONS_ACCESS } from '@/modules/system/infrastructure/configs/permission-access'
+import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
+import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { FileKey2, FileText, UsersRound, type LucideIcon } from 'lucide-react'
+
+interface OperationOptionsPageProps {
+  params: Promise<{ operationId: string }>
+}
 
 interface OperationCardOption {
   title: string
@@ -16,8 +22,16 @@ interface OperationCardOption {
   accessAllowed: boolean
 }
 
-export default async function OperationOptionsPage() {
-  const operations = await getOperations()
+export default async function OperationOptionsPage({
+  params
+}: OperationOptionsPageProps) {
+  const { token: JWT } = await auth()
+  const { operationId: rawOperationId } = await params
+  const operations = await getOperations(JWT)
+  const { operationId, userPermissions } = await loadAuthContext(
+    JWT,
+    rawOperationId
+  )
 
   const title = MESSAGES_OPTIONS_OPERATION['11.1']
   const description = MESSAGES_OPTIONS_OPERATION['11.2']
@@ -29,25 +43,29 @@ export default async function OperationOptionsPage() {
     {
       title: MESSAGES_OPTIONS_OPERATION['11.4'],
       description: MESSAGES_OPTIONS_OPERATION['11.5'],
-      pathName: PATHNAMES.CONTRACTS,
+      pathName: PATHNAMES.CONTRACTS(operationId),
       icon: FileText,
-      accessAllowed: PERMISSIONS_ACCESS.contracts
+      accessAllowed: userPermissions.has(PermissionEnum.CONTRACTS_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_OPERATION['11.6'],
       description: MESSAGES_OPTIONS_OPERATION['11.7'],
-      pathName: PATHNAMES.USERS,
+      pathName: PATHNAMES.USERS(operationId),
       icon: UsersRound,
-      accessAllowed: PERMISSIONS_ACCESS.users
+      accessAllowed: userPermissions.has(PermissionEnum.USERS_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_OPERATION['11.8'],
       description: MESSAGES_OPTIONS_OPERATION['11.9'],
-      pathName: PATHNAMES.PERMISSIONS,
+      pathName: PATHNAMES.PERMISSIONS(operationId),
       icon: FileKey2,
-      accessAllowed: PERMISSIONS_ACCESS.permissions
+      accessAllowed: userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
     }
   ]
+
+  const accessibleOptions = operationOptions.filter(
+    (option) => option.accessAllowed
+  )
 
   return (
     <CardOperationOptions.Root>
@@ -63,24 +81,26 @@ export default async function OperationOptionsPage() {
           <OperationSelector.Root
             title={operationSelectionMenuTitle}
             description={operationSelectionMenuDescription}
+            operationId={rawOperationId}
             operations={operations}
           />
         </HeaderOptions.Root>
       </CardOperationOptions.Header>
       <CardOperationOptions.Content>
-        {operationOptions.map(
-          (option, index) =>
-            option.accessAllowed && (
-              <CardOption.Root key={index} pathName={option.pathName}>
-                <CardOption.Header Icon={option.icon} />
-                <CardOption.Footer>
-                  <CardOption.Title>{option.title}</CardOption.Title>
-                  <CardOption.Description>
-                    {option.description}
-                  </CardOption.Description>
-                </CardOption.Footer>
-              </CardOption.Root>
-            )
+        {accessibleOptions.length > 0 ? (
+          accessibleOptions.map((option, index) => (
+            <CardOption.Root key={index} pathName={option.pathName}>
+              <CardOption.Header Icon={option.icon} />
+              <CardOption.Footer>
+                <CardOption.Title>{option.title}</CardOption.Title>
+                <CardOption.Description>
+                  {option.description}
+                </CardOption.Description>
+              </CardOption.Footer>
+            </CardOption.Root>
+          ))
+        ) : (
+          <CardOperationOptions.NotFound message="Nenhuma opção disponível para essa operação." />
         )}
       </CardOperationOptions.Content>
     </CardOperationOptions.Root>

@@ -4,12 +4,14 @@ import { SidebarSystemHeaderComponent } from './sidebar-system-header.component'
 import { SidebarSystemContentComponent } from './sidebar-system-content.component'
 import { SidebarSystemFooterComponent } from './sidebar-system-footer.component'
 import SidebarSystemItemParentComponent from './sidebar-system-item-parent.component'
+import SidebarSystemClientComponent from './sidebar-system-client.component'
+import type { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 
 export type Item = {
   title: string
   url: string
   icon?: LucideIcon
-  isActive?: boolean
+  permissions: PermissionEnum[]
   isToExpand?: boolean
   items?: Item[]
 }
@@ -25,5 +27,6 @@ export const SidebarSystem = {
   Header: SidebarSystemHeaderComponent,
   Content: SidebarSystemContentComponent,
   Footer: SidebarSystemFooterComponent,
-  Item: SidebarSystemItemParentComponent
+  Item: SidebarSystemItemParentComponent,
+  Client: SidebarSystemClientComponent
 }
