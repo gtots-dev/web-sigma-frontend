@@ -60,20 +60,20 @@ export function PermissionProfileFormInputFeaturesComponent({
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pelo grupo ou permissão..." />
                   <GroupSelector.List<featuresInterface>
-                    messageEmpty={MESSAGES_PERMISSIONS[6.6]}
+                    messageItemEmpty={MESSAGES_PERMISSIONS[6.6]}
+                    messageGroupEmpty={MESSAGES_PERMISSIONS[6.6]}
                   >
                     {(item) => (
-                      <GroupSelector.Item
-                        key={item.id}
-                        item={item}
-                        id={item.id}
-                      >
+                      <GroupSelector.Item key={item.id} id={item.id}>
                         {({ selected }) => (
                           <div
                             className="flex items-center gap-x-4 w-full h-full"
                             key={item.id}
                           >
-                            <GroupSelector.Checkbox.Check selected={selected} />
+                            <GroupSelector.Checkbox.Check
+                              item={item}
+                              selected={selected}
+                            />
                             <span>{item.name}</span>
                           </div>
                         )}

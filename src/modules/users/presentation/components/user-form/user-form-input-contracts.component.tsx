@@ -13,17 +13,20 @@ import type { ContractEntity } from '@/modules/contracts/domain/entities/contrac
 import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 import { MESSAGES_CONTRACTS } from '@/modules/shared/presentation/messages/contracts'
 import { MESSAGES_PERMISSIONS } from '@/modules/shared/presentation/messages/permissions'
+import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 
 interface UserFormInputContractsComponentProps {
   require?: boolean
   description?: string
   contracts: ContractEntity[]
+  selectedPermissionProfile?: PermissionProfileEntity
 }
 
 export function UserFormInputContractsComponent({
   contracts,
   description,
-  require
+  require,
+  selectedPermissionProfile
 }: UserFormInputContractsComponentProps) {
   const { control } = useFormContext()
 
@@ -40,12 +43,21 @@ export function UserFormInputContractsComponent({
             onChange={onChange}
             groups={[1].map(() => ({
               name: 'Contratos',
-              items: contracts
+              items: selectedPermissionProfile ? contracts : []
             }))}
           >
             <FormItem>
               <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
-                Contratos{require ? ': *' : ':'}
+                {selectedPermissionProfile ? (
+                  <>
+                    <p>Contratos receberão perfil</p>
+                    <strong className="text-primary-500 underline underline-offset-4">
+                      {selectedPermissionProfile.name}
+                    </strong>
+                  </>
+                ) : (
+                  <p>{`Contratos${require ? ': *' : ':'}`}</p>
+                )}
                 <HelpMeButtonComponent description={description} />
                 <GroupSelector.Toggle className="ms-auto" />
               </FormLabel>
@@ -55,6 +67,7 @@ export function UserFormInputContractsComponent({
                   Escolha os contratos vinculados ao perfil do usuário.
                 </strong>
               </FormDescription>
+
               <FormDescription className="!mt-0">
                 {MESSAGES_PERMISSIONS[6.13]}
               </FormDescription>
@@ -63,11 +76,11 @@ export function UserFormInputContractsComponent({
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pelo contrato desejado ..." />
                   <GroupSelector.List<ContractEntity>
-                    messageEmpty={MESSAGES_CONTRACTS[3.3]}
+                    messageItemEmpty={MESSAGES_CONTRACTS[3.3]}
+                    messageGroupEmpty="Selecione um perfil de permissão (Opcional)"
                   >
                     {(item) => (
                       <GroupSelector.Item
-                        item={item}
                         id={item.id}
                         key={item.id}
                         className="!p-0 hover:bg-transparent"
@@ -83,6 +96,7 @@ export function UserFormInputContractsComponent({
                           >
                             <GroupSelector.Checkbox.Check
                               selected={selected}
+                              item={item}
                               className="ms-2"
                             />
                             <ul className="flex flex-col" key={item.id}>
