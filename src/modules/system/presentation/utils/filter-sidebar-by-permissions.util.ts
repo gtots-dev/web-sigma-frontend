@@ -1,9 +1,10 @@
+import type { UserPermissionsInterface } from '@/modules/users/domain/interfaces/user-permissions.interface'
 import { PermissionEnum } from '../../domain/enums/permissions.enum'
 import type { Item } from '../components/sidebar-system'
 
 export function filterSidebarByPermissions(
   items: Item[],
-  permissions: string[] | undefined,
+  permissions: UserPermissionsInterface,
   operationId: string | null
 ): Item[] {
   const userPermissions =
