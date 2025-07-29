@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -14,17 +16,25 @@ import {
 import { useSidebarSystemItem } from '../../hooks/use-sidebar-system-item.hook'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { cn } from '@/modules/shared/presentation/lib/utils'
+import type { ReactNode } from 'react'
+import type { Item } from '.'
 
 const variants = {
   open: { opacity: 1, height: 'auto', transition: { duration: 0.3 } },
   closed: { opacity: 0, height: 0, transition: { duration: 0.3 } }
 }
 
+interface SidebarSystemItemGrandchildComponentProps
+  extends SidebarSystemItemComponentProps {
+  children?: (item: Item) => ReactNode
+}
+
 export function SidebarSystemItemGrandchildComponent({
   item,
   activePath,
-  className
-}: SidebarSystemItemComponentProps) {
+  className,
+  children
+}: SidebarSystemItemGrandchildComponentProps) {
   const { handleClick, isActive } = useSidebarSystemItem(item)
   const [isOpen, setIsOpen] = useState(true)
 
@@ -43,7 +53,7 @@ export function SidebarSystemItemGrandchildComponent({
 
   return (
     <>
-      {item.isActive && (
+      {item.permissions && (
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <SidebarMenuSubItem>
             <div className={cn(sidebarButtonClass, className)}>
@@ -64,6 +74,7 @@ export function SidebarSystemItemGrandchildComponent({
                 </span>
               </Button>
             </div>
+
             {item.items && (
               <motion.div
                 initial="closed"
@@ -72,13 +83,17 @@ export function SidebarSystemItemGrandchildComponent({
                 className="overflow-hidden"
               >
                 <SidebarMenuSub className="h-full !me-0 pe-0">
-                  {item.items.map((subItem) => (
-                    <SidebarSystemItemGrandchildComponent
-                      key={subItem.title}
-                      item={subItem}
-                      activePath={activePath}
-                    />
-                  ))}
+                  {item.items.map((subItem) =>
+                    children ? (
+                      children(subItem)
+                    ) : (
+                      <SidebarSystemItemGrandchildComponent
+                        key={subItem.title}
+                        item={subItem}
+                        activePath={activePath}
+                      />
+                    )
+                  )}
                 </SidebarMenuSub>
               </motion.div>
             )}
