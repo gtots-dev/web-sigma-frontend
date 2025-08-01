@@ -67,6 +67,7 @@ export function UserOptionsDropdownClient({
             <EditUserMenuComponent
               title={editTitle}
               description={editDescription}
+              isEnableAndDisable={permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)}
             />
           )}
         </PutUserPasswordResetMenu.Provider>
