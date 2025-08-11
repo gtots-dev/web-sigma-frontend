@@ -62,6 +62,18 @@ export function PermissionProfileFormInputFeaturesComponent({
                   <GroupSelector.List<featuresInterface>
                     messageItemEmpty={MESSAGES_PERMISSIONS[6.6]}
                     messageGroupEmpty={MESSAGES_PERMISSIONS[6.6]}
+                    heading={(group, allSelected, toggleAll) => (
+                      <div className="flex items-center justify-between">
+                        <span>{group.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => toggleAll(group)}
+                          className="underline underline-offset-2 text-primary-300"
+                        >
+                          {allSelected ? 'Remover seleção' : 'Selecionar todos'}
+                        </button>
+                      </div>
+                    )}
                   >
                     {(item) => (
                       <GroupSelector.Item key={item.id} id={item.id}>

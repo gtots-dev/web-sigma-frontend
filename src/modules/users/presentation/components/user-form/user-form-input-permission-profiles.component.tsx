@@ -61,6 +61,18 @@ export function UserFormInputPermissionProfilesComponent({
                   <GroupSelector.List<PermissionProfileInterface>
                     messageItemEmpty={MESSAGES_USERS[5.19]}
                     messageGroupEmpty={MESSAGES_USERS[5.19]}
+                    heading={(group, allSelected, toggleAll) => (
+                      <div className="flex items-center justify-between">
+                        <span>{group.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => toggleAll(group)}
+                          className="underline underline-offset-2 text-primary-300"
+                        >
+                          {allSelected ? 'Remover seleção' : 'Selecionar todos'}
+                        </button>
+                      </div>
+                    )}
                   >
                     {(itemList) => {
                       const isHighlighted = highlightedId === itemList.id
