@@ -9,9 +9,9 @@ import { useBindUserWithPermissionProfileSubmit } from '../../hooks/use-bind-use
 import { usePermissionProfileWithUserStore } from '../../stores/user-permission-profile.store'
 import { usePermissionProfileStore } from '@/modules/permissions/presentation/stores/permission-profile.store'
 import { useTableUser } from '../../contexts/table-user.context'
-import type { PermissionsProfileIdsWithUserIdInterface } from '@/modules/users/domain/interfaces/permissions-profile-ids-with-user-id.interface'
 import { useContractStore } from '@/modules/contracts/presentation/stores/contract.store'
 import { useSelectablePermissionProfile } from '../../hooks/use-selectable-permission-profile.hook'
+import type { PermissionsProfileIdsWithUserIdInterface } from '@/modules/users/domain/interfaces/permissions-profile-ids-with-user-id.interface'
 interface BindUserWithPermissionProfilesMenuComponentProps {
   title: string
   description: string
@@ -41,7 +41,6 @@ export function BindUserWithPermissionProfilesMenuComponent({
         <BindUserWithPermissionProfileForm.Provider
           isOpen={isOpen}
           userId={userId}
-          contracts={[]}
           permissionProfiles={userWithPermissionProfiles}
         >
           <UserForm.Form>
