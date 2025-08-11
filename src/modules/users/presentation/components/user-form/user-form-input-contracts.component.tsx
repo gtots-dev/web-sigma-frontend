@@ -83,6 +83,11 @@ export function UserFormInputContractsComponent({
                 <GroupSelector.List<ContractEntity>
                   messageItemEmpty={MESSAGES_CONTRACTS[3.3]}
                   messageGroupEmpty="Selecione um perfil de permissão (Opcional)"
+                  heading={(group) => (
+                    <div className="flex items-center justify-between">
+                      <span>{group.name}</span>
+                    </div>
+                  )}
                 >
                   {(item) => {
                     const isChecked =

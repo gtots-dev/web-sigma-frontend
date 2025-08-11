@@ -16,6 +16,9 @@ export function useBindUserWithPermissionProfileSubmit() {
       }: PermissionsProfileIdsWithUserIdInterface,
       onSuccess?: VoidFunction
     ): Promise<void> => {
+      bindings.filter((binding) =>
+        selectedPermissionsProfiles.includes(binding.perm_profile_id)
+      )
       try {
         toast({
           title: 'Perfis de permissão vinculados com sucesso!',
