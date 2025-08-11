@@ -15,6 +15,7 @@ type MessageKeys =
   | '2.14'
   | '2.15'
   | '2.16'
+  | '2.17'
 
 export const MESSAGES_PASSWORD_RESET: Record<MessageKeys, string> = {
   '2.1': 'Defina sua nova senha',
@@ -35,5 +36,6 @@ export const MESSAGES_PASSWORD_RESET: Record<MessageKeys, string> = {
   '2.14': 'Solicitação de redefinição',
   '2.15':
     'Solicite a redefinição abaixo. Um e-mail com o link será enviado ao usuário.',
-  '2.16': 'O prazo deve ser um número inteiro maior que 0'
+  '2.16': 'O prazo deve ser um número inteiro maior que 0',
+  '2.17': 'O prazo não pode ser superior a um ano.'
 }

@@ -1,9 +1,11 @@
 'use client'
 
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { useToast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
+import { useRouter } from 'next/navigation'
 import { useFormContext } from 'react-hook-form'
 
 interface OperationFormSubmitComponentProps {
@@ -16,6 +18,7 @@ export function OperationFormSubmitComponent({
   const { setOperation, operation: SelectOperation } = useOperationStore()
   const { toast } = useToast()
   const { handleSubmit } = useFormContext()
+  const { replace } = useRouter()
 
   const onSubmit = ({ operation }: { operation: OperationInterface }) => {
     if (operation.id === SelectOperation.id) {
@@ -26,6 +29,7 @@ export function OperationFormSubmitComponent({
       })
     }
     setOperation(operation)
+    replace(PATHNAMES.OPERATION_OPTIONS(Number(operation.id)))
     close()
     toast({
       variant: 'success',

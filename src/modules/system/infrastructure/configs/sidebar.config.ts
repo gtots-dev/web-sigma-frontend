@@ -1,5 +1,3 @@
-'use client'
-
 import {
   ArrowUpDown,
   Building2,
@@ -11,94 +9,113 @@ import {
   UserRoundPen,
   UsersRound
 } from 'lucide-react'
-
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
-import { PERMISSIONS_ACCESS } from './permission-access'
+import { PermissionEnum } from '../../domain/enums/permissions.enum'
 
-export const SidebarData = {
-  title: 'Operações',
-  url: PATHNAMES.OPERATIONS,
-  icon: Building2,
-  isActive: PERMISSIONS_ACCESS.operations,
-  isToExpand: true,
-  items: [
+export function getSidebarData(operationId: number) {
+  return [
     {
-      title: 'Opções de operação',
-      url: PATHNAMES.OPERATION_OPTIONS,
-      icon: List,
-      isActive: PERMISSIONS_ACCESS.optionsOperation,
+      title: 'Operações',
+      url: PATHNAMES.OPERATIONS,
+      icon: Building2,
+      permissions: [PermissionEnum.NOT_REQUIRED],
       isToExpand: true,
       items: [
         {
-          title: 'Contratos',
-          url: PATHNAMES.CONTRACTS,
-          icon: FileText,
-          isActive: PERMISSIONS_ACCESS.contracts,
+          title: 'Opções de operação',
+          url: PATHNAMES.OPERATION_OPTIONS(operationId),
+          icon: List,
+          permissions: [PermissionEnum.NOT_REQUIRED],
           isToExpand: true,
           items: [
             {
-              title: 'Opções do contrato',
-              url: '',
-              icon: List,
-              isActive: PERMISSIONS_ACCESS.optionsContract,
+              title: 'Contratos',
+              url: PATHNAMES.CONTRACTS(operationId),
+              icon: FileText,
+              permissions: [PermissionEnum.CONTRACTS_VIEW],
               isToExpand: true,
               items: [
                 {
-                  title: 'U.P.s',
-                  url: PATHNAMES.PROCESSING_UNITS,
-                  icon: HardDrive,
-                  isActive: PERMISSIONS_ACCESS.processingUnits,
+                  title: 'Opções do contrato',
+                  url: '',
+                  icon: List,
+                  permissions: [PermissionEnum.CONTRACTS_VIEW],
                   isToExpand: true,
                   items: [
                     {
-                      title: 'Opções de U.P.s',
-                      url: '',
-                      icon: List,
-                      isActive: PERMISSIONS_ACCESS.optionsProcessingUnits,
+                      title: 'U.P.s',
+                      url: PATHNAMES.PROCESSING_UNITS(operationId),
+                      icon: HardDrive,
+                      permissions: [
+                        PermissionEnum.CONTRACTS_VIEW,
+                        PermissionEnum.PROCESSING_UNITS_VIEW
+                      ],
                       isToExpand: true,
                       items: [
                         {
-                          title: 'Faixas',
-                          url: PATHNAMES.LANES,
-                          icon: ArrowUpDown,
+                          title: 'Opções de U.P.s',
+                          url: '',
+                          icon: List,
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.PROCESSING_UNITS_VIEW
+                          ],
                           isToExpand: true,
-                          isActive: PERMISSIONS_ACCESS.lanes
+                          items: [
+                            {
+                              title: 'Faixas',
+                              url: PATHNAMES.LANES(operationId),
+                              icon: ArrowUpDown,
+                              isToExpand: true,
+                              permissions: [
+                                PermissionEnum.LANES_VIEW,
+                                PermissionEnum.CONTRACTS_VIEW,
+                                PermissionEnum.PROCESSING_UNITS_VIEW
+                              ]
+                            }
+                          ]
                         }
+                      ]
+                    },
+                    {
+                      title: 'Pontos',
+                      url: PATHNAMES.POINTS(operationId),
+                      icon: MapPin,
+                      isToExpand: true,
+                      permissions: [
+                        PermissionEnum.CONTRACTS_VIEW,
+                        PermissionEnum.POINTS_VIEW
+                      ]
+                    },
+                    {
+                      title: 'Operadores',
+                      url: PATHNAMES.OPERATORS(operationId),
+                      icon: UserRoundPen,
+                      isToExpand: true,
+                      permissions: [
+                        PermissionEnum.CONTRACTS_VIEW,
+                        PermissionEnum.OPERATORS_VIEW
                       ]
                     }
                   ]
-                },
-                {
-                  title: 'Pontos',
-                  url: PATHNAMES.POINTS,
-                  icon: MapPin,
-                  isToExpand: true,
-                  isActive: PERMISSIONS_ACCESS.points
-                },
-                {
-                  title: 'Operadores',
-                  url: PATHNAMES.OPERATORS,
-                  icon: UserRoundPen,
-                  isToExpand: true,
-                  isActive: PERMISSIONS_ACCESS.operators
                 }
               ]
+            },
+            {
+              title: 'Usuários',
+              url: PATHNAMES.USERS(operationId),
+              icon: UsersRound,
+              isToExpand: true,
+              permissions: [PermissionEnum.USERS_VIEW]
+            },
+            {
+              title: 'Permissões',
+              url: PATHNAMES.PERMISSIONS(operationId),
+              icon: Shield,
+              isToExpand: true,
+              permissions: [PermissionEnum.PERMISSIONS_VIEW]
             }
           ]
-        },
-        {
-          title: 'Usuários',
-          url: PATHNAMES.USERS,
-          icon: UsersRound,
-          isToExpand: true,
-          isActive: PERMISSIONS_ACCESS.users
-        },
-        {
-          title: 'Permissões',
-          url: PATHNAMES.PERMISSIONS,
-          icon: Shield,
-          isToExpand: true,
-          isActive: PERMISSIONS_ACCESS.permissions
         }
       ]
     }

@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useContext, ReactNode } from 'react'
 import { useGroupItemSelector } from '../hooks/use-group-selector'
 import type {

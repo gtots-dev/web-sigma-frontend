@@ -5,13 +5,15 @@ import {
   TableHeader
 } from '@/modules/shared/presentation/components/shadcn/table'
 import { MESSAGES_OPERATIONS } from '@/modules/shared/presentation/messages/operations'
-import { TableOperationHeaderRowComponent } from './table-operations-header-row.component'
-import { TableOperationContentRowComponent } from './table-operations-content-row.component'
-import { TableOperationMessageRow } from './table-operations-message-row.component'
+import { TableOperationHeaderRowComponent } from './table-operations-header.component'
+import { TableOperationItemComponent } from './table-operations-item.component'
 import { getOperations } from '../../utils/get-operations.util'
+import { TableMessage } from '@/modules/shared/presentation/components/table-addons/table-message.component'
+import { auth } from '@/auth'
 
 export async function TableOperationsRootComponent() {
-  const operations = await getOperations()
+  const { token: JWT } = await auth()
+  const operations = await getOperations(JWT)
   const containerHeight = 69 + 36 + 53 * 10
 
   return (
@@ -26,13 +28,10 @@ export async function TableOperationsRootComponent() {
         <TableBody>
           {operations && operations.length > 0 ? (
             operations.map((operation, index) => (
-              <TableOperationContentRowComponent
-                key={index}
-                operation={operation}
-              />
+              <TableOperationItemComponent key={index} operation={operation} />
             ))
           ) : (
-            <TableOperationMessageRow message={MESSAGES_OPERATIONS[4.3]} />
+            <TableMessage message={MESSAGES_OPERATIONS[4.3]} />
           )}
         </TableBody>
       </Table>

@@ -4,34 +4,27 @@ import {
   SidebarProvider,
   SidebarTrigger
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
-import { SidebarData } from '@/modules/system/infrastructure/configs/sidebar.config'
 import { SidebarSystem } from '@/modules/system/presentation/components/sidebar-system'
 import { UserDropdown } from '@/modules/system/presentation/components/user-dropdown'
 import type { ReactNode } from 'react'
 import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
 import { ContentSystem } from '@/modules/system/presentation/components/content-system'
-import { getUser } from '@/modules/users/presentation/utils/get-user.util'
-
+import { getUserMe } from '@/modules/users/presentation/utils/get-user.util'
+import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
+import { auth } from '@/auth'
 interface LayoutProps {
   children: ReactNode
 }
 
 export default async function Layout({ children }: LayoutProps) {
-  const { name, email } = await getUser()
+  const jwtFactory = JwtTokenDecodeFactory.create()
+  const { token: JWT } = await auth()
+  const { permissions } = jwtFactory.decode(JWT.access_token)
+  const { name, email } = await getUserMe()
+
   return (
     <SidebarProvider>
-      <SidebarSystem.Root>
-        <SidebarSystem.Header />
-        <SidebarSystem.Content>
-          <SidebarSystem.Item item={SidebarData} />
-        </SidebarSystem.Content>
-        <SidebarSystem.Footer>
-          <UserDropdown.Root>
-            <UserDropdown.Trigger user={{ name, email }} />
-            <UserDropdown.Menu user={{ name, email }} />
-          </UserDropdown.Root>
-        </SidebarSystem.Footer>
-      </SidebarSystem.Root>
+      <SidebarSystem.Client user={{ name, email }} permissions={permissions} />
 
       <SidebarInset>
         <HeaderSystem.Root>
