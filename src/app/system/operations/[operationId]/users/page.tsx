@@ -28,7 +28,9 @@ export default async function UsersPage({ params }: UsersPageProps) {
     menuViewMoreUserTitle: MESSAGES_USERS['5.27'],
     menuViewMoreUserDescription: MESSAGES_USERS['5.28'],
     menuPasswordResetUserTitle: MESSAGES_PASSWORD_RESET['2.14'],
-    menuPasswordResetUserDescription: MESSAGES_PASSWORD_RESET['2.15']
+    menuPasswordResetUserDescription: MESSAGES_PASSWORD_RESET['2.15'],
+    menuBindUserWithPermissionProfilesTitle: MESSAGES_USERS['5.16'],
+    menuBindUserWithPermissionProfilesDescription: MESSAGES_USERS['5.17']
   }
 
   return (
@@ -58,6 +60,12 @@ export default async function UsersPage({ params }: UsersPageProps) {
               permissions={userPermissions}
               viewMoreTitle={data.menuViewMoreUserTitle}
               viewMoreDescription={data.menuViewMoreUserDescription}
+              bindUserWithPermissionProfilesTitle={
+                data.menuBindUserWithPermissionProfilesTitle
+              }
+              bindUserWithPermissionProfilesDescription={
+                data.menuBindUserWithPermissionProfilesDescription
+              }
               editTitle={data.menuEditUserTitle}
               editDescription={data.menuEditUserDescription}
               resetTitle={data.menuPasswordResetUserTitle}
