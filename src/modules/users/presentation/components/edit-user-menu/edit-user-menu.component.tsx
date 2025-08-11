@@ -12,11 +12,13 @@ import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files
 interface AddUserMenuComponentProps {
   title: string
   description: string
+  isEnableAndDisable: boolean
 }
 
 export function EditUserMenuComponent({
   title,
-  description
+  description,
+  isEnableAndDisable
 }: AddUserMenuComponentProps) {
   const { isOpen, close } = useDialog()
   const { onAction } = useEditUserSubmit()
@@ -36,7 +38,7 @@ export function EditUserMenuComponent({
             <UserForm.Input.Username />
             <UserForm.Input.Files />
             <UserForm.Input.Description />
-            <UserForm.Input.Enabled />
+            {isEnableAndDisable && <UserForm.Input.Enabled />}
           </UserForm.Form>
 
           <EditUserMenu.Footer>

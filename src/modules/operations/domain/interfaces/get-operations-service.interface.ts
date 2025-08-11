@@ -1,9 +1,6 @@
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { OperationInterface } from './operation.interface'
+import type { OperationEntity } from '../entities/operation.entity'
 
 export interface GetOperationsServiceInterface {
-  execute(
-    token: TokenEntities,
-    params?: number[]
-  ): Promise<OperationInterface[]>
+  execute(token: TokenEntities): Promise<OperationEntity[]>
 }
