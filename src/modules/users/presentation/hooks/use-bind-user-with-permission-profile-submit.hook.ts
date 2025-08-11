@@ -1,45 +1,22 @@
+'use client'
+
 import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import { usePermissionProfileWithUserStore } from '../stores/user-permission-profile.store'
-import {
-  getProfilesToAddUtil,
-  getProfilesToDeleteUtil
-} from '../utils/permissions-profiles-diff.util'
 import type { PermissionsProfileIdsWithUserIdInterface } from '../../domain/interfaces/permissions-profile-ids-with-user-id.interface'
+import { useCacheSelectedBindsStore } from '../stores/cache-selecteds-binds.store'
 
 export function useBindUserWithPermissionProfileSubmit() {
-  const {
-    bindUserWithPermissionProfile,
-    deleteBindUserWithPermissionProfile,
-    userWithPermissionProfiles
-  } = usePermissionProfileWithUserStore()
-
+  const bindings = useCacheSelectedBindsStore((state) => state.bindings)
   const onAction = useCallback(
     async (
       {
         user_id: userId,
-        perm_profile_id: selectedPermissionsProfiles,
-        contract_id: selectedContracts
+        perm_profile_id: selectedPermissionsProfiles
       }: PermissionsProfileIdsWithUserIdInterface,
-      onSuccess: VoidFunction
+      onSuccess?: VoidFunction
     ): Promise<void> => {
       try {
-        const toDelete = getProfilesToDeleteUtil(
-          userWithPermissionProfiles,
-          selectedPermissionsProfiles
-        )
-        const toAdd = getProfilesToAddUtil(
-          userWithPermissionProfiles,
-          selectedPermissionsProfiles
-        )
-        await Promise.all(
-          toDelete.map((bindingId) =>
-            deleteBindUserWithPermissionProfile(bindingId, userId)
-          )
-        )
-        if (toAdd.length > 0 && selectedContracts.length === 0)
-          await bindUserWithPermissionProfile(toAdd, userId)
         toast({
           title: 'Perfis de permissão vinculados com sucesso!',
           description: `Os perfis selecionados foram atribuídos ao usuário.`,
@@ -57,12 +34,7 @@ export function useBindUserWithPermissionProfileSubmit() {
         }
       }
     },
-    [
-      bindUserWithPermissionProfile,
-      deleteBindUserWithPermissionProfile,
-      userWithPermissionProfiles
-    ]
+    [bindings]
   )
-
   return { onAction }
 }
