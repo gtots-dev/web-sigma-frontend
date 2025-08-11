@@ -12,6 +12,7 @@ import type { PermissionProfileInterface } from '@/modules/permissions/domain/in
 import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
 import { useState } from 'react'
+import { useCacheSelectedBindsStore } from '../../stores/cache-selecteds-binds.store'
 interface UserFormInputPermissionProfilesComponentProps {
   require?: boolean
   description?: string
@@ -25,8 +26,9 @@ export function UserFormInputPermissionProfilesComponent({
   description,
   onSelectProfile
 }: UserFormInputPermissionProfilesComponentProps) {
-  const { control } = useFormContext()
+  const { control, setValue } = useFormContext()
   const [highlightedId, setHighlightedId] = useState<number | null>(null)
+  const { setSelectedPermProfile } = useCacheSelectedBindsStore()
 
   return (
     <FormField
@@ -50,7 +52,7 @@ export function UserFormInputPermissionProfilesComponent({
               <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
                 Perfis de Permissões{require ? ': *' : ':'}
                 <HelpMeButtonComponent description={description} />
-                 <GroupSelector.Toggle className="ms-auto" />
+                <GroupSelector.Toggle className="ms-auto" />
               </FormLabel>
 
               <FormControl>
@@ -73,6 +75,9 @@ export function UserFormInputPermissionProfilesComponent({
                             <div className="flex items-center gap-x-4 !ps-2 !py-0 w-full h-full mt-1.5">
                               <div className="ms-2">
                                 <GroupSelector.Checkbox.Check
+                                  onClick={() => {
+                                    setSelectedPermProfile({ id: itemList.id })
+                                  }}
                                   item={itemList}
                                   className={cn(
                                     isHighlighted && '!text-primary-500'
@@ -92,6 +97,8 @@ export function UserFormInputPermissionProfilesComponent({
                                     prev === itemList.id ? null : itemList.id
                                   )
                                   onSelectProfile?.(itemList)
+                                  setSelectedPermProfile({ id: itemList.id })
+                                  setValue('contract_id', [])
                                 }}
                               >
                                 <li>{itemList.name}</li>
