@@ -4,10 +4,13 @@ import { HeaderSection } from '@/modules/system/presentation/components/header-s
 import { TablePermissionProfiles } from '@/modules/permissions/presentation/components/table-permission-profiles'
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { AddPermissionProfileMenu } from '@/modules/permissions/presentation/components/add-permission-profile-menu'
-import { AddPermissionProfileMenuComponent } from '@/modules/permissions/presentation/components/add-permission-profile-menu/add-permission-profile-menu.component'
 import { PermissionProfileOptionsDropdown } from '@/modules/permissions/presentation/components/permission-profile-options-dropdown'
-import { EditPermissionProfileMenu } from '@/modules/permissions/presentation/components/edit-permission-profile-menu'
-import { EditPermissionProfileMenuComponent } from '@/modules/permissions/presentation/components/edit-permission-profile-menu/edit-permission-profile-menu.component'
+import { auth } from '@/auth'
+import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+
+interface PermissionsPageProps {
+  params: Promise<{ operationId: string }>
+}
 
 interface Data {
   title: string
@@ -18,7 +21,13 @@ interface Data {
   menuEditPermissionProfileDescription: string
 }
 
-export default function PermissionsPage() {
+export default async function PermissionsPage({
+  params
+}: PermissionsPageProps) {
+  const { token: JWT } = await auth()
+  const { operationId: rawOperationId } = await params
+  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+
   const data: Data = {
     title: MESSAGES_PERMISSIONS['6.1'],
     description: MESSAGES_PERMISSIONS['6.2'],
@@ -38,32 +47,21 @@ export default function PermissionsPage() {
       </HeaderSection.Root>
       <Separator orientation="horizontal" />
       <ActionSection.Root>
-        <AddPermissionProfileMenu.Provider>
-          <AddPermissionProfileMenu.Trigger />
-          <AddPermissionProfileMenuComponent
-            title={data.menuAddPermissionProfileTitle}
-            description={data.menuAddPermissionProfileDescription}
-          />
-        </AddPermissionProfileMenu.Provider>
+        <AddPermissionProfileMenu.Client
+          permissions={userPermissions}
+          title={data.menuAddPermissionProfileTitle}
+          description={data.menuAddPermissionProfileDescription}
+        />
       </ActionSection.Root>
       <TablePermissionProfiles.Root>
         <TablePermissionProfiles.Header />
         <TablePermissionProfiles.Body>
           <TablePermissionProfiles.Item>
-            <EditPermissionProfileMenu.Provider>
-              <PermissionProfileOptionsDropdown.Root>
-                <PermissionProfileOptionsDropdown.Trigger />
-                <PermissionProfileOptionsDropdown.Menu>
-                  <PermissionProfileOptionsDropdown.Item>
-                    <EditPermissionProfileMenu.Trigger />
-                  </PermissionProfileOptionsDropdown.Item>
-                </PermissionProfileOptionsDropdown.Menu>
-              </PermissionProfileOptionsDropdown.Root>
-              <EditPermissionProfileMenuComponent
-                title={data.menuEditPermissionProfileTitle}
-                description={data.menuEditPermissionProfileDescription}
-              />
-            </EditPermissionProfileMenu.Provider>
+            <PermissionProfileOptionsDropdown.Client
+              permissions={userPermissions}
+              editTitle={data.menuEditPermissionProfileTitle}
+              editDescription={data.menuEditPermissionProfileDescription}
+            />
           </TablePermissionProfiles.Item>
         </TablePermissionProfiles.Body>
       </TablePermissionProfiles.Root>

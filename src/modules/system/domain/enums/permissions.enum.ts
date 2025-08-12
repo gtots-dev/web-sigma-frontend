@@ -9,5 +9,7 @@ export enum PermissionEnum {
   USERS_EDIT = 'users_edit',
   USERS_ENABLE_AND_DISABLE = 'users_enable_disable',
   USERS_PASSWORD_RESET = 'users_passwd_reset',
-  PERMISSIONS_VIEW = 'permission_view'
+  PERMISSIONS_VIEW = 'permissions_view',
+  PERMISSIONS_EDIT = 'permissions_edit',
+  PERMISSIONS_ENABLE_AND_DISABLE = 'permissions_enable_disable'
 }
