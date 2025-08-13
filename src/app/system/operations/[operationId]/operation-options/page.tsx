@@ -25,7 +25,10 @@ interface OperationCardOption {
 export default async function OperationOptionsPage({
   params
 }: OperationOptionsPageProps) {
-  const { token: JWT } = await auth()
+  const {
+    token: JWT,
+    user: { isAdmin }
+  } = await auth()
   const { operationId: rawOperationId } = await params
   const operations = await getOperations(JWT)
   const { operationId, userPermissions } = await loadAuthContext(
@@ -45,21 +48,23 @@ export default async function OperationOptionsPage({
       description: MESSAGES_OPTIONS_OPERATION['11.5'],
       pathName: PATHNAMES.CONTRACTS(operationId),
       icon: FileText,
-      accessAllowed: userPermissions.has(PermissionEnum.CONTRACTS_VIEW)
+      accessAllowed:
+        isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_OPERATION['11.6'],
       description: MESSAGES_OPTIONS_OPERATION['11.7'],
       pathName: PATHNAMES.USERS(operationId),
       icon: UsersRound,
-      accessAllowed: userPermissions.has(PermissionEnum.USERS_VIEW)
+      accessAllowed: isAdmin || userPermissions.has(PermissionEnum.USERS_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_OPERATION['11.8'],
       description: MESSAGES_OPTIONS_OPERATION['11.9'],
       pathName: PATHNAMES.PERMISSIONS(operationId),
       icon: FileKey2,
-      accessAllowed: userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
+      accessAllowed:
+        isAdmin || userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
     }
   ]
 
