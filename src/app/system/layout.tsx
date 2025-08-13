@@ -12,19 +12,24 @@ import { ContentSystem } from '@/modules/system/presentation/components/content-
 import { getUserMe } from '@/modules/users/presentation/utils/get-user.util'
 import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
 import { auth } from '@/auth'
+
 interface LayoutProps {
   children: ReactNode
 }
 
 export default async function Layout({ children }: LayoutProps) {
   const jwtFactory = JwtTokenDecodeFactory.create()
-  const { token: JWT } = await auth()
+  const [{ token: JWT, user }, { name, email }] = await Promise.all([
+    auth(),
+    getUserMe()
+  ])
   const { permissions } = jwtFactory.decode(JWT.access_token)
-  const { name, email } = await getUserMe()
+  const userBasic = { name, email }
+  const userWithAdmin = { ...userBasic, isAdmin: user.isAdmin }
 
   return (
     <SidebarProvider>
-      <SidebarSystem.Client user={{ name, email }} permissions={permissions} />
+      <SidebarSystem.Client user={userWithAdmin} permissions={permissions} />
 
       <SidebarInset>
         <HeaderSystem.Root>
@@ -37,13 +42,9 @@ export default async function Layout({ children }: LayoutProps) {
               <UserDropdown.Trigger
                 className="ms-auto h-auto w-auto aspect-square"
                 isInfoEnabled={false}
-                user={{ name, email }}
+                user={userBasic}
               />
-              <UserDropdown.Menu
-                align="end"
-                side="bottom"
-                user={{ name, email }}
-              />
+              <UserDropdown.Menu align="end" side="bottom" user={userBasic} />
             </UserDropdown.Root>
           </div>
         </HeaderSystem.Root>
