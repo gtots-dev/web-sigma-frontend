@@ -33,7 +33,9 @@ export default async function UsersPage({ params }: UsersPageProps) {
     menuPasswordResetUserTitle: MESSAGES_PASSWORD_RESET['2.14'],
     menuPasswordResetUserDescription: MESSAGES_PASSWORD_RESET['2.15'],
     menuBindUserWithPermissionProfilesTitle: MESSAGES_USERS['5.16'],
-    menuBindUserWithPermissionProfilesDescription: MESSAGES_USERS['5.17']
+    menuBindUserWithPermissionProfilesDescription: MESSAGES_USERS['5.17'],
+    menuUserStatusTitle: MESSAGES_USERS['5.34'],
+    menuUserStatusDescription: MESSAGES_USERS['5.33']
   }
 
   return (
@@ -75,6 +77,8 @@ export default async function UsersPage({ params }: UsersPageProps) {
               bindUserWithPermissionProfilesDescription={
                 data.menuBindUserWithPermissionProfilesDescription
               }
+              userStatusTitle={data.menuUserStatusTitle}
+              userStatusDescription={data.menuUserStatusDescription}
             />
           </TableUsers.Item>
         </TableUsers.Body>
