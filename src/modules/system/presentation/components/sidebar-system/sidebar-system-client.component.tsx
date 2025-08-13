@@ -10,6 +10,7 @@ import type { UserPermissionsInterface } from '@/modules/users/domain/interfaces
 interface SidebarSystemClientComponentProps {
   permissions: UserPermissionsInterface
   user: {
+    isAdmin: boolean
     name: string
     email: string
   }
@@ -19,7 +20,10 @@ export default function SidebarSystemClientComponent({
   user,
   permissions
 }: SidebarSystemClientComponentProps) {
-  const { pathname, sidebarData } = useSidebarSystemData(permissions)
+  const { pathname, sidebarData } = useSidebarSystemData(
+    permissions,
+    user.isAdmin
+  )
 
   return (
     <SidebarSystem.Root>

@@ -5,17 +5,19 @@ import { AddUserMenuComponent } from '@/modules/users/presentation/components/ad
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 
 export function AddUserMenuClient({
+  isAdmin,
   title,
   description,
   permissions
 }: {
+  isAdmin: boolean
   title: string
   description: string
   permissions: Set<PermissionEnum>
 }) {
   return (
     <AddUserMenu.Provider>
-      {permissions.has(PermissionEnum.USERS_EDIT) && (
+      {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
         <>
           <AddUserMenu.Trigger />
           <AddUserMenuComponent title={title} description={description} />
