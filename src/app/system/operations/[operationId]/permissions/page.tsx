@@ -24,7 +24,10 @@ interface Data {
 export default async function PermissionsPage({
   params
 }: PermissionsPageProps) {
-  const { token: JWT } = await auth()
+  const {
+    token: JWT,
+    user: { isAdmin }
+  } = await auth()
   const { operationId: rawOperationId } = await params
   const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
 
@@ -48,6 +51,7 @@ export default async function PermissionsPage({
       <Separator orientation="horizontal" />
       <ActionSection.Root>
         <AddPermissionProfileMenu.Client
+          isAdmin={isAdmin}
           permissions={userPermissions}
           title={data.menuAddPermissionProfileTitle}
           description={data.menuAddPermissionProfileDescription}
@@ -58,6 +62,7 @@ export default async function PermissionsPage({
         <TablePermissionProfiles.Body>
           <TablePermissionProfiles.Item>
             <PermissionProfileOptionsDropdown.Client
+              isAdmin={isAdmin}
               permissions={userPermissions}
               editTitle={data.menuEditPermissionProfileTitle}
               editDescription={data.menuEditPermissionProfileDescription}
