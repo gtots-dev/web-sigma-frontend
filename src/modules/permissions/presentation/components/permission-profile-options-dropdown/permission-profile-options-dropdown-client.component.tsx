@@ -6,17 +6,19 @@ import { EditPermissionProfileMenuComponent } from '../edit-permission-profile-m
 import { PermissionProfileOptionsDropdown } from '.'
 
 export function PermissionProfileOptionsDropdownClientComponent({
+  isAdmin,
   editTitle,
   editDescription,
   permissions
 }: {
+  isAdmin: boolean
   editTitle: string
   editDescription: string
   permissions: Set<PermissionEnum>
 }) {
   return (
     <>
-      {permissions.has(PermissionEnum.PERMISSIONS_EDIT) && (
+      {(isAdmin || permissions.has(PermissionEnum.PERMISSIONS_EDIT)) && (
         <EditPermissionProfileMenu.Provider>
           <PermissionProfileOptionsDropdown.Root>
             <PermissionProfileOptionsDropdown.Trigger />

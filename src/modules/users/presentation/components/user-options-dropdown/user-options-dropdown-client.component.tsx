@@ -10,6 +10,7 @@ import { PutUserPasswordResetMenuComponent } from '../put-user-password-reset-me
 import { EditUserMenuComponent } from '../edit-user-menu/edit-user-menu.component'
 
 export function UserOptionsDropdownClient({
+  isAdmin,
   viewMoreTitle,
   viewMoreDescription,
   editTitle,
@@ -18,6 +19,7 @@ export function UserOptionsDropdownClient({
   resetDescription,
   permissions
 }: {
+  isAdmin: boolean
   viewMoreTitle: string
   viewMoreDescription: string
   editTitle: string
@@ -33,7 +35,7 @@ export function UserOptionsDropdownClient({
           <UserOptionsDropdown.Root>
             <UserOptionsDropdown.Trigger />
             <UserOptionsDropdown.Menu>
-              {permissions.has(PermissionEnum.USERS_EDIT) && (
+              {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
                 <UserOptionsDropdown.Item>
                   <EditUserMenu.Trigger />
                 </UserOptionsDropdown.Item>
@@ -43,7 +45,8 @@ export function UserOptionsDropdownClient({
                 <ViewMoreUserMenu.Trigger />
               </UserOptionsDropdown.Item>
 
-              {permissions.has(PermissionEnum.USERS_PASSWORD_RESET) && (
+              {(isAdmin ||
+                permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (
                 <UserOptionsDropdown.Item>
                   <PutUserPasswordResetMenu.Trigger />
                 </UserOptionsDropdown.Item>
@@ -56,18 +59,22 @@ export function UserOptionsDropdownClient({
             description={viewMoreDescription}
           />
 
-          {permissions.has(PermissionEnum.USERS_PASSWORD_RESET) && (
+          {(isAdmin ||
+            permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (
             <PutUserPasswordResetMenuComponent
               title={resetTitle}
               description={resetDescription}
             />
           )}
 
-          {permissions.has(PermissionEnum.USERS_EDIT) && (
+          {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
             <EditUserMenuComponent
               title={editTitle}
               description={editDescription}
-              isEnableAndDisable={permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)}
+              isEnableAndDisable={
+                isAdmin ||
+                permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)
+              }
             />
           )}
         </PutUserPasswordResetMenu.Provider>
