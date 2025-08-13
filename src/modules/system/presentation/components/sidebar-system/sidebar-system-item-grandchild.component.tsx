@@ -57,7 +57,7 @@ export function SidebarSystemItemGrandchildComponent({
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <SidebarMenuSubItem>
             <div className={cn(sidebarButtonClass, className)}>
-              {item.items && item.isToExpand && (
+              {item?.items?.length > 0 && item.isToExpand && (
                 <CollapsibleTrigger className="group aspect-square">
                   <ChevronRight className={rotateArrowClassNames} />
                 </CollapsibleTrigger>
