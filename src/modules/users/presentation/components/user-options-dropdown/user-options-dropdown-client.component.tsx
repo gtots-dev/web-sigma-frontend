@@ -8,6 +8,8 @@ import { UserOptionsDropdown } from '.'
 import { ViewMoreUserMenuComponent } from '../view-more-user-menu/view-more-user-menu.component'
 import { PutUserPasswordResetMenuComponent } from '../put-user-password-reset-menu/put-user-password-reset-menu.component'
 import { EditUserMenuComponent } from '../edit-user-menu/edit-user-menu.component'
+import { BindUserWithPermissionProfilesMenu } from '../bind-user-with-permission-profiles-menu'
+import { BindUserWithPermissionProfilesMenuComponent } from '../bind-user-with-permission-profiles-menu/bind-user-with-permission-profiles-menu.component'
 
 export function UserOptionsDropdownClient({
   isAdmin,
@@ -17,7 +19,9 @@ export function UserOptionsDropdownClient({
   editDescription,
   resetTitle,
   resetDescription,
-  permissions
+  permissions,
+  bindUserWithPermissionProfilesTitle,
+  bindUserWithPermissionProfilesDescription
 }: {
   isAdmin: boolean
   viewMoreTitle: string
@@ -26,59 +30,72 @@ export function UserOptionsDropdownClient({
   editDescription: string
   resetTitle: string
   resetDescription: string
+  bindUserWithPermissionProfilesTitle: string
+  bindUserWithPermissionProfilesDescription: string
   permissions: Set<PermissionEnum>
 }) {
   return (
-    <ViewMoreUserMenu.Provider>
-      <EditUserMenu.Provider>
-        <PutUserPasswordResetMenu.Provider>
-          <UserOptionsDropdown.Root>
-            <UserOptionsDropdown.Trigger />
-            <UserOptionsDropdown.Menu>
-              {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
+    <BindUserWithPermissionProfilesMenu.Provider>
+      <ViewMoreUserMenu.Provider>
+        <EditUserMenu.Provider>
+          <PutUserPasswordResetMenu.Provider>
+            <UserOptionsDropdown.Root>
+              <UserOptionsDropdown.Trigger />
+              <UserOptionsDropdown.Menu>
                 <UserOptionsDropdown.Item>
-                  <EditUserMenu.Trigger />
+                  <ViewMoreUserMenu.Trigger />
                 </UserOptionsDropdown.Item>
-              )}
 
-              <UserOptionsDropdown.Item>
-                <ViewMoreUserMenu.Trigger />
-              </UserOptionsDropdown.Item>
+                {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
+                  <UserOptionsDropdown.Item>
+                    <EditUserMenu.Trigger />
+                  </UserOptionsDropdown.Item>
+                )}
 
-              {(isAdmin ||
-                permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (
                 <UserOptionsDropdown.Item>
-                  <PutUserPasswordResetMenu.Trigger />
+                  <BindUserWithPermissionProfilesMenu.Trigger />
                 </UserOptionsDropdown.Item>
-              )}
-            </UserOptionsDropdown.Menu>
-          </UserOptionsDropdown.Root>
 
-          <ViewMoreUserMenuComponent
-            title={viewMoreTitle}
-            description={viewMoreDescription}
-          />
+                {(isAdmin ||
+                  permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (
+                  <UserOptionsDropdown.Item>
+                    <PutUserPasswordResetMenu.Trigger />
+                  </UserOptionsDropdown.Item>
+                )}
+              </UserOptionsDropdown.Menu>
+            </UserOptionsDropdown.Root>
 
-          {(isAdmin ||
-            permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (
-            <PutUserPasswordResetMenuComponent
-              title={resetTitle}
-              description={resetDescription}
+            <ViewMoreUserMenuComponent
+              title={viewMoreTitle}
+              description={viewMoreDescription}
             />
-          )}
 
-          {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
-            <EditUserMenuComponent
-              title={editTitle}
-              description={editDescription}
-              isEnableAndDisable={
-                isAdmin ||
-                permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)
-              }
+            <BindUserWithPermissionProfilesMenuComponent
+              title={bindUserWithPermissionProfilesTitle}
+              description={bindUserWithPermissionProfilesDescription}
             />
-          )}
-        </PutUserPasswordResetMenu.Provider>
-      </EditUserMenu.Provider>
-    </ViewMoreUserMenu.Provider>
+
+            {(isAdmin ||
+              permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (
+              <PutUserPasswordResetMenuComponent
+                title={resetTitle}
+                description={resetDescription}
+              />
+            )}
+
+            {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
+              <EditUserMenuComponent
+                title={editTitle}
+                description={editDescription}
+                isEnableAndDisable={
+                  isAdmin ||
+                  permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)
+                }
+              />
+            )}
+          </PutUserPasswordResetMenu.Provider>
+        </EditUserMenu.Provider>
+      </ViewMoreUserMenu.Provider>
+    </BindUserWithPermissionProfilesMenu.Provider>
   )
 }
