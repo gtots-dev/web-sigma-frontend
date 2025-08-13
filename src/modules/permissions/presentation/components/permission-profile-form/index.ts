@@ -5,6 +5,7 @@ import { PermissionProfileFormSubmitComponent } from './permission-profile-form-
 import { PermissionProfileFormComponent } from './permission-profile-form.component'
 import { PermissionProfileFormInputFeaturesComponent } from './permission-profile-form-input-features.component'
 import { PermissionProfileFormInputDescriptionComponent } from './permission-profile-form-input-description.component'
+import { PermissionProfileFormInputEnabledComponent } from './permission-profile-form-input-enabled.component'
 
 export const PermissionProfileForm = {
   Form: PermissionProfileFormComponent,
@@ -12,6 +13,7 @@ export const PermissionProfileForm = {
   Input: {
     Name: PermissionProfileFormInputNameComponent,
     Description: PermissionProfileFormInputDescriptionComponent,
-    Features: PermissionProfileFormInputFeaturesComponent
+    Features: PermissionProfileFormInputFeaturesComponent,
+    Enabled: PermissionProfileFormInputEnabledComponent
   }
 }
