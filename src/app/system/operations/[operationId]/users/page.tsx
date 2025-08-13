@@ -14,7 +14,10 @@ interface UsersPageProps {
 }
 
 export default async function UsersPage({ params }: UsersPageProps) {
-  const { token: JWT } = await auth()
+  const {
+    token: JWT,
+    user: { isAdmin }
+  } = await auth()
   const { operationId: rawOperationId } = await params
   const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
 
@@ -44,6 +47,7 @@ export default async function UsersPage({ params }: UsersPageProps) {
 
       <ActionSection.Root>
         <AddUserMenu.Client
+          isAdmin={isAdmin}
           permissions={userPermissions}
           title={data.menuAddUserTitle}
           description={data.menuAddUserDescription}
@@ -55,6 +59,7 @@ export default async function UsersPage({ params }: UsersPageProps) {
         <TableUsers.Body>
           <TableUsers.Item>
             <UserOptionsDropdown.Client
+              isAdmin={isAdmin}
               permissions={userPermissions}
               viewMoreTitle={data.menuViewMoreUserTitle}
               viewMoreDescription={data.menuViewMoreUserDescription}
