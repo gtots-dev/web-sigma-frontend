@@ -8,6 +8,7 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/form'
 import { Switch } from '@/modules/shared/presentation/components/shadcn/switch'
 import { useFormContext } from 'react-hook-form'
+import { useTableUser } from '../../contexts/table-user.context'
 
 interface UserFormInputEnabledComponentProps {
   require?: boolean
@@ -15,10 +16,10 @@ interface UserFormInputEnabledComponentProps {
 }
 
 export function UserFormInputEnabledComponent({
-  require,
   description
 }: UserFormInputEnabledComponentProps) {
   const { control } = useFormContext()
+  const user = useTableUser()
 
   return (
     <FormField
@@ -30,17 +31,23 @@ export function UserFormInputEnabledComponent({
             className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50"
             htmlFor="enabled-user"
           >
-            Habilitado{require ? ': *' : ':'}
             <HelpMeButtonComponent description={description} />
           </FormLabel>
 
           <FormControl>
             <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
               <div className="space-y-0.5">
-                <FormLabel>Habilitar usuário?</FormLabel>
+                <FormLabel>
+                  Usuário {field.value ? 'Habilitado' : 'Desabilitado'}
+                </FormLabel>
                 <FormDescription>
-                  Caso a opção correspondente esteja desabilitada, o usuário não
-                  poderá utilizar os recursos da aplicação.
+                  Usuário <b className="text-white/80">{user.name}</b>{' '}
+                  será{' '}
+                  <b className="text-white/80">
+                    {' '}
+                    {!field.value ? 'Habilitado' : 'Desabilitado'}{' '}
+                  </b>{' '}
+                  caso o botão seja alterado.
                 </FormDescription>
               </div>
               <Switch
