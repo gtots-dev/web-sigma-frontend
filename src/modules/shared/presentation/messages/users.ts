@@ -69,5 +69,5 @@ export const MESSAGES_USERS: Record<MessageKeys, string> = {
   '5.32': 'A descrição deve ter no máximo 255 caracteres.',
   '5.33': 'Habilitar/Desabilitar',
   '5.34':
-    'Caso a opção correspondente esteja desabilitada, o usuário não estará mais disponível.'
+    'Caso a opção correspondente esteja desabilitada, o usuário não estará mais disponível na lista para usuários comuns.'
 }
