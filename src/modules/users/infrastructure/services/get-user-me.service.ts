@@ -30,7 +30,7 @@ export class GetUserMeService implements GetUserMeServiceInterface {
       status
     }: HttpResponse<UserEntity & UserPermissionsInterface> =
       await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, data, status)
+    HttpResponseUserValidator.validate(success, status)
     return data
   }
 }

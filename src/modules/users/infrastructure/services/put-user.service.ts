@@ -31,8 +31,8 @@ export class PutUserService implements PutUserServiceInterface {
     user: FormData
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(token, userId, user)
-    const { success, data, status }: HttpResponse<UserInterface> =
+    const { success, status }: HttpResponse<UserInterface> =
       await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, data, status)
+    HttpResponseUserValidator.validate(success, status)
   }
 }
