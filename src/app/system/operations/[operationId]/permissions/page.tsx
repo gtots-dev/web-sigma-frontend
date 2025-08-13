@@ -12,15 +12,6 @@ interface PermissionsPageProps {
   params: Promise<{ operationId: string }>
 }
 
-interface Data {
-  title: string
-  description: string
-  menuAddPermissionProfileTitle: string
-  menuAddPermissionProfileDescription: string
-  menuEditPermissionProfileTitle: string
-  menuEditPermissionProfileDescription: string
-}
-
 export default async function PermissionsPage({
   params
 }: PermissionsPageProps) {
@@ -31,13 +22,15 @@ export default async function PermissionsPage({
   const { operationId: rawOperationId } = await params
   const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
 
-  const data: Data = {
+  const data = {
     title: MESSAGES_PERMISSIONS['6.1'],
     description: MESSAGES_PERMISSIONS['6.2'],
     menuAddPermissionProfileTitle: MESSAGES_PERMISSIONS['6.4'],
     menuAddPermissionProfileDescription: MESSAGES_PERMISSIONS['6.5'],
     menuEditPermissionProfileTitle: MESSAGES_PERMISSIONS['6.10'],
-    menuEditPermissionProfileDescription: MESSAGES_PERMISSIONS['6.11']
+    menuEditPermissionProfileDescription: MESSAGES_PERMISSIONS['6.11'],
+    menuStatusPermissionProfileTitle: MESSAGES_PERMISSIONS['6.14'],
+    menuStatusPermissionProfileDescription: MESSAGES_PERMISSIONS['6.15']
   }
 
   return (
@@ -66,6 +59,10 @@ export default async function PermissionsPage({
               permissions={userPermissions}
               editTitle={data.menuEditPermissionProfileTitle}
               editDescription={data.menuEditPermissionProfileDescription}
+              permissionProfileTitle={data.menuStatusPermissionProfileTitle}
+              permissionProfileDescription={
+                data.menuStatusPermissionProfileDescription
+              }
             />
           </TablePermissionProfiles.Item>
         </TablePermissionProfiles.Body>
