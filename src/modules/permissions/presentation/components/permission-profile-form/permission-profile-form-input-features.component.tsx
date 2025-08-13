@@ -57,11 +57,42 @@ export function PermissionProfileFormInputFeaturesComponent({
               </FormLabel>
 
               <FormControl>
-                <GroupSelector.List messageEmpty={MESSAGES_PERMISSIONS[6.6]}>
-                  {(group, item) => (
-                    <GroupSelector.Item key={item.id} item={item} />
-                  )}
-                </GroupSelector.List>
+                <GroupSelector.Root>
+                  <GroupSelector.Search placeholder="Busque pelo grupo ou permissão..." />
+                  <GroupSelector.List<featuresInterface>
+                    messageItemEmpty={MESSAGES_PERMISSIONS[6.6]}
+                    messageGroupEmpty={MESSAGES_PERMISSIONS[6.6]}
+                    heading={(group, allSelected, toggleAll) => (
+                      <div className="flex items-center justify-between">
+                        <span>{group.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => toggleAll(group)}
+                          className="underline underline-offset-2 text-primary-300"
+                        >
+                          {allSelected ? 'Remover seleção' : 'Selecionar todos'}
+                        </button>
+                      </div>
+                    )}
+                  >
+                    {(item) => (
+                      <GroupSelector.Item key={item.id} id={item.id}>
+                        {({ selected }) => (
+                          <div
+                            className="flex items-center gap-x-4 w-full h-full"
+                            key={item.id}
+                          >
+                            <GroupSelector.Checkbox.Check
+                              item={item}
+                              selected={selected}
+                            />
+                            <span>{item.name}</span>
+                          </div>
+                        )}
+                      </GroupSelector.Item>
+                    )}
+                  </GroupSelector.List>
+                </GroupSelector.Root>
               </FormControl>
 
               <FormMessage />

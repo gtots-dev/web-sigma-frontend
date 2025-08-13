@@ -34,8 +34,8 @@ export class PostUserService implements PostUserServiceInterface {
       user,
       operationSelectedId
     )
-    const { success, data, status }: HttpResponse<null> =
+    const { success, status }: HttpResponse<null> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, data, status)
+    HttpResponseUserValidator.validate(success, status)
   }
 }
