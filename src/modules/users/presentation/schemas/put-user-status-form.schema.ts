@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const PutUserStatusFormSchema = z.object({
-  userId: z.number(),
+  id: z.number(),
   enabled: z.boolean().nullable()
 })
 
