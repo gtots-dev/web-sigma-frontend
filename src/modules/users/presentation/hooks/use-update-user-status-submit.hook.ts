@@ -2,18 +2,17 @@ import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useUserStore } from '../stores/user.store'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
+import type { UserEnableAndDisableInterface } from '../../domain/interfaces/user-enable-and-disable.interface'
 
 export function usePutUserStatusSubmit() {
-  const { getUsers } = useUserStore()
+  const { getUsers, updateUserStatus } = useUserStore()
   const onAction = useCallback(
     async (
-      userStatus: {
-        enabled: boolean
-        userId: number
-      },
+      userStatus: UserEnableAndDisableInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
+        await updateUserStatus(userStatus)
         await getUsers()
         toast({
           title: 'Status do usuário alterado com sucesso!',
@@ -31,7 +30,7 @@ export function usePutUserStatusSubmit() {
         }
       }
     },
-    [getUsers]
+    [getUsers, updateUserStatus]
   )
 
   return { onAction }
