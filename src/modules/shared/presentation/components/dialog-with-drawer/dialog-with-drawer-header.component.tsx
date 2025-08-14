@@ -14,7 +14,7 @@ export function DialogWithDrawerHeaderComponent({
 
   if (isDesktop) {
     return (
-      <DialogHeader className="h-[160px] border-b p-8">{children}</DialogHeader>
+      <DialogHeader className="h-[170px] border-b p-8">{children}</DialogHeader>
     )
   }
 

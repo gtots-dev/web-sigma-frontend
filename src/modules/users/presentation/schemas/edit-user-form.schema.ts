@@ -16,7 +16,6 @@ export const EditUserFormSchema = z.object({
   company: z.string().optional(),
   position: z.string().optional(),
   login_name: z.string().optional(),
-  enabled: z.boolean().nullable(),
   files: z
     .array(z.instanceof(File))
     .refine(
