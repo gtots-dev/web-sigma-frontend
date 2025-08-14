@@ -8,7 +8,6 @@ export class UserEntity implements UserInterface {
     public company: string,
     public position: string,
     public id?: number,
-    public enabled?: boolean,
     public days_passwd_reg_deadline?: number,
     public description?: string
   ) {}

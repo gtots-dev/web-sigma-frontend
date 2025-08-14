@@ -10,7 +10,6 @@ export class UserFactory {
       email,
       company,
       position,
-      enabled,
       days_passwd_reg_deadline,
       description
     } = user
@@ -21,7 +20,6 @@ export class UserFactory {
       company,
       position,
       id,
-      enabled,
       days_passwd_reg_deadline,
       description
     )
