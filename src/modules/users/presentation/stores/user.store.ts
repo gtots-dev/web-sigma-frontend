@@ -5,12 +5,17 @@ import { PutUserRouterApiFactory } from '@/modules/api/infrastructure/factories/
 import { PostUserRouterApiFactory } from '@/modules/api/infrastructure/factories/post-user-router-api.factory'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UserWithFiles } from '../../domain/types/user-with-files'
+import type { UserEnableAndDisableInterface } from '../../domain/interfaces/user-enable-and-disable.interface'
+import { PutUserStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/put-user-status-router-api.factory'
 
 type UserState = {
   users: UserEntity[]
   getUsers: () => Promise<void>
   addUser: (user: Omit<UserWithFiles, 'id'>) => Promise<void>
   updateUser: (user: UserWithFiles) => Promise<void>
+  updateUserStatus: (
+    userEnableAndDisable: UserEnableAndDisableInterface
+  ) => Promise<void>
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -43,6 +48,20 @@ export const useUserStore = create<UserState>((set) => ({
     try {
       const putUsersRouterApiFactory = PutUserRouterApiFactory.create()
       await putUsersRouterApiFactory.execute(user)
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
+  updateUserStatus: async (
+    userEnableAndDisable: UserEnableAndDisableInterface
+  ) => {
+    try {
+      const putUserStatusRouterApiFactory =
+        PutUserStatusRouterApiFactory.create()
+      await putUserStatusRouterApiFactory.execute(userEnableAndDisable)
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
