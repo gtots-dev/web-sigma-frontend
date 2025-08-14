@@ -8,11 +8,11 @@ import {
   PutPermissionProfileStatusFormSchema,
   type PutPermissionProfileStatusFormType
 } from '../../schemas/put-user-permission-profile-form.schema'
-import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
+import type { PermissionProfileEnableAndDisableInterface } from '@/modules/permissions/domain/interfaces/permission-profile-enable-and-disable.interface'
 
 interface PutPermissionProfileStatusFormContextProviderComponentProps {
   children: ReactNode
-  permissionProfile: PermissionProfileEntity
+  permissionProfile: PermissionProfileEnableAndDisableInterface
   isOpen: boolean
 }
 
@@ -21,15 +21,12 @@ export function PutPermissionProfileStatusFormContextProviderComponent({
   permissionProfile,
   isOpen
 }: PutPermissionProfileStatusFormContextProviderComponentProps) {
-  const defaultValues = useMemo<{
-    permissionProfileId: number
-    enabled: boolean
-  }>(
+  const defaultValues = useMemo<PermissionProfileEnableAndDisableInterface>(
     () => ({
-      permissionProfileId: permissionProfile.id,
+      id: permissionProfile.id,
       enabled: permissionProfile?.enabled
     }),
-    [permissionProfile?.id]
+    [permissionProfile]
   )
 
   const methods = useForm<PutPermissionProfileStatusFormType>({
