@@ -4,15 +4,15 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { useEffect, useMemo } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { ReactNode } from 'react'
-import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import {
   PutUserStatusFormSchema,
   type PutUserStatusFormType
 } from '../../schemas/put-user-status-form.schema'
+import type { UserEnableAndDisableInterface } from '@/modules/users/domain/interfaces/user-enable-and-disable.interface'
 
 interface PutUserStatusFormContextProviderComponentProps {
   children: ReactNode
-  user: UserEntity
+  user: UserEnableAndDisableInterface
   isOpen: boolean
 }
 
@@ -21,12 +21,12 @@ export function PutUserStatusFormContextProviderComponent({
   user,
   isOpen
 }: PutUserStatusFormContextProviderComponentProps) {
-  const defaultValues = useMemo<{ userId: number; enabled: boolean }>(
+  const defaultValues = useMemo<UserEnableAndDisableInterface>(
     () => ({
-      userId: user.id,
+      id: user.id,
       enabled: user.enabled
     }),
-    [user?.id]
+    [user]
   )
 
   const methods = useForm<PutUserStatusFormType>({
