@@ -7,6 +7,7 @@ import { useTableUser } from '../../contexts/table-user.context'
 import { PutUserStatusForm } from '../put-user-status-form-provider'
 import { useDialog } from './put-user-status-menu-provider.component'
 import { usePutUserStatusSubmit } from '../../hooks/use-update-user-status-submit.hook'
+import type { UserEnableAndDisableInterface } from '@/modules/users/domain/interfaces/user-enable-and-disable.interface'
 
 interface PutUserStatusMenuComponentProps {
   title: string
@@ -40,7 +41,7 @@ export function PutUserStatusMenuComponent({
               Cancelar
             </Button>
             <UserForm.Submit
-              onSubmit={(userStatus: { enabled: boolean; userId: number }) =>
+              onSubmit={(userStatus: UserEnableAndDisableInterface) =>
                 onAction(userStatus, close)
               }
             />
