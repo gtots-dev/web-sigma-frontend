@@ -8,7 +8,6 @@ describe('UserEntity', () => {
     const email = 'email@example.com'
     const company = 'Company Inc.'
     const position = 'Developer'
-    const enabled = true
     const days_passwd_reg_deadline = 30
     const description = 'teste'
 
@@ -19,7 +18,6 @@ describe('UserEntity', () => {
       company,
       position,
       id,
-      enabled,
       days_passwd_reg_deadline,
       description
     )
@@ -31,7 +29,6 @@ describe('UserEntity', () => {
       company,
       position,
       id,
-      enabled,
       days_passwd_reg_deadline,
       description
     })
