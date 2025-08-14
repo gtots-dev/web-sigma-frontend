@@ -36,6 +36,12 @@ export function TablePermissionProfilesItemComponent({
       <TableCell
         className={cn(baseCell, truncateText, 'flex items-center gap-x-3.5')}
       >
+        {!permission.enabled ? (
+          <span className="block bg-red-500 outline-2 outline outline-red-600 h-1 w-1 rounded-full"></span>
+        ) : (
+          <span className="block bg-green-500 outline-2 outline outline-green-600 h-1 w-1 rounded-full"></span>
+        )}
+
         {permission.name}
       </TableCell>
       <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
