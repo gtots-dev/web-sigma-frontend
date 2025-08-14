@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const PutPermissionProfileStatusFormSchema = z.object({
-  permissionProfileId: z.number(),
+  id: z.number(),
   enabled: z.boolean().nullable()
 })
 
