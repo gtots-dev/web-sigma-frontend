@@ -111,10 +111,6 @@ export function UserOptionsDropdownClient({
                 <EditUserMenuComponent
                   title={editTitle}
                   description={editDescription}
-                  isEnableAndDisable={
-                    isAdmin ||
-                    permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)
-                  }
                 />
               )}
             </PutUserStatusMenu.Provider>
