@@ -2,21 +2,21 @@ import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import { usePermissionProfileStore } from '../stores/permission-profile.store'
+import type { PermissionProfileEnableAndDisableInterface } from '../../domain/interfaces/permission-profile-enable-and-disable.interface'
 
 export function usePutPermissionProfileStatusSubmit() {
-  const { getPermissionProfiles } = usePermissionProfileStore()
+  const { getPermissionProfiles, updatePermissionProfileStatus } =
+    usePermissionProfileStore()
   const onAction = useCallback(
     async (
-      permissionProfileStatus: {
-        enabled: boolean
-        permissionProfileId: number
-      },
+      permissionProfileStatus: PermissionProfileEnableAndDisableInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
+        await updatePermissionProfileStatus(permissionProfileStatus)
         await getPermissionProfiles()
         toast({
-          title: 'Status da permissão alterada com sucesso!',
+          title: 'Status da permissão foi alterada com sucesso!',
           variant: 'success'
         })
         onSuccess?.()
@@ -31,7 +31,7 @@ export function usePutPermissionProfileStatusSubmit() {
         }
       }
     },
-    [getPermissionProfiles]
+    [getPermissionProfiles, updatePermissionProfileStatus]
   )
 
   return { onAction }
