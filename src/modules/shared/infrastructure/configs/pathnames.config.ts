@@ -3,6 +3,7 @@ export interface PathnamesInterface {
   SYSTEM: string
   OPERATIONS: string
   OPERATION_OPTIONS: (id: number) => string
+  OPERATION_CONFIGURATION_OPTIONS: (id: number) => string
   CONTRACTS: (id: number) => string
   PROCESSING_UNITS: (id: number) => string
   POINTS: (id: number) => string
@@ -17,14 +18,20 @@ export const PATHNAMES: PathnamesInterface = {
   SYSTEM: '/system',
   OPERATIONS: '/system/operations',
   OPERATION_OPTIONS: (id) => `/system/operations/${id}/operation-options`,
-  CONTRACTS: (id) => `/system/operations/${id}/contracts`,
+  OPERATION_CONFIGURATION_OPTIONS: (id) =>
+    `/system/operations/${id}/configuration-options`,
+  CONTRACTS: (id) => `/system/operations/${id}/configuration-options/contracts`,
   PROCESSING_UNITS: (id) =>
-    `/system/operations/${id}/contracts/processing-units`,
-  POINTS: (id) => `/system/operations/${id}/contracts/points`,
-  OPERATORS: (id) => `/system/operations/${id}/contracts/operators`,
-  LANES: (id) => `/system/operations/${id}/contracts/processing-units/lanes`,
-  USERS: (id) => `/system/operations/${id}/users`,
-  PERMISSIONS: (id) => `/system/operations/${id}/permissions`
+    `/system/operations/${id}/configuration-options/contracts/processing-units`,
+  POINTS: (id) =>
+    `/system/operations/${id}/configuration-options/contracts/points`,
+  OPERATORS: (id) =>
+    `/system/operations/${id}/configuration-options/contracts/operators`,
+  LANES: (id) =>
+    `/system/operations/${id}/configuration-options/contracts/processing-units/lanes`,
+  USERS: (id) => `/system/operations/${id}/configuration-options/users`,
+  PERMISSIONS: (id) =>
+    `/system/operations/${id}/configuration-options/permissions`
 }
 
 export const publicRoutes: string[] = [PATHNAMES.AUTHENTICATION]
@@ -34,7 +41,7 @@ export function isPublicRoute(pathname: string): boolean {
 }
 
 export function isSelectionOperationRoute(pathname: string): boolean {
-  return /^\/system\/operations\/\d+\/(operation-options|contracts|processing-units|points|operators|lanes|users|permissions)/.test(
+  return /^\/system\/operations\/\d+\/(operation-options|configuration-options|contracts|processing-units|points|operators|lanes|users|permissions)/.test(
     pathname
   )
 }
