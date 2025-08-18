@@ -11,6 +11,8 @@ import type { FeaturesInterface } from '../../domain/interfaces/features.interfa
 import { DeleteFeatureRouterApiFactory } from '@/modules/api/infrastructure/factories/delete-feature-router-api.factory'
 import type { PermissionProfileAndFeaturesInterface } from '../../domain/interfaces/permission-profile-and-features'
 import { PostPermissionProfileAndFeaturesRouterApiFactory } from '@/modules/api/infrastructure/factories/post-permission-profile-and-features-router-api.factory'
+import type { PermissionProfileEnableAndDisableInterface } from '../../domain/interfaces/permission-profile-enable-and-disable.interface'
+import { PutPermissionProfileStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/put-permission-profile-status-router-api.factory'
 
 type UserState = {
   permissionProfiles: PermissionProfileInterface[]
@@ -39,6 +41,10 @@ type UserState = {
   deleteFeature: (
     featureId: FeaturesInterface['id'],
     permissionProfileId: PermissionProfileInterface['id']
+  ) => Promise<void>
+
+  updatePermissionProfileStatus: (
+    updatePermissionProfileStatus: PermissionProfileEnableAndDisableInterface
   ) => Promise<void>
 }
 
@@ -135,6 +141,22 @@ export const usePermissionProfileStore = create<UserState>((set) => ({
       await deleteFeatureRouterApiFactory.execute(
         featureId,
         permissionProfileId
+      )
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
+  updatePermissionProfileStatus: async (
+    permissionProfileEnableAndDisable: PermissionProfileEnableAndDisableInterface
+  ) => {
+    try {
+      const putPermissionProfileStatusRouterApiFactory =
+        PutPermissionProfileStatusRouterApiFactory.create()
+      await putPermissionProfileStatusRouterApiFactory.execute(
+        permissionProfileEnableAndDisable
       )
     } catch (error) {
       if (error instanceof HttpResponseError) {
