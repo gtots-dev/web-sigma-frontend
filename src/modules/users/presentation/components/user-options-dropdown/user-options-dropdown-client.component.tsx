@@ -12,8 +12,10 @@ import { BindUserWithPermissionProfilesMenu } from '../bind-user-with-permission
 import { BindUserWithPermissionProfilesMenuComponent } from '../bind-user-with-permission-profiles-menu/bind-user-with-permission-profiles-menu.component'
 import { PutUserStatusMenuComponent } from '../put-user-status-menu/put-user-status-menu.component'
 import { PutUserStatusMenu } from '../put-user-status-menu'
+import { useTableUser } from '../../contexts/table-user.context'
 
 export function UserOptionsDropdownClient({
+  userAuthenticated,
   isAdmin,
   viewMoreTitle,
   viewMoreDescription,
@@ -27,6 +29,7 @@ export function UserOptionsDropdownClient({
   userStatusTitle,
   userStatusDescription
 }: {
+  userAuthenticated: string
   isAdmin: boolean
   viewMoreTitle: string
   viewMoreDescription: string
@@ -40,6 +43,9 @@ export function UserOptionsDropdownClient({
   userStatusDescription: string
   permissions: Set<PermissionEnum>
 }) {
+  const { id: userListId } = useTableUser()
+  const isSameUser = userAuthenticated === String(userListId)
+
   return (
     <BindUserWithPermissionProfilesMenu.Provider>
       <ViewMoreUserMenu.Provider>
@@ -70,14 +76,15 @@ export function UserOptionsDropdownClient({
                     </UserOptionsDropdown.Item>
                   )}
 
-                  {(isAdmin ||
-                    permissions.has(
-                      PermissionEnum.USERS_ENABLE_AND_DISABLE
-                    )) && (
-                    <UserOptionsDropdown.Item>
-                      <PutUserStatusMenu.Trigger />
-                    </UserOptionsDropdown.Item>
-                  )}
+                  {!isSameUser &&
+                    (isAdmin ||
+                      permissions.has(
+                        PermissionEnum.USERS_ENABLE_AND_DISABLE
+                      )) && (
+                      <UserOptionsDropdown.Item>
+                        <PutUserStatusMenu.Trigger />
+                      </UserOptionsDropdown.Item>
+                    )}
                 </UserOptionsDropdown.Menu>
               </UserOptionsDropdown.Root>
 
