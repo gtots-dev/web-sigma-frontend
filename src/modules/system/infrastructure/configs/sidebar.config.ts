@@ -7,6 +7,7 @@ import {
   MapPin,
   Shield,
   UserRoundPen,
+  UserRoundSearch,
   UsersRound
 } from 'lucide-react'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
@@ -127,6 +128,13 @@ export function getSidebarData(operationId: number) {
                   permissions: [PermissionEnum.PERMISSIONS_VIEW]
                 }
               ]
+            },
+            {
+              title: 'Auditoria',
+              url: PATHNAMES.AUDIT(operationId),
+              icon: UserRoundSearch,
+              permissions: [PermissionEnum.AUDIT_VIEW],
+              isToExpand: true
             }
           ]
         }
