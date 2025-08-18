@@ -1,5 +1,9 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { isPublicRoute, isProtectedRoute, PATHNAMES } from '../../configs/pathnames.config'
+import {
+  isPublicRoute,
+  isProtectedRoute,
+  PATHNAMES
+} from '../../configs/pathnames.config'
 import { auth } from '@/auth'
 
 export async function WithAuthMiddleware(req: NextRequest) {

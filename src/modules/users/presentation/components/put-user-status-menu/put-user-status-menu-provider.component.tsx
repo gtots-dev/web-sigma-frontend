@@ -25,9 +25,7 @@ export const PutUserStatusMenuProviderComponent = ({
   const toggle = () => setIsOpen((prev) => !prev)
 
   return (
-    <PutUserStatusMenuContext.Provider
-      value={{ isOpen, open, close, toggle }}
-    >
+    <PutUserStatusMenuContext.Provider value={{ isOpen, open, close, toggle }}>
       {children}
     </PutUserStatusMenuContext.Provider>
   )

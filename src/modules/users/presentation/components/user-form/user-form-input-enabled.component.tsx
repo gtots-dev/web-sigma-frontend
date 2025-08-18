@@ -41,8 +41,7 @@ export function UserFormInputEnabledComponent({
                   Usuário {field.value ? 'Habilitado' : 'Desabilitado'}
                 </FormLabel>
                 <FormDescription>
-                  Usuário <b className="text-white/80">{user.name}</b>{' '}
-                  será{' '}
+                  Usuário <b className="text-white/80">{user.name}</b> será{' '}
                   <b className="text-white/80">
                     {' '}
                     {!field.value ? 'Habilitado' : 'Desabilitado'}{' '}

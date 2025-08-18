@@ -19,9 +19,7 @@ export class GetOperationsService implements GetOperationsServiceInterface {
     }
   }
 
-  async execute(
-    token: TokenEntities,
-  ): Promise<OperationEntity[]> {
+  async execute(token: TokenEntities): Promise<OperationEntity[]> {
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
     const { success, data, status }: HttpResponse<OperationEntity[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
