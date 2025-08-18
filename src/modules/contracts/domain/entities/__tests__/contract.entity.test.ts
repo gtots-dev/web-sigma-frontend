@@ -8,13 +8,7 @@ describe('ContractEntity', () => {
     const cfg = 'Exemplo cfg'
     const enabled = true
 
-    const contract = new ContractEntity(
-      name,
-      alias,
-      cfg,
-      id,
-      enabled
-    )
+    const contract = new ContractEntity(name, alias, cfg, id, enabled)
 
     expect(contract).toMatchObject({
       name,
