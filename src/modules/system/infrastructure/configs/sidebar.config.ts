@@ -29,33 +29,34 @@ export function getSidebarData(operationId: number) {
           isToExpand: true,
           items: [
             {
-              title: 'Contratos',
-              url: PATHNAMES.CONTRACTS(operationId),
-              icon: FileText,
-              permissions: [PermissionEnum.CONTRACTS_VIEW],
+              title: 'Opções de Configurações',
+              url: PATHNAMES.OPERATION_CONFIGURATION_OPTIONS(operationId),
+              icon: List,
+              permissions: [
+                PermissionEnum.USERS_VIEW,
+                PermissionEnum.CONTRACTS_VIEW,
+                PermissionEnum.PERMISSIONS_VIEW
+              ],
               isToExpand: true,
               items: [
                 {
-                  title: 'Opções do contrato',
-                  url: '',
-                  icon: List,
+                  title: 'Contratos',
+                  url: PATHNAMES.CONTRACTS(operationId),
+                  icon: FileText,
                   permissions: [PermissionEnum.CONTRACTS_VIEW],
                   isToExpand: true,
                   items: [
                     {
-                      title: 'U.P.s',
-                      url: PATHNAMES.PROCESSING_UNITS(operationId),
-                      icon: HardDrive,
-                      permissions: [
-                        PermissionEnum.CONTRACTS_VIEW,
-                        PermissionEnum.PROCESSING_UNITS_VIEW
-                      ],
+                      title: 'Opções do contrato',
+                      url: '',
+                      icon: List,
+                      permissions: [PermissionEnum.CONTRACTS_VIEW],
                       isToExpand: true,
                       items: [
                         {
-                          title: 'Opções de U.P.s',
-                          url: '',
-                          icon: List,
+                          title: 'U.P.s',
+                          url: PATHNAMES.PROCESSING_UNITS(operationId),
+                          icon: HardDrive,
                           permissions: [
                             PermissionEnum.CONTRACTS_VIEW,
                             PermissionEnum.PROCESSING_UNITS_VIEW
@@ -63,57 +64,69 @@ export function getSidebarData(operationId: number) {
                           isToExpand: true,
                           items: [
                             {
-                              title: 'Faixas',
-                              url: PATHNAMES.LANES(operationId),
-                              icon: ArrowUpDown,
-                              isToExpand: true,
+                              title: 'Opções de U.P.s',
+                              url: '',
+                              icon: List,
                               permissions: [
-                                PermissionEnum.LANES_VIEW,
                                 PermissionEnum.CONTRACTS_VIEW,
                                 PermissionEnum.PROCESSING_UNITS_VIEW
+                              ],
+                              isToExpand: true,
+                              items: [
+                                {
+                                  title: 'Faixas',
+                                  url: PATHNAMES.LANES(operationId),
+                                  icon: ArrowUpDown,
+                                  isToExpand: true,
+                                  permissions: [
+                                    PermissionEnum.LANES_VIEW,
+                                    PermissionEnum.CONTRACTS_VIEW,
+                                    PermissionEnum.PROCESSING_UNITS_VIEW
+                                  ]
+                                }
                               ]
                             }
                           ]
+                        },
+                        {
+                          title: 'Pontos',
+                          url: PATHNAMES.POINTS(operationId),
+                          icon: MapPin,
+                          isToExpand: true,
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.POINTS_VIEW
+                          ]
+                        },
+                        {
+                          title: 'Operadores',
+                          url: PATHNAMES.OPERATORS(operationId),
+                          icon: UserRoundPen,
+                          isToExpand: true,
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.OPERATORS_VIEW
+                          ]
                         }
-                      ]
-                    },
-                    {
-                      title: 'Pontos',
-                      url: PATHNAMES.POINTS(operationId),
-                      icon: MapPin,
-                      isToExpand: true,
-                      permissions: [
-                        PermissionEnum.CONTRACTS_VIEW,
-                        PermissionEnum.POINTS_VIEW
-                      ]
-                    },
-                    {
-                      title: 'Operadores',
-                      url: PATHNAMES.OPERATORS(operationId),
-                      icon: UserRoundPen,
-                      isToExpand: true,
-                      permissions: [
-                        PermissionEnum.CONTRACTS_VIEW,
-                        PermissionEnum.OPERATORS_VIEW
                       ]
                     }
                   ]
+                },
+                {
+                  title: 'Usuários',
+                  url: PATHNAMES.USERS(operationId),
+                  icon: UsersRound,
+                  isToExpand: true,
+                  permissions: [PermissionEnum.USERS_VIEW]
+                },
+                {
+                  title: 'Permissões',
+                  url: PATHNAMES.PERMISSIONS(operationId),
+                  icon: Shield,
+                  isToExpand: true,
+                  permissions: [PermissionEnum.PERMISSIONS_VIEW]
                 }
               ]
-            },
-            {
-              title: 'Usuários',
-              url: PATHNAMES.USERS(operationId),
-              icon: UsersRound,
-              isToExpand: true,
-              permissions: [PermissionEnum.USERS_VIEW]
-            },
-            {
-              title: 'Permissões',
-              url: PATHNAMES.PERMISSIONS(operationId),
-              icon: Shield,
-              isToExpand: true,
-              permissions: [PermissionEnum.PERMISSIONS_VIEW]
             }
           ]
         }
