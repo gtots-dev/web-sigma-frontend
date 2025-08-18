@@ -2,13 +2,13 @@ import { auth } from '@/auth'
 import { CardOperationOptions } from '@/modules/operation-options/presentation/components/card-operation-options'
 import { CardOption } from '@/modules/operation-options/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
-import { OperationSelector } from '@/modules/operation-options/presentation/components/operation-selector/'
+import { OperationSelector } from '@/modules/operation-options/presentation/components/operation-selector'
 import { getOperations } from '@/modules/operations/presentation/utils/get-operations.util'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_OPTIONS_OPERATION } from '@/modules/shared/presentation/messages/options-operation'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { FileKey2, FileText, UsersRound, type LucideIcon } from 'lucide-react'
+import { Settings, UserRoundSearch, type LucideIcon } from 'lucide-react'
 
 interface OperationOptionsPageProps {
   params: Promise<{ operationId: string }>
@@ -39,32 +39,27 @@ export default async function OperationOptionsPage({
   const title = MESSAGES_OPTIONS_OPERATION['11.1']
   const description = MESSAGES_OPTIONS_OPERATION['11.2']
   const subDescription = MESSAGES_OPTIONS_OPERATION['11.3']
-  const operationSelectionMenuTitle = MESSAGES_OPTIONS_OPERATION['11.10']
-  const operationSelectionMenuDescription = MESSAGES_OPTIONS_OPERATION['11.11']
+  const operationSelectionMenuTitle = MESSAGES_OPTIONS_OPERATION['11.8']
+  const operationSelectionMenuDescription = MESSAGES_OPTIONS_OPERATION['11.9']
 
   const operationOptions: OperationCardOption[] = [
     {
       title: MESSAGES_OPTIONS_OPERATION['11.4'],
       description: MESSAGES_OPTIONS_OPERATION['11.5'],
-      pathName: PATHNAMES.CONTRACTS(operationId),
-      icon: FileText,
+      pathName: PATHNAMES.OPERATION_CONFIGURATION_OPTIONS(operationId),
+      icon: Settings,
       accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_VIEW)
+        isAdmin ||
+        userPermissions.has(PermissionEnum.CONTRACTS_VIEW) ||
+        userPermissions.has(PermissionEnum.USERS_VIEW) ||
+        userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_OPERATION['11.6'],
       description: MESSAGES_OPTIONS_OPERATION['11.7'],
-      pathName: PATHNAMES.USERS(operationId),
-      icon: UsersRound,
-      accessAllowed: isAdmin || userPermissions.has(PermissionEnum.USERS_VIEW)
-    },
-    {
-      title: MESSAGES_OPTIONS_OPERATION['11.8'],
-      description: MESSAGES_OPTIONS_OPERATION['11.9'],
-      pathName: PATHNAMES.PERMISSIONS(operationId),
-      icon: FileKey2,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
+      pathName: '',
+      icon: UserRoundSearch,
+      accessAllowed: isAdmin || userPermissions.has(PermissionEnum.AUDIT_VIEW)
     }
   ]
 
@@ -105,7 +100,9 @@ export default async function OperationOptionsPage({
             </CardOption.Root>
           ))
         ) : (
-          <CardOperationOptions.NotFound message="Nenhuma opção disponível para essa operação." />
+          <CardOperationOptions.NotFound
+            message={MESSAGES_OPTIONS_OPERATION['11.10']}
+          />
         )}
       </CardOperationOptions.Content>
     </CardOperationOptions.Root>
