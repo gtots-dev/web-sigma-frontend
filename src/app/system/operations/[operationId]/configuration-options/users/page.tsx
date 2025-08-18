@@ -16,7 +16,7 @@ interface UsersPageProps {
 export default async function UsersPage({ params }: UsersPageProps) {
   const {
     token: JWT,
-    user: { isAdmin }
+    user: { isAdmin, id }
   } = await auth()
   const { operationId: rawOperationId } = await params
   const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
@@ -63,6 +63,7 @@ export default async function UsersPage({ params }: UsersPageProps) {
         <TableUsers.Body>
           <TableUsers.Item>
             <UserOptionsDropdown.Client
+              userAuthenticated={id}
               isAdmin={isAdmin}
               permissions={userPermissions}
               viewMoreTitle={data.menuViewMoreUserTitle}
