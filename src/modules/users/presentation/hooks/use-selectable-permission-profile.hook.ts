@@ -16,7 +16,7 @@ export function useSelectablePermissionProfile(isOpen: boolean) {
       clearBindings()
       setSelectedProfile(null)
     }
-  }, [isOpen])
+  }, [isOpen, clearBindings])
 
   return {
     selectedProfile,
