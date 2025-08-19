@@ -57,9 +57,10 @@ export default async function OperationOptionsPage({
     {
       title: MESSAGES_OPTIONS_OPERATION['11.6'],
       description: MESSAGES_OPTIONS_OPERATION['11.7'],
-      pathName: PATHNAMES.AUDIT(operationId),
+      pathName: PATHNAMES.ACTIVITY_REPORT(operationId),
       icon: UserRoundSearch,
-      accessAllowed: isAdmin || userPermissions.has(PermissionEnum.AUDIT_VIEW)
+      accessAllowed:
+        isAdmin || userPermissions.has(PermissionEnum.ACTIVITY_REPORT_VIEW)
     }
   ]
 

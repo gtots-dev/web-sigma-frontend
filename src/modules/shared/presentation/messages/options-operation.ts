@@ -16,8 +16,8 @@ export const MESSAGES_OPTIONS_OPERATION: Record<MessageKeys, string> = {
   '11.3': 'Operação selecionada ',
   '11.4': 'Configurações',
   '11.5': 'Navegue, gerencie e acesse os configurações da operação.',
-  '11.6': 'Auditoria',
-  '11.7': 'Visualize, filtre e acesse a auditoria da operação.',
+  '11.6': 'Relatório de Atividades',
+  '11.7': 'Visualize, filtre e acesse as atividades da operação.',
   '11.8': 'Selecione a Operação',
   '11.9': 'Selecione uma operação abaixo para gerenciar suas funcionalidades.',
   '11.10': 'Nenhuma opção disponível para essa operação.'

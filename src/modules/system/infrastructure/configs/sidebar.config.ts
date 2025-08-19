@@ -130,10 +130,10 @@ export function getSidebarData(operationId: number) {
               ]
             },
             {
-              title: 'Auditoria',
-              url: PATHNAMES.AUDIT(operationId),
+              title: 'Relatório de Atividades',
+              url: PATHNAMES.ACTIVITY_REPORT(operationId),
               icon: UserRoundSearch,
-              permissions: [PermissionEnum.AUDIT_VIEW],
+              permissions: [PermissionEnum.ACTIVITY_REPORT_VIEW],
               isToExpand: true
             }
           ]
