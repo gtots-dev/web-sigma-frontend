@@ -32,14 +32,19 @@ export function TablePermissionProfilesBodyComponent({
 
   return (
     <TableBody>
-      {permissionProfiles.map((permissionProfile: PermissionProfileInterface & PermissionProfileEnableAndDisableInterface) => (
-        <TablePermissionProfilesContext.Provider
-          key={permissionProfile.id}
-          value={permissionProfile}
-        >
-          {children}
-        </TablePermissionProfilesContext.Provider>
-      ))}
+      {permissionProfiles.map(
+        (
+          permissionProfile: PermissionProfileInterface &
+            PermissionProfileEnableAndDisableInterface
+        ) => (
+          <TablePermissionProfilesContext.Provider
+            key={permissionProfile.id}
+            value={permissionProfile}
+          >
+            {children}
+          </TablePermissionProfilesContext.Provider>
+        )
+      )}
     </TableBody>
   )
 }
