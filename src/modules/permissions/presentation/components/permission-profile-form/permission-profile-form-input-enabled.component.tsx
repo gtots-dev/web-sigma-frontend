@@ -16,7 +16,6 @@ interface PermissionProfileFormInputEnabledComponentProps {
 }
 
 export function PermissionProfileFormInputEnabledComponent({
-  require,
   description
 }: PermissionProfileFormInputEnabledComponentProps) {
   const { control } = useFormContext()
