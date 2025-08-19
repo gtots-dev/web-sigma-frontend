@@ -29,7 +29,7 @@ export function TableUsersBodyComponent({ children }: { children: ReactNode }) {
 
   return (
     <TableBody>
-      {users.map((user: (UserEntity & UserEnableAndDisableInterface)) => (
+      {users.map((user: UserEntity & UserEnableAndDisableInterface) => (
         <TableUserContext.Provider key={user.id} value={user}>
           {children}
         </TableUserContext.Provider>
