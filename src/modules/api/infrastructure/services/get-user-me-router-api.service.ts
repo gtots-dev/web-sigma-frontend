@@ -21,7 +21,7 @@ export class GetUserMeRouterApiService
     const settingsAuthHTTP = this.getHttpRequestConfig()
     const { success, data, status }: HttpResponse<UserEntity> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, data, status)
+    HttpResponseUserValidator.validate(success, status)
     return UserFactory.create(data)
   }
 }
