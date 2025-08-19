@@ -11,7 +11,7 @@ export interface PathnamesInterface {
   LANES: (id: number) => string
   USERS: (id: number) => string
   PERMISSIONS: (id: number) => string
-  AUDIT: (id: number) => string
+  ACTIVITY_REPORT: (id: number) => string
 }
 
 export const PATHNAMES: PathnamesInterface = {
@@ -33,7 +33,8 @@ export const PATHNAMES: PathnamesInterface = {
   USERS: (id) => `/system/operations/${id}/configuration-options/users`,
   PERMISSIONS: (id) =>
     `/system/operations/${id}/configuration-options/permissions`,
-  AUDIT: (id) => `/system/operations/${id}/operation-options/audit`
+  ACTIVITY_REPORT: (id) =>
+    `/system/operations/${id}/operation-options/activity-report`
 }
 
 export const publicRoutes: string[] = [PATHNAMES.AUTHENTICATION]
@@ -43,7 +44,7 @@ export function isPublicRoute(pathname: string): boolean {
 }
 
 export function isSelectionOperationRoute(pathname: string): boolean {
-  return /^\/system\/operations\/\d+\/(operation-options|configuration-options|audit|contracts|processing-units|points|operators|lanes|users|permissions)/.test(
+  return /^\/system\/operations\/\d+\/(operation-options|configuration-options|activity-report|contracts|processing-units|points|operators|lanes|users|permissions)/.test(
     pathname
   )
 }

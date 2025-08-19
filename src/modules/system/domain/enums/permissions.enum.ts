@@ -6,7 +6,7 @@ export enum PermissionEnum {
   POINTS_VIEW = 'points_view',
   OPERATORS_VIEW = 'operators_view',
   USERS_VIEW = 'users_view',
-  AUDIT_VIEW = 'audit_view',
+  ACTIVITY_REPORT_VIEW = 'activity_report_view',
   USERS_EDIT = 'users_edit',
   USERS_ENABLE_AND_DISABLE = 'users_enable_disable',
   USERS_PASSWORD_RESET = 'users_passwd_reset',
