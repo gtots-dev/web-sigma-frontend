@@ -7,6 +7,7 @@ import type { PermissionProfileInterface } from '@/modules/permissions/domain/in
 import { TableMessage } from '@/modules/shared/presentation/components/table-addons/table-message.component'
 import { TableLoading } from '@/modules/shared/presentation/components/table-addons/table-loading.component'
 import { useTablePermissionProfiles } from '../../hooks/use-table-permission-profiles.hook'
+import type { PermissionProfileEnableAndDisableInterface } from '@/modules/permissions/domain/interfaces/permission-profile-enable-and-disable.interface'
 
 export function TablePermissionProfilesBodyComponent({
   children
@@ -31,10 +32,10 @@ export function TablePermissionProfilesBodyComponent({
 
   return (
     <TableBody>
-      {permissionProfiles.map((contract: PermissionProfileInterface) => (
+      {permissionProfiles.map((permissionProfile: PermissionProfileInterface & PermissionProfileEnableAndDisableInterface) => (
         <TablePermissionProfilesContext.Provider
-          key={contract.id}
-          value={contract}
+          key={permissionProfile.id}
+          value={permissionProfile}
         >
           {children}
         </TablePermissionProfilesContext.Provider>
