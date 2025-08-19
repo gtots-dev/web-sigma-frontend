@@ -8,6 +8,7 @@ import { TableLoading } from '@/modules/shared/presentation/components/table-add
 import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { TableUserContext } from '../../contexts/table-user.context'
 import { useTableUsers } from '../../hooks/use-table-users.hook'
+import type { UserEnableAndDisableInterface } from '@/modules/users/domain/interfaces/user-enable-and-disable.interface'
 
 export function TableUsersBodyComponent({ children }: { children: ReactNode }) {
   const { users, loading } = useTableUsers()
@@ -28,7 +29,7 @@ export function TableUsersBodyComponent({ children }: { children: ReactNode }) {
 
   return (
     <TableBody>
-      {users.map((user: UserEntity) => (
+      {users.map((user: (UserEntity & UserEnableAndDisableInterface)) => (
         <TableUserContext.Provider key={user.id} value={user}>
           {children}
         </TableUserContext.Provider>
