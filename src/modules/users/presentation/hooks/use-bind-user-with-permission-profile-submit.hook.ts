@@ -11,7 +11,6 @@ export function useBindUserWithPermissionProfileSubmit() {
   const onAction = useCallback(
     async (
       {
-        user_id: userId,
         perm_profile_id: selectedPermissionsProfiles
       }: PermissionsProfileIdsWithUserIdInterface,
       onSuccess?: VoidFunction
