@@ -2,19 +2,18 @@ services:
   app:
     build:
       context: .
-      target: runner
+      dockerfile: Dockerfile.dev
       args:
         - APP_PORT=${APP_PORT}
-    container_name: sigma-frontend-prod
-    image: sigma-frontend-prod
+    container_name: sigma-frontend-dev
+    image: sigma-frontend-dev
     ports:
       - '${APP_PORT}:${APP_PORT}'
+    volumes:
+      - .:/app
+      - /app/node_modules
     environment:
-      - NODE_ENV=production
-      - AUTH_SECRET=${AUTH_SECRET}
-      - AUTH_TRUST_HOST=${AUTH_TRUST_HOST}
-      - HOST_API=${HOST_API}
-      - SECRET_KEY_ACCESS_TOKEN=${SECRET_KEY_ACCESS_TOKEN}
+      - NODE_ENV=development
     networks:
       - sigma-network
 
