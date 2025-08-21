@@ -14,7 +14,11 @@ const nextConfig: NextConfig = {
         permanent: true
       }
     ]
-  }
+  },
+  allowedDevOrigins: [
+    'sigma.gtots.com.br', // Seu domínio personalizado
+    'localhost',           // Opcional: para acesso local
+  ],  
 }
 
 export default nextConfig
