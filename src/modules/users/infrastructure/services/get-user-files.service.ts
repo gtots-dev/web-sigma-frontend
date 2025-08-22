@@ -16,7 +16,7 @@ export class GetUserFilesService implements GetUserFilesServiceInterface {
   ): HttpRequestConfig<FormData> {
     return {
       method: 'GET',
-      url: `/users/${userId}/files/`,
+      url: `/users/${userId}/files`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }

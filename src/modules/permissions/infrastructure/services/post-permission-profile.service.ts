@@ -22,7 +22,7 @@ export class PostPermissionProfileService
   ): HttpRequestConfig<FormData> {
     return {
       method: 'POST',
-      url: `/perm-profiles/`,
+      url: `/perm-profiles`,
       data: permissionProfileFormData,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`

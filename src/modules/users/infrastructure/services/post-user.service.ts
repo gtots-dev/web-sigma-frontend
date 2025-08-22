@@ -16,7 +16,7 @@ export class PostUserService implements PostUserServiceInterface {
     user.append('operation_id', String(operationSelectedId))
     return {
       method: 'POST',
-      url: `/users/`,
+      url: `/users`,
       data: user,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
