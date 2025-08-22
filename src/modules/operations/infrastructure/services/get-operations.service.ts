@@ -12,7 +12,7 @@ export class GetOperationsService implements GetOperationsServiceInterface {
   getHttpRequestConfig(token: TokenEntities): HttpRequestConfig {
     return {
       method: 'GET',
-      url: '/operations/',
+      url: '/operations',
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
