@@ -18,7 +18,7 @@ export class GetUserWithPermissionProfileService
   ): HttpRequestConfig<FormData> {
     return {
       method: 'GET',
-      url: `/users/${userId}/perm-profiles/`,
+      url: `/users/${userId}/perm-profiles`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }

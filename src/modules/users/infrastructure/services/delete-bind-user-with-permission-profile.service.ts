@@ -19,7 +19,7 @@ export class DeleteBindUserWithPermissionProfileService
   ): HttpRequestConfig<FormData> {
     return {
       method: 'DELETE',
-      url: `/users/${userId}/perm-profiles/${permissionProfileId}/`,
+      url: `/users/${userId}/perm-profiles/${permissionProfileId}`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
