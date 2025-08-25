@@ -19,7 +19,7 @@ export class PutPermissionProfileStatusService
   ): HttpRequestConfig<FormData> {
     return {
       method: 'PATCH',
-      url: `/perm_profiles/${permissionProfileId}/status`,
+      url: `/perm-profiles/${permissionProfileId}/status`,
       data: permissionProfileEnableAndDisable,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
