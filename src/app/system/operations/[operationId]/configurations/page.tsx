@@ -5,7 +5,7 @@ import { HeaderOptions } from '@/modules/operation-options/presentation/componen
 import { OperationSelector } from '@/modules/operation-options/presentation/components/operation-selector'
 import { getOperations } from '@/modules/operations/presentation/utils/get-operations.util'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
-import { MESSAGES_OPTIONS_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/messages/options-configuration-operation'
+import { MESSAGES_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/messages/configuration-operation'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { FileKey2, FileText, UsersRound, type LucideIcon } from 'lucide-react'
@@ -36,33 +36,33 @@ export default async function ConfigurationOptionsPage({
     rawOperationId
   )
 
-  const title = MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.1']
-  const description = MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.2']
-  const subDescription = MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.3']
+  const title = MESSAGES_CONFIGURATION_OPERATION['14.1']
+  const description = MESSAGES_CONFIGURATION_OPERATION['14.2']
+  const subDescription = MESSAGES_CONFIGURATION_OPERATION['14.3']
   const operationSelectionMenuTitle =
-    MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.10']
+    MESSAGES_CONFIGURATION_OPERATION['14.10']
   const operationSelectionMenuDescription =
-    MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.11']
+    MESSAGES_CONFIGURATION_OPERATION['14.11']
 
   const operationOptions: ConfigurationCardOption[] = [
     {
-      title: MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.4'],
-      description: MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.5'],
+      title: MESSAGES_CONFIGURATION_OPERATION['14.4'],
+      description: MESSAGES_CONFIGURATION_OPERATION['14.5'],
       pathName: PATHNAMES.CONTRACTS(operationId),
       icon: FileText,
       accessAllowed:
         isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_VIEW)
     },
     {
-      title: MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.6'],
-      description: MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.7'],
+      title: MESSAGES_CONFIGURATION_OPERATION['14.6'],
+      description: MESSAGES_CONFIGURATION_OPERATION['14.7'],
       pathName: PATHNAMES.USERS(operationId),
       icon: UsersRound,
       accessAllowed: isAdmin || userPermissions.has(PermissionEnum.USERS_VIEW)
     },
     {
-      title: MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.8'],
-      description: MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.9'],
+      title: MESSAGES_CONFIGURATION_OPERATION['14.8'],
+      description: MESSAGES_CONFIGURATION_OPERATION['14.9'],
       pathName: PATHNAMES.PERMISSIONS(operationId),
       icon: FileKey2,
       accessAllowed:
@@ -108,7 +108,7 @@ export default async function ConfigurationOptionsPage({
           ))
         ) : (
           <CardOperationOptions.NotFound
-            message={MESSAGES_OPTIONS_CONFIGURATION_OPERATION['14.12']}
+            message={MESSAGES_CONFIGURATION_OPERATION['14.12']}
           />
         )}
       </CardOperationOptions.Content>

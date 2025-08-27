@@ -5,6 +5,7 @@ import {
   HardDrive,
   List,
   MapPin,
+  Settings,
   Shield,
   UserRoundPen,
   UserRoundSearch,
@@ -30,9 +31,9 @@ export function getSidebarData(operationId: number) {
           isToExpand: true,
           items: [
             {
-              title: 'Opções de Configurações',
-              url: PATHNAMES.OPERATION_CONFIGURATION_OPTIONS(operationId),
-              icon: List,
+              title: 'Configurações',
+              url: PATHNAMES.OPERATION_CONFIGURATIONS(operationId),
+              icon: Settings,
               permissions: [
                 PermissionEnum.USERS_VIEW,
                 PermissionEnum.CONTRACTS_VIEW,

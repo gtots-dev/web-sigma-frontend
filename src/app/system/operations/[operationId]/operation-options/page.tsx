@@ -46,7 +46,7 @@ export default async function OperationOptionsPage({
     {
       title: MESSAGES_OPTIONS_OPERATION['11.4'],
       description: MESSAGES_OPTIONS_OPERATION['11.5'],
-      pathName: PATHNAMES.OPERATION_CONFIGURATION_OPTIONS(operationId),
+      pathName: PATHNAMES.OPERATION_CONFIGURATIONS(operationId),
       icon: Settings,
       accessAllowed:
         isAdmin ||
