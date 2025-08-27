@@ -3,7 +3,7 @@ export interface PathnamesInterface {
   SYSTEM: string
   OPERATIONS: string
   OPERATION_OPTIONS: (id: number) => string
-  OPERATION_CONFIGURATION_OPTIONS: (id: number) => string
+  OPERATION_CONFIGURATIONS: (id: number) => string
   CONTRACTS: (id: number) => string
   PROCESSING_UNITS: (id: number) => string
   POINTS: (id: number) => string
@@ -19,20 +19,20 @@ export const PATHNAMES: PathnamesInterface = {
   SYSTEM: '/system',
   OPERATIONS: '/system/operations',
   OPERATION_OPTIONS: (id) => `/system/operations/${id}/operation-options`,
-  OPERATION_CONFIGURATION_OPTIONS: (id) =>
-    `/system/operations/${id}/configuration-options`,
-  CONTRACTS: (id) => `/system/operations/${id}/configuration-options/contracts`,
+  OPERATION_CONFIGURATIONS: (id) =>
+    `/system/operations/${id}/configurations`,
+  CONTRACTS: (id) => `/system/operations/${id}/configurations/contracts`,
   PROCESSING_UNITS: (id) =>
-    `/system/operations/${id}/configuration-options/contracts/processing-units`,
+    `/system/operations/${id}/configurations/contracts/processing-units`,
   POINTS: (id) =>
-    `/system/operations/${id}/configuration-options/contracts/points`,
+    `/system/operations/${id}/configurations/contracts/points`,
   OPERATORS: (id) =>
-    `/system/operations/${id}/configuration-options/contracts/operators`,
+    `/system/operations/${id}/configurations/contracts/operators`,
   LANES: (id) =>
-    `/system/operations/${id}/configuration-options/contracts/processing-units/lanes`,
-  USERS: (id) => `/system/operations/${id}/configuration-options/users`,
+    `/system/operations/${id}/configurations/contracts/processing-units/lanes`,
+  USERS: (id) => `/system/operations/${id}/configurations/users`,
   PERMISSIONS: (id) =>
-    `/system/operations/${id}/configuration-options/permissions`,
+    `/system/operations/${id}/configurations/permissions`,
   ACTIVITY_REPORT: (id) =>
     `/system/operations/${id}/operation-options/activity-report`
 }
@@ -44,7 +44,7 @@ export function isPublicRoute(pathname: string): boolean {
 }
 
 export function isSelectionOperationRoute(pathname: string): boolean {
-  return /^\/system\/operations\/\d+\/(operation-options|configuration-options|activity-report|contracts|processing-units|points|operators|lanes|users|permissions)/.test(
+  return /^\/system\/operations\/\d+\/(operation-options|configurations|activity-report|contracts|processing-units|points|operators|lanes|users|permissions)/.test(
     pathname
   )
 }

@@ -12,11 +12,11 @@ type MessageKeys =
   | '14.11'
   | '14.12'
 
-export const MESSAGES_OPTIONS_CONFIGURATION_OPERATION: Record<
+export const MESSAGES_CONFIGURATION_OPERATION: Record<
   MessageKeys,
   string
 > = {
-  '14.1': 'Opções de configurações',
+  '14.1': 'Configurações',
   '14.2':
     'Selecione a opção disponível desejada relacionada a sua configuração.',
   '14.3': 'Operação selecionada ',
