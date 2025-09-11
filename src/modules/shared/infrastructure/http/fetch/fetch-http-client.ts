@@ -6,9 +6,11 @@ import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status
 export class FetchHttpClient implements HttpClientInterface {
   constructor(private readonly baseURL: string) {}
 
-  async request<T, TData = unknown, TParams = unknown>(
-    config: HttpRequestConfig<TData, TParams>
-  ): Promise<HttpResponse<T>> {
+  async request<
+    T,
+    TData extends BodyInit | object = object,
+    TParams = unknown
+  >(config: HttpRequestConfig<TData, TParams>): Promise<HttpResponse<T>> {
     try {
       const queryString = this.buildQueryString(
         config.params as Record<
@@ -16,19 +18,24 @@ export class FetchHttpClient implements HttpClientInterface {
           string | number | boolean | string[] | number[]
         >
       )
+
+      const isFormData = config.data instanceof FormData
+      const isJson =
+        config.data && typeof config.data !== 'string' && !isFormData
+
+      const headers = {
+        ...(isJson ? { 'Content-Type': 'application/json' } : {}),
+        ...config.headers
+      }
+
       const response = await fetch(
         `${this.baseURL}${config.url}${queryString}`,
         {
           method: config.method,
-          headers: {
-            ...config.headers
-          },
-          body:
-            typeof config.data === 'string' || config.data instanceof FormData
-              ? config.data
-              : config.data
-                ? JSON.stringify(config.data)
-                : undefined,
+          headers,
+          body: isJson
+            ? JSON.stringify(config.data)
+            : (config.data as BodyInit | null),
           cache: 'no-cache'
         }
       )
