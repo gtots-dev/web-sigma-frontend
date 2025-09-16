@@ -16,12 +16,12 @@ export function TableActivityReportHeaderComponent() {
     <TableHeader>
       <TableRow className="bg-muted !border-0">
         <TableHead className={`${baseClass} rounded-tl-lg`} colSpan={1}>
-          Usuário
+          Realizado
         </TableHead>
 
         {isLarge && (
           <TableHead className={baseClass} colSpan={1}>
-            Ação
+            Usuário
           </TableHead>
         )}
 
@@ -33,7 +33,7 @@ export function TableActivityReportHeaderComponent() {
 
         {isExtraLarge && (
           <TableHead className={baseClass} colSpan={1}>
-            Realizado
+            Ação
           </TableHead>
         )}
 
