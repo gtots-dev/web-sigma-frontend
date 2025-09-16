@@ -51,15 +51,16 @@ export function TableActivityReportItemComponent({
 
   const renderExpandedView = () => (
     <>
-      <TableCell
-        className={`${baseCell} ${truncateText} flex items-center gap-x-3.5`}
-        colSpan={1}
-      >
-        {log.user?.name}
+      <TableCell className={`${baseCell} ${truncateText}`} colSpan={1}>
+        {formatted}
       </TableCell>
+
       {isLarge && (
-        <TableCell className={`${baseCell} ${truncateText}`} colSpan={1}>
-          {MESSAGES_LOGS[log.action] ? MESSAGES_LOGS[log.action] : log.action}
+        <TableCell
+          className={`${baseCell} ${truncateText} flex items-center gap-x-3.5`}
+          colSpan={1}
+        >
+          {log.user?.name}
         </TableCell>
       )}
       {isExtraLarge && (
@@ -69,7 +70,7 @@ export function TableActivityReportItemComponent({
       )}
       {isExtraLarge && (
         <TableCell className={`${baseCell} ${truncateText}`} colSpan={1}>
-          {formatted}
+          {MESSAGES_LOGS[log.action] ? MESSAGES_LOGS[log.action] : log.action}
         </TableCell>
       )}
     </>
