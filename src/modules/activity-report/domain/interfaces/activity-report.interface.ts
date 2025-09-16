@@ -13,6 +13,6 @@ export interface ActivityReportInterface {
     name: string
   }
   action: string
-  data: string
+  data: Record<string, string>
   created_at: string
 }
