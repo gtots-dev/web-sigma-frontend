@@ -85,6 +85,7 @@ export function UserFormInputPermissionProfilesComponent({
                           className="!p-0 hover:bg-transparent"
                           id={itemList.id}
                           key={itemList.id}
+                          item={itemList}
                         >
                           {({ selected }) => (
                             <div className="flex items-center gap-x-4 !ps-2 !py-0 w-full h-full mt-1.5">
