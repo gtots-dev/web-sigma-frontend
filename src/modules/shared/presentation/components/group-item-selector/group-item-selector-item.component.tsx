@@ -1,20 +1,25 @@
+'use client'
+
 import { CommandItem } from '@/modules/shared/presentation/components/shadcn/command'
 import { ReactNode } from 'react'
 import { cn } from '../../lib/utils'
 import { useGroupItemSelectorContext } from '../../contexts/group-item-selector.context'
+import type { BaseItem } from '../group-item-selector/group-item-selector-list.component'
 
-interface GroupItemSelectorItemProps {
+interface GroupItemSelectorItemProps<Item extends BaseItem> {
   id: number
   className?: string
-  children: (props: { selected: boolean }) => ReactNode
+  item: Item
+  children: (props: { selected: boolean; toggle: () => void }) => ReactNode
 }
 
-export function GroupItemSelectorItem({
+export function GroupItemSelectorItem<Item extends BaseItem>({
   id,
   className,
+  item,
   children
-}: GroupItemSelectorItemProps) {
-  const { isSelected } = useGroupItemSelectorContext()
+}: GroupItemSelectorItemProps<Item>) {
+  const { isSelected, toggleItem } = useGroupItemSelectorContext<Item>()
   const selected = isSelected(id)
 
   return (
@@ -22,7 +27,10 @@ export function GroupItemSelectorItem({
       className={cn('flex gap-x-4 items-center justify-start', className)}
       forceMount
     >
-      {children({ selected })}
+      {children({
+        selected,
+        toggle: () => toggleItem(item)
+      })}
     </CommandItem>
   )
 }

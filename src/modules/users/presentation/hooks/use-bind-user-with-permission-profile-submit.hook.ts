@@ -4,21 +4,40 @@ import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { PermissionsProfileIdsWithUserIdInterface } from '../../domain/interfaces/permissions-profile-ids-with-user-id.interface'
-import { useCacheSelectedBindsStore } from '../stores/cache-selecteds-binds.store'
+import { usePermissionProfileWithUserStore } from '../stores/user-permission-profile.store'
 
 export function useBindUserWithPermissionProfileSubmit() {
-  const bindings = useCacheSelectedBindsStore((state) => state.bindings)
+  const { putUserPermissionProfileAllInOne } =
+    usePermissionProfileWithUserStore()
+
   const onAction = useCallback(
     async (
       {
-        perm_profile_id: selectedPermissionsProfiles
+        profiles,
+        perm_profile_id: selectedPermissionProfile,
+        user_id
       }: PermissionsProfileIdsWithUserIdInterface,
       onSuccess?: VoidFunction
     ): Promise<void> => {
-      bindings.filter((binding) =>
-        selectedPermissionsProfiles.includes(binding.perm_profile_id)
-      )
       try {
+        const listSelectedProfiles = selectedPermissionProfile.map(
+          (perm_profile_id) => {
+            const existing = profiles.find(
+              (p) => p.perm_profile_id === perm_profile_id
+            )
+            return {
+              perm_profile_id,
+              contract_ids: existing?.contract_ids?.length
+                ? existing.contract_ids
+                : []
+            }
+          }
+        )
+
+        await putUserPermissionProfileAllInOne(user_id, {
+          profiles: listSelectedProfiles
+        })
+
         toast({
           title: 'Perfis de permissão vinculados com sucesso!',
           description: `Os perfis selecionados foram atribuídos ao usuário.`,
@@ -36,7 +55,7 @@ export function useBindUserWithPermissionProfileSubmit() {
         }
       }
     },
-    [bindings]
+    [putUserPermissionProfileAllInOne]
   )
   return { onAction }
 }
