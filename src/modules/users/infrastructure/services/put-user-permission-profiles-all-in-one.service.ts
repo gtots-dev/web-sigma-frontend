@@ -21,7 +21,6 @@ export class PutUserPermissionProfileAllInOneService
       }[]
     }
   ): HttpRequestConfig {
-    console.log(profiles)
     return {
       method: 'PUT',
       url: `/users/${userId}/perm-profiles/all-in-one`,
