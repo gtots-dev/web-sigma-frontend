@@ -66,7 +66,16 @@ export function UserOptionsDropdownClient({
                   )}
 
                   <UserOptionsDropdown.Item>
-                    <BindUserWithPermissionProfilesMenu.Trigger />
+                    <BindUserWithPermissionProfilesMenu.Trigger
+                      isPermittedViewContracts={
+                        isAdmin ||
+                        permissions.has(PermissionEnum.CONTRACTS_VIEW)
+                      }
+                      isPermittedViewPermissionsProfile={
+                        isAdmin ||
+                        permissions.has(PermissionEnum.PERMISSIONS_VIEW)
+                      }
+                    />
                   </UserOptionsDropdown.Item>
 
                   {(isAdmin ||
@@ -96,6 +105,12 @@ export function UserOptionsDropdownClient({
               <BindUserWithPermissionProfilesMenuComponent
                 title={bindUserWithPermissionProfilesTitle}
                 description={bindUserWithPermissionProfilesDescription}
+                isPermittedViewContracts={
+                  isAdmin || permissions.has(PermissionEnum.CONTRACTS_VIEW)
+                }
+                isPermittedViewPermissionsProfile={
+                  isAdmin || permissions.has(PermissionEnum.PERMISSIONS_VIEW)
+                }
               />
 
               {(isAdmin ||
