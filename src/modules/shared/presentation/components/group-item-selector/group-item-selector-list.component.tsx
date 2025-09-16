@@ -28,16 +28,28 @@ interface GroupItemSelectorListProps<Item> {
   ) => ReactNode
   messageGroupEmpty: string
   messageItemEmpty: string
+  hasPermission?: boolean
+  messagePermission?: string
 }
 
 export function GroupItemSelectorList<Item extends BaseItem>({
   children,
   heading,
   messageGroupEmpty,
-  messageItemEmpty
+  messageItemEmpty,
+  hasPermission = true,
+  messagePermission = 'Você não tem permissão para visualizar estes itens.'
 }: GroupItemSelectorListProps<Item>) {
   const { searchableGroups, areAllGroupItemsSelected, toggleAllInGroup } =
     useGroupItemSelectorContext<Item>()
+
+  if (!hasPermission) {
+    return (
+      <CommandList>
+        <CommandEmpty>{messagePermission}</CommandEmpty>
+      </CommandList>
+    )
+  }
 
   if (searchableGroups.length === 0) {
     return (
