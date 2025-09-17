@@ -18,8 +18,12 @@ import { MESSAGES_PERMISSIONS } from '@/modules/shared/presentation/messages/per
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import { useCallback, useMemo } from 'react'
 
+interface ProfileWithContracts {
+  perm_profile_id: number
+  contract_ids: number[]
+}
+
 interface UserFormInputContractsComponentProps {
-  require?: boolean
   description?: string
   contracts: ContractEntity[]
   selectedPermissionProfile?: PermissionProfileEntity
@@ -29,7 +33,6 @@ interface UserFormInputContractsComponentProps {
 export function UserFormInputContractsComponent({
   contracts,
   description,
-  require,
   selectedPermissionProfile,
   hasPermission
 }: UserFormInputContractsComponentProps) {
@@ -41,7 +44,11 @@ export function UserFormInputContractsComponent({
   )
 
   const handleChange = useCallback(
-    (newValue: number[], value: any[], onChange: (val: any[]) => void) => {
+    (
+      newValue: number[],
+      value: ProfileWithContracts[],
+      onChange: (val: ProfileWithContracts[]) => void
+    ) => {
       if (!selectedPermissionProfile) return
 
       const index = value.findIndex(
@@ -63,7 +70,7 @@ export function UserFormInputContractsComponent({
 
       onChange(updatedValue)
     },
-    [selectedPermissionProfile?.id]
+    [selectedPermissionProfile]
   )
 
   return (
@@ -74,13 +81,16 @@ export function UserFormInputContractsComponent({
         if (!selectedPermissionProfile) return null
 
         const profileContracts =
-          value.find((v) => v.perm_profile_id === selectedPermissionProfile.id)
-            ?.contract_ids ?? []
+          (value as ProfileWithContracts[]).find(
+            (v) => v.perm_profile_id === selectedPermissionProfile.id
+          )?.contract_ids ?? []
 
         return (
           <GroupSelector.Provider
             value={profileContracts}
-            onChange={(newValue) => handleChange(newValue, value, onChange)}
+            onChange={(newValue) =>
+              handleChange(newValue, value as ProfileWithContracts[], onChange)
+            }
             groups={groups}
           >
             <FormItem>
