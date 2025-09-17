@@ -3,9 +3,20 @@
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useBindUserWithPermissionProfilesMenuTrigger } from '../../hooks/use-bind-user-with-permission-profiles-menu-trigger.hook'
 
-export function BindUserWithPermissionProfilesMenuTriggerComponent() {
+interface BindUserWithPermissionProfilesMenuTriggerComponentProps {
+  isPermittedViewContracts: boolean
+  isPermittedViewPermissionsProfile: boolean
+}
+
+export function BindUserWithPermissionProfilesMenuTriggerComponent({
+  isPermittedViewContracts,
+  isPermittedViewPermissionsProfile
+}: BindUserWithPermissionProfilesMenuTriggerComponentProps) {
   const { loadUserWithPermissionProfileBindOpenDialog } =
-    useBindUserWithPermissionProfilesMenuTrigger()
+    useBindUserWithPermissionProfilesMenuTrigger({
+      isPermittedViewContracts,
+      isPermittedViewPermissionsProfile
+    })
   return (
     <Button
       onClick={loadUserWithPermissionProfileBindOpenDialog}
