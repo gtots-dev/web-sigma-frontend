@@ -15,17 +15,22 @@ import type { PermissionsProfileIdsWithUserIdInterface } from '@/modules/users/d
 interface BindUserWithPermissionProfilesMenuComponentProps {
   title: string
   description: string
+  isPermittedViewPermissionsProfile: boolean
+  isPermittedViewContracts: boolean
 }
 
 export function BindUserWithPermissionProfilesMenuComponent({
   title,
-  description
+  description,
+  isPermittedViewPermissionsProfile,
+  isPermittedViewContracts
 }: BindUserWithPermissionProfilesMenuComponentProps) {
   const { isOpen, close } = useDialog()
   const { onAction } = useBindUserWithPermissionProfileSubmit()
   const { selectedProfile, toggleProfile } =
     useSelectablePermissionProfile(isOpen)
-  const { userWithPermissionProfiles } = usePermissionProfileWithUserStore()
+  const { userWithPermissionProfiles, userPermissionProfilesContract } =
+    usePermissionProfileWithUserStore()
   const { permissionProfiles } = usePermissionProfileStore()
   const { contracts } = useContractStore()
   const { id: userId } = useTableUser()
@@ -42,13 +47,16 @@ export function BindUserWithPermissionProfilesMenuComponent({
           isOpen={isOpen}
           userId={userId}
           permissionProfiles={userWithPermissionProfiles}
+          userPermissionProfileContract={userPermissionProfilesContract}
         >
           <UserForm.Form>
             <UserForm.Input.Profiles
+              hasPermission={isPermittedViewPermissionsProfile}
               permissions={permissionProfiles}
               onSelectProfile={toggleProfile}
             />
             <UserForm.Input.Contracts
+              hasPermission={isPermittedViewContracts}
               contracts={contracts}
               selectedPermissionProfile={selectedProfile}
             />
@@ -61,11 +69,14 @@ export function BindUserWithPermissionProfilesMenuComponent({
             >
               Cancelar
             </Button>
-            <UserForm.Submit
-              onSubmit={(
-                permissionProfilesWithUserId: PermissionsProfileIdsWithUserIdInterface
-              ) => onAction(permissionProfilesWithUserId, close)}
-            />
+            {(isPermittedViewContracts ||
+              isPermittedViewPermissionsProfile) && (
+              <UserForm.Submit
+                onSubmit={(
+                  permissionProfilesWithUserId: PermissionsProfileIdsWithUserIdInterface
+                ) => onAction(permissionProfilesWithUserId, close)}
+              />
+            )}
           </BindUserWithPermissionProfilesMenu.Footer>
         </BindUserWithPermissionProfileForm.Provider>
       </BindUserWithPermissionProfilesMenu.Content>
