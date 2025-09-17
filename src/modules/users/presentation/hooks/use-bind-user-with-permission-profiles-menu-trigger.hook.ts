@@ -6,7 +6,7 @@ import { usePermissionProfileStore } from '@/modules/permissions/presentation/st
 import { useContractStore } from '@/modules/contracts/presentation/stores/contract.store'
 import { useCallback } from 'react'
 
-interface useBindUserWithPermissionProfilesMenuTriggerProps {
+interface UseBindUserWithPermissionProfilesMenuTriggerProps {
   isPermittedViewContracts: boolean
   isPermittedViewPermissionsProfile: boolean
 }
@@ -14,7 +14,7 @@ interface useBindUserWithPermissionProfilesMenuTriggerProps {
 export function useBindUserWithPermissionProfilesMenuTrigger({
   isPermittedViewContracts,
   isPermittedViewPermissionsProfile
-}: useBindUserWithPermissionProfilesMenuTriggerProps) {
+}: UseBindUserWithPermissionProfilesMenuTriggerProps) {
   const { open: openDialog } = useDialog()
   const { id: userId } = useTableUser()
   const {
@@ -29,23 +29,20 @@ export function useBindUserWithPermissionProfilesMenuTrigger({
     try {
       clearUserPermissionProfilesContract()
 
-      const promises: Promise<any>[] = []
+      const { userWithPermissionProfiles } = await (async () => {
+        const [userWithPermissionProfiles, permissionProfiles, contracts] =
+          await Promise.all([
+            isPermittedViewPermissionsProfile
+              ? getUserWithPermissionProfiles(userId)
+              : null,
+            isPermittedViewPermissionsProfile ? getPermissionProfiles() : null,
+            isPermittedViewContracts ? getContracts() : null
+          ] as const)
 
-      if (isPermittedViewPermissionsProfile) {
-        promises.push(getUserWithPermissionProfiles(userId))
-        promises.push(getPermissionProfiles())
-      }
+        return { userWithPermissionProfiles, permissionProfiles, contracts }
+      })()
 
-      if (isPermittedViewContracts) {
-        promises.push(getContracts())
-      }
-
-      const results = await Promise.all(promises)
-
-      let userWithPermissionProfiles: (typeof results)[0] = []
-
-      if (isPermittedViewPermissionsProfile) {
-        userWithPermissionProfiles = results[0]
+      if (isPermittedViewPermissionsProfile && userWithPermissionProfiles) {
         await Promise.all(
           userWithPermissionProfiles.map(
             async ({ id: userPermissionProfile, user_id }) => {
@@ -57,7 +54,6 @@ export function useBindUserWithPermissionProfilesMenuTrigger({
           )
         )
       }
-
       openDialog()
     } catch (error) {
       console.error(error)
