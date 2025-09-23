@@ -6,6 +6,7 @@ import { HttpResponseActivityReportValidator } from '../../domain/validators/htt
 import type { PostActivityReportServiceInterface } from '../../domain/interfaces/post-activity-report-service.interface'
 import type { ActivityReportFiltersInterface } from '../../domain/interfaces/activity-report-filters.interface'
 import type { PaginationInterface } from '@/modules/shared/domain/interfaces/pagination.interfaces'
+import type { ActivityReportInterface } from '../../domain/interfaces/activity-report.interface'
 
 export class PostActivityReportService
   implements PostActivityReportServiceInterface
@@ -35,9 +36,9 @@ export class PostActivityReportService
       filters: ActivityReportFiltersInterface
       pagination: PaginationInterface
     }
-  ): Promise<any> {
+  ): Promise<ActivityReportInterface> {
     const settingsAuthHTTP = this.getHttpRequestConfig(token, filters)
-    const { success, status, data }: HttpResponse<any> =
+    const { success, status, data }: HttpResponse<ActivityReportInterface> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseActivityReportValidator.validate(success, status)
     return data
