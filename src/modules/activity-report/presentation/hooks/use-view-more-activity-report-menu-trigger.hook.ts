@@ -1,5 +1,5 @@
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
-import { useDialog } from '../components/view-more-user-menu/view-more-activity-report-menu-provider.component'
+import { useDialog } from '../components/view-more-activity-report-menu/view-more-activity-report-menu-provider.component'
 
 export function useViewMoreActivityReportMenuTrigger() {
   const { open: openDialog } = useDialog()
