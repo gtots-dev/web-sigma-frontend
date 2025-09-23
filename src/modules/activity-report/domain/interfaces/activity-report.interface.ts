@@ -3,7 +3,7 @@ export interface ActivityReportInterface {
   user: {
     id: number
     name: string
-  }
+  } | null
   operation: {
     id: number
     name: string
@@ -11,8 +11,9 @@ export interface ActivityReportInterface {
   contract: {
     id: number
     name: string
-  }
+  } | null
+  changes?: Record<string, { de: string; para: string }> | null
   action: string
-  data: Record<string, string>
+  data?: Record<string, string> | null
   created_at: string
 }
