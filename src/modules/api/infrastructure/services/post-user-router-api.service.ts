@@ -4,6 +4,7 @@ import { HttpResponseUserValidator } from '../../../users/domain/validators/http
 import type { PostUserRouterApiServiceInterface } from '../../domain/interfaces/post-user-router-api-service.interface'
 import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files'
 import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
+import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 
 export class PostUserRouterApiService
   implements PostUserRouterApiServiceInterface
@@ -20,8 +21,12 @@ export class PostUserRouterApiService
       url: 'api/user'
     }
   }
-  async execute(userWithFiles: UserWithFiles): Promise<void> {
-    const userFormData = this.formData.execute(userWithFiles)
+  async execute(
+    userWithFiles: UserWithFiles,
+    operationId: OperationEntity['id']
+  ): Promise<void> {
+    const payload = { ...userWithFiles, operation_id: operationId }
+    const userFormData = this.formData.execute(payload)
     const settingsAuthHTTP = this.getHttpRequestConfig(userFormData)
     const { success, status } =
       await this.httpRequest.execute<null>(settingsAuthHTTP)
