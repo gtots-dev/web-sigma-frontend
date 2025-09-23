@@ -99,7 +99,7 @@ export function ActivityReportUsersComponent({
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent
-                  className="overflow-y-auto p-1"
+                  className="flex flex-col gap-y-0.5 overflow-y-auto p-1"
                   align="start"
                   sideOffset={4}
                   style={{ minWidth: triggerWidth }}
