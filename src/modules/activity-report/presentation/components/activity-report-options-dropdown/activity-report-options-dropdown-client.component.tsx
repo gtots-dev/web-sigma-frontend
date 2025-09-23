@@ -1,12 +1,10 @@
 'use client'
 
 import { ActivityReportOptionsDropdown } from '.'
-import { ViewMoreActivityReportMenu } from '../view-more-user-menu'
-import { ViewMoreActivityReportMenuComponent } from '../view-more-user-menu/view-more-activity-report-menu.component'
+import { ViewMoreActivityReportMenu } from '../view-more-activity-report-menu'
+import { ViewMoreActivityReportMenuComponent } from '../view-more-activity-report-menu/view-more-activity-report-menu.component'
 
-interface ActivityReportOptionsDropdownClientProps {}
-
-export function ActivityReportOptionsDropdownClient({}: ActivityReportOptionsDropdownClientProps) {
+export function ActivityReportOptionsDropdownClient() {
   return (
     <ViewMoreActivityReportMenu.Provider>
       <ActivityReportOptionsDropdown.Root>
