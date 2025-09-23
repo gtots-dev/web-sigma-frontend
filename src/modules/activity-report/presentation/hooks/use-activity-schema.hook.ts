@@ -1,11 +1,15 @@
 import { z } from 'zod'
 
 export const ActivityReportSchema = z.object({
-  actions: z.array(z.string()).optional(),
+  actions: z.string().optional(),
   contract_ids: z.array(z.number()).optional(),
   operation_ids: z.array(z.number()).optional(),
   user_ids: z.array(z.number()).optional(),
   date_range: z.object({
+    start: z.string().nullable(),
+    end: z.string().nullable()
+  }),
+  time_range: z.object({
     start: z.string().nullable(),
     end: z.string().nullable()
   }),
