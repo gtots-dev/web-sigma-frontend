@@ -76,7 +76,11 @@ export function PermissionProfileFormInputFeaturesComponent({
                     )}
                   >
                     {(item) => (
-                      <GroupSelector.Item key={item.id} id={item.id}>
+                      <GroupSelector.Item
+                        key={item.id}
+                        id={item.id}
+                        item={item}
+                      >
                         {({ selected }) => (
                           <div
                             className="flex items-center gap-x-4 w-full h-full"

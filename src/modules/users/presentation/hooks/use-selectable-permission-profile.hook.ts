@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
-import { useCacheSelectedBindsStore } from '../stores/cache-selecteds-binds.store'
 
 export function useSelectablePermissionProfile(isOpen: boolean) {
-  const { clearBindings } = useCacheSelectedBindsStore()
   const [selectedProfile, setSelectedProfile] =
     useState<PermissionProfileInterface | null>(null)
 
@@ -12,11 +10,8 @@ export function useSelectablePermissionProfile(isOpen: boolean) {
   }
 
   useEffect(() => {
-    if (!isOpen) {
-      clearBindings()
-      setSelectedProfile(null)
-    }
-  }, [isOpen, clearBindings])
+    if (!isOpen) setSelectedProfile(null)
+  }, [isOpen])
 
   return {
     selectedProfile,
