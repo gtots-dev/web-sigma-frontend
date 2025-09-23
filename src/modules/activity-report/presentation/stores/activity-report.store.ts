@@ -29,7 +29,9 @@ export const useActivityReportStore = create<UserState>((set) => ({
       const postActivityReportRouterApiFactory =
         PostActivityReportRouterApiFactory.create()
       const logs = await postActivityReportRouterApiFactory.execute(filters)
-      set({ logs: logs.data })
+      set({
+        logs
+      })
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
