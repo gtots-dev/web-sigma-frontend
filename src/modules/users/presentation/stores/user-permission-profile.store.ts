@@ -6,23 +6,46 @@ import type { UserEntity } from '../../domain/entities/user.entity'
 import { PostBindUserWithPermissionProfileRouterApiFactory } from '@/modules/api/infrastructure/factories/post-bind-user-with-permission-profile-router-api.factory'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import { DeleteBindUserWithPermissionProfileRouterApiFactory } from '@/modules/api/infrastructure/factories/delete-bind-user-with-permission-profile-router-api.factory'
+import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
+import type { UserPermissionProfileContractInterface } from '../../domain/interfaces/user-permission-profile-contract.interface'
+import { GetUserPermissionProfileContractRouterApiFactory } from '@/modules/api/infrastructure/factories/get-user-permission-profiles-contract-router-api.factory'
+import type { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
+import { PutUserPermissionProfileAllInOneRouterApiFactory } from '@/modules/api/infrastructure/factories/put-user-permission-profile-all-in-one-router-api.factory'
 
 type PermissionProfileWithUserState = {
   userWithPermissionProfiles: PermissionProfileWithUserInterface[]
-  getUserWithPermissionProfiles: (userId: UserEntity['id']) => Promise<void>
+  userPermissionProfilesContract: UserPermissionProfileContractInterface[]
+  getUserWithPermissionProfiles: (
+    userId: UserEntity['id']
+  ) => Promise<PermissionProfileWithUserInterface[]>
   bindUserWithPermissionProfile: (
     permissionProfilesIds: PermissionProfileEntity['id'][],
     userId: UserEntity['id']
+  ) => Promise<void>
+  putUserPermissionProfileAllInOne: (
+    userId: UserEntity['id'],
+    profiles: {
+      profiles: {
+        perm_profile_id: PermissionProfileEntity['id']
+        contract_ids: ContractEntity['id'][]
+      }[]
+    }
   ) => Promise<void>
   deleteBindUserWithPermissionProfile: (
     permissionProfilesId: PermissionProfileEntity['id'],
     userId: UserEntity['id']
   ) => Promise<void>
+  getUserPermissionProfilesContract: (
+    userId: UserEntity['id'],
+    userPermissionProfileId: PermissionProfileInterface['id']
+  ) => Promise<UserPermissionProfileContractInterface[]>
+  clearUserPermissionProfilesContract: () => void
 }
 
 export const usePermissionProfileWithUserStore =
   create<PermissionProfileWithUserState>((set) => ({
     userWithPermissionProfiles: [],
+    userPermissionProfilesContract: [],
 
     getUserWithPermissionProfiles: async (userId: UserEntity['id']) => {
       try {
@@ -31,6 +54,7 @@ export const usePermissionProfileWithUserStore =
         const userWithPermissionProfiles =
           await getUserWithPermissionProfileRouterApiFactory.execute(userId)
         set({ userWithPermissionProfiles })
+        return userWithPermissionProfiles
       } catch (error) {
         if (error instanceof HttpResponseError) {
           throw error
@@ -72,5 +96,70 @@ export const usePermissionProfileWithUserStore =
           throw error
         }
       }
+    },
+
+    putUserPermissionProfileAllInOne: async (
+      userId: UserEntity['id'],
+      profiles: {
+        profiles: {
+          perm_profile_id: PermissionProfileEntity['id']
+          contract_ids: ContractEntity['id'][]
+        }[]
+      }
+    ) => {
+      const putUserPermissionProfileAllInOneRouterApiFactory =
+        PutUserPermissionProfileAllInOneRouterApiFactory.create()
+
+      await putUserPermissionProfileAllInOneRouterApiFactory.execute(
+        userId,
+        profiles
+      )
+    },
+
+    getUserPermissionProfilesContract: async (
+      userId: UserEntity['id'],
+      userPermissionProfileId: PermissionProfileInterface['id']
+    ) => {
+      try {
+        const getUserPermissionProfileContractRouterApiFactory =
+          GetUserPermissionProfileContractRouterApiFactory.create()
+
+        const newContracts =
+          await getUserPermissionProfileContractRouterApiFactory.execute(
+            userId,
+            userPermissionProfileId
+          )
+
+        set((state) => {
+          const allContracts = [
+            ...state.userPermissionProfilesContract,
+            ...newContracts
+          ]
+
+          const uniqueContracts = allContracts.reduce<
+            UserPermissionProfileContractInterface[]
+          >((acc, c) => {
+            const exists = acc.some(
+              (item) =>
+                item.user_perm_profile_id === c.user_perm_profile_id &&
+                item.contract_id === c.contract_id
+            )
+            if (!exists) acc.push(c)
+            return acc
+          }, [])
+
+          return { userPermissionProfilesContract: uniqueContracts }
+        })
+
+        return newContracts
+      } catch (error) {
+        if (error instanceof HttpResponseError) {
+          throw error
+        }
+      }
+    },
+
+    clearUserPermissionProfilesContract: () => {
+      set({ userPermissionProfilesContract: [] })
     }
   }))

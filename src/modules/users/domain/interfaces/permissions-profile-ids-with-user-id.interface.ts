@@ -3,7 +3,10 @@ import type { UserEntity } from '../entities/user.entity'
 import type { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
 
 export interface PermissionsProfileIdsWithUserIdInterface {
-  perm_profile_id: PermissionProfileEntity['id'][]
   user_id: UserEntity['id']
-  contract_id: ContractEntity['id'][]
+  perm_profile_id: PermissionProfileEntity['id'][]
+  profiles: {
+    perm_profile_id: PermissionProfileEntity['id']
+    contract_ids: ContractEntity['id'][]
+  }[]
 }
