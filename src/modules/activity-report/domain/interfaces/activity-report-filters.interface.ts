@@ -5,8 +5,12 @@ export interface ActivityReportFiltersInterface {
   operation_ids?: number[]
   user_ids?: UserInterface['id'][]
   contract_ids?: ContractInterface['id'][]
-  actions?: string[]
+  actions?: string
   date_range?: {
+    start?: string
+    end?: string
+  }
+  time_range?: {
     start?: string
     end?: string
   }
