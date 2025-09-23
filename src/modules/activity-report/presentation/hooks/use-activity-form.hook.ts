@@ -17,13 +17,17 @@ export function useActivityReportForm({
 }) {
   const defaultValues = useMemo<ActivityReportSchemaType>(
     () => ({
-      actions: filters?.actions ?? [],
+      actions: filters?.actions ?? '',
       contract_ids: filters?.contract_ids ?? [],
       operation_ids: filters?.operation_ids ?? [],
       user_ids: filters?.user_ids ?? [],
       date_range: {
         start: filters?.date_range?.start ?? null,
         end: filters?.date_range?.end ?? null
+      },
+      time_range: {
+        start: filters?.time_range?.start ?? null,
+        end: filters?.time_range?.end ?? null
       },
       page: pagination.page ?? 1,
       per_page: pagination.per_page ?? 50
