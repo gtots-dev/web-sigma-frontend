@@ -14,8 +14,6 @@ export function ActivityReportFiltersDropdownClient() {
           <ActivityReportForm.Inputs.Time />
           <ActivityReportForm.Inputs.Contracts />
           <ActivityReportForm.Inputs.Users />
-          <ActivityReportForm.Inputs.Operations />
-
           <ActivityReportForm.Submit className="mt-auto w-full">
             Filtrar
           </ActivityReportForm.Submit>
