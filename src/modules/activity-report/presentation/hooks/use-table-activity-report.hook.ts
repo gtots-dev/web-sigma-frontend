@@ -24,7 +24,7 @@ export function useTableActivityReport(initSettings: {
     }
 
     fetchActivityReport()
-  }, [initSettings])
+  }, [initSettings, getActivityReport])
 
   return { logs, loading }
 }
