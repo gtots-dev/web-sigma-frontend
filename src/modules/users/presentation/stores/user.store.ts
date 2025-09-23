@@ -7,11 +7,15 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 import type { UserWithFiles } from '../../domain/types/user-with-files'
 import type { UserEnableAndDisableInterface } from '../../domain/interfaces/user-enable-and-disable.interface'
 import { PutUserStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/put-user-status-router-api.factory'
+import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 
 type UserState = {
   users: UserEntity[]
   getUsers: () => Promise<void>
-  addUser: (user: Omit<UserWithFiles, 'id'>) => Promise<void>
+  addUser: (
+    user: Omit<UserWithFiles, 'id'>,
+    operationId: OperationEntity['id']
+  ) => Promise<void>
   updateUser: (user: UserWithFiles) => Promise<void>
   updateUserStatus: (
     userEnableAndDisable: UserEnableAndDisableInterface
@@ -33,10 +37,10 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 
-  addUser: async (user: UserWithFiles) => {
+  addUser: async (user: UserWithFiles, operationId: OperationEntity['id']) => {
     try {
       const postUsersRouterApiFactory = PostUserRouterApiFactory.create()
-      await postUsersRouterApiFactory.execute(user)
+      await postUsersRouterApiFactory.execute(user, operationId)
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error

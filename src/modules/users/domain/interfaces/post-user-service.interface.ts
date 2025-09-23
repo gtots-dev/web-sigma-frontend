@@ -4,6 +4,5 @@ export interface PostUserServiceInterface {
   execute(
     token: TokenEntities,
     user: FormData,
-    operationSelectedId: number
   ): Promise<void>
 }
