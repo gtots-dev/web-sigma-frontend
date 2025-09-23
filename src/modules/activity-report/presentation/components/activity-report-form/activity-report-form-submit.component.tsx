@@ -5,13 +5,16 @@ import { useFormContext } from 'react-hook-form'
 import { useActivityReportSubmit } from '../../hooks/use-activity-submit.hook'
 import type { ActivityReportSchemaType } from '../../hooks/use-activity-schema.hook'
 import { Search } from 'lucide-react'
+import type { ReactNode } from 'react'
 
 interface ActivityReportFormSubmitComponentProps {
   className?: string
+  children?: ReactNode
 }
 
 export function ActivityReportFormSubmitComponent({
-  className
+  className,
+  children
 }: ActivityReportFormSubmitComponentProps) {
   const { handleSubmit } = useFormContext<ActivityReportSchemaType>()
   const { handleSubmit: onSubmit } = useActivityReportSubmit()
@@ -23,7 +26,7 @@ export function ActivityReportFormSubmitComponent({
       size="icon"
       onClick={handleSubmit(onSubmit)}
     >
-      <Search />
+      {!children ? <Search /> : children}
     </Button>
   )
 }
