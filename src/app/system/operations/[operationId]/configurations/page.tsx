@@ -8,7 +8,7 @@ import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.con
 import { MESSAGES_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/messages/configuration-operation'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { FileKey2, FileText, UsersRound, type LucideIcon } from 'lucide-react'
+import { FileKey2, UsersRound, type LucideIcon } from 'lucide-react'
 
 interface ConfigurationOptionsPageProps {
   params: Promise<{ operationId: string }>
@@ -39,20 +39,11 @@ export default async function ConfigurationOptionsPage({
   const title = MESSAGES_CONFIGURATION_OPERATION['14.1']
   const description = MESSAGES_CONFIGURATION_OPERATION['14.2']
   const subDescription = MESSAGES_CONFIGURATION_OPERATION['14.3']
-  const operationSelectionMenuTitle =
-    MESSAGES_CONFIGURATION_OPERATION['14.10']
+  const operationSelectionMenuTitle = MESSAGES_CONFIGURATION_OPERATION['14.10']
   const operationSelectionMenuDescription =
     MESSAGES_CONFIGURATION_OPERATION['14.11']
 
   const operationOptions: ConfigurationCardOption[] = [
-    {
-      title: MESSAGES_CONFIGURATION_OPERATION['14.4'],
-      description: MESSAGES_CONFIGURATION_OPERATION['14.5'],
-      pathName: PATHNAMES.CONTRACTS(operationId),
-      icon: FileText,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_VIEW)
-    },
     {
       title: MESSAGES_CONFIGURATION_OPERATION['14.6'],
       description: MESSAGES_CONFIGURATION_OPERATION['14.7'],

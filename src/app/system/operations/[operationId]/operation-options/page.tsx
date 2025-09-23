@@ -5,10 +5,16 @@ import { HeaderOptions } from '@/modules/operation-options/presentation/componen
 import { OperationSelector } from '@/modules/operation-options/presentation/components/operation-selector'
 import { getOperations } from '@/modules/operations/presentation/utils/get-operations.util'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
+import { MESSAGES_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/messages/configuration-operation'
 import { MESSAGES_OPTIONS_OPERATION } from '@/modules/shared/presentation/messages/options-operation'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { Settings, UserRoundSearch, type LucideIcon } from 'lucide-react'
+import {
+  FileText,
+  Settings,
+  UserRoundSearch,
+  type LucideIcon
+} from 'lucide-react'
 
 interface OperationOptionsPageProps {
   params: Promise<{ operationId: string }>
@@ -53,6 +59,14 @@ export default async function OperationOptionsPage({
         userPermissions.has(PermissionEnum.CONTRACTS_VIEW) ||
         userPermissions.has(PermissionEnum.USERS_VIEW) ||
         userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
+    },
+    {
+      title: MESSAGES_CONFIGURATION_OPERATION['14.4'],
+      description: MESSAGES_CONFIGURATION_OPERATION['14.5'],
+      pathName: PATHNAMES.CONTRACTS(operationId),
+      icon: FileText,
+      accessAllowed:
+        isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_OPERATION['11.6'],
