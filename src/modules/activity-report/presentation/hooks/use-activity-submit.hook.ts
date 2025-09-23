@@ -6,7 +6,7 @@ import { useActivityReportStore } from '../stores/activity-report.store'
 
 function removeUndefined<T extends object>(obj: T): Partial<T> {
   return Object.fromEntries(
-    Object.entries(obj).filter(([_, v]) => v !== undefined)
+    Object.entries(obj).filter(([, v]) => v !== undefined)
   ) as Partial<T>
 }
 
@@ -21,7 +21,8 @@ export function useActivityReportSubmit() {
       operation_ids,
       page,
       per_page,
-      user_ids
+      user_ids,
+      time_range
     }: ActivityReportSchemaType): Promise<void> => {
       try {
         await getActivityReport({
@@ -30,7 +31,8 @@ export function useActivityReportSubmit() {
             contract_ids,
             operation_ids,
             user_ids,
-            date_range
+            date_range,
+            time_range
           }),
           pagination: removeUndefined({
             per_page,
