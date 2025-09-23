@@ -13,6 +13,8 @@ import {
   formatDateOnly,
   formatTimeOnly
 } from '@/modules/shared/presentation/utils/formatted.utils'
+import { auth } from '@/auth'
+import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 
 interface ActivityReportPageProps {
   params: Promise<{ operationId: string }>
@@ -21,7 +23,12 @@ interface ActivityReportPageProps {
 export default async function ActivityReportPage({
   params
 }: ActivityReportPageProps) {
+  const {
+    token: JWT,
+    user: { isAdmin }
+  } = await auth()
   const { operationId: rawOperationId } = await params
+  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
 
   const data = {
     title: MESSAGES_ACTIVITY_REPORT['15.1'],
@@ -63,7 +70,10 @@ export default async function ActivityReportPage({
 
         <ActionSection.Root>
           <ActivityReportForm.Inputs.Search />
-          <ActivityReportFiltersDropdown.Client />
+          <ActivityReportFiltersDropdown.Client
+            isAdmin={isAdmin}
+            permissions={userPermissions}
+          />
         </ActionSection.Root>
 
         <div className="flex flex-col h-full w-full">
