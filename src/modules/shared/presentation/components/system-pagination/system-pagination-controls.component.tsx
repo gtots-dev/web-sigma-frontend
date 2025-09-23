@@ -25,30 +25,24 @@ export function SystemPaginationControlsComponent() {
     [getValues, handleSubmit, setValue]
   )
 
+  const { range, currentPage, hasNext, hasPrevious } = usePagination({
+    currentPage: meta?.page ?? 1,
+    perPage: meta?.per_page ?? 50,
+    total: meta?.total_pages ?? 1,
+    maxPagesToShow: meta?.total_pages ?? 1
+  })
+
   if (!meta) {
     return (
-      <>
-        {[''].map((label, idx) => (
-          <Button
-            key={idx}
-            type="button"
-            disabled
-            className="dark:disabled:bg-zinc-800/80 disabled:opacity-50  dark:disabled:opacity-50 flex items-center justify-center gap-2 w-[297px]"
-          >
-            <Loader2 className="h-4 w-4 animate-spin" />
-          </Button>
-        ))}
-      </>
+      <Button
+        type="button"
+        disabled
+        className="dark:disabled:bg-zinc-800/80 disabled:opacity-50 dark:disabled:opacity-50 flex items-center justify-center gap-2 w-[297px]"
+      >
+        <Loader2 className="h-4 w-4 animate-spin" />
+      </Button>
     )
   }
-
-  const { page, per_page, total_pages } = meta
-  const { range, currentPage, hasNext, hasPrevious } = usePagination({
-    currentPage: page,
-    perPage: per_page,
-    total: total_pages,
-    maxPagesToShow: total_pages
-  })
 
   return (
     <div className="flex gap-1 items-center">
