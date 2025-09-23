@@ -8,7 +8,6 @@ import {
 import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import type { ReactNode } from 'react'
 import { useTableActivityReport } from '../../contexts/table-activity-report.context'
-import { MESSAGES_LOGS } from '@/modules/shared/presentation/messages/logs'
 import { useFormattedDate } from '@/modules/shared/presentation/hooks/use-formatted-date.hook'
 
 interface TableActivityReportItemComponentProps {
@@ -41,10 +40,10 @@ export function TableActivityReportItemComponent({
         {log.user?.name}
       </span>
       <span
-        title={MESSAGES_LOGS[log.action]}
+        title={log.action}
         className={`${truncateText} !h-auto`}
       >
-        {MESSAGES_LOGS[log.action]}
+        {log.action}
       </span>
     </TableCell>
   )
@@ -70,7 +69,7 @@ export function TableActivityReportItemComponent({
       )}
       {isExtraLarge && (
         <TableCell className={`${baseCell} ${truncateText}`} colSpan={1}>
-          {MESSAGES_LOGS[log.action] ? MESSAGES_LOGS[log.action] : log.action}
+          {log.action}
         </TableCell>
       )}
     </>

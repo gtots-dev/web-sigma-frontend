@@ -9,6 +9,7 @@ import { useTableActivityReport } from '../../hooks/use-table-activity-report.ho
 import type { ActivityReportInterface } from '@/modules/activity-report/domain/interfaces/activity-report.interface'
 import type { ActivityReportFiltersInterface } from '@/modules/activity-report/domain/interfaces/activity-report-filters.interface'
 import type { PaginationInterface } from '@/modules/shared/domain/interfaces/pagination.interfaces'
+import { MESSAGES_ACTIVITY_REPORT } from '@/modules/shared/presentation/messages/activity-report'
 
 export function TableActivityReportBodyComponent({
   children,
@@ -32,7 +33,7 @@ export function TableActivityReportBodyComponent({
   if (logs.data.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={6} message={''} />
+        <TableMessage colSpan={6} message={MESSAGES_ACTIVITY_REPORT['15.3']} />
       </TableBody>
     )
 

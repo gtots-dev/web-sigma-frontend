@@ -25,7 +25,7 @@ export function TableActivityReportHeaderComponent() {
           </TableHead>
         )}
 
-        {isLarge && (
+        {isExtraLarge && (
           <TableHead className={baseClass} colSpan={1}>
             Contrato
           </TableHead>
