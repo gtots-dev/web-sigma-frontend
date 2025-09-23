@@ -79,7 +79,7 @@ export function ViewMoreActivityReportMenuComponent({
                         </span>
                         <Input
                           className="border-red-600 bg-red-950/15"
-                          value={de || 'Sem Informação'}
+                          value={String(de) || 'Sem Informação'}
                           disabled
                         />
                       </Label>
@@ -94,7 +94,7 @@ export function ViewMoreActivityReportMenuComponent({
                         </span>
                         <Input
                           className="border-green-600 bg-green-950/15"
-                          value={para || 'Sem Informação'}
+                          value={String(para) || 'Sem Informação'}
                           disabled
                         />
                       </Label>
@@ -119,7 +119,10 @@ export function ViewMoreActivityReportMenuComponent({
                           .replace(/_/g, ' ')
                           .replace(/\b\w/g, (l) => l.toUpperCase())}
                       </span>
-                      <Input value={value || 'Sem Informação'} disabled />
+                      <Input
+                        value={String(value) || 'Sem Informação'}
+                        disabled
+                      />
                     </Label>
                   ))}
                 </div>
