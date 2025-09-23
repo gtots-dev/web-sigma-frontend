@@ -10,10 +10,8 @@ export class PostUserService implements PostUserServiceInterface {
 
   getHttpRequestConfig(
     token: TokenEntities,
-    user: FormData,
-    operationSelectedId?: number
+    user: FormData
   ): HttpRequestConfig<FormData> {
-    user.append('operation_id', String(operationSelectedId))
     return {
       method: 'POST',
       url: `/users`,
@@ -24,16 +22,8 @@ export class PostUserService implements PostUserServiceInterface {
     }
   }
 
-  async execute(
-    token: TokenEntities,
-    user: FormData,
-    operationSelectedId?: number
-  ): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      token,
-      user,
-      operationSelectedId
-    )
+  async execute(token: TokenEntities, user: FormData): Promise<void> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, user)
     const { success, status }: HttpResponse<null> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseUserValidator.validate(success, status)

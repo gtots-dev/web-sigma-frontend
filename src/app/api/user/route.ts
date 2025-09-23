@@ -1,7 +1,6 @@
 import { auth } from '@/auth'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
 import { GetUsersFactory } from '@/modules/users/infrastructure/factories/get-users.factory'
 import { PostUserFactory } from '@/modules/users/infrastructure/factories/post-user.factory'
 import { NextResponse } from 'next/server'
@@ -10,11 +9,9 @@ import type { NextRequest } from 'next/server'
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const { token } = await auth()
   const postUserFactory = PostUserFactory.create()
-  const jwtDecode = JwtTokenDecodeFactory.create()
   const user = await req.formData()
-  const { id } = jwtDecode.decode(token.access_token)
   try {
-    const response = await postUserFactory.execute(token, user, id)
+    const response = await postUserFactory.execute(token, user)
     return NextResponse.json(
       {
         success: true,

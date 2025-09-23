@@ -42,8 +42,11 @@ export function PermissionProfileFormInputEnabledComponent({
                 </FormLabel>
                 <FormDescription>
                   Permissão{' '}
-                  <b className="text-white/80">{permissionProfile.name}</b> será{' '}
-                  <b className="text-white/80">
+                  <b className="text-zinc-950 dark:text-white/80">
+                    {permissionProfile.name}
+                  </b>{' '}
+                  será{' '}
+                  <b className="text-zinc-950 dark:text-white/80">
                     {' '}
                     {!field.value ? 'Habilitada' : 'Desabilitada'}{' '}
                   </b>{' '}
