@@ -21,7 +21,7 @@ export const PATHNAMES: PathnamesInterface = {
   OPERATION_OPTIONS: (id) => `/system/operations/${id}/operation-options`,
   OPERATION_CONFIGURATIONS: (id) =>
     `/system/operations/${id}/configurations`,
-  CONTRACTS: (id) => `/system/operations/${id}/configurations/contracts`,
+  CONTRACTS: (id) => `/system/operations/${id}/operation-options/contracts`,
   PROCESSING_UNITS: (id) =>
     `/system/operations/${id}/configurations/contracts/processing-units`,
   POINTS: (id) =>
