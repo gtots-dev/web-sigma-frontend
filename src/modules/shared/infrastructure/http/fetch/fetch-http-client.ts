@@ -6,7 +6,7 @@ import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status
 export class FetchHttpClient implements HttpClientInterface {
   constructor(private readonly baseURL: string) {}
 
-  async request<T, TData extends BodyInit | object, TParams = unknown>(
+  async request<T, TData extends BodyInit | object = object, TParams = unknown>(
     config: HttpRequestConfig<TData, TParams>
   ): Promise<HttpResponse<T>> {
     try {
