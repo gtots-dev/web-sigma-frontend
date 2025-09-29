@@ -12,7 +12,7 @@ export interface ActivityReportInterface {
     id: number
     name: string
   } | null
-  changes?: Record<string, { de: string; para: string }> | null
+  changes?: string | null
   action: string
   data?: Record<string, string> | null
   created_at: string
