@@ -18,7 +18,7 @@ export class PutPasswordResetService
   ): HttpRequestConfig<FormData> {
     return {
       method: 'PUT',
-      url: `/users/password-resets`,
+      url: `/users/passwords`,
       data: passwordResetWithToken
     }
   }
