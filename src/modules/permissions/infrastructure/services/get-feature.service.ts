@@ -2,42 +2,28 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
+import type { FeaturesInterface } from '../../domain/interfaces/features.interface'
 import type { GetFeatureServiceInterface } from '../../domain/interfaces/get-feature-service.interface'
-import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
-import type { PermissionProfileWithFeatureInterface } from '../../domain/interfaces/permission-profile-with-feature.interface'
+import { HttpFeatureValidator } from '../../domain/validators/http-response-feature.validator'
 
 export class GetFeatureService implements GetFeatureServiceInterface {
   constructor(private readonly httpRequest: ExecuteRequest) {}
 
-  getHttpRequestConfig(
-    token: TokenEntities,
-    permissionProfileId: number
-  ): HttpRequestConfig {
+  getHttpRequestConfig(token: TokenEntities): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `/perm-profiles/${permissionProfileId}/features`,
+      url: `/features`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(
-    token: TokenEntities,
-    permissionProfileId: PermissionProfileInterface['id']
-  ): Promise<PermissionProfileWithFeatureInterface[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      token,
-      permissionProfileId
-    )
-    const {
-      success,
-      data,
-      status
-    }: HttpResponse<PermissionProfileWithFeatureInterface[]> =
+  async execute(token: TokenEntities): Promise<FeaturesInterface[]> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(token)
+    const { success, data, status }: HttpResponse<FeaturesInterface[]> =
       await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponsePermissionProfileValidator.validate(success, status)
+    HttpFeatureValidator.validate(success, status)
     return data
   }
 }
