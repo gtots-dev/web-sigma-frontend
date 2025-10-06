@@ -1,7 +1,7 @@
 import { auth } from '@/auth'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
-import { GetFeatureFactory } from '@/modules/permissions/infrastructure/factories/get-feature.factory'
+import { GetPermissionProfileFeatureFactory } from '@/modules/permissions/infrastructure/factories/get-permission-profile-feature.factory'
 import { PostFeatureFactory } from '@/modules/permissions/infrastructure/factories/post-feature.factory'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import { NextResponse, type NextRequest } from 'next/server'
@@ -45,11 +45,15 @@ export async function GET(
     params: Promise<{ permissionProfileId: PermissionProfileInterface['id'] }>
   }
 ): Promise<NextResponse> {
-  const getFeatureFactory = GetFeatureFactory.create()
+  const getPermissionProfileFeatureFactory =
+    GetPermissionProfileFeatureFactory.create()
   try {
     const { token } = await auth()
     const { permissionProfileId } = await params
-    const response = await getFeatureFactory.execute(token, permissionProfileId)
+    const response = await getPermissionProfileFeatureFactory.execute(
+      token,
+      permissionProfileId
+    )
     return NextResponse.json(response, {
       status: Number(HttpStatusCodeEnum.OK)
     })

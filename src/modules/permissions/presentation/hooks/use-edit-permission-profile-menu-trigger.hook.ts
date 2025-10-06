@@ -2,16 +2,21 @@ import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useDialog } from '../components/edit-permission-profile-menu/edit-permission-profile-menu-provider.component'
 import { usePermissionProfileStore } from '../stores/permission-profile.store'
 import { useTablePermissionProfile } from '../contexts/table-permission-profiles.context'
+import { useFeatureStore } from '../stores/feature.store'
 
 export function useEditPermissionProfileMenuTrigger() {
   const { open: openDialog } = useDialog()
   const { id: permissionProfileId } = useTablePermissionProfile()
-  const { getFeatures } = usePermissionProfileStore()
+  const { getFeatures } = useFeatureStore()
+  const { getPermissionProfileFeatures } = usePermissionProfileStore()
 
   const loadPermissionProfileEditOpenDialog = () => {
     queueMicrotask(async () => {
       try {
-        await getFeatures(permissionProfileId)
+        await Promise.all([
+          getFeatures(),
+          getPermissionProfileFeatures(permissionProfileId)
+        ])
         openDialog()
       } catch {
         toast({

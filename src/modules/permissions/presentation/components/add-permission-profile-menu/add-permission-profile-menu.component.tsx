@@ -5,11 +5,11 @@ import { AddPermissionProfileMenu } from '.'
 import { PermissionProfileForm } from '../permission-profile-form'
 import { AddPermissionProfileForm } from '../add-permission-profile-form-provider'
 import { useDialog } from '@/modules/permissions/presentation/components/add-permission-profile-menu/add-permission-profile-menu-provider.component'
-import { FEATURES } from '@/modules/permissions/infrastructure/configs/features.config'
 import {
   useAddPermissionProfileSubmit,
   type ExtendedPermissionProfile
 } from '../../hooks/use-add-permission-profile-submit.hook'
+import { useFeatureStore } from '../../stores/feature.store'
 
 interface AddPermissionProfileMenuComponentProps {
   title: string
@@ -21,6 +21,7 @@ export function AddPermissionProfileMenuComponent({
   description
 }: AddPermissionProfileMenuComponentProps) {
   const { isOpen, close } = useDialog()
+  const { features } = useFeatureStore()
   const { onAction } = useAddPermissionProfileSubmit()
 
   return (
@@ -36,7 +37,7 @@ export function AddPermissionProfileMenuComponent({
             <PermissionProfileForm.Input.Description require />
             <PermissionProfileForm.Input.Features
               require
-              permissions={FEATURES}
+              permissions={features}
             />
           </PermissionProfileForm.Form>
 
