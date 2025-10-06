@@ -4,6 +4,6 @@ import type { UserInterface } from './user.interface'
 export interface GetUserServiceInterface {
   execute(
     token: TokenEntities,
-    operationSelectedId: number,
+    operationSelectedId: number
   ): Promise<UserInterface>
 }

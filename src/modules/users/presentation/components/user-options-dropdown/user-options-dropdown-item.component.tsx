@@ -14,7 +14,7 @@ export function UserOptionsDropdownItemComponent({
 }: UserOptionsDropdownItemComponentProps) {
   return (
     <DropdownMenuItem className="p-0" {...props}>
-      {children} 
+      {children}
     </DropdownMenuItem>
   )
 }

@@ -18,15 +18,12 @@ export class PutPasswordResetService
   ): HttpRequestConfig<FormData> {
     return {
       method: 'PUT',
-      url: `/users/password-resets`,
+      url: `/users/passwords`,
       data: passwordResetWithToken
     }
   }
 
-  async execute({
-    token,
-    newPassword
-  }: PasswordResetInterface): Promise<void> {
+  async execute({ token, newPassword }: PasswordResetInterface): Promise<void> {
     const enrichedPasswordReset = {
       token: token,
       new_password: newPassword

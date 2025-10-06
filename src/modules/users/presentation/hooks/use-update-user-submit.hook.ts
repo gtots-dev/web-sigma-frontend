@@ -8,7 +8,7 @@ export function useEditUserSubmit() {
   const { updateUser, getUsers } = useUserStore()
 
   const onAction = useCallback(
-    async (data: UserWithFiles): Promise<void> => {
+    async (data: UserWithFiles, onSuccess: VoidFunction): Promise<void> => {
       try {
         await updateUser(data)
         await getUsers()
@@ -16,6 +16,7 @@ export function useEditUserSubmit() {
           title: 'Usuário atualizado com sucesso!',
           variant: 'success'
         })
+        onSuccess?.()
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({

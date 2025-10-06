@@ -4,5 +4,5 @@ import { OperationSelectionVerifyMiddleware } from './operation-selection-verify
 export const middlewares = {
   auth: WithAuthMiddleware,
   operations: RedirectToOperationsMiddleware,
-  OperationSelectionVerify: OperationSelectionVerifyMiddleware,
+  OperationSelectionVerify: OperationSelectionVerifyMiddleware
 }

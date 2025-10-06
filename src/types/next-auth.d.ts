@@ -9,6 +9,7 @@ declare module 'next-auth' {
   interface User {
     accessToken?: string
     username?: string
+    isAdmin: boolean
   }
 }
 

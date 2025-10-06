@@ -7,9 +7,5 @@ interface ContentSystemRootComponentProps {
 export default function ContentSystemRootComponent({
   children
 }: ContentSystemRootComponentProps) {
-  return (
-    <main className="flex flex-1 mt-16">
-      {children}
-    </main>
-  )
+  return <main className="flex flex-1 mt-16">{children}</main>
 }

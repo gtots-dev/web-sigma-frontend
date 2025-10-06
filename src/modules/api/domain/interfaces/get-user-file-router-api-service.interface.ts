@@ -5,5 +5,5 @@ export interface GetUserFileRouterApiServiceInterface {
   execute(
     userId: UserEntity['id'],
     fileId: UserFileInterface['id']
-  ): Promise<Blob>
+  ): Promise<File>
 }

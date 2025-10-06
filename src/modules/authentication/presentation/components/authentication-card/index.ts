@@ -5,5 +5,5 @@ import { AuthenticationCardRootComponent } from './authentication-card-root.comp
 export const AuthenticationCard = {
   Root: AuthenticationCardRootComponent,
   Banner: AuthenticationCardBannerComponent,
-  Content: AuthenticationCardContentComponent,
+  Content: AuthenticationCardContentComponent
 }

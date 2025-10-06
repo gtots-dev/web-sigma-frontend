@@ -13,8 +13,16 @@ export function DialogWithDrawerDescriptionComponent({
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
-    return <DialogDescription className='text-[1.05rem]'>{children}</DialogDescription>
+    return (
+      <DialogDescription className="text-[1.05rem]">
+        {children}
+      </DialogDescription>
+    )
   }
 
-  return <DrawerDescription className="text-[1rem] text-left mb-3 sm:mb-0">{children}</DrawerDescription>
+  return (
+    <DrawerDescription className="text-[1rem] text-left mb-3 sm:mb-0">
+      {children}
+    </DrawerDescription>
+  )
 }
