@@ -4,6 +4,7 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { FeaturesInterface } from '../../domain/interfaces/features.interface'
 import type { GetFeatureServiceInterface } from '../../domain/interfaces/get-feature-service.interface'
+import { HttpFeatureValidator } from '../../domain/validators/http-response-feature.validator'
 
 export class GetFeatureService implements GetFeatureServiceInterface {
   constructor(private readonly httpRequest: ExecuteRequest) {}
@@ -20,8 +21,9 @@ export class GetFeatureService implements GetFeatureServiceInterface {
 
   async execute(token: TokenEntities): Promise<FeaturesInterface[]> {
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
-    const { data }: HttpResponse<FeaturesInterface[]> =
+    const { success, data, status }: HttpResponse<FeaturesInterface[]> =
       await this.httpRequest.execute(settingsAuthHTTP)
+    HttpFeatureValidator.validate(success, status)
     return data
   }
 }
