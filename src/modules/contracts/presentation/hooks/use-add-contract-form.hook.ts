@@ -19,7 +19,7 @@ export function useAddContractForm() {
       cfg: '',
       operation_id: Number(operationId)
     }),
-    []
+    [operationId]
   )
 
   const methods = useForm<AddContractFormType>({
