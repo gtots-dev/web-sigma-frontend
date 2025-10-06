@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
 export function useDownloadFile() {
-  const download = useCallback((blob: Blob, fileName: string) => {
-    const url = URL.createObjectURL(blob)
+  const download = useCallback((file: File, fileName: string) => {
+    const url = URL.createObjectURL(file)
     const a = document.createElement('a')
     a.href = url
     a.download = fileName

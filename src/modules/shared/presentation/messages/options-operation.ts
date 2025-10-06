@@ -9,18 +9,16 @@ type MessageKeys =
   | '11.8'
   | '11.9'
   | '11.10'
-  | '11.11'
 
 export const MESSAGES_OPTIONS_OPERATION: Record<MessageKeys, string> = {
   '11.1': 'Opções de operação',
   '11.2': 'Selecione a opção disponível desejada relacionada a sua operação.',
   '11.3': 'Operação selecionada ',
-  '11.4': 'Contratos',
-  '11.5': 'Navegue, gerencie e acesse os contratos disponíveis.',
-  '11.6': 'Usuários',
-  '11.7': 'Navegue, gerencie e adicione usuários',
-  '11.8': 'Permissões',
-  '11.9': 'Navegue, gerencie e adicione novos perfis de permissões.',
-  '11.10': 'Selecione a Operação',
-  '11.11': 'Selecione uma operação abaixo para gerenciar suas funcionalidades.'
+  '11.4': 'Configurações',
+  '11.5': 'Navegue, gerencie e acesse os configurações da operação.',
+  '11.6': 'Relatório de Atividades',
+  '11.7': 'Visualize, filtre e acesse as atividades da operação.',
+  '11.8': 'Selecione a Operação',
+  '11.9': 'Selecione uma operação abaixo para gerenciar suas funcionalidades.',
+  '11.10': 'Nenhuma opção disponível para essa operação.'
 }

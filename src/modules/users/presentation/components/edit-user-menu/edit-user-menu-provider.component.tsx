@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useContext, useState, ReactNode } from 'react'
 
 type EditUserMenuContextType = {
@@ -7,9 +9,9 @@ type EditUserMenuContextType = {
   toggle: () => void
 }
 
-const EditUserMenuContext = createContext<
-  EditUserMenuContextType | undefined
->(undefined)
+const EditUserMenuContext = createContext<EditUserMenuContextType | undefined>(
+  undefined
+)
 
 export const EditUserMenuProviderComponent = ({
   children

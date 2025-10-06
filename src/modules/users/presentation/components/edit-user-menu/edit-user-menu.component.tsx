@@ -36,7 +36,6 @@ export function EditUserMenuComponent({
             <UserForm.Input.Username />
             <UserForm.Input.Files />
             <UserForm.Input.Description />
-            <UserForm.Input.Enabled />
           </UserForm.Form>
 
           <EditUserMenu.Footer>
@@ -48,10 +47,7 @@ export function EditUserMenuComponent({
               Cancelar
             </Button>
             <UserForm.Submit
-              onSubmit={(user: UserWithFiles) => {
-                onAction(user)
-                close()
-              }}
+              onSubmit={(user: UserWithFiles) => onAction(user, close)}
             />
           </EditUserMenu.Footer>
         </EditUserForm.Provider>
