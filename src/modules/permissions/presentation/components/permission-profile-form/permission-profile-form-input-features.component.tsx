@@ -9,15 +9,11 @@ import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/
 import { useFormContext } from 'react-hook-form'
 import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
 import { MESSAGES_PERMISSIONS } from '@/modules/shared/presentation/messages/permissions'
-
-export interface featuresInterface {
-  id: number
-  name: string
-}
+import type { FeaturesInterface } from '@/modules/permissions/domain/interfaces/features.interface'
 
 export interface groupFeaturesInterface {
   name: string
-  features: featuresInterface[]
+  features: FeaturesInterface[]
 }
 
 interface PermissionProfileFormInputFeaturesComponentProps {
@@ -59,7 +55,7 @@ export function PermissionProfileFormInputFeaturesComponent({
               <FormControl>
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pelo grupo ou permissão..." />
-                  <GroupSelector.List<featuresInterface>
+                  <GroupSelector.List<FeaturesInterface>
                     messageItemEmpty={MESSAGES_PERMISSIONS[6.6]}
                     messageGroupEmpty={MESSAGES_PERMISSIONS[6.6]}
                     heading={(group, allSelected, toggleAll) => (
