@@ -9,6 +9,7 @@ import {
   useAddPermissionProfileSubmit,
   type ExtendedPermissionProfile
 } from '../../hooks/use-add-permission-profile-submit.hook'
+import { useFeatureStore } from '../../stores/feature.store'
 
 interface AddPermissionProfileMenuComponentProps {
   title: string
@@ -20,6 +21,7 @@ export function AddPermissionProfileMenuComponent({
   description
 }: AddPermissionProfileMenuComponentProps) {
   const { isOpen, close } = useDialog()
+  const { features } = useFeatureStore()
   const { onAction } = useAddPermissionProfileSubmit()
 
   return (
@@ -33,7 +35,10 @@ export function AddPermissionProfileMenuComponent({
           <PermissionProfileForm.Form>
             <PermissionProfileForm.Input.Name require />
             <PermissionProfileForm.Input.Description require />
-            <PermissionProfileForm.Input.Features require permissions={[]} />
+            <PermissionProfileForm.Input.Features
+              require
+              permissions={features}
+            />
           </PermissionProfileForm.Form>
 
           <AddPermissionProfileMenu.Footer>

@@ -9,6 +9,7 @@ import { EditPermissionProfileForm } from '../edit-permission-profile-form-provi
 import { useTablePermissionProfile } from '../../contexts/table-permission-profiles.context'
 import { usePermissionProfileStore } from '../../stores/permission-profile.store'
 import type { ExtendedPermissionProfile } from '../../hooks/use-add-permission-profile-submit.hook'
+import { useFeatureStore } from '../../stores/feature.store'
 
 interface EditPermissionProfileMenuComponentProps {
   title: string
@@ -21,8 +22,9 @@ export function EditPermissionProfileMenuComponent({
 }: EditPermissionProfileMenuComponentProps) {
   const { isOpen, close } = useDialog()
   const permissionProfile = useTablePermissionProfile()
-  const { features } = usePermissionProfileStore()
+  const { features: permissionProfileFeatures } = usePermissionProfileStore()
   const { onAction } = useEditPermissionProfileSubmit()
+  const { features } = useFeatureStore()
 
   return (
     <EditPermissionProfileMenu.Root>
@@ -32,14 +34,14 @@ export function EditPermissionProfileMenuComponent({
           description={description}
         />
         <EditPermissionProfileForm.Provider
-          features={features}
+          features={permissionProfileFeatures}
           profile={permissionProfile}
           isOpen={isOpen}
         >
           <PermissionProfileForm.Form>
             <PermissionProfileForm.Input.Name />
             <PermissionProfileForm.Input.Description />
-            <PermissionProfileForm.Input.Features permissions={[]} />
+            <PermissionProfileForm.Input.Features permissions={features} />
           </PermissionProfileForm.Form>
 
           <EditPermissionProfileMenu.Footer>
