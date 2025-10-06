@@ -5,7 +5,7 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 
 export function useAddContractSubmit() {
-  const { addContract, getContracts } = useContractStore()
+  const { addContract } = useContractStore()
 
   const onAction = useCallback(
     async (data: ContractEntity, onSuccess: VoidFunction): Promise<void> => {
@@ -27,7 +27,7 @@ export function useAddContractSubmit() {
         }
       }
     },
-    [addContract, getContracts]
+    [addContract]
   )
 
   return { onAction }
