@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { GetContractsRouterApiFactory } from '@/modules/api/infrastructure/factories/get-contracts-router-api.factory'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
+import { PostContractRouterApiFactory } from '@/modules/api/infrastructure/factories/post-contract-router-api.factory'
 
 type ContractState = {
   contracts: ContractEntity[]
@@ -25,12 +26,14 @@ export const useContractStore = create<ContractState>((set) => ({
   },
 
   addContract: async (contract: ContractEntity) => {
-    const enhancedContract: ContractEntity = {
-      ...contract,
-      id: Math.random(),
+    try {
+      const postContractsRouterApiFactory =
+        PostContractRouterApiFactory.create()
+      await postContractsRouterApiFactory.execute(contract)
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
     }
-    set((state) => ({
-      contracts: [...state.contracts, enhancedContract]
-    }))
   }
 }))

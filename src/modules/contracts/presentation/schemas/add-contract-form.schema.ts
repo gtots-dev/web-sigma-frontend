@@ -8,7 +8,8 @@ export const AddContractFormSchema = z.object({
   alias: z.string().nonempty({
     message: ''
   }),
-  cfg: z.string().nullable().optional()
+  cfg: z.string().nullable().optional(),
+  operation_id: z.number().optional()
 })
 
 export type AddContractFormType = z.infer<typeof AddContractFormSchema>

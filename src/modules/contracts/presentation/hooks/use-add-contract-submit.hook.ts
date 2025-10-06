@@ -5,7 +5,7 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 
 export function useAddContractSubmit() {
-  const { addContract } = useContractStore()
+  const { addContract, getContracts } = useContractStore()
 
   const onAction = useCallback(
     async (data: ContractEntity, onSuccess: VoidFunction): Promise<void> => {
@@ -15,6 +15,7 @@ export function useAddContractSubmit() {
           title: 'Contrato adicionado com sucesso!',
           variant: 'success'
         })
+        await getContracts()
         onSuccess?.()
       } catch (error) {
         if (error instanceof HttpResponseError) {
@@ -27,7 +28,7 @@ export function useAddContractSubmit() {
         }
       }
     },
-    [addContract]
+    [addContract, getContracts]
   )
 
   return { onAction }
