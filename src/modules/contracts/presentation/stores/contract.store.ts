@@ -6,6 +6,7 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 type ContractState = {
   contracts: ContractEntity[]
   getContracts: () => Promise<void>
+  addContract: (contract: ContractEntity) => Promise<void>
 }
 
 export const useContractStore = create<ContractState>((set) => ({
@@ -21,5 +22,15 @@ export const useContractStore = create<ContractState>((set) => ({
         throw error
       }
     }
+  },
+
+  addContract: async (contract: ContractEntity) => {
+    const enhancedContract: ContractEntity = {
+      ...contract,
+      id: Math.random(),
+    }
+    set((state) => ({
+      contracts: [...state.contracts, enhancedContract]
+    }))
   }
 }))
