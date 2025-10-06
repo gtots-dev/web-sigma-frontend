@@ -32,7 +32,7 @@ export function useAddUserSubmit() {
         }
       }
     },
-    [addUser, getUsers]
+    [addUser, getUsers, operationId]
   )
 
   return { onAction }
