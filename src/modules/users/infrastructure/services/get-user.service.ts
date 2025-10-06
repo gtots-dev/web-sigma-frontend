@@ -27,7 +27,7 @@ export class GetUserService implements GetUserServiceInterface {
     const settingsAuthHTTP = this.getHttpRequestConfig(token, userId)
     const { success, data, status }: HttpResponse<UserInterface> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, data, status)
+    HttpResponseUserValidator.validate(success, status)
     return UserFactory.create(data)
   }
 }

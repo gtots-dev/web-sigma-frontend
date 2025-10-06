@@ -12,9 +12,9 @@ describe('ConvertJsonToFormData', () => {
     convertJsonToFormData = new ConvertJsonToFormData(formDataConverterMock)
   })
 
- test('should call formDataConverter.convert with correct data and return the result', () => {
+  test('should call formDataConverter.convert with correct data and return the result', () => {
     const mockData = { key: 'value', anotherKey: 42 }
-    
+
     const mockFormData = new FormData()
     mockFormData.append('key', 'value')
     mockFormData.append('anotherKey', '42')
