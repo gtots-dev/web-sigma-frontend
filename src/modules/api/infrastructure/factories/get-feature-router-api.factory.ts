@@ -1,7 +1,7 @@
 import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
-import { GetFeatureRouterApiService } from '../services/get-feature-router-api.service'
 import type { GetFeatureRouterApiServiceInterface } from '../../domain/interfaces/get-feature-router-api-service.interface'
+import { GetFeatureRouterApiService } from '../services/get-feature-router-api-service'
 
 export class GetFeatureRouterApiFactory {
   static create(): GetFeatureRouterApiServiceInterface {

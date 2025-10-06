@@ -1,12 +1,15 @@
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useDialog } from '../components/add-permission-profile-menu/add-permission-profile-menu-provider.component'
+import { useFeatureStore } from '../stores/feature.store'
 
 export function useAddPermissionProfileMenuTrigger() {
   const { open: openDialog } = useDialog()
+  const { getFeatures } = useFeatureStore()
 
   const loadPermissionProfileAddOpenDialog = () => {
     queueMicrotask(async () => {
       try {
+        await getFeatures()
         openDialog()
       } catch {
         toast({

@@ -9,29 +9,22 @@ import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/
 import { useFormContext } from 'react-hook-form'
 import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
 import { MESSAGES_PERMISSIONS } from '@/modules/shared/presentation/messages/permissions'
-
-export interface featuresInterface {
-  id: number
-  name: string
-}
-
-export interface groupFeaturesInterface {
-  name: string
-  features: featuresInterface[]
-}
+import type { FeaturesInterface } from '@/modules/permissions/domain/interfaces/features.interface'
+import { useGroupedFeatures } from '../../hooks/use-group-features.hook'
 
 interface PermissionProfileFormInputFeaturesComponentProps {
   require?: boolean
   description?: string
-  permissions: groupFeaturesInterface[]
+  permissions?: FeaturesInterface[]
 }
 
 export function PermissionProfileFormInputFeaturesComponent({
   require,
   description,
-  permissions
+  permissions = []
 }: PermissionProfileFormInputFeaturesComponentProps) {
   const { control } = useFormContext()
+  const groupedFeatures = useGroupedFeatures(permissions)
 
   return (
     <FormField
@@ -44,10 +37,7 @@ export function PermissionProfileFormInputFeaturesComponent({
           <GroupSelector.Provider
             value={value}
             onChange={onChange}
-            groups={permissions.map((g) => ({
-              name: g.name,
-              items: g.features
-            }))}
+            groups={groupedFeatures}
           >
             <FormItem>
               <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
@@ -59,7 +49,7 @@ export function PermissionProfileFormInputFeaturesComponent({
               <FormControl>
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pelo grupo ou permissão..." />
-                  <GroupSelector.List<featuresInterface>
+                  <GroupSelector.List<FeaturesInterface>
                     messageItemEmpty={MESSAGES_PERMISSIONS[6.6]}
                     messageGroupEmpty={MESSAGES_PERMISSIONS[6.6]}
                     heading={(group, allSelected, toggleAll) => (
@@ -82,15 +72,12 @@ export function PermissionProfileFormInputFeaturesComponent({
                         item={item}
                       >
                         {({ selected }) => (
-                          <div
-                            className="flex items-center gap-x-4 w-full h-full"
-                            key={item.id}
-                          >
+                          <div className="flex items-center gap-x-4 w-full h-full">
                             <GroupSelector.Checkbox.Check
                               item={item}
                               selected={selected}
                             />
-                            <span>{item.name}</span>
+                            <span>{item.description}</span>
                           </div>
                         )}
                       </GroupSelector.Item>
