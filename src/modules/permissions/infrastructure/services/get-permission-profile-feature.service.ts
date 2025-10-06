@@ -3,11 +3,11 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
-import type { GetFeatureServiceInterface } from '../../domain/interfaces/get-feature-service.interface'
+import type { GetPermissionProfileFeatureServiceInterface } from '../../domain/interfaces/get-permission-profile-feature-service.interface'
 import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
 import type { PermissionProfileWithFeatureInterface } from '../../domain/interfaces/permission-profile-with-feature.interface'
 
-export class GetFeatureService implements GetFeatureServiceInterface {
+export class GetPermissionProfileFeatureService implements GetPermissionProfileFeatureServiceInterface {
   constructor(private readonly httpRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(

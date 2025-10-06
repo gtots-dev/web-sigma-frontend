@@ -6,12 +6,12 @@ import { useTablePermissionProfile } from '../contexts/table-permission-profiles
 export function useEditPermissionProfileMenuTrigger() {
   const { open: openDialog } = useDialog()
   const { id: permissionProfileId } = useTablePermissionProfile()
-  const { getFeatures } = usePermissionProfileStore()
+  const { getPermissionProfileFeatures } = usePermissionProfileStore()
 
   const loadPermissionProfileEditOpenDialog = () => {
     queueMicrotask(async () => {
       try {
-        await getFeatures(permissionProfileId)
+        await getPermissionProfileFeatures(permissionProfileId)
         openDialog()
       } catch {
         toast({
