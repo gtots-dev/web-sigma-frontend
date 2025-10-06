@@ -5,7 +5,6 @@ import { AddPermissionProfileMenu } from '.'
 import { PermissionProfileForm } from '../permission-profile-form'
 import { AddPermissionProfileForm } from '../add-permission-profile-form-provider'
 import { useDialog } from '@/modules/permissions/presentation/components/add-permission-profile-menu/add-permission-profile-menu-provider.component'
-import { FEATURES } from '@/modules/permissions/infrastructure/configs/features.config'
 import {
   useAddPermissionProfileSubmit,
   type ExtendedPermissionProfile
@@ -34,10 +33,7 @@ export function AddPermissionProfileMenuComponent({
           <PermissionProfileForm.Form>
             <PermissionProfileForm.Input.Name require />
             <PermissionProfileForm.Input.Description require />
-            <PermissionProfileForm.Input.Features
-              require
-              permissions={FEATURES}
-            />
+            <PermissionProfileForm.Input.Features require permissions={[]} />
           </PermissionProfileForm.Form>
 
           <AddPermissionProfileMenu.Footer>
