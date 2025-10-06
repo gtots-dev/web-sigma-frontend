@@ -4,7 +4,6 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { EditPermissionProfileMenu } from '.'
 import { PermissionProfileForm } from '../permission-profile-form'
 import { useDialog } from '@/modules/permissions/presentation/components/edit-permission-profile-menu/edit-permission-profile-menu-provider.component'
-import { FEATURES } from '@/modules/permissions/infrastructure/configs/features.config'
 import { useEditPermissionProfileSubmit } from '../../hooks/use-edit-permission-profile-submit.hook'
 import { EditPermissionProfileForm } from '../edit-permission-profile-form-provider'
 import { useTablePermissionProfile } from '../../contexts/table-permission-profiles.context'
@@ -40,7 +39,7 @@ export function EditPermissionProfileMenuComponent({
           <PermissionProfileForm.Form>
             <PermissionProfileForm.Input.Name />
             <PermissionProfileForm.Input.Description />
-            <PermissionProfileForm.Input.Features permissions={FEATURES} />
+            <PermissionProfileForm.Input.Features permissions={[]} />
           </PermissionProfileForm.Form>
 
           <EditPermissionProfileMenu.Footer>
