@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import type { ReactNode } from 'react'
 
 interface PasswordResetFormCardRootComponentProps {
   children: ReactNode
@@ -7,9 +7,5 @@ interface PasswordResetFormCardRootComponentProps {
 export function PasswordResetFormCardRootComponent({
   children
 }: PasswordResetFormCardRootComponentProps) {
-  return (
-    <div className="flex flex-col gap-6">
-      {children}
-    </div>
-  )
+  return <div className="flex flex-col gap-6">{children}</div>
 }

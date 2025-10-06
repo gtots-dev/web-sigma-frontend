@@ -13,8 +13,12 @@ export function DialogWithDrawerTitleComponent({
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
-    return <DialogTitle className='text-[2.5rem]'>{children}</DialogTitle>
+    return <DialogTitle className="text-[2.5rem]">{children}</DialogTitle>
   }
 
-  return <DrawerTitle className="font-medium text-[1.7rem] text-left">{children}</DrawerTitle>
+  return (
+    <DrawerTitle className="font-medium text-[1.7rem] text-left">
+      {children}
+    </DrawerTitle>
+  )
 }

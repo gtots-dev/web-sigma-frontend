@@ -10,7 +10,10 @@ export function AuthenticationFormCardDescriptionComponent({
   ...props
 }: AuthenticationFormCardDescriptionComponentProps) {
   return (
-    <p className="text-start text-black/50 dark:text-zinc-50/60 text-sm" {...props}>
+    <p
+      className="text-start text-black/50 dark:text-zinc-50/60 text-sm"
+      {...props}
+    >
       {description}
     </p>
   )

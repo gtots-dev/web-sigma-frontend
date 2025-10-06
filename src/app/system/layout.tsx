@@ -4,34 +4,32 @@ import {
   SidebarProvider,
   SidebarTrigger
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
-import { SidebarData } from '@/modules/system/infrastructure/configs/sidebar.config'
 import { SidebarSystem } from '@/modules/system/presentation/components/sidebar-system'
 import { UserDropdown } from '@/modules/system/presentation/components/user-dropdown'
 import type { ReactNode } from 'react'
 import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
 import { ContentSystem } from '@/modules/system/presentation/components/content-system'
-import { getUser } from '@/modules/users/presentation/utils/get-user.util'
+import { getUserMe } from '@/modules/users/presentation/utils/get-user.util'
+import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
+import { auth } from '@/auth'
 
 interface LayoutProps {
   children: ReactNode
 }
 
 export default async function Layout({ children }: LayoutProps) {
-  const { name, email } = await getUser()
+  const jwtFactory = JwtTokenDecodeFactory.create()
+  const [{ token: JWT, user }, { name, email }] = await Promise.all([
+    auth(),
+    getUserMe()
+  ])
+  const { permissions } = jwtFactory.decode(JWT.access_token)
+  const userBasic = { name, email }
+  const userWithAdmin = { ...userBasic, isAdmin: user.isAdmin }
+
   return (
     <SidebarProvider>
-      <SidebarSystem.Root>
-        <SidebarSystem.Header />
-        <SidebarSystem.Content>
-          <SidebarSystem.Item item={SidebarData} />
-        </SidebarSystem.Content>
-        <SidebarSystem.Footer>
-          <UserDropdown.Root>
-            <UserDropdown.Trigger user={{ name, email }} />
-            <UserDropdown.Menu user={{ name, email }} />
-          </UserDropdown.Root>
-        </SidebarSystem.Footer>
-      </SidebarSystem.Root>
+      <SidebarSystem.Client user={userWithAdmin} permissions={permissions} />
 
       <SidebarInset>
         <HeaderSystem.Root>
@@ -44,13 +42,9 @@ export default async function Layout({ children }: LayoutProps) {
               <UserDropdown.Trigger
                 className="ms-auto h-auto w-auto aspect-square"
                 isInfoEnabled={false}
-                user={{ name, email }}
+                user={userBasic}
               />
-              <UserDropdown.Menu
-                align="end"
-                side="bottom"
-                user={{ name, email }}
-              />
+              <UserDropdown.Menu align="end" side="bottom" user={userBasic} />
             </UserDropdown.Root>
           </div>
         </HeaderSystem.Root>

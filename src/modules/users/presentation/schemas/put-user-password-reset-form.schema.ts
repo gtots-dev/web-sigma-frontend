@@ -3,9 +3,15 @@ import { z } from 'zod'
 
 export const PutUserPasswordResetFormSchema = z.object({
   userId: z.number(),
-  days_passwd_reg_deadline: z.number().int().gt(0, {
-    message: MESSAGES_PASSWORD_RESET['2.16']
-  })
+  days_passwd_reg_deadline: z
+    .number()
+    .int()
+    .gt(0, {
+      message: MESSAGES_PASSWORD_RESET['2.16']
+    })
+    .max(365, {
+      message: MESSAGES_PASSWORD_RESET['2.17']
+    })
 })
 
 export type PutUserPasswordResetFormType = z.infer<

@@ -3,9 +3,7 @@ import {
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
 
-interface TableOperationHeaderComponentProps {}
-
-export function TableOperationHeaderComponent({}: TableOperationHeaderComponentProps) {
+export function TableOperationHeaderRowComponent() {
   return (
     <TableRow className="bg-muted !border-0">
       <TableHead

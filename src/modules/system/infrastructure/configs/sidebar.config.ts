@@ -1,5 +1,3 @@
-'use client'
-
 import {
   ArrowUpDown,
   Building2,
@@ -7,97 +5,139 @@ import {
   HardDrive,
   List,
   MapPin,
+  Settings,
   Shield,
   UserRoundPen,
+  UserRoundSearch,
   UsersRound
 } from 'lucide-react'
-
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
+import { PermissionEnum } from '../../domain/enums/permissions.enum'
 
-export const SidebarData = {
-  title: 'Operações',
-  url: PATHNAMES.OPERATIONS,
-  icon: Building2,
-  isActive: true,
-  isToExpand: true,
-  items: [
+export function getSidebarData(operationId: number) {
+  return [
     {
-      title: 'Opções de operação',
-      url: PATHNAMES.OPERATION_OPTIONS,
-      icon: List,
-      isActive: true,
-      isToExpand: false,
+      title: 'Operações',
+      url: PATHNAMES.OPERATIONS,
+      icon: Building2,
+      permissions: [PermissionEnum.NOT_REQUIRED],
+      isToExpand: true,
       items: [
         {
-          title: 'Contratos',
-          url: PATHNAMES.CONTRACTS,
-          icon: FileText,
-          isActive: true,
+          title: 'Opções de operação',
+          url: PATHNAMES.OPERATION_OPTIONS(operationId),
+          icon: List,
+          permissions: [PermissionEnum.NOT_REQUIRED],
           isToExpand: true,
           items: [
             {
-              title: 'Opções do contrato',
-              url: '',
-              icon: List,
-              isActive: true,
-              isToExpand: false,
+              title: 'Configurações',
+              url: PATHNAMES.OPERATION_CONFIGURATIONS(operationId),
+              icon: Settings,
+              permissions: [
+                PermissionEnum.USERS_VIEW,
+                PermissionEnum.CONTRACTS_VIEW,
+                PermissionEnum.PERMISSIONS_VIEW
+              ],
+              isToExpand: true,
               items: [
                 {
-                  title: 'U.P.s',
-                  url: PATHNAMES.PROCESSING_UNITS,
-                  icon: HardDrive,
-                  isActive: true,
+                  title: 'Usuários',
+                  url: PATHNAMES.USERS(operationId),
+                  icon: UsersRound,
+                  isToExpand: true,
+                  permissions: [PermissionEnum.USERS_VIEW]
+                },
+                {
+                  title: 'Permissões',
+                  url: PATHNAMES.PERMISSIONS(operationId),
+                  icon: Shield,
+                  isToExpand: true,
+                  permissions: [PermissionEnum.PERMISSIONS_VIEW]
+                }
+              ]
+            },
+            {
+              title: 'Contratos',
+              url: PATHNAMES.CONTRACTS(operationId),
+              icon: FileText,
+              permissions: [PermissionEnum.CONTRACTS_VIEW],
+              isToExpand: true,
+              items: [
+                {
+                  title: 'Opções do contrato',
+                  url: '',
+                  icon: List,
+                  permissions: [PermissionEnum.CONTRACTS_VIEW],
                   isToExpand: true,
                   items: [
                     {
-                      title: 'Opções de U.P.s',
-                      url: '',
-                      icon: List,
-                      isActive: true,
-                      isToExpand: false,
+                      title: 'U.P.s',
+                      url: PATHNAMES.PROCESSING_UNITS(operationId),
+                      icon: HardDrive,
+                      permissions: [
+                        PermissionEnum.CONTRACTS_VIEW,
+                        PermissionEnum.PROCESSING_UNITS_VIEW
+                      ],
+                      isToExpand: true,
                       items: [
                         {
-                          title: 'Faixas',
-                          url: PATHNAMES.LANES,
-                          icon: ArrowUpDown,
+                          title: 'Opções de U.P.s',
+                          url: '',
+                          icon: List,
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.PROCESSING_UNITS_VIEW
+                          ],
                           isToExpand: true,
-                          isActive: true
+                          items: [
+                            {
+                              title: 'Faixas',
+                              url: PATHNAMES.LANES(operationId),
+                              icon: ArrowUpDown,
+                              isToExpand: true,
+                              permissions: [
+                                PermissionEnum.LANES_VIEW,
+                                PermissionEnum.CONTRACTS_VIEW,
+                                PermissionEnum.PROCESSING_UNITS_VIEW
+                              ]
+                            }
+                          ]
                         }
+                      ]
+                    },
+                    {
+                      title: 'Pontos',
+                      url: PATHNAMES.POINTS(operationId),
+                      icon: MapPin,
+                      isToExpand: true,
+                      permissions: [
+                        PermissionEnum.CONTRACTS_VIEW,
+                        PermissionEnum.POINTS_VIEW
+                      ]
+                    },
+                    {
+                      title: 'Operadores',
+                      url: PATHNAMES.OPERATORS(operationId),
+                      icon: UserRoundPen,
+                      isToExpand: true,
+                      permissions: [
+                        PermissionEnum.CONTRACTS_VIEW,
+                        PermissionEnum.OPERATORS_VIEW
                       ]
                     }
                   ]
-                },
-                {
-                  title: 'Pontos',
-                  url: PATHNAMES.POINTS,
-                  icon: MapPin,
-                  isToExpand: true,
-                  isActive: true
-                },
-                {
-                  title: 'Operadores',
-                  url: PATHNAMES.OPERATORS,
-                  icon: UserRoundPen,
-                  isToExpand: true,
-                  isActive: true
                 }
               ]
+            },
+            {
+              title: 'Relatório de Atividades',
+              url: PATHNAMES.ACTIVITY_REPORT(operationId),
+              icon: UserRoundSearch,
+              permissions: [PermissionEnum.ACTIVITY_REPORT_VIEW],
+              isToExpand: true
             }
           ]
-        },
-        {
-          title: 'Usuários',
-          url: PATHNAMES.USERS,
-          icon: UsersRound,
-          isToExpand: true,
-          isActive: true
-        },
-        {
-          title: 'Permissões',
-          url: PATHNAMES.PERMISSIONS,
-          icon: Shield,
-          isToExpand: true,
-          isActive: true
         }
       ]
     }

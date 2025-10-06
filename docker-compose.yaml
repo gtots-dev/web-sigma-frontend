@@ -1,15 +1,20 @@
 services:
   app:
-    build: .
-    container_name: sigma-frontend
-    image: sigma-frontend-image
+    build:
+      context: .
+      target: runner
+      args:
+        - APP_PORT=${APP_PORT}
+    container_name: sigma-frontend-prod
+    image: sigma-frontend-prod
     ports:
-      - '3000:3000'
-    volumes:
-      - .:/app
-      - /app/node_modules
+      - '${APP_PORT}:${APP_PORT}'
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
+      - AUTH_SECRET=${AUTH_SECRET}
+      - AUTH_TRUST_HOST=${AUTH_TRUST_HOST}
+      - HOST_API=${HOST_API}
+      - SECRET_KEY_ACCESS_TOKEN=${SECRET_KEY_ACCESS_TOKEN}
     networks:
       - sigma-network
 

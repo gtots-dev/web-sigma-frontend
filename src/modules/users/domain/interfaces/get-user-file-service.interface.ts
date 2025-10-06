@@ -7,5 +7,5 @@ export interface GetUserFileServiceInterface {
     token: TokenEntities,
     userId: UserEntity['id'],
     fileId: UserFileInterface['id']
-  ): Promise<Blob>
+  ): Promise<File>
 }

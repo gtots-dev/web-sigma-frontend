@@ -3,7 +3,7 @@
 import { useForm, FormProvider } from 'react-hook-form'
 import type { ReactNode } from 'react'
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
-import type { OperationEntities } from '@/modules/operations/domain/entities/operation.entity'
+import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 
 interface FormValues {
   search: string
@@ -12,7 +12,7 @@ interface FormValues {
 
 interface OperationFormContextProviderComponentProps {
   children: ReactNode
-  operation: OperationEntities
+  operation: OperationEntity
 }
 
 export function OperationFormContextProviderComponent({
