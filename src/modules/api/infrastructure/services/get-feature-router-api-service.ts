@@ -3,6 +3,7 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { FeaturesInterface } from '@/modules/permissions/domain/interfaces/features.interface'
 import type { GetFeatureRouterApiServiceInterface } from '../../domain/interfaces/get-feature-router-api-service.interface'
+import { HttpFeatureValidator } from '@/modules/permissions/domain/validators/http-response-feature.validator'
 
 export class GetFeatureRouterApiService
   implements GetFeatureRouterApiServiceInterface
@@ -17,8 +18,9 @@ export class GetFeatureRouterApiService
 
   async execute(): Promise<FeaturesInterface[]> {
     const settingsAuthHTTP = this.getHttpRequestConfig()
-    const { data }: HttpResponse<FeaturesInterface[]> =
+    const { success, data, status }: HttpResponse<FeaturesInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
+    HttpFeatureValidator.validate(success, status)
     return data
   }
 }
