@@ -3,7 +3,7 @@ import { CardOperationOptions } from '@/modules/operation-options/presentation/c
 import { CardOption } from '@/modules/operation-options/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
 import { OperationSelector } from '@/modules/operation-options/presentation/components/operation-selector'
-import { getOperations } from '@/modules/operations/presentation/utils/get-operations.util'
+import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/messages/configuration-operation'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
@@ -25,16 +25,19 @@ interface ConfigurationCardOption {
 export default async function ConfigurationOptionsPage({
   params
 }: ConfigurationOptionsPageProps) {
-  const {
-    token: JWT,
-    user: { isAdmin }
-  } = await auth()
-  const operations = await getOperations(JWT)
-  const { operationId: rawOperationId } = await params
-  const { operationId, userPermissions } = await loadAuthContext(
-    JWT,
-    rawOperationId
-  )
+  const [
+    {
+      token: JWT,
+      user: { isAdmin }
+    },
+    { operationId: rawOperationId }
+  ] = await Promise.all([auth(), params])
+
+  const getOperationsFactory = GetOperationsFactory.create()
+  const [{ operationId, userPermissions }, operations] = await Promise.all([
+    loadAuthContext(JWT, rawOperationId),
+    getOperationsFactory.execute(JWT)
+  ])
 
   const title = MESSAGES_CONFIGURATION_OPERATION['14.1']
   const description = MESSAGES_CONFIGURATION_OPERATION['14.2']
@@ -61,6 +64,10 @@ export default async function ConfigurationOptionsPage({
     }
   ]
 
+  const operationSelectedMoreInfo = operations.find(
+    (operation) => operation.id == rawOperationId
+  )
+
   const accessibleOptions = operationOptions.filter(
     (option) => option.accessAllowed
   )
@@ -72,7 +79,7 @@ export default async function ConfigurationOptionsPage({
           <div className="flex flex-col gap-1">
             <HeaderOptions.Title>{title}</HeaderOptions.Title>
             <HeaderOptions.Description>{description}</HeaderOptions.Description>
-            <HeaderOptions.SubDescription>
+            <HeaderOptions.SubDescription name={operationSelectedMoreInfo.name}>
               {subDescription}
             </HeaderOptions.SubDescription>
           </div>
