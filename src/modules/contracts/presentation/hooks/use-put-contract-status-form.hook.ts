@@ -5,20 +5,21 @@ import { useForm } from 'react-hook-form'
 import { useMemo } from 'react'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import {
-  AddContractFormSchema,
-  type AddContractFormType
-} from '../schemas/add-contract-form.schema'
+  PutContractStatusFormSchema,
+  type PutContractStatusFormType
+} from '../schemas/put-contract-status-form.schema'
 
 export function usePutContractStatusForm(contract: ContractEntity) {
   const defaultValues = useMemo<Partial<ContractEntity>>(
     () => ({
-      enabled: contract?.enabled
+      id: contract.id,
+      enabled: contract.enabled
     }),
     [contract]
   )
 
-  const methods = useForm<AddContractFormType>({
-    resolver: zodResolver(AddContractFormSchema),
+  const methods = useForm<PutContractStatusFormType>({
+    resolver: zodResolver(PutContractStatusFormSchema),
     defaultValues
   })
 
