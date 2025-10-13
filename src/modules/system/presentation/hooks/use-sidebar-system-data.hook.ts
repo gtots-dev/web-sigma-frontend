@@ -1,9 +1,8 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 import { getSidebarData } from '@/modules/system/infrastructure/configs/sidebar.config'
-import { extractOperationId } from '../utils/export-operation-id.util'
 import { filterSidebarByPermissions } from '../utils/filter-sidebar-by-permissions.util'
 import type { UserPermissionsInterface } from '@/modules/users/domain/interfaces/user-permissions.interface'
 
@@ -12,14 +11,17 @@ export function useSidebarSystemData(
   isAdmin?: boolean
 ) {
   const pathname = usePathname()
-  const operationId = useMemo(() => extractOperationId(pathname), [pathname])
+  const {
+    operationId,
+    contractId
+  }: { operationId: string; contractId: string } = useParams()
 
   const sidebarData = useMemo(() => {
-    const rawData = getSidebarData(Number(operationId))
+    const rawData = getSidebarData(Number(operationId), Number(contractId))
     return isAdmin
       ? rawData
       : filterSidebarByPermissions(rawData, permissions, operationId)
-  }, [operationId, permissions, isAdmin])
+  }, [operationId, contractId, permissions, isAdmin])
 
   return {
     pathname,

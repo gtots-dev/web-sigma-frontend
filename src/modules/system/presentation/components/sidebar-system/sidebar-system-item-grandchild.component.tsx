@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, CircleAlert } from 'lucide-react'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 import type { SidebarSystemItemComponentProps } from '.'
@@ -18,6 +18,11 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { cn } from '@/modules/shared/presentation/lib/utils'
 import type { ReactNode } from 'react'
 import type { Item } from '.'
+import { useParams, usePathname } from 'next/navigation'
+import {
+  isSelectionContractRoute,
+  PATHNAMES
+} from '@/modules/shared/infrastructure/configs/pathnames.config'
 
 const variants = {
   open: { opacity: 1, height: 'auto', transition: { duration: 0.3 } },
@@ -35,6 +40,11 @@ export function SidebarSystemItemGrandchildComponent({
   className,
   children
 }: SidebarSystemItemGrandchildComponentProps) {
+  const pathname = usePathname()
+  const {
+    operationId,
+    contractId
+  }: { operationId: string; contractId: string } = useParams()
   const { handleClick, isActive } = useSidebarSystemItem(item)
   const [isOpen, setIsOpen] = useState(true)
 
@@ -51,13 +61,20 @@ export function SidebarSystemItemGrandchildComponent({
     { 'rotate-90': isOpen }
   )
 
+  const shouldBlock =
+    item.items?.some((subItem) => isSelectionContractRoute(subItem.url)) &&
+    !contractId
+
   return (
     <>
       {item.permissions && (
-        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <Collapsible
+          open={isOpen}
+          onOpenChange={(open) => !shouldBlock && setIsOpen(open)}
+        >
           <SidebarMenuSubItem>
             <div className={cn(sidebarButtonClass, className)}>
-              {item?.items?.length > 0 && item.isToExpand && (
+              {item?.items?.length > 0 && item.isToExpand && !shouldBlock && (
                 <CollapsibleTrigger className="group aspect-square">
                   <ChevronRight className={rotateArrowClassNames} />
                 </CollapsibleTrigger>
@@ -75,7 +92,27 @@ export function SidebarSystemItemGrandchildComponent({
               </Button>
             </div>
 
-            {item.items && (
+            {PATHNAMES.CONTRACTS(Number(operationId)) == pathname && shouldBlock && (
+              <motion.div
+                initial="closed"
+                animate="open"
+                variants={variants}
+                className="overflow-hidden my-2"
+              >
+                <div className="flex flex-col gap-1.5 p-3 rounded-lg border text-muted-foreground bg-white dark:bg-zinc-950">
+                  <div className="flex items-center gap-x-1.5">
+                    <CircleAlert className="h-4 w-4" />
+                    <span className="text-xs font-bold">Aviso:</span>
+                  </div>
+                  <span className="text-xs">
+                    Selecione um contrato para visualizar as opções
+                    correspondentes.
+                  </span>
+                </div>
+              </motion.div>
+            )}
+
+            {item.items && !shouldBlock && (
               <motion.div
                 initial="closed"
                 animate={isOpen ? 'open' : 'closed'}
