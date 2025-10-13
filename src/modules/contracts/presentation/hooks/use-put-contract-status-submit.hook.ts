@@ -5,11 +5,12 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 
 export function usePutContractStatusSubmit() {
-  const { getContracts } = useContractStore()
+  const { getContracts, updateStatus } = useContractStore()
 
   const onAction = useCallback(
     async (data: ContractEntity, onSuccess: VoidFunction): Promise<void> => {
       try {
+        await updateStatus(data)
         toast({
           title: 'Contrato atualizado com sucesso!',
           variant: 'success'
@@ -27,7 +28,7 @@ export function usePutContractStatusSubmit() {
         }
       }
     },
-    [getContracts]
+    [updateStatus, getContracts]
   )
 
   return { onAction }
