@@ -27,8 +27,7 @@ export function EditUserFormContextProviderComponent({
       email: user?.email,
       company: user?.company,
       position: user?.position,
-      enabled: user?.enabled,
-      description: user?.description
+      description: user?.description ?? ''
     }),
     [user]
   )

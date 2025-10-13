@@ -1,18 +1,32 @@
+'use client'
+
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
-import type { ReactNode } from 'react'
-import { useDialog } from './add-contract-menu-provider.component'
+import { useEffect, type ReactNode } from 'react'
+import { FormProvider } from 'react-hook-form'
+import { useAddContractForm } from '../../hooks/use-add-contract-form.hook'
 
 interface AddContractMenuRootComponentProps {
   children: ReactNode
+  isOpen: boolean
+  close: () => void
 }
 
 export function AddContractMenuRootComponent({
-  children
+  children,
+  isOpen,
+  close
 }: AddContractMenuRootComponentProps) {
-  const { isOpen, close } = useDialog()
+  const { methods, defaultValues } = useAddContractForm()
+  
+  useEffect(() => {
+    if (isOpen) methods.reset(defaultValues)
+  }, [isOpen, defaultValues, methods])
+
   return (
-    <DrawerDialog.Root open={isOpen} onOpenChange={close}>
-      {children}
-    </DrawerDialog.Root>
+    <FormProvider {...methods}>
+      <DrawerDialog.Root open={isOpen} onOpenChange={close}>
+        {children}
+      </DrawerDialog.Root>
+    </FormProvider>
   )
 }

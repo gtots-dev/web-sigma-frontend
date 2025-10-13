@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
-import { useToast } from "src/modules/shared/presentation/components/hooks/use-toast"
+import { useToast } from 'src/modules/shared/presentation/components/hooks/use-toast'
 import {
   Toast,
   ToastClose,
   ToastDescription,
   ToastProvider,
   ToastTitle,
-  ToastViewport,
-} from "src/modules/shared/presentation/components/shadcn/toast"
+  ToastViewport
+} from 'src/modules/shared/presentation/components/shadcn/toast'
 
 export function Toaster() {
   const { toasts } = useToast()

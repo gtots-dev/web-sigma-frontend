@@ -1,5 +1,5 @@
-import { JwtTokenVerifier } from "@/modules/shared/infrastructure/jwt/jwt-verifier"
-import { JwtValidator } from "../../domain/validators/jwt.validator"
+import { JwtTokenVerifier } from '@/modules/shared/infrastructure/jwt/jwt-verifier'
+import { JwtValidator } from '../../domain/validators/jwt.validator'
 
 export class JwtValidatorFactory {
   private static instance: JwtValidator | null = null

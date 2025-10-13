@@ -5,9 +5,7 @@ import {
 import { Loader2 } from 'lucide-react'
 import type { ComponentProps } from 'react'
 
-interface TableLoadingProps extends ComponentProps<'td'> {}
-
-export function TableLoading({ ...props }: TableLoadingProps) {
+export function TableLoading(props: ComponentProps<'td'>) {
   return (
     <TableRow className="!border-b bg-zinc-50 dark:bg-zinc-900">
       <TableCell

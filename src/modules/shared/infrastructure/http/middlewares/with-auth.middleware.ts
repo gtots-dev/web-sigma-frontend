@@ -1,18 +1,15 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import {
   isPublicRoute,
-  PATHNAMES,
-  protectedRoutes
+  isProtectedRoute,
+  PATHNAMES
 } from '../../configs/pathnames.config'
 import { auth } from '@/auth'
 
 export async function WithAuthMiddleware(req: NextRequest) {
   const currentPathname = req.nextUrl.pathname
-  const requiresAuth = protectedRoutes.some((route) =>
-    currentPathname.startsWith(route)
-  )
 
-  if (requiresAuth) {
+  if (isProtectedRoute(currentPathname)) {
     const session = await auth()
     const { AUTHENTICATION, SYSTEM } = PATHNAMES
 
