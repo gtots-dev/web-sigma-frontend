@@ -14,11 +14,12 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useSidebarSystemItem } from '../../hooks/use-sidebar-system-item.hook'
-import { useIsOperationDisabled } from '../../hooks/use-is-operation-disabled.hook'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import type { SidebarSystemItemComponentProps } from '.'
 import type { Item } from '.'
 import type { ReactNode } from 'react'
+import { useParams, usePathname } from 'next/navigation'
+import { isSelectionOperationRoute } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
 const variants = {
   open: { opacity: 1, height: 'auto', transition: { duration: 0.3 } },
@@ -34,7 +35,8 @@ export function SidebarSystemItemChildComponent({
   item,
   children
 }: SidebarSystemItemChildComponentProps) {
-  const isCurrentPathOperation = useIsOperationDisabled()
+  const pathname = usePathname()
+  const { operationId }: { operationId: string } = useParams()
   const { handleClick, isActive } = useSidebarSystemItem(item)
   const [isOpen, setIsOpen] = useState(true)
 
@@ -59,10 +61,10 @@ export function SidebarSystemItemChildComponent({
       {item.permissions && (
         <SidebarMenuSubItem>
           <div className={buttonClassNames}>
-            {item.items && !isCurrentPathOperation && item.isToExpand && (
+            {item.items && !operationId && item.isToExpand && (
               <CollapsibleTrigger
                 className="group aspect-square"
-                disabled={isCurrentPathOperation}
+                disabled={!!!operationId}
               >
                 <ChevronRight className={rotateArrowClassNames} />
               </CollapsibleTrigger>
@@ -83,7 +85,11 @@ export function SidebarSystemItemChildComponent({
           {item.items && (
             <motion.div
               initial="closed"
-              animate={!isCurrentPathOperation && isOpen ? 'open' : 'closed'}
+              animate={
+                (operationId || isSelectionOperationRoute(pathname)) && isOpen
+                  ? 'open'
+                  : 'closed'
+              }
               variants={variants}
               className="overflow-hidden"
             >
@@ -95,7 +101,7 @@ export function SidebarSystemItemChildComponent({
             </motion.div>
           )}
 
-          {isCurrentPathOperation && (
+          {!operationId && (
             <motion.div
               initial="closed"
               animate="open"

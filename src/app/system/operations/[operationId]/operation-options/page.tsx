@@ -3,7 +3,7 @@ import { CardOperationOptions } from '@/modules/operation-options/presentation/c
 import { CardOption } from '@/modules/operation-options/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
 import { OperationSelector } from '@/modules/operation-options/presentation/components/operation-selector'
-import { getOperations } from '@/modules/operations/presentation/utils/get-operations.util'
+import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/messages/configuration-operation'
 import { MESSAGES_OPTIONS_OPERATION } from '@/modules/shared/presentation/messages/options-operation'
@@ -31,16 +31,19 @@ interface OperationCardOption {
 export default async function OperationOptionsPage({
   params
 }: OperationOptionsPageProps) {
-  const {
-    token: JWT,
-    user: { isAdmin }
-  } = await auth()
-  const { operationId: rawOperationId } = await params
-  const operations = await getOperations(JWT)
-  const { operationId, userPermissions } = await loadAuthContext(
-    JWT,
-    rawOperationId
-  )
+  const [
+    {
+      token: JWT,
+      user: { isAdmin }
+    },
+    { operationId: rawOperationId }
+  ] = await Promise.all([auth(), params])
+
+  const getOperationFactory = GetOperationsFactory.create()
+  const [{ operationId, userPermissions }, operations] = await Promise.all([
+    loadAuthContext(JWT, rawOperationId),
+    getOperationFactory.execute(JWT)
+  ])
 
   const title = MESSAGES_OPTIONS_OPERATION['11.1']
   const description = MESSAGES_OPTIONS_OPERATION['11.2']
@@ -56,7 +59,6 @@ export default async function OperationOptionsPage({
       icon: Settings,
       accessAllowed:
         isAdmin ||
-        userPermissions.has(PermissionEnum.CONTRACTS_VIEW) ||
         userPermissions.has(PermissionEnum.USERS_VIEW) ||
         userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
     },
@@ -78,6 +80,10 @@ export default async function OperationOptionsPage({
     }
   ]
 
+  const operationSelectedMoreInfo = operations.find(
+    (operation) => operation.id == rawOperationId
+  )
+
   const accessibleOptions = operationOptions.filter(
     (option) => option.accessAllowed
   )
@@ -89,7 +95,7 @@ export default async function OperationOptionsPage({
           <div className="flex flex-col gap-1">
             <HeaderOptions.Title>{title}</HeaderOptions.Title>
             <HeaderOptions.Description>{description}</HeaderOptions.Description>
-            <HeaderOptions.SubDescription>
+            <HeaderOptions.SubDescription name={operationSelectedMoreInfo.name}>
               {subDescription}
             </HeaderOptions.SubDescription>
           </div>

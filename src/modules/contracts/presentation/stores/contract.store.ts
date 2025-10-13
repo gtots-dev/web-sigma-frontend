@@ -6,12 +6,20 @@ import { PostContractRouterApiFactory } from '@/modules/api/infrastructure/facto
 
 type ContractState = {
   contracts: ContractEntity[]
+  contract: ContractEntity
   getContracts: () => Promise<void>
   addContract: (contract: ContractEntity) => Promise<void>
+  setContract: (contract: ContractEntity) => Promise<void>
 }
 
 export const useContractStore = create<ContractState>((set) => ({
   contracts: [],
+  contract: {
+    alias: '',
+    cfg: '',
+    name: '',
+    operation_id: 0
+  },
 
   getContracts: async () => {
     try {
@@ -35,5 +43,9 @@ export const useContractStore = create<ContractState>((set) => ({
         throw error
       }
     }
+  },
+
+  setContract: async (contract: ContractEntity): Promise<void> => {
+    set({ contract })
   }
 }))
