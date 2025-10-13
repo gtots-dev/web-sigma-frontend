@@ -50,6 +50,22 @@ export function TableContractsItemComponent({
           {contract.alias}
         </span>
       </TableCell>
+      <TableCell className="px-5 sm:px-10 text-center">
+        <Button
+          size="icon"
+          variant="outline"
+          onClick={() =>
+            replace(
+              PATHNAMES.CONTRACTS_OPTIONS(
+                Number(operationId),
+                Number(contract.id)
+              )
+            )
+          }
+        >
+          <LogIn />
+        </Button>
+      </TableCell>
     </>
   )
 
@@ -68,7 +84,7 @@ export function TableContractsItemComponent({
           <AvailabilityStatusComponent enabled={contract.enabled} />
         </TableCell>
       )}
-      <TableCell className="px-5 sm:px-10 text-right" colSpan={1}>
+      <TableCell className="px-5 sm:px-10 text-center" colSpan={1}>
         <Button
           size="icon"
           variant="outline"
