@@ -20,6 +20,8 @@ type MessageKeys =
   | '3.22'
   | '3.23'
   | '3.24'
+  | '3.25'
+  | '3.26'
 
 export const MESSAGES_CONTRACTS: Record<MessageKeys, string> = {
   '3.1': 'Contratos',
@@ -44,5 +46,8 @@ export const MESSAGES_CONTRACTS: Record<MessageKeys, string> = {
   '3.22':
     'Você não possui permissão para visualizar os contratos disponíveis. Por favor, verifique com o seu responsável.',
   '3.23': 'Editar contrato',
-  '3.24': 'Altere os dados desejados para editar o contrato.'
+  '3.24': 'Altere os dados desejados para editar o contrato.',
+  '3.25': 'Habilitar/Desabilitar',
+  '3.26':
+    'Caso a opção correspondente esteja desabilitada, o contrato não estará mais disponível na lista para usuários comuns.'
 }
