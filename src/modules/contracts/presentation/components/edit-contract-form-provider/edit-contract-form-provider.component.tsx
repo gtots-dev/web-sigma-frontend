@@ -26,8 +26,7 @@ export function EditContractFormContextProviderComponent({
       id: contract?.id,
       name: contract?.name,
       alias: contract?.alias,
-      cfg: contract?.cfg,
-      enabled: contract?.enabled
+      cfg: JSON.stringify(contract?.cfg === null ? {} : contract?.cfg)
     }),
     [contract]
   )
