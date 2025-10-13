@@ -3,9 +3,7 @@
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useEditContractMenuTrigger } from '../../hooks/use-edit-contract-menu-trigger.hook'
 
-interface EditContractMenuTriggerComponentProps {}
-
-export function EditContractMenuTriggerComponent({}: EditContractMenuTriggerComponentProps) {
+export function EditContractMenuTriggerComponent() {
   const { loadUserEditOpenDialog } = useEditContractMenuTrigger()
   return (
     <Button
