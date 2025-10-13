@@ -14,18 +14,10 @@ export class PostContractService implements PostContractServiceInterface {
       typeof contract.cfg === 'string'
         ? contract.cfg.trim() === ''
           ? {}
-          : this.safeParse(contract.cfg)
+          : JSON.parse(contract.cfg)
         : contract.cfg
 
     return { ...contract, cfg }
-  }
-
-  private safeParse(value: string): any {
-    try {
-      return JSON.parse(value)
-    } catch {
-      return value
-    }
   }
 
   getHttpRequestConfig(
