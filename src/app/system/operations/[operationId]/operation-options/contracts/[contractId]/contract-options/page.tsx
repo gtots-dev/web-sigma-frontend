@@ -46,8 +46,8 @@ export default async function ContractOptionsPage({
   const title = MESSAGES_OPTIONS_CONTRACT['16.1']
   const description = MESSAGES_OPTIONS_CONTRACT['16.2']
   const subDescription = MESSAGES_OPTIONS_CONTRACT['16.3']
-  const contractSelectionMenuTitle = MESSAGES_OPTIONS_CONTRACT['16.1']
-  const contractSelectionMenuDescription = MESSAGES_OPTIONS_CONTRACT['16.2']
+  const contractSelectionMenuTitle = MESSAGES_OPTIONS_CONTRACT['16.7']
+  const contractSelectionMenuDescription = MESSAGES_OPTIONS_CONTRACT['16.8']
 
   const operationOptions: ContractCardOption[] = [
     {
