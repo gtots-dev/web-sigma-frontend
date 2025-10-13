@@ -1,23 +1,22 @@
 'use client'
 
 import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
-import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
 import { ReactNode } from 'react'
 
 interface HeaderOptionsSubDescriptionComponentProps {
   children: ReactNode
+  name: string
 }
 
 export function HeaderOptionsSubDescriptionComponent({
-  children
+  children,
+  name
 }: HeaderOptionsSubDescriptionComponentProps) {
-  const { operation } = useOperationStore()
-
-  return operation.id && operation.name ? (
+  return name ? (
     <p className="text-muted-foreground font-light">
       {children}
       <b className="text-primary-300 font-medium underline underline-offset-4 ml-1">
-        {operation.name}
+        {name}
       </b>
     </p>
   ) : (
