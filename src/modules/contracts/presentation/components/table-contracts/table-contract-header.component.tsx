@@ -15,13 +15,18 @@ export function TableContractsHeaderComponent() {
   return (
     <TableHeader>
       <TableRow className="bg-muted !border-0">
-        <TableHead colSpan={2} className={`${baseClass} w-[30%] rounded-tl-lg`}>
+        <TableHead
+          {...(isLarge ? { colSpan: 2 } : {})}
+          className={`${baseClass} w-[30%] rounded-tl-lg`}
+        >
           Nome
         </TableHead>
 
         {isLarge && <TableHead className={baseClass}>Etiqueta</TableHead>}
 
         {isExtraLarge && <TableHead className={baseClass}>Status</TableHead>}
+
+        <TableHead className={`${baseClass} text-center`}>Acessar</TableHead>
 
         <TableHead className={`${baseClass} rounded-tr-lg text-right`}>
           Opções
