@@ -8,8 +8,7 @@ export class HttpResponseUserFilesValidator {
     response: UserFileInterface | UserFileInterface[],
     status: string
   ): void {
-    const isValidStatus =
-      status === HttpStatusCodeEnum.OK
+    const isValidStatus = status === HttpStatusCodeEnum.OK
     if (!success || !response || !isValidStatus) {
       throw new HttpResponseError(status)
     }

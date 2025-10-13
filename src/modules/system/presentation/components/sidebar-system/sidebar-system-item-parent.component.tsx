@@ -5,28 +5,23 @@ import {
   SidebarGroupLabel,
   SidebarMenu
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
-import { usePathname } from 'next/navigation'
-import { SidebarSystemItemChildComponent } from './sidebar-system-item-child.component'
 import type { Item } from '.'
+import type { ReactNode } from 'react'
 
 interface SidebarSystemItemParentComponentProps {
-  item: Item
+  item: Item[]
+  children: (item: Item) => ReactNode
 }
 
 export default function SidebarSystemItemParentComponent({
-  item
+  item,
+  children
 }: SidebarSystemItemParentComponentProps) {
-  const pathname = usePathname()
-
   return (
     <SidebarGroup className="h-full">
       <SidebarGroupLabel>Menu</SidebarGroupLabel>
       <SidebarMenu className="h-full">
-        <SidebarSystemItemChildComponent
-          key={item.title}
-          item={item}
-          activePath={pathname}
-        />
+        {item?.map((child) => children(child))}
       </SidebarMenu>
     </SidebarGroup>
   )

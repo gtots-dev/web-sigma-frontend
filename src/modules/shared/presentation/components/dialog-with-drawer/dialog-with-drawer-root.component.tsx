@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import { Dialog } from '@/modules/shared/presentation/components/shadcn/dialog'
 import { Drawer } from '@/modules/shared/presentation/components/shadcn/drawer'

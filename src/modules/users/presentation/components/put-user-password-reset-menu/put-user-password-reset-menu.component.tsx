@@ -44,9 +44,9 @@ export function PutUserPasswordResetMenuComponent({
               Cancelar
             </Button>
             <UserForm.Submit
-              onSubmit={(
-                userPasswordReset: UserPasswordResetInterface
-              ) => onAction(userPasswordReset, close)}
+              onSubmit={(userPasswordReset: UserPasswordResetInterface) =>
+                onAction(userPasswordReset, close)
+              }
             />
           </PutUserPasswordResetMenu.Footer>
         </PutUserPasswordResetForm.Provider>

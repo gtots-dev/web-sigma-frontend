@@ -9,7 +9,7 @@ export function AuthenticationFormForgotPasswordComponent({
 }: AuthenticationFormForgotPasswordComponentProps) {
   if (!description) return null
   return (
-    <HelpMeButtonComponent description={description} align='end'>
+    <HelpMeButtonComponent description={description} align="end">
       <span className="text-xs underline text-end text-zinc-950 dark:text-zinc-50">
         Esqueci a minha senha
       </span>
