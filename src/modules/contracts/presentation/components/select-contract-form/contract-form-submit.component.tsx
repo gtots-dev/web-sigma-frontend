@@ -1,12 +1,12 @@
 'use client'
 
 import type { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
-import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { useToast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useFormContext } from 'react-hook-form'
 import { useContractStore } from '../../stores/contract.store'
+import { useCallback } from 'react'
 
 interface ContractFormSubmitComponentProps {
   close: VoidFunction
@@ -18,7 +18,26 @@ export function ContractFormSubmitComponent({
   const { setContract, contract: SelectContract } = useContractStore()
   const { toast } = useToast()
   const { handleSubmit } = useFormContext()
-  const { replace } = useRouter()
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const replaceContractId = useCallback(
+    (newContractId: string | number) => {
+      const parts = pathname.split('/')
+      const contractIndex = parts.findIndex((p) => p === 'contracts')
+      if (contractIndex === -1) return
+
+      parts[contractIndex + 1] = String(newContractId)
+
+      const newPath =
+        parts.join('/') +
+        (searchParams.toString() ? `?${searchParams.toString()}` : '')
+
+      router.replace(newPath)
+    },
+    [pathname, router, searchParams]
+  )
 
   const onSubmit = ({ contract }: { contract: ContractEntity }) => {
     if (contract.id === SelectContract.id) {
@@ -29,12 +48,7 @@ export function ContractFormSubmitComponent({
       })
     }
     setContract(contract)
-    replace(
-      PATHNAMES.CONTRACTS_OPTIONS(
-        Number(contract.operation_id),
-        Number(contract.id)
-      )
-    )
+    replaceContractId(contract.id)
     close()
     toast({
       variant: 'success',
