@@ -7,14 +7,13 @@ import {
   MapPin,
   Settings,
   Shield,
-  UserRoundPen,
   UserRoundSearch,
   UsersRound
 } from 'lucide-react'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { PermissionEnum } from '../../domain/enums/permissions.enum'
 
-export function getSidebarData(operationId: number) {
+export function getSidebarData(operationId: number, contractId: number) {
   return [
     {
       title: 'Operações',
@@ -58,6 +57,13 @@ export function getSidebarData(operationId: number) {
               ]
             },
             {
+              title: 'Relatório de Atividades',
+              url: PATHNAMES.ACTIVITY_REPORT(operationId),
+              icon: UserRoundSearch,
+              permissions: [PermissionEnum.ACTIVITY_REPORT_VIEW],
+              isToExpand: true
+            },
+            {
               title: 'Contratos',
               url: PATHNAMES.CONTRACTS(operationId),
               icon: FileText,
@@ -66,25 +72,28 @@ export function getSidebarData(operationId: number) {
               items: [
                 {
                   title: 'Opções do contrato',
-                  url: '',
+                  url: PATHNAMES.CONTRACTS_OPTIONS(operationId, contractId),
                   icon: List,
                   permissions: [PermissionEnum.CONTRACTS_VIEW],
                   isToExpand: true,
                   items: [
                     {
-                      title: 'U.P.s',
-                      url: PATHNAMES.PROCESSING_UNITS(operationId),
-                      icon: HardDrive,
-                      permissions: [
-                        PermissionEnum.CONTRACTS_VIEW,
-                        PermissionEnum.PROCESSING_UNITS_VIEW
-                      ],
+                      title: 'Configurações',
+                      url: PATHNAMES.CONTRACTS_CONFIGURATIONS(
+                        operationId,
+                        contractId
+                      ),
+                      icon: List,
+                      permissions: [PermissionEnum.CONTRACTS_VIEW],
                       isToExpand: true,
                       items: [
                         {
-                          title: 'Opções de U.P.s',
-                          url: '',
-                          icon: List,
+                          title: 'U.P.s',
+                          url: PATHNAMES.PROCESSING_UNITS(
+                            operationId,
+                            contractId
+                          ),
+                          icon: HardDrive,
                           permissions: [
                             PermissionEnum.CONTRACTS_VIEW,
                             PermissionEnum.PROCESSING_UNITS_VIEW
@@ -92,50 +101,45 @@ export function getSidebarData(operationId: number) {
                           isToExpand: true,
                           items: [
                             {
-                              title: 'Faixas',
-                              url: PATHNAMES.LANES(operationId),
-                              icon: ArrowUpDown,
-                              isToExpand: true,
+                              title: 'Opções de U.P.s',
+                              url: '',
+                              icon: List,
                               permissions: [
-                                PermissionEnum.LANES_VIEW,
                                 PermissionEnum.CONTRACTS_VIEW,
                                 PermissionEnum.PROCESSING_UNITS_VIEW
+                              ],
+                              isToExpand: true,
+                              items: [
+                                {
+                                  title: 'Faixas',
+                                  url: PATHNAMES.LANES(operationId, contractId),
+                                  icon: ArrowUpDown,
+                                  isToExpand: true,
+                                  permissions: [
+                                    PermissionEnum.LANES_VIEW,
+                                    PermissionEnum.CONTRACTS_VIEW,
+                                    PermissionEnum.PROCESSING_UNITS_VIEW
+                                  ]
+                                }
                               ]
                             }
                           ]
+                        },
+                        {
+                          title: 'Pontos',
+                          url: PATHNAMES.POINTS(operationId, contractId),
+                          icon: MapPin,
+                          isToExpand: true,
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.POINTS_VIEW
+                          ]
                         }
-                      ]
-                    },
-                    {
-                      title: 'Pontos',
-                      url: PATHNAMES.POINTS(operationId),
-                      icon: MapPin,
-                      isToExpand: true,
-                      permissions: [
-                        PermissionEnum.CONTRACTS_VIEW,
-                        PermissionEnum.POINTS_VIEW
-                      ]
-                    },
-                    {
-                      title: 'Operadores',
-                      url: PATHNAMES.OPERATORS(operationId),
-                      icon: UserRoundPen,
-                      isToExpand: true,
-                      permissions: [
-                        PermissionEnum.CONTRACTS_VIEW,
-                        PermissionEnum.OPERATORS_VIEW
                       ]
                     }
                   ]
                 }
               ]
-            },
-            {
-              title: 'Relatório de Atividades',
-              url: PATHNAMES.ACTIVITY_REPORT(operationId),
-              icon: UserRoundSearch,
-              permissions: [PermissionEnum.ACTIVITY_REPORT_VIEW],
-              isToExpand: true
             }
           ]
         }

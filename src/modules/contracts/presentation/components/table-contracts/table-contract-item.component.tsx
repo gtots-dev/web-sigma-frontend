@@ -9,6 +9,11 @@ import {
 import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import { useTableContract } from '../../contexts/table-contract.context'
 import { AvailabilityStatusComponent } from '@/modules/shared/presentation/components/availability-status/availability-status.component'
+import { Button } from '@/modules/shared/presentation/components/shadcn/button'
+import { useRouter } from 'next/navigation'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
+import { LogIn } from 'lucide-react'
+import { useParams } from 'next/navigation'
 
 interface TableContractsItemComponentProps {
   children?: ReactNode
@@ -21,6 +26,8 @@ const baseCell = 'ps-5 sm:ps-10 text-zinc-700 dark:text-zinc-50'
 export function TableContractsItemComponent({
   children
 }: TableContractsItemComponentProps) {
+  const { operationId }: { operationId: string } = useParams()
+  const { replace } = useRouter()
   const contract = useTableContract()
   const isLarge = useMediaQuery('(min-width: 1024px)')
   const isExtraLarge = useMediaQuery('(min-width: 1230px)')
@@ -61,6 +68,22 @@ export function TableContractsItemComponent({
           <AvailabilityStatusComponent enabled={contract.enabled} />
         </TableCell>
       )}
+      <TableCell className="px-5 sm:px-10 text-right" colSpan={1}>
+        <Button
+          size="icon"
+          variant="outline"
+          onClick={() => {
+            replace(
+              PATHNAMES.CONTRACTS_OPTIONS(
+                Number(operationId),
+                Number(contract.id)
+              )
+            )
+          }}
+        >
+          <LogIn />
+        </Button>
+      </TableCell>
     </>
   )
 
@@ -71,9 +94,9 @@ export function TableContractsItemComponent({
   return (
     <TableRow>
       {isLarge ? renderExpandedView() : renderCompactView()}
-      <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
-        {children}
-      </TableCell>
+      {children && (
+        <TableCell className="pe-5 sm:pe-10 text-right">{children}</TableCell>
+      )}
     </TableRow>
   )
 }

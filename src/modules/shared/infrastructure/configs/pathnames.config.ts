@@ -5,13 +5,14 @@ export interface PathnamesInterface {
   OPERATION_OPTIONS: (id: number) => string
   OPERATION_CONFIGURATIONS: (id: number) => string
   CONTRACTS: (id: number) => string
-  PROCESSING_UNITS: (id: number) => string
-  POINTS: (id: number) => string
-  OPERATORS: (id: number) => string
-  LANES: (id: number) => string
   USERS: (id: number) => string
   PERMISSIONS: (id: number) => string
   ACTIVITY_REPORT: (id: number) => string
+  CONTRACTS_OPTIONS: (operationId: number, contractId: number) => string
+  CONTRACTS_CONFIGURATIONS: (operationId: number, contractId: number) => string
+  PROCESSING_UNITS: (operationId: number, contractId: number) => string
+  POINTS: (operationId: number, contractId: number) => string
+  LANES: (operationId: number, contractId: number) => string
 }
 
 export const PATHNAMES: PathnamesInterface = {
@@ -19,22 +20,22 @@ export const PATHNAMES: PathnamesInterface = {
   SYSTEM: '/system',
   OPERATIONS: '/system/operations',
   OPERATION_OPTIONS: (id) => `/system/operations/${id}/operation-options`,
-  OPERATION_CONFIGURATIONS: (id) =>
-    `/system/operations/${id}/configurations`,
-  CONTRACTS: (id) => `/system/operations/${id}/operation-options/contracts`,
-  PROCESSING_UNITS: (id) =>
-    `/system/operations/${id}/configurations/contracts/processing-units`,
-  POINTS: (id) =>
-    `/system/operations/${id}/configurations/contracts/points`,
-  OPERATORS: (id) =>
-    `/system/operations/${id}/configurations/contracts/operators`,
-  LANES: (id) =>
-    `/system/operations/${id}/configurations/contracts/processing-units/lanes`,
-  USERS: (id) => `/system/operations/${id}/configurations/users`,
-  PERMISSIONS: (id) =>
-    `/system/operations/${id}/configurations/permissions`,
   ACTIVITY_REPORT: (id) =>
-    `/system/operations/${id}/operation-options/activity-report`
+    `/system/operations/${id}/operation-options/activity-report`,
+  OPERATION_CONFIGURATIONS: (id) => `/system/operations/${id}/configurations`,
+  USERS: (id) => `/system/operations/${id}/configurations/users`,
+  PERMISSIONS: (id) => `/system/operations/${id}/configurations/permissions`,
+  CONTRACTS: (id) => `/system/operations/${id}/operation-options/contracts`,
+  CONTRACTS_OPTIONS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options`,
+  CONTRACTS_CONFIGURATIONS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations`,
+  PROCESSING_UNITS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units`,
+  POINTS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/points`,
+  LANES: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units/lanes`
 }
 
 export const publicRoutes: string[] = [PATHNAMES.AUTHENTICATION]
@@ -44,8 +45,14 @@ export function isPublicRoute(pathname: string): boolean {
 }
 
 export function isSelectionOperationRoute(pathname: string): boolean {
-  return /^\/system\/operations\/\d+\/(operation-options|configurations|activity-report|contracts|processing-units|points|operators|lanes|users|permissions)/.test(
+  return /^\/system\/operations\/\d+\/(operation-options|configurations|activity-report|contracts|processing-units|points|lanes|users|permissions)/.test(
     pathname
+  )
+}
+
+export function isSelectionContractRoute(path: string): boolean {
+  return /^\/system\/operations\/\d+\/operation-options\/contracts\/.+/.test(
+    path
   )
 }
 
