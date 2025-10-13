@@ -31,7 +31,6 @@ export function EditContractMenuComponent({
             <ContractForm.Input.Name />
             <ContractForm.Input.Alias />
             <ContractForm.Input.cfg />
-            <ContractForm.Input.Enabled />
           </ContractForm.Form>
 
           <EditContractMenu.Footer>
