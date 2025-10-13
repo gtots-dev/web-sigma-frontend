@@ -66,8 +66,6 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
   try {
     const { token } = await auth()
     const contract = await req.json()
-    console.log('aqui')
-
     const putContract = PutContractFactory.create()
     await putContract.execute(token, contract)
     return NextResponse.json(
