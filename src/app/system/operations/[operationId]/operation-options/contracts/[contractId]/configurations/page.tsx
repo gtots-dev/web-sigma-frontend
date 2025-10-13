@@ -1,5 +1,6 @@
 import { auth } from '@/auth'
 import { GetContractsFactory } from '@/modules/contracts/infrastructure/factories/get-contracts.factory'
+import { ContractSelector } from '@/modules/contracts/presentation/components/contract-selector'
 import { CardOperationOptions } from '@/modules/operation-options/presentation/components/card-operation-options'
 import { CardOption } from '@/modules/operation-options/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
@@ -41,6 +42,9 @@ export default async function ConfigurationsPage({
   const title = MESSAGES_CONFIGURATION_CONTRACT['17.1']
   const description = MESSAGES_CONFIGURATION_CONTRACT['17.2']
   const subDescription = MESSAGES_CONFIGURATION_CONTRACT['17.3']
+  const contractSelectionMenuTitle = MESSAGES_CONFIGURATION_CONTRACT['17.8']
+  const contractSelectionMenuDescription =
+    MESSAGES_CONFIGURATION_CONTRACT['17.9']
 
   const operationOptions: ConfigurationCardOption[] = [
     {
@@ -62,7 +66,7 @@ export default async function ConfigurationsPage({
       accessAllowed: isAdmin || userPermissions.has(PermissionEnum.POINTS_VIEW)
     }
   ]
-  
+
   const contractSelectedMoreInfo = contracts.find(
     (c) => c.id === Number(rawContractId)
   )
@@ -82,6 +86,12 @@ export default async function ConfigurationsPage({
               {subDescription}
             </HeaderOptions.SubDescription>
           </div>
+          <ContractSelector.Root
+            title={contractSelectionMenuTitle}
+            description={contractSelectionMenuDescription}
+            contractId={Number(rawContractId)}
+            contracts={contracts}
+          />
         </HeaderOptions.Root>
       </CardOperationOptions.Header>
       <CardOperationOptions.Content>
