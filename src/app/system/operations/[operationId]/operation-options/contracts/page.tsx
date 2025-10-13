@@ -8,6 +8,8 @@ import { AddContractMenuComponent } from '@/modules/contracts/presentation/compo
 import { EditContractMenu } from '@/modules/contracts/presentation/components/edit-contract-menu'
 import { ContractOptionsDropdown } from '@/modules/contracts/presentation/components/contract-options-dropdown'
 import { EditContractMenuComponent } from '@/modules/contracts/presentation/components/edit-contract-menu/edit-contract-menu.component'
+import { PutContractStatusMenuComponent } from '@/modules/contracts/presentation/components/put-contract-status-menu/put-contract-status-menu.component'
+import { PutContractStatusMenu } from '@/modules/contracts/presentation/components/put-contract-status-menu'
 
 interface Data {
   title: string
@@ -16,6 +18,8 @@ interface Data {
   menuAddContractDescription: string
   menuEditContractTitle: string
   menuEditContractDescription: string
+  menuPutContractStatusTitle: string
+  menuPutContractStatusDescription: string
 }
 
 export default async function ContractsPage() {
@@ -25,7 +29,9 @@ export default async function ContractsPage() {
     menuAddContractTitle: MESSAGES_CONTRACTS['3.4'],
     menuAddContractDescription: MESSAGES_CONTRACTS['3.5'],
     menuEditContractTitle: MESSAGES_CONTRACTS['3.23'],
-    menuEditContractDescription: MESSAGES_CONTRACTS['3.24']
+    menuEditContractDescription: MESSAGES_CONTRACTS['3.24'],
+    menuPutContractStatusTitle: MESSAGES_CONTRACTS['3.25'],
+    menuPutContractStatusDescription: MESSAGES_CONTRACTS['3.26']
   }
 
   return (
@@ -50,20 +56,31 @@ export default async function ContractsPage() {
         <TableContracts.Header />
         <TableContracts.Body>
           <TableContracts.Item>
-            <EditContractMenu.Provider>
-              <ContractOptionsDropdown.Root>
-                <ContractOptionsDropdown.Trigger />
-                <ContractOptionsDropdown.Menu>
-                  <ContractOptionsDropdown.Item>
-                    <EditContractMenu.Trigger />
-                  </ContractOptionsDropdown.Item>
-                </ContractOptionsDropdown.Menu>
-                <EditContractMenuComponent
-                  title={data.menuEditContractTitle}
-                  description={data.menuEditContractDescription}
-                />
-              </ContractOptionsDropdown.Root>
-            </EditContractMenu.Provider>
+            <PutContractStatusMenu.Provider>
+              <EditContractMenu.Provider>
+                <ContractOptionsDropdown.Root>
+                  <ContractOptionsDropdown.Trigger />
+                  <ContractOptionsDropdown.Menu>
+                    <ContractOptionsDropdown.Item>
+                      <EditContractMenu.Trigger />
+                    </ContractOptionsDropdown.Item>
+
+                    <ContractOptionsDropdown.Item>
+                      <PutContractStatusMenu.Trigger />
+                    </ContractOptionsDropdown.Item>
+                  </ContractOptionsDropdown.Menu>
+                  <EditContractMenuComponent
+                    title={data.menuEditContractTitle}
+                    description={data.menuEditContractDescription}
+                  />
+
+                  <PutContractStatusMenuComponent
+                    title={data.menuPutContractStatusTitle}
+                    description={data.menuPutContractStatusDescription}
+                  />
+                </ContractOptionsDropdown.Root>
+              </EditContractMenu.Provider>
+            </PutContractStatusMenu.Provider>
           </TableContracts.Item>
         </TableContracts.Body>
       </TableContracts.Root>

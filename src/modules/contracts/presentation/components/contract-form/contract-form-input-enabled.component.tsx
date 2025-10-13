@@ -1,3 +1,5 @@
+'use client'
+
 import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 import {
   FormControl,
