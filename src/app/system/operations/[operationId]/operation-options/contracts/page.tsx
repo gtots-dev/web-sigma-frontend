@@ -24,8 +24,8 @@ export default async function ContractsPage() {
     description: MESSAGES_CONTRACTS['3.2'],
     menuAddContractTitle: MESSAGES_CONTRACTS['3.4'],
     menuAddContractDescription: MESSAGES_CONTRACTS['3.5'],
-    menuEditContractTitle: MESSAGES_CONTRACTS['3.22'],
-    menuEditContractDescription: MESSAGES_CONTRACTS['3.23']
+    menuEditContractTitle: MESSAGES_CONTRACTS['3.23'],
+    menuEditContractDescription: MESSAGES_CONTRACTS['3.24']
   }
 
   return (
