@@ -1,10 +1,10 @@
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
-import { useDialog } from '../components/edit-contract-menu/edit-contract-menu-provider.component'
+import { useDialog } from '../components/put-contract-status-menu/put-contract-status-menu-provider.component'
 
-export function useEditContractMenuTrigger() {
+export function usePutContractStatusMenuTrigger() {
   const { open: openDialog } = useDialog()
 
-  const loadUserEditContractOpenDialog = () => {
+  const loadPutContractStatusOpenDialog = () => {
     queueMicrotask(async () => {
       try {
         openDialog()
@@ -19,5 +19,5 @@ export function useEditContractMenuTrigger() {
     })
   }
 
-  return { loadUserEditContractOpenDialog }
+  return { loadPutContractStatusOpenDialog }
 }
