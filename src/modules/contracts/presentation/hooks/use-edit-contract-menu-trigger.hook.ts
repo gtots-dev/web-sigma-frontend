@@ -4,7 +4,7 @@ import { useDialog } from '../components/edit-contract-menu/edit-contract-menu-p
 export function useEditContractMenuTrigger() {
   const { open: openDialog } = useDialog()
 
-  const loadUserEditOpenDialog = () => {
+  const loadUserEditContractOpenDialog = () => {
     queueMicrotask(async () => {
       try {
         openDialog()
@@ -19,5 +19,5 @@ export function useEditContractMenuTrigger() {
     })
   }
 
-  return { loadUserEditOpenDialog }
+  return { loadUserEditContractOpenDialog }
 }
