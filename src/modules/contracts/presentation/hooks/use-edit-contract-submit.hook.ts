@@ -28,7 +28,7 @@ export function useEditContractSubmit() {
         }
       }
     },
-    [getContracts]
+    [updateContract, getContracts]
   )
 
   return { onAction }
