@@ -4,23 +4,40 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseContractsValidator } from '../../domain/validators/http-response-contracts.validator'
 import type { PostContractServiceInterface } from '../../domain/interfaces/post-contract-service.interface'
-import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 
 export class PostContractService implements PostContractServiceInterface {
-  constructor(
-    private readonly executeRequest: ExecuteRequest,
-    private readonly convertFormData: ConvertJsonToFormData
-  ) {}
+  constructor(private readonly executeRequest: ExecuteRequest) {}
+
+  private normalizeContract(contract: ContractEntity): ContractEntity {
+    const cfg =
+      typeof contract.cfg === 'string'
+        ? contract.cfg.trim() === ''
+          ? {}
+          : this.safeParse(contract.cfg)
+        : contract.cfg
+
+    return { ...contract, cfg }
+  }
+
+  private safeParse(value: string): any {
+    try {
+      return JSON.parse(value)
+    } catch {
+      return value
+    }
+  }
 
   getHttpRequestConfig(
     token: TokenEntities,
-    contractFormData: FormData
-  ): HttpRequestConfig<FormData> {
+    contract: ContractEntity
+  ): HttpRequestConfig<ContractEntity> {
+    const normalizedContract = this.normalizeContract(contract)
+
     return {
       method: 'POST',
       url: `/contracts`,
-      data: contractFormData,
+      data: normalizedContract,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
@@ -28,13 +45,7 @@ export class PostContractService implements PostContractServiceInterface {
   }
 
   async execute(token: TokenEntities, contract: ContractEntity): Promise<void> {
-    const contractFormDataConverted = this.convertFormData.execute({
-      ...contract
-    })
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      token,
-      contractFormDataConverted
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, contract)
     const { success, status }: HttpResponse<null> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseContractsValidator.validate(success, status)
