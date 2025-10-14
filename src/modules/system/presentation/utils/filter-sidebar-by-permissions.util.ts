@@ -16,7 +16,7 @@ export function filterSidebarByPermissions(
     .map((item) => {
       const hasAccess =
         item.permissions.includes(PermissionEnum.NOT_REQUIRED) ||
-        item.permissions.some((p) => userPermissions.includes(p))
+        item.permissions.every((p) => userPermissions.includes(p))
 
       const filteredChildren = item.items
         ? filterSidebarByPermissions(item.items, permissions, operationId)
