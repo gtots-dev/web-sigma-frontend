@@ -21,6 +21,7 @@ import type { Item } from '.'
 import { useParams, usePathname } from 'next/navigation'
 import {
   isSelectionContractRoute,
+  isSelectionProcessingUnitRoute,
   PATHNAMES
 } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
@@ -43,8 +44,10 @@ export function SidebarSystemItemGrandchildComponent({
   const pathname = usePathname()
   const {
     operationId,
-    contractId
-  }: { operationId: string; contractId: string } = useParams()
+    contractId,
+    processingUnitId
+  }: { operationId: string; contractId: string; processingUnitId: string } =
+    useParams()
   const { handleClick, isActive } = useSidebarSystemItem(item)
   const [isOpen, setIsOpen] = useState(true)
 
@@ -61,24 +64,36 @@ export function SidebarSystemItemGrandchildComponent({
     { 'rotate-90': isOpen }
   )
 
-  const shouldBlock =
+  const shouldBlockContract =
     item.items?.some((subItem) => isSelectionContractRoute(subItem.url)) &&
     !contractId
+
+  const shouldBlockProcessingUnit =
+    item.items?.some((subItem) =>
+      isSelectionProcessingUnitRoute(subItem.url)
+    ) && !processingUnitId
 
   return (
     <>
       {item.permissions && (
         <Collapsible
           open={isOpen}
-          onOpenChange={(open) => !shouldBlock && setIsOpen(open)}
+          onOpenChange={(open) =>
+            !shouldBlockContract &&
+            !shouldBlockProcessingUnit &&
+            setIsOpen(open)
+          }
         >
           <SidebarMenuSubItem>
             <div className={cn(sidebarButtonClass, className)}>
-              {item?.items?.length > 0 && item.isToExpand && !shouldBlock && (
-                <CollapsibleTrigger className="group aspect-square">
-                  <ChevronRight className={rotateArrowClassNames} />
-                </CollapsibleTrigger>
-              )}
+              {item?.items?.length > 0 &&
+                item.isToExpand &&
+                !shouldBlockContract &&
+                !shouldBlockProcessingUnit && (
+                  <CollapsibleTrigger className="group aspect-square">
+                    <ChevronRight className={rotateArrowClassNames} />
+                  </CollapsibleTrigger>
+                )}
               <Button
                 className="overflow-hidden justify-start w-full h-7 px-0 py-0 disabled:opacity-100"
                 variant="ghost"
@@ -92,48 +107,78 @@ export function SidebarSystemItemGrandchildComponent({
               </Button>
             </div>
 
-            {PATHNAMES.CONTRACTS(Number(operationId)) == pathname && shouldBlock && (
-              <motion.div
-                initial="closed"
-                animate="open"
-                variants={variants}
-                className="overflow-hidden my-2"
-              >
-                <div className="flex flex-col gap-1.5 p-3 rounded-lg border text-muted-foreground bg-white dark:bg-zinc-950">
-                  <div className="flex items-center gap-x-1.5">
-                    <CircleAlert className="h-4 w-4" />
-                    <span className="text-xs font-bold">Aviso:</span>
+            {PATHNAMES.CONTRACTS(Number(operationId)) === pathname &&
+              shouldBlockContract && (
+                <motion.div
+                  initial="closed"
+                  animate="open"
+                  variants={variants}
+                  className="overflow-hidden my-2"
+                >
+                  <div className="flex flex-col gap-1.5 p-3 rounded-lg border text-muted-foreground bg-white dark:bg-zinc-950">
+                    <div className="flex items-center gap-x-1.5">
+                      <CircleAlert className="h-4 w-4" />
+                      <span className="text-xs font-bold">Aviso:</span>
+                    </div>
+                    <span className="text-xs">
+                      Selecione um contrato para visualizar as opções
+                      correspondentes.
+                    </span>
                   </div>
-                  <span className="text-xs">
-                    Selecione um contrato para visualizar as opções
-                    correspondentes.
-                  </span>
-                </div>
-              </motion.div>
-            )}
+                </motion.div>
+              )}
 
-            {item.items && !shouldBlock && (
-              <motion.div
-                initial="closed"
-                animate={isOpen ? 'open' : 'closed'}
-                variants={variants}
-                className="overflow-hidden"
-              >
-                <SidebarMenuSub className="h-full !me-0 pe-0">
-                  {item.items.map((subItem) =>
-                    children ? (
-                      children(subItem)
-                    ) : (
-                      <SidebarSystemItemGrandchildComponent
-                        key={subItem.title}
-                        item={subItem}
-                        activePath={activePath}
-                      />
-                    )
-                  )}
-                </SidebarMenuSub>
-              </motion.div>
-            )}
+            {PATHNAMES.PROCESSING_UNITS(
+              Number(operationId),
+              Number(contractId)
+            ) === pathname &&
+              shouldBlockProcessingUnit && (
+                <motion.div
+                  initial="closed"
+                  animate="open"
+                  variants={variants}
+                  className="overflow-hidden my-2"
+                >
+                  <div className="flex flex-col gap-1.5 p-3 rounded-lg border text-muted-foreground bg-white dark:bg-zinc-950">
+                    <div className="flex items-center gap-x-1.5">
+                      <CircleAlert className="h-4 w-4" />
+                      <span className="text-xs font-bold">Aviso:</span>
+                    </div>
+                    <span className="text-xs">
+                      Selecione uma unidade de processamento para visualizar as
+                      opções correspondentes.
+                    </span>
+                  </div>
+                </motion.div>
+              )}
+
+            {item.items &&
+              !shouldBlockContract &&
+              !shouldBlockProcessingUnit && (
+                <motion.div
+                  initial="closed"
+                  animate={isOpen ? 'open' : 'closed'}
+                  variants={variants}
+                  className="overflow-hidden"
+                >
+                  {item.items.map((subItem) => (
+                    <SidebarMenuSub
+                      className="h-full !me-0 pe-0"
+                      key={subItem.url}
+                    >
+                      {children ? (
+                        children(subItem)
+                      ) : (
+                        <SidebarSystemItemGrandchildComponent
+                          key={subItem.title}
+                          item={subItem}
+                          activePath={activePath}
+                        />
+                      )}
+                    </SidebarMenuSub>
+                  ))}
+                </motion.div>
+              )}
           </SidebarMenuSubItem>
         </Collapsible>
       )}
