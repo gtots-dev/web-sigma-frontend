@@ -163,7 +163,7 @@ export function SidebarSystemItemGrandchildComponent({
                 >
                   {item.items.map((subItem) => (
                     <SidebarMenuSub
-                      className="h-full !me-0 pe-0"
+                      className="h-full !me-0 pe-0 ps-4"
                       key={subItem.url}
                     >
                       {children ? (

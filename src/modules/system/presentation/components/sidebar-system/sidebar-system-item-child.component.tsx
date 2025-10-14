@@ -41,7 +41,7 @@ export function SidebarSystemItemChildComponent({
   const [isOpen, setIsOpen] = useState(true)
 
   const buttonClassNames = clsx(
-    'flex items-center h-9 w-full mb-1.5 min-w-0 gap-2 overflow-hidden rounded-md px-2 [&>span:last-child]:truncate [&>svg]:size-4 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+    'flex items-center h-9 w-full min-w-0 gap-2 overflow-hidden rounded-md px-2 [&>span:last-child]:truncate [&>svg]:size-4 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
     {
       'disabled:opacity-100 bg-primary-600 text-white [&>svg]:text-white hover:!bg-primary-600 hover:!text-white dark:!hover:bg-primary-600 dark:!hover:text-white active:bg-primary-600 active:text-white':
         isActive,
@@ -93,11 +93,11 @@ export function SidebarSystemItemChildComponent({
               variants={variants}
               className="overflow-hidden"
             >
-              <SidebarMenuSub className="!me-0 pe-0">
-                {item.items.map((subItem) =>
-                  subItem.permissions && children ? children(subItem) : null
-                )}
-              </SidebarMenuSub>
+              {item.items.map((subItem) => (
+                <SidebarMenuSub className="!me-0 pe-0 ps-0" key={subItem.url}>
+                  {subItem.permissions && children ? children(subItem) : null}
+                </SidebarMenuSub>
+              ))}
             </motion.div>
           )}
 
