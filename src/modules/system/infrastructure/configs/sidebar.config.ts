@@ -13,7 +13,11 @@ import {
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { PermissionEnum } from '../../domain/enums/permissions.enum'
 
-export function getSidebarData(operationId: number, contractId: number) {
+export function getSidebarData(
+  operationId: number,
+  contractId: number,
+  processingUnitId: number
+) {
   return [
     {
       title: 'Operações',
@@ -83,8 +87,12 @@ export function getSidebarData(operationId: number, contractId: number) {
                         operationId,
                         contractId
                       ),
-                      icon: List,
-                      permissions: [PermissionEnum.CONTRACTS_VIEW],
+                      icon: Settings,
+                      permissions: [
+                        PermissionEnum.CONTRACTS_VIEW,
+                        PermissionEnum.PROCESSING_UNITS_VIEW,
+                        PermissionEnum.POINTS_VIEW
+                      ],
                       isToExpand: true,
                       items: [
                         {
@@ -102,7 +110,11 @@ export function getSidebarData(operationId: number, contractId: number) {
                           items: [
                             {
                               title: 'Opções de U.P.s',
-                              url: '',
+                              url: PATHNAMES.PROCESSING_UNITS_OPTIONS(
+                                operationId,
+                                contractId,
+                                processingUnitId
+                              ),
                               icon: List,
                               permissions: [
                                 PermissionEnum.CONTRACTS_VIEW,
@@ -111,14 +123,34 @@ export function getSidebarData(operationId: number, contractId: number) {
                               isToExpand: true,
                               items: [
                                 {
-                                  title: 'Faixas',
-                                  url: PATHNAMES.LANES(operationId, contractId),
-                                  icon: ArrowUpDown,
-                                  isToExpand: true,
+                                  title: 'Configurações',
+                                  url: PATHNAMES.PROCESSING_UNITS_CONFIGURATIONS(
+                                    operationId,
+                                    contractId,
+                                    processingUnitId
+                                  ),
+                                  icon: Settings,
                                   permissions: [
-                                    PermissionEnum.LANES_VIEW,
                                     PermissionEnum.CONTRACTS_VIEW,
                                     PermissionEnum.PROCESSING_UNITS_VIEW
+                                  ],
+                                  isToExpand: true,
+                                  items: [
+                                    {
+                                      title: 'Faixas',
+                                      url: PATHNAMES.LANES(
+                                        operationId,
+                                        contractId,
+                                        processingUnitId
+                                      ),
+                                      icon: ArrowUpDown,
+                                      isToExpand: true,
+                                      permissions: [
+                                        PermissionEnum.LANES_VIEW,
+                                        PermissionEnum.CONTRACTS_VIEW,
+                                        PermissionEnum.PROCESSING_UNITS_VIEW
+                                      ]
+                                    }
                                   ]
                                 }
                               ]
