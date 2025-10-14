@@ -13,15 +13,21 @@ export function useSidebarSystemData(
   const pathname = usePathname()
   const {
     operationId,
-    contractId
-  }: { operationId: string; contractId: string } = useParams()
+    contractId,
+    processingUnitId
+  }: { operationId: string; contractId: string; processingUnitId: string } =
+    useParams()
 
   const sidebarData = useMemo(() => {
-    const rawData = getSidebarData(Number(operationId), Number(contractId))
+    const rawData = getSidebarData(
+      Number(operationId),
+      Number(contractId),
+      Number(processingUnitId)
+    )
     return isAdmin
       ? rawData
       : filterSidebarByPermissions(rawData, permissions, operationId)
-  }, [operationId, contractId, permissions, isAdmin])
+  }, [operationId, contractId, processingUnitId, permissions, isAdmin])
 
   return {
     pathname,
