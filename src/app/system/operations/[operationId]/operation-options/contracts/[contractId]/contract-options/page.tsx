@@ -103,7 +103,7 @@ export default async function ContractOptionsPage({
           ))
         ) : (
           <CardOperationOptions.NotFound
-            message={MESSAGES_OPTIONS_CONTRACT['11.10']}
+            message={MESSAGES_OPTIONS_CONTRACT['16.6']}
           />
         )}
       </CardOperationOptions.Content>
