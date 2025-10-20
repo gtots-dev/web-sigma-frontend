@@ -34,7 +34,7 @@ export function TableContractsItemComponent({
 
   const renderSkeleton = () => (
     <TableRow>
-      <TableCell className={`${baseCell} ${truncateText}`}>
+      <TableCell className={`${baseCell} ${truncateText}`} colSpan={6}>
         <Skeleton className="w-full !h-[10px] rounded-full" />
       </TableCell>
     </TableRow>
