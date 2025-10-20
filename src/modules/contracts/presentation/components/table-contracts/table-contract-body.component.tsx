@@ -21,14 +21,14 @@ export function TableContractsBodyComponent({
   if (loading)
     return (
       <TableBody>
-        <TableLoading colSpan={5} />
+        <TableLoading colSpan={6} />
       </TableBody>
     )
 
   if (contracts.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={5} message={MESSAGES_CONTRACTS['3.3']} />
+        <TableMessage colSpan={6} message={MESSAGES_CONTRACTS['3.3']} />
       </TableBody>
     )
 

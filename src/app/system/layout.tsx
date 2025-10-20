@@ -6,12 +6,13 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
 import { SidebarSystem } from '@/modules/system/presentation/components/sidebar-system'
 import { UserDropdown } from '@/modules/system/presentation/components/user-dropdown'
-import type { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
 import { ContentSystem } from '@/modules/system/presentation/components/content-system'
 import { getUserMe } from '@/modules/users/presentation/utils/get-user.util'
 import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
 import { auth } from '@/auth'
+import { ContractSelectedLabel } from '@/modules/contracts/presentation/components/contract-selected-label'
 
 interface LayoutProps {
   children: ReactNode
@@ -47,6 +48,7 @@ export default async function Layout({ children }: LayoutProps) {
               <UserDropdown.Menu align="end" side="bottom" user={userBasic} />
             </UserDropdown.Root>
           </div>
+          <ContractSelectedLabel.Button />
         </HeaderSystem.Root>
         <ContentSystem.Root>{children}</ContentSystem.Root>
       </SidebarInset>
