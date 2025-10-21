@@ -76,6 +76,7 @@ export function TabledProcessingUnitsItemComponent({
           <AvailabilityStatusComponent enabled={processingUnit.enabled} />
         </TableCell>
       )}
+      {children && <TableCell className="text-center">{children}</TableCell>}
       <TableCell className="px-5 sm:px-10 text-end !w-[100px]" colSpan={1}>
         <Button
           size="icon"
@@ -101,11 +102,6 @@ export function TabledProcessingUnitsItemComponent({
   }
 
   return (
-    <TableRow>
-      {isLarge ? renderExpandedView() : renderCompactView()}
-      {children && (
-        <TableCell className="pe-5 sm:pe-10 text-right">{children}</TableCell>
-      )}
-    </TableRow>
+    <TableRow>{isLarge ? renderExpandedView() : renderCompactView()}</TableRow>
   )
 }
