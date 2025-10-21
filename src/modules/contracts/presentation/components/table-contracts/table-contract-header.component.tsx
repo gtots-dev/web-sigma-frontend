@@ -26,10 +26,10 @@ export function TableContractsHeaderComponent() {
 
         {isExtraLarge && <TableHead className={baseClass}>Status</TableHead>}
 
-        <TableHead className={`${baseClass} text-center`}>Acessar</TableHead>
+        <TableHead className={`${baseClass} text-center`}>Opções</TableHead>
 
         <TableHead className={`${baseClass} rounded-tr-lg text-right`}>
-          Opções
+          Acessar
         </TableHead>
       </TableRow>
     </TableHeader>
