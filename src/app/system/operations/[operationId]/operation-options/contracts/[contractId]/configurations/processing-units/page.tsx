@@ -1,5 +1,10 @@
 import { AddProcessingUnitMenu } from '@/modules/processing-units/presentation/components/add-processing-unit-menu'
 import { AddProcessingUnitMenuComponent } from '@/modules/processing-units/presentation/components/add-processing-unit-menu/add-processing-unit-menu.component'
+import { EditProcessingUnitsMenu } from '@/modules/processing-units/presentation/components/edit-processing-unit-menu'
+import { EditProcessingUnitsMenuComponent } from '@/modules/processing-units/presentation/components/edit-processing-unit-menu/edit-processing-unit-menu.component'
+import { ProcessingUnitsOptionsDropdown } from '@/modules/processing-units/presentation/components/processing-unit-options-dropdown'
+import { PutProcessingUnitsStatusMenu } from '@/modules/processing-units/presentation/components/put-processing-unit-status-menu'
+import { PutProcessingUnitsStatusMenuComponent } from '@/modules/processing-units/presentation/components/put-processing-unit-status-menu/put-processing-unit-status-menu.component'
 import { TabledProcessingUnits } from '@/modules/processing-units/presentation/components/table-processing-units'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_PROCESSING_UNIT } from '@/modules/shared/presentation/messages/processing-unit'
@@ -11,6 +16,10 @@ interface Data {
   description: string
   titleAdd: string
   descriptionAdd: string
+  titleEdit: string
+  descriptionEdit: string
+  titlePutStatus: string
+  descriptionPutStatus: string
 }
 
 export default function ProcessingUnitsPage() {
@@ -18,7 +27,11 @@ export default function ProcessingUnitsPage() {
     title: MESSAGES_PROCESSING_UNIT['7.1'],
     description: MESSAGES_PROCESSING_UNIT['7.2'],
     titleAdd: MESSAGES_PROCESSING_UNIT['7.4'],
-    descriptionAdd: MESSAGES_PROCESSING_UNIT['7.5']
+    descriptionAdd: MESSAGES_PROCESSING_UNIT['7.5'],
+    titleEdit: MESSAGES_PROCESSING_UNIT['7.7'],
+    descriptionEdit: MESSAGES_PROCESSING_UNIT['7.8'],
+    titlePutStatus: MESSAGES_PROCESSING_UNIT['7.9'],
+    descriptionPutStatus: MESSAGES_PROCESSING_UNIT['7.10']
   }
 
   return (
@@ -43,7 +56,33 @@ export default function ProcessingUnitsPage() {
         <TabledProcessingUnits.Root>
           <TabledProcessingUnits.Header />
           <TabledProcessingUnits.Body>
-            <TabledProcessingUnits.Item />
+            <TabledProcessingUnits.Item>
+              <PutProcessingUnitsStatusMenu.Provider>
+                <EditProcessingUnitsMenu.Provider>
+                  <ProcessingUnitsOptionsDropdown.Root>
+                    <ProcessingUnitsOptionsDropdown.Trigger />
+                    <ProcessingUnitsOptionsDropdown.Menu>
+                      <ProcessingUnitsOptionsDropdown.Item>
+                        <EditProcessingUnitsMenu.Trigger />
+                      </ProcessingUnitsOptionsDropdown.Item>
+
+                      <ProcessingUnitsOptionsDropdown.Item>
+                        <PutProcessingUnitsStatusMenu.Trigger />
+                      </ProcessingUnitsOptionsDropdown.Item>
+                    </ProcessingUnitsOptionsDropdown.Menu>
+                    
+                    <EditProcessingUnitsMenuComponent
+                      title={data.titleEdit}
+                      description={data.descriptionEdit}
+                    />
+                    <PutProcessingUnitsStatusMenuComponent
+                      title={data.titlePutStatus}
+                      description={data.descriptionPutStatus}
+                    />
+                  </ProcessingUnitsOptionsDropdown.Root>
+                </EditProcessingUnitsMenu.Provider>
+              </PutProcessingUnitsStatusMenu.Provider>
+            </TabledProcessingUnits.Item>
           </TabledProcessingUnits.Body>
         </TabledProcessingUnits.Root>
       </ActionSection.Root>
