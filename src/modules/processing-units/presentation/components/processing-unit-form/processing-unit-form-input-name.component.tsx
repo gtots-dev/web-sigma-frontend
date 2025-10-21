@@ -28,7 +28,7 @@ export function ProcessingUnitFormInputNameComponent({
         <FormItem>
           <FormLabel
             className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50"
-            htmlFor="name-contract"
+            htmlFor="name-processingUnit"
           >
             Nome{require ? ': *' : ':'}
             <HelpMeButtonComponent description={description} />
@@ -36,7 +36,7 @@ export function ProcessingUnitFormInputNameComponent({
           <FormControl>
             <Input
               type="text"
-              id="name-contract"
+              id="name-processingUnit"
               autoComplete="off"
               className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"
               placeholder="Coloque o nome da unidade de Processamento"

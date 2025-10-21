@@ -30,7 +30,7 @@ export function ProcessingUnitFormInputEnabledComponent({
         <FormItem>
           <FormLabel
             className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50"
-            htmlFor="enabled-contract"
+            htmlFor="enabled-processingUnit"
           >
             Habilitado{require ? ': *' : ':'}
             <HelpMeButtonComponent description={description} />
@@ -47,7 +47,7 @@ export function ProcessingUnitFormInputEnabledComponent({
               </div>
               <Switch
                 className="data-[state=checked]:bg-primary-600"
-                id="enabled-contract"
+                id="enabled-processingUnit"
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
