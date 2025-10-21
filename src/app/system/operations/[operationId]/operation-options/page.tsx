@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
-import { CardOperationOptions } from '@/modules/operation-options/presentation/components/card-operation-options'
-import { CardOption } from '@/modules/operation-options/presentation/components/card-option'
+import { FrameOptions } from '@/modules/system/presentation/components/frame-options'
+import { CardOption } from '@/modules/system/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
 import { OperationSelector } from '@/modules/operation-options/presentation/components/operation-selector'
 import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
@@ -89,8 +89,8 @@ export default async function OperationOptionsPage({
   )
 
   return (
-    <CardOperationOptions.Root>
-      <CardOperationOptions.Header>
+    <FrameOptions.Root>
+      <FrameOptions.Header>
         <HeaderOptions.Root>
           <div className="flex flex-col gap-1">
             <HeaderOptions.Title>{title}</HeaderOptions.Title>
@@ -106,8 +106,8 @@ export default async function OperationOptionsPage({
             operations={operations}
           />
         </HeaderOptions.Root>
-      </CardOperationOptions.Header>
-      <CardOperationOptions.Content>
+      </FrameOptions.Header>
+      <FrameOptions.Content>
         {accessibleOptions.length > 0 ? (
           accessibleOptions.map((option, index) => (
             <CardOption.Root key={index} pathName={option.pathName}>
@@ -121,11 +121,11 @@ export default async function OperationOptionsPage({
             </CardOption.Root>
           ))
         ) : (
-          <CardOperationOptions.NotFound
+          <FrameOptions.NotFound
             message={MESSAGES_OPTIONS_OPERATION['11.10']}
           />
         )}
-      </CardOperationOptions.Content>
-    </CardOperationOptions.Root>
+      </FrameOptions.Content>
+    </FrameOptions.Root>
   )
 }

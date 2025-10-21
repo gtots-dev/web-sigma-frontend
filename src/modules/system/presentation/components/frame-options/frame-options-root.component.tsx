@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react'
 
-interface CardOperationOptionsRootComponentProps {
+interface FrameOptionsRootComponentProps {
   children: ReactNode
 }
 
-export function CardOperationOptionsRootComponent({
+export function FrameOptionsRootComponent({
   children
-}: CardOperationOptionsRootComponentProps) {
+}: FrameOptionsRootComponentProps) {
   return (
     <section className="flex flex-col flex-1 bg-zinc-50 dark:bg-zinc-900 p-8 sm:p-10 sm:pb-0">
       <div className="flex flex-col flex-1 gap-y-8 sm:gap-y-16 items-center    lg:mx-auto 2xl:w-[1024px]">
