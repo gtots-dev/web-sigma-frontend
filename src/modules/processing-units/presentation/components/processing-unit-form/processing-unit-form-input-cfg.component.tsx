@@ -51,7 +51,7 @@ export function ProcessingUnitFormInputCfgComponent({
             <Textarea
               id="cfg-processingUnit"
               autoComplete="off"
-              className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"
+              className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50 overflow-hidden"
               placeholder="Adicione a configuração desejada."
               {...field}
               ref={(el) => {
