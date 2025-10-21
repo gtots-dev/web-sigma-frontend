@@ -15,8 +15,8 @@ export class PutPermissionProfileStatusService
   getHttpRequestConfig(
     token: TokenEntities,
     permissionProfileId: PermissionProfileEntity['id'],
-    permissionProfileEnableAndDisable: FormData
-  ): HttpRequestConfig<FormData> {
+    permissionProfileEnableAndDisable: PermissionProfileEnableAndDisableInterface
+  ): HttpRequestConfig<PermissionProfileEnableAndDisableInterface> {
     return {
       method: 'PATCH',
       url: `/perm-profiles/${permissionProfileId}/status`,
@@ -30,7 +30,7 @@ export class PutPermissionProfileStatusService
   async execute(
     token: TokenEntities,
     permissionProfileId: PermissionProfileEntity['id'],
-    permissionProfileEnableAndDisable: FormData
+    permissionProfileEnableAndDisable: PermissionProfileEnableAndDisableInterface
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
       token,

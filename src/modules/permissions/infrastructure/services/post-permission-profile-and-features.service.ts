@@ -5,25 +5,21 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 import type { PostPermissionProfileAndFeaturesServiceInterface } from '../../domain/interfaces/post-permission-profile-and-features-service.interface'
 import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
-import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { PermissionProfileAndFeaturesInterface } from '../../domain/interfaces/permission-profile-and-features'
 
 export class PostPermissionProfileAndFeaturesService
   implements PostPermissionProfileAndFeaturesServiceInterface
 {
-  constructor(
-    private readonly httpRequest: ExecuteRequest,
-    private readonly formData: ConvertJsonToFormData
-  ) {}
+  constructor(private readonly httpRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(
     token: TokenEntities,
-    permissionProfileAndFeaturesFormData: FormData
-  ): HttpRequestConfig<FormData> {
+    permissionProfileAndFeatures: PermissionProfileAndFeaturesInterface
+  ): HttpRequestConfig<PermissionProfileAndFeaturesInterface> {
     return {
       method: 'POST',
       url: `/perm-profiles/all-in-one`,
-      data: permissionProfileAndFeaturesFormData,
+      data: permissionProfileAndFeatures,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
@@ -34,25 +30,9 @@ export class PostPermissionProfileAndFeaturesService
     token: TokenEntities,
     permissionProfileAndFeatures: PermissionProfileAndFeaturesInterface
   ): Promise<void> {
-    const permissionProfileAndFeaturesFormDataConverted = this.formData.execute(
-      {
-        operation_id: permissionProfileAndFeatures.operation_id,
-        perm_profile_name: permissionProfileAndFeatures.perm_profile_name,
-        perm_profile_description:
-          permissionProfileAndFeatures.perm_profile_description
-      }
-    )
-
-    permissionProfileAndFeatures.feature_ids.forEach((featureId) => {
-      permissionProfileAndFeaturesFormDataConverted.append(
-        'feature_id',
-        String(featureId)
-      )
-    })
-
     const settingsAuthHTTP = this.getHttpRequestConfig(
       token,
-      permissionProfileAndFeaturesFormDataConverted
+      permissionProfileAndFeatures
     )
 
     const { success, status }: HttpResponse<PermissionProfileInterface> =

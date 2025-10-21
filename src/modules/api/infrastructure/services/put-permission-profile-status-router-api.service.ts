@@ -1,8 +1,6 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
-import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { PutPermissionProfileStatusRouterApiServiceInterface } from '../../domain/interfaces/put-permission-profile-status-router-api-service.interface'
 import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { PermissionProfileEnableAndDisableInterface } from '@/modules/permissions/domain/interfaces/permission-profile-enable-and-disable.interface'
@@ -10,29 +8,21 @@ import type { PermissionProfileEnableAndDisableInterface } from '@/modules/permi
 export class PutPermissionProfileStatusRouterApiService
   implements PutPermissionProfileStatusRouterApiServiceInterface
 {
-  constructor(
-    private readonly httpRequest: ExecuteRequest,
-    private readonly formData: ConvertJsonToFormData
-  ) {}
+  constructor(private readonly httpRequest: ExecuteRequest) {}
   getHttpRequestConfig(
-    permissionProfileId: PermissionProfileEntity['id'],
-    permissionProfileEnableAndDisable: FormData
-  ): HttpRequestConfig<FormData> {
+    permissionProfileEnableAndDisable: PermissionProfileEnableAndDisableInterface
+  ): HttpRequestConfig<PermissionProfileEnableAndDisableInterface> {
     return {
       method: 'PUT',
       data: permissionProfileEnableAndDisable,
-      url: `api/permission/${permissionProfileId}/status`
+      url: `api/permission/${permissionProfileEnableAndDisable.id}/status`
     }
   }
   async execute(
     permissionProfileEnableAndDisable: PermissionProfileEnableAndDisableInterface
   ): Promise<void> {
-    const userFormData = this.formData.execute({
-      ...permissionProfileEnableAndDisable
-    })
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      permissionProfileEnableAndDisable.id,
-      userFormData
+      permissionProfileEnableAndDisable
     )
     const { success, status }: HttpResponse<null> =
       await this.httpRequest.execute(settingsAuthHTTP)
