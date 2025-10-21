@@ -23,8 +23,10 @@ export function TabledProcessingUnitsHeaderComponent() {
         </TableHead>
         {isExtraLarge && <TableHead className={baseClass}>Status</TableHead>}
 
+        <TableHead className={`${baseClass} text-center`}>Opções</TableHead>
+
         <TableHead className={`${baseClass} rounded-tr-lg text-right`}>
-          Opções
+          Acessar
         </TableHead>
       </TableRow>
     </TableHeader>
