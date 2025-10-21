@@ -84,7 +84,10 @@ export function TableContractsItemComponent({
           <AvailabilityStatusComponent enabled={contract.enabled} />
         </TableCell>
       )}
-      <TableCell className="px-5 sm:px-10 text-center" colSpan={1}>
+      {children && (
+        <TableCell className="text-center">{children}</TableCell>
+      )}
+      <TableCell className="px-5 text sm:px-10 text-right" colSpan={1}>
         <Button
           size="icon"
           variant="outline"
@@ -108,11 +111,6 @@ export function TableContractsItemComponent({
   }
 
   return (
-    <TableRow>
-      {isLarge ? renderExpandedView() : renderCompactView()}
-      {children && (
-        <TableCell className="pe-5 sm:pe-10 text-right">{children}</TableCell>
-      )}
-    </TableRow>
+    <TableRow>{isLarge ? renderExpandedView() : renderCompactView()}</TableRow>
   )
 }
