@@ -1,8 +1,8 @@
 import { auth } from '@/auth'
 import { GetContractsFactory } from '@/modules/contracts/infrastructure/factories/get-contracts.factory'
 import { ContractSelector } from '@/modules/contracts/presentation/components/contract-selector'
-import { CardOperationOptions } from '@/modules/operation-options/presentation/components/card-operation-options'
-import { CardOption } from '@/modules/operation-options/presentation/components/card-option'
+import { FrameOptions } from '@/modules/system/presentation/components/frame-options'
+import { CardOption } from '@/modules/system/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_OPTIONS_CONTRACT } from '@/modules/shared/presentation/messages/options-contract'
@@ -70,8 +70,8 @@ export default async function ContractOptionsPage({
   )
 
   return (
-    <CardOperationOptions.Root>
-      <CardOperationOptions.Header>
+    <FrameOptions.Root>
+      <FrameOptions.Header>
         <HeaderOptions.Root>
           <div className="flex flex-col gap-1">
             <HeaderOptions.Title>{title}</HeaderOptions.Title>
@@ -87,8 +87,8 @@ export default async function ContractOptionsPage({
             contracts={contracts}
           />
         </HeaderOptions.Root>
-      </CardOperationOptions.Header>
-      <CardOperationOptions.Content>
+      </FrameOptions.Header>
+      <FrameOptions.Content>
         {accessibleOptions.length > 0 ? (
           accessibleOptions.map((option, index) => (
             <CardOption.Root key={index} pathName={option.pathName}>
@@ -102,11 +102,11 @@ export default async function ContractOptionsPage({
             </CardOption.Root>
           ))
         ) : (
-          <CardOperationOptions.NotFound
+          <FrameOptions.NotFound
             message={MESSAGES_OPTIONS_CONTRACT['16.6']}
           />
         )}
-      </CardOperationOptions.Content>
-    </CardOperationOptions.Root>
+      </FrameOptions.Content>
+    </FrameOptions.Root>
   )
 }
