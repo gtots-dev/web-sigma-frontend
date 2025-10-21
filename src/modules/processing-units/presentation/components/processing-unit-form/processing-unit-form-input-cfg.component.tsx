@@ -42,14 +42,14 @@ export function ProcessingUnitFormInputCfgComponent({
         <FormItem>
           <FormLabel
             className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50"
-            htmlFor="name-contract"
+            htmlFor="name-processingUnit"
           >
             CFG{require ? ': *' : ':'}
             <HelpMeButtonComponent description={description} />
           </FormLabel>
           <FormControl>
             <Textarea
-              id="cfg-contract"
+              id="cfg-processingUnit"
               autoComplete="off"
               className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"
               placeholder="Adicione a configuração desejada."
