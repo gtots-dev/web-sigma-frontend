@@ -6,24 +6,20 @@ import type { PermissionProfileInterface } from '../../domain/interfaces/permiss
 import type { PostPermissionProfileServiceInterface } from '../../domain/interfaces/post-permission-profile-service.interface'
 import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
 import { PermissionProfileEntity } from '../../domain/entities/permission-profile.entity'
-import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 
 export class PostPermissionProfileService
   implements PostPermissionProfileServiceInterface
 {
-  constructor(
-    private readonly httpRequest: ExecuteRequest,
-    private readonly formData: ConvertJsonToFormData
-  ) {}
+  constructor(private readonly httpRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(
     token: TokenEntities,
-    permissionProfileFormData: FormData
-  ): HttpRequestConfig<FormData> {
+    permissionProfile: PermissionProfileEntity
+  ): HttpRequestConfig<PermissionProfileEntity> {
     return {
       method: 'POST',
       url: `/perm-profiles`,
-      data: permissionProfileFormData,
+      data: permissionProfile,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
@@ -39,12 +35,9 @@ export class PostPermissionProfileService
       permissionProfile.description,
       permissionProfile.operation_id
     )
-    const permissionProfileFormDataConverted = this.formData.execute({
-      ...enrichedPermissionProfile
-    })
     const settingsAuthHTTP = this.getHttpRequestConfig(
       token,
-      permissionProfileFormDataConverted
+      enrichedPermissionProfile
     )
     const { success, data, status }: HttpResponse<PermissionProfileInterface> =
       await this.httpRequest.execute(settingsAuthHTTP)
