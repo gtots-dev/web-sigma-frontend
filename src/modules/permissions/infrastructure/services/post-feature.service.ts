@@ -5,19 +5,20 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 import type { PostFeatureServiceInterface } from '../../domain/interfaces/post-feature-service.interface'
 import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
+import type { FeaturesInterface } from '../../domain/interfaces/features.interface'
 
 export class PostFeatureService implements PostFeatureServiceInterface {
   constructor(private readonly httpRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(
     token: TokenEntities,
-    featureFormData: FormData,
-    permissionProfileId: number
-  ): HttpRequestConfig<FormData> {
+    features: FeaturesInterface['id'][],
+    permissionProfileId: PermissionProfileInterface['id']
+  ): HttpRequestConfig<FeaturesInterface['id'][]> {
     return {
       method: 'POST',
       url: `/perm-profiles/${permissionProfileId}/features`,
-      data: featureFormData,
+      data: features,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
@@ -26,18 +27,12 @@ export class PostFeatureService implements PostFeatureServiceInterface {
 
   async execute(
     token: TokenEntities,
-    features: number[],
+    features: FeaturesInterface['id'][],
     permissionProfileId: PermissionProfileInterface['id']
   ): Promise<void> {
-    const formData = new FormData()
-
-    features.forEach((featureId) => {
-      formData.append('feature_id', String(featureId))
-    })
-
     const settingsAuthHTTP = this.getHttpRequestConfig(
       token,
-      formData,
+      features,
       permissionProfileId
     )
 
