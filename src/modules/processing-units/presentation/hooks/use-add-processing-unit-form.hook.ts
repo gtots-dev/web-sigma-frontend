@@ -18,7 +18,6 @@ export function useAddProcessingUnitForm() {
       cfg: '',
       contract_id: Number(contractId),
       operation_id: Number(operationId),
-      enabled: true
     }),
     [operationId, contractId]
   )
