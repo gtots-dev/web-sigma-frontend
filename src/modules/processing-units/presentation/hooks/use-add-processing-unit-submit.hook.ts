@@ -15,7 +15,7 @@ export function useAddProcessingUnitSubmit() {
       try {
         await addProcessingUnit(data)
         toast({
-          title: 'Contrato adicionado com sucesso!',
+          title: 'Unidade de processamento adicionado com sucesso!',
           variant: 'success'
         })
         await getProcessingUnits()

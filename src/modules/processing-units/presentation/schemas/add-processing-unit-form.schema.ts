@@ -7,8 +7,7 @@ export const AddProcessingUnitFormSchema = z.object({
   }),
   cfg: z.string().nullable().optional(),
   contract_id: z.number(),
-  operation_id: z.number(),
-  enabled: z.boolean()
+  operation_id: z.number()
 })
 
 export type AddProcessingUnitFormType = z.infer<

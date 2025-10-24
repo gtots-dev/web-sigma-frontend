@@ -14,7 +14,7 @@ export function usePutProcessingUnitStatusSubmit() {
     ): Promise<void> => {
       try {
         toast({
-          title: 'Contrato atualizado com sucesso!',
+          title: 'Unidade de processamento atualizado com sucesso!',
           variant: 'success'
         })
         await getProcessingUnits()
@@ -22,9 +22,9 @@ export function usePutProcessingUnitStatusSubmit() {
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao atualizar o status contrato',
+            title: 'Erro ao atualizar o status unidade de processamento',
             description:
-              'Ocorreu um problema ao tentar atualizar o status do contrato. Verifique e tente novamente',
+              'Ocorreu um problema ao tentar atualizar o status do unidade de processamento. Verifique e tente novamente',
             variant: 'destructive'
           })
         }

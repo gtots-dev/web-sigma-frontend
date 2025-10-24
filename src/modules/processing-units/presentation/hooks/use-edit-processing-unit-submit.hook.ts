@@ -14,7 +14,7 @@ export function useEditProcessingUnitSubmit() {
     ): Promise<void> => {
       try {
         toast({
-          title: 'Contrato atualizado com sucesso!',
+          title: 'Unidade de processamento atualizado com sucesso!',
           variant: 'success'
         })
         await getProcessingUnits()

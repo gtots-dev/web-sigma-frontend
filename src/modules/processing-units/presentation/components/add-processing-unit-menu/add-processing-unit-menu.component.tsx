@@ -26,7 +26,6 @@ export function AddProcessingUnitMenuComponent({
         <ProcessingUnitForm.Form>
           <ProcessingUnitForm.Input.Name require />
           <ProcessingUnitForm.Input.cfg />
-          <ProcessingUnitForm.Input.Enabled />
         </ProcessingUnitForm.Form>
 
         <AddProcessingUnitMenu.Footer>

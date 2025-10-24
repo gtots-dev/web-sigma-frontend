@@ -3,6 +3,6 @@ export interface ProcessingUnitInterface {
   name: string
   contract_id: number
   operation_id: number
-  enabled: boolean
+  enabled?: boolean
   cfg?: string
 }
