@@ -14,7 +14,7 @@ export class DeleteFeatureService implements DeleteFeatureServiceInterface {
     token: TokenEntities,
     featureId: FeaturesInterface['id'],
     permissionProfileId: PermissionProfileInterface['id']
-  ): HttpRequestConfig<FormData> {
+  ): HttpRequestConfig {
     return {
       method: 'DELETE',
       url: `/perm-profiles/${permissionProfileId}/features/${featureId}`,
