@@ -10,16 +10,6 @@ export interface PathnamesInterface {
   ACTIVITY_REPORT: (id: number) => string
   CONTRACTS_OPTIONS: (operationId: number, contractId: number) => string
   CONTRACTS_CONFIGURATIONS: (operationId: number, contractId: number) => string
-  PROCESSING_UNITS_CONFIGURATIONS: (
-    operationId: number,
-    contractId: number,
-    processingUnitId: number
-  ) => string
-  PROCESSING_UNITS_OPTIONS: (
-    operationId: number,
-    contractId: number,
-    processingUnitId: number
-  ) => string
   PROCESSING_UNITS: (operationId: number, contractId: number) => string
   POINTS: (operationId: number, contractId: number) => string
   LANES: (
@@ -46,18 +36,10 @@ export const PATHNAMES: PathnamesInterface = {
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations`,
   PROCESSING_UNITS: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units`,
-  PROCESSING_UNITS_OPTIONS: (operationId, contractId, processingUnitId) =>
-    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units/${processingUnitId}/processing-unit-options`,
-  PROCESSING_UNITS_CONFIGURATIONS: (
-    operationId,
-    contractId,
-    processingUnitId
-  ) =>
-    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units/${processingUnitId}/configurations`,
   POINTS: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/points`,
   LANES: (operationId, contractId, processingUnitId) =>
-    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units/${processingUnitId}/configurations/lanes`
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units/${processingUnitId}/lanes`
 }
 
 export const publicRoutes: string[] = [PATHNAMES.AUTHENTICATION]

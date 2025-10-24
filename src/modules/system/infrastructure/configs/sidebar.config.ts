@@ -109,50 +109,18 @@ export function getSidebarData(
                           isToExpand: true,
                           items: [
                             {
-                              title: 'Opções de U.P.s',
-                              url: PATHNAMES.PROCESSING_UNITS_OPTIONS(
+                              title: 'Faixas',
+                              url: PATHNAMES.LANES(
                                 operationId,
                                 contractId,
                                 processingUnitId
                               ),
-                              icon: List,
+                              icon: ArrowUpDown,
+                              isToExpand: true,
                               permissions: [
+                                PermissionEnum.LANES_VIEW,
                                 PermissionEnum.CONTRACTS_VIEW,
                                 PermissionEnum.PROCESSING_UNITS_VIEW
-                              ],
-                              isToExpand: true,
-                              items: [
-                                {
-                                  title: 'Configurações',
-                                  url: PATHNAMES.PROCESSING_UNITS_CONFIGURATIONS(
-                                    operationId,
-                                    contractId,
-                                    processingUnitId
-                                  ),
-                                  icon: Settings,
-                                  permissions: [
-                                    PermissionEnum.CONTRACTS_VIEW,
-                                    PermissionEnum.PROCESSING_UNITS_VIEW
-                                  ],
-                                  isToExpand: true,
-                                  items: [
-                                    {
-                                      title: 'Faixas',
-                                      url: PATHNAMES.LANES(
-                                        operationId,
-                                        contractId,
-                                        processingUnitId
-                                      ),
-                                      icon: ArrowUpDown,
-                                      isToExpand: true,
-                                      permissions: [
-                                        PermissionEnum.LANES_VIEW,
-                                        PermissionEnum.CONTRACTS_VIEW,
-                                        PermissionEnum.PROCESSING_UNITS_VIEW
-                                      ]
-                                    }
-                                  ]
-                                }
                               ]
                             }
                           ]
