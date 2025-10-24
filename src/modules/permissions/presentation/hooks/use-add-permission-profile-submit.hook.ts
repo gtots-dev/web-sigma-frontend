@@ -27,7 +27,7 @@ export function useAddPermissionProfileSubmit() {
           operation_id: Number(operationId),
           perm_profile_name: permissionProfileForm.name,
           perm_profile_description: permissionProfileForm.description,
-          feature_ids: permissionProfileForm.features
+          feature_id: permissionProfileForm.features
         })
         await getPermissionProfiles()
         toast({

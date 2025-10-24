@@ -13,7 +13,7 @@ export async function PUT(
   }: { params: Promise<{ permissionProfileId: PermissionProfileEntity['id'] }> }
 ): Promise<NextResponse> {
   try {
-    const permissionProfileEnableAndDisable = await req.formData()
+    const permissionProfileEnableAndDisable = await req.json()
     const { token } = await auth()
     const { permissionProfileId } = await params
     const putPermissionProfileStatusFactory =
