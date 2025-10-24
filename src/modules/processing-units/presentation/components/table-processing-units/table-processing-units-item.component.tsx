@@ -51,7 +51,7 @@ export function TabledProcessingUnitsItemComponent({
           variant="outline"
           onClick={() =>
             replace(
-              PATHNAMES.PROCESSING_UNITS_OPTIONS(
+              PATHNAMES.LANES(
                 Number(processingUnit.operation_id),
                 Number(processingUnit.contract_id),
                 Number(processingUnit.id)
@@ -82,7 +82,7 @@ export function TabledProcessingUnitsItemComponent({
           variant="outline"
           onClick={() => {
             replace(
-              PATHNAMES.PROCESSING_UNITS_OPTIONS(
+              PATHNAMES.LANES(
                 Number(processingUnit.operation_id),
                 Number(processingUnit.contract_id),
                 Number(processingUnit.id)

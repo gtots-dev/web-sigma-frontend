@@ -26,7 +26,7 @@ export function TabledProcessingUnitsHeaderComponent() {
         <TableHead className={`${baseClass} text-center`}>Opções</TableHead>
 
         <TableHead className={`${baseClass} rounded-tr-lg text-right`}>
-          Acessar
+          Faixas
         </TableHead>
       </TableRow>
     </TableHeader>
