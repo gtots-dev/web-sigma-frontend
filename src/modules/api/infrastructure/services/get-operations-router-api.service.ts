@@ -12,7 +12,7 @@ export class GetOperationsRouterApiService
   getHttpRequestConfig(): HttpRequestConfig<null, null> {
     return {
       method: 'GET',
-      url: 'api/operation'
+      url: 'api/operations'
     }
   } 
 

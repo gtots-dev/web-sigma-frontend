@@ -5,11 +5,12 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 import { PostContractRouterApiFactory } from '@/modules/api/infrastructure/factories/post-contract-router-api.factory'
 import { PutContractRouterApiFactory } from '@/modules/api/infrastructure/factories/put-contract-router-api.factory'
 import { PutContractStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/put-contract-status-router-api.factory'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 type ContractState = {
   contracts: ContractEntity[]
   contract: ContractEntity
-  getContracts: () => Promise<void>
+  getContracts: ({ operationId }: UrlParams) => Promise<void>
   addContract: (contract: ContractEntity) => Promise<void>
   updateContract: (contract: ContractEntity) => Promise<void>
   updateStatus: (contract: ContractEntity) => Promise<void>
@@ -25,10 +26,12 @@ export const useContractStore = create<ContractState>((set) => ({
     operation_id: 0
   },
 
-  getContracts: async () => {
+  getContracts: async ({ operationId }: UrlParams) => {
     try {
       const getContractsRouterApiFactory = GetContractsRouterApiFactory.create()
-      const contracts = await getContractsRouterApiFactory.execute()
+      const contracts = await getContractsRouterApiFactory.execute({
+        operationId
+      })
       set({ contracts })
     } catch (error) {
       if (error instanceof HttpResponseError) {
