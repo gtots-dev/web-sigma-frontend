@@ -9,9 +9,10 @@ import { MESSAGES_OPTIONS_CONTRACT } from '@/modules/shared/presentation/message
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { Settings, type LucideIcon } from 'lucide-react'
+import { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface ContractOptionsPageProps {
-  params: Promise<{ operationId: string; contractId: string }>
+  params: Promise<UrlParams>
 }
 
 interface ContractCardOption {
@@ -33,10 +34,12 @@ export default async function ContractOptionsPage({
     { operationId: rawOperationId, contractId: rawContractId }
   ] = await Promise.all([auth(), params])
 
-  const getContractFactory = GetContractsFactory.create()
+  const getContractFactory = GetContractsFactory.create({
+    operationId: rawOperationId
+  })
   const [{ userPermissions }, contracts] = await Promise.all([
     loadAuthContext(JWT, rawOperationId),
-    getContractFactory.execute(JWT)
+    getContractFactory.execute()
   ])
 
   const contractSelectedMoreInfo = contracts.find(
@@ -102,9 +105,7 @@ export default async function ContractOptionsPage({
             </CardOption.Root>
           ))
         ) : (
-          <FrameOptions.NotFound
-            message={MESSAGES_OPTIONS_CONTRACT['16.6']}
-          />
+          <FrameOptions.NotFound message={MESSAGES_OPTIONS_CONTRACT['16.6']} />
         )}
       </FrameOptions.Content>
     </FrameOptions.Root>
