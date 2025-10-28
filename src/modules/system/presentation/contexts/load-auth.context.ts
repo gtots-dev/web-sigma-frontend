@@ -3,7 +3,6 @@ import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 
 interface LoadAuthContextProps {
-  operationId: number
   userPermissions: Set<PermissionEnum>
 }
 
@@ -11,16 +10,13 @@ export async function loadAuthContext(
   JWT: TokenEntities,
   rawOperationId: string
 ): Promise<LoadAuthContextProps> {
-  const operationId = Number(rawOperationId)
-
   const jwtFactory = JwtTokenDecodeFactory.create()
   const { permissions } = jwtFactory.decode(JWT.access_token)
 
-  const rawPermissions = permissions[String(operationId)] ?? []
+  const rawPermissions = permissions[String(rawOperationId)] ?? []
   const userPermissions = new Set(rawPermissions as PermissionEnum[])
 
   return {
-    operationId,
     userPermissions
   }
 }
