@@ -13,7 +13,7 @@ export function useAddContractSubmit() {
   const onAction = useCallback(
     async (data: ContractEntity, onSuccess: VoidFunction): Promise<void> => {
       try {
-        await addContract(data)
+        await addContract({ operationId }, data)
         toast({
           title: 'Contrato adicionado com sucesso!',
           variant: 'success'
