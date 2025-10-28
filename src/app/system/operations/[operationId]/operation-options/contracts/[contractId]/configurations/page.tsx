@@ -9,9 +9,10 @@ import { MESSAGES_CONFIGURATION_CONTRACT } from '@/modules/shared/presentation/m
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { HardDrive, MapPin, type LucideIcon } from 'lucide-react'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface ConfigurationsPageProps {
-  params: Promise<{ operationId: string; contractId: string }>
+  params: Promise<UrlParams>
 }
 
 interface ConfigurationCardOption {
@@ -33,10 +34,12 @@ export default async function ConfigurationsPage({
     { operationId: rawOperationId, contractId: rawContractId }
   ] = await Promise.all([auth(), params])
 
-  const getContractFactory = GetContractsFactory.create()
+  const getContractFactory = GetContractsFactory.create({
+    operationId: rawOperationId
+  })
   const [{ userPermissions }, contracts] = await Promise.all([
     loadAuthContext(JWT, rawOperationId),
-    getContractFactory.execute(JWT)
+    getContractFactory.execute()
   ])
 
   const title = MESSAGES_CONFIGURATION_CONTRACT['17.1']
