@@ -28,10 +28,10 @@ export const useContractStore = create<ContractState>((set) => ({
 
   getContracts: async ({ operationId }: UrlParams) => {
     try {
-      const getContractsRouterApiFactory = GetContractsRouterApiFactory.create()
-      const contracts = await getContractsRouterApiFactory.execute({
+      const getContractsRouterApiFactory = GetContractsRouterApiFactory.create({
         operationId
       })
+      const contracts = await getContractsRouterApiFactory.execute()
       set({ contracts })
     } catch (error) {
       if (error instanceof HttpResponseError) {
