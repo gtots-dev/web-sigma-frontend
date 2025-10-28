@@ -1,15 +1,15 @@
 import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
-import { GetContractsService } from '../services/get-contracts.service'
-import type { GetContractsServiceInterface } from '../../domain/interfaces/get-contracts-service.interface'
-import { AuthTokenFactory } from '@/modules/api/infrastructure/factories/auth-token.factory'
+import type { PatchContractServiceInterface } from '../../domain/interfaces/patch-contract-service.interface'
+import { PatchContractService } from '../services/path-contract.service'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { AuthTokenFactory } from '@/modules/api/infrastructure/factories/auth-token.factory'
 
-export class GetContractsFactory {
-  static create(params: UrlParams): GetContractsServiceInterface {
+export class PatchContractFactory {
+  static create(params: UrlParams): PatchContractServiceInterface {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     const authToken = AuthTokenFactory.create()
-    return new GetContractsService(executeRequest, authToken, params)
+    return new PatchContractService(executeRequest, authToken, params)
   }
 }
