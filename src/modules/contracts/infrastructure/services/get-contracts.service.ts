@@ -6,9 +6,14 @@ import type { ContractEntity } from '../../domain/entities/contract.entity'
 import type { GetContractsServiceInterface } from '../../domain/interfaces/get-contracts-service.interface'
 import { HttpResponseContractsValidator } from '../../domain/validators/http-response-contracts.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 
 export class GetContractsService implements GetContractsServiceInterface {
-  constructor(private readonly executeRequest: ExecuteRequest) {}
+  constructor(
+    private readonly executeRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider,
+    private readonly params: UrlParams
+  ) {}
 
   getHttpRequestConfig(
     token: TokenEntities,
@@ -23,13 +28,9 @@ export class GetContractsService implements GetContractsServiceInterface {
     }
   }
 
-  async execute(
-    token: TokenEntities,
-    { operationId }: UrlParams
-  ): Promise<ContractEntity[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(token, {
-      operationId
-    })
+  async execute(): Promise<ContractEntity[]> {
+    const token = await this.auth.getToken()
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, this.params)
     const { success, data, status }: HttpResponse<ContractEntity[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseContractsValidator.validate(success, status)
