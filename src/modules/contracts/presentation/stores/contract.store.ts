@@ -3,7 +3,7 @@ import { GetContractsRouterApiFactory } from '@/modules/api/infrastructure/facto
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import { PostContractRouterApiFactory } from '@/modules/api/infrastructure/factories/post-contract-router-api.factory'
-import { PutContractRouterApiFactory } from '@/modules/api/infrastructure/factories/put-contract-router-api.factory'
+import { PatchContractRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-contract-router-api.factory'
 import { PutContractStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/put-contract-status-router-api.factory'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
@@ -11,9 +11,18 @@ type ContractState = {
   contracts: ContractEntity[]
   contract: ContractEntity
   getContracts: ({ operationId }: UrlParams) => Promise<void>
-  addContract: (contract: ContractEntity) => Promise<void>
-  updateContract: (contract: ContractEntity) => Promise<void>
-  updateStatus: (contract: ContractEntity) => Promise<void>
+  addContract: (
+    { operationId }: UrlParams,
+    contract: ContractEntity
+  ) => Promise<void>
+  patchContract: (
+    { operationId }: UrlParams,
+    contract: ContractEntity
+  ) => Promise<void>
+  updateStatus: (
+    { operationId }: UrlParams,
+    contract: ContractEntity
+  ) => Promise<void>
   setContract: (contract: ContractEntity) => Promise<void>
 }
 
@@ -40,10 +49,11 @@ export const useContractStore = create<ContractState>((set) => ({
     }
   },
 
-  addContract: async (contract: ContractEntity) => {
+  addContract: async ({ operationId }: UrlParams, contract: ContractEntity) => {
     try {
-      const postContractsRouterApiFactory =
-        PostContractRouterApiFactory.create()
+      const postContractsRouterApiFactory = PostContractRouterApiFactory.create(
+        { operationId }
+      )
       await postContractsRouterApiFactory.execute(contract)
     } catch (error) {
       if (error instanceof HttpResponseError) {
@@ -52,9 +62,14 @@ export const useContractStore = create<ContractState>((set) => ({
     }
   },
 
-  updateContract: async (contract: ContractEntity) => {
+  patchContract: async (
+    { operationId }: UrlParams,
+    contract: ContractEntity
+  ) => {
     try {
-      const putContractsRouterApiFactory = PutContractRouterApiFactory.create()
+      const putContractsRouterApiFactory = PatchContractRouterApiFactory.create(
+        { operationId }
+      )
       await putContractsRouterApiFactory.execute(contract)
     } catch (error) {
       if (error instanceof HttpResponseError) {
@@ -63,10 +78,13 @@ export const useContractStore = create<ContractState>((set) => ({
     }
   },
 
-  updateStatus: async (contract: ContractEntity) => {
+  updateStatus: async (
+    { operationId }: UrlParams,
+    contract: ContractEntity
+  ) => {
     try {
       const putContractStatusRouterApiFactory =
-        PutContractStatusRouterApiFactory.create()
+        PutContractStatusRouterApiFactory.create({ operationId })
       await putContractStatusRouterApiFactory.execute(contract)
     } catch (error) {
       if (error instanceof HttpResponseError) {
