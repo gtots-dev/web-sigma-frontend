@@ -47,9 +47,9 @@ export class RouterApiService implements RouterApiServiceInterface {
   // === Core handler =================================================
 
   private handler<P, R>(callback: HandlerCallback<P, R>) {
-    return async (req: NextRequest, context?: { params: P }) => {
+    return async (req: NextRequest, context?: { params?: Promise<P> }) => {
       try {
-        const params = context?.params ?? ({} as P)
+        const params = await context.params
         const result = await callback(params, req)
 
         if (typeof result === 'undefined') return this.noContent()
