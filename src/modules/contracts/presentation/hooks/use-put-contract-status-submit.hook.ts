@@ -13,7 +13,7 @@ export function usePutContractStatusSubmit() {
   const onAction = useCallback(
     async (data: ContractEntity, onSuccess: VoidFunction): Promise<void> => {
       try {
-        await updateStatus(data)
+        await updateStatus({ operationId }, data)
         toast({
           title: 'Contrato atualizado com sucesso!',
           variant: 'success'

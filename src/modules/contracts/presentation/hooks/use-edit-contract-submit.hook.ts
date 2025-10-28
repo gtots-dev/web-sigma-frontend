@@ -7,13 +7,13 @@ import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export function useEditContractSubmit() {
-  const { updateContract, getContracts } = useContractStore()
+  const { patchContract, getContracts } = useContractStore()
   const { operationId }: UrlParams = useParams()
 
   const onAction = useCallback(
     async (data: ContractEntity, onSuccess: VoidFunction): Promise<void> => {
       try {
-        await updateContract(data)
+        await patchContract({ operationId }, data)
         toast({
           title: 'Contrato atualizado com sucesso!',
           variant: 'success'
@@ -31,7 +31,7 @@ export function useEditContractSubmit() {
         }
       }
     },
-    [updateContract, getContracts]
+    [patchContract, getContracts]
   )
 
   return { onAction }
