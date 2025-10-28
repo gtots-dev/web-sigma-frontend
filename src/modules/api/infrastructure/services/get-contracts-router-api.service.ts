@@ -9,7 +9,10 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 export class GetContractsRouterApiService
   implements GetContractsRouterApiServiceInterface
 {
-  constructor(private readonly executeRequest: ExecuteRequest) {}
+  constructor(
+    private readonly executeRequest: ExecuteRequest,
+    private readonly params: UrlParams
+  ) {}
   getHttpRequestConfig({ operationId }: UrlParams): HttpRequestConfig {
     return {
       method: 'GET',
@@ -17,8 +20,8 @@ export class GetContractsRouterApiService
     }
   }
 
-  async execute({ operationId }: UrlParams): Promise<ContractEntity[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig({ operationId })
+  async execute(): Promise<ContractEntity[]> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
     const { success, data, status }: HttpResponse<ContractEntity[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseContractsValidator.validate(success, status)
