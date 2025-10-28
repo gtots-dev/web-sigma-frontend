@@ -20,6 +20,8 @@ import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/
 import type { ActivityReportSchemaType } from '@/modules/activity-report/presentation/hooks/use-activity-schema.hook'
 import { useContractStore } from '@/modules/contracts/presentation/stores/contract.store'
 import { cn } from '@/modules/shared/presentation/lib/utils'
+import { useParams } from 'next/navigation'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface ActivityReportContractsComponentProps {
   require?: boolean
@@ -31,6 +33,7 @@ export function ActivityReportContractsComponent({
   description
 }: ActivityReportContractsComponentProps) {
   const { control } = useFormContext<ActivityReportSchemaType>()
+  const { operationId }: UrlParams = useParams()
   const { contracts, getContracts } = useContractStore()
   const [loading, setLoading] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
@@ -45,7 +48,7 @@ export function ActivityReportContractsComponent({
   useEffect(() => {
     if (contracts.length === 0) {
       setLoading(true)
-      getContracts().finally(() => setLoading(false))
+      getContracts({ operationId }).finally(() => setLoading(false))
     }
   }, [contracts.length, getContracts])
 
