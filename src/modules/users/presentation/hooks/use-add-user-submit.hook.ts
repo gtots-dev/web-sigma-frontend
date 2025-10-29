@@ -1,21 +1,22 @@
-import { useCallback, useMemo } from 'react'
+'use client'
+
+import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useUserStore } from '../stores/user.store'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UserWithFiles } from '../../domain/types/user-with-files'
-import { extractOperationId } from '@/modules/system/presentation/utils/export-operation-id.util'
-import { usePathname } from 'next/navigation'
+import { useParams } from 'next/navigation'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export function useAddUserSubmit() {
   const { addUser, getUsers } = useUserStore()
-  const pathname = usePathname()
-  const operationId = useMemo(() => extractOperationId(pathname), [pathname])
+  const { operationId }: UrlParams = useParams()
 
   const onAction = useCallback(
     async (data: UserWithFiles, onSuccess: VoidFunction): Promise<void> => {
       try {
-        await addUser(data, operationId)
-        await getUsers()
+        await addUser({ operationId }, data)
+        await getUsers({ operationId })
         toast({
           title: 'Usuário adicionado com sucesso!',
           variant: 'success'

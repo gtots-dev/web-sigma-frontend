@@ -1,23 +1,24 @@
 import { GetUsersRouterApiFactory } from '@/modules/api/infrastructure/factories/get-users-router-api.factory'
 import { create } from 'zustand'
 import type { UserEntity } from '../../domain/entities/user.entity'
-import { PutUserRouterApiFactory } from '@/modules/api/infrastructure/factories/put-user-router-api.factory'
+import { PatchUserRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-user-router-api.factory'
 import { PostUserRouterApiFactory } from '@/modules/api/infrastructure/factories/post-user-router-api.factory'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UserWithFiles } from '../../domain/types/user-with-files'
 import type { UserEnableAndDisableInterface } from '../../domain/interfaces/user-enable-and-disable.interface'
-import { PutUserStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/put-user-status-router-api.factory'
-import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { PatchUserStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-user-status-router-api.factory'
 
 type UserState = {
   users: UserEntity[]
-  getUsers: () => Promise<void>
+  getUsers: ({ operationId }: UrlParams) => Promise<void>
   addUser: (
-    user: Omit<UserWithFiles, 'id'>,
-    operationId: OperationEntity['id']
+    { operationId }: UrlParams,
+    user: Omit<UserWithFiles, 'id'>
   ) => Promise<void>
-  updateUser: (user: UserWithFiles) => Promise<void>
+  patchUser: ({ operationId }: UrlParams, user: UserWithFiles) => Promise<void>
   updateUserStatus: (
+    { operationId }: UrlParams,
     userEnableAndDisable: UserEnableAndDisableInterface
   ) => Promise<void>
 }
@@ -25,9 +26,11 @@ type UserState = {
 export const useUserStore = create<UserState>((set) => ({
   users: [],
 
-  getUsers: async () => {
+  getUsers: async ({ operationId }: UrlParams) => {
     try {
-      const getUsersRouterApiFactory = GetUsersRouterApiFactory.create()
+      const getUsersRouterApiFactory = GetUsersRouterApiFactory.create({
+        operationId
+      })
       const users = await getUsersRouterApiFactory.execute()
       set({ users })
     } catch (error) {
@@ -37,9 +40,11 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 
-  addUser: async (user: UserWithFiles, operationId: OperationEntity['id']) => {
+  addUser: async ({ operationId }: UrlParams, user: UserWithFiles) => {
     try {
-      const postUsersRouterApiFactory = PostUserRouterApiFactory.create()
+      const postUsersRouterApiFactory = PostUserRouterApiFactory.create({
+        operationId
+      })
       await postUsersRouterApiFactory.execute(user, operationId)
     } catch (error) {
       if (error instanceof HttpResponseError) {
@@ -48,10 +53,12 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 
-  updateUser: async (user: UserWithFiles) => {
+  patchUser: async ({ operationId }: UrlParams, user: UserWithFiles) => {
     try {
-      const putUsersRouterApiFactory = PutUserRouterApiFactory.create()
-      await putUsersRouterApiFactory.execute(user)
+      const patchUsersRouterApiFactory = PatchUserRouterApiFactory.create({
+        operationId
+      })
+      await patchUsersRouterApiFactory.execute(user)
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
@@ -60,11 +67,12 @@ export const useUserStore = create<UserState>((set) => ({
   },
 
   updateUserStatus: async (
+    { operationId }: UrlParams,
     userEnableAndDisable: UserEnableAndDisableInterface
   ) => {
     try {
       const putUserStatusRouterApiFactory =
-        PutUserStatusRouterApiFactory.create()
+        PatchUserStatusRouterApiFactory.create({ operationId })
       await putUserStatusRouterApiFactory.execute(userEnableAndDisable)
     } catch (error) {
       if (error instanceof HttpResponseError) {
