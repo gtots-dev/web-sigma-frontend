@@ -4,20 +4,25 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
-import type { UserEntity } from '../../domain/entities/user.entity'
-import type { PutUserStatusServiceInterface } from '../../domain/interfaces/put-user-status-service.interface'
+import type { PatchUserStatusServiceInterface } from '../../domain/interfaces/patch-user-status-service.interface'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PutUserStatusService implements PutUserStatusServiceInterface {
-  constructor(private readonly httpRequest: ExecuteRequest) {}
+export class PatchUserStatusService implements PatchUserStatusServiceInterface {
+  constructor(
+    private readonly httpRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider,
+    private readonly params: UrlParams
+  ) {}
 
   getHttpRequestConfig(
+    { operationId }: UrlParams,
     token: TokenEntities,
-    userId: UserEntity['id'],
     userEnableAndDisable: FormData
   ): HttpRequestConfig<FormData> {
     return {
       method: 'PATCH',
-      url: `/users/${userId}/status`,
+      url: `/operations/${operationId}/users/${userEnableAndDisable.get('id')}/status`,
       data: userEnableAndDisable,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
@@ -25,14 +30,11 @@ export class PutUserStatusService implements PutUserStatusServiceInterface {
     }
   }
 
-  async execute(
-    token: TokenEntities,
-    userId: UserEntity['id'],
-    userEnableAndDisable: FormData
-  ): Promise<void> {
+  async execute(userEnableAndDisable: FormData): Promise<void> {
+    const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(
+      this.params,
       token,
-      userId,
       userEnableAndDisable
     )
     const { success, status }: HttpResponse<UserInterface> =

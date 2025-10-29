@@ -2,26 +2,27 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import { HttpResponseUserValidator } from '../../../users/domain/validators/http-response-user.validator'
-import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { UserEnableAndDisableInterface } from '@/modules/users/domain/interfaces/user-enable-and-disable.interface'
-import type { PutUserStatusRouterApiServiceInterface } from '../../domain/interfaces/put-user-status-router-api-service.interface'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { PatchUserStatusRouterApiServiceInterface } from '../../domain/interfaces/patch-user-status-router-api-service.interface'
 
-export class PutUserStatusRouterApiService
-  implements PutUserStatusRouterApiServiceInterface
+export class PatchUserStatusRouterApiService
+  implements PatchUserStatusRouterApiServiceInterface
 {
   constructor(
     private readonly httpRequest: ExecuteRequest,
-    private readonly formData: ConvertJsonToFormData
+    private readonly formData: ConvertJsonToFormData,
+    private readonly params: UrlParams
   ) {}
   getHttpRequestConfig(
-    userId: UserEntity['id'],
+    { operationId }: UrlParams,
     userEnableAndDisable: FormData
   ): HttpRequestConfig<FormData> {
     return {
-      method: 'PUT',
+      method: 'PATCH',
       data: userEnableAndDisable,
-      url: `api/user/${userId}/status`
+      url: `api/operations/${operationId}/users/${userEnableAndDisable.get('id')}/status`
     }
   }
   async execute(
@@ -29,7 +30,7 @@ export class PutUserStatusRouterApiService
   ): Promise<void> {
     const userFormData = this.formData.execute({ ...userEnableAndDisable })
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      userEnableAndDisable.id,
+      this.params,
       userFormData
     )
     const { success, status }: HttpResponse<null> =

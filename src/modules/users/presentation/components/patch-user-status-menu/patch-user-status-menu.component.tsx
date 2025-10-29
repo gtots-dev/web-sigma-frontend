@@ -2,37 +2,37 @@
 
 import { UserForm } from '../user-form'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
-import { PutUserStatusMenu } from '.'
+import { PatchUserStatusMenu } from '.'
 import { useTableUser } from '../../contexts/table-user.context'
-import { PutUserStatusForm } from '../put-user-status-form-provider'
-import { useDialog } from './put-user-status-menu-provider.component'
-import { usePutUserStatusSubmit } from '../../hooks/use-update-user-status-submit.hook'
+import { PatchUserStatusForm } from '../patch-user-status-form-provider'
+import { useDialog } from './patch-user-status-menu-provider.component'
+import { usePatchUserStatusSubmit } from '../../hooks/use-patch-user-status-submit.hook'
 import type { UserEnableAndDisableInterface } from '@/modules/users/domain/interfaces/user-enable-and-disable.interface'
 
-interface PutUserStatusMenuComponentProps {
+interface PatchUserStatusMenuComponentProps {
   title: string
   description: string
 }
 
-export function PutUserStatusMenuComponent({
+export function PatchUserStatusMenuComponent({
   title,
   description
-}: PutUserStatusMenuComponentProps) {
+}: PatchUserStatusMenuComponentProps) {
   const { isOpen, close } = useDialog()
-  const { onAction } = usePutUserStatusSubmit()
+  const { onAction } = usePatchUserStatusSubmit()
   const user = useTableUser()
 
   return (
-    <PutUserStatusMenu.Root>
-      <PutUserStatusMenu.Content className="lg:!w-[600px] lg:!h-auto">
-        <PutUserStatusMenu.Header title={title} description={description} />
+    <PatchUserStatusMenu.Root>
+      <PatchUserStatusMenu.Content className="lg:!w-[600px] lg:!h-auto">
+        <PatchUserStatusMenu.Header title={title} description={description} />
 
-        <PutUserStatusForm.Provider user={user} isOpen={isOpen}>
+        <PatchUserStatusForm.Provider user={user} isOpen={isOpen}>
           <UserForm.Form>
             <UserForm.Input.Enabled />
           </UserForm.Form>
 
-          <PutUserStatusMenu.Footer>
+          <PatchUserStatusMenu.Footer>
             <Button
               className="w-full sm:w-[150px]"
               variant="outline"
@@ -45,9 +45,9 @@ export function PutUserStatusMenuComponent({
                 onAction(userStatus, close)
               }
             />
-          </PutUserStatusMenu.Footer>
-        </PutUserStatusForm.Provider>
-      </PutUserStatusMenu.Content>
-    </PutUserStatusMenu.Root>
+          </PatchUserStatusMenu.Footer>
+        </PatchUserStatusForm.Provider>
+      </PatchUserStatusMenu.Content>
+    </PatchUserStatusMenu.Root>
   )
 }

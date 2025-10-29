@@ -3,15 +3,18 @@ import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useUserStore } from '../stores/user.store'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UserWithFiles } from '../../domain/types/user-with-files'
+import { useParams } from 'next/navigation'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export function useEditUserSubmit() {
-  const { updateUser, getUsers } = useUserStore()
+  const { patchUser, getUsers } = useUserStore()
+  const { operationId }: UrlParams = useParams()
 
   const onAction = useCallback(
     async (data: UserWithFiles, onSuccess: VoidFunction): Promise<void> => {
       try {
-        await updateUser(data)
-        await getUsers()
+        await patchUser({ operationId }, data)
+        await getUsers({ operationId })
         toast({
           title: 'Usuário atualizado com sucesso!',
           variant: 'success'
@@ -28,7 +31,7 @@ export function useEditUserSubmit() {
         }
       }
     },
-    [updateUser, getUsers]
+    [patchUser, getUsers, operationId]
   )
 
   return { onAction }
