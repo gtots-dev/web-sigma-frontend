@@ -6,7 +6,7 @@ import { useDialog } from './edit-user-menu-provider.component'
 import { EditUserMenu } from '.'
 import { EditUserForm } from '../edit-user-form-provider'
 import { useTableUser } from '../../contexts/table-user.context'
-import { useEditUserSubmit } from '../../hooks/use-update-user-submit.hook'
+import { useEditUserSubmit } from '../../hooks/use-patch-user-submit.hook'
 import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files'
 
 interface AddUserMenuComponentProps {
