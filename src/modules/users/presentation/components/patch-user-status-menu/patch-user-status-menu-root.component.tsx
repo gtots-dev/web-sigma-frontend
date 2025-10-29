@@ -1,14 +1,14 @@
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 import type { ReactNode } from 'react'
-import { useDialog } from './put-user-status-menu-provider.component'
+import { useDialog } from './patch-user-status-menu-provider.component'
 
-interface PutUserStatusMenuRootComponentProps {
+interface PatchUserStatusMenuRootComponentProps {
   children: ReactNode
 }
 
-export function PutUserStatusMenuRootComponent({
+export function PatchUserStatusMenuRootComponent({
   children
-}: PutUserStatusMenuRootComponentProps) {
+}: PatchUserStatusMenuRootComponentProps) {
   const { isOpen, close } = useDialog()
   return (
     <DrawerDialog.Root open={isOpen} onOpenChange={close}>

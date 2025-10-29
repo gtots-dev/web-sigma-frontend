@@ -4,20 +4,25 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
-import type { PutUserServiceInterface } from '../../domain/interfaces/put-user-service.interface'
-import type { UserEntity } from '../../domain/entities/user.entity'
+import type { PatchUserServiceInterface } from '../../domain/interfaces/patch-user-service.interface'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PutUserService implements PutUserServiceInterface {
-  constructor(private readonly httpRequest: ExecuteRequest) {}
+export class PatchUserService implements PatchUserServiceInterface {
+  constructor(
+    private readonly httpRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider,
+    private readonly params: UrlParams
+  ) {}
 
   getHttpRequestConfig(
+    { operationId }: UrlParams,
     token: TokenEntities,
-    userId: UserEntity['id'],
     user: FormData
   ): HttpRequestConfig<FormData> {
     return {
       method: 'PATCH',
-      url: `/users/${userId}`,
+      url: `/operations/${operationId}/users/${user.get('id')}`,
       data: user,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
@@ -25,12 +30,9 @@ export class PutUserService implements PutUserServiceInterface {
     }
   }
 
-  async execute(
-    token: TokenEntities,
-    userId: UserEntity['id'],
-    user: FormData
-  ): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(token, userId, user)
+  async execute(user: FormData): Promise<void> {
+    const token = await this.auth.getToken()
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token, user)
     const { success, status }: HttpResponse<UserInterface> =
       await this.httpRequest.execute(settingsAuthHTTP)
     HttpResponseUserValidator.validate(success, status)
