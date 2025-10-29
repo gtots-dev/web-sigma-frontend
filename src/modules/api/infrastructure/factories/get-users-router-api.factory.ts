@@ -2,11 +2,12 @@ import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/htt
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
 import { GetUsersRouterApiService } from '../services/get-users-router-api.service'
 import type { GetUsersRouterApiServiceInterface } from '../../domain/interfaces/get-users-router-api-service.interface'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetUsersRouterApiFactory {
-  static create(): GetUsersRouterApiServiceInterface {
+  static create(params: UrlParams): GetUsersRouterApiServiceInterface {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new GetUsersRouterApiService(executeRequest)
+    return new GetUsersRouterApiService(executeRequest, params)
   }
 }
