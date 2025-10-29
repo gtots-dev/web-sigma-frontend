@@ -19,7 +19,9 @@ export class RouterApiService implements RouterApiServiceInterface {
   // === Helpers ======================================================
 
   private jsonResponse(data: unknown, status = HttpStatusCodeEnum.OK) {
-    return NextResponse.json(data, { status: Number(status) })
+    return NextResponse.json(JSON.parse(JSON.stringify(data ?? null)), {
+      status: Number(status)
+    })
   }
 
   private noContent() {
