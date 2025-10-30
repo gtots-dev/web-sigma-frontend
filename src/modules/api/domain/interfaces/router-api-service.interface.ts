@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 
+export interface RouterApiFileResponse {
+  data: Blob | ArrayBuffer
+  status?: HttpStatusCodeEnum
+  headers?: Record<string, string>
+}
+
 export type NextRouteContext<P> = {
   params?: Promise<P>
 }
 
-export interface RouterApiResponse<R = unknown> {
-  data: R
-  status: HttpStatusCodeEnum
+export type RouterApiResponse<T = unknown> = {
+  data: T | Blob | File | ArrayBuffer
+  status: number
+  headers?: Record<string, string>
 }
 
 export interface ErrorResponse {
@@ -23,21 +30,36 @@ export type HandlerCallback<P = void, R = unknown> = (
 export interface RouterApiServiceInterface {
   GET<P = void, R = unknown>(
     callback: HandlerCallback<P, R>
-  ): (req: NextRequest, context?: NextRouteContext<P>) => Promise<NextResponse>
+  ): (
+    req: NextRequest,
+    context?: NextRouteContext<P>
+  ) => Promise<Response | NextResponse>
 
   POST<P = void, R = unknown>(
     callback: HandlerCallback<P, R>
-  ): (req: NextRequest, context?: NextRouteContext<P>) => Promise<NextResponse>
+  ): (
+    req: NextRequest,
+    context?: NextRouteContext<P>
+  ) => Promise<Response | NextResponse>
 
   PUT<P = void, R = unknown>(
     callback: HandlerCallback<P, R>
-  ): (req: NextRequest, context?: NextRouteContext<P>) => Promise<NextResponse>
+  ): (
+    req: NextRequest,
+    context?: NextRouteContext<P>
+  ) => Promise<Response | NextResponse>
 
   PATCH<P = void, R = unknown>(
     callback: HandlerCallback<P, R>
-  ): (req: NextRequest, context?: NextRouteContext<P>) => Promise<NextResponse>
+  ): (
+    req: NextRequest,
+    context?: NextRouteContext<P>
+  ) => Promise<Response | NextResponse>
 
   DELETE<P = void, R = unknown>(
     callback: HandlerCallback<P, R>
-  ): (req: NextRequest, context?: NextRouteContext<P>) => Promise<NextResponse>
+  ): (
+    req: NextRequest,
+    context?: NextRouteContext<P>
+  ) => Promise<Response | NextResponse>
 }
