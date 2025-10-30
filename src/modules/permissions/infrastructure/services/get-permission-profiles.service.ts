@@ -5,24 +5,34 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 import type { GetPermissionProfilesServiceInterface } from '../../domain/interfaces/get-permission-profiles-service.interface'
 import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetPermissionProfilesService
   implements GetPermissionProfilesServiceInterface
 {
-  constructor(private readonly executeRequest: ExecuteRequest) {}
+  constructor(
+    private readonly executeRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider,
+    private readonly params: UrlParams
+  ) {}
 
-  getHttpRequestConfig(token: TokenEntities): HttpRequestConfig {
+  getHttpRequestConfig(
+    { operationId }: UrlParams,
+    token: TokenEntities
+  ): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `/perm-profiles`,
+      url: `/operations/${operationId}/perm-profiles`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(token: TokenEntities): Promise<PermissionProfileInterface[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(token)
+  async execute(): Promise<PermissionProfileInterface[]> {
+    const token = await this.auth.getToken()
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
     const {
       success,
       data,
