@@ -20,7 +20,7 @@ export function usePutUserPasswordResetSubmit() {
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        await solicitedNewPassword(userPasswordReset)
+        await solicitedNewPassword({ operationId }, userPasswordReset)
         await getUsers({ operationId })
         toast({
           title: 'Redefinição de senha enviada com sucesso!',

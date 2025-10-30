@@ -9,27 +9,24 @@ import { DeleteBindUserWithPermissionProfileRouterApiFactory } from '@/modules/a
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 import type { UserPermissionProfileContractInterface } from '../../domain/interfaces/user-permission-profile-contract.interface'
 import { GetUserPermissionProfileContractRouterApiFactory } from '@/modules/api/infrastructure/factories/get-user-permission-profiles-contract-router-api.factory'
-import type { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
 import { PutUserPermissionProfileAllInOneRouterApiFactory } from '@/modules/api/infrastructure/factories/put-user-permission-profile-all-in-one-router-api.factory'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { UserPermissionProfileWithFeaturesAndContractsInterface } from '../../domain/interfaces/user-permission-profile-with-features-and-contracts.interface'
 
 type PermissionProfileWithUserState = {
   userWithPermissionProfiles: PermissionProfileWithUserInterface[]
   userPermissionProfilesContract: UserPermissionProfileContractInterface[]
-  getUserWithPermissionProfiles: (
-    userId: UserEntity['id']
-  ) => Promise<PermissionProfileWithUserInterface[]>
+  getUserWithPermissionProfiles: ({
+    operationId,
+    userId
+  }: UrlParams) => Promise<PermissionProfileWithUserInterface[]>
   bindUserWithPermissionProfile: (
     permissionProfilesIds: PermissionProfileEntity['id'][],
     userId: UserEntity['id']
   ) => Promise<void>
   putUserPermissionProfileAllInOne: (
-    userId: UserEntity['id'],
-    profiles: {
-      profiles: {
-        perm_profile_id: PermissionProfileEntity['id']
-        contract_ids: ContractEntity['id'][]
-      }[]
-    }
+    { operationId, userId }: UrlParams,
+    profiles: UserPermissionProfileWithFeaturesAndContractsInterface
   ) => Promise<void>
   deleteBindUserWithPermissionProfile: (
     permissionProfilesId: PermissionProfileEntity['id'],
@@ -47,10 +44,16 @@ export const usePermissionProfileWithUserStore =
     userWithPermissionProfiles: [],
     userPermissionProfilesContract: [],
 
-    getUserWithPermissionProfiles: async (userId: UserEntity['id']) => {
+    getUserWithPermissionProfiles: async ({
+      operationId,
+      userId
+    }: UrlParams) => {
       try {
         const getUserWithPermissionProfileRouterApiFactory =
-          GetUserWithPermissionProfileRouterApiFactory.create()
+          GetUserWithPermissionProfileRouterApiFactory.create({
+            operationId,
+            userId
+          })
         const userWithPermissionProfiles =
           await getUserWithPermissionProfileRouterApiFactory.execute(userId)
         set({ userWithPermissionProfiles })
@@ -99,21 +102,15 @@ export const usePermissionProfileWithUserStore =
     },
 
     putUserPermissionProfileAllInOne: async (
-      userId: UserEntity['id'],
-      profiles: {
-        profiles: {
-          perm_profile_id: PermissionProfileEntity['id']
-          contract_ids: ContractEntity['id'][]
-        }[]
-      }
+      { operationId, userId }: UrlParams,
+      profiles: UserPermissionProfileWithFeaturesAndContractsInterface
     ) => {
       const putUserPermissionProfileAllInOneRouterApiFactory =
-        PutUserPermissionProfileAllInOneRouterApiFactory.create()
-
-      await putUserPermissionProfileAllInOneRouterApiFactory.execute(
-        userId,
-        profiles
-      )
+        PutUserPermissionProfileAllInOneRouterApiFactory.create({
+          userId,
+          operationId
+        })
+      await putUserPermissionProfileAllInOneRouterApiFactory.execute(profiles)
     },
 
     getUserPermissionProfilesContract: async (

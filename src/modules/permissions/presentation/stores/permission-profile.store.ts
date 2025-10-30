@@ -13,13 +13,14 @@ import type { PermissionProfileAndFeaturesInterface } from '../../domain/interfa
 import { PostPermissionProfileAndFeaturesRouterApiFactory } from '@/modules/api/infrastructure/factories/post-permission-profile-and-features-router-api.factory'
 import type { PermissionProfileEnableAndDisableInterface } from '../../domain/interfaces/permission-profile-enable-and-disable.interface'
 import { PutPermissionProfileStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/put-permission-profile-status-router-api.factory'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 type UserState = {
   permissionProfiles: PermissionProfileInterface[]
   permissionProfile: PermissionProfileEntity | null
   features: PermissionProfileWithFeatureInterface[] | []
 
-  getPermissionProfiles: () => Promise<void>
+  getPermissionProfiles: ({ operationId }: UrlParams) => Promise<void>
 
   addPermissionProfile: (
     permissionProfileData: PermissionProfileInterface
@@ -53,10 +54,10 @@ export const usePermissionProfileStore = create<UserState>((set) => ({
   permissionProfile: null,
   features: [],
 
-  getPermissionProfiles: async () => {
+  getPermissionProfiles: async ({ operationId }: UrlParams) => {
     try {
       const getPermissionProfilesRouterApiFactory =
-        GetPermissionProfilesRouterApiFactory.create()
+        GetPermissionProfilesRouterApiFactory.create({ operationId })
       const permissionProfiles =
         await getPermissionProfilesRouterApiFactory.execute()
       set({ permissionProfiles })
@@ -90,9 +91,12 @@ export const usePermissionProfileStore = create<UserState>((set) => ({
     permissionProfileId: PermissionProfileInterface['id']
   ) => {
     try {
-      const getPermissionProfileFeaturesRouterApiFactory = GetPermissionProfileFeatureRouterApiFactory.create()
+      const getPermissionProfileFeaturesRouterApiFactory =
+        GetPermissionProfileFeatureRouterApiFactory.create()
       const features =
-        await getPermissionProfileFeaturesRouterApiFactory.execute(permissionProfileId)
+        await getPermissionProfileFeaturesRouterApiFactory.execute(
+          permissionProfileId
+        )
       set({ features })
     } catch (error) {
       if (error instanceof HttpResponseError) {
