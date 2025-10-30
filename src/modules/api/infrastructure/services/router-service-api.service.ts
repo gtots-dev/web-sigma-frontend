@@ -1,17 +1,12 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
-import type { RouterApiServiceInterface } from '../../domain/interfaces/router-api-service.interface'
-
-interface RouterApiResponse<R> {
-  data: R
-  status?: HttpStatusCodeEnum
-}
-
-type HandlerCallback<P, R> = (
-  params: P,
-  req?: NextRequest
-) => Promise<R | RouterApiResponse<R> | void>
+import type {
+  HandlerCallback,
+  RouterApiFileResponse,
+  RouterApiResponse,
+  RouterApiServiceInterface
+} from '../../domain/interfaces/router-api-service.interface'
 
 export class RouterApiService implements RouterApiServiceInterface {
   constructor() {}
@@ -51,10 +46,17 @@ export class RouterApiService implements RouterApiServiceInterface {
   private handler<P, R>(callback: HandlerCallback<P, R>) {
     return async (req: NextRequest, context?: { params?: Promise<P> }) => {
       try {
-        const params = await context.params
+        const params = await context?.params
         const result = await callback(params, req)
 
-        if (typeof result === 'undefined') return this.noContent()
+        if (!result) return this.noContent()
+
+        if (this.isFileResponse(result)) {
+          return new Response(result.data, {
+            status: Number(result.status),
+            headers: result.headers
+          })
+        }
 
         const { data, status } = this.extractResponse(result)
         return this.jsonResponse(data, status)
@@ -64,16 +66,23 @@ export class RouterApiService implements RouterApiServiceInterface {
     }
   }
 
-  private extractResponse<R>(result: R | RouterApiResponse<R>): {
-    data: R
+  private isFileResponse(result: any): result is RouterApiFileResponse {
+    return result?.data instanceof Blob || result?.data instanceof ArrayBuffer
+  }
+
+  private extractResponse<R>(
+    result: R | RouterApiResponse<R | Blob | File | ArrayBuffer>
+  ): {
+    data: R | Blob | File | ArrayBuffer
     status: HttpStatusCodeEnum
   } {
     if (this.isRouterApiResponse(result)) {
       return {
         data: result.data,
-        status: result.status ?? HttpStatusCodeEnum.OK
+        status: HttpStatusCodeEnum.OK
       }
     }
+
     return { data: result, status: HttpStatusCodeEnum.OK }
   }
 
