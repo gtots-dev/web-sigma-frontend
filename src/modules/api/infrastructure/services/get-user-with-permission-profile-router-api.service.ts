@@ -1,26 +1,27 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { UserEntity } from '../../../users/domain/entities/user.entity'
 import type { GetUserWithPermissionProfileRouterApiServiceInterface } from '../../domain/interfaces/get-user-with-permission-profile-router-api-service.interface'
 import type { PermissionProfileWithUserInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-user.interface'
 import { HttpResponseUserValidator } from '@/modules/users/domain/validators/http-response-user.validator'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetUserWithPermissionProfileRouterApiService
   implements GetUserWithPermissionProfileRouterApiServiceInterface
 {
-  constructor(private readonly executeRequest: ExecuteRequest) {}
-  getHttpRequestConfig(userId: UserEntity['id']): HttpRequestConfig {
+  constructor(
+    private readonly executeRequest: ExecuteRequest,
+    private readonly params: UrlParams
+  ) {}
+  getHttpRequestConfig({ operationId, userId }: UrlParams): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `api/user/${userId}/permission-profile`
+      url: `api/operations/${operationId}/users/${userId}/permission-profiles`
     }
   }
 
-  async execute(
-    userId: UserEntity['id']
-  ): Promise<PermissionProfileWithUserInterface[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(userId)
+  async execute(): Promise<PermissionProfileWithUserInterface[]> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
     const {
       success,
       data,
