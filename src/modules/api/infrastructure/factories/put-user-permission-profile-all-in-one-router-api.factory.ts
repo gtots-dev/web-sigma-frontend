@@ -2,11 +2,17 @@ import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/htt
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
 import type { PutUserPermissionProfileAllInOneRouterApiServiceInterface } from '../../domain/interfaces/put-user-permission-profiles-all-in-one-router-api-service.interface'
 import { PutUserPermissionProfileAllInOneRouterApiService } from '../services/put-user-permission-profile-all-in-one-router-api.service'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PutUserPermissionProfileAllInOneRouterApiFactory {
-  static create(): PutUserPermissionProfileAllInOneRouterApiServiceInterface {
+  static create(
+    params: UrlParams
+  ): PutUserPermissionProfileAllInOneRouterApiServiceInterface {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PutUserPermissionProfileAllInOneRouterApiService(executeRequest)
+    return new PutUserPermissionProfileAllInOneRouterApiService(
+      executeRequest,
+      params
+    )
   }
 }
