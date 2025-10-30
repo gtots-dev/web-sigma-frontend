@@ -36,9 +36,11 @@ export function useBindUserWithPermissionProfilesMenuTrigger({
         const [userWithPermissionProfiles, permissionProfiles, contracts] =
           await Promise.all([
             isPermittedViewPermissionsProfile
-              ? getUserWithPermissionProfiles(userId)
+              ? getUserWithPermissionProfiles({ operationId, userId })
               : null,
-            isPermittedViewPermissionsProfile ? getPermissionProfiles() : null,
+            isPermittedViewPermissionsProfile
+              ? getPermissionProfiles({ operationId })
+              : null,
             isPermittedViewContracts ? getContracts({ operationId }) : null
           ] as const)
 
