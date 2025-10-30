@@ -9,7 +9,7 @@ export const PATCH = routerApi.PATCH<UrlParams>(
   async ({ operationId }, req) => {
     const user = await req?.formData()
     const patchUserStatus = PatchUserStatusFactory.create({ operationId })
-    const response = await patchUserStatus.execute(user)
-    return { data: response, status: HttpStatusCodeEnum.OK }
+    await patchUserStatus.execute(user)
+    return { data: { success: true }, status: HttpStatusCodeEnum.OK }
   }
 )
