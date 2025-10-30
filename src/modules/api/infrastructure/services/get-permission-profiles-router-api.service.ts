@@ -4,20 +4,24 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 import type { GetPermissionProfilesRouterApiServiceInterface } from '../../domain/interfaces/get-permission-profile-router-api-service.interface'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetPermissionProfilesRouterApiService
   implements GetPermissionProfilesRouterApiServiceInterface
 {
-  constructor(private readonly executeRequest: ExecuteRequest) {}
-  getHttpRequestConfig(): HttpRequestConfig<null, null> {
+  constructor(
+    private readonly executeRequest: ExecuteRequest,
+    private readonly params: UrlParams
+  ) {}
+  getHttpRequestConfig({ operationId }: UrlParams): HttpRequestConfig {
     return {
       method: 'GET',
-      url: 'api/permission'
+      url: `api/operations/${operationId}/permissions`
     }
   }
 
   async execute(): Promise<PermissionProfileInterface[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig()
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
     const {
       success,
       data,
