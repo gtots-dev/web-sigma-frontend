@@ -13,7 +13,7 @@ export type NextRouteContext<P> = {
 
 export type RouterApiResponse<T = unknown> = {
   data: T | Blob | File | ArrayBuffer
-  status: number
+  status: HttpStatusCodeEnum | number
   headers?: Record<string, string>
 }
 
