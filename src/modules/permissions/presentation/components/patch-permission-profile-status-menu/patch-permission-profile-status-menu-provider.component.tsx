@@ -2,18 +2,18 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react'
 
-type PutPermissionProfileStatusMenuContextType = {
+type PatchPermissionProfileStatusMenuContextType = {
   isOpen: boolean
   open: () => void
   close: () => void
   toggle: () => void
 }
 
-const PutPermissionProfileStatusMenuContext = createContext<
-  PutPermissionProfileStatusMenuContextType | undefined
+const PatchPermissionProfileStatusMenuContext = createContext<
+  PatchPermissionProfileStatusMenuContextType | undefined
 >(undefined)
 
-export const PutPermissionProfileStatusMenuProviderComponent = ({
+export const PatchPermissionProfileStatusMenuProviderComponent = ({
   children
 }: {
   children: ReactNode
@@ -25,16 +25,16 @@ export const PutPermissionProfileStatusMenuProviderComponent = ({
   const toggle = () => setIsOpen((prev) => !prev)
 
   return (
-    <PutPermissionProfileStatusMenuContext.Provider
+    <PatchPermissionProfileStatusMenuContext.Provider
       value={{ isOpen, open, close, toggle }}
     >
       {children}
-    </PutPermissionProfileStatusMenuContext.Provider>
+    </PatchPermissionProfileStatusMenuContext.Provider>
   )
 }
 
 export const useDialog = () => {
-  const context = useContext(PutPermissionProfileStatusMenuContext)
+  const context = useContext(PatchPermissionProfileStatusMenuContext)
   if (!context)
     throw new Error('useDialog must be used within a DialogProvider')
   return context

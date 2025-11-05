@@ -1,14 +1,14 @@
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 
-interface PutPermissionProfileStatusMenuHeaderComponentProps {
+interface PatchPermissionProfileStatusMenuHeaderComponentProps {
   title: string
   description: string
 }
 
-export function PutPermissionProfileStatusMenuHeaderComponent({
+export function PatchPermissionProfileStatusMenuHeaderComponent({
   title,
   description
-}: PutPermissionProfileStatusMenuHeaderComponentProps) {
+}: PatchPermissionProfileStatusMenuHeaderComponentProps) {
   return (
     <DrawerDialog.Header>
       <DrawerDialog.Title>{title}</DrawerDialog.Title>
