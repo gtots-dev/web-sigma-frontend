@@ -5,18 +5,21 @@ import type { PermissionProfileInterface } from '@/modules/permissions/domain/in
 import type { PostFeatureRouterApiServiceInterface } from '../../domain/interfaces/post-feature-router-api-service.interface'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
+import type { FeaturesInterface } from '@/modules/permissions/domain/interfaces/features.interface'
 
 export class PostFeatureRouterApiService
   implements PostFeatureRouterApiServiceInterface
 {
   constructor(private readonly httpRequest: ExecuteRequest) {}
   getHttpRequestConfig(
-    features: number[],
+    features: FeaturesInterface['id'][],
     PermissionProfileId: PermissionProfileInterface['id']
-  ): HttpRequestConfig<number[]> {
+  ): HttpRequestConfig<{ feature_id: FeaturesInterface['id'][] }> {
     return {
       method: 'POST',
-      data: features,
+      data: {
+        feature_id: features
+      },
       url: `api/permission/${PermissionProfileId}/feature`
     }
   }
