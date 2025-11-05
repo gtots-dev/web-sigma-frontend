@@ -1,32 +1,19 @@
-import { auth } from '@/auth'
+import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import { PostPermissionProfileAndFeaturesFactory } from '@/modules/permissions/infrastructure/factories/post-permission-profile-and-features.factory'
-import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import { NextResponse, type NextRequest } from 'next/server'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export async function POST(req: NextRequest): Promise<NextResponse> {
-  const postPermissionProfileAndFeaturesFactory =
-    PostPermissionProfileAndFeaturesFactory.create()
-  try {
-    const { token } = await auth()
-    const permissionProfileAndFeatures = await req.json()
-    await postPermissionProfileAndFeaturesFactory.execute(
-      token,
-      permissionProfileAndFeatures
-    )
-    return NextResponse.json({
-      status: Number(HttpStatusCodeEnum.CREATE)
+const routerApi = RouterApiFactory.create()
+
+export const POST = routerApi.POST<UrlParams>(async ({ operationId }, req) => {
+  const permissionProfileAndFeatures = await req?.json()
+  const postPermissionProfileAndFeatures =
+    PostPermissionProfileAndFeaturesFactory.create({
+      operationId
     })
-  } catch (error) {
-    if (error instanceof HttpResponseError) {
-      return NextResponse.json(
-        {
-          success: false,
-          data: null,
-          message: error.message
-        },
-        { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
-      )
-    }
+  await postPermissionProfileAndFeatures.execute(permissionProfileAndFeatures)
+  return {
+    data: { success: true },
+    status: HttpStatusCodeEnum.OK
   }
-}
+})
