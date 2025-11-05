@@ -2,11 +2,14 @@ import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/htt
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
 import type { PostPermissionProfileServiceInterface } from '../../domain/interfaces/post-permission-profile-service.interface'
 import { PostPermissionProfileService } from '../services/post-permission-profile.service'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { AuthTokenFactory } from '@/modules/api/infrastructure/factories/auth-token.factory'
 
 export class PostPermissionProfileFactory {
-  static create(): PostPermissionProfileServiceInterface {
+  static create(params: UrlParams): PostPermissionProfileServiceInterface {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PostPermissionProfileService(executeRequest)
+    const authToken = AuthTokenFactory.create()
+    return new PostPermissionProfileService(executeRequest, authToken, params)
   }
 }
