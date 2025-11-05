@@ -6,19 +6,26 @@ import type { PermissionProfileInterface } from '../../domain/interfaces/permiss
 import type { PostPermissionProfileAndFeaturesServiceInterface } from '../../domain/interfaces/post-permission-profile-and-features-service.interface'
 import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
 import type { PermissionProfileAndFeaturesInterface } from '../../domain/interfaces/permission-profile-and-features'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostPermissionProfileAndFeaturesService
   implements PostPermissionProfileAndFeaturesServiceInterface
 {
-  constructor(private readonly httpRequest: ExecuteRequest) {}
+  constructor(
+    private readonly httpRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider,
+    private readonly params: UrlParams
+  ) {}
 
   getHttpRequestConfig(
+    { operationId }: UrlParams,
     token: TokenEntities,
     permissionProfileAndFeatures: PermissionProfileAndFeaturesInterface
   ): HttpRequestConfig<PermissionProfileAndFeaturesInterface> {
     return {
       method: 'POST',
-      url: `/perm-profiles/all-in-one`,
+      url: `/operations/${operationId}/perm-profiles/all-in-one`,
       data: permissionProfileAndFeatures,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
@@ -27,10 +34,11 @@ export class PostPermissionProfileAndFeaturesService
   }
 
   async execute(
-    token: TokenEntities,
     permissionProfileAndFeatures: PermissionProfileAndFeaturesInterface
   ): Promise<void> {
+    const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(
+      this.params,
       token,
       permissionProfileAndFeatures
     )

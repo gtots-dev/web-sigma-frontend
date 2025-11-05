@@ -5,35 +5,32 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 import type { DeleteFeatureServiceInterface } from '../../domain/interfaces/delete-feature-service.interface'
 import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
-import type { FeaturesInterface } from '../../domain/interfaces/features.interface'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class DeleteFeatureService implements DeleteFeatureServiceInterface {
-  constructor(private readonly httpRequest: ExecuteRequest) {}
+  constructor(
+    private readonly httpRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider,
+    private readonly params: UrlParams
+  ) {}
 
   getHttpRequestConfig(
-    token: TokenEntities,
-    featureId: FeaturesInterface['id'],
-    permissionProfileId: PermissionProfileInterface['id']
+    { operationId, permissionProfileId, featureId }: UrlParams,
+    token: TokenEntities
   ): HttpRequestConfig {
     return {
       method: 'DELETE',
-      url: `/perm-profiles/${permissionProfileId}/features/${featureId}`,
+      url: `/operations/${operationId}/perm-profiles/${permissionProfileId}/features/${featureId}`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(
-    token: TokenEntities,
-    featureId: FeaturesInterface['id'],
-    permissionProfileId: PermissionProfileInterface['id']
-  ): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      token,
-      featureId,
-      permissionProfileId
-    )
+  async execute(): Promise<void> {
+    const token = await this.auth.getToken()
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
     const { success, status }: HttpResponse<PermissionProfileInterface> =
       await this.httpRequest.execute(settingsAuthHTTP)
     HttpResponsePermissionProfileValidator.validate(success, status)
