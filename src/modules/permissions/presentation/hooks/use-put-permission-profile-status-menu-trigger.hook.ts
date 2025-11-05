@@ -1,7 +1,7 @@
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
-import { useDialog } from '../components/put-permission-profile-status-menu/put-permission-profile-status-menu-provider.component'
+import { useDialog } from '../components/patch-permission-profile-status-menu/patch-permission-profile-status-menu-provider.component'
 
-export function usePutPermissionProfileStatusMenuTrigger() {
+export function usePatchPermissionProfileStatusMenuTrigger() {
   const { open: openDialog } = useDialog()
 
   const loadUserStatusOpenDialog = () => {
