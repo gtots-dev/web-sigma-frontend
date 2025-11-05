@@ -5,22 +5,22 @@ import { useEffect, useMemo } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { ReactNode } from 'react'
 import {
-  PutPermissionProfileStatusFormSchema,
-  type PutPermissionProfileStatusFormType
+  PatchPermissionProfileStatusFormSchema,
+  type PatchPermissionProfileStatusFormType
 } from '../../schemas/put-user-permission-profile-form.schema'
 import type { PermissionProfileEnableAndDisableInterface } from '@/modules/permissions/domain/interfaces/permission-profile-enable-and-disable.interface'
 
-interface PutPermissionProfileStatusFormContextProviderComponentProps {
+interface PatchPermissionProfileStatusFormContextProviderComponentProps {
   children: ReactNode
   permissionProfile: PermissionProfileEnableAndDisableInterface
   isOpen: boolean
 }
 
-export function PutPermissionProfileStatusFormContextProviderComponent({
+export function PatchPermissionProfileStatusFormContextProviderComponent({
   children,
   permissionProfile,
   isOpen
-}: PutPermissionProfileStatusFormContextProviderComponentProps) {
+}: PatchPermissionProfileStatusFormContextProviderComponentProps) {
   const defaultValues = useMemo<PermissionProfileEnableAndDisableInterface>(
     () => ({
       id: permissionProfile.id,
@@ -29,8 +29,8 @@ export function PutPermissionProfileStatusFormContextProviderComponent({
     [permissionProfile]
   )
 
-  const methods = useForm<PutPermissionProfileStatusFormType>({
-    resolver: zodResolver(PutPermissionProfileStatusFormSchema),
+  const methods = useForm<PatchPermissionProfileStatusFormType>({
+    resolver: zodResolver(PatchPermissionProfileStatusFormSchema),
     defaultValues
   })
 

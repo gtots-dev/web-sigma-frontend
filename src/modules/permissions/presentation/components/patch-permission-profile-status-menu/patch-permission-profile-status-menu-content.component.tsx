@@ -1,15 +1,15 @@
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 import { type ReactNode } from 'react'
 
-interface PutPermissionProfileStatusMenuContentComponentProps {
+interface PatchPermissionProfileStatusMenuContentComponentProps {
   children: ReactNode
   className?: string
 }
 
-export function PutPermissionProfileStatusMenuContentComponent({
+export function PatchPermissionProfileStatusMenuContentComponent({
   children,
   className
-}: PutPermissionProfileStatusMenuContentComponentProps) {
+}: PatchPermissionProfileStatusMenuContentComponentProps) {
   return (
     <DrawerDialog.Content className={className}>
       {children}

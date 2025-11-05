@@ -1,35 +1,35 @@
 'use client'
 
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
-import { PutPermissionProfileStatusMenu } from '.'
-import { usePutPermissionProfileStatusSubmit } from '../../hooks/use-update-permission-profile-status-submit.hook'
-import { useDialog } from './put-permission-profile-status-menu-provider.component'
+import { PatchPermissionProfileStatusMenu } from '.'
+import { usePatchPermissionProfileStatusSubmit } from '../../hooks/use-update-permission-profile-status-submit.hook'
+import { useDialog } from './patch-permission-profile-status-menu-provider.component'
 import { useTablePermissionProfile } from '../../contexts/table-permission-profiles.context'
-import { PutPermissionProfileStatusForm } from '../put-permission-profile-status-form-provider'
+import { PatchPermissionProfileStatusForm } from '../patch-permission-profile-status-form-provider'
 import { PermissionProfileForm } from '../permission-profile-form'
 
-interface PutPermissionProfileStatusMenuComponentProps {
+interface PatchPermissionProfileStatusMenuComponentProps {
   title: string
   description: string
 }
 
-export function PutPermissionProfileStatusMenuComponent({
+export function PatchPermissionProfileStatusMenuComponent({
   title,
   description
-}: PutPermissionProfileStatusMenuComponentProps) {
+}: PatchPermissionProfileStatusMenuComponentProps) {
   const { isOpen, close } = useDialog()
-  const { onAction } = usePutPermissionProfileStatusSubmit()
+  const { onAction } = usePatchPermissionProfileStatusSubmit()
   const permissionProfile = useTablePermissionProfile()
 
   return (
-    <PutPermissionProfileStatusMenu.Root>
-      <PutPermissionProfileStatusMenu.Content className="lg:!w-[600px] lg:!h-auto">
-        <PutPermissionProfileStatusMenu.Header
+    <PatchPermissionProfileStatusMenu.Root>
+      <PatchPermissionProfileStatusMenu.Content className="lg:!w-[600px] lg:!h-auto">
+        <PatchPermissionProfileStatusMenu.Header
           title={title}
           description={description}
         />
 
-        <PutPermissionProfileStatusForm.Provider
+        <PatchPermissionProfileStatusForm.Provider
           permissionProfile={permissionProfile}
           isOpen={isOpen}
         >
@@ -37,7 +37,7 @@ export function PutPermissionProfileStatusMenuComponent({
             <PermissionProfileForm.Input.Enabled />
           </PermissionProfileForm.Form>
 
-          <PutPermissionProfileStatusMenu.Footer>
+          <PatchPermissionProfileStatusMenu.Footer>
             <Button
               className="w-full sm:w-[150px]"
               variant="outline"
@@ -51,9 +51,9 @@ export function PutPermissionProfileStatusMenuComponent({
                 permissionProfileId: number
               }) => onAction(permissionProfileStatus, close)}
             />
-          </PutPermissionProfileStatusMenu.Footer>
-        </PutPermissionProfileStatusForm.Provider>
-      </PutPermissionProfileStatusMenu.Content>
-    </PutPermissionProfileStatusMenu.Root>
+          </PatchPermissionProfileStatusMenu.Footer>
+        </PatchPermissionProfileStatusForm.Provider>
+      </PatchPermissionProfileStatusMenu.Content>
+    </PatchPermissionProfileStatusMenu.Root>
   )
 }

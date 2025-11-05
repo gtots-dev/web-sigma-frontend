@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react'
 
-interface PutPermissionProfileStatusMenuFooterComponentProps {
+interface PatchPermissionProfileStatusMenuFooterComponentProps {
   children: ReactNode
 }
 
-export function PutPermissionProfileStatusMenuFooterComponent({
+export function PatchPermissionProfileStatusMenuFooterComponent({
   children
-}: PutPermissionProfileStatusMenuFooterComponentProps) {
+}: PatchPermissionProfileStatusMenuFooterComponentProps) {
   return (
     <div className="flex flex-col-reverse sm:flex-row w-full justify-end gap-5 px-5 border-t sm:px-10 sm:py-5">
       {children}
