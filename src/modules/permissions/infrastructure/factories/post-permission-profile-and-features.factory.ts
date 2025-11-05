@@ -2,11 +2,20 @@ import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/htt
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
 import { PostPermissionProfileAndFeaturesService } from '../services/post-permission-profile-and-features.service'
 import type { PostPermissionProfileAndFeaturesServiceInterface } from '../../domain/interfaces/post-permission-profile-and-features-service.interface'
+import { AuthTokenFactory } from '@/modules/api/infrastructure/factories/auth-token.factory'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostPermissionProfileAndFeaturesFactory {
-  static create(): PostPermissionProfileAndFeaturesServiceInterface {
+  static create(
+    params: UrlParams
+  ): PostPermissionProfileAndFeaturesServiceInterface {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PostPermissionProfileAndFeaturesService(executeRequest)
+    const authToken = AuthTokenFactory.create()
+    return new PostPermissionProfileAndFeaturesService(
+      executeRequest,
+      authToken,
+      params
+    )
   }
 }
