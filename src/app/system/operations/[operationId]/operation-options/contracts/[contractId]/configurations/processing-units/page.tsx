@@ -3,8 +3,8 @@ import { AddProcessingUnitMenuComponent } from '@/modules/processing-units/prese
 import { EditProcessingUnitsMenu } from '@/modules/processing-units/presentation/components/edit-processing-unit-menu'
 import { EditProcessingUnitsMenuComponent } from '@/modules/processing-units/presentation/components/edit-processing-unit-menu/edit-processing-unit-menu.component'
 import { ProcessingUnitsOptionsDropdown } from '@/modules/processing-units/presentation/components/processing-unit-options-dropdown'
-import { PutProcessingUnitsStatusMenu } from '@/modules/processing-units/presentation/components/put-processing-unit-status-menu'
-import { PutProcessingUnitsStatusMenuComponent } from '@/modules/processing-units/presentation/components/put-processing-unit-status-menu/put-processing-unit-status-menu.component'
+import { PatchProcessingUnitsStatusMenu } from '@/modules/processing-units/presentation/components/patch-processing-unit-status-menu'
+import { PatchProcessingUnitsStatusMenuComponent } from '@/modules/processing-units/presentation/components/patch-processing-unit-status-menu/put-processing-unit-status-menu.component'
 import { TabledProcessingUnits } from '@/modules/processing-units/presentation/components/table-processing-units'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_PROCESSING_UNIT } from '@/modules/shared/presentation/messages/processing-unit'
@@ -57,7 +57,7 @@ export default function ProcessingUnitsPage() {
           <TabledProcessingUnits.Header />
           <TabledProcessingUnits.Body>
             <TabledProcessingUnits.Item>
-              <PutProcessingUnitsStatusMenu.Provider>
+              <PatchProcessingUnitsStatusMenu.Provider>
                 <EditProcessingUnitsMenu.Provider>
                   <ProcessingUnitsOptionsDropdown.Root>
                     <ProcessingUnitsOptionsDropdown.Trigger />
@@ -67,7 +67,7 @@ export default function ProcessingUnitsPage() {
                       </ProcessingUnitsOptionsDropdown.Item>
 
                       <ProcessingUnitsOptionsDropdown.Item>
-                        <PutProcessingUnitsStatusMenu.Trigger />
+                        <PatchProcessingUnitsStatusMenu.Trigger />
                       </ProcessingUnitsOptionsDropdown.Item>
                     </ProcessingUnitsOptionsDropdown.Menu>
                     
@@ -75,13 +75,13 @@ export default function ProcessingUnitsPage() {
                       title={data.titleEdit}
                       description={data.descriptionEdit}
                     />
-                    <PutProcessingUnitsStatusMenuComponent
+                    <PatchProcessingUnitsStatusMenuComponent
                       title={data.titlePutStatus}
                       description={data.descriptionPutStatus}
                     />
                   </ProcessingUnitsOptionsDropdown.Root>
                 </EditProcessingUnitsMenu.Provider>
-              </PutProcessingUnitsStatusMenu.Provider>
+              </PatchProcessingUnitsStatusMenu.Provider>
             </TabledProcessingUnits.Item>
           </TabledProcessingUnits.Body>
         </TabledProcessingUnits.Root>
