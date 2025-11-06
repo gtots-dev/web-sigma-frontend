@@ -2,20 +2,39 @@ import { create } from 'zustand'
 import type { ProcessingUnitEntity } from '../../domain/entities/processing-unit.entity'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import { PostProcessingUnitRouterApiFactory } from '@/modules/api/infrastructure/factories/post-processing-unit-router-api.factory'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { GetProcessingUnitRouterApiFactory } from '@/modules/api/infrastructure/factories/get-processing-unit-router-api.factory'
+import { PatchProcessingUnitRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-processing-unit-router-api.factory'
+import { PatchProcessingUnitStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-processing-unit-status-router-api.factory'
+import type { ProcessingUnitEnableAndDisableInterface } from '../../domain/interfaces/processing-unit-enable-and-disable.interface'
 
 type ProcessingUnitState = {
   processingUnits: ProcessingUnitEntity[]
-  getProcessingUnits: () => Promise<void>
-  addProcessingUnit: (processingUnit: ProcessingUnitEntity) => Promise<void>
+  getProcessingUnits: ({ operationId, contractId }: UrlParams) => Promise<void>
+  addProcessingUnit: (
+    { operationId, contractId }: UrlParams,
+    processingUnit: ProcessingUnitEntity
+  ) => Promise<void>
+  patchProcessingUnit: (
+    { operationId, contractId }: UrlParams,
+    processingUnit: ProcessingUnitEntity
+  ) => Promise<void>
+  patchProcessingUnitStatus: (
+    { operationId, contractId, processingUnitId }: UrlParams,
+    processingUnitEnableAndDIsable: ProcessingUnitEnableAndDisableInterface
+  ) => Promise<void>
 }
 
 export const useProcessingUnitStore = create<ProcessingUnitState>((set) => ({
   processingUnits: [],
 
-  addProcessingUnit: async (processingUnit: ProcessingUnitEntity) => {
+  addProcessingUnit: async (
+    { operationId, contractId }: UrlParams,
+    processingUnit: ProcessingUnitEntity
+  ) => {
     try {
       const postProcessingUnitRouterApiFactory =
-        PostProcessingUnitRouterApiFactory.create()
+        PostProcessingUnitRouterApiFactory.create({ operationId, contractId })
       postProcessingUnitRouterApiFactory.execute(processingUnit)
     } catch (error) {
       if (error instanceof HttpResponseError) {
@@ -24,88 +43,50 @@ export const useProcessingUnitStore = create<ProcessingUnitState>((set) => ({
     }
   },
 
-  getProcessingUnits: async () => {
+  getProcessingUnits: async ({ operationId, contractId }: UrlParams) => {
     try {
-      const processingUnits = [
-        {
-          contract_id: 1,
-          enabled: true,
-          name: 'Maquina #2235',
-          operation_id: 1,
-          cfg: 
-`[
-  {
-    label: 'Configurações',
-    name: 'config',
-    type: 'group',
-    objs: [
-      {
-        type: 'bool',
-        name: 'option',
-        label: 'Opção',
-        label_true: 'sim',
-        label_false: 'não',
-        value_default: false
-      },
-      {
-        type: 'float',
-        name: 'calibration',
-        label: 'Calibração',
-        value_default: '10000'
-      },
-      {
-        type: 'int',
-        name: 'count',
-        label: 'Contador',
-        value_default: 100
-      },
-      {
-        type: 'text',
-        name: 'username',
-        label: 'Usuário',
-        value_default: ''
-      },
-      {
-        type: 'date',
-        name: 'start_date',
-        label: 'Data inicial',
-        value_default: '20250101'
-      },
-      {
-        type: 'hour',
-        name: 'start_hour',
-        label: 'Hora inicial',
-        value_default: '120000'
-      },
-      {
-        type: 'option',
-        behavior: 'checkbox',
-        name: 'color_check',
-        label: 'Coloração (Check)',
-        options: [
-          { id: 'mono', name: 'Monocromático' },
-          { id: 'color', name: 'Colorido' }
-        ],
-        default: ['mono']
-      },
-      {
-        type: 'option',
-        behavior: 'radio',
-        name: 'color_radio',
-        label: 'Coloração (Radio)',
-        options: [
-          { id: 'mono', name: 'Monocromático' },
-          { id: 'color', name: 'Colorido' }
-        ],
-        default: ['mono']
-      }
-    ]
-  }
-]`,
-          id: 1
-        }
-      ] as ProcessingUnitEntity[]
+      const getProcessingUnit = GetProcessingUnitRouterApiFactory.create({
+        operationId,
+        contractId
+      })
+      const processingUnits = await getProcessingUnit.execute()
       set({ processingUnits })
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
+  patchProcessingUnit: async (
+    { operationId, contractId }: UrlParams,
+    processingUnit: ProcessingUnitEntity
+  ) => {
+    try {
+      const patchProcessingUnitRouterApiFactory =
+        PatchProcessingUnitRouterApiFactory.create({ operationId, contractId })
+      patchProcessingUnitRouterApiFactory.execute(processingUnit)
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
+  patchProcessingUnitStatus: async (
+    { operationId, contractId, processingUnitId }: UrlParams,
+    processingUnitEnableAndDIsable: ProcessingUnitEnableAndDisableInterface
+  ) => {
+    try {
+      const patchProcessingUnitStatusRouterApiFactory =
+        PatchProcessingUnitStatusRouterApiFactory.create({
+          operationId,
+          contractId,
+          processingUnitId
+        })
+      patchProcessingUnitStatusRouterApiFactory.execute(
+        processingUnitEnableAndDIsable
+      )
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
