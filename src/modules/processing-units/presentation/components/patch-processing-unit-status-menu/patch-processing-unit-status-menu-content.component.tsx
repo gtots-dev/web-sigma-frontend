@@ -1,15 +1,15 @@
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 import { type ReactNode } from 'react'
 
-interface PutProcessingUnitsStatusMenuContentComponentProps {
+interface PatchProcessingUnitsStatusMenuContentComponentProps {
   children: ReactNode
   className?: string
 }
 
-export function PutProcessingUnitsStatusMenuContentComponent({
+export function PatchProcessingUnitsStatusMenuContentComponent({
   children,
   className
-}: PutProcessingUnitsStatusMenuContentComponentProps) {
+}: PatchProcessingUnitsStatusMenuContentComponentProps) {
   return (
     <DrawerDialog.Content className={className}>
       {children}
