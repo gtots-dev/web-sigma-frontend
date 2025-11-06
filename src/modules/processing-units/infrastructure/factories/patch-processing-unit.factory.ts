@@ -1,15 +1,15 @@
 import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
-import type { PostProcessingUnitServiceInterface } from '../../domain/interfaces/post-processing-unit-service.interface'
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
-import { PostProcessingUnitService } from '../services/post-processing-unit.service'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { AuthTokenFactory } from '@/modules/api/infrastructure/factories/auth-token.factory'
+import type { PatchProcessingUnitServiceInterface } from '../../domain/interfaces/patch-processing-unit-service.interface'
+import { PatchProcessingUnitService } from '../services/patch-processing-unit.service'
 
-export class PostProcessingUnitFactory {
-  static create(params: UrlParams): PostProcessingUnitServiceInterface {
+export class PatchProcessingUnitFactory {
+  static create(params: UrlParams): PatchProcessingUnitServiceInterface {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     const authToken = AuthTokenFactory.create()
-    return new PostProcessingUnitService(executeRequest, authToken, params)
+    return new PatchProcessingUnitService(executeRequest, authToken, params)
   }
 }
