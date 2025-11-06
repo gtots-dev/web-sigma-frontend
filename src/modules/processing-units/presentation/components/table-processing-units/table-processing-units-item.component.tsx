@@ -10,9 +10,10 @@ import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-que
 import { useTableProcessingUnit } from '../../contexts/table-processing-units.context'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { LogIn } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { AvailabilityStatusComponent } from '@/modules/shared/presentation/components/availability-status/availability-status.component'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface TabledProcessingUnitsItemComponentProps {
   children?: ReactNode
@@ -26,6 +27,7 @@ export function TabledProcessingUnitsItemComponent({
   children
 }: TabledProcessingUnitsItemComponentProps) {
   const processingUnit = useTableProcessingUnit()
+  const { operationId, contractId }: UrlParams = useParams()
   const { replace } = useRouter()
   const isLarge = useMediaQuery('(min-width: 1024px)')
   const isExtraLarge = useMediaQuery('(min-width: 1230px)')
@@ -52,8 +54,8 @@ export function TabledProcessingUnitsItemComponent({
           onClick={() =>
             replace(
               PATHNAMES.LANES(
-                Number(processingUnit.operation_id),
-                Number(processingUnit.contract_id),
+                Number(operationId),
+                Number(contractId),
                 Number(processingUnit.id)
               )
             )
@@ -83,8 +85,8 @@ export function TabledProcessingUnitsItemComponent({
           onClick={() => {
             replace(
               PATHNAMES.LANES(
-                Number(processingUnit.operation_id),
-                Number(processingUnit.contract_id),
+                Number(operationId),
+                Number(contractId),
                 Number(processingUnit.id)
               )
             )
