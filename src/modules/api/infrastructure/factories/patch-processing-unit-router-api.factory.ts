@@ -1,15 +1,15 @@
 import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
-import type { PostProcessingUnitRouterApiServiceInterface } from '../../domain/interfaces/post-processing-unit-router-api-service.interface'
-import { PostProcessingUnitRouterApiService } from '../services/post-processing-unit-router-api.service'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { PatchProcessingUnitRouterApiService } from '../services/patch-processing-unit-router-api.service'
+import type { PatchProcessingUnitRouterApiServiceInterface } from '../../domain/interfaces/patch-processing-unit-router-api-service.interface'
 
-export class PostProcessingUnitRouterApiFactory {
+export class PatchProcessingUnitRouterApiFactory {
   static create(
     params: UrlParams
-  ): PostProcessingUnitRouterApiServiceInterface {
+  ): PatchProcessingUnitRouterApiServiceInterface {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PostProcessingUnitRouterApiService(executeRequest, params)
+    return new PatchProcessingUnitRouterApiService(executeRequest, params)
   }
 }
