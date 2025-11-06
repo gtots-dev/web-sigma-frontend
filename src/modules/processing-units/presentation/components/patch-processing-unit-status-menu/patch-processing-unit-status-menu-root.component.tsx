@@ -2,24 +2,24 @@
 
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 import { useEffect, type ReactNode } from 'react'
-import { usePutProcessingUnitStatusForm } from '../../hooks/use-put-processing-unit-status-form.hook'
+import { usePatchProcessingUnitStatusForm } from '../../hooks/use-patch-processing-unit-status-form.hook'
 import { FormProvider } from 'react-hook-form'
 import type { ProcessingUnitEntity } from '@/modules/processing-units/domain/entities/processing-unit.entity'
 
-interface PutProcessingUnitsStatusMenuRootComponentProps {
+interface PatchProcessingUnitsStatusMenuRootComponentProps {
   processingUnit: ProcessingUnitEntity
   isOpen: boolean
   close: () => void
   children: ReactNode
 }
 
-export function PutProcessingUnitsStatusMenuRootComponent({
+export function PatchProcessingUnitsStatusMenuRootComponent({
   processingUnit,
   isOpen,
   close,
   children
-}: PutProcessingUnitsStatusMenuRootComponentProps) {
-  const { methods, defaultValues } = usePutProcessingUnitStatusForm(processingUnit)
+}: PatchProcessingUnitsStatusMenuRootComponentProps) {
+  const { methods, defaultValues } = usePatchProcessingUnitStatusForm(processingUnit)
 
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)

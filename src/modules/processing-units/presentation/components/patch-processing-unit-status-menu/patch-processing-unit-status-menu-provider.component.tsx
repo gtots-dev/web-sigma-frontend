@@ -2,18 +2,18 @@
 
 import { createContext, useContext, useState, ReactNode } from 'react'
 
-type PutProcessingUnitsStatusMenuContextType = {
+type PatchProcessingUnitsStatusMenuContextType = {
   isOpen: boolean
   open: () => void
   close: () => void
   toggle: () => void
 }
 
-const PutProcessingUnitsStatusMenuContext = createContext<
-  PutProcessingUnitsStatusMenuContextType | undefined
+const PatchProcessingUnitsStatusMenuContext = createContext<
+  PatchProcessingUnitsStatusMenuContextType | undefined
 >(undefined)
 
-export const PutProcessingUnitsStatusMenuProviderComponent = ({
+export const PatchProcessingUnitsStatusMenuProviderComponent = ({
   children
 }: {
   children: ReactNode
@@ -25,14 +25,14 @@ export const PutProcessingUnitsStatusMenuProviderComponent = ({
   const toggle = () => setIsOpen((prev) => !prev)
 
   return (
-    <PutProcessingUnitsStatusMenuContext.Provider value={{ isOpen, open, close, toggle }}>
+    <PatchProcessingUnitsStatusMenuContext.Provider value={{ isOpen, open, close, toggle }}>
       {children}
-    </PutProcessingUnitsStatusMenuContext.Provider>
+    </PatchProcessingUnitsStatusMenuContext.Provider>
   )
 }
 
 export const useDialog = () => {
-  const context = useContext(PutProcessingUnitsStatusMenuContext)
+  const context = useContext(PatchProcessingUnitsStatusMenuContext)
   if (!context)
     throw new Error('useDialog must be used within a DialogProvider')
   return context
