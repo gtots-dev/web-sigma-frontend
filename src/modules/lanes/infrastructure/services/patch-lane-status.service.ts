@@ -2,49 +2,43 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import type { LaneEntity } from '../../domain/entities/lane.entity'
 import { HttpResponseLaneValidator } from '../../domain/validators/http-response-lane.validator'
-import type { PostLaneServiceInterface } from '../../domain/interfaces/post-lane-service.interface'
+import type { LaneEnableAndDisableInterface } from '../../domain/interfaces/lane-enable-and-disable.interface'
+import type { PatchLaneStatusServiceInterface } from '../../domain/interfaces/patch-lane-status-service.interface'
 
-export class PostLaneService implements PostLaneServiceInterface {
+export class PatchLaneStatusService implements PatchLaneStatusServiceInterface {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,
     private readonly params: UrlParams
   ) {}
 
-  private normalizeLane(lane: LaneEntity): LaneEntity {
-    const cfg =
-      typeof lane.cfg === 'string'
-        ? lane.cfg.trim() === ''
-          ? {}
-          : JSON.parse(lane.cfg)
-        : lane.cfg
-
-    return { ...lane, cfg }
-  }
-
   getHttpRequestConfig(
     { operationId, contractId, processingUnitId }: UrlParams,
     token: TokenEntities,
-    lane: LaneEntity
-  ): HttpRequestConfig<LaneEntity> {
+    laneEnabledAndDisabled: LaneEnableAndDisableInterface
+  ): HttpRequestConfig<LaneEnableAndDisableInterface> {
     return {
-      method: 'POST',
-      url: `/operations/${operationId}/contracts/${contractId}/ups/${processingUnitId}/lanes`,
-      data: this.normalizeLane(lane),
+      method: 'PATCH',
+      url: `/operations/${operationId}/contracts/${contractId}/ups/${processingUnitId}/lanes/${laneEnabledAndDisabled.id}/status`,
+      data: laneEnabledAndDisabled,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(lane: LaneEntity): Promise<void> {
+  async execute(
+    laneEnabledAndDisabled: LaneEnableAndDisableInterface
+  ): Promise<void> {
     const token = await this.auth.getToken()
-    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token, lane)
+    const settingsAuthHTTP = this.getHttpRequestConfig(
+      this.params,
+      token,
+      laneEnabledAndDisabled
+    )
     const { success, status }: HttpResponse<null> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseLaneValidator.validate(success, status)
