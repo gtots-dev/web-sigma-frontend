@@ -1,23 +1,32 @@
+'use client'
+
 import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import type { LaneEntity } from '../../domain/entities/lane.entity'
 import { useLaneStore } from '../stores/lanes.store'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useParams } from 'next/navigation'
+import type { LaneEnableAndDisableInterface } from '../../domain/interfaces/lane-enable-and-disable.interface'
 
-export function usePutLaneStatusSubmit() {
-  const { getLanes } = useLaneStore()
+export function usePatchLaneStatusSubmit() {
+  const { operationId, contractId, processingUnitId }: UrlParams = useParams()
+  const { getLanes, patchLaneStatus } = useLaneStore()
 
   const onAction = useCallback(
     async (
-      data: LaneEntity,
+      laneEnableAndDisable: LaneEnableAndDisableInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
+        await patchLaneStatus(
+          { operationId, contractId, processingUnitId },
+          laneEnableAndDisable
+        )
         toast({
           title: 'Contrato atualizado com sucesso!',
           variant: 'success'
         })
-        await getLanes()
+        await getLanes({ operationId, contractId, processingUnitId })
         onSuccess?.()
       } catch (error) {
         if (error instanceof HttpResponseError) {
@@ -30,7 +39,7 @@ export function usePutLaneStatusSubmit() {
         }
       }
     },
-    [getLanes]
+    [getLanes, operationId, contractId, processingUnitId]
   )
 
   return { onAction }

@@ -1,10 +1,10 @@
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
-import { useDialog } from '../components/put-lane-menu/put-lane-status-menu-provider.component'
+import { useDialog } from '../components/patch-lane-menu/patch-lane-status-menu-provider.component'
 
-export function usePutLaneStatusMenuTrigger() {
+export function usePatchLaneStatusMenuTrigger() {
   const { open: openDialog } = useDialog()
 
-  const loadPutLaneStatusOpenDialog = () => {
+  const loadPatchLaneStatusOpenDialog = () => {
     queueMicrotask(async () => {
       try {
         openDialog()
@@ -19,5 +19,5 @@ export function usePutLaneStatusMenuTrigger() {
     })
   }
 
-  return { loadPutLaneStatusOpenDialog }
+  return { loadPatchLaneStatusOpenDialog }
 }
