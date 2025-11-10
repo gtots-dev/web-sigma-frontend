@@ -1,12 +1,12 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import { HttpResponsePasswordResetValidator } from '../../domain/validators/http-response-password-reset.validator'
-import type { PutPasswordResetServiceInterface } from '../../domain/interfaces/put-password-reset-service.interface'
+import type { PutPasswordResetGateway } from '../../domain/gateways/put-password-reset-service.gateway'
 import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { PasswordResetInterface } from '../../domain/interfaces/password-reset.interface'
 
 export class PutPasswordResetService
-  implements PutPasswordResetServiceInterface
+  implements PutPasswordResetGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

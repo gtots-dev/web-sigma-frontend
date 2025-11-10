@@ -6,9 +6,9 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { LaneEntity } from '../../domain/entities/lane.entity'
 import { HttpResponseLaneValidator } from '../../domain/validators/http-response-lane.validator'
-import type { GetLanesServiceInterface } from '../../domain/interfaces/get-lanes-service.interfaces'
+import type { GetLanesGateway } from '../../domain/gateways/get-lanes.gateway'
 
-export class GetLanesService implements GetLanesServiceInterface {
+export class GetLanesService implements GetLanesGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,

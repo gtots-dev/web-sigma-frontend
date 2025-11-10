@@ -3,10 +3,10 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { HttpResponseLaneValidator } from '@/modules/lanes/domain/validators/http-response-lane.validator'
 import type { LaneEnableAndDisableInterface } from '@/modules/lanes/domain/interfaces/lane-enable-and-disable.interface'
-import type { PatchLaneStatusRouterApiServiceInterface } from '../../domain/interfaces/patch-lane-status-router-api-service.interface'
+import type { PatchLaneStatusRouterApiGateway } from '../../domain/gateways/patch-lane-status-router-api.gateway'
 
 export class PatchLaneStatusRouterApiService
-  implements PatchLaneStatusRouterApiServiceInterface
+  implements PatchLaneStatusRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

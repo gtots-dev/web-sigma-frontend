@@ -3,11 +3,11 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
-import type { GetPermissionProfilesRouterApiServiceInterface } from '../../domain/interfaces/get-permission-profile-router-api-service.interface'
+import type { GetPermissionProfilesRouterApiGateway } from '../../domain/gateways/get-permission-profile-router-api.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetPermissionProfilesRouterApiService
-  implements GetPermissionProfilesRouterApiServiceInterface
+  implements GetPermissionProfilesRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

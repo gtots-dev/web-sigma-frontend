@@ -3,12 +3,12 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
-import type { GetContractsServiceInterface } from '../../domain/interfaces/get-contracts-service.interface'
+import type { GetContractsGateway } from '../../domain/gateways/get-contracts.gateway'
 import { HttpResponseContractsValidator } from '../../domain/validators/http-response-contracts.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 
-export class GetContractsService implements GetContractsServiceInterface {
+export class GetContractsService implements GetContractsGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,

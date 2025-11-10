@@ -6,10 +6,10 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { ProcessingUnitEntity } from '../../domain/entities/processing-unit.entity'
 import { HttpResponseProcessingUnitValidator } from '../../domain/validators/http-response-processing-unit.validator'
-import type { GetProcessingUnitsServiceInterface } from '../../domain/interfaces/get-processing-unit-service.interface'
+import type { GetProcessingUnitsGateway } from '../../domain/gateways/get-processing-unit.gateway'
 
 export class GetProcessingUnitsService
-  implements GetProcessingUnitsServiceInterface
+  implements GetProcessingUnitsGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

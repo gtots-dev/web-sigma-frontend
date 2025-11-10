@@ -1,6 +1,6 @@
-import { FormDataConverterInterface } from '../../domain/interfaces/form-data-converter.interface'
+import { FormDataConverterGateway } from '../../domain/gateways/form-data-converter.interface'
 
-export class FormDataConverter implements FormDataConverterInterface {
+export class FormDataConverter implements FormDataConverterGateway {
   convert<T extends Record<string, unknown>>(data: T): FormData {
     const formData = new FormData()
     this.appendToFormData(formData, data)

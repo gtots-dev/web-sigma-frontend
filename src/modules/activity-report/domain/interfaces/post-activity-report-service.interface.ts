@@ -3,7 +3,7 @@ import type { ActivityReportFiltersInterface } from './activity-report-filters.i
 import type { PaginationInterface } from '@/modules/shared/domain/interfaces/pagination.interfaces'
 import type { ActivityReportInterface } from './activity-report.interface'
 
-export interface PostActivityReportServiceInterface {
+export interface PostActivityReportGateway {
   execute(
     token: TokenEntities,
     filters: {

@@ -1,16 +1,16 @@
-import type { HttpClientInterface } from '@/modules/shared/domain/interfaces/http-client.interface'
+import type { HttpClientGateway } from '@/modules/shared/domain/gateways/http-client.interface'
 import { ExecuteRequest } from '../execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 describe('ExecuteRequest', () => {
-  let httpClientMock: jest.Mocked<HttpClientInterface>
+  let httpClientMock: jest.Mocked<HttpClientGateway>
   let executeRequest: ExecuteRequest
 
   beforeEach(() => {
     httpClientMock = {
       request: jest.fn()
-    } as jest.Mocked<HttpClientInterface>
+    } as jest.Mocked<HttpClientGateway>
     executeRequest = new ExecuteRequest(httpClientMock)
   })
 

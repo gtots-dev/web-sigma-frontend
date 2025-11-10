@@ -5,10 +5,10 @@ import type {
   HandlerCallback,
   RouterApiFileResponse,
   RouterApiResponse,
-  RouterApiServiceInterface
-} from '../../domain/interfaces/router-api-service.interface'
+  RouterApiGateway
+} from '../../domain/interfaces/router-api.gateway'
 
-export class RouterApiService implements RouterApiServiceInterface {
+export class RouterApiService implements RouterApiGateway {
   constructor() {}
 
   // === Helpers ======================================================

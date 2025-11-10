@@ -2,7 +2,7 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { PostUserPasswordResetServiceInterface } from '../../domain/interfaces/post-user-password-reset-service.interface'
+import type { PostUserPasswordResetGateway } from '../../domain/interfaces/post-user-password-reset.gateway'
 import type { UserPasswordResetInterface } from '../../domain/interfaces/user-password-reset.interface'
 import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import { HttpResponseUserPasswordResetValidator } from '../../domain/validators/http-response-user-password-reset.validator'
@@ -10,7 +10,7 @@ import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/t
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostUserPasswordResetService
-  implements PostUserPasswordResetServiceInterface
+  implements PostUserPasswordResetGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

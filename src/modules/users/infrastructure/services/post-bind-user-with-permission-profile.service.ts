@@ -3,12 +3,12 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { UserEntity } from '../../domain/entities/user.entity'
-import type { PostBindUserWithPermissionProfileServiceInterface } from '../../domain/interfaces/post-bind-user-with-permission-profile.interface'
+import type { PostBindUserWithPermissionProfileGateway } from '../../domain/gateways/post-bind-user-with-permission-profile.gateway'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 
 export class PostBindUserWithPermissionProfileService
-  implements PostBindUserWithPermissionProfileServiceInterface
+  implements PostBindUserWithPermissionProfileGateway
 {
   constructor(private readonly executeRequest: ExecuteRequest) {}
 

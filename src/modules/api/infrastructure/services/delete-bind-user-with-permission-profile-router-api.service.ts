@@ -5,10 +5,10 @@ import type { PermissionProfileInterface } from '@/modules/permissions/domain/in
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
-import type { DeleteBindUserWithPermissionProfileRouterApiServiceInterface } from '../../domain/interfaces/delete-bind-user-with-permission-profile-router-api-service.interface'
+import type { DeleteBindUserWithPermissionProfileRouterApiGateway } from '../../domain/gateways/delete-bind-user-with-permission-profile-router-api.gateway'
 
 export class DeleteBindUserWithPermissionProfileRouterApiService
-  implements DeleteBindUserWithPermissionProfileRouterApiServiceInterface
+  implements DeleteBindUserWithPermissionProfileRouterApiGateway
 {
   constructor(private readonly httpRequest: ExecuteRequest) {}
   getHttpRequestConfig(

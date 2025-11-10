@@ -2,11 +2,11 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { GetUserFileServiceInterface } from '../../domain/interfaces/get-user-file-service.interface'
+import type { GetUserFileGateway } from '../../domain/interfaces/get-user-file.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 
-export class GetUserFileService implements GetUserFileServiceInterface {
+export class GetUserFileService implements GetUserFileGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,

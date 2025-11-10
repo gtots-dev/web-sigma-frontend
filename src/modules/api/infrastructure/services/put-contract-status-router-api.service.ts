@@ -2,11 +2,11 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import { HttpResponseContractsValidator } from '@/modules/contracts/domain/validators/http-response-contracts.validator'
 import { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
-import type { PutContractStatusRouterApiServiceInterface } from '../../domain/interfaces/put-contract-status-router-api-service.interface'
+import type { PutContractStatusRouterApiGateway } from '../../domain/gateways/put-contract-status-router-api.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PutContractStatusRouterApiService
-  implements PutContractStatusRouterApiServiceInterface
+  implements PutContractStatusRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

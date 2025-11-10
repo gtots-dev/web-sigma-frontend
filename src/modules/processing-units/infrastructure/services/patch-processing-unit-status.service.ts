@@ -6,10 +6,10 @@ import { HttpResponseProcessingUnitValidator } from '../../domain/validators/htt
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { ProcessingUnitEnableAndDisableInterface } from '../../domain/interfaces/processing-unit-enable-and-disable.interface'
-import type { PatchProcessingUnitStatusServiceInterface } from '../../domain/interfaces/patch-processing-unit-status-service.interface'
+import type { PatchProcessingUnitStatusGateway } from '../../domain/gateways/patch-processing-unit-status.gateway'
 
 export class PatchProcessingUnitStatusService
-  implements PatchProcessingUnitStatusServiceInterface
+  implements PatchProcessingUnitStatusGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

@@ -4,11 +4,11 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
-import type { GetUsersServiceInterface } from '../../domain/interfaces/get-users-service.interface'
+import type { GetUsersGateway } from '../../domain/interfaces/get-users.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 
-export class GetUsersService implements GetUsersServiceInterface {
+export class GetUsersService implements GetUsersGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,

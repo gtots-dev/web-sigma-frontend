@@ -1,14 +1,14 @@
-import type { FormDataConverterInterface } from '@/modules/shared/domain/interfaces/form-data-converter.interface'
+import type { FormDataConverterGateway } from '@/modules/shared/domain/gateways/form-data-converter.interface'
 import { ConvertJsonToFormData } from '../convert-json-to-form-data.service'
 
 describe('ConvertJsonToFormData', () => {
-  let formDataConverterMock: jest.Mocked<FormDataConverterInterface>
+  let formDataConverterMock: jest.Mocked<FormDataConverterGateway>
   let convertJsonToFormData: ConvertJsonToFormData
 
   beforeEach(() => {
     formDataConverterMock = {
       convert: jest.fn()
-    } as jest.Mocked<FormDataConverterInterface>
+    } as jest.Mocked<FormDataConverterGateway>
     convertJsonToFormData = new ConvertJsonToFormData(formDataConverterMock)
   })
 

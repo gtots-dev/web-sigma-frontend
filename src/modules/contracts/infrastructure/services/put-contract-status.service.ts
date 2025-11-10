@@ -4,12 +4,12 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseContractsValidator } from '../../domain/validators/http-response-contracts.validator'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
-import type { PutContractStatusServiceInterface } from '../../domain/interfaces/put-contract-status-service.interface'
+import type { PutContractStatusGateway } from '../../domain/gateways/put-contract-status.gateway'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PutContractStatusService
-  implements PutContractStatusServiceInterface
+  implements PutContractStatusGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

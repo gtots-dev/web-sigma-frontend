@@ -4,10 +4,10 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import { HttpResponseUserValidator } from '../../../users/domain/validators/http-response-user.validator'
 import type { UserEntity } from '../../../users/domain/entities/user.entity'
 import { UserFactory } from '@/modules/users/infrastructure/factories/user.factory'
-import type { GetUserMeRouterApiServiceInterface } from '../../domain/interfaces/get-user-me-router-api-service.interface'
+import type { GetUserMeRouterApiGateway } from '../../domain/gateways/get-user-me-router-api.gateway'
 
 export class GetUserMeRouterApiService
-  implements GetUserMeRouterApiServiceInterface
+  implements GetUserMeRouterApiGateway
 {
   constructor(private readonly executeRequest: ExecuteRequest) {}
   getHttpRequestConfig(): HttpRequestConfig {

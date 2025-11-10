@@ -4,11 +4,11 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
-import type { PatchUserStatusServiceInterface } from '../../domain/interfaces/patch-user-status-service.interface'
+import type { PatchUserStatusGateway } from '../../domain/interfaces/patch-user-status.gateway'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PatchUserStatusService implements PatchUserStatusServiceInterface {
+export class PatchUserStatusService implements PatchUserStatusGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,

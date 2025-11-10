@@ -3,12 +3,12 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseContractsValidator } from '../../domain/validators/http-response-contracts.validator'
-import type { PatchContractServiceInterface } from '../../domain/interfaces/patch-contract-service.interface'
+import type { PatchContractGateway } from '../../domain/gateways/patch-contract.gateway'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PatchContractService implements PatchContractServiceInterface {
+export class PatchContractService implements PatchContractGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,
