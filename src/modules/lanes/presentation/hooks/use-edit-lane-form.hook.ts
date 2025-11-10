@@ -15,11 +15,7 @@ export function useEditLaneForm(lane: LaneEntity) {
     () => ({
       id: lane.id,
       name: lane.name,
-      cfg: lane.cfg,
-      up_id: lane.up_id,
-      contract_id: lane.contract_id,
-      operation_id: lane.operation_id,
-      enabled: lane.enabled
+      cfg: JSON.stringify(lane.cfg === null ? {} : lane.cfg)
     }),
     [lane]
   )
