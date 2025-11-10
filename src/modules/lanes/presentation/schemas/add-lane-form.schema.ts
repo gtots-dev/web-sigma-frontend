@@ -6,9 +6,6 @@ export const AddLaneFormSchema = z.object({
     message: MESSAGES_LANE['8.6']
   }),
   cfg: z.string().nullable().optional(),
-  up_id: z.number(),
-  contract_id: z.number(),
-  operation_id: z.number(),
 })
 
 export type AddLaneFormType = z.infer<typeof AddLaneFormSchema>

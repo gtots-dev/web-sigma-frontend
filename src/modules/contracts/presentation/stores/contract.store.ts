@@ -31,8 +31,7 @@ export const useContractStore = create<ContractState>((set) => ({
   contract: {
     alias: '',
     cfg: '',
-    name: '',
-    operation_id: 0
+    name: ''
   },
 
   getContracts: async ({ operationId }: UrlParams) => {

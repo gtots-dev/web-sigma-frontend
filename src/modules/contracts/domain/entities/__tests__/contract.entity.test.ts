@@ -6,14 +6,12 @@ describe('ContractEntity', () => {
     const name = 'São Paulo'
     const alias = 'Exemplo alias'
     const cfg = 'Exemplo cfg'
-    const operation_id = 1
     const enabled = true
 
     const contract = new ContractEntity(
       name,
       alias,
       cfg,
-      operation_id,
       id,
       enabled
     )
@@ -22,7 +20,6 @@ describe('ContractEntity', () => {
       name,
       alias,
       cfg,
-      operation_id,
       id,
       enabled
     })

@@ -17,7 +17,6 @@ export function useAddContractForm() {
       name: '',
       alias: '',
       cfg: '',
-      operation_id: Number(operationId)
     }),
     [operationId]
   )
