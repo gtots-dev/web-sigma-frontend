@@ -5,7 +5,6 @@ export class ContractEntity implements ContractInterface {
     public name: string,
     public alias: string,
     public cfg: string,
-    public operation_id: number,
     public id?: number,
     public enabled?: boolean
   ) {}

@@ -16,8 +16,6 @@ export function useAddProcessingUnitForm() {
     () => ({
       name: '',
       cfg: '',
-      contract_id: Number(contractId),
-      operation_id: Number(operationId),
     }),
     [operationId, contractId]
   )
