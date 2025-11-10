@@ -3,10 +3,10 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { ProcessingUnitEntity } from '@/modules/processing-units/domain/entities/processing-unit.entity'
 import { HttpResponseProcessingUnitValidator } from '@/modules/processing-units/domain/validators/http-response-processing-unit.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import type { PatchProcessingUnitRouterApiServiceInterface } from '../../domain/interfaces/patch-processing-unit-router-api-service.interface'
+import type { PatchProcessingUnitRouterApiGateway } from '../../domain/gateways/patch-processing-unit-router-api.gateway'
 
 export class PatchProcessingUnitRouterApiService
-  implements PatchProcessingUnitRouterApiServiceInterface
+  implements PatchProcessingUnitRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

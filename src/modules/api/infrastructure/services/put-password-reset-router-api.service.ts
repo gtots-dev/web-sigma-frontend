@@ -1,11 +1,11 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { PutPasswordResetRouterApiServiceInterface } from '../../domain/interfaces/put-password-reset-router-api.interface'
+import type { PutPasswordResetRouterApiGateway } from '../../domain/gateways/put-password-reset-router-api.interface'
 import { HttpResponsePasswordResetValidator } from '@/modules/password-reset/domain/validators/http-response-password-reset.validator'
 import type { PasswordResetInterface } from '@/modules/password-reset/domain/interfaces/password-reset.interface'
 
 export class PutPasswordResetRouterApiService
-  implements PutPasswordResetRouterApiServiceInterface
+  implements PutPasswordResetRouterApiGateway
 {
   constructor(private readonly executeRequest: ExecuteRequest) {}
 

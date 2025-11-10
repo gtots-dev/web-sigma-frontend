@@ -1,9 +1,9 @@
 import type { HttpRequestConfig } from '../../../domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '../../../domain/interfaces/http-response.interface'
-import type { HttpClientInterface } from '../../../domain/interfaces/http-client.interface'
+import type { HttpClientGateway } from '../../../domain/gateways/http-client.interface'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 
-export class FetchHttpClient implements HttpClientInterface {
+export class FetchHttpClient implements HttpClientGateway {
   constructor(private readonly baseURL: string) {}
 
   async request<T, TData extends BodyInit | object = object, TParams = unknown>(

@@ -3,10 +3,10 @@ import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { AuthTokenFactory } from '@/modules/api/infrastructure/factories/auth-token.factory'
 import { GetProcessingUnitsService } from '../services/get-processing-unit.service'
-import type { GetProcessingUnitsServiceInterface } from '../../domain/interfaces/get-processing-unit-service.interface'
+import type { GetProcessingUnitsGateway } from '../../domain/gateways/get-processing-unit.gateway'
 
 export class GetProcessingUnitsFactory {
-  static create(params: UrlParams): GetProcessingUnitsServiceInterface {
+  static create(params: UrlParams): GetProcessingUnitsGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     const authToken = AuthTokenFactory.create()

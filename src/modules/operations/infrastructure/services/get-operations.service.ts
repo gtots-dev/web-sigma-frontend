@@ -1,12 +1,12 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
-import type { GetOperationsServiceInterface } from '../../domain/interfaces/get-operations-service.interface'
+import type { GetOperationsGateway } from '../../domain/gateways/get-operations.gateway'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import { HttpResponseOperationValidator } from '../../domain/validators/http-response-operation.validator'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { OperationEntity } from '../../domain/entities/operation.entity'
 
-export class GetOperationsService implements GetOperationsServiceInterface {
+export class GetOperationsService implements GetOperationsGateway {
   constructor(private readonly executeRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(token: TokenEntities): HttpRequestConfig {

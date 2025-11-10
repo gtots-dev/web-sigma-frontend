@@ -1,12 +1,12 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import { HttpResponseContractsValidator } from '@/modules/contracts/domain/validators/http-response-contracts.validator'
-import type { PostContractRouterApiServiceInterface } from '../../domain/interfaces/post-contract-router-api-service.interface'
+import type { PostContractRouterApiGateway } from '../../domain/gateways/post-contract-router-api.gateway'
 import { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostContractRouterApiService
-  implements PostContractRouterApiServiceInterface
+  implements PostContractRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

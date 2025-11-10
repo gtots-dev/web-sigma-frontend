@@ -7,9 +7,9 @@ import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/t
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { LaneEntity } from '../../domain/entities/lane.entity'
 import { HttpResponseLaneValidator } from '../../domain/validators/http-response-lane.validator'
-import type { PatchLaneServiceInterface } from '../../domain/interfaces/patch-lane-service.interface'
+import type { PatchLaneGateway } from '../../domain/gateways/patch-lane.gateway'
 
-export class PatchLaneService implements PatchLaneServiceInterface {
+export class PatchLaneService implements PatchLaneGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,

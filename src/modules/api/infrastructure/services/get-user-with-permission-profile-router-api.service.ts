@@ -1,13 +1,13 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { GetUserWithPermissionProfileRouterApiServiceInterface } from '../../domain/interfaces/get-user-with-permission-profile-router-api-service.interface'
+import type { GetUserWithPermissionProfileRouterApiGateway } from '../../domain/gateways/get-user-with-permission-profile-router-api.gateway'
 import type { PermissionProfileWithUserInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-user.interface'
 import { HttpResponseUserValidator } from '@/modules/users/domain/validators/http-response-user.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetUserWithPermissionProfileRouterApiService
-  implements GetUserWithPermissionProfileRouterApiServiceInterface
+  implements GetUserWithPermissionProfileRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

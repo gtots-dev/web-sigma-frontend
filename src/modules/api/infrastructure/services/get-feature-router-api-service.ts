@@ -2,11 +2,11 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { FeaturesInterface } from '@/modules/permissions/domain/interfaces/features.interface'
-import type { GetFeatureRouterApiServiceInterface } from '../../domain/interfaces/get-feature-router-api-service.interface'
+import type { GetFeatureRouterApiGateway } from '../../domain/gateways/get-feature-router-api.gateway'
 import { HttpFeatureValidator } from '@/modules/permissions/domain/validators/http-response-feature.validator'
 
 export class GetFeatureRouterApiService
-  implements GetFeatureRouterApiServiceInterface
+  implements GetFeatureRouterApiGateway
 {
   constructor(private readonly executeRequest: ExecuteRequest) {}
   getHttpRequestConfig(): HttpRequestConfig {

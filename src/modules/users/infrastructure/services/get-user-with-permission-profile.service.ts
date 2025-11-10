@@ -4,12 +4,12 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
 import type { PermissionProfileWithUserInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-user.interface'
-import type { GetUserWithPermissionProfileServiceInterface } from '../../domain/interfaces/get-user-with-permission-profile-service.interface'
+import type { GetUserWithPermissionProfileGateway } from '../../domain/interfaces/get-user-with-permission-profile.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 
 export class GetUserWithPermissionProfileService
-  implements GetUserWithPermissionProfileServiceInterface
+  implements GetUserWithPermissionProfileGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

@@ -2,12 +2,12 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { ContractEntity } from '../../../contracts/domain/entities/contract.entity'
-import type { GetContractsRouterApiServiceInterface } from '../../domain/interfaces/get-contracts-router-api-service.interface'
+import type { GetContractsRouterApiGateway } from '../../domain/gateways/get-contracts-router-api.gateway'
 import { HttpResponseContractsValidator } from '@/modules/contracts/domain/validators/http-response-contracts.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetContractsRouterApiService
-  implements GetContractsRouterApiServiceInterface
+  implements GetContractsRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

@@ -3,10 +3,10 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { LaneEntity } from '@/modules/lanes/domain/entities/lane.entity'
 import { HttpResponseLaneValidator } from '@/modules/lanes/domain/validators/http-response-lane.validator'
-import type { PostLaneRouterApiServiceInterface } from '../../domain/interfaces/post-lane-router-api-service.interface'
+import type { PostLaneRouterApiGateway } from '../../domain/gateways/post-lane-router-api.gateway'
 
 export class PostLaneRouterApiService
-  implements PostLaneRouterApiServiceInterface
+  implements PostLaneRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

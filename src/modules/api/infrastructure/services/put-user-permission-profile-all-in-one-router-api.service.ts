@@ -1,11 +1,11 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { PutUserPermissionProfileAllInOneRouterApiServiceInterface } from '../../domain/interfaces/put-user-permission-profiles-all-in-one-router-api-service.interface'
+import type { PutUserPermissionProfileAllInOneRouterApiGateway } from '../../domain/gateways/put-user-permission-profiles-all-in-one-router-api.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { UserPermissionProfileWithFeaturesAndContractsInterface } from '@/modules/users/domain/interfaces/user-permission-profile-with-features-and-contracts.interface'
 
 export class PutUserPermissionProfileAllInOneRouterApiService
-  implements PutUserPermissionProfileAllInOneRouterApiServiceInterface
+  implements PutUserPermissionProfileAllInOneRouterApiGateway
 {
   constructor(
     private readonly httpRequest: ExecuteRequest,

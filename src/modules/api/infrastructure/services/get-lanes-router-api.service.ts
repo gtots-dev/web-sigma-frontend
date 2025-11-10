@@ -3,11 +3,11 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { LaneEntity } from '@/modules/lanes/domain/entities/lane.entity'
-import type { GetLanesRouterApiServiceInterface } from '../../domain/interfaces/get-lanes-router-api-service.interface'
+import type { GetLanesRouterApiGateway } from '../../domain/gateways/get-lanes-router-api.gateway'
 import { HttpResponseLaneValidator } from '@/modules/lanes/domain/validators/http-response-lane.validator'
 
 export class GetLanesRouterApiService
-  implements GetLanesRouterApiServiceInterface
+  implements GetLanesRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

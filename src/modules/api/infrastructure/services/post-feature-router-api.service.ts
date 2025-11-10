@@ -1,13 +1,13 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { PostFeatureRouterApiServiceInterface } from '../../domain/interfaces/post-feature-router-api-service.interface'
+import type { PostFeatureRouterApiGateway } from '../../domain/gateways/post-feature-router-api.gateway'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostFeatureRouterApiService
-  implements PostFeatureRouterApiServiceInterface
+  implements PostFeatureRouterApiGateway
 {
   constructor(
     private readonly httpRequest: ExecuteRequest,

@@ -1,13 +1,13 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import { HttpResponseUserValidator } from '../../../users/domain/validators/http-response-user.validator'
-import type { PostUserRouterApiServiceInterface } from '../../domain/interfaces/post-user-router-api-service.interface'
+import type { PostUserRouterApiGateway } from '../../domain/gateways/post-user-router-api.gateway'
 import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files'
 import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostUserRouterApiService
-  implements PostUserRouterApiServiceInterface
+  implements PostUserRouterApiGateway
 {
   constructor(
     private readonly httpRequest: ExecuteRequest,

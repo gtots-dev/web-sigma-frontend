@@ -3,13 +3,13 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { ProcessingUnitEntity } from '../../domain/entities/processing-unit.entity'
-import type { PatchProcessingUnitServiceInterface } from '../../domain/interfaces/patch-processing-unit-service.interface'
+import type { PatchProcessingUnitGateway } from '../../domain/gateways/patch-processing-unit.gateway'
 import { HttpResponseProcessingUnitValidator } from '../../domain/validators/http-response-processing-unit.validator'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PatchProcessingUnitService
-  implements PatchProcessingUnitServiceInterface
+  implements PatchProcessingUnitGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

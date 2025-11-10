@@ -3,11 +3,11 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
-import type { PostUserServiceInterface } from '../../domain/interfaces/post-user-service.interface'
+import type { PostUserGateway } from '../../domain/interfaces/post-user.gateway'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PostUserService implements PostUserServiceInterface {
+export class PostUserService implements PostUserGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,

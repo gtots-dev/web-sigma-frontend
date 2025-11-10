@@ -1,8 +1,8 @@
-import type { RouterApiServiceInterface } from '../../domain/interfaces/router-api-service.interface'
+import type { RouterApiGateway } from '../../domain/interfaces/router-api.gateway'
 import { RouterApiService } from '../services/router-service-api.service'
 
 export class RouterApiFactory {
-  static create(): RouterApiServiceInterface {
+  static create(): RouterApiGateway {
     return new RouterApiService()
   }
 }

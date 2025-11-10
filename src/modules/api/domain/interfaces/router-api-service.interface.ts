@@ -27,7 +27,7 @@ export type HandlerCallback<P = void, R = unknown> = (
   req?: NextRequest
 ) => Promise<void | R | RouterApiResponse<R | ErrorResponse>>
 
-export interface RouterApiServiceInterface {
+export interface RouterApiGateway {
   GET<P = void, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (

@@ -5,10 +5,10 @@ import { HttpResponseUserValidator } from '../../../users/domain/validators/http
 import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { UserEnableAndDisableInterface } from '@/modules/users/domain/interfaces/user-enable-and-disable.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import type { PatchUserStatusRouterApiServiceInterface } from '../../domain/interfaces/patch-user-status-router-api-service.interface'
+import type { PatchUserStatusRouterApiGateway } from '../../domain/gateways/patch-user-status-router-api.gateway'
 
 export class PatchUserStatusRouterApiService
-  implements PatchUserStatusRouterApiServiceInterface
+  implements PatchUserStatusRouterApiGateway
 {
   constructor(
     private readonly httpRequest: ExecuteRequest,

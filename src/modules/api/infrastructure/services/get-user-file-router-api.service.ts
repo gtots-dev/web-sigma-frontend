@@ -1,11 +1,11 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { GetUserFileRouterApiServiceInterface } from '../../domain/interfaces/get-user-file-router-api-service.interface'
+import type { GetUserFileRouterApiGateway } from '../../domain/gateways/get-user-file-router-api.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetUserFileRouterApiService
-  implements GetUserFileRouterApiServiceInterface
+  implements GetUserFileRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,

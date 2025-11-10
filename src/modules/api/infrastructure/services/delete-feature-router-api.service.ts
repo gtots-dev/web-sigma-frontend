@@ -1,13 +1,13 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { DeleteFeatureRouterApiServiceInterface } from '../../domain/interfaces/delete-feature-router-api-service.interface'
+import type { DeleteFeatureRouterApiGateway } from '../../domain/gateways/delete-feature-router-api.gateway'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class DeleteFeatureRouterApiService
-  implements DeleteFeatureRouterApiServiceInterface
+  implements DeleteFeatureRouterApiGateway
 {
   constructor(
     private readonly httpRequest: ExecuteRequest,

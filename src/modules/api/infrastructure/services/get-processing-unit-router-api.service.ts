@@ -3,11 +3,11 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { ProcessingUnitEntity } from '@/modules/processing-units/domain/entities/processing-unit.entity'
-import type { GetProcessingUnitRouterApiServiceInterface } from '../../domain/interfaces/get-processing-unit-router-api-service.interface'
+import type { GetProcessingUnitRouterApiGateway } from '../../domain/gateways/get-processing-unit-router-api.gateway'
 import { HttpResponseProcessingUnitValidator } from '@/modules/processing-units/domain/validators/http-response-processing-unit.validator'
 
 export class GetProcessingUnitRouterApiService
-  implements GetProcessingUnitRouterApiServiceInterface
+  implements GetProcessingUnitRouterApiGateway
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,
