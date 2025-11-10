@@ -1,6 +1,6 @@
 'use client'
 
-import { MenuSelectOperation } from '@/modules/operation-options/presentation/components/menu-select-operation'
+import { MenuSelectOperation } from '@/modules/operations/presentation/components/menu-select-operation'
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
 import { OperationForm } from '../operation-form'
 import { useOperationSelector } from '../../hooks/use-operation-selector.hook'
