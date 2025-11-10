@@ -2,51 +2,38 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-
-import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { LaneEntity } from '../../domain/entities/lane.entity'
 import { HttpResponseLaneValidator } from '../../domain/validators/http-response-lane.validator'
-import type { PostLaneServiceInterface } from '../../domain/interfaces/post-lane-service.interface'
+import type { GetLanesServiceInterface } from '../../domain/interfaces/get-lanes-service.interfaces'
 
-export class PostLaneService implements PostLaneServiceInterface {
+export class GetLanesService implements GetLanesServiceInterface {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,
     private readonly params: UrlParams
   ) {}
 
-  private normalizeLane(lane: LaneEntity): LaneEntity {
-    const cfg =
-      typeof lane.cfg === 'string'
-        ? lane.cfg.trim() === ''
-          ? {}
-          : JSON.parse(lane.cfg)
-        : lane.cfg
-
-    return { ...lane, cfg }
-  }
-
   getHttpRequestConfig(
-    { operationId, contractId, processingUnitId }: UrlParams,
     token: TokenEntities,
-    lane: LaneEntity
-  ): HttpRequestConfig<LaneEntity> {
+    { operationId, contractId, processingUnitId }: UrlParams
+  ): HttpRequestConfig<null> {
     return {
-      method: 'POST',
+      method: 'GET',
       url: `/operations/${operationId}/contracts/${contractId}/ups/${processingUnitId}/lanes`,
-      data: this.normalizeLane(lane),
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(lane: LaneEntity): Promise<void> {
+  async execute(): Promise<LaneEntity[]> {
     const token = await this.auth.getToken()
-    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token, lane)
-    const { success, status }: HttpResponse<null> =
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, this.params)
+    const { success, data, status }: HttpResponse<LaneEntity[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseLaneValidator.validate(success, status)
+    return data
   }
 }

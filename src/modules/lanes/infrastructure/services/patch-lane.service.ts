@@ -7,9 +7,9 @@ import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/t
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { LaneEntity } from '../../domain/entities/lane.entity'
 import { HttpResponseLaneValidator } from '../../domain/validators/http-response-lane.validator'
-import type { PostLaneServiceInterface } from '../../domain/interfaces/post-lane-service.interface'
+import type { PatchLaneServiceInterface } from '../../domain/interfaces/patch-lane-service.interface'
 
-export class PostLaneService implements PostLaneServiceInterface {
+export class PatchLaneService implements PatchLaneServiceInterface {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,
@@ -33,8 +33,8 @@ export class PostLaneService implements PostLaneServiceInterface {
     lane: LaneEntity
   ): HttpRequestConfig<LaneEntity> {
     return {
-      method: 'POST',
-      url: `/operations/${operationId}/contracts/${contractId}/ups/${processingUnitId}/lanes`,
+      method: 'PATCH',
+      url: `/operations/${operationId}/contracts/${contractId}/ups/${processingUnitId}/lanes/${lane.id}`,
       data: this.normalizeLane(lane),
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
