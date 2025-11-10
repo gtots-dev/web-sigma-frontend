@@ -3,7 +3,7 @@ import { GetContractsFactory } from '@/modules/contracts/infrastructure/factorie
 import { ContractSelector } from '@/modules/contracts/presentation/components/contract-selector'
 import { FrameOptions } from '@/modules/system/presentation/components/frame-options'
 import { CardOption } from '@/modules/system/presentation/components/card-option'
-import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
+import { HeaderOptions } from '@/modules/system/presentation/components/header-options'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_CONFIGURATION_CONTRACT } from '@/modules/shared/presentation/messages/configuration-contract'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
