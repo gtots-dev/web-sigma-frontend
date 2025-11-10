@@ -20,7 +20,7 @@ export class PostProcessingUnitRouterApiService
     return {
       method: 'POST',
       data: processingUnit,
-      url: `api/operations/${operationId}/contracts/${contractId}/processing-unit`
+      url: `api/operations/${operationId}/contracts/${contractId}/processing-units`
     }
   }
 

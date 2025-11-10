@@ -20,7 +20,7 @@ export class PatchProcessingUnitRouterApiService
     return {
       method: 'PATCH',
       data: processingUnit,
-      url: `api/operations/${operationId}/contracts/${contractId}/processing-unit`
+      url: `api/operations/${operationId}/contracts/${contractId}/processing-units`
     }
   }
 
