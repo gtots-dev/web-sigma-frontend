@@ -2,24 +2,24 @@
 
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 import { useEffect, type ReactNode } from 'react'
-import { usePutLaneStatusForm } from '../../hooks/use-put-lane-status-form.hook'
+import { usePatchLaneStatusForm } from '../../hooks/use-patch-lane-status-form.hook'
 import { FormProvider } from 'react-hook-form'
-import type { LaneEntity } from '@/modules/lanes/domain/entities/lane.entity'
+import type { LaneEnableAndDisableInterface } from '@/modules/lanes/domain/interfaces/lane-enable-and-disable.interface'
 
-interface PutLaneStatusMenuRootComponentProps {
-  lane: LaneEntity
+interface PatchLaneStatusMenuRootComponentProps {
+  lane: LaneEnableAndDisableInterface
   isOpen: boolean
   close: () => void
   children: ReactNode
 }
 
-export function PutLaneStatusMenuRootComponent({
+export function PatchLaneStatusMenuRootComponent({
   lane,
   isOpen,
   close,
   children
-}: PutLaneStatusMenuRootComponentProps) {
-  const { methods, defaultValues } = usePutLaneStatusForm(lane)
+}: PatchLaneStatusMenuRootComponentProps) {
+  const { methods, defaultValues } = usePatchLaneStatusForm(lane)
 
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)

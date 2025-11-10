@@ -1,14 +1,14 @@
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 
-interface PutLaneStatusMenuHeaderComponentProps {
+interface PatchLaneStatusMenuHeaderComponentProps {
   title: string
   description: string
 }
 
-export function PutLaneStatusMenuHeaderComponent({
+export function PatchLaneStatusMenuHeaderComponent({
   title,
   description
-}: PutLaneStatusMenuHeaderComponentProps) {
+}: PatchLaneStatusMenuHeaderComponentProps) {
   return (
     <DrawerDialog.Header>
       <DrawerDialog.Title>{title}</DrawerDialog.Title>
