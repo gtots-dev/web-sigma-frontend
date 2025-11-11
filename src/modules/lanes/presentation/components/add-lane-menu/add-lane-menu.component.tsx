@@ -36,7 +36,7 @@ export function AddLaneMenuComponent({
           >
             Cancelar
           </Button>
-          <LaneForm.Submit
+          <LaneForm.Submit<LaneEntity>
             onSubmit={(lane: LaneEntity) => onAction(lane, close)}
           />
         </AddLaneMenu.Footer>

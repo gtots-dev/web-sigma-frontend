@@ -42,7 +42,7 @@ export function PatchLaneStatusMenuComponent({
           >
             Cancelar
           </Button>
-          <LaneForm.Submit
+          <LaneForm.Submit<LaneEnableAndDisableInterface>
             onSubmit={(laneStatus: LaneEnableAndDisableInterface) =>
               onAction(laneStatus, close)
             }
