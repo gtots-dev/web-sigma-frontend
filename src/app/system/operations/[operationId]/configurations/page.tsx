@@ -11,7 +11,7 @@ import { loadAuthContext } from '@/modules/system/presentation/contexts/load-aut
 import { FileKey2, UsersRound, type LucideIcon } from 'lucide-react'
 
 interface ConfigurationOptionsPageProps {
-  params: Promise<{ operationId: string }>
+  params: Promise<{ rawOperationId: string }>
 }
 
 interface ConfigurationCardOption {
@@ -30,11 +30,11 @@ export default async function ConfigurationOptionsPage({
       token: JWT,
       user: { isAdmin }
     },
-    { operationId: rawOperationId }
+    { rawOperationId: rawOperationId }
   ] = await Promise.all([auth(), params])
 
   const getOperationsFactory = GetOperationsFactory.create()
-  const [{ operationId, userPermissions }, operations] = await Promise.all([
+  const [{ userPermissions }, operations] = await Promise.all([
     loadAuthContext(JWT, rawOperationId),
     getOperationsFactory.execute(JWT)
   ])
@@ -50,14 +50,14 @@ export default async function ConfigurationOptionsPage({
     {
       title: MESSAGES_CONFIGURATION_OPERATION['14.6'],
       description: MESSAGES_CONFIGURATION_OPERATION['14.7'],
-      pathName: PATHNAMES.USERS(operationId),
+      pathName: PATHNAMES.USERS(Number(rawOperationId)),
       icon: UsersRound,
       accessAllowed: isAdmin || userPermissions.has(PermissionEnum.USERS_VIEW)
     },
     {
       title: MESSAGES_CONFIGURATION_OPERATION['14.8'],
       description: MESSAGES_CONFIGURATION_OPERATION['14.9'],
-      pathName: PATHNAMES.PERMISSIONS(operationId),
+      pathName: PATHNAMES.PERMISSIONS(Number(rawOperationId)),
       icon: FileKey2,
       accessAllowed:
         isAdmin || userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
