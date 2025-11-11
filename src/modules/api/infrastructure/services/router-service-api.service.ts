@@ -6,7 +6,7 @@ import type {
   RouterApiFileResponse,
   RouterApiResponse,
   RouterApiGateway
-} from '../../domain/interfaces/router-api.gateway'
+} from '../../domain/interfaces/router-api-service.interface'
 
 export class RouterApiService implements RouterApiGateway {
   constructor() {}
@@ -66,8 +66,16 @@ export class RouterApiService implements RouterApiGateway {
     }
   }
 
-  private isFileResponse(result: any): result is RouterApiFileResponse {
-    return result?.data instanceof Blob || result?.data instanceof ArrayBuffer
+  private isFileResponse(result: unknown): result is RouterApiFileResponse {
+    if (typeof result !== 'object' || result === null || !('data' in result)) {
+      return false
+    }
+    const data = (result as { data?: unknown }).data
+    const isBlob = typeof Blob !== 'undefined' && data instanceof Blob
+    const isFile = typeof File !== 'undefined' && data instanceof File
+    const isArrayBuffer =
+      typeof ArrayBuffer !== 'undefined' && data instanceof ArrayBuffer
+    return isBlob || isFile || isArrayBuffer
   }
 
   private extractResponse<R>(

@@ -1,6 +1,6 @@
 import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
-import type { GetFeatureGateway } from '../../domain/interfaces/get-feature.gateway'
+import type { GetFeatureGateway } from '../../domain/gateways/get-feature.gateway'
 import { GetFeatureService } from '../services/get-feature.service'
 
 export class GetFeatureFactory {

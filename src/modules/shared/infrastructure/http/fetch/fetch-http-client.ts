@@ -1,6 +1,6 @@
 import type { HttpRequestConfig } from '../../../domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '../../../domain/interfaces/http-response.interface'
-import type { HttpClientGateway } from '../../../domain/gateways/http-client.interface'
+import type { HttpClientGateway } from '../../../domain/gateways/http-client.gateway'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 
 export class FetchHttpClient implements HttpClientGateway {

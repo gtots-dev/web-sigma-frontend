@@ -1,6 +1,6 @@
 import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
-import type { PatchPermissionProfileStatusGateway } from '../../domain/interfaces/put-permission-profile-status.gateway'
+import type { PatchPermissionProfileStatusGateway } from '../../domain/gateways/put-permission-profile-status.gateway'
 import { PatchPermissionProfileStatusService } from '../services/put-permission-profile-status.service'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { AuthTokenFactory } from '@/modules/api/infrastructure/factories/auth-token.factory'

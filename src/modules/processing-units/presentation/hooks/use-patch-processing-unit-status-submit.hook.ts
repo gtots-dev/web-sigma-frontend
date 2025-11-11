@@ -44,7 +44,7 @@ export function usePatchProcessingUnitStatusSubmit() {
         }
       }
     },
-    [getProcessingUnits, operationId, contractId]
+    [getProcessingUnits, patchProcessingUnitStatus, operationId, contractId]
   )
 
   return { onAction }

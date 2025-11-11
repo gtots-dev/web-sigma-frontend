@@ -1,4 +1,4 @@
-import type { FormDataConverterGateway } from '../../domain/gateways/form-data-converter.interface'
+import type { FormDataConverterGateway } from '../../domain/gateways/form-data-converter.gateway'
 
 export class ConvertJsonToFormData {
   constructor(private formDataConverter: FormDataConverterGateway) {}

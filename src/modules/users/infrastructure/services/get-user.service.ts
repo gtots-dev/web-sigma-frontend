@@ -1,5 +1,5 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
-import type { GetUserGateway } from '../../domain/interfaces/get-user.gateway'
+import type { GetUserGateway } from '../../domain/gateways/get-user.gateway'
 import type { UserInterface } from '../../domain/interfaces/user.interface'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'

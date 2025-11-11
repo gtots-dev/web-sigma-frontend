@@ -50,7 +50,7 @@ export function ActivityReportContractsComponent({
       setLoading(true)
       getContracts({ operationId }).finally(() => setLoading(false))
     }
-  }, [contracts.length, getContracts])
+  }, [contracts.length, getContracts, operationId])
 
   return (
     <FormField

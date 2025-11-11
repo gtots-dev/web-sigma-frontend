@@ -1,4 +1,4 @@
-import type { ProcessingUnitEnableAndDisableInterface } from './processing-unit-enable-and-disable.interface'
+import type { ProcessingUnitEnableAndDisableInterface } from '../interfaces/processing-unit-enable-and-disable.interface'
 
 export interface PatchProcessingUnitStatusGateway {
   execute(

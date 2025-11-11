@@ -1,6 +1,6 @@
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import type { UserEntity } from '../entities/user.entity'
-import type { UserPermissionProfilesWithContracts } from './user-permission-profile-with-features-and-contracts.interface'
+import type { UserPermissionProfilesWithContracts } from './user-permission-profile-id-with-contracts.interface'
 
 export interface PermissionsProfileIdsWithUserIdInterface {
   user_id: UserEntity['id']
