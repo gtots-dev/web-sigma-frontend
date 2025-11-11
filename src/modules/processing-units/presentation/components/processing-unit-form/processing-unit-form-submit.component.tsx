@@ -1,17 +1,16 @@
 'use client'
 
-import type { ProcessingUnitEnableAndDisableInterface } from '@/modules/processing-units/domain/interfaces/processing-unit-enable-and-disable.interface'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useFormContext } from 'react-hook-form'
 
-interface ProcessingUnitFormSubmitComponentProps {
-  onSubmit: (processingUnitEnableAndDisable: ProcessingUnitEnableAndDisableInterface) => void
+interface ProcessingUnitFormSubmitComponentProps<T> {
+  onSubmit: (values: T) => void
 }
 
-export function ProcessingUnitFormSubmitComponent({
+export function ProcessingUnitFormSubmitComponent<T>({
   onSubmit
-}: ProcessingUnitFormSubmitComponentProps) {
-  const { handleSubmit } = useFormContext()
+}: ProcessingUnitFormSubmitComponentProps<T>) {
+  const { handleSubmit } = useFormContext<T>()
 
   return (
     <Button

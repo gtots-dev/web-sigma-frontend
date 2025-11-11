@@ -8,7 +8,6 @@ import { ProcessingUnitForm } from '../processing-unit-form'
 import { useTableProcessingUnit } from '../../contexts/table-processing-units.context'
 import type { ProcessingUnitEnableAndDisableInterface } from '@/modules/processing-units/domain/interfaces/processing-unit-enable-and-disable.interface'
 
-
 interface PatchProcessingUnitsStatusMenuComponentProps {
   title: string
   description: string
@@ -29,7 +28,10 @@ export function PatchProcessingUnitsStatusMenuComponent({
       isOpen={isOpen}
     >
       <PatchProcessingUnitsStatusMenu.Content className="lg:!w-[600px] lg:!h-auto">
-        <PatchProcessingUnitsStatusMenu.Header title={title} description={description} />
+        <PatchProcessingUnitsStatusMenu.Header
+          title={title}
+          description={description}
+        />
 
         <ProcessingUnitForm.Form>
           <ProcessingUnitForm.Input.Enabled />
@@ -43,10 +45,10 @@ export function PatchProcessingUnitsStatusMenuComponent({
           >
             Cancelar
           </Button>
-          <ProcessingUnitForm.Submit
-            onSubmit={(processingUnitEnableAndDisable: ProcessingUnitEnableAndDisableInterface) =>
-              onAction(processingUnitEnableAndDisable, close)
-            }
+          <ProcessingUnitForm.Submit<ProcessingUnitEnableAndDisableInterface>
+            onSubmit={(
+              processingUnitEnableAndDisable: ProcessingUnitEnableAndDisableInterface
+            ) => onAction(processingUnitEnableAndDisable, close)}
           />
         </PatchProcessingUnitsStatusMenu.Footer>
       </PatchProcessingUnitsStatusMenu.Content>
