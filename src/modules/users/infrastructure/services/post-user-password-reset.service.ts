@@ -2,7 +2,7 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { PostUserPasswordResetGateway } from '../../domain/interfaces/post-user-password-reset.gateway'
+import type { PostUserPasswordResetGateway } from '../../domain/gateways/post-user-password-reset.gateway'
 import type { UserPasswordResetInterface } from '../../domain/interfaces/user-password-reset.interface'
 import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import { HttpResponseUserPasswordResetValidator } from '../../domain/validators/http-response-user-password-reset.validator'

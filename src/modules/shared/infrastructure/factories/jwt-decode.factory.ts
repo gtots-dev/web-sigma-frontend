@@ -1,5 +1,5 @@
 import { JwtTokenDecode } from '@/modules/shared/infrastructure/jwt/jwt-decode'
-import type { JwtDecodeGateway } from '../../domain/gateways/jwt-decode.interface'
+import type { JwtDecodeGateway } from '../../domain/gateways/jwt-decode.gateway'
 
 export class JwtTokenDecodeFactory {
   private static instance: JwtTokenDecode | null = null

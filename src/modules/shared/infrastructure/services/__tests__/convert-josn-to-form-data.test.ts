@@ -1,4 +1,4 @@
-import type { FormDataConverterGateway } from '@/modules/shared/domain/gateways/form-data-converter.interface'
+import type { FormDataConverterGateway } from '@/modules/shared/domain/gateways/form-data-converter.gateway'
 import { ConvertJsonToFormData } from '../convert-json-to-form-data.service'
 
 describe('ConvertJsonToFormData', () => {

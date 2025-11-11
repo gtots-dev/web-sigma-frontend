@@ -8,9 +8,7 @@ import { HttpResponseProcessingUnitValidator } from '../../domain/validators/htt
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PatchProcessingUnitService
-  implements PatchProcessingUnitGateway
-{
+export class PatchProcessingUnitService implements PatchProcessingUnitGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,
@@ -37,7 +35,7 @@ export class PatchProcessingUnitService
   ): HttpRequestConfig<ProcessingUnitEntity> {
     return {
       method: 'PATCH',
-      url: `/operations/${operationId}/contracts/${contractId}/ups`,
+      url: `/operations/${operationId}/contracts/${contractId}/ups/${processingUnit.id}`,
       data: this.normalizeProcessingUnit(processingUnit),
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`

@@ -1,6 +1,6 @@
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import { HttpStatusCodeEnum } from '../../../authentication/domain/enums/status-codes.enum'
-import type { JwtVerifierGateway } from '../gateways/jwt-verifier.interface'
+import type { JwtVerifierGateway } from '../gateways/jwt-verifier.gateway'
 
 export class JwtValidator {
   constructor(

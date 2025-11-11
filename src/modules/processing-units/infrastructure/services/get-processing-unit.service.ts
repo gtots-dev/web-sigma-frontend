@@ -8,9 +8,7 @@ import type { ProcessingUnitEntity } from '../../domain/entities/processing-unit
 import { HttpResponseProcessingUnitValidator } from '../../domain/validators/http-response-processing-unit.validator'
 import type { GetProcessingUnitsGateway } from '../../domain/gateways/get-processing-unit.gateway'
 
-export class GetProcessingUnitsService
-  implements GetProcessingUnitsGateway
-{
+export class GetProcessingUnitsService implements GetProcessingUnitsGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,

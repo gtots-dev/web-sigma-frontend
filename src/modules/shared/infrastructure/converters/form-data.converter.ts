@@ -1,4 +1,4 @@
-import { FormDataConverterGateway } from '../../domain/gateways/form-data-converter.interface'
+import { FormDataConverterGateway } from '../../domain/gateways/form-data-converter.gateway'
 
 export class FormDataConverter implements FormDataConverterGateway {
   convert<T extends Record<string, unknown>>(data: T): FormData {

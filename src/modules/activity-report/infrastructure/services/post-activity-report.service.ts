@@ -3,7 +3,7 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpResponseActivityReportValidator } from '../../domain/validators/http-response-activity-report.validator'
-import type { PostActivityReportGateway } from '../../domain/interfaces/post-activity-report.gateway'
+import type { PostActivityReportGateway } from '../../domain/gateways/post-activity-report.gateway'
 import type { ActivityReportFiltersInterface } from '../../domain/interfaces/activity-report-filters.interface'
 import type { PaginationInterface } from '@/modules/shared/domain/interfaces/pagination.interfaces'
 import type { ActivityReportInterface } from '../../domain/interfaces/activity-report.interface'

@@ -47,6 +47,7 @@ export function TabledProcessingUnitsItemComponent({
           {processingUnit.name}
         </span>
       </TableCell>
+      {children && <TableCell className="text-center">{children}</TableCell>}
       <TableCell className="px-5 sm:px-10 text-center !w-[100px]" colSpan={1}>
         <Button
           size="icon"

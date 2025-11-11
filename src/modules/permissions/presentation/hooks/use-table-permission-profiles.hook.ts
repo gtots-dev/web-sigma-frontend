@@ -23,7 +23,7 @@ export function useTablePermissionProfiles(): useTablePermissionProfilesResult {
       setLoading(false)
     }
     fetchData()
-  }, [getPermissionProfiles])
+  }, [getPermissionProfiles, operationId])
 
   return { permissionProfiles, loading }
 }

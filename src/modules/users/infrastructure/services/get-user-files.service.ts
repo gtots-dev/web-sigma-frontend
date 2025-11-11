@@ -2,7 +2,7 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { GetUserFilesGateway } from '../../domain/interfaces/get-user-files.gateway'
+import type { GetUserFilesGateway } from '../../domain/gateways/get-user-files.gateway'
 import type { UserFileInterface } from '../../domain/interfaces/user-file.interface'
 import { HttpResponseUserFilesValidator } from '../../domain/validators/http-response-user-files.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'

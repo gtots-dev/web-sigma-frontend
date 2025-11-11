@@ -1,4 +1,4 @@
-import type { JwtVerifierGateway } from '@/modules/shared/domain/gateways/jwt-verifier.interface'
+import type { JwtVerifierGateway } from '../../domain/gateways/jwt-verifier.gateway'
 import jwt from 'jsonwebtoken'
 
 export class JwtTokenVerifier implements JwtVerifierGateway {
