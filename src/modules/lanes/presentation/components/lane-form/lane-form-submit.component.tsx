@@ -1,17 +1,16 @@
 'use client'
 
-import type { LaneEnableAndDisableInterface } from '@/modules/lanes/domain/interfaces/lane-enable-and-disable.interface'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useFormContext } from 'react-hook-form'
 
-interface LaneFormSubmitComponentProps {
-  onSubmit: (lane: LaneEnableAndDisableInterface) => void
+interface LaneFormSubmitComponentProps<T> {
+  onSubmit: (values: T) => void
 }
 
-export function LaneFormSubmitComponent({
+export function LaneFormSubmitComponent<T>({
   onSubmit
-}: LaneFormSubmitComponentProps) {
-  const { handleSubmit } = useFormContext()
+}: LaneFormSubmitComponentProps<T>) {
+  const { handleSubmit } = useFormContext<T>()
 
   return (
     <Button
