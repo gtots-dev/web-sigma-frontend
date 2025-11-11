@@ -6,7 +6,7 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 const routerApi = RouterApiFactory.create()
 
 export const DELETE = routerApi.DELETE<UrlParams>(
-  async ({ operationId, permissionProfileId, featureId }, req) => {
+  async ({ operationId, permissionProfileId, featureId }) => {
     const deleteFeature = DeleteFeatureFactory.create({
       operationId,
       permissionProfileId,
