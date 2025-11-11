@@ -3,6 +3,8 @@
 import { useEffect, useState, useCallback } from 'react'
 import type { ProcessingUnitEntity } from '../../domain/entities/processing-unit.entity'
 import { useProcessingUnitStore } from '../stores/processing-units.store'
+import { useParams } from 'next/navigation'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export interface UseTableProcessingUnitsResult {
   processingUnits: ProcessingUnitEntity[]
@@ -10,14 +12,16 @@ export interface UseTableProcessingUnitsResult {
 }
 
 export function useTableProcessingUnits(): UseTableProcessingUnitsResult {
-  const { processingUnits, getProcessingUnits: getProcessingUnitsFromStore } = useProcessingUnitStore()
+  const { operationId, contractId }: UrlParams = useParams()
+  const { processingUnits, getProcessingUnits: getProcessingUnitsFromStore } =
+    useProcessingUnitStore()
   const [loading, setLoading] = useState(true)
 
   const getProcessingUnits = useCallback(async () => {
     setLoading(true)
-    await getProcessingUnitsFromStore()
+    await getProcessingUnitsFromStore({ operationId, contractId })
     setLoading(false)
-  }, [getProcessingUnitsFromStore])
+  }, [getProcessingUnitsFromStore, operationId, contractId])
 
   useEffect(() => {
     getProcessingUnits()

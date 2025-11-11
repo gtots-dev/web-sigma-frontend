@@ -4,8 +4,9 @@ import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { EditPermissionProfileMenu } from '../edit-permission-profile-menu'
 import { EditPermissionProfileMenuComponent } from '../edit-permission-profile-menu/edit-permission-profile-menu.component'
 import { PermissionProfileOptionsDropdown } from '.'
-import { PutPermissionProfileStatusMenuComponent } from '../put-permission-profile-status-menu/put-permission-profile-status-menu.component'
-import { PutPermissionProfileStatusMenu } from '../put-permission-profile-status-menu'
+
+import { PatchPermissionProfileStatusMenu } from '../patch-permission-profile-status-menu'
+import { PatchPermissionProfileStatusMenuComponent } from '../patch-permission-profile-status-menu/patch-permission-profile-status-menu.component'
 
 export function PermissionProfileOptionsDropdownClientComponent({
   isAdmin,
@@ -26,7 +27,7 @@ export function PermissionProfileOptionsDropdownClientComponent({
     <>
       {(isAdmin || permissions.has(PermissionEnum.PERMISSIONS_EDIT)) && (
         <EditPermissionProfileMenu.Provider>
-          <PutPermissionProfileStatusMenu.Provider>
+          <PatchPermissionProfileStatusMenu.Provider>
             <PermissionProfileOptionsDropdown.Root>
               <PermissionProfileOptionsDropdown.Trigger />
               <PermissionProfileOptionsDropdown.Menu>
@@ -39,7 +40,7 @@ export function PermissionProfileOptionsDropdownClientComponent({
                     PermissionEnum.PERMISSIONS_ENABLE_AND_DISABLE
                   )) && (
                   <PermissionProfileOptionsDropdown.Item>
-                    <PutPermissionProfileStatusMenu.Trigger />
+                    <PatchPermissionProfileStatusMenu.Trigger />
                   </PermissionProfileOptionsDropdown.Item>
                 )}
               </PermissionProfileOptionsDropdown.Menu>
@@ -49,7 +50,7 @@ export function PermissionProfileOptionsDropdownClientComponent({
               permissions.has(
                 PermissionEnum.PERMISSIONS_ENABLE_AND_DISABLE
               )) && (
-              <PutPermissionProfileStatusMenuComponent
+              <PatchPermissionProfileStatusMenuComponent
                 title={permissionProfileTitle}
                 description={permissionProfileDescription}
               />
@@ -59,7 +60,7 @@ export function PermissionProfileOptionsDropdownClientComponent({
               title={editTitle}
               description={editDescription}
             />
-          </PutPermissionProfileStatusMenu.Provider>
+          </PatchPermissionProfileStatusMenu.Provider>
         </EditPermissionProfileMenu.Provider>
       )}
     </>

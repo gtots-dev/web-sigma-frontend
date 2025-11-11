@@ -1,4 +1,4 @@
-import type { GetUserMeServiceInterface } from '../../domain/interfaces/get-user-me.service.interface'
+import type { GetUserMeGateway } from '../../domain/gateways/get-user-me.gateway'
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
@@ -7,7 +7,7 @@ import { HttpResponseUserValidator } from '../../domain/validators/http-response
 import type { UserEntity } from '../../domain/entities/user.entity'
 import type { UserPermissionsInterface } from '../../domain/interfaces/user-permissions.interface'
 
-export class GetUserMeService implements GetUserMeServiceInterface {
+export class GetUserMeService implements GetUserMeGateway {
   constructor(private readonly httpRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(token: TokenEntities): HttpRequestConfig {

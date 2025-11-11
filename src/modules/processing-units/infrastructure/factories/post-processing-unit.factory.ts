@@ -1,14 +1,15 @@
 import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
-import type { PostProcessingUnitServiceInterface } from '../../domain/interfaces/post-processing-unit.service'
+import type { PostProcessingUnitGateway } from '../../domain/gateways/post-processing-unit.gateway'
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
 import { PostProcessingUnitService } from '../services/post-processing-unit.service'
-import { FormDataConverterFactory } from '@/modules/shared/infrastructure/factories/form-data-converter.factory'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { AuthTokenFactory } from '@/modules/api/infrastructure/factories/auth-token.factory'
 
 export class PostProcessingUnitFactory {
-  static create(): PostProcessingUnitServiceInterface {
+  static create(params: UrlParams): PostProcessingUnitGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
-    const formDataConvert = FormDataConverterFactory.create()
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PostProcessingUnitService(executeRequest, formDataConvert)
+    const authToken = AuthTokenFactory.create()
+    return new PostProcessingUnitService(executeRequest, authToken, params)
   }
 }

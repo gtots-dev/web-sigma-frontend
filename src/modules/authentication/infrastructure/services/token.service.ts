@@ -6,11 +6,11 @@ import type { UserCredentialsInterface } from '../../domain/interfaces/user-cred
 import { TokenEntities } from '../../domain/entities/token.entity'
 import { HttpResponseTokenValidator } from '../../domain/validators/http-response-token.validator'
 import { CredentialsValidator } from '../../domain/validators/credentials.validator'
-import type { TokenServiceInterface } from '../../domain/interfaces/token-service.interface'
 import type { JwtValidator } from '../../../shared/domain/validators/jwt.validator'
 import { FormDataConverterFactory } from '@/modules/shared/infrastructure/factories/form-data-converter.factory'
+import type { TokenGateway } from '../../domain/gateways/token-service.gateway'
 
-export class TokenService implements TokenServiceInterface {
+export class TokenService implements TokenGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly jwtValidator: JwtValidator

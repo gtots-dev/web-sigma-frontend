@@ -5,17 +5,18 @@ import { useParams } from 'next/navigation'
 import { FileText } from 'lucide-react'
 import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import { useContractStore } from '../../stores/contract.store'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export function ContractSelectedLabelComponent() {
   const { contract, contracts, getContracts, setContract } = useContractStore()
-  const { contractId } = useParams()
+  const { contractId, operationId }: UrlParams = useParams()
 
   const loadSelectedContract = useCallback(async () => {
     if (!contractId) return
-    if (!contracts?.length) await getContracts()
+    if (!contracts?.length) await getContracts({ operationId })
     const selected = contracts.find((c) => c.id === Number(contractId))
     if (selected) setContract(selected)
-  }, [contractId, contracts, getContracts, setContract])
+  }, [contractId, contracts, getContracts, setContract, operationId])
 
   useEffect(() => {
     if (!contract.id) loadSelectedContract()

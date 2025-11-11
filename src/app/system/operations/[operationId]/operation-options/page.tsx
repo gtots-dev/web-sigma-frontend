@@ -1,8 +1,8 @@
 import { auth } from '@/auth'
 import { FrameOptions } from '@/modules/system/presentation/components/frame-options'
 import { CardOption } from '@/modules/system/presentation/components/card-option'
-import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
-import { OperationSelector } from '@/modules/operation-options/presentation/components/operation-selector'
+import { HeaderOptions } from '@/modules/system/presentation/components/header-options'
+import { OperationSelector } from '@/modules/operations/presentation/components/operation-selector'
 import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/messages/configuration-operation'
@@ -15,9 +15,10 @@ import {
   UserRoundSearch,
   type LucideIcon
 } from 'lucide-react'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface OperationOptionsPageProps {
-  params: Promise<{ operationId: string }>
+  params: Promise<UrlParams>
 }
 
 interface OperationCardOption {
@@ -40,7 +41,7 @@ export default async function OperationOptionsPage({
   ] = await Promise.all([auth(), params])
 
   const getOperationFactory = GetOperationsFactory.create()
-  const [{ operationId, userPermissions }, operations] = await Promise.all([
+  const [{ userPermissions }, operations] = await Promise.all([
     loadAuthContext(JWT, rawOperationId),
     getOperationFactory.execute(JWT)
   ])
@@ -55,7 +56,7 @@ export default async function OperationOptionsPage({
     {
       title: MESSAGES_OPTIONS_OPERATION['11.4'],
       description: MESSAGES_OPTIONS_OPERATION['11.5'],
-      pathName: PATHNAMES.OPERATION_CONFIGURATIONS(operationId),
+      pathName: PATHNAMES.OPERATION_CONFIGURATIONS(Number(rawOperationId)),
       icon: Settings,
       accessAllowed:
         isAdmin ||
@@ -65,7 +66,7 @@ export default async function OperationOptionsPage({
     {
       title: MESSAGES_CONFIGURATION_OPERATION['14.4'],
       description: MESSAGES_CONFIGURATION_OPERATION['14.5'],
-      pathName: PATHNAMES.CONTRACTS(operationId),
+      pathName: PATHNAMES.CONTRACTS(Number(rawOperationId)),
       icon: FileText,
       accessAllowed:
         isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_VIEW)
@@ -73,7 +74,7 @@ export default async function OperationOptionsPage({
     {
       title: MESSAGES_OPTIONS_OPERATION['11.6'],
       description: MESSAGES_OPTIONS_OPERATION['11.7'],
-      pathName: PATHNAMES.ACTIVITY_REPORT(operationId),
+      pathName: PATHNAMES.ACTIVITY_REPORT(Number(rawOperationId)),
       icon: UserRoundSearch,
       accessAllowed:
         isAdmin || userPermissions.has(PermissionEnum.ACTIVITY_REPORT_VIEW)

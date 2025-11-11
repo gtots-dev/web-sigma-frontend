@@ -3,12 +3,12 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { UserEntity } from '../../domain/entities/user.entity'
-import type { DeleteBindUserWithPermissionProfileServiceInterface } from '../../domain/interfaces/delete-bind-user-with-permission-profile.interface'
+import type { DeleteBindUserWithPermissionProfileGateway } from '../../domain/gateways/delete-bind-user-with-permission-profile.gateway'
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 
 export class DeleteBindUserWithPermissionProfileService
-  implements DeleteBindUserWithPermissionProfileServiceInterface
+  implements DeleteBindUserWithPermissionProfileGateway
 {
   constructor(private readonly executeRequest: ExecuteRequest) {}
 

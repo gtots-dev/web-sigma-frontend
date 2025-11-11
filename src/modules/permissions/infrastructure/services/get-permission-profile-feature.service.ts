@@ -2,35 +2,37 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
-import type { GetPermissionProfileFeatureServiceInterface } from '../../domain/interfaces/get-permission-profile-feature-service.interface'
+import type { GetPermissionProfileFeatureGateway } from '../../domain/gateways/get-permission-profile-feature.gateway'
 import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
 import type { PermissionProfileWithFeatureInterface } from '../../domain/interfaces/permission-profile-with-feature.interface'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class GetPermissionProfileFeatureService implements GetPermissionProfileFeatureServiceInterface {
-  constructor(private readonly httpRequest: ExecuteRequest) {}
+export class GetPermissionProfileFeatureService
+  implements GetPermissionProfileFeatureGateway
+{
+  constructor(
+    private readonly httpRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider,
+    private readonly params: UrlParams
+  ) {}
 
   getHttpRequestConfig(
-    token: TokenEntities,
-    permissionProfileId: number
+    { operationId, permissionProfileId }: UrlParams,
+    token: TokenEntities
   ): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `/perm-profiles/${permissionProfileId}/features`,
+      url: `/operations/${operationId}/perm-profiles/${permissionProfileId}/features`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(
-    token: TokenEntities,
-    permissionProfileId: PermissionProfileInterface['id']
-  ): Promise<PermissionProfileWithFeatureInterface[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      token,
-      permissionProfileId
-    )
+  async execute(): Promise<PermissionProfileWithFeatureInterface[]> {
+    const token = await this.auth.getToken()
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
     const {
       success,
       data,

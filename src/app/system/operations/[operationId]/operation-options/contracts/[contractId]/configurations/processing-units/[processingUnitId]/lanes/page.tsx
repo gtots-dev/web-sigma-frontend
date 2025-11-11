@@ -8,8 +8,8 @@ import { AddLaneMenuComponent } from '@/modules/lanes/presentation/components/ad
 import { EditLaneMenu } from '@/modules/lanes/presentation/components/edit-lane-menu'
 import { LaneOptionsDropdown } from '@/modules/lanes/presentation/components/lane-options-dropdown'
 import { EditLaneMenuComponent } from '@/modules/lanes/presentation/components/edit-lane-menu/edit-lane-menu.component'
-import { PutLaneStatusMenu } from '@/modules/lanes/presentation/components/put-lane-menu'
-import { PutLaneStatusMenuComponent } from '@/modules/lanes/presentation/components/put-lane-menu/put-lane-status-menu.component'
+import { PatchLaneStatusMenu } from '@/modules/lanes/presentation/components/patch-lane-menu'
+import { PatchLaneStatusMenuComponent } from '@/modules/lanes/presentation/components/patch-lane-menu/patch-lane-status-menu.component'
 
 interface Data {
   title: string
@@ -18,8 +18,8 @@ interface Data {
   menuAddLaneDescription: string
   menuEditLaneTitle: string
   menuEditLaneDescription: string
-  menuPutLaneStatusTitle: string
-  menuPutLaneStatusDescription: string
+  menuPatchLaneStatusTitle: string
+  menuPatchLaneStatusDescription: string
 }
 
 export default async function LanesPage() {
@@ -30,8 +30,8 @@ export default async function LanesPage() {
     menuAddLaneDescription: MESSAGES_LANE['8.5'],
     menuEditLaneTitle: MESSAGES_LANE['8.7'],
     menuEditLaneDescription: MESSAGES_LANE['8.8'],
-    menuPutLaneStatusTitle: MESSAGES_LANE['8.9'],
-    menuPutLaneStatusDescription: MESSAGES_LANE['8.10']
+    menuPatchLaneStatusTitle: MESSAGES_LANE['8.9'],
+    menuPatchLaneStatusDescription: MESSAGES_LANE['8.10']
   }
 
   return (
@@ -56,7 +56,7 @@ export default async function LanesPage() {
         <TableLanes.Header />
         <TableLanes.Body>
           <TableLanes.Item>
-            <PutLaneStatusMenu.Provider>
+            <PatchLaneStatusMenu.Provider>
               <EditLaneMenu.Provider>
                 <LaneOptionsDropdown.Root>
                   <LaneOptionsDropdown.Trigger />
@@ -66,7 +66,7 @@ export default async function LanesPage() {
                     </LaneOptionsDropdown.Item>
 
                     <LaneOptionsDropdown.Item>
-                      <PutLaneStatusMenu.Trigger />
+                      <PatchLaneStatusMenu.Trigger />
                     </LaneOptionsDropdown.Item>
                   </LaneOptionsDropdown.Menu>
                   <EditLaneMenuComponent
@@ -74,13 +74,13 @@ export default async function LanesPage() {
                     description={data.menuEditLaneDescription}
                   />
 
-                  <PutLaneStatusMenuComponent
-                    title={data.menuPutLaneStatusTitle}
-                    description={data.menuPutLaneStatusDescription}
+                  <PatchLaneStatusMenuComponent
+                    title={data.menuPatchLaneStatusTitle}
+                    description={data.menuPatchLaneStatusDescription}
                   />
                 </LaneOptionsDropdown.Root>
               </EditLaneMenu.Provider>
-            </PutLaneStatusMenu.Provider>
+            </PatchLaneStatusMenu.Provider>
           </TableLanes.Item>
         </TableLanes.Body>
       </TableLanes.Root>

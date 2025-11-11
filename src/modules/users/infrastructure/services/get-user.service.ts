@@ -1,5 +1,5 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
-import type { GetUserServiceInterface } from '../../domain/interfaces/get-user-service.interface'
+import type { GetUserGateway } from '../../domain/gateways/get-user.gateway'
 import type { UserInterface } from '../../domain/interfaces/user.interface'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
@@ -7,7 +7,7 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
 import { UserFactory } from '../factories/user.factory'
 
-export class GetUserService implements GetUserServiceInterface {
+export class GetUserService implements GetUserGateway {
   constructor(private readonly executeRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(

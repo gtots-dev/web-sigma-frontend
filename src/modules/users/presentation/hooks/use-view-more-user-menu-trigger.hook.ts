@@ -2,16 +2,19 @@ import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useTableUser } from '../contexts/table-user.context'
 import { useUserFilesStore } from '../stores/user-files.store'
 import { useDialog } from '../components/view-more-user-menu/view-more-user-menu-provider.component'
+import { useParams } from 'next/navigation'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export function useViewMoreUserMenuTrigger() {
   const { open: openDialog } = useDialog()
   const { id: userId } = useTableUser()
+  const { operationId }: UrlParams = useParams()
   const { getUserFiles } = useUserFilesStore()
 
   const loadUserFilesAndOpenDialog = () => {
     queueMicrotask(async () => {
       try {
-        await getUserFiles(userId)
+        await getUserFiles({ operationId, userId })
         openDialog()
       } catch {
         toast({

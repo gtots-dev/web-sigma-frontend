@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { LogIn } from 'lucide-react'
 import { useParams } from 'next/navigation'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface TableContractsItemComponentProps {
   children?: ReactNode
@@ -26,7 +27,7 @@ const baseCell = 'ps-5 sm:ps-10 text-zinc-700 dark:text-zinc-50'
 export function TableContractsItemComponent({
   children
 }: TableContractsItemComponentProps) {
-  const { operationId }: { operationId: string } = useParams()
+  const { operationId }: UrlParams = useParams()
   const { replace } = useRouter()
   const contract = useTableContract()
   const isLarge = useMediaQuery('(min-width: 1024px)')
@@ -84,9 +85,7 @@ export function TableContractsItemComponent({
           <AvailabilityStatusComponent enabled={contract.enabled} />
         </TableCell>
       )}
-      {children && (
-        <TableCell className="text-center">{children}</TableCell>
-      )}
+      {children && <TableCell className="text-center">{children}</TableCell>}
       <TableCell className="px-5 text sm:px-10 text-right" colSpan={1}>
         <Button
           size="icon"

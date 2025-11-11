@@ -7,8 +7,6 @@ export const EditProcessingUnitFormSchema = z.object({
     message: MESSAGES_PROCESSING_UNIT['7.6']
   }),
   cfg: z.string().nullable().optional(),
-  processingUnit_id: z.number(),
-  operation_id: z.number()
 })
 
 export type EditProcessingUnitFormType = z.infer<

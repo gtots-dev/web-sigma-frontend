@@ -20,6 +20,8 @@ import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/
 import type { ActivityReportSchemaType } from '@/modules/activity-report/presentation/hooks/use-activity-schema.hook'
 import { useUserStore } from '@/modules/users/presentation/stores/user.store'
 import { cn } from '@/modules/shared/presentation/lib/utils'
+import { useParams } from 'next/navigation'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface ActivityReportUsersComponentProps {
   require?: boolean
@@ -32,6 +34,7 @@ export function ActivityReportUsersComponent({
 }: ActivityReportUsersComponentProps) {
   const { control } = useFormContext<ActivityReportSchemaType>()
   const { users, getUsers } = useUserStore()
+  const { operationId }: UrlParams = useParams()
   const [loading, setLoading] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [triggerWidth, setTriggerWidth] = useState(0)
@@ -45,9 +48,9 @@ export function ActivityReportUsersComponent({
   useEffect(() => {
     if (users.length === 0) {
       setLoading(true)
-      getUsers().finally(() => setLoading(false))
+      getUsers({ operationId }).finally(() => setLoading(false))
     }
-  }, [users.length, getUsers])
+  }, [users.length, getUsers, operationId])
 
   return (
     <FormField
@@ -127,10 +130,7 @@ export function ActivityReportUsersComponent({
                           {selected ? (
                             <Check className="h-4 w-4 opacity-100" />
                           ) : (
-                            <Square
-                              className="h-4 w-4"
-                              strokeWidth={1}
-                            />
+                            <Square className="h-4 w-4" strokeWidth={1} />
                           )}
                           <span className="truncate">{user.name}</span>
                         </div>

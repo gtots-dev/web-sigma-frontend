@@ -1,17 +1,16 @@
 'use client'
 
-import type { ProcessingUnitEntity } from '@/modules/processing-units/domain/entities/processing-unit.entity'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useFormContext } from 'react-hook-form'
 
-interface ProcessingUnitFormSubmitComponentProps {
-  onSubmit: (processingUnit: ProcessingUnitEntity) => void
+interface ProcessingUnitFormSubmitComponentProps<T> {
+  onSubmit: (values: T) => void
 }
 
-export function ProcessingUnitFormSubmitComponent({
+export function ProcessingUnitFormSubmitComponent<T>({
   onSubmit
-}: ProcessingUnitFormSubmitComponentProps) {
-  const { handleSubmit } = useFormContext()
+}: ProcessingUnitFormSubmitComponentProps<T>) {
+  const { handleSubmit } = useFormContext<T>()
 
   return (
     <Button

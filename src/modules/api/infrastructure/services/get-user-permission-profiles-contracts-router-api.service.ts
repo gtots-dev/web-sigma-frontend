@@ -1,13 +1,13 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { GetUserPermissionProfileContractRouterApiServiceInterface } from '../../domain/interfaces/get-user-permission-profiles-contracts-router-api-service.interface'
+import type { GetUserPermissionProfileContractRouterApiGateway } from '../../domain/gateways/get-user-permission-profiles-contracts-router-api.gateway'
 import type { UserPermissionProfileContractInterface } from '@/modules/users/domain/interfaces/user-permission-profile-contract.interface'
 import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 
 export class GetUserPermissionProfileContractRouterApiService
-  implements GetUserPermissionProfileContractRouterApiServiceInterface
+  implements GetUserPermissionProfileContractRouterApiGateway
 {
   constructor(private readonly executeRequest: ExecuteRequest) {}
   getHttpRequestConfig(

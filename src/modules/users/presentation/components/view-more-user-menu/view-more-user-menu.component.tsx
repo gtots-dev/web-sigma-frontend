@@ -8,6 +8,8 @@ import { useUserFilesStore } from '../../stores/user-files.store'
 import type { UserFileInterface } from '@/modules/users/domain/interfaces/user-file.interface'
 import { useUserFileStore } from '../../stores/user-file.store'
 import { useDownloadFile } from '@/modules/shared/presentation/hooks/use-download-file'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useParams } from 'next/navigation'
 
 interface ViewMoreUserMenuComponentProps {
   title: string
@@ -21,6 +23,7 @@ export function ViewMoreUserMenuComponent({
   const { download } = useDownloadFile()
   const { close } = useDialog()
   const { files } = useUserFilesStore()
+  const { operationId }: UrlParams = useParams()
   const { getUserFile } = useUserFileStore()
   const {
     name,
@@ -91,15 +94,21 @@ export function ViewMoreUserMenuComponent({
               {files.length !== 0 && (
                 <ViewMoreUserMenu.Group>
                   {files.map(
-                    ({ id, original_name, user_id }: UserFileInterface) => (
+                    ({
+                      id: fileId,
+                      original_name,
+                      user_id: userId
+                    }: UserFileInterface) => (
                       <ViewMoreUserMenu.Item.file
-                        key={id}
+                        key={fileId}
                         title="Nome"
                         fileName={original_name}
                         action={() =>
-                          getUserFile(user_id, id).then((file: File) => {
-                            download(file, original_name)
-                          })
+                          getUserFile({ userId, fileId, operationId }).then(
+                            (file: File) => {
+                              download(file, original_name)
+                            }
+                          )
                         }
                       />
                     )
