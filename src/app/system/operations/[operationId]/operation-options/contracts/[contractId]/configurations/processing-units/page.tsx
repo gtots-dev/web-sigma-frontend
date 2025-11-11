@@ -4,7 +4,7 @@ import { EditProcessingUnitsMenu } from '@/modules/processing-units/presentation
 import { EditProcessingUnitsMenuComponent } from '@/modules/processing-units/presentation/components/edit-processing-unit-menu/edit-processing-unit-menu.component'
 import { ProcessingUnitsOptionsDropdown } from '@/modules/processing-units/presentation/components/processing-unit-options-dropdown'
 import { PatchProcessingUnitsStatusMenu } from '@/modules/processing-units/presentation/components/patch-processing-unit-status-menu'
-import { PatchProcessingUnitsStatusMenuComponent } from '@/modules/processing-units/presentation/components/patch-processing-unit-status-menu/put-processing-unit-status-menu.component'
+import { PatchProcessingUnitsStatusMenuComponent } from '@/modules/processing-units/presentation/components/patch-processing-unit-status-menu/patch-processing-unit-status-menu.component'
 import { TabledProcessingUnits } from '@/modules/processing-units/presentation/components/table-processing-units'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_PROCESSING_UNIT } from '@/modules/shared/presentation/messages/processing-unit'
