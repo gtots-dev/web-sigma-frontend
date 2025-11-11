@@ -31,7 +31,7 @@ export function useEditContractSubmit() {
         }
       }
     },
-    [patchContract, getContracts]
+    [patchContract, getContracts, operationId]
   )
 
   return { onAction }

@@ -61,7 +61,7 @@ export function useBindUserWithPermissionProfileSubmit() {
         }
       }
     },
-    [putUserPermissionProfileAllInOne]
+    [putUserPermissionProfileAllInOne, operationId]
   )
   return { onAction }
 }

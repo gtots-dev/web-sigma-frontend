@@ -50,7 +50,7 @@ export function ActivityReportUsersComponent({
       setLoading(true)
       getUsers({ operationId }).finally(() => setLoading(false))
     }
-  }, [users.length, getUsers])
+  }, [users.length, getUsers, operationId])
 
   return (
     <FormField

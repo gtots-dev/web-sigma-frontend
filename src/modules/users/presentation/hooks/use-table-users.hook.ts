@@ -24,7 +24,7 @@ export function useTableUsers(): UseTableUsersResult {
     }
 
     fetchUsers()
-  }, [getUsers])
+  }, [getUsers, operationId])
 
   return { users, loading }
 }

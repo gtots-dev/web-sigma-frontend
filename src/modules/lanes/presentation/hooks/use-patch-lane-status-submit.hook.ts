@@ -39,7 +39,7 @@ export function usePatchLaneStatusSubmit() {
         }
       }
     },
-    [getLanes, operationId, contractId, processingUnitId]
+    [getLanes, patchLaneStatus, operationId, contractId, processingUnitId]
   )
 
   return { onAction }
