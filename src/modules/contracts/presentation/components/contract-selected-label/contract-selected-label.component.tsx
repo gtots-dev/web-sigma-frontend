@@ -16,7 +16,7 @@ export function ContractSelectedLabelComponent() {
     if (!contracts?.length) await getContracts({ operationId })
     const selected = contracts.find((c) => c.id === Number(contractId))
     if (selected) setContract(selected)
-  }, [contractId, contracts, getContracts, setContract])
+  }, [contractId, contracts, getContracts, setContract, operationId])
 
   useEffect(() => {
     if (!contract.id) loadSelectedContract()

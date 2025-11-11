@@ -71,6 +71,7 @@ export function useBindUserWithPermissionProfilesMenuTrigger({
     }
   }, [
     userId,
+    operationId,
     openDialog,
     getUserWithPermissionProfiles,
     getPermissionProfiles,

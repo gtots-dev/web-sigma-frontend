@@ -31,7 +31,7 @@ export function usePutContractStatusSubmit() {
         }
       }
     },
-    [updateStatus, getContracts]
+    [updateStatus, getContracts, operationId]
   )
 
   return { onAction }
