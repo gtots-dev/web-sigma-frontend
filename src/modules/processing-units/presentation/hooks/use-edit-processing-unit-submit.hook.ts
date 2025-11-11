@@ -3,21 +3,25 @@ import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { ProcessingUnitEntity } from '../../domain/entities/processing-unit.entity'
 import { useProcessingUnitStore } from '../stores/processing-units.store'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useParams } from 'next/navigation'
 
 export function useEditProcessingUnitSubmit() {
-  const { getProcessingUnits } = useProcessingUnitStore()
+  const { getProcessingUnits, patchProcessingUnit } = useProcessingUnitStore()
+  const { operationId, contractId }: UrlParams = useParams()
 
   const onAction = useCallback(
     async (
-      data: ProcessingUnitEntity,
+      processingUnit: ProcessingUnitEntity,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
+        await patchProcessingUnit({ operationId, contractId }, processingUnit)
         toast({
           title: 'Unidade de processamento atualizado com sucesso!',
           variant: 'success'
         })
-        await getProcessingUnits()
+        await getProcessingUnits({ operationId, contractId })
         onSuccess?.()
       } catch (error) {
         if (error instanceof HttpResponseError) {
@@ -30,7 +34,7 @@ export function useEditProcessingUnitSubmit() {
         }
       }
     },
-    [getProcessingUnits]
+    [getProcessingUnits, operationId, contractId]
   )
 
   return { onAction }
