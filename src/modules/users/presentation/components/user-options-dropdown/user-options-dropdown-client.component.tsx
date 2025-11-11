@@ -10,8 +10,8 @@ import { PutUserPasswordResetMenuComponent } from '../put-user-password-reset-me
 import { EditUserMenuComponent } from '../edit-user-menu/edit-user-menu.component'
 import { BindUserWithPermissionProfilesMenu } from '../bind-user-with-permission-profiles-menu'
 import { BindUserWithPermissionProfilesMenuComponent } from '../bind-user-with-permission-profiles-menu/bind-user-with-permission-profiles-menu.component'
-import { PutUserStatusMenuComponent } from '../put-user-status-menu/put-user-status-menu.component'
-import { PutUserStatusMenu } from '../put-user-status-menu'
+import { PatchUserStatusMenuComponent } from '../patch-user-status-menu/patch-user-status-menu.component'
+import { PatchUserStatusMenu } from '../patch-user-status-menu'
 import { useTableUser } from '../../contexts/table-user.context'
 
 export function UserOptionsDropdownClient({
@@ -51,7 +51,7 @@ export function UserOptionsDropdownClient({
       <ViewMoreUserMenu.Provider>
         <EditUserMenu.Provider>
           <PutUserPasswordResetMenu.Provider>
-            <PutUserStatusMenu.Provider>
+            <PatchUserStatusMenu.Provider>
               <UserOptionsDropdown.Root>
                 <UserOptionsDropdown.Trigger />
                 <UserOptionsDropdown.Menu>
@@ -91,7 +91,7 @@ export function UserOptionsDropdownClient({
                         PermissionEnum.USERS_ENABLE_AND_DISABLE
                       )) && (
                       <UserOptionsDropdown.Item>
-                        <PutUserStatusMenu.Trigger />
+                        <PatchUserStatusMenu.Trigger />
                       </UserOptionsDropdown.Item>
                     )}
                 </UserOptionsDropdown.Menu>
@@ -123,7 +123,7 @@ export function UserOptionsDropdownClient({
 
               {(isAdmin ||
                 permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)) && (
-                <PutUserStatusMenuComponent
+                <PatchUserStatusMenuComponent
                   title={userStatusTitle}
                   description={userStatusDescription}
                 />
@@ -135,7 +135,7 @@ export function UserOptionsDropdownClient({
                   description={editDescription}
                 />
               )}
-            </PutUserStatusMenu.Provider>
+            </PatchUserStatusMenu.Provider>
           </PutUserPasswordResetMenu.Provider>
         </EditUserMenu.Provider>
       </ViewMoreUserMenu.Provider>

@@ -5,15 +5,15 @@ import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 import { usePermissionProfileStore } from '../stores/permission-profile.store'
-import { usePathname } from 'next/navigation'
-import { extractOperationId } from '@/modules/system/presentation/utils/export-operation-id.util'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useParams } from 'next/navigation'
 
 export type ExtendedPermissionProfile = PermissionProfileInterface & {
   features: number[]
 }
 
 export function useAddPermissionProfileSubmit() {
-  const pathname = usePathname()
+  const { operationId }: UrlParams = useParams()
   const { addPermissionProfileAndFeatures, getPermissionProfiles } =
     usePermissionProfileStore()
   const onAction = useCallback(
@@ -22,14 +22,15 @@ export function useAddPermissionProfileSubmit() {
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        const operationId = extractOperationId(pathname)
-        await addPermissionProfileAndFeatures({
-          operation_id: Number(operationId),
-          perm_profile_name: permissionProfileForm.name,
-          perm_profile_description: permissionProfileForm.description,
-          feature_id: permissionProfileForm.features
-        })
-        await getPermissionProfiles()
+        await addPermissionProfileAndFeatures(
+          { operationId },
+          {
+            perm_profile_name: permissionProfileForm.name,
+            perm_profile_description: permissionProfileForm.description,
+            feature_id: permissionProfileForm.features
+          }
+        )
+        await getPermissionProfiles({ operationId })
         toast({
           title: 'Perfil de permissão adicionado com sucesso!',
           variant: 'success'
@@ -46,7 +47,7 @@ export function useAddPermissionProfileSubmit() {
         }
       }
     },
-    [pathname, addPermissionProfileAndFeatures, getPermissionProfiles]
+    [addPermissionProfileAndFeatures, getPermissionProfiles, operationId]
   )
 
   return { onAction }

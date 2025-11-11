@@ -6,10 +6,7 @@ export const EditLaneFormSchema = z.object({
   name: z.string().nonempty({
     message: MESSAGES_LANE['8.6']
   }),
-  cfg: z.string().nullable().optional(),
-  lane_id: z.number(),
-  operation_id: z.number(),
-  enabled: z.boolean()
+  cfg: z.string().nullable().optional()
 })
 
 export type EditLaneFormType = z.infer<typeof EditLaneFormSchema>

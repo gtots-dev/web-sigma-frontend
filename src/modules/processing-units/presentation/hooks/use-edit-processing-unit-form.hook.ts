@@ -17,9 +17,9 @@ export function useEditProcessingUnitForm(
     () => ({
       id: processingUnit.id,
       name: processingUnit.name,
-      cfg: processingUnit.cfg,
-      contract_id: processingUnit.contract_id,
-      operation_id: processingUnit.operation_id
+      cfg: JSON.stringify(
+        processingUnit?.cfg === null ? {} : processingUnit?.cfg
+      )
     }),
     [processingUnit]
   )

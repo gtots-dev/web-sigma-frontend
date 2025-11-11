@@ -3,10 +3,13 @@ import { useDialog } from '../components/edit-permission-profile-menu/edit-permi
 import { usePermissionProfileStore } from '../stores/permission-profile.store'
 import { useTablePermissionProfile } from '../contexts/table-permission-profiles.context'
 import { useFeatureStore } from '../stores/feature.store'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useParams } from 'next/navigation'
 
 export function useEditPermissionProfileMenuTrigger() {
   const { open: openDialog } = useDialog()
   const { id: permissionProfileId } = useTablePermissionProfile()
+  const { operationId }: UrlParams = useParams()
   const { getFeatures } = useFeatureStore()
   const { getPermissionProfileFeatures } = usePermissionProfileStore()
 
@@ -15,7 +18,7 @@ export function useEditPermissionProfileMenuTrigger() {
       try {
         await Promise.all([
           getFeatures(),
-          getPermissionProfileFeatures(permissionProfileId)
+          getPermissionProfileFeatures({ operationId, permissionProfileId })
         ])
         openDialog()
       } catch {

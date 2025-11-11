@@ -7,9 +7,12 @@ import { usePermissionProfileStore } from '../stores/permission-profile.store'
 import type { ExtendedPermissionProfile } from './use-add-permission-profile-submit.hook'
 import { useTablePermissionProfile } from '../contexts/table-permission-profiles.context'
 import type { PermissionProfileWithFeatureInterface } from '../../domain/interfaces/permission-profile-with-feature.interface'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useParams } from 'next/navigation'
 
 export function useEditPermissionProfileSubmit() {
   const { id: permissionProfileId } = useTablePermissionProfile()
+  const { operationId }: UrlParams = useParams()
   const {
     addFeatures,
     deleteFeature,
@@ -35,10 +38,10 @@ export function useEditPermissionProfileSubmit() {
         )
 
         for (const featureId of featuresToDelete)
-          await deleteFeature(featureId, permissionProfileId)
+          await deleteFeature({ featureId, permissionProfileId, operationId })
 
         if (featuresToAdd.length > 0)
-          await addFeatures(featuresToAdd, permissionProfileId)
+          await addFeatures(featuresToAdd, { permissionProfileId, operationId })
 
         toast({
           title: 'Perfil de permissão atualizado com sucesso!',
@@ -56,7 +59,13 @@ export function useEditPermissionProfileSubmit() {
         }
       }
     },
-    [addFeatures, deleteFeature, selectedApiFeatures, permissionProfileId]
+    [
+      addFeatures,
+      deleteFeature,
+      selectedApiFeatures,
+      permissionProfileId,
+      operationId
+    ]
   )
 
   return { onAction }

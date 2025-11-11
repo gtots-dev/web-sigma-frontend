@@ -3,15 +3,16 @@ import { GetContractsFactory } from '@/modules/contracts/infrastructure/factorie
 import { ContractSelector } from '@/modules/contracts/presentation/components/contract-selector'
 import { FrameOptions } from '@/modules/system/presentation/components/frame-options'
 import { CardOption } from '@/modules/system/presentation/components/card-option'
-import { HeaderOptions } from '@/modules/operation-options/presentation/components/header-options'
+import { HeaderOptions } from '@/modules/system/presentation/components/header-options'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_CONFIGURATION_CONTRACT } from '@/modules/shared/presentation/messages/configuration-contract'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { HardDrive, MapPin, type LucideIcon } from 'lucide-react'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface ConfigurationsPageProps {
-  params: Promise<{ operationId: string; contractId: string }>
+  params: Promise<UrlParams>
 }
 
 interface ConfigurationCardOption {
@@ -33,10 +34,12 @@ export default async function ConfigurationsPage({
     { operationId: rawOperationId, contractId: rawContractId }
   ] = await Promise.all([auth(), params])
 
-  const getContractFactory = GetContractsFactory.create()
+  const getContractFactory = GetContractsFactory.create({
+    operationId: rawOperationId
+  })
   const [{ userPermissions }, contracts] = await Promise.all([
     loadAuthContext(JWT, rawOperationId),
-    getContractFactory.execute(JWT)
+    getContractFactory.execute()
   ])
 
   const title = MESSAGES_CONFIGURATION_CONTRACT['17.1']

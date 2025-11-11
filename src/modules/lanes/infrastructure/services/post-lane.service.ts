@@ -2,38 +2,49 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { LaneEntity } from '../../domain/entities/lane.entity'
-import type { PostLaneServiceInterface } from '../../domain/interfaces/post-lane.service'
-import { HttpResponseLaneValidator } from '../../domain/validators/http-response-lane.validator'
-import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 
-export class PostLaneService
-  implements PostLaneServiceInterface
-{
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { LaneEntity } from '../../domain/entities/lane.entity'
+import { HttpResponseLaneValidator } from '../../domain/validators/http-response-lane.validator'
+import type { PostLaneGateway } from '../../domain/gateways/post-lane.gateway'
+
+export class PostLaneService implements PostLaneGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
-    private readonly convertFormData: ConvertJsonToFormData
+    private readonly auth: AuthTokenProvider,
+    private readonly params: UrlParams
   ) {}
 
+  private normalizeLane(lane: LaneEntity): LaneEntity {
+    const cfg =
+      typeof lane.cfg === 'string'
+        ? lane.cfg.trim() === ''
+          ? {}
+          : JSON.parse(lane.cfg)
+        : lane.cfg
+
+    return { ...lane, cfg }
+  }
+
   getHttpRequestConfig(
+    { operationId, contractId, processingUnitId }: UrlParams,
     token: TokenEntities,
     lane: LaneEntity
-  ): HttpRequestConfig<FormData> {
+  ): HttpRequestConfig<LaneEntity> {
     return {
       method: 'POST',
-      url: `/equipments/lanes`,
-      data: this.convertFormData.execute({ ...lane }),
+      url: `/operations/${operationId}/contracts/${contractId}/ups/${processingUnitId}/lanes`,
+      data: this.normalizeLane(lane),
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(
-    token: TokenEntities,
-    lane: LaneEntity
-  ): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(token, lane)
+  async execute(lane: LaneEntity): Promise<void> {
+    const token = await this.auth.getToken()
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token, lane)
     const { success, status }: HttpResponse<null> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponseLaneValidator.validate(success, status)

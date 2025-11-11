@@ -5,6 +5,8 @@ import { useTableUser } from '../contexts/table-user.context'
 import { usePermissionProfileStore } from '@/modules/permissions/presentation/stores/permission-profile.store'
 import { useContractStore } from '@/modules/contracts/presentation/stores/contract.store'
 import { useCallback } from 'react'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useParams } from 'next/navigation'
 
 interface UseBindUserWithPermissionProfilesMenuTriggerProps {
   isPermittedViewContracts: boolean
@@ -17,6 +19,7 @@ export function useBindUserWithPermissionProfilesMenuTrigger({
 }: UseBindUserWithPermissionProfilesMenuTriggerProps) {
   const { open: openDialog } = useDialog()
   const { id: userId } = useTableUser()
+  const { operationId }: UrlParams = useParams()
   const {
     getUserWithPermissionProfiles,
     getUserPermissionProfilesContract,
@@ -33,10 +36,12 @@ export function useBindUserWithPermissionProfilesMenuTrigger({
         const [userWithPermissionProfiles, permissionProfiles, contracts] =
           await Promise.all([
             isPermittedViewPermissionsProfile
-              ? getUserWithPermissionProfiles(userId)
+              ? getUserWithPermissionProfiles({ operationId, userId })
               : null,
-            isPermittedViewPermissionsProfile ? getPermissionProfiles() : null,
-            isPermittedViewContracts ? getContracts() : null
+            isPermittedViewPermissionsProfile
+              ? getPermissionProfiles({ operationId })
+              : null,
+            isPermittedViewContracts ? getContracts({ operationId }) : null
           ] as const)
 
         return { userWithPermissionProfiles, permissionProfiles, contracts }
@@ -66,6 +71,7 @@ export function useBindUserWithPermissionProfilesMenuTrigger({
     }
   }, [
     userId,
+    operationId,
     openDialog,
     getUserWithPermissionProfiles,
     getPermissionProfiles,

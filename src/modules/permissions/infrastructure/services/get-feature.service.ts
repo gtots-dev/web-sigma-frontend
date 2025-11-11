@@ -3,10 +3,10 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { FeaturesInterface } from '../../domain/interfaces/features.interface'
-import type { GetFeatureServiceInterface } from '../../domain/interfaces/get-feature-service.interface'
+import type { GetFeatureGateway } from '../../domain/gateways/get-feature.gateway'
 import { HttpFeatureValidator } from '../../domain/validators/http-response-feature.validator'
 
-export class GetFeatureService implements GetFeatureServiceInterface {
+export class GetFeatureService implements GetFeatureGateway {
   constructor(private readonly httpRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(token: TokenEntities): HttpRequestConfig {

@@ -1,12 +1,17 @@
+'use client'
+
 import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useUserStore } from '../stores/user.store'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UserPasswordResetInterface } from '../../domain/interfaces/user-password-reset.interface'
 import { useUserPasswordResetStore } from '../stores/user-password-reset.store'
+import { useParams } from 'next/navigation'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export function usePutUserPasswordResetSubmit() {
   const { getUsers } = useUserStore()
+  const { operationId }: UrlParams = useParams()
   const { solicitedNewPassword } = useUserPasswordResetStore()
 
   const onAction = useCallback(
@@ -15,8 +20,8 @@ export function usePutUserPasswordResetSubmit() {
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        await solicitedNewPassword(userPasswordReset)
-        await getUsers()
+        await solicitedNewPassword({ operationId }, userPasswordReset)
+        await getUsers({ operationId })
         toast({
           title: 'Redefinição de senha enviada com sucesso!',
           variant: 'success',
@@ -35,7 +40,7 @@ export function usePutUserPasswordResetSubmit() {
         }
       }
     },
-    [solicitedNewPassword, getUsers]
+    [solicitedNewPassword, getUsers, operationId]
   )
 
   return { onAction }
