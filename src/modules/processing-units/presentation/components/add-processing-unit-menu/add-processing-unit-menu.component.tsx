@@ -36,7 +36,7 @@ export function AddProcessingUnitMenuComponent({
           >
             Cancelar
           </Button>
-          <ProcessingUnitForm.Submit
+          <ProcessingUnitForm.Submit<ProcessingUnitEntity>
             onSubmit={(processingUnit: ProcessingUnitEntity) =>
               onAction(processingUnit, close)
             }
