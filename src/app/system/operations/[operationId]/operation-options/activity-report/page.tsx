@@ -15,6 +15,7 @@ import {
 } from '@/modules/shared/presentation/utils/formatted.utils'
 import { auth } from '@/auth'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface ActivityReportPageProps {
   params: Promise<UrlParams>

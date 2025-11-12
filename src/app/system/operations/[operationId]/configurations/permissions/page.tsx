@@ -7,6 +7,7 @@ import { AddPermissionProfileMenu } from '@/modules/permissions/presentation/com
 import { PermissionProfileOptionsDropdown } from '@/modules/permissions/presentation/components/permission-profile-options-dropdown'
 import { auth } from '@/auth'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface PermissionsPageProps {
   params: Promise<UrlParams>

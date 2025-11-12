@@ -8,6 +8,7 @@ import { MESSAGES_PASSWORD_RESET } from '@/modules/shared/presentation/messages/
 import { auth } from '@/auth'
 import { UserOptionsDropdown } from '@/modules/users/presentation/components/user-options-dropdown'
 import { AddUserMenu } from '@/modules/users/presentation/components/add-user-menu'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface UsersPageProps {
   params: Promise<UrlParams>
