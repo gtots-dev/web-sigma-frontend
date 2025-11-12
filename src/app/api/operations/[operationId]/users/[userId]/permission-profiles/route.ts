@@ -1,46 +1,21 @@
-import { auth } from '@/auth'
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import type { PermissionProfileWithUserInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-user.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { GetUserWithPermissionProfileFactory } from '@/modules/users/infrastructure/factories/get-user-with-permission-profile.factory'
 import { PostBindUserWithPermissionProfileFactory } from '@/modules/users/infrastructure/factories/post-bind-user-with-permission-profile.factory'
-import { NextResponse, type NextRequest } from 'next/server'
 
 const routerApi = RouterApiFactory.create()
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ userId: UserEntity['id'] }> }
-): Promise<NextResponse> {
-  try {
-    const { userId } = await params
-    const permissionProfileIds = await req.json()
-    const { token } = await auth()
-    const postBindUserWithPermissionProfileFactory =
-      PostBindUserWithPermissionProfileFactory.create()
-    await postBindUserWithPermissionProfileFactory.execute(
-      token,
-      permissionProfileIds,
-      userId
-    )
-    return NextResponse.json({
-      status: Number(HttpStatusCodeEnum.OK)
-    })
-  } catch (error) {
-    if (error instanceof HttpResponseError) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message
-        },
-        { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
-      )
-    }
+export const POST = routerApi.POST<UrlParams>(
+  async ({ operationId, userId }, req) => {
+    const permissionProfileIds = await req?.json()
+    const postBindUserWithPermissionProfile =
+      PostBindUserWithPermissionProfileFactory.create({ operationId, userId })
+    await postBindUserWithPermissionProfile.execute(permissionProfileIds)
+    return { data: { success: true }, status: HttpStatusCodeEnum.OK }
   }
-}
+)
 
 export const GET = routerApi.GET<
   UrlParams,
