@@ -1,32 +1,33 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 import type { PostBindUserWithPermissionProfileRouterApiGateway } from '../../domain/gateways/post-bind-user-with-permission-profile-router-api.gateway'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
-import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostBindUserWithPermissionProfileRouterApiService
   implements PostBindUserWithPermissionProfileRouterApiGateway
 {
-  constructor(private readonly httpRequest: ExecuteRequest) {}
+  constructor(
+    private readonly httpRequest: ExecuteRequest,
+    private readonly params: UrlParams
+  ) {}
   getHttpRequestConfig(
-    userId: UserEntity['id'],
-    permissionProfileIds: PermissionProfileInterface['id'][]
-  ): HttpRequestConfig<number[]> {
+    { operationId, userId }: UrlParams,
+    permissionProfileIds: PermissionProfileEntity['id'][]
+  ): HttpRequestConfig<PermissionProfileEntity['id'][]> {
     return {
       method: 'POST',
       data: permissionProfileIds,
-      url: `api/user/${userId}/permission-profile`
+      url: `api/operations/${operationId}/users/${userId}/permission-profiles`
     }
   }
   async execute(
-    userId: UserEntity['id'],
-    permissionProfileIds: PermissionProfileInterface['id'][]
+    permissionProfileIds: PermissionProfileEntity['id'][]
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      userId,
+      this.params,
       permissionProfileIds
     )
     const { success, status }: HttpResponse<PermissionProfileEntity> =
