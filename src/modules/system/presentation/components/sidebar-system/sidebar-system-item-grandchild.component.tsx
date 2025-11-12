@@ -24,6 +24,7 @@ import {
   isSelectionProcessingUnitRoute,
   PATHNAMES
 } from '@/modules/shared/infrastructure/configs/pathnames.config'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 const variants = {
   open: { opacity: 1, height: 'auto', transition: { duration: 0.3 } },
@@ -46,7 +47,7 @@ export function SidebarSystemItemGrandchildComponent({
     operationId,
     contractId,
     processingUnitId
-  }: { operationId: string; contractId: string; processingUnitId: string } =
+  }: UrlParams =
     useParams()
   const { handleClick, isActive } = useSidebarSystemItem(item)
   const [isOpen, setIsOpen] = useState(true)

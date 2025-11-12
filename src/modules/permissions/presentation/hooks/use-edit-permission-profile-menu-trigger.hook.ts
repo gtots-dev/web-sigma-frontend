@@ -18,7 +18,10 @@ export function useEditPermissionProfileMenuTrigger() {
       try {
         await Promise.all([
           getFeatures(),
-          getPermissionProfileFeatures({ operationId, permissionProfileId })
+          getPermissionProfileFeatures({
+            operationId,
+            permissionProfileId: String(permissionProfileId)
+          })
         ])
         openDialog()
       } catch {
