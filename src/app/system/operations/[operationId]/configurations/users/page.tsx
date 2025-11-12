@@ -10,7 +10,7 @@ import { UserOptionsDropdown } from '@/modules/users/presentation/components/use
 import { AddUserMenu } from '@/modules/users/presentation/components/add-user-menu'
 
 interface UsersPageProps {
-  params: Promise<{ operationId: string }>
+  params: Promise<UrlParams>
 }
 
 export default async function UsersPage({ params }: UsersPageProps) {

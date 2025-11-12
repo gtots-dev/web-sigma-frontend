@@ -9,9 +9,10 @@ import { MESSAGES_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { FileKey2, UsersRound, type LucideIcon } from 'lucide-react'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface ConfigurationOptionsPageProps {
-  params: Promise<{ rawOperationId: string }>
+  params: Promise<UrlParams>
 }
 
 interface ConfigurationCardOption {
@@ -30,7 +31,7 @@ export default async function ConfigurationOptionsPage({
       token: JWT,
       user: { isAdmin }
     },
-    { rawOperationId: rawOperationId }
+    { operationId: rawOperationId }
   ] = await Promise.all([auth(), params])
 
   const getOperationsFactory = GetOperationsFactory.create()

@@ -9,7 +9,7 @@ import { auth } from '@/auth'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 
 interface PermissionsPageProps {
-  params: Promise<{ operationId: string }>
+  params: Promise<UrlParams>
 }
 
 export default async function PermissionsPage({
