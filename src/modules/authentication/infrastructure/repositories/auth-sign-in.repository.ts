@@ -7,7 +7,7 @@ export class AuthSignInRepository {
   async execute(signInProps: AuthSignInConfigInterface) {
     return signIn(this.type, {
       ...signInProps.data,
-      redirect: signInProps.options.redirect
+      redirect: signInProps.options.redirect as false
     })
   }
 }
