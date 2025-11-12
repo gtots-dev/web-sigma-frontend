@@ -35,7 +35,7 @@ export const useProcessingUnitStore = create<ProcessingUnitState>((set) => ({
     try {
       const postProcessingUnitRouterApiFactory =
         PostProcessingUnitRouterApiFactory.create({ operationId, contractId })
-      postProcessingUnitRouterApiFactory.execute(processingUnit)
+      await postProcessingUnitRouterApiFactory.execute(processingUnit)
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
@@ -65,7 +65,7 @@ export const useProcessingUnitStore = create<ProcessingUnitState>((set) => ({
     try {
       const patchProcessingUnitRouterApiFactory =
         PatchProcessingUnitRouterApiFactory.create({ operationId, contractId })
-      patchProcessingUnitRouterApiFactory.execute(processingUnit)
+      await patchProcessingUnitRouterApiFactory.execute(processingUnit)
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
@@ -84,7 +84,7 @@ export const useProcessingUnitStore = create<ProcessingUnitState>((set) => ({
           contractId,
           processingUnitId
         })
-      patchProcessingUnitStatusRouterApiFactory.execute(
+      await patchProcessingUnitStatusRouterApiFactory.execute(
         processingUnitEnableAndDIsable
       )
     } catch (error) {
