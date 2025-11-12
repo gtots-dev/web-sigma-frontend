@@ -38,10 +38,17 @@ export function useEditPermissionProfileSubmit() {
         )
 
         for (const featureId of featuresToDelete)
-          await deleteFeature({ featureId, permissionProfileId, operationId })
+          await deleteFeature({
+            featureId: String(featureId),
+            permissionProfileId: String(permissionProfileId),
+            operationId
+          })
 
         if (featuresToAdd.length > 0)
-          await addFeatures(featuresToAdd, { permissionProfileId, operationId })
+          await addFeatures(featuresToAdd, {
+            permissionProfileId: String(permissionProfileId),
+            operationId
+          })
 
         toast({
           title: 'Perfil de permissão atualizado com sucesso!',

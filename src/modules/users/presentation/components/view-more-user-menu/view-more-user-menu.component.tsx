@@ -104,11 +104,13 @@ export function ViewMoreUserMenuComponent({
                         title="Nome"
                         fileName={original_name}
                         action={() =>
-                          getUserFile({ userId, fileId, operationId }).then(
-                            (file: File) => {
-                              download(file, original_name)
-                            }
-                          )
+                          getUserFile({
+                            userId: String(userId),
+                            fileId: String(fileId),
+                            operationId
+                          }).then((file: File) => {
+                            download(file, original_name)
+                          })
                         }
                       />
                     )

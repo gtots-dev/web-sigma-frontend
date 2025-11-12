@@ -15,7 +15,7 @@ export const useUserFileStore = create<UserFileState>(() => ({
         fileId,
         operationId
       })
-      return await getUsersRouterApiFactory.execute(userId, fileId)
+      return await getUsersRouterApiFactory.execute()
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error

@@ -6,7 +6,7 @@ import type { AuthSignOutGateway } from '../../domain/gateways/auth-sign-out.gat
 export class AuthSignOutRepository implements AuthSignOutGateway {
   async execute({ options }: AuthSignOutConfigInterface) {
     await signOut({
-      redirect: options.redirect
+      redirect: options.redirect as false
     })
   }
 }
