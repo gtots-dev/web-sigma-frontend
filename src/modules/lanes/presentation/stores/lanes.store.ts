@@ -42,7 +42,7 @@ export const useLaneStore = create<LaneState>((set) => ({
         contractId,
         processingUnitId
       })
-      postLaneRouterApiFactory.execute(lane)
+      await postLaneRouterApiFactory.execute(lane)
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
@@ -80,7 +80,7 @@ export const useLaneStore = create<LaneState>((set) => ({
         contractId,
         processingUnitId
       })
-      patchLane.execute(lane)
+      await patchLane.execute(lane)
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
@@ -98,7 +98,7 @@ export const useLaneStore = create<LaneState>((set) => ({
         contractId,
         processingUnitId
       })
-      patchLane.execute(lane)
+      await patchLane.execute(lane)
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
