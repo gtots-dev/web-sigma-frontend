@@ -17,7 +17,7 @@ import { auth } from '@/auth'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 
 interface ActivityReportPageProps {
-  params: Promise<{ operationId: string }>
+  params: Promise<UrlParams>
 }
 
 export default async function ActivityReportPage({
