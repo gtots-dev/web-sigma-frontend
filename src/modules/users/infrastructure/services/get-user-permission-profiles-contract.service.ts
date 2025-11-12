@@ -4,38 +4,34 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { UserPermissionProfileContractInterface } from '../../domain/interfaces/user-permission-profile-contract.interface'
 import type { GetUserPermissionProfileContractGateway } from '../../domain/gateways/get-user-permission-profiles-contract.gateway'
-import type { UserEntity } from '../../domain/entities/user.entity'
-import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetUserPermissionProfileContractService
   implements GetUserPermissionProfileContractGateway
 {
-  constructor(private readonly httpRequest: ExecuteRequest) {}
+  constructor(
+    private readonly httpRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider,
+    private readonly params: UrlParams
+  ) {}
 
   getHttpRequestConfig(
-    token: TokenEntities,
-    userId: UserEntity['id'],
-    userPermissionProfileId: PermissionProfileInterface['id']
+    { operationId, userId, permissionProfileId }: UrlParams,
+    token: TokenEntities
   ): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `/users/${userId}/perm-profiles/${userPermissionProfileId}/contracts`,
+      url: `/operations/${operationId}/users/${userId}/perm-profiles/${permissionProfileId}/contracts`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(
-    token: TokenEntities,
-    userId: UserEntity['id'],
-    userPermissionProfileId: PermissionProfileInterface['id']
-  ): Promise<UserPermissionProfileContractInterface[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      token,
-      userId,
-      userPermissionProfileId
-    )
+  async execute(): Promise<UserPermissionProfileContractInterface[]> {
+    const token = await this.auth.getToken()
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
     const { data }: HttpResponse<UserPermissionProfileContractInterface[]> =
       await this.httpRequest.execute(settingsAuthHTTP)
     return data
