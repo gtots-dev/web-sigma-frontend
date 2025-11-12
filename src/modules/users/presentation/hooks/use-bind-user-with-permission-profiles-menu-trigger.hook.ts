@@ -36,7 +36,10 @@ export function useBindUserWithPermissionProfilesMenuTrigger({
         const [userWithPermissionProfiles, permissionProfiles, contracts] =
           await Promise.all([
             isPermittedViewPermissionsProfile
-              ? getUserWithPermissionProfiles({ operationId, userId })
+              ? getUserWithPermissionProfiles({
+                  operationId,
+                  userId: String(userId)
+                })
               : null,
             isPermittedViewPermissionsProfile
               ? getPermissionProfiles({ operationId })
@@ -50,18 +53,18 @@ export function useBindUserWithPermissionProfilesMenuTrigger({
       if (isPermittedViewPermissionsProfile && userWithPermissionProfiles) {
         await Promise.all(
           userWithPermissionProfiles.map(
-            async ({ id: userPermissionProfile, user_id }) => {
-              await getUserPermissionProfilesContract(
-                user_id,
-                userPermissionProfile
-              )
+            async ({ id: permissionProfileId, user_id: userId }) => {
+              await getUserPermissionProfilesContract({
+                operationId,
+                permissionProfileId: String(permissionProfileId),
+                userId: String(userId)
+              })
             }
           )
         )
       }
       openDialog()
-    } catch (error) {
-      console.error(error)
+    } catch {
       toast({
         variant: 'destructive',
         title: 'Erro ao carregar o formulário',
