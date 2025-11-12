@@ -23,7 +23,7 @@ export function usePatchProcessingUnitStatusSubmit() {
           {
             operationId,
             contractId,
-            processingUnitId: processingUnitEnableAndDisabled.id
+            processingUnitId: String(processingUnitEnableAndDisabled.id)
           },
           processingUnitEnableAndDisabled
         )
