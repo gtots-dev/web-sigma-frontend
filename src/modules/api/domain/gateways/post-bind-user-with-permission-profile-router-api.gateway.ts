@@ -1,9 +1,7 @@
-import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
-import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
 
 export interface PostBindUserWithPermissionProfileRouterApiGateway {
   execute(
-    userId: UserEntity['id'],
-    permissionProfileIds: PermissionProfileInterface['id'][]
+    permissionProfileIds: PermissionProfileEntity['id'][]
   ): Promise<void>
 }

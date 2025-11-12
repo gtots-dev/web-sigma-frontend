@@ -14,7 +14,7 @@ export function useViewMoreUserMenuTrigger() {
   const loadUserFilesAndOpenDialog = () => {
     queueMicrotask(async () => {
       try {
-        await getUserFiles({ operationId, userId })
+        await getUserFiles({ operationId, userId: String(userId) })
         openDialog()
       } catch {
         toast({
