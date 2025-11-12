@@ -34,7 +34,7 @@ export function useEditProcessingUnitSubmit() {
         }
       }
     },
-    [getProcessingUnits, operationId, contractId]
+    [getProcessingUnits, patchProcessingUnit, operationId, contractId]
   )
 
   return { onAction }
