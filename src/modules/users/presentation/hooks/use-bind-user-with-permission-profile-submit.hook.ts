@@ -38,7 +38,7 @@ export function useBindUserWithPermissionProfileSubmit() {
         )
 
         await putUserPermissionProfileAllInOne(
-          { operationId, userId },
+          { operationId, userId: String(userId) },
           {
             profiles: listSelectedProfiles
           }

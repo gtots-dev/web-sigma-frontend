@@ -17,7 +17,10 @@ export function usePatchPermissionProfileStatusSubmit() {
     ): Promise<void> => {
       try {
         await updatePermissionProfileStatus(
-          { operationId, permissionProfileId: permissionProfileStatus.id },
+          {
+            operationId,
+            permissionProfileId: String(permissionProfileStatus.id)
+          },
           permissionProfileStatus
         )
         await getPermissionProfiles({ operationId })
