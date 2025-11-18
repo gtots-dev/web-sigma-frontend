@@ -1,0 +1,40 @@
+'use client'
+
+import { useCallback } from 'react'
+import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
+import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useParams } from 'next/navigation'
+import type { PointEntity } from '../../domain/entities/point.entity'
+import { usePointStore } from '../stores/point.store'
+
+export function usePatchPointSubmit() {
+  const { operationId, contractId }: UrlParams = useParams()
+  const { getPoints, patchPoint } = usePointStore()
+
+  const onAction = useCallback(
+    async (point: PointEntity, onSuccess: VoidFunction): Promise<void> => {
+      try {
+        await patchPoint({ operationId, contractId }, point)
+        toast({
+          title: 'Ponto adicionado com sucesso!',
+          variant: 'success'
+        })
+        await getPoints({ operationId, contractId })
+        onSuccess?.()
+      } catch (error) {
+        if (error instanceof HttpResponseError) {
+          toast({
+            title: 'Erro ao adicionar o ponto',
+            description:
+              'Ocorreu um problema ao tentar adicionar o ponto. Verifique e tente novamente',
+            variant: 'destructive'
+          })
+        }
+      }
+    },
+    [getPoints, patchPoint, operationId, contractId]
+  )
+
+  return { onAction }
+}
