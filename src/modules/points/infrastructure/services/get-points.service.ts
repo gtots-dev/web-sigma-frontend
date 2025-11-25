@@ -4,9 +4,9 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
-import type { PointEntity } from '../../domain/entities/point.entity'
 import { HttpResponsePointValidator } from '../../domain/validators/http-response-point.validator'
 import type { GetPointsGateway } from '../../domain/gateways/get-points.gateway'
+import type { PointWithGroupInterface } from '../../domain/interfaces/point-with-group.interface'
 
 export class GetPointsService implements GetPointsGateway {
   constructor(
@@ -28,10 +28,10 @@ export class GetPointsService implements GetPointsGateway {
     }
   }
 
-  async execute(): Promise<PointEntity[]> {
+  async execute(): Promise<PointWithGroupInterface[]> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token, this.params)
-    const { success, data, status }: HttpResponse<PointEntity[]> =
+    const { success, data, status }: HttpResponse<PointWithGroupInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
     HttpResponsePointValidator.validate(success, status)
     return data

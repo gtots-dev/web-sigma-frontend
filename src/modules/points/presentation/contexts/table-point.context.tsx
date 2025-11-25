@@ -1,9 +1,11 @@
 'use client'
 
 import { createContext, useContext } from 'react'
-import type { PointEntity } from '../../domain/entities/point.entity'
+import type { PointWithGroupInterface } from '../../domain/interfaces/point-with-group.interface'
 
-export const TablePointContext = createContext<PointEntity | null>(null)
+export const TablePointContext = createContext<PointWithGroupInterface | null>(
+  null
+)
 
 export const useTablePoint = () => {
   const context = useContext(TablePointContext)
