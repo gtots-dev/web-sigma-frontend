@@ -3,12 +3,12 @@ import { PostPointFactory } from '@/modules/points/infrastructure/factories/post
 import { PatchPointFactory } from '@/modules/points/infrastructure/factories/patch-point.factory'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
-import type { PointEntity } from '@/modules/points/domain/entities/point.entity'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { PointWithGroupInterface } from '@/modules/points/domain/interfaces/point-with-group.interface'
 
 const routerApi = RouterApiFactory.create()
 
-export const GET = routerApi.GET<UrlParams, PointEntity[]>(
+export const GET = routerApi.GET<UrlParams, PointWithGroupInterface[]>(
   async ({ operationId, contractId }) => {
     const getPoints = GetPointsFactory.create({ operationId, contractId })
     const response = await getPoints.execute()
