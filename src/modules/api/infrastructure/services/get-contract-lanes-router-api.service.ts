@@ -2,11 +2,13 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import type { GetPointsRouterApiGateway } from '../../domain/gateways/get-points-router-api.gateway'
-import { HttpResponsePointValidator } from '@/modules/points/domain/validators/http-response-point.validator'
-import type { PointWithGroupInterface } from '@/modules/points/domain/interfaces/point-with-group.interface'
+import { HttpResponseLaneValidator } from '@/modules/lanes/domain/validators/http-response-lane.validator'
+import type { LaneWithPointAndGroupInterface } from '@/modules/lanes/domain/interfaces/lane-with-point-and-group.interface'
+import type { GetContractLanesRouterApiGateway } from '../../domain/gateways/get-contract-lanes-router-api.gateway'
 
-export class GetPointsRouterApiService implements GetPointsRouterApiGateway {
+export class GetContractLanesRouterApiService
+  implements GetContractLanesRouterApiGateway
+{
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -17,15 +19,19 @@ export class GetPointsRouterApiService implements GetPointsRouterApiGateway {
   }: UrlParams): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `api/operations/${operationId}/contracts/${contractId}/points`
+      url: `api/operations/${operationId}/contracts/${contractId}/lanes`
     }
   }
 
-  async execute(): Promise<PointWithGroupInterface[]> {
+  async execute(): Promise<LaneWithPointAndGroupInterface[]> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
-    const { success, data, status }: HttpResponse<PointWithGroupInterface[]> =
+    const {
+      success,
+      data,
+      status
+    }: HttpResponse<LaneWithPointAndGroupInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponsePointValidator.validate(success, status)
+    HttpResponseLaneValidator.validate(success, status)
     return data
   }
 }
