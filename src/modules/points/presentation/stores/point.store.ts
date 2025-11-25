@@ -7,9 +7,13 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { PatchPointRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-point-router-api.factory'
 import type { PointEnableAndDisableInterface } from '../../domain/interfaces/point-enable-and-disable.interface'
 import { PatchPointStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-point-status-router-api.factory'
+import type { PointWithGroupInterface } from '../../domain/interfaces/point-with-group.interface'
+import type { LaneEntity } from '@/modules/lanes/domain/entities/lane.entity'
+import { PostPointLaneRouterApiFactory } from '@/modules/api/infrastructure/factories/post-point-lane-router-api.factory'
+import { DeletePointLaneRouterApiFactory } from '@/modules/api/infrastructure/factories/delete-point-lane-router-api.factory'
 
 type PointState = {
-  points: PointEntity[]
+  points: PointWithGroupInterface[]
   getPoints: ({ operationId, contractId }: UrlParams) => Promise<void>
   addPoint: (
     { operationId, contractId }: UrlParams,
@@ -23,6 +27,16 @@ type PointState = {
     { operationId, contractId }: UrlParams,
     point: PointEnableAndDisableInterface
   ) => Promise<void>
+  postPointLane: (
+    { operationId, contractId, pointId }: UrlParams,
+    laneId: LaneEntity['id']
+  ) => Promise<void>
+  deletePointLane: ({
+    operationId,
+    contractId,
+    pointId,
+    laneId
+  }: UrlParams) => Promise<void>
 }
 
 export const usePointStore = create<PointState>((set) => ({
@@ -87,6 +101,44 @@ export const usePointStore = create<PointState>((set) => ({
         contractId
       })
       await patchPoint.execute(point)
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+  postPointLane: async (
+    { operationId, contractId, pointId }: UrlParams,
+    laneId: LaneEntity['id']
+  ) => {
+    try {
+      const postPointLane = PostPointLaneRouterApiFactory.create({
+        operationId,
+        contractId,
+        pointId
+      })
+      await postPointLane.execute(laneId)
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
+  deletePointLane: async ({
+    operationId,
+    contractId,
+    pointId,
+    laneId
+  }: UrlParams) => {
+    try {
+      const deletePointLane = DeletePointLaneRouterApiFactory.create({
+        operationId,
+        contractId,
+        pointId,
+        laneId
+      })
+      await deletePointLane.execute()
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
