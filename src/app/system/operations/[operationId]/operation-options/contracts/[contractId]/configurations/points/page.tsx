@@ -23,6 +23,8 @@ interface Data {
   menuPatchPointDescription: string
   menuPatchPointStatusTitle: string
   menuPatchPointStatusDescription: string
+  menuPostPointLaneTitle: string
+  menuPostPointLaneDescription: string
 }
 
 export default async function PointsPage({ params }: PointsPageProps) {
@@ -43,7 +45,9 @@ export default async function PointsPage({ params }: PointsPageProps) {
     menuPatchPointTitle: MESSAGES_POINT['14.7'],
     menuPatchPointDescription: MESSAGES_POINT['14.8'],
     menuPatchPointStatusTitle: MESSAGES_POINT['14.9'],
-    menuPatchPointStatusDescription: MESSAGES_POINT['14.10']
+    menuPatchPointStatusDescription: MESSAGES_POINT['14.10'],
+    menuPostPointLaneTitle: MESSAGES_POINT['14.11'],
+    menuPostPointLaneDescription: MESSAGES_POINT['14.12']
   }
 
   return (
@@ -73,7 +77,9 @@ export default async function PointsPage({ params }: PointsPageProps) {
               patchTitle={data.menuPatchPointTitle}
               patchDescription={data.menuPatchPointDescription}
               patchStatusTitle={data.menuPatchPointTitle}
-              patchStatusDescription={data.menuPatchPointStatusTitle}
+              patchStatusDescription={data.menuPatchPointStatusDescription}
+              postPointLaneTitle={data.menuPostPointLaneTitle}
+              postPointLaneDescription={data.menuPostPointLaneDescription}
               permissions={userPermissions}
             />
           </TablePoints.Item>
