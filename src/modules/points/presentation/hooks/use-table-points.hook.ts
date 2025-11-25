@@ -3,11 +3,11 @@
 import { useEffect, useState, useCallback } from 'react'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
-import type { PointEntity } from '../../domain/entities/point.entity'
 import { usePointStore } from '../stores/point.store'
+import type { PointWithGroupInterface } from '../../domain/interfaces/point-with-group.interface'
 
 export interface UseTablePointsResult {
-  points: PointEntity[]
+  points: PointWithGroupInterface[]
   loading: boolean
 }
 
