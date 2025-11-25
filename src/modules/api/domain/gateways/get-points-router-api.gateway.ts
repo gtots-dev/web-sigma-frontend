@@ -1,5 +1,5 @@
-import type { PointEntity } from '@/modules/points/domain/entities/point.entity'
+import type { PointWithGroupInterface } from '@/modules/points/domain/interfaces/point-with-group.interface'
 
 export interface GetPointsRouterApiGateway {
-  execute(): Promise<PointEntity[]>
+  execute(): Promise<PointWithGroupInterface[]>
 }
