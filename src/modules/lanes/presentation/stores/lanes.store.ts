@@ -7,14 +7,18 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { PatchLaneRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-lane-router-api.factory'
 import type { LaneEnableAndDisableInterface } from '../../domain/interfaces/lane-enable-and-disable.interface'
 import { PatchLaneStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-lane-status-router-api.factory'
+import { GetContractLanesRouterApiFactory } from '@/modules/api/infrastructure/factories/get-contract-lanes-router-api.factory'
+import type { LaneWithPointAndGroupInterface } from '../../domain/interfaces/lane-with-point-and-group.interface'
 
 type LaneState = {
   lanes: LaneEntity[]
+  contractLanes: LaneWithPointAndGroupInterface[]
   getLanes: ({
     operationId,
     contractId,
     processingUnitId
   }: UrlParams) => Promise<void>
+  getContractLanes: ({ operationId, contractId }: UrlParams) => Promise<void>
   addLane: (
     { operationId, contractId, processingUnitId }: UrlParams,
     lane: LaneEntity
@@ -31,6 +35,7 @@ type LaneState = {
 
 export const useLaneStore = create<LaneState>((set) => ({
   lanes: [],
+  contractLanes: [],
 
   addLane: async (
     { operationId, contractId, processingUnitId }: UrlParams,
@@ -63,6 +68,21 @@ export const useLaneStore = create<LaneState>((set) => ({
       })
       const lanes = await getLanes.execute()
       set({ lanes })
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
+  getContractLanes: async ({ operationId, contractId }: UrlParams) => {
+    try {
+      const getContractLanes = GetContractLanesRouterApiFactory.create({
+        operationId,
+        contractId
+      })
+      const contractLanes = await getContractLanes.execute()
+      set({ contractLanes })
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
