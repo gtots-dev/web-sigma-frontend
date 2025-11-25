@@ -18,7 +18,7 @@ export function PatchPointMenuComponent({
   description
 }: PatchPointMenuComponentProps) {
   const { isOpen, close } = usePatchPointMenuContext()
-  const point = useTablePoint()
+  const { point } = useTablePoint()
   const { onAction } = usePatchPointSubmit()
 
   return (

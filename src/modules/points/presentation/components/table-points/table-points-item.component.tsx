@@ -21,7 +21,7 @@ const baseCell = 'ps-5 sm:ps-10 text-zinc-700 dark:text-zinc-50'
 export function TablePointsItemComponent({
   children
 }: TablePointsItemComponentProps) {
-  const point = useTablePoint()
+  const { point } = useTablePoint()
   const isLarge = useMediaQuery('(min-width: 1024px)')
   const isExtraLarge = useMediaQuery('(min-width: 1230px)')
 

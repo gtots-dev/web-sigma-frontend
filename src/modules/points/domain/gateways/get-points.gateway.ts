@@ -1,5 +1,5 @@
-import type { PointEntity } from '../entities/point.entity'
+import type { PointWithGroupInterface } from '../interfaces/point-with-group.interface'
 
 export interface GetPointsGateway {
-  execute(): Promise<PointEntity[]>
+  execute(): Promise<PointWithGroupInterface[]>
 }

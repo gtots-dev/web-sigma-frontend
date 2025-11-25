@@ -4,10 +4,10 @@ import { ReactNode } from 'react'
 import { TableBody } from '@/modules/shared/presentation/components/shadcn/table'
 import { TableMessage } from '@/modules/shared/presentation/components/table-addons/table-message.component'
 import { TableLoading } from '@/modules/shared/presentation/components/table-addons/table-loading.component'
-import type { PointEntity } from '@/modules/points/domain/entities/point.entity'
 import { TablePointContext } from '../../contexts/table-point.context'
 import { useTablePoints } from '../../hooks/use-table-points.hook'
 import { MESSAGES_POINT } from '@/modules/shared/presentation/messages/points'
+import type { PointWithGroupInterface } from '@/modules/points/domain/interfaces/point-with-group.interface'
 
 interface TablePointsBodyComponentProps {
   children: ReactNode
@@ -34,8 +34,8 @@ export function TablePointsBodyComponent({
 
   return (
     <TableBody>
-      {points.map((point: PointEntity) => (
-        <TablePointContext.Provider key={point.id} value={point}>
+      {points.map((point: PointWithGroupInterface) => (
+        <TablePointContext.Provider key={point.point.id} value={point}>
           {children}
         </TablePointContext.Provider>
       ))}
