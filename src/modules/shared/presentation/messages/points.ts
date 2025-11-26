@@ -11,6 +11,8 @@ type MessageKeys =
   | '14.10'
   | '14.11'
   | '14.12'
+  | '14.13'
+  | '14.14'
 
 export const MESSAGES_POINT: Record<MessageKeys, string> = {
   '14.1': 'Pontos',
@@ -25,5 +27,7 @@ export const MESSAGES_POINT: Record<MessageKeys, string> = {
   '14.10':
     'Caso a opção correspondente esteja desabilitada, o ponto não estará mais disponível na lista.',
   '14.11': 'Vincular Faixas',
-  '14.12': 'Selecione as faixas desejadas para o vinculo do ponto.'
+  '14.12': 'Selecione as faixas desejadas para o vinculo do ponto.',
+  '14.13': 'O nome deve ter no máximo 150 caracteres.',
+  '14.14': 'A descrição deve ter no máximo 150 caracteres.'
 }
