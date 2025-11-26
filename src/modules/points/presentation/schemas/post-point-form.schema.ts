@@ -2,10 +2,17 @@ import { MESSAGES_POINT } from '@/modules/shared/presentation/messages/points'
 import { z } from 'zod'
 
 export const PostPointFormSchema = z.object({
-  name: z.string().nonempty({
-    message: MESSAGES_POINT['14.6']
+  name: z
+    .string()
+    .nonempty({
+      message: MESSAGES_POINT['14.6']
+    })
+    .max(150, {
+      message: MESSAGES_POINT['14.13']
+    }),
+  description: z.string().max(150, {
+    message: MESSAGES_POINT['14.14']
   }),
-  description: z.string(),
   cfg: z.string()
 })
 
