@@ -3,7 +3,7 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { HttpResponsePointValidator } from '@/modules/points/domain/validators/http-response-point.validator'
 import type { PostPointLaneRouterApiGateway } from '../../domain/gateways/post-point-lane-router-api.gateway'
-import type { PointLaneInterface } from '@/modules/points/domain/interfaces/point-lane.interface'
+import type { LaneEntity } from '@/modules/lanes/domain/entities/lane.entity'
 
 export class PostPointLaneRouterApiService
   implements PostPointLaneRouterApiGateway
@@ -14,7 +14,7 @@ export class PostPointLaneRouterApiService
   ) {}
   getHttpRequestConfig(
     { operationId, contractId, pointId }: UrlParams,
-    laneId: PointLaneInterface
+    laneId: LaneEntity['id']
   ): HttpRequestConfig {
     return {
       method: 'POST',
@@ -23,7 +23,7 @@ export class PostPointLaneRouterApiService
     }
   }
 
-  async execute(laneId: PointLaneInterface): Promise<void> {
+  async execute(laneId: LaneEntity['id']): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, laneId)
     const { success, status } =
       await this.executeRequest.execute<null>(settingsAuthHTTP)
