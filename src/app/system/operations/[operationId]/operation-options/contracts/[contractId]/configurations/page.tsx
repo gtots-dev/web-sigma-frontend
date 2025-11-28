@@ -64,7 +64,7 @@ export default async function ConfigurationsPage({
     {
       title: MESSAGES_CONFIGURATION_CONTRACT['17.4'],
       description: MESSAGES_CONFIGURATION_CONTRACT['17.5'],
-      pathName: PATHNAMES.PERMISSIONS(Number(rawOperationId)),
+      pathName: PATHNAMES.POINTS(Number(rawOperationId), Number(rawContractId)),
       icon: MapPin,
       accessAllowed: isAdmin || userPermissions.has(PermissionEnum.POINTS_VIEW)
     }

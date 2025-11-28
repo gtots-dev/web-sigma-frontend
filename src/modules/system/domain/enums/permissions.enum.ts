@@ -4,6 +4,8 @@ export enum PermissionEnum {
   PROCESSING_UNITS_VIEW = 'processing_units_view',
   LANES_VIEW = 'lanes_view',
   POINTS_VIEW = 'points_view',
+  POINTS_EDIT = 'points_edit',
+  POINTS_ENABLE_AND_DISABLE = 'points_enable_disable',
   USERS_VIEW = 'users_view',
   ACTIVITY_REPORT_VIEW = 'view_report',
   USERS_EDIT = 'users_edit',

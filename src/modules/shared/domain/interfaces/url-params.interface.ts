@@ -7,4 +7,5 @@ export interface UrlParams {
   fileId?: string
   permissionProfileId?: string
   featureId?: string
+  pointId?: string
 }
