@@ -5,7 +5,6 @@ import { PutUserPasswordResetForm } from '../put-user-password-reset-form-provid
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useDialog } from './put-user-password-reset-menu-provider.component'
 import { PutUserPasswordResetMenu } from '.'
-import { useTableUser } from '../../contexts/table-user.context'
 import { usePutUserPasswordResetSubmit } from '../../hooks/use-update-user-password-reset-submit.hook'
 import type { UserPasswordResetInterface } from '@/modules/users/domain/interfaces/user-password-reset.interface'
 
@@ -20,7 +19,6 @@ export function PutUserPasswordResetMenuComponent({
 }: PutUserPasswordResetMenuComponentProps) {
   const { isOpen, close } = useDialog()
   const { onAction } = usePutUserPasswordResetSubmit()
-  const user = useTableUser()
 
   return (
     <PutUserPasswordResetMenu.Root>
@@ -30,7 +28,7 @@ export function PutUserPasswordResetMenuComponent({
           description={description}
         />
 
-        <PutUserPasswordResetForm.Provider user={user} isOpen={isOpen}>
+        <PutUserPasswordResetForm.Provider isOpen={isOpen}>
           <UserForm.Form>
             <UserForm.Input.PasswordRegDeadline />
           </UserForm.Form>
