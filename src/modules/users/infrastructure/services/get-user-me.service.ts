@@ -6,9 +6,13 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
 import type { UserEntity } from '../../domain/entities/user.entity'
 import type { UserPermissionsInterface } from '../../domain/interfaces/user-permissions.interface'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 
 export class GetUserMeService implements GetUserMeGateway {
-  constructor(private readonly httpRequest: ExecuteRequest) {}
+  constructor(
+    private readonly httpRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider
+  ) {}
 
   getHttpRequestConfig(token: TokenEntities): HttpRequestConfig {
     return {
@@ -20,9 +24,8 @@ export class GetUserMeService implements GetUserMeGateway {
     }
   }
 
-  async execute(
-    token: TokenEntities
-  ): Promise<UserEntity & UserPermissionsInterface> {
+  async execute(): Promise<UserEntity & UserPermissionsInterface> {
+    const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
     const {
       success,

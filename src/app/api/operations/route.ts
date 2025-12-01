@@ -1,27 +1,13 @@
-import { auth } from '@/auth'
+import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
+import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
-import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import { NextResponse } from 'next/server'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export async function GET(): Promise<NextResponse> {
-  const { token } = await auth()
-  const getUsersFactory = GetOperationsFactory.create()
-  try {
-    const response = await getUsersFactory.execute(token)
-    return NextResponse.json(response, {
-      status: Number(HttpStatusCodeEnum.OK)
-    })
-  } catch (error) {
-    if (error instanceof HttpResponseError) {
-      return NextResponse.json(
-        {
-          success: false,
-          data: null,
-          message: error.message
-        },
-        { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
-      )
-    }
-  }
-}
+const routerApi = RouterApiFactory.create()
+
+export const GET = routerApi.GET<UrlParams, OperationEntity[]>(async ({}) => {
+  const getOperations = GetOperationsFactory.create()
+  const response = await getOperations.execute()
+  return { data: response, status: HttpStatusCodeEnum.OK }
+})
