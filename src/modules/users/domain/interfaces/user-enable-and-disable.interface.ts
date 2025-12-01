@@ -1,6 +1,6 @@
-import type { UserInterface } from './user.interface'
+import type { UserEntity } from '../entities/user.entity'
 
 export interface UserEnableAndDisableInterface {
-  id?: UserInterface['id']
+  id?: UserEntity['id']
   enabled: boolean
 }
