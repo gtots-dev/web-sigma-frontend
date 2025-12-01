@@ -3,7 +3,6 @@
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { PatchPointStatusMenu } from '.'
 import { PointForm } from '../point-form'
-
 import type { PointEnableAndDisableInterface } from '@/modules/points/domain/interfaces/point-enable-and-disable.interface'
 import { useTablePoint } from '../../contexts/table-point.context'
 import { usePatchPointStatusMenuContext } from '../../contexts/patch-point-status-menu.context'
@@ -19,7 +18,9 @@ export function PatchPointStatusMenuComponent({
   description
 }: PatchPointStatusMenuComponentProps) {
   const { isOpen, close } = usePatchPointStatusMenuContext()
-  const { id, enabled } = useTablePoint()
+  const {
+    point: { id, enabled }
+  } = useTablePoint()
   const { onAction } = usePatchPointStatusSubmit()
 
   return (
