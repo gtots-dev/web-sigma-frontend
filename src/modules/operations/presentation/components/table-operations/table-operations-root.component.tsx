@@ -7,13 +7,12 @@ import {
 import { MESSAGES_OPERATIONS } from '@/modules/shared/presentation/messages/operations'
 import { TableOperationHeaderRowComponent } from './table-operations-header.component'
 import { TableOperationItemComponent } from './table-operations-item.component'
-import { getOperations } from '../../utils/get-operations.util'
 import { TableMessage } from '@/modules/shared/presentation/components/table-addons/table-message.component'
-import { auth } from '@/auth'
+import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
 
 export async function TableOperationsRootComponent() {
-  const { token: JWT } = await auth()
-  const operations = await getOperations(JWT)
+  const getOperationFactory = GetOperationsFactory.create()
+  const operations = await getOperationFactory.execute()
   const containerHeight = 69 + 36 + 53 * 10
 
   return (
