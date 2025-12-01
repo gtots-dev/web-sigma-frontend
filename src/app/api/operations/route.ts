@@ -6,7 +6,7 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 
 const routerApi = RouterApiFactory.create()
 
-export const GET = routerApi.GET<UrlParams, OperationEntity[]>(async ({}) => {
+export const GET = routerApi.GET<UrlParams, OperationEntity[]>(async () => {
   const getOperations = GetOperationsFactory.create()
   const response = await getOperations.execute()
   return { data: response, status: HttpStatusCodeEnum.OK }
