@@ -1,3 +1,5 @@
+import type { UserEnableAndDisableInterface } from '../interfaces/user-enable-and-disable.interface'
+
 export interface PatchUserStatusGateway {
-  execute(userEnableAndDisable: FormData): Promise<void>
+  execute(userEnableAndDisable: UserEnableAndDisableInterface): Promise<void>
 }

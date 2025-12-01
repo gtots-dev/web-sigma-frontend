@@ -8,9 +8,11 @@ import type { UserPasswordResetInterface } from '../../domain/interfaces/user-pa
 import { useUserPasswordResetStore } from '../stores/user-password-reset.store'
 import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useTableUser } from '../contexts/table-user.context'
 
 export function usePutUserPasswordResetSubmit() {
   const { getUsers } = useUserStore()
+  const { id: userId } = useTableUser()
   const { operationId }: UrlParams = useParams()
   const { solicitedNewPassword } = useUserPasswordResetStore()
 
@@ -20,7 +22,10 @@ export function usePutUserPasswordResetSubmit() {
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        await solicitedNewPassword({ operationId }, userPasswordReset)
+        await solicitedNewPassword(
+          { operationId, userId: String(userId) },
+          userPasswordReset
+        )
         await getUsers({ operationId })
         toast({
           title: 'Redefinição de senha enviada com sucesso!',

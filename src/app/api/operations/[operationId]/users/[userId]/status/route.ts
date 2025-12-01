@@ -7,9 +7,9 @@ const routerApi = RouterApiFactory.create()
 
 export const PATCH = routerApi.PATCH<UrlParams>(
   async ({ operationId }, req) => {
-    const user = await req?.formData()
+    const userEnableAndDisable = await req?.json()
     const patchUserStatus = PatchUserStatusFactory.create({ operationId })
-    await patchUserStatus.execute(user)
+    await patchUserStatus.execute(userEnableAndDisable)
     return { data: { success: true }, status: HttpStatusCodeEnum.OK }
   }
 )
