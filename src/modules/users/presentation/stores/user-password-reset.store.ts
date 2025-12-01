@@ -6,19 +6,19 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 
 type UserPasswordResetState = {
   solicitedNewPassword: (
-    { operationId }: UrlParams,
+    { operationId, userId }: UrlParams,
     userPasswordReset: UserPasswordResetInterface
   ) => Promise<void>
 }
 
 export const useUserPasswordResetStore = create<UserPasswordResetState>(() => ({
   solicitedNewPassword: async (
-    { operationId }: UrlParams,
+    { operationId, userId }: UrlParams,
     userPasswordReset: UserPasswordResetInterface
   ) => {
     try {
       const postUserPasswordResetRouterApiFactory =
-        PostUserPasswordResetRouterApiFactory.create({ operationId })
+        PostUserPasswordResetRouterApiFactory.create({ operationId, userId })
       await postUserPasswordResetRouterApiFactory.execute(userPasswordReset)
     } catch (error) {
       if (error instanceof HttpResponseError) {
