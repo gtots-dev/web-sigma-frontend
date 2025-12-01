@@ -5,9 +5,13 @@ import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-respo
 import { HttpResponseOperationValidator } from '../../domain/validators/http-response-operation.validator'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { OperationEntity } from '../../domain/entities/operation.entity'
+import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 
 export class GetOperationsService implements GetOperationsGateway {
-  constructor(private readonly executeRequest: ExecuteRequest) {}
+  constructor(
+    private readonly executeRequest: ExecuteRequest,
+    private readonly auth: AuthTokenProvider
+  ) {}
 
   getHttpRequestConfig(token: TokenEntities): HttpRequestConfig {
     return {
@@ -19,7 +23,8 @@ export class GetOperationsService implements GetOperationsGateway {
     }
   }
 
-  async execute(token: TokenEntities): Promise<OperationEntity[]> {
+  async execute(): Promise<OperationEntity[]> {
+    const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
     const { success, data, status }: HttpResponse<OperationEntity[]> =
       await this.executeRequest.execute(settingsAuthHTTP)

@@ -2,7 +2,6 @@ import { MESSAGES_PASSWORD_RESET } from '@/modules/shared/presentation/messages/
 import { z } from 'zod'
 
 export const PutUserPasswordResetFormSchema = z.object({
-  userId: z.number(),
   days_passwd_reg_deadline: z
     .number()
     .int()

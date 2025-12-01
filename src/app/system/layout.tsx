@@ -9,10 +9,10 @@ import { UserDropdown } from '@/modules/system/presentation/components/user-drop
 import { type ReactNode } from 'react'
 import { HeaderSystem } from '@/modules/system/presentation/components/header-system'
 import { ContentSystem } from '@/modules/system/presentation/components/content-system'
-import { getUserMe } from '@/modules/users/presentation/utils/get-user.util'
 import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
 import { auth } from '@/auth'
 import { ContractSelectedLabel } from '@/modules/contracts/presentation/components/contract-selected-label'
+import { GetUserMeFactory } from '@/modules/users/infrastructure/factories/get-user-me.factory'
 
 interface LayoutProps {
   children: ReactNode
@@ -20,9 +20,10 @@ interface LayoutProps {
 
 export default async function Layout({ children }: LayoutProps) {
   const jwtFactory = JwtTokenDecodeFactory.create()
+  const getUserMeFactory = GetUserMeFactory.create()
   const [{ token: JWT, user }, { name, email }] = await Promise.all([
     auth(),
-    getUserMe()
+    getUserMeFactory.execute()
   ])
   const { permissions } = jwtFactory.decode(JWT.access_token)
   const userBasic = { name, email }

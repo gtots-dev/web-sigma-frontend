@@ -1,27 +1,17 @@
-import { auth } from '@/auth'
+import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
-import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import type { UserPermissionsInterface } from '@/modules/users/domain/interfaces/user-permissions.interface'
 import { GetUserMeFactory } from '@/modules/users/infrastructure/factories/get-user-me.factory'
-import { NextResponse } from 'next/server'
 
-export async function GET(): Promise<NextResponse> {
-  const getUserMeFactory = GetUserMeFactory.create()
-  try {
-    const { token } = await auth()
-    const response = await getUserMeFactory.execute(token)
-    return NextResponse.json(response, {
-      status: Number(HttpStatusCodeEnum.OK)
-    })
-  } catch (error) {
-    if (error instanceof HttpResponseError) {
-      return NextResponse.json(
-        {
-          success: false,
-          data: null,
-          message: error.message
-        },
-        { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
-      )
-    }
-  }
-}
+const routerApi = RouterApiFactory.create()
+
+export const GET = routerApi.GET<
+  UrlParams,
+  UserEntity & UserPermissionsInterface
+>(async () => {
+  const getUserMe = GetUserMeFactory.create()
+  const response = await getUserMe.execute()
+  return { data: response, status: HttpStatusCodeEnum.OK }
+})

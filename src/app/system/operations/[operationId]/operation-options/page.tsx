@@ -43,7 +43,7 @@ export default async function OperationOptionsPage({
   const getOperationFactory = GetOperationsFactory.create()
   const [{ userPermissions }, operations] = await Promise.all([
     loadAuthContext(JWT, rawOperationId),
-    getOperationFactory.execute(JWT)
+    getOperationFactory.execute()
   ])
 
   const title = MESSAGES_OPTIONS_OPERATION['11.1']

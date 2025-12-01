@@ -26,8 +26,8 @@ export async function RedirectToOperationsMiddleware(
       decodeToken(token) {
         return JwtTokenDecodeFactory.create().decode(token.access_token)
       },
-      async getOperations(token) {
-        return await GetOperationsFactory.create().execute(token)
+      async getOperations() {
+        return await GetOperationsFactory.create().execute()
       },
       createOperation(data) {
         return OperationFactory.create(data)

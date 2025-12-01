@@ -14,13 +14,13 @@ export class PostUserPasswordResetRouterApiService
   ) {}
 
   getHttpRequestConfig(
-    { operationId }: UrlParams,
+    { operationId, userId }: UrlParams,
     userPasswordReset: UserPasswordResetInterface
   ): HttpRequestConfig<UserPasswordResetInterface> {
     return {
       method: 'POST',
       data: userPasswordReset,
-      url: `api/operations/${operationId}/users/${userPasswordReset.userId}/passwords`
+      url: `api/operations/${operationId}/users/${userId}/passwords`
     }
   }
 
