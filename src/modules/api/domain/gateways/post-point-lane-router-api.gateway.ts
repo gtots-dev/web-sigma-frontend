@@ -1,5 +1,5 @@
-import type { PointLaneInterface } from '@/modules/points/domain/interfaces/point-lane.interface'
+import type { LaneEntity } from '@/modules/lanes/domain/entities/lane.entity'
 
 export interface PostPointLaneRouterApiGateway {
-  execute(laneId: PointLaneInterface): Promise<void>
+  execute(laneId: LaneEntity['id']): Promise<void>
 }
