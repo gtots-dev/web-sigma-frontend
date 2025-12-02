@@ -29,8 +29,8 @@ export function AddUserMenuComponent({
           <UserForm.Form>
             <UserForm.Input.Name require />
             <UserForm.Input.Email require />
-            <UserForm.Input.Company require />
-            <UserForm.Input.Position require />
+            <UserForm.Input.Company />
+            <UserForm.Input.Position />
             <UserForm.Input.Username require />
             <UserForm.Input.PasswordRegDeadline />
             <UserForm.Input.Files />

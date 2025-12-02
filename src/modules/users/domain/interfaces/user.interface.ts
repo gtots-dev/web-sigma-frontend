@@ -3,8 +3,8 @@ export interface UserInterface {
   login_name: string
   name: string
   email: string
-  company: string
-  position: string
+  company?: string | null
+  position?: string | null
   days_passwd_reg_deadline?: number
   description?: string | null
 }
