@@ -8,6 +8,8 @@ import { PatchPointStatusMenu } from '../patch-point-status-menu'
 import { PatchPointStatusMenuComponent } from '../patch-point-status-menu/patch-point-status-menu.component'
 import { PostPointLaneMenu } from '../post-point-lane-menu'
 import { PostPointLaneMenuComponent } from '../post-point-lane-menu/post-point-lane-menu.component'
+import { ViewMorePointMenu } from '../view-more-point-menu'
+import { ViewMorePointMenuComponent } from '../view-more-point-menu/view-more-point-menu.component'
 
 export function PointOptionsDropdownClient({
   isAdmin,
@@ -17,7 +19,9 @@ export function PointOptionsDropdownClient({
   patchStatusTitle,
   patchStatusDescription,
   postPointLaneTitle,
-  postPointLaneDescription
+  postPointLaneDescription,
+  viewMorePointLaneTitle,
+  ViewMorePointLaneDescription
 }: {
   isAdmin: boolean
   patchTitle: string
@@ -26,60 +30,73 @@ export function PointOptionsDropdownClient({
   patchStatusDescription: string
   postPointLaneTitle: string
   postPointLaneDescription: string
+  viewMorePointLaneTitle: string
+  ViewMorePointLaneDescription: string
   permissions: Set<PermissionEnum>
 }) {
   return (
-    <PostPointLaneMenu.Provider>
-      <PatchPointMenu.Provider>
-        <PatchPointStatusMenu.Provider>
-          <PointOptionsDropdown.Root>
-            <PointOptionsDropdown.Trigger />
+    <ViewMorePointMenu.Provider>
+      <PostPointLaneMenu.Provider>
+        <PatchPointMenu.Provider>
+          <PatchPointStatusMenu.Provider>
+            <PointOptionsDropdown.Root>
+              <PointOptionsDropdown.Trigger />
 
-            <PointOptionsDropdown.Menu>
-              {isAdmin && (
+              <PointOptionsDropdown.Menu>
+                <PointOptionsDropdown.Item>
+                  <ViewMorePointMenu.Trigger />
+                </PointOptionsDropdown.Item>
+
                 <PointOptionsDropdown.Item>
                   <PostPointLaneMenu.Trigger />
                 </PointOptionsDropdown.Item>
-              )}
 
-              {(isAdmin || permissions.has(PermissionEnum.POINTS_EDIT)) && (
-                <PointOptionsDropdown.Item>
-                  <PatchPointMenu.Trigger />
-                </PointOptionsDropdown.Item>
-              )}
+                {(isAdmin || permissions.has(PermissionEnum.POINTS_EDIT)) && (
+                  <PointOptionsDropdown.Item>
+                    <PatchPointMenu.Trigger />
+                  </PointOptionsDropdown.Item>
+                )}
 
-              {(isAdmin ||
-                permissions.has(PermissionEnum.POINTS_ENABLE_AND_DISABLE)) && (
-                <PointOptionsDropdown.Item>
-                  <PatchPointStatusMenu.Trigger />
-                </PointOptionsDropdown.Item>
-              )}
-            </PointOptionsDropdown.Menu>
-          </PointOptionsDropdown.Root>
+                {(isAdmin ||
+                  permissions.has(
+                    PermissionEnum.POINTS_ENABLE_AND_DISABLE
+                  )) && (
+                  <PointOptionsDropdown.Item>
+                    <PatchPointStatusMenu.Trigger />
+                  </PointOptionsDropdown.Item>
+                )}
+              </PointOptionsDropdown.Menu>
+            </PointOptionsDropdown.Root>
 
-          {isAdmin && (
+            {
+              <ViewMorePointMenuComponent
+                title={viewMorePointLaneTitle}
+                description={ViewMorePointLaneDescription}
+              />
+            }
+
             <PostPointLaneMenuComponent
               title={postPointLaneTitle}
               description={postPointLaneDescription}
             />
-          )}
 
-          {(isAdmin ||
-            permissions.has(PermissionEnum.POINTS_ENABLE_AND_DISABLE)) && (
-            <PatchPointStatusMenuComponent
-              title={patchStatusTitle}
-              description={patchStatusDescription}
-            />
-          )}
+            {(isAdmin ||
+              permissions.has(PermissionEnum.POINTS_ENABLE_AND_DISABLE)) && (
+              <PatchPointStatusMenuComponent
+                title={patchStatusTitle}
+                description={patchStatusDescription}
+              />
+            )}
 
-          {(isAdmin || permissions.has(PermissionEnum.POINTS_EDIT)) && (
-            <PatchPointMenuComponent
-              title={patchTitle}
-              description={patchDescription}
-            />
-          )}
-        </PatchPointStatusMenu.Provider>
-      </PatchPointMenu.Provider>
-    </PostPointLaneMenu.Provider>
+            {(isAdmin || permissions.has(PermissionEnum.POINTS_EDIT)) && (
+              <PatchPointMenuComponent
+                title={patchTitle}
+                description={patchDescription}
+              />
+            )}
+          </PatchPointStatusMenu.Provider>
+        </PatchPointMenu.Provider>
+      </PostPointLaneMenu.Provider>
+    </ViewMorePointMenu.Provider>
   )
 }
