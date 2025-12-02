@@ -56,6 +56,8 @@ export const AddUserFormSchema = z.object({
       message: MESSAGES_USERS['5.32']
     })
     .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val))
 })
 
 export type AddUserFormType = z.infer<typeof AddUserFormSchema>
