@@ -1,5 +1,5 @@
 export interface PermissionProfileInterface {
   id?: number
   name: string
-  description: string
+  description?: string | null
 }
