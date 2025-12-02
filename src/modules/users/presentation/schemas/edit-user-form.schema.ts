@@ -5,17 +5,52 @@ const VALID_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf']
 const MAX_SIZE_MB = 10
 
 export const EditUserFormSchema = z.object({
-  id: z.number(),
-  name: z.string().optional(),
+  name: z
+    .string()
+    .nonempty({
+      message: MESSAGES_USERS['5.6']
+    })
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    }),
   email: z
     .string()
-    .optional()
+    .nonempty({
+      message: MESSAGES_USERS['5.7']
+    })
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    })
+    .email({
+      message: MESSAGES_USERS['5.12']
+    })
     .refine((val) => !val || z.string().email().safeParse(val).success, {
       message: MESSAGES_USERS['5.12']
     }),
-  company: z.string().optional(),
-  position: z.string().optional(),
-  login_name: z.string().optional(),
+  company: z
+    .string()
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    })
+    .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val)),
+  position: z
+    .string()
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    })
+    .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val)),
+  login_name: z
+    .string()
+    .nonempty({
+      message: MESSAGES_USERS['5.10']
+    })
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    }),
   files: z
     .array(z.instanceof(File))
     .refine(

@@ -29,11 +29,11 @@ export function EditUserMenuComponent({
 
         <EditUserForm.Provider isOpen={isOpen} user={user}>
           <UserForm.Form>
-            <UserForm.Input.Name />
-            <UserForm.Input.Email />
+            <UserForm.Input.Name require />
+            <UserForm.Input.Email require />
             <UserForm.Input.Company />
             <UserForm.Input.Position />
-            <UserForm.Input.Username />
+            <UserForm.Input.Username require />
             <UserForm.Input.Files />
             <UserForm.Input.Description />
           </UserForm.Form>
