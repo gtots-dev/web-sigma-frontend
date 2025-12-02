@@ -3,7 +3,7 @@ import type { PermissionProfileInterface } from '../interfaces/permission-profil
 export class PermissionProfileEntity implements PermissionProfileInterface {
   constructor(
     public name: string,
-    public description: string,
+    public description?: string | null,
     public id?: number
   ) {}
 }
