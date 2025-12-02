@@ -65,22 +65,24 @@ export function ViewMorePointMenuComponent({
           <ViewMorePointMenu.Group cols={1}>
             <ViewMorePointMenu.Item
               title="Faixas Selecionadas"
-              notFoundData="Sem Informação"
+              notFoundData="Nenhuma faixa selecionada"
             >
-              <div className="flex flex-wrap gap-1">
-                {isLanesSelected.map((lane: LaneEntity) => (
-                  <div
-                    key={lane.id}
-                    className="flex items-center justify-between w-fit gap-4 rounded-md border border-input py-2 px-4"
-                  >
-                    <div className="flex flex-col gap-0.5 overflow-hidden">
-                      <h4 className="text-xs truncate font-medium">
-                        {lane.name}
-                      </h4>
+              {isLanesSelected.length > 0 ? (
+                <div className="flex flex-wrap gap-1">
+                  {isLanesSelected.map((lane: LaneEntity) => (
+                    <div
+                      key={lane.id}
+                      className="flex items-center justify-between w-fit gap-4 rounded-md border border-input py-2 px-4"
+                    >
+                      <div className="flex flex-col gap-0.5 overflow-hidden">
+                        <h4 className="text-xs truncate font-medium">
+                          {lane.name}
+                        </h4>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : null}
             </ViewMorePointMenu.Item>
           </ViewMorePointMenu.Group>
         </main>

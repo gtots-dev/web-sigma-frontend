@@ -11,7 +11,11 @@ export function ViewMorePointItemComponent({
   title,
   notFoundData
 }: ViewMorePointItemComponentProps) {
-  const hasContent = Boolean(children)
+  const hasContent =
+    children !== undefined &&
+    children !== null &&
+    !(typeof children === 'string' && children.trim() === '')
+
   return (
     <div className="flex flex-col gap-y-1.5 min-h-12">
       <strong className="text-sm font-medium opacity-80">{title}:</strong>
