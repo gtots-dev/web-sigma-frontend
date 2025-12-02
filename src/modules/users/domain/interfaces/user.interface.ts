@@ -6,5 +6,5 @@ export interface UserInterface {
   company: string
   position: string
   days_passwd_reg_deadline?: number
-  description?: string
+  description?: string | null
 }
