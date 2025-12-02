@@ -34,7 +34,7 @@ export function AddPermissionProfileMenuComponent({
         <AddPermissionProfileForm.Provider isOpen={isOpen}>
           <PermissionProfileForm.Form>
             <PermissionProfileForm.Input.Name require />
-            <PermissionProfileForm.Input.Description require />
+            <PermissionProfileForm.Input.Description />
             <PermissionProfileForm.Input.Features
               require
               permissions={features}

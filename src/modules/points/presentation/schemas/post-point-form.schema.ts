@@ -10,9 +10,14 @@ export const PostPointFormSchema = z.object({
     .max(150, {
       message: MESSAGES_POINT['14.13']
     }),
-  description: z.string().max(150, {
-    message: MESSAGES_POINT['14.14']
-  }),
+  description: z
+    .string()
+    .max(150, {
+      message: MESSAGES_POINT['14.14']
+    })
+    .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val)),
   cfg: z.string()
 })
 

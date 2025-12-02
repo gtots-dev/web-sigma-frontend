@@ -7,12 +7,12 @@ export const AddPermissionProfilesFormSchema = z.object({
   }),
   description: z
     .string()
-    .nonempty({
-      message: MESSAGES_PERMISSIONS[6.8]
-    })
     .max(255, {
       message: MESSAGES_PERMISSIONS[6.9]
-    }),
+    })
+    .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val)),
   features: z.array(z.number()).optional()
 })
 
