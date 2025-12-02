@@ -22,23 +22,33 @@ export function usePostPointLaneSubmit() {
       onSuccess?: VoidFunction
     ) => {
       try {
-        const formLanesSelected = formLaneIds || []
-
         const apiLanesSelected = contractLanes
-          .filter((item) => item.point_id !== null)
+          .filter((item) => item.point_id === point.id)
           .map((item) => item.lane.id)
 
-        const toAdd = formLanesSelected.filter(
+        const toAdd = formLaneIds.filter(
           (id) => !apiLanesSelected.includes(id)
         )
-        const toDelete = apiLanesSelected.filter(
-          (id) => !formLanesSelected.includes(id)
+        let toDelete = apiLanesSelected.filter(
+          (id) => !formLaneIds.includes(id)
         )
 
         for (const laneId of toAdd) {
           await postPointLane(
             { operationId, contractId, pointId: String(point.id) },
             laneId
+          )
+        }
+
+        if (toAdd.length > 0) {
+          await getPoints({ contractId, operationId })
+
+          const freshApiLanesSelected = contractLanes
+            .filter((item) => item.point_id === point.id)
+            .map((item) => item.lane.id)
+
+          toDelete = freshApiLanesSelected.filter(
+            (id) => !formLaneIds.includes(id)
           )
         }
 
