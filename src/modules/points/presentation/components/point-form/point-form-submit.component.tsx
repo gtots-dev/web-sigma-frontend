@@ -12,14 +12,14 @@ export function PointFormSubmitComponent<T>({
   onSubmit
 }: PointFormSubmitComponentProps<T>) {
   const { handleSubmit, formState } = useFormContext<T>()
-  const { isSubmitting, isSubmitSuccessful } = formState
+  const { isSubmitting } = formState
 
   return (
     <Button
       type="submit"
       className="w-full sm:w-[150px]"
       variant="primary"
-      disabled={isSubmitting || isSubmitSuccessful}
+      disabled={isSubmitting}
       onClick={handleSubmit(onSubmit)}
     >
       Confirmar <LoadingSpinComponent loading={isSubmitting} />

@@ -33,10 +33,12 @@ export const EditUserFormSchema = z.object({
     .optional(),
   description: z
     .string()
-    .max(255, {
+    .max(150, {
       message: MESSAGES_USERS['5.32']
     })
     .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val))
 })
 
 export type EditUserFormType = z.infer<typeof EditUserFormSchema>
