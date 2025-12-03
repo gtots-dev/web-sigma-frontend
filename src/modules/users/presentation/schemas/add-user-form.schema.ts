@@ -6,26 +6,49 @@ const VALID_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf']
 const MAX_SIZE_MB = 10
 
 export const AddUserFormSchema = z.object({
-  name: z.string().nonempty({
-    message: MESSAGES_USERS['5.6']
-  }),
+  name: z
+    .string()
+    .nonempty({
+      message: MESSAGES_USERS['5.6']
+    })
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    }),
   email: z
     .string()
     .nonempty({
       message: MESSAGES_USERS['5.7']
     })
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    })
     .email({
       message: MESSAGES_USERS['5.12']
     }),
-  company: z.string().nonempty({
-    message: MESSAGES_USERS['5.8']
-  }),
-  position: z.string().nonempty({
-    message: MESSAGES_USERS['5.9']
-  }),
-  login_name: z.string().nonempty({
-    message: MESSAGES_USERS['5.10']
-  }),
+  company: z
+    .string()
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    })
+    .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val)),
+  position: z
+    .string()
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    })
+    .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val)),
+  login_name: z
+    .string()
+    .nonempty({
+      message: MESSAGES_USERS['5.10']
+    })
+    .max(150, {
+      message: MESSAGES_USERS['5.36']
+    }),
   days_passwd_reg_deadline: z
     .number()
     .int()

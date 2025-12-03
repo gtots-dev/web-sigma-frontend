@@ -33,6 +33,7 @@ type MessageKeys =
   | '5.33'
   | '5.34'
   | '5.35'
+  | '5.36'
 
 export const MESSAGES_USERS: Record<MessageKeys, string> = {
   '5.1': 'Usuários',
@@ -72,5 +73,6 @@ export const MESSAGES_USERS: Record<MessageKeys, string> = {
   '5.34':
     'Caso a opção correspondente esteja desabilitada, o usuário não estará mais disponível na lista para usuários comuns.',
   '5.35':
-    'Você não possui permissão para visualizar os perfis de permissão disponíveis. Por favor, verifique com o seu responsável.'
+    'Você não possui permissão para visualizar os perfis de permissão disponíveis. Por favor, verifique com o seu responsável.',
+  '5.36': 'O campo deve ter no máximo 150 caracteres.'
 }
