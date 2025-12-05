@@ -8,7 +8,7 @@ export const PutUserPasswordResetFormSchema = z.object({
     .gt(0, {
       message: MESSAGES_PASSWORD_RESET['2.16']
     })
-    .max(365, {
+    .max(300, {
       message: MESSAGES_PASSWORD_RESET['2.17']
     })
 })
