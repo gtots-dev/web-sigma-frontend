@@ -37,5 +37,5 @@ export const MESSAGES_PASSWORD_RESET: Record<MessageKeys, string> = {
   '2.15':
     'Solicite a redefinição abaixo. Um e-mail com o link será enviado ao usuário.',
   '2.16': 'O prazo deve ser um número inteiro maior que 0',
-  '2.17': 'O prazo não pode ser superior a um ano.'
+  '2.17': 'O prazo não pode ser superior a 300 dias.'
 }
