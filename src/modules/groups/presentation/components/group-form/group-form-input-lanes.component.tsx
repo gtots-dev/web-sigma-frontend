@@ -1,0 +1,112 @@
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/modules/shared/presentation/components/shadcn/form'
+import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
+import { useFormContext } from 'react-hook-form'
+import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
+import type { LaneWithGroupAndGroupInterface } from '@/modules/lanes/domain/interfaces/lane-with-group-and-group.interface'
+import type { BaseItem } from '@/modules/shared/presentation/components/group-item-selector/group-item-selector-list.component'
+import { MESSAGES_LANE } from '@/modules/shared/presentation/messages/lanes'
+
+interface GroupFormInputLanesComponentProps {
+  require?: boolean
+  description?: string
+  lanes?: LaneWithGroupAndGroupInterface[]
+}
+
+type SelectorItem = BaseItem & {}
+
+interface SelectorGroup {
+  name: string
+  items: SelectorItem[]
+}
+
+export function GroupFormInputLanesComponent({
+  require,
+  description,
+  lanes = [],
+}: GroupFormInputLanesComponentProps) {
+  const { control } = useFormContext()
+
+  const selectorGroups: SelectorGroup[] = [
+    {
+      name: 'Faixas',
+      items: lanes.map((li) => ({
+        id: li.lane.id,
+        name: li.lane.name
+      }))
+    }
+  ]
+
+  return (
+    <FormField
+      control={control}
+      name="laneId"
+      render={({ field }) => {
+        const { value = [], onChange } = field
+
+        return (
+          <GroupSelector.Provider
+            value={value}
+            onChange={onChange}
+            groups={selectorGroups}
+          >
+            <FormItem>
+              <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
+                Faixas{require ? ': *' : ':'}
+                <HelpMeButtonComponent description={description} />
+                <GroupSelector.Toggle className="ms-auto" />
+              </FormLabel>
+
+              <FormControl>
+                <GroupSelector.Root>
+                  <GroupSelector.Search placeholder="Busque pela faixa..." />
+                  <GroupSelector.List<SelectorItem>
+                    messageItemEmpty={MESSAGES_LANE[8.3]}
+                    messageGroupEmpty={MESSAGES_LANE[8.3]}
+                    heading={(group, allSelected, toggleAll) => (
+                      <div className="flex items-center justify-between">
+                        <span>{group.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => toggleAll(group)}
+                          className="underline underline-offset-2 text-primary-300"
+                        >
+                          {allSelected ? 'Remover seleção' : 'Selecionar todos'}
+                        </button>
+                      </div>
+                    )}
+                  >
+                    {(item) => (
+                      <GroupSelector.Item
+                        key={item.id}
+                        id={item.id}
+                        item={item}
+                      >
+                        {({ selected }) => (
+                          <div className="flex items-center gap-x-4 w-full h-full">
+                            <GroupSelector.Checkbox.Check
+                              item={item}
+                              selected={selected}
+                            />
+                            <span>{item.name}</span>
+                          </div>
+                        )}
+                      </GroupSelector.Item>
+                    )}
+                  </GroupSelector.List>
+                </GroupSelector.Root>
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          </GroupSelector.Provider>
+        )
+      }}
+    />
+  )
+}
