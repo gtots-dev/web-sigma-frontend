@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-export const usePatchGroupMenu = () => {
+export const usePontGroupLaneMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const open = () => setIsOpen(true)
@@ -12,4 +12,4 @@ export const usePatchGroupMenu = () => {
   return { isOpen, open, close, toggle }
 }
 
-export type UsePatchGroupMenuReturn = ReturnType<typeof usePatchGroupMenu>
+export type UsePostGroupLaneMenuReturn = ReturnType<typeof usePontGroupLaneMenu>
