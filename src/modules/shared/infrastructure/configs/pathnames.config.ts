@@ -12,6 +12,7 @@ export interface PathnamesInterface {
   CONTRACTS_CONFIGURATIONS: (operationId: number, contractId: number) => string
   PROCESSING_UNITS: (operationId: number, contractId: number) => string
   POINTS: (operationId: number, contractId: number) => string
+  GROUPS: (operationId: number, contractId: number) => string
   LANES: (
     operationId: number,
     contractId: number,
@@ -38,6 +39,8 @@ export const PATHNAMES: PathnamesInterface = {
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units`,
   POINTS: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/points`,
+  GROUPS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/groups`,
   LANES: (operationId, contractId, processingUnitId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units/${processingUnitId}/lanes`
 }
