@@ -143,7 +143,7 @@ export function getSidebarData(
                           isToExpand: true,
                           permissions: [
                             PermissionEnum.CONTRACTS_VIEW,
-                            PermissionEnum.POINTS_VIEW
+                            PermissionEnum.GROUPS_VIEW
                           ]
                         }
                       ]
