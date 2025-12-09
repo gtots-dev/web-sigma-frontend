@@ -1,0 +1,102 @@
+'use client'
+
+import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
+import { GroupOptionsDropdown } from '.'
+import { PatchGroupMenu } from '../patch-group-menu'
+import { PatchGroupMenuComponent } from '../patch-group-menu/patch-group-menu.component'
+import { PatchGroupStatusMenu } from '../patch-group-status-menu'
+import { PatchGroupStatusMenuComponent } from '../patch-group-status-menu/patch-group-status-menu.component'
+import { PostGroupLaneMenu } from '../post-group-lane-menu'
+import { PostGroupLaneMenuComponent } from '../post-group-lane-menu/post-group-lane-menu.component'
+import { ViewMoreGroupMenu } from '../view-more-group-menu'
+import { ViewMoreGroupMenuComponent } from '../view-more-group-menu/view-more-group-menu.component'
+
+export function GroupOptionsDropdownClient({
+  isAdmin,
+  patchTitle,
+  patchDescription,
+  permissions,
+  patchStatusTitle,
+  patchStatusDescription,
+  postGroupLaneTitle,
+  postGroupLaneDescription,
+  viewMoreGroupLaneTitle,
+  ViewMoreGroupLaneDescription
+}: {
+  isAdmin: boolean
+  patchTitle: string
+  patchDescription: string
+  patchStatusTitle: string
+  patchStatusDescription: string
+  postGroupLaneTitle: string
+  postGroupLaneDescription: string
+  viewMoreGroupLaneTitle: string
+  ViewMoreGroupLaneDescription: string
+  permissions: Set<PermissionEnum>
+}) {
+  return (
+    <ViewMoreGroupMenu.Provider>
+      <PostGroupLaneMenu.Provider>
+        <PatchGroupMenu.Provider>
+          <PatchGroupStatusMenu.Provider>
+            <GroupOptionsDropdown.Root>
+              <GroupOptionsDropdown.Trigger />
+
+              <GroupOptionsDropdown.Menu>
+                <GroupOptionsDropdown.Item>
+                  <ViewMoreGroupMenu.Trigger />
+                </GroupOptionsDropdown.Item>
+
+                <GroupOptionsDropdown.Item>
+                  <PostGroupLaneMenu.Trigger />
+                </GroupOptionsDropdown.Item>
+
+                {(isAdmin || permissions.has(PermissionEnum.GROUPS_EDIT)) && (
+                  <GroupOptionsDropdown.Item>
+                    <PatchGroupMenu.Trigger />
+                  </GroupOptionsDropdown.Item>
+                )}
+
+                {(isAdmin ||
+                  permissions.has(
+                    PermissionEnum.GROUPS_ENABLE_AND_DISABLE
+                  )) && (
+                  <GroupOptionsDropdown.Item>
+                    <PatchGroupStatusMenu.Trigger />
+                  </GroupOptionsDropdown.Item>
+                )}
+              </GroupOptionsDropdown.Menu>
+            </GroupOptionsDropdown.Root>
+
+            {
+              <ViewMoreGroupMenuComponent
+                title={viewMoreGroupLaneTitle}
+                description={ViewMoreGroupLaneDescription}
+              />
+            }
+
+            <PostGroupLaneMenuComponent
+              title={postGroupLaneTitle}
+              description={postGroupLaneDescription}
+            />
+
+            {(isAdmin ||
+              permissions.has(PermissionEnum.GROUPS_ENABLE_AND_DISABLE)) && (
+              <PatchGroupStatusMenuComponent
+                title={patchStatusTitle}
+                description={patchStatusDescription}
+              />
+            )}
+
+            {(isAdmin || permissions.has(PermissionEnum.GROUPS_EDIT)) && (
+              <PatchGroupMenuComponent
+                title={patchTitle}
+                description={patchDescription}
+              />
+            )}
+          </PatchGroupStatusMenu.Provider>
+        </PatchGroupMenu.Provider>
+      </PostGroupLaneMenu.Provider>
+    </ViewMoreGroupMenu.Provider>
+  )
+}
