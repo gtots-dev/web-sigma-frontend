@@ -5,6 +5,7 @@ import { GroupFormSubmitComponent } from './group-form-submit.component'
 import { GroupFormComponent } from './group-form.component'
 import { GroupFormInputDescriptionComponent } from './group-form-input-description.component'
 import { GroupFormInputLanesComponent } from './group-form-input-lanes.component'
+import { GroupFormInputPointsComponent } from './group-form-input-points.component'
 
 export const GroupForm = {
   Form: GroupFormComponent,
@@ -14,6 +15,7 @@ export const GroupForm = {
     cfg: GroupFormInputCfgComponent,
     Description: GroupFormInputDescriptionComponent,
     Enabled: GroupFormInputEnabledComponent,
-    Lanes: GroupFormInputLanesComponent
+    Lanes: GroupFormInputLanesComponent,
+    Points: GroupFormInputPointsComponent
   }
 }
