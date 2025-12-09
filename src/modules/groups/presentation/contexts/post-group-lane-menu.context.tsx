@@ -2,12 +2,12 @@
 
 import { createContext, useContext, ReactNode } from 'react'
 import {
-  usePatchGroupMenu,
-  type UsePatchGroupMenuReturn
-} from '../hooks/use-patch-group-menu.hook'
+  usePontGroupLaneMenu,
+  type UsePostGroupLaneMenuReturn
+} from '../hooks/use-post-group-lane-menu.hook'
 
 const PostGroupLaneMenuContext = createContext<
-  UsePatchGroupMenuReturn | undefined
+  UsePostGroupLaneMenuReturn | undefined
 >(undefined)
 
 export const PostGroupLaneMenuProvider = ({
@@ -15,7 +15,7 @@ export const PostGroupLaneMenuProvider = ({
 }: {
   children: ReactNode
 }) => {
-  const value = usePatchGroupMenu()
+  const value = usePontGroupLaneMenu()
   return (
     <PostGroupLaneMenuContext.Provider value={value}>
       {children}
