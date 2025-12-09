@@ -15,6 +15,8 @@ type MessageKeys =
   | '14.14'
   | '14.15'
   | '14.16'
+  | '14.17'
+  | '14.18'
 
 export const MESSAGES_GROUP: Record<MessageKeys, string> = {
   '14.1': 'Grupos',
@@ -33,5 +35,7 @@ export const MESSAGES_GROUP: Record<MessageKeys, string> = {
   '14.13': 'O nome deve ter no máximo 150 caracteres.',
   '14.14': 'A descrição deve ter no máximo 150 caracteres.',
   '14.15': 'Informações do Grupo',
-  '14.16': 'Veja mais informações sobre o grupo selecionado'
+  '14.16': 'Veja mais informações sobre o grupo selecionado',
+  '14.17': 'Vincular Pontos',
+  '14.18': 'Selecione os pontos desejados para o vinculo do grupo.'
 }
