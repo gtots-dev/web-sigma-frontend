@@ -7,6 +7,10 @@ import { useViewMoreGroupMenuContext } from '../../contexts/view-more-group-menu
 import { useLaneStore } from '@/modules/lanes/presentation/stores/lanes.store'
 import { useMemo } from 'react'
 import type { LaneEntity } from '@/modules/lanes/domain/entities/lane.entity'
+import { usePointStore } from '@/modules/points/presentation/stores/point.store'
+import type { PointEntity } from '@/modules/points/domain/entities/point.entity'
+import { MESSAGES_POINT } from '@/modules/shared/presentation/messages/points'
+import { MESSAGES_LANE } from '@/modules/shared/presentation/messages/lanes'
 
 interface ViewMoreGroupMenuComponentProps {
   title: string
@@ -18,6 +22,7 @@ export function ViewMoreGroupMenuComponent({
   description
 }: ViewMoreGroupMenuComponentProps) {
   const { contractLanes } = useLaneStore()
+  const { points } = usePointStore()
   const { isOpen, close } = useViewMoreGroupMenuContext()
   const { group } = useTableGroup()
 
@@ -27,6 +32,14 @@ export function ViewMoreGroupMenuComponent({
         .filter((contractLane) => contractLane.group_id.includes(group.id))
         .map((contractLane) => contractLane.lane),
     [contractLanes, group.id]
+  )
+
+  const isPointsSelected = useMemo<PointEntity[]>(
+    () =>
+      points
+        .filter((point) => point.group_id.includes(group.id))
+        .map((point) => point.point),
+    [points, group.id]
   )
 
   return (
@@ -65,11 +78,35 @@ export function ViewMoreGroupMenuComponent({
           <ViewMoreGroupMenu.Group cols={1}>
             <ViewMoreGroupMenu.Item
               title="Faixas Selecionadas"
-              notFoundData="Nenhuma faixa selecionada"
+              notFoundData={MESSAGES_LANE['8.3']}
             >
               {isLanesSelected.length > 0 ? (
                 <div className="flex flex-wrap gap-1">
                   {isLanesSelected.map((lane: LaneEntity) => (
+                    <div
+                      key={lane.id}
+                      className="flex items-center justify-between w-fit gap-4 rounded-md border border-input py-2 px-4"
+                    >
+                      <div className="flex flex-col gap-0.5 overflow-hidden">
+                        <h4 className="text-xs truncate font-medium">
+                          {lane.name}
+                        </h4>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </ViewMoreGroupMenu.Item>
+          </ViewMoreGroupMenu.Group>
+
+          <ViewMoreGroupMenu.Group cols={1}>
+            <ViewMoreGroupMenu.Item
+              title="Pontos Selecionados"
+              notFoundData={MESSAGES_POINT['14.3']}
+            >
+              {isPointsSelected.length > 0 ? (
+                <div className="flex flex-wrap gap-1">
+                  {isPointsSelected.map((lane: LaneEntity) => (
                     <div
                       key={lane.id}
                       className="flex items-center justify-between w-fit gap-4 rounded-md border border-input py-2 px-4"
