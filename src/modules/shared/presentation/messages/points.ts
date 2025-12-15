@@ -15,6 +15,7 @@ type MessageKeys =
   | '14.14'
   | '14.15'
   | '14.16'
+  | '14.17'
 
 export const MESSAGES_POINT: Record<MessageKeys, string> = {
   '14.1': 'Pontos',
@@ -33,5 +34,7 @@ export const MESSAGES_POINT: Record<MessageKeys, string> = {
   '14.13': 'O nome deve ter no máximo 150 caracteres.',
   '14.14': 'A descrição deve ter no máximo 150 caracteres.',
   '14.15': 'Informações do Ponto',
-  '14.16': 'Veja mais informações sobre o ponto selecionado'
+  '14.16': 'Veja mais informações sobre o ponto selecionado',
+  '14.17':
+    'Você não possui permissão para visualizar os pontos disponíveis. Por favor, verifique com o seu responsável.'
 }
