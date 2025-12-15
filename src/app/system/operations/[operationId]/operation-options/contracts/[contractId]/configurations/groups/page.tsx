@@ -1,7 +1,6 @@
 import { auth } from '@/auth'
 import { GroupOptionsDropdown } from '@/modules/groups/presentation/components/group-options-dropdown'
 import { PostGroupMenu } from '@/modules/groups/presentation/components/post-group-menu'
-import { PostGroupMenuComponent } from '@/modules/groups/presentation/components/post-group-menu/post-group-menu.component'
 import { TableGroups } from '@/modules/groups/presentation/components/table-groups'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
@@ -73,8 +72,9 @@ export default async function GroupsPage({ params }: GroupsPageProps) {
       <Separator orientation="horizontal" />
       <ActionSection.Root>
         <PostGroupMenu.Provider>
-          <PostGroupMenu.Trigger />
-          <PostGroupMenuComponent
+          <PostGroupMenu.Client
+            isAdmin={isAdmin}
+            permissions={userPermissions}
             title={data.menuPostGroupTitle}
             description={data.menuPostGroupDescription}
           />
