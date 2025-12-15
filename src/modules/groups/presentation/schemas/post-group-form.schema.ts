@@ -18,7 +18,7 @@ export const PostGroupFormSchema = z.object({
     .optional()
     .nullable()
     .transform((val) => (!val || val.trim() === '' ? null : val)),
-  cfg: z.string()
+  cfg: z.string().optional()
 })
 
 export type PostGroupFormType = z.infer<typeof PostGroupFormSchema>
