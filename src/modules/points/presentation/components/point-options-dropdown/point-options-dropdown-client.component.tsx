@@ -78,6 +78,9 @@ export function PointOptionsDropdownClient({
             <PostPointLaneMenuComponent
               title={postPointLaneTitle}
               description={postPointLaneDescription}
+              isPermittedLane={
+                isAdmin || permissions.has(PermissionEnum.LANES_VIEW)
+              }
             />
 
             {(isAdmin ||

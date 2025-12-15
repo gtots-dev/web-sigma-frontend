@@ -9,6 +9,7 @@ type MessageKeys =
   | '8.8'
   | '8.9'
   | '8.10'
+  | '8.11'
 
 export const MESSAGES_LANE: Record<MessageKeys, string> = {
   '8.1': 'Faixas',
@@ -22,5 +23,7 @@ export const MESSAGES_LANE: Record<MessageKeys, string> = {
   '8.8': 'Altere os dados desejados para editar a faixa.',
   '8.9': 'Habilitar/Desabilitar',
   '8.10':
-    'Caso a opção correspondente esteja desabilitada, a faixa não estará mais disponível na lista.'
+    'Caso a opção correspondente esteja desabilitada, a faixa não estará mais disponível na lista.',
+  '8.11':
+    'Você não possui permissão para visualizar as faixas disponíveis. Por favor, verifique com o seu responsável.'
 }

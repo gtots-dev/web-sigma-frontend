@@ -8,4 +8,6 @@ export interface UrlParams {
   permissionProfileId?: string
   featureId?: string
   pointId?: string
+  groupId?: string
+  subgroupId?: string
 }
