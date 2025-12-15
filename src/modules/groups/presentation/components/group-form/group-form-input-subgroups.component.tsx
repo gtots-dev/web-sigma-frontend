@@ -97,9 +97,7 @@ export function GroupFormInputSubgroupsComponent({
                               item={item}
                               selected={selected}
                             />
-                            <span>
-                              {item.name} - {item.id}
-                            </span>
+                            <span>{item.name}</span>
                           </div>
                         )}
                       </GroupSelector.Item>

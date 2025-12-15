@@ -11,6 +11,9 @@ import { usePointStore } from '@/modules/points/presentation/stores/point.store'
 import type { PointEntity } from '@/modules/points/domain/entities/point.entity'
 import { MESSAGES_POINT } from '@/modules/shared/presentation/messages/points'
 import { MESSAGES_LANE } from '@/modules/shared/presentation/messages/lanes'
+import { MESSAGES_GROUP } from '@/modules/shared/presentation/messages/groups'
+import type { GroupEntity } from '@/modules/groups/domain/entities/group.entity'
+import { useGroupStore } from '../../stores/group.store'
 
 interface ViewMoreGroupMenuComponentProps {
   title: string
@@ -23,6 +26,7 @@ export function ViewMoreGroupMenuComponent({
 }: ViewMoreGroupMenuComponentProps) {
   const { contractLanes } = useLaneStore()
   const { points } = usePointStore()
+  const { groups } = useGroupStore()
   const { isOpen, close } = useViewMoreGroupMenuContext()
   const { group } = useTableGroup()
 
@@ -41,6 +45,18 @@ export function ViewMoreGroupMenuComponent({
         .map((point) => point.point),
     [points, group.id]
   )
+
+  const isGroupsSelected = useMemo<GroupEntity[]>(() => {
+    const relatedGroupIds = groups.find(
+      (g) => g.group.id === group.id
+    )?.group_id
+
+    return relatedGroupIds
+      ? groups
+          .filter((g) => relatedGroupIds.includes(g.group.id))
+          .map((g) => g.group)
+      : []
+  }, [groups, group.id])
 
   return (
     <ViewMoreGroupMenu.Root isOpen={isOpen} close={close}>
@@ -67,6 +83,7 @@ export function ViewMoreGroupMenuComponent({
               {group.description}
             </ViewMoreGroupMenu.Item>
           </ViewMoreGroupMenu.Group>
+
           <ViewMoreGroupMenu.Group cols={1}>
             <ViewMoreGroupMenu.Item
               title="Configuração"
@@ -75,6 +92,7 @@ export function ViewMoreGroupMenuComponent({
               {JSON.stringify(group.cfg, null, 2)}
             </ViewMoreGroupMenu.Item>
           </ViewMoreGroupMenu.Group>
+
           <ViewMoreGroupMenu.Group cols={1}>
             <ViewMoreGroupMenu.Item
               title="Faixas Selecionadas"
@@ -106,14 +124,38 @@ export function ViewMoreGroupMenuComponent({
             >
               {isPointsSelected.length > 0 ? (
                 <div className="flex flex-wrap gap-1">
-                  {isPointsSelected.map((lane: LaneEntity) => (
+                  {isPointsSelected.map((point: PointEntity) => (
                     <div
-                      key={lane.id}
+                      key={point.id}
                       className="flex items-center justify-between w-fit gap-4 rounded-md border border-input py-2 px-4"
                     >
                       <div className="flex flex-col gap-0.5 overflow-hidden">
                         <h4 className="text-xs truncate font-medium">
-                          {lane.name}
+                          {point.name}
+                        </h4>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </ViewMoreGroupMenu.Item>
+          </ViewMoreGroupMenu.Group>
+
+          <ViewMoreGroupMenu.Group cols={1}>
+            <ViewMoreGroupMenu.Item
+              title="Outros Grupos Selecionados"
+              notFoundData={MESSAGES_GROUP['14.3']}
+            >
+              {isGroupsSelected.length > 0 ? (
+                <div className="flex flex-wrap gap-1">
+                  {isGroupsSelected.map((group: GroupEntity) => (
+                    <div
+                      key={JSON.stringify(group)}
+                      className="flex items-center justify-between w-fit gap-4 rounded-md border border-input py-2 px-4"
+                    >
+                      <div className="flex flex-col gap-0.5 overflow-hidden">
+                        <h4 className="text-xs truncate font-medium">
+                          {group.name}
                         </h4>
                       </div>
                     </div>
