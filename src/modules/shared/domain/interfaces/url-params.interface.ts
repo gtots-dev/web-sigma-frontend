@@ -9,4 +9,5 @@ export interface UrlParams {
   featureId?: string
   pointId?: string
   groupId?: string
+  subgroupId?: string
 }
