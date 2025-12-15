@@ -16,6 +16,7 @@ interface PointFormInputLanesComponentProps {
   require?: boolean
   description?: string
   lanes?: LaneWithPointAndGroupInterface[]
+  hasPermission: boolean
 }
 
 type SelectorItem = BaseItem & {}
@@ -29,6 +30,7 @@ export function PointFormInputLanesComponent({
   require,
   description,
   lanes = [],
+  hasPermission
 }: PointFormInputLanesComponentProps) {
   const { control } = useFormContext()
 
@@ -66,6 +68,8 @@ export function PointFormInputLanesComponent({
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pela faixa..." />
                   <GroupSelector.List<SelectorItem>
+                    hasPermission={hasPermission}
+                    messagePermission={MESSAGES_LANE[8.11]}
                     messageItemEmpty={MESSAGES_LANE[8.3]}
                     messageGroupEmpty={MESSAGES_LANE[8.3]}
                     heading={(group, allSelected, toggleAll) => (

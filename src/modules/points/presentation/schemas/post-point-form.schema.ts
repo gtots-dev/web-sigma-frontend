@@ -18,7 +18,7 @@ export const PostPointFormSchema = z.object({
     .optional()
     .nullable()
     .transform((val) => (!val || val.trim() === '' ? null : val)),
-  cfg: z.string()
+  cfg: z.string().optional()
 })
 
 export type PostPointFormType = z.infer<typeof PostPointFormSchema>

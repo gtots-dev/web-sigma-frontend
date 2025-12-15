@@ -4,6 +4,7 @@ import {
   FileText,
   HardDrive,
   List,
+  Map,
   MapPin,
   Settings,
   Shield,
@@ -133,6 +134,16 @@ export function getSidebarData(
                           permissions: [
                             PermissionEnum.CONTRACTS_VIEW,
                             PermissionEnum.POINTS_VIEW
+                          ]
+                        },
+                        {
+                          title: 'Grupos',
+                          url: PATHNAMES.GROUPS(operationId, contractId),
+                          icon: Map,
+                          isToExpand: true,
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.GROUPS_VIEW
                           ]
                         }
                       ]
