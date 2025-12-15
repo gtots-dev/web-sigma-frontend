@@ -1,13 +1,14 @@
 'use client'
 
-import { useFormContext } from 'react-hook-form'
 import { useCallback } from 'react'
-import { useActivityReportSubmit } from '@/modules/activity-report/presentation/hooks/use-activity-submit.hook'
+import { useFormContext } from 'react-hook-form'
+import { Loader2 } from 'lucide-react'
+
 import type { ActivityReportSchemaType } from '@/modules/activity-report/presentation/hooks/use-activity-schema.hook'
-import { Button } from '../shadcn/button'
+import { useActivityReportSubmit } from '@/modules/activity-report/presentation/hooks/use-activity-submit.hook'
 import { useActivityReportStore } from '@/modules/activity-report/presentation/stores/activity-report.store'
 import { usePagination } from '../../hooks/use-pagination.hook'
-import { Loader2 } from 'lucide-react'
+import { Button } from '../shadcn/button'
 
 export function SystemPaginationControlsComponent() {
   const {
@@ -17,6 +18,17 @@ export function SystemPaginationControlsComponent() {
   const { setValue, getValues } = useFormContext<ActivityReportSchemaType>()
   const { handleSubmit } = useActivityReportSubmit()
 
+  const currentPage = meta?.page ?? 1
+  const perPage = meta?.per_page ?? 50
+  const totalItems = meta?.total_items ?? 0
+
+  const { range, hasNext, hasPrevious } = usePagination({
+    currentPage,
+    perPage,
+    total: totalItems,
+    maxPagesToShow: 5
+  })
+
   const goToPage = useCallback(
     (page: number) => {
       setValue('page', page)
@@ -25,19 +37,12 @@ export function SystemPaginationControlsComponent() {
     [getValues, handleSubmit, setValue]
   )
 
-  const { range, currentPage, hasNext, hasPrevious } = usePagination({
-    currentPage: meta?.page ?? 1,
-    perPage: meta?.per_page ?? 50,
-    total: meta?.total_pages ?? 1,
-    maxPagesToShow: meta?.total_pages ?? 1
-  })
-
   if (!meta) {
     return (
       <Button
         type="button"
         disabled
-        className="dark:disabled:bg-zinc-800/80 disabled:opacity-50 dark:disabled:opacity-50 flex items-center justify-center gap-2 w-[297px]"
+        className="dark:disabled:bg-zinc-800/80 disabled:opacity-50 flex items-center justify-center gap-2 w-[297px]"
       >
         <Loader2 className="h-4 w-4 animate-spin" />
       </Button>
