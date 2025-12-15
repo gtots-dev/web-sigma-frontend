@@ -9,6 +9,8 @@ type MessageKeys =
   | '17.8'
   | '17.9'
   | '17.10'
+  | '17.11'
+  | '17.12'
 
 export const MESSAGES_CONFIGURATION_CONTRACT: Record<MessageKeys, string> = {
   '17.1': 'Configurações',
@@ -21,5 +23,8 @@ export const MESSAGES_CONFIGURATION_CONTRACT: Record<MessageKeys, string> = {
   '17.7': 'Navegue, gerencie e adicione unidades de Processamento (U.P.s).',
   '17.8': 'Selecione o Contrato',
   '17.9': 'Selecione um contrato abaixo para gerenciar suas funcionalidades.',
-  '17.10': 'Nenhuma opção disponível de configuração.'
+  '17.10': 'Nenhuma opção disponível de configuração.',
+  '17.11': 'Grupos',
+  '17.12':
+    'Navegue, gerencie e adicione grupos de faixa, pontos e outro grupos.'
 }
