@@ -4,12 +4,15 @@ import { useCallback } from 'react'
 import type { ActivityReportSchemaType } from './use-activity-schema.hook'
 import { useActivityReportStore } from '../stores/activity-report.store'
 
-function removeUndefined<T extends object>(obj: T): Partial<T> {
+function removeEmpty<T extends object>(obj: T): Partial<T> {
   return Object.fromEntries(
-    Object.entries(obj).filter(([, v]) => v !== undefined)
+    Object.entries(obj).filter(([, value]) => {
+      if (value === undefined || value === null) return false
+      if (typeof value === 'string' && value.trim() === '') return false
+      return true
+    })
   ) as Partial<T>
 }
-
 export function useActivityReportSubmit() {
   const { getActivityReport } = useActivityReportStore()
 
@@ -26,7 +29,7 @@ export function useActivityReportSubmit() {
     }: ActivityReportSchemaType): Promise<void> => {
       try {
         await getActivityReport({
-          filters: removeUndefined({
+          filters: removeEmpty({
             actions,
             contract_ids,
             operation_ids,
@@ -34,7 +37,7 @@ export function useActivityReportSubmit() {
             date_range,
             time_range
           }),
-          pagination: removeUndefined({
+          pagination: removeEmpty({
             per_page,
             page
           })
