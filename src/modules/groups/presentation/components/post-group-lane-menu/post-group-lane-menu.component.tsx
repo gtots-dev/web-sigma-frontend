@@ -13,11 +13,13 @@ import { useMemo } from 'react'
 interface PostGroupLaneMenuComponentProps {
   title: string
   description: string
+  isPermittedLane: boolean
 }
 
 export function PostGroupLaneMenuComponent({
   title,
-  description
+  description,
+  isPermittedLane
 }: PostGroupLaneMenuComponentProps) {
   const { isOpen, close } = usePostGroupLaneMenuContext()
   const { group } = useTableGroup()
@@ -37,7 +39,10 @@ export function PostGroupLaneMenuComponent({
         <PostGroupLaneMenu.Header title={title} description={description} />
 
         <GroupForm.Form>
-          <GroupForm.Input.Lanes lanes={lanesAvailableForSelection} />
+          <GroupForm.Input.Lanes
+            lanes={lanesAvailableForSelection}
+            hasPermission={isPermittedLane}
+          />
         </GroupForm.Form>
 
         <PostGroupLaneMenu.Footer>

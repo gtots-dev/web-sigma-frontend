@@ -40,7 +40,7 @@ export function GroupOptionsDropdownClient({
   postGroupLaneDescription: string
   postGroupPointTitle: string
   postGroupPointDescription: string
-  postGroupSubgroupTitle: string  
+  postGroupSubgroupTitle: string
   postGroupSubgroupDescription: string
   viewMoreGroupLaneTitle: string
   ViewMoreGroupLaneDescription: string
@@ -99,16 +99,25 @@ export function GroupOptionsDropdownClient({
                 <PostGroupLaneMenuComponent
                   title={postGroupLaneTitle}
                   description={postGroupLaneDescription}
+                  isPermittedLane={
+                    isAdmin || permissions.has(PermissionEnum.LANES_VIEW)
+                  }
                 />
 
                 <PostGroupPointMenuComponent
                   title={postGroupPointTitle}
                   description={postGroupPointDescription}
+                  isPermittedPoints={
+                    isAdmin || permissions.has(PermissionEnum.POINTS_VIEW)
+                  }
                 />
 
                 <PostGroupSubgroupMenuComponent
                   title={postGroupSubgroupTitle}
                   description={postGroupSubgroupDescription}
+                  isPermittedGroups={
+                    isAdmin || permissions.has(PermissionEnum.GROUPS_VIEW)
+                  }
                 />
 
                 {(isAdmin ||

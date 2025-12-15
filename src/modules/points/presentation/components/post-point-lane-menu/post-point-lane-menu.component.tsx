@@ -13,11 +13,13 @@ import { useMemo } from 'react'
 interface PostPointLaneMenuComponentProps {
   title: string
   description: string
+  isPermittedLane: boolean
 }
 
 export function PostPointLaneMenuComponent({
   title,
-  description
+  description,
+  isPermittedLane
 }: PostPointLaneMenuComponentProps) {
   const { isOpen, close } = usePostPointLaneMenuContext()
   const { point } = useTablePoint()
@@ -39,7 +41,10 @@ export function PostPointLaneMenuComponent({
         <PostPointLaneMenu.Header title={title} description={description} />
 
         <PointForm.Form>
-          <PointForm.Input.Lanes lanes={lanesAvailableForSelection} />
+          <PointForm.Input.Lanes
+            lanes={lanesAvailableForSelection}
+            hasPermission={isPermittedLane}
+          />
         </PointForm.Form>
 
         <PostPointLaneMenu.Footer>
