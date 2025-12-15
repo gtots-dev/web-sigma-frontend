@@ -19,7 +19,7 @@ export const PatchGroupFormSchema = z.object({
     .optional()
     .nullable()
     .transform((val) => (!val || val.trim() === '' ? null : val)),
-  cfg: z.string()
+  cfg: z.string().optional()
 })
 
 export type PatchGroupFormType = z.infer<typeof PatchGroupFormSchema>
