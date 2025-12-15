@@ -13,11 +13,13 @@ import { useMemo } from 'react'
 interface PostGroupPointMenuComponentProps {
   title: string
   description: string
+  isPermittedPoints: boolean
 }
 
 export function PostGroupPointMenuComponent({
   title,
-  description
+  description,
+  isPermittedPoints
 }: PostGroupPointMenuComponentProps) {
   const { isOpen, close } = usePostGroupPointMenuContext()
   const { group } = useTableGroup()
@@ -37,7 +39,10 @@ export function PostGroupPointMenuComponent({
         <PostGroupPointMenu.Header title={title} description={description} />
 
         <GroupForm.Form>
-          <GroupForm.Input.Points points={pointsAvailableForSelection} />
+          <GroupForm.Input.Points
+            points={pointsAvailableForSelection}
+            hasPermission={isPermittedPoints}
+          />
         </GroupForm.Form>
 
         <PostGroupPointMenu.Footer>
@@ -49,7 +54,9 @@ export function PostGroupPointMenuComponent({
             Cancelar
           </Button>
           <GroupForm.Submit<GroupPointInterface>
-            onSubmit={(pointId: GroupPointInterface) => onAction(pointId, close)}
+            onSubmit={(pointId: GroupPointInterface) =>
+              onAction(pointId, close)
+            }
           />
         </PostGroupPointMenu.Footer>
       </PostGroupPointMenu.Content>

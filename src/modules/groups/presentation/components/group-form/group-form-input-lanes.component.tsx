@@ -8,14 +8,15 @@ import {
 import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 import { useFormContext } from 'react-hook-form'
 import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
-import type { LaneWithGroupAndGroupInterface } from '@/modules/lanes/domain/interfaces/lane-with-group-and-group.interface'
+import type { LaneWithPointAndGroupInterface } from '@/modules/lanes/domain/interfaces/lane-with-point-and-group.interface'
 import type { BaseItem } from '@/modules/shared/presentation/components/group-item-selector/group-item-selector-list.component'
 import { MESSAGES_LANE } from '@/modules/shared/presentation/messages/lanes'
 
 interface GroupFormInputLanesComponentProps {
   require?: boolean
   description?: string
-  lanes?: LaneWithGroupAndGroupInterface[]
+  lanes?: LaneWithPointAndGroupInterface[]
+  hasPermission: boolean
 }
 
 type SelectorItem = BaseItem & {}
@@ -29,6 +30,7 @@ export function GroupFormInputLanesComponent({
   require,
   description,
   lanes = [],
+  hasPermission
 }: GroupFormInputLanesComponentProps) {
   const { control } = useFormContext()
 
@@ -66,6 +68,8 @@ export function GroupFormInputLanesComponent({
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pela faixa..." />
                   <GroupSelector.List<SelectorItem>
+                    hasPermission={hasPermission}
+                    messagePermission={MESSAGES_LANE[8.11]}
                     messageItemEmpty={MESSAGES_LANE[8.3]}
                     messageGroupEmpty={MESSAGES_LANE[8.3]}
                     heading={(group, allSelected, toggleAll) => (

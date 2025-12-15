@@ -16,6 +16,7 @@ interface GroupFormInputSubgroupsComponentProps {
   require?: boolean
   description?: string
   subgroups?: GroupWithGroupInterface[]
+  hasPermission: boolean
 }
 
 type SelectorItem = BaseItem & {}
@@ -28,7 +29,8 @@ interface SelectorGroup {
 export function GroupFormInputSubgroupsComponent({
   require,
   description,
-  subgroups = []
+  subgroups = [],
+  hasPermission
 }: GroupFormInputSubgroupsComponentProps) {
   const { control } = useFormContext()
 
@@ -66,6 +68,8 @@ export function GroupFormInputSubgroupsComponent({
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pelo grupo..." />
                   <GroupSelector.List<SelectorItem>
+                    hasPermission={hasPermission}
+                    messagePermission={MESSAGES_GROUP[14.21]}
                     messageItemEmpty={MESSAGES_GROUP[14.3]}
                     messageGroupEmpty={MESSAGES_GROUP[14.3]}
                     heading={(group, allSelected, toggleAll) => (

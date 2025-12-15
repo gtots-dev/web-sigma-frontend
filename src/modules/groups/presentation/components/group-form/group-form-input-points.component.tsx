@@ -16,6 +16,7 @@ interface GroupFormInputPointsComponentProps {
   require?: boolean
   description?: string
   points?: PointWithGroupInterface[]
+  hasPermission: boolean
 }
 
 type SelectorItem = BaseItem & {}
@@ -29,6 +30,7 @@ export function GroupFormInputPointsComponent({
   require,
   description,
   points = [],
+  hasPermission
 }: GroupFormInputPointsComponentProps) {
   const { control } = useFormContext()
 
@@ -66,6 +68,8 @@ export function GroupFormInputPointsComponent({
                 <GroupSelector.Root>
                   <GroupSelector.Search placeholder="Busque pelo ponto..." />
                   <GroupSelector.List<SelectorItem>
+                    hasPermission={hasPermission}
+                    messagePermission={MESSAGES_POINT[14.17]}
                     messageItemEmpty={MESSAGES_POINT[14.3]}
                     messageGroupEmpty={MESSAGES_POINT[14.3]}
                     heading={(group, allSelected, toggleAll) => (

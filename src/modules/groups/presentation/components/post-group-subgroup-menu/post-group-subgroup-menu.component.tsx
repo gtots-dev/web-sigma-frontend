@@ -13,11 +13,13 @@ import type { GroupSubgroupInterface } from '@/modules/groups/domain/interfaces/
 interface PostGroupSubgroupMenuComponentProps {
   title: string
   description: string
+  isPermittedGroups: boolean
 }
 
 export function PostGroupSubgroupMenuComponent({
   title,
-  description
+  description,
+  isPermittedGroups
 }: PostGroupSubgroupMenuComponentProps) {
   const { isOpen, close } = usePostGroupSubgroupMenuContext()
   const { group } = useTableGroup()
@@ -41,6 +43,7 @@ export function PostGroupSubgroupMenuComponent({
 
         <GroupForm.Form>
           <GroupForm.Input.Subgroups
+            hasPermission={isPermittedGroups}
             subgroups={subgroupsAvailableForSelection}
           />
         </GroupForm.Form>
