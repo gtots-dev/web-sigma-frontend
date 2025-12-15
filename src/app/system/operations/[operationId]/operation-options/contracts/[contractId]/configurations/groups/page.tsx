@@ -27,6 +27,8 @@ interface Data {
   menuPostGroupLaneDescription: string
   menuPostGroupPointTitle: string
   menuPostGroupPointDescription: string
+  menuPostGroupSubgroupTitle: string
+  menuPostGroupSubgroupDescription: string
   menuViewMoreGroupTitle: string
   menuViewMoreGroupDescription: string
 }
@@ -54,8 +56,10 @@ export default async function GroupsPage({ params }: GroupsPageProps) {
     menuPostGroupLaneDescription: MESSAGES_GROUP['14.12'],
     menuPostGroupPointTitle: MESSAGES_GROUP['14.17'],
     menuPostGroupPointDescription: MESSAGES_GROUP['14.18'],
-    menuViewMoreGroupTitle: MESSAGES_GROUP['14.15'],
-    menuViewMoreGroupDescription: MESSAGES_GROUP[14.16]
+    menuPostGroupSubgroupTitle: MESSAGES_GROUP['14.17'],
+    menuPostGroupSubgroupDescription: MESSAGES_GROUP['14.18'],
+    menuViewMoreGroupTitle: MESSAGES_GROUP['14.19'],
+    menuViewMoreGroupDescription: MESSAGES_GROUP[14.2]
   }
 
   return (
@@ -90,6 +94,10 @@ export default async function GroupsPage({ params }: GroupsPageProps) {
               postGroupLaneDescription={data.menuPostGroupLaneDescription}
               postGroupPointTitle={data.menuPostGroupPointTitle}
               postGroupPointDescription={data.menuPostGroupPointDescription}
+              postGroupSubgroupTitle={data.menuPostGroupSubgroupTitle}
+              postGroupSubgroupDescription={
+                data.menuPostGroupSubgroupDescription
+              }
               viewMoreGroupLaneTitle={data.menuViewMoreGroupTitle}
               ViewMoreGroupLaneDescription={data.menuViewMoreGroupDescription}
               permissions={userPermissions}
