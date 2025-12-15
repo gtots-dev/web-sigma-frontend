@@ -19,6 +19,7 @@ type MessageKeys =
   | '14.18'
   | '14.19'
   | '14.20'
+  | '14.21'
 
 export const MESSAGES_GROUP: Record<MessageKeys, string> = {
   '14.1': 'Grupos',
@@ -41,5 +42,7 @@ export const MESSAGES_GROUP: Record<MessageKeys, string> = {
   '14.17': 'Vincular Pontos',
   '14.18': 'Selecione os pontos desejados para o vinculo do grupo.',
   '14.19': 'Vincular Outros Grupos',
-  '14.20': 'Selecione os outros grupos desejados para o vinculo no grupo.'
+  '14.20': 'Selecione os outros grupos desejados para o vinculo no grupo.',
+  '14.21':
+    'Você não possui permissão para visualizar os grupos disponíveis. Por favor, verifique com o seu responsável.'
 }
