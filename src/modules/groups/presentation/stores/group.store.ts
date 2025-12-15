@@ -14,6 +14,8 @@ import { DeleteGroupLaneRouterApiFactory } from '@/modules/api/infrastructure/fa
 import type { PointEntity } from '@/modules/points/domain/entities/point.entity'
 import { PostGroupPointRouterApiFactory } from '@/modules/api/infrastructure/factories/post-group-point-router-api.factory'
 import { DeleteGroupPointRouterApiFactory } from '@/modules/api/infrastructure/factories/delete-group-point-router-api.factory'
+import { PostGroupSubgroupRouterApiFactory } from '@/modules/api/infrastructure/factories/post-group-subgroup-router-api.factory'
+import { DeleteGroupSubgroupRouterApiFactory } from '@/modules/api/infrastructure/factories/delete-group-subgroup-router-api.factory'
 
 type GroupState = {
   groups: GroupWithGroupInterface[]
@@ -49,6 +51,16 @@ type GroupState = {
     contractId,
     groupId,
     pointId
+  }: UrlParams) => Promise<void>
+  postGroupSubgroup: (
+    { operationId, contractId, groupId }: UrlParams,
+    subgroupId: GroupEntity['id']
+  ) => Promise<void>
+  deleteGroupSubgroup: ({
+    operationId,
+    contractId,
+    groupId,
+    subgroupId
   }: UrlParams) => Promise<void>
 }
 
@@ -190,6 +202,45 @@ export const useGroupStore = create<GroupState>((set) => ({
         pointId
       })
       await deleteGroupPoint.execute()
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
+  postGroupSubgroup: async (
+    { operationId, contractId, groupId }: UrlParams,
+    subgroupId: GroupEntity['id']
+  ) => {
+    try {
+      const postGroupSubgroup = PostGroupSubgroupRouterApiFactory.create({
+        operationId,
+        contractId,
+        groupId
+      })
+      await postGroupSubgroup.execute(subgroupId)
+    } catch (error) {
+      if (error instanceof HttpResponseError) {
+        throw error
+      }
+    }
+  },
+
+  deleteGroupSubgroup: async ({
+    operationId,
+    contractId,
+    groupId,
+    subgroupId
+  }: UrlParams) => {
+    try {
+      const deleteGroupSubgroup = DeleteGroupSubgroupRouterApiFactory.create({
+        operationId,
+        contractId,
+        groupId,
+        subgroupId
+      })
+      await deleteGroupSubgroup.execute()
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
