@@ -88,7 +88,7 @@ export default async function GroupsPage({ params }: GroupsPageProps) {
               isAdmin={isAdmin}
               patchTitle={data.menuPatchGroupTitle}
               patchDescription={data.menuPatchGroupDescription}
-              patchStatusTitle={data.menuPatchGroupTitle}
+              patchStatusTitle={data.menuPatchGroupStatusTitle}
               patchStatusDescription={data.menuPatchGroupStatusDescription}
               postGroupLaneTitle={data.menuPostGroupLaneTitle}
               postGroupLaneDescription={data.menuPostGroupLaneDescription}
