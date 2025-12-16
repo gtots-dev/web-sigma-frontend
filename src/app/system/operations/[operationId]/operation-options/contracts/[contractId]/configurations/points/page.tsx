@@ -80,7 +80,7 @@ export default async function PointsPage({ params }: PointsPageProps) {
               isAdmin={isAdmin}
               patchTitle={data.menuPatchPointTitle}
               patchDescription={data.menuPatchPointDescription}
-              patchStatusTitle={data.menuPatchPointTitle}
+              patchStatusTitle={data.menuPatchPointStatusTitle}
               patchStatusDescription={data.menuPatchPointStatusDescription}
               postPointLaneTitle={data.menuPostPointLaneTitle}
               postPointLaneDescription={data.menuPostPointLaneDescription}
