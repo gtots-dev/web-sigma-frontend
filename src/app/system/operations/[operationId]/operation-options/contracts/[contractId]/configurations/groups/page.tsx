@@ -57,8 +57,8 @@ export default async function GroupsPage({ params }: GroupsPageProps) {
     menuPostGroupPointDescription: MESSAGES_GROUP['14.18'],
     menuPostGroupSubgroupTitle: MESSAGES_GROUP['14.17'],
     menuPostGroupSubgroupDescription: MESSAGES_GROUP['14.18'],
-    menuViewMoreGroupTitle: MESSAGES_GROUP['14.19'],
-    menuViewMoreGroupDescription: MESSAGES_GROUP[14.2]
+    menuViewMoreGroupTitle: MESSAGES_GROUP['14.15'],
+    menuViewMoreGroupDescription: MESSAGES_GROUP['14.16']
   }
 
   return (
