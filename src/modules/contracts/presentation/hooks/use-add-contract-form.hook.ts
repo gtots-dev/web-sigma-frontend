@@ -12,8 +12,8 @@ import {
 export function useAddContractForm() {
   const defaultValues = useMemo<ContractEntity>(
     () => ({
-      name: 'São Paulo',
-      alias: 'teste',
+      name: '',
+      alias: '',
       cfg: ''
     }),
     []

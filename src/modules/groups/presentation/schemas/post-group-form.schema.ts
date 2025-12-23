@@ -5,15 +5,15 @@ export const PostGroupFormSchema = z.object({
   name: z
     .string()
     .nonempty({
-      message: MESSAGES_GROUP['18.6']
+      message: MESSAGES_GROUP['14.6']
     })
     .max(150, {
-      message: MESSAGES_GROUP['18.13']
+      message: MESSAGES_GROUP['14.13']
     }),
   description: z
     .string()
     .max(150, {
-      message: MESSAGES_GROUP['18.14']
+      message: MESSAGES_GROUP['14.14']
     })
     .optional()
     .nullable()

@@ -43,22 +43,22 @@ export default async function GroupsPage({ params }: GroupsPageProps) {
   const { userPermissions } = await loadAuthContext(JWT, operationId)
 
   const data: Data = {
-    title: MESSAGES_GROUP['18.1'],
-    description: MESSAGES_GROUP['18.2'],
-    menuPostGroupTitle: MESSAGES_GROUP['18.4'],
-    menuPostGroupDescription: MESSAGES_GROUP['18.5'],
-    menuPatchGroupTitle: MESSAGES_GROUP['18.7'],
-    menuPatchGroupDescription: MESSAGES_GROUP['18.8'],
-    menuPatchGroupStatusTitle: MESSAGES_GROUP['18.9'],
-    menuPatchGroupStatusDescription: MESSAGES_GROUP['18.10'],
-    menuPostGroupLaneTitle: MESSAGES_GROUP['18.11'],
-    menuPostGroupLaneDescription: MESSAGES_GROUP['18.12'],
-    menuPostGroupPointTitle: MESSAGES_GROUP['18.17'],
-    menuPostGroupPointDescription: MESSAGES_GROUP['18.18'],
-    menuPostGroupSubgroupTitle: MESSAGES_GROUP['18.19'],
-    menuPostGroupSubgroupDescription: MESSAGES_GROUP['18.20'],
-    menuViewMoreGroupTitle: MESSAGES_GROUP['18.15'],
-    menuViewMoreGroupDescription: MESSAGES_GROUP['18.16']
+    title: MESSAGES_GROUP['14.1'],
+    description: MESSAGES_GROUP['14.2'],
+    menuPostGroupTitle: MESSAGES_GROUP['14.4'],
+    menuPostGroupDescription: MESSAGES_GROUP['14.5'],
+    menuPatchGroupTitle: MESSAGES_GROUP['14.7'],
+    menuPatchGroupDescription: MESSAGES_GROUP['14.8'],
+    menuPatchGroupStatusTitle: MESSAGES_GROUP['14.9'],
+    menuPatchGroupStatusDescription: MESSAGES_GROUP['14.10'],
+    menuPostGroupLaneTitle: MESSAGES_GROUP['14.11'],
+    menuPostGroupLaneDescription: MESSAGES_GROUP['14.12'],
+    menuPostGroupPointTitle: MESSAGES_GROUP['14.17'],
+    menuPostGroupPointDescription: MESSAGES_GROUP['14.18'],
+    menuPostGroupSubgroupTitle: MESSAGES_GROUP['14.17'],
+    menuPostGroupSubgroupDescription: MESSAGES_GROUP['14.18'],
+    menuViewMoreGroupTitle: MESSAGES_GROUP['14.15'],
+    menuViewMoreGroupDescription: MESSAGES_GROUP['14.16']
   }
 
   return (
