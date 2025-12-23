@@ -1,6 +1,9 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import { HttpResponseContractsValidator } from '@/modules/contracts/domain/validators/http-response-contracts.validator'
+import {
+  HttpResponseContractsValidator,
+  type HttpContractError
+} from '@/modules/contracts/domain/validators/http-response-contracts.validator'
 import type { PostContractRouterApiGateway } from '../../domain/gateways/post-contract-router-api.gateway'
 import { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
@@ -24,10 +27,12 @@ export class PostContractRouterApiService
     }
   }
 
-  async execute(contract: ContractEntity): Promise<void> {
+  async execute(contract: ContractEntity): Promise<HttpContractError> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, contract)
-    const { success, status } =
+    const { success, status, message } =
       await this.executeRequest.execute<null>(settingsAuthHTTP)
-    HttpResponseContractsValidator.validate(success, status)
+    console.log({ success, status, message })
+
+    return HttpResponseContractsValidator.validate(success, status, message)
   }
 }

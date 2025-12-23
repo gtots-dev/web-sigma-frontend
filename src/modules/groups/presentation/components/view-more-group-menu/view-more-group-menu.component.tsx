@@ -144,7 +144,7 @@ export function ViewMoreGroupMenuComponent({
           <ViewMoreGroupMenu.Group cols={1}>
             <ViewMoreGroupMenu.Item
               title="Outros Grupos Selecionados"
-              notFoundData={MESSAGES_GROUP['14.3']}
+              notFoundData={MESSAGES_GROUP['18.3']}
             >
               {isGroupsSelected.length > 0 ? (
                 <div className="flex flex-wrap gap-1">

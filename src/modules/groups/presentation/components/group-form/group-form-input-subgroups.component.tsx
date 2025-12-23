@@ -69,9 +69,9 @@ export function GroupFormInputSubgroupsComponent({
                   <GroupSelector.Search placeholder="Busque pelo grupo..." />
                   <GroupSelector.List<SelectorItem>
                     hasPermission={hasPermission}
-                    messagePermission={MESSAGES_GROUP[14.21]}
-                    messageItemEmpty={MESSAGES_GROUP[14.3]}
-                    messageGroupEmpty={MESSAGES_GROUP[14.3]}
+                    messagePermission={MESSAGES_GROUP[18.21]}
+                    messageItemEmpty={MESSAGES_GROUP[18.3]}
+                    messageGroupEmpty={MESSAGES_GROUP[18.3]}
                     heading={(group, allSelected, toggleAll) => (
                       <div className="flex items-center justify-between">
                         <span>{group.name}</span>

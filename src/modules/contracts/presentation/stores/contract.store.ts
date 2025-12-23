@@ -53,7 +53,8 @@ export const useContractStore = create<ContractState>((set) => ({
       const postContractsRouterApiFactory = PostContractRouterApiFactory.create(
         { operationId }
       )
-      await postContractsRouterApiFactory.execute(contract)
+      const teste = await postContractsRouterApiFactory.execute(contract)
+      console.log(teste)
     } catch (error) {
       if (error instanceof HttpResponseError) {
         throw error
