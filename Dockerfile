@@ -1,5 +1,5 @@
 # Estágio de construção
-FROM node:22-alpine AS builder
+FROM node:24-bookworm-slim AS builder
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ COPY . .
 RUN npm run build
 
 # Estágio de produção
-FROM node:22-alpine AS runner
+FROM node:24-bookworm-slim AS runner
 
 WORKDIR /app
 
@@ -27,6 +27,8 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/next.config.ts ./
+
+USER nodeuser
 
 EXPOSE ${APP_PORT}
 
