@@ -19,10 +19,12 @@ export const GET = routerApi.GET<UrlParams, ContractEntity[]>(
 export const POST = routerApi.POST<UrlParams>(async ({ operationId }, req) => {
   const contract = await req?.json()
   const postContract = PostContractFactory.create({ operationId })
-  await postContract.execute(contract)
+  const { message, status, success } = await postContract.execute(contract)
+  console.log({ message, status, success })
+
   return {
-    data: { success: true },
-    status: HttpStatusCodeEnum.OK
+    data: { success: success, message: message },
+    status: status
   }
 })
 

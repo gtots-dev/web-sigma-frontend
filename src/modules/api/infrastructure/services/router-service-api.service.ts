@@ -9,8 +9,6 @@ import type {
 } from '../../domain/interfaces/router-api-service.interface'
 
 export class RouterApiService implements RouterApiGateway {
-  constructor() {}
-
   // === Helpers ======================================================
 
   private jsonResponse(data: unknown, status = HttpStatusCodeEnum.OK) {
@@ -28,7 +26,11 @@ export class RouterApiService implements RouterApiGateway {
 
     if (error instanceof HttpResponseError) {
       return this.jsonResponse(
-        { success: false, data: null, message: error.message },
+        {
+          success: false,
+          data: null,
+          message: error.message
+        },
         HttpStatusCodeEnum.BAD_REQUEST
       )
     }
@@ -36,7 +38,11 @@ export class RouterApiService implements RouterApiGateway {
     const message = error instanceof Error ? error.message : 'Erro inesperado'
 
     return this.jsonResponse(
-      { success: false, data: null, message },
+      {
+        success: false,
+        data: null,
+        message
+      },
       HttpStatusCodeEnum.INTERNAL_SERVER_ERROR
     )
   }
@@ -58,46 +64,45 @@ export class RouterApiService implements RouterApiGateway {
           })
         }
 
-        const { data, status } = this.extractResponse(result)
-        return this.jsonResponse(data, status)
+        if (this.isRouterApiResponse(result)) {
+          return this.jsonResponse(
+            result.data,
+            HttpStatusCodeEnum[result.status]
+          )
+        }
+
+        return this.jsonResponse(result, HttpStatusCodeEnum.OK)
       } catch (error) {
         return this.handleError(error)
       }
     }
   }
 
+  // === Type guards ==================================================
+
   private isFileResponse(result: unknown): result is RouterApiFileResponse {
-    if (typeof result !== 'object' || result === null || !('data' in result)) {
-      return false
-    }
+    if (typeof result !== 'object' || result === null) return false
+    if (!('data' in result)) return false
+
     const data = (result as { data?: unknown }).data
+
     const isBlob = typeof Blob !== 'undefined' && data instanceof Blob
     const isFile = typeof File !== 'undefined' && data instanceof File
     const isArrayBuffer =
       typeof ArrayBuffer !== 'undefined' && data instanceof ArrayBuffer
+
     return isBlob || isFile || isArrayBuffer
-  }
-
-  private extractResponse<R>(
-    result: R | RouterApiResponse<R | Blob | File | ArrayBuffer>
-  ): {
-    data: R | Blob | File | ArrayBuffer
-    status: HttpStatusCodeEnum
-  } {
-    if (this.isRouterApiResponse(result)) {
-      return {
-        data: result.data,
-        status: HttpStatusCodeEnum.OK
-      }
-    }
-
-    return { data: result, status: HttpStatusCodeEnum.OK }
   }
 
   private isRouterApiResponse<R>(
     result: unknown
   ): result is RouterApiResponse<R> {
-    return typeof result === 'object' && result !== null && 'data' in result
+    return (
+      typeof result === 'object' &&
+      result !== null &&
+      'data' in result &&
+      'status' in result
+    )
   }
 
   // === Public HTTP methods =========================================
