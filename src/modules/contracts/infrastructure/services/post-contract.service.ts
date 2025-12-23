@@ -2,7 +2,7 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import { HttpResponseContractsValidator, type HttpContractError } from '../../domain/validators/http-response-contracts.validator'
+import { HttpResponseContractsValidator } from '../../domain/validators/http-response-contracts.validator'
 import type { PostContractGateway } from '../../domain/gateways/post-contract.gateway'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
@@ -43,15 +43,15 @@ export class PostContractService implements PostContractGateway {
     }
   }
 
-  async execute(contract: ContractEntity): Promise<HttpContractError> {
+  async execute(contract: ContractEntity): Promise<void> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(
       this.params,
       token,
       contract
     )
-    const { success, status, message }: HttpResponse<null> =
+    const { success, status }: HttpResponse<null> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    return HttpResponseContractsValidator.validate(success, status, message)
+    HttpResponseContractsValidator.validate(success, status)
   }
 }

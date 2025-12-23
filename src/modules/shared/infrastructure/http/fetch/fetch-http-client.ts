@@ -6,11 +6,9 @@ import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status
 export class FetchHttpClient implements HttpClientGateway {
   constructor(private readonly baseURL: string) {}
 
-  async request<
-    T,
-    TData extends BodyInit | object = object,
-    TParams = unknown
-  >(config: HttpRequestConfig<TData, TParams>): Promise<HttpResponse<T>> {
+  async request<T, TData extends BodyInit | object = object, TParams = unknown>(
+    config: HttpRequestConfig<TData, TParams>
+  ): Promise<HttpResponse<T>> {
     try {
       const queryString = this.buildQueryString(
         config.params as Record<
@@ -21,11 +19,9 @@ export class FetchHttpClient implements HttpClientGateway {
 
       const isFormData = config.data instanceof FormData
       const isJson =
-        config.data !== undefined &&
-        typeof config.data !== 'string' &&
-        !isFormData
+        config.data && typeof config.data !== 'string' && !isFormData
 
-      const headers: HeadersInit = {
+      const headers = {
         ...(isJson ? { 'Content-Type': 'application/json' } : {}),
         ...config.headers
       }
@@ -44,10 +40,9 @@ export class FetchHttpClient implements HttpClientGateway {
 
       const contentType = response.headers.get('content-type') || ''
 
-      let parsedData: T | null
-
-      if (String(response.status) == HttpStatusCodeEnum.NO_CONTENT) {
-        parsedData = null
+      let parsedData: T
+      if (response.status === 204) {
+        parsedData = null as unknown as T
       } else if (contentType.includes('application/json')) {
         parsedData = (await response.json()) as T
       } else if (
@@ -62,33 +57,31 @@ export class FetchHttpClient implements HttpClientGateway {
         parsedData = (await response.text()) as T
       }
 
-      if (!response.ok) {
+      const status = String(response.status)
+      const success = response.ok
+
+      if (!success) {
+        throw {
+          success,
+          status,
+          message: JSON.stringify(parsedData)
+        }
+      }
+      return {
+        success,
+        status,
+        data: parsedData
+      }
+    } catch (err) {
+      if (err === HttpStatusCodeEnum.INTERNAL_SERVER_ERROR) {
         return {
           success: false,
-          status: String(response.status),
-          message:
-            typeof parsedData === 'string'
-              ? parsedData
-              : JSON.stringify(parsedData),
+          status: '500',
+          message: err?.detail ?? 'Erro inesperado',
           data: null
         }
       }
-
-      return {
-        success: true,
-        status: String(response.status),
-        data: parsedData as T
-      }
-    } catch (error) {
-      return {
-        success: false,
-        status: String(HttpStatusCodeEnum.INTERNAL_SERVER_ERROR),
-        message:
-          error instanceof Error
-            ? error.message
-            : 'Erro inesperado',
-        data: null
-      }
+      return err
     }
   }
 
@@ -96,16 +89,16 @@ export class FetchHttpClient implements HttpClientGateway {
     params?: Record<string, string | number | boolean | string[] | number[]>
   ): string {
     if (!params) return ''
-
     const query = new URLSearchParams()
 
-    Object.entries(params).forEach(([key, value]) => {
+    for (const key in params) {
+      const value = params[key]
       if (Array.isArray(value)) {
-        value.forEach((v) => query.append(key, String(v)))
+        value.forEach((val) => query.append(key, String(val)))
       } else if (value !== undefined && value !== null) {
         query.append(key, String(value))
       }
-    })
+    }
 
     const queryString = query.toString()
     return queryString ? `?${queryString}` : ''

@@ -28,7 +28,7 @@ export function TableGroupsBodyComponent({
   if (groups.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={4} message={MESSAGES_GROUP['18.3']} />
+        <TableMessage colSpan={4} message={MESSAGES_GROUP['14.3']} />
       </TableBody>
     )
 
