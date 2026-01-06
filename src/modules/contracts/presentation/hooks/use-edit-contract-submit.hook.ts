@@ -24,8 +24,7 @@ export function useEditContractSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao atualizar o contrato',
-            description:
-              'Ocorreu um problema ao tentar atualizar o contrato. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }
