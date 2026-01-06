@@ -1,5 +1,6 @@
 export interface HttpResponseErrorInterface {
   success: boolean
-  status: string
+  status: number
   message: string
+  data?: null
 }
