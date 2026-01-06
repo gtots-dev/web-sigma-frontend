@@ -9,11 +9,12 @@ export class JwtValidator {
   ) {}
 
   validate(token: string): void {
-    if (!token) throw new HttpResponseError(HttpStatusCodeEnum.UNAUTHORIZED)
+    if (!token)
+      throw new HttpResponseError(null, Number(HttpStatusCodeEnum.UNAUTHORIZED))
     try {
       this.jwtVerifier.verify(token, this.secret)
     } catch {
-      throw new HttpResponseError(HttpStatusCodeEnum.UNAUTHORIZED)
+      throw new HttpResponseError(null, Number(HttpStatusCodeEnum.UNAUTHORIZED))
     }
   }
 }
