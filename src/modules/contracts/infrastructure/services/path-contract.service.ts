@@ -1,8 +1,6 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import { HttpResponseContractsValidator } from '../../domain/validators/http-response-contracts.validator'
 import type { PatchContractGateway } from '../../domain/gateways/patch-contract.gateway'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
@@ -48,8 +46,6 @@ export class PatchContractService implements PatchContractGateway {
       token,
       contract
     )
-    const { success, status }: HttpResponse<null> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseContractsValidator.validate(success, status)
+    await this.executeRequest.execute(settingsAuthHTTP)
   }
 }
