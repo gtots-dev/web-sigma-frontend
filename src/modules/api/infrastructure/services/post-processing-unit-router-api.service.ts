@@ -2,12 +2,9 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { ProcessingUnitEntity } from '@/modules/processing-units/domain/entities/processing-unit.entity'
 import type { PostProcessingUnitRouterApiGateway } from '../../domain/gateways/post-processing-unit-router-api.gateway'
-import { HttpResponseProcessingUnitValidator } from '@/modules/processing-units/domain/validators/http-response-processing-unit.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PostProcessingUnitRouterApiService
-  implements PostProcessingUnitRouterApiGateway
-{
+export class PostProcessingUnitRouterApiService implements PostProcessingUnitRouterApiGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -29,8 +26,6 @@ export class PostProcessingUnitRouterApiService
       this.params,
       processingUnit
     )
-    const { success, status } =
-      await this.executeRequest.execute<null>(settingsAuthHTTP)
-    HttpResponseProcessingUnitValidator.validate(success, status)
+    await this.executeRequest.execute<null>(settingsAuthHTTP)
   }
 }

@@ -1,14 +1,10 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { PostPermissionProfileAndFeaturesRouterApiGateway } from '../../domain/gateways/post-permission-profile-and-features-router-api.gateway'
-import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { PermissionProfileAndFeaturesInterface } from '@/modules/permissions/domain/interfaces/permission-profile-and-features'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PostPermissionProfileAndFeaturesRouterApiService
-  implements PostPermissionProfileAndFeaturesRouterApiGateway
-{
+export class PostPermissionProfileAndFeaturesRouterApiService implements PostPermissionProfileAndFeaturesRouterApiGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -30,11 +26,6 @@ export class PostPermissionProfileAndFeaturesRouterApiService
       this.params,
       permissionProfileAndFeatures
     )
-    const {
-      success,
-      status
-    }: HttpResponse<PermissionProfileAndFeaturesInterface> =
-      await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponsePermissionProfileValidator.validate(success, status)
+    await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

@@ -1,6 +1,6 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { GetUserFileRouterApiGateway } from '../../domain/gateways/get-user-file-router-api.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
@@ -24,7 +24,7 @@ export class GetUserFileRouterApiService
 
   async execute(): Promise<File> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
-    const { data }: HttpResponse<File> =
+    const { data }: HttpResponseInterface<File> =
       await this.executeRequest.execute(settingsAuthHTTP)
     return data
   }
