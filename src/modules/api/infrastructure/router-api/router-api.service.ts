@@ -3,10 +3,11 @@ import type {
   HandlerCallback,
   RouterApiGateway
 } from '../../domain/interfaces/router-api-service.interface'
-
 import { RouterApiResponseFactory } from './router-api-response.factory'
 import { RouterApiErrorHandler } from './router-api-error.handler'
-import { isFileResponse, isRouterApiResponse } from './router-api.type'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
+import { isFileResponse } from './router-api.type'
+import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 
 export class RouterApiService implements RouterApiGateway {
   private readonly responseFactory = new RouterApiResponseFactory()
@@ -14,6 +15,17 @@ export class RouterApiService implements RouterApiGateway {
   private readonly errorHandler = new RouterApiErrorHandler(
     this.responseFactory
   )
+
+  private isHttpResponse(
+    value: unknown
+  ): value is HttpResponseInterface<unknown> {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      'success' in value &&
+      'status' in value
+    )
+  }
 
   private handler<P, R>(callback: HandlerCallback<P, R>) {
     return async (req: NextRequest, context?: { params?: Promise<P> }) => {
@@ -33,8 +45,15 @@ export class RouterApiService implements RouterApiGateway {
           )
         }
 
-        if (isRouterApiResponse<R>(result)) {
-          return this.responseFactory.json(result.data, Number(result.status))
+        if (this.isHttpResponse(result)) {
+          if (!result.success) {
+            throw new HttpResponseError(
+              result.message ?? 'Erro de inesperado',
+              result.status
+            )
+          }
+
+          return this.responseFactory.json(result.data, result.status)
         }
 
         return this.responseFactory.ok(result)
