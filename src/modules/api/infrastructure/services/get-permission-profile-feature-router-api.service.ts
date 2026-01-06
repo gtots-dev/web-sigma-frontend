@@ -1,14 +1,11 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { GetPermissionProfileFeatureRouterApiGateway } from '../../domain/gateways/get-permission-profile-feature-router-api.gateway'
-import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { PermissionProfileWithFeatureInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-feature.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class GetPermissionProfileFeatureRouterApiService
-  implements GetPermissionProfileFeatureRouterApiGateway
-{
+export class GetPermissionProfileFeatureRouterApiService implements GetPermissionProfileFeatureRouterApiGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -25,12 +22,9 @@ export class GetPermissionProfileFeatureRouterApiService
   async execute(): Promise<PermissionProfileWithFeatureInterface[]> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
     const {
-      success,
-      data,
-      status
-    }: HttpResponse<PermissionProfileWithFeatureInterface[]> =
+      data
+    }: HttpResponseInterface<PermissionProfileWithFeatureInterface[]> =
       await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponsePermissionProfileValidator.validate(success, status)
     return data
   }
 }

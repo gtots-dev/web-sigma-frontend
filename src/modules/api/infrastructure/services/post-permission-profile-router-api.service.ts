@@ -1,15 +1,12 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { PostPermissionProfileRouterApiGateway } from '../../domain/gateways/post-permission-profile-router-api.gateway'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
-import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PostPermissionProfileRouterApiService
-  implements PostPermissionProfileRouterApiGateway
-{
+export class PostPermissionProfileRouterApiService implements PostPermissionProfileRouterApiGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -31,9 +28,8 @@ export class PostPermissionProfileRouterApiService
       this.params,
       permissionProfile
     )
-    const { success, data, status }: HttpResponse<PermissionProfileEntity> =
+    const { data }: HttpResponseInterface<PermissionProfileEntity> =
       await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponsePermissionProfileValidator.validate(success, status)
     return data
   }
 }

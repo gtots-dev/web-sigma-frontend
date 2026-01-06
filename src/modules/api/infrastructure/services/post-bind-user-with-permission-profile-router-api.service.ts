@@ -1,14 +1,10 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { PostBindUserWithPermissionProfileRouterApiGateway } from '../../domain/gateways/post-bind-user-with-permission-profile-router-api.gateway'
 import type { PermissionProfileEntity } from '@/modules/permissions/domain/entities/permission-profile.entity'
-import { HttpResponsePermissionProfileValidator } from '@/modules/permissions/domain/validators/http-response-permission-profile.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PostBindUserWithPermissionProfileRouterApiService
-  implements PostBindUserWithPermissionProfileRouterApiGateway
-{
+export class PostBindUserWithPermissionProfileRouterApiService implements PostBindUserWithPermissionProfileRouterApiGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -30,8 +26,6 @@ export class PostBindUserWithPermissionProfileRouterApiService
       this.params,
       permissionProfileIds
     )
-    const { success, status }: HttpResponse<PermissionProfileEntity> =
-      await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponsePermissionProfileValidator.validate(success, status)
+    await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

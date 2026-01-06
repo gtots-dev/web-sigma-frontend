@@ -1,14 +1,11 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
-import { HttpResponseUserValidator } from '../../../users/domain/validators/http-response-user.validator'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { UserEntity } from '../../../users/domain/entities/user.entity'
 import { UserFactory } from '@/modules/users/infrastructure/factories/user.factory'
 import type { GetUserMeRouterApiGateway } from '../../domain/gateways/get-user-me-router-api.gateway'
 
-export class GetUserMeRouterApiService
-  implements GetUserMeRouterApiGateway
-{
+export class GetUserMeRouterApiService implements GetUserMeRouterApiGateway {
   constructor(private readonly executeRequest: ExecuteRequest) {}
   getHttpRequestConfig(): HttpRequestConfig {
     return {
@@ -19,9 +16,8 @@ export class GetUserMeRouterApiService
 
   async execute(): Promise<UserEntity> {
     const settingsAuthHTTP = this.getHttpRequestConfig()
-    const { success, data, status }: HttpResponse<UserEntity> =
+    const { data }: HttpResponseInterface<UserEntity> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, status)
     return UserFactory.create(data)
   }
 }
