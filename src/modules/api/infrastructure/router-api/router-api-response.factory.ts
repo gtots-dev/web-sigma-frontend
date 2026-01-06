@@ -1,12 +1,12 @@
+// api/infrastructure/services/router-api-response.factory.ts
 import { NextResponse } from 'next/server'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 
 export class RouterApiResponseFactory {
   json(data: unknown, status: number) {
-    return NextResponse.json(
-      JSON.parse(JSON.stringify(data ?? null)),
-      { status }
-    )
+    return NextResponse.json(JSON.parse(JSON.stringify(data ?? null)), {
+      status
+    })
   }
 
   ok(data: unknown) {
@@ -14,17 +14,10 @@ export class RouterApiResponseFactory {
   }
 
   noContent() {
-    return this.json(
-      null,
-      Number(HttpStatusCodeEnum.NO_CONTENT)
-    )
+    return this.json(null, Number(HttpStatusCodeEnum.NO_CONTENT))
   }
 
-  file(
-    data: Blob | File | ArrayBuffer,
-    status: number,
-    headers?: HeadersInit
-  ) {
+  file(data: Blob | File | ArrayBuffer, status: number, headers?: HeadersInit) {
     return new Response(data, {
       status,
       headers

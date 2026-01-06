@@ -15,7 +15,7 @@ export class RouterApiErrorHandler {
           data: null,
           message: error.message
         },
-        Number(HttpStatusCodeEnum.BAD_REQUEST)
+        error.status
       )
     }
 
