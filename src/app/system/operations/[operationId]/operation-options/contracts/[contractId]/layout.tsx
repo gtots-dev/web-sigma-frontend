@@ -20,7 +20,7 @@ export default async function ContractLayout({
   params
 }: ContractLayoutProps) {
   const [{ operationId, contractId }] = await Promise.all([params])
-  const contracts = await getContractsCached(operationId)
+  const { data: contracts } = await getContractsCached(operationId)
   const contract = contracts.find((c) => c.id === Number(contractId))
 
   if (!contract) {
