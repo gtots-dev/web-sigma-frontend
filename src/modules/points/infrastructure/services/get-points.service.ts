@@ -1,10 +1,9 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
-import { HttpResponsePointValidator } from '../../domain/validators/http-response-point.validator'
 import type { GetPointsGateway } from '../../domain/gateways/get-points.gateway'
 import type { PointWithGroupInterface } from '../../domain/interfaces/point-with-group.interface'
 
@@ -31,9 +30,8 @@ export class GetPointsService implements GetPointsGateway {
   async execute(): Promise<PointWithGroupInterface[]> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token, this.params)
-    const { success, data, status }: HttpResponse<PointWithGroupInterface[]> =
+    const { data }: HttpResponseInterface<PointWithGroupInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponsePointValidator.validate(success, status)
     return data
   }
 }

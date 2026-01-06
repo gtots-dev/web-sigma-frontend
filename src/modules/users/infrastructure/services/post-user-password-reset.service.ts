@@ -1,16 +1,12 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { PostUserPasswordResetGateway } from '../../domain/gateways/post-user-password-reset.gateway'
 import type { UserPasswordResetInterface } from '../../domain/interfaces/user-password-reset.interface'
-import { HttpResponseUserPasswordResetValidator } from '../../domain/validators/http-response-user-password-reset.validator'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PostUserPasswordResetService
-  implements PostUserPasswordResetGateway
-{
+export class PostUserPasswordResetService implements PostUserPasswordResetGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,
@@ -39,8 +35,6 @@ export class PostUserPasswordResetService
       token,
       userPasswordReset
     )
-    const { success, status }: HttpResponse<null> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseUserPasswordResetValidator.validate(success, status)
+    await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

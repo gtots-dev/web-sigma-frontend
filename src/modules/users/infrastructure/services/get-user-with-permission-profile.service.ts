@@ -1,16 +1,14 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
+
 import type { PermissionProfileWithUserInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-user.interface'
 import type { GetUserWithPermissionProfileGateway } from '../../domain/gateways/get-user-with-permission-profile.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 
-export class GetUserWithPermissionProfileService
-  implements GetUserWithPermissionProfileGateway
-{
+export class GetUserWithPermissionProfileService implements GetUserWithPermissionProfileGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly auth: AuthTokenProvider,
@@ -34,12 +32,9 @@ export class GetUserWithPermissionProfileService
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
     const {
-      success,
-      data,
-      status
-    }: HttpResponse<PermissionProfileWithUserInterface[]> =
+      data
+    }: HttpResponseInterface<PermissionProfileWithUserInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, status)
     return data
   }
 }

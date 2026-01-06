@@ -1,6 +1,6 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { GetUserFileGateway } from '../../domain/gateways/get-user-file.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
@@ -29,7 +29,7 @@ export class GetUserFileService implements GetUserFileGateway {
   async execute(): Promise<File> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
-    const { data }: HttpResponse<File> =
+    const { data }: HttpResponseInterface<File> =
       await this.executeRequest.execute(settingsAuthHTTP)
     return data
   }

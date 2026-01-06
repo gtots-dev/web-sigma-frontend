@@ -1,9 +1,9 @@
 import type { GetUserMeGateway } from '../../domain/gateways/get-user-me.gateway'
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import { HttpResponseUserValidator } from '../../domain/validators/http-response-user.validator'
+
 import type { UserEntity } from '../../domain/entities/user.entity'
 import type { UserPermissionsInterface } from '../../domain/interfaces/user-permissions.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
@@ -28,12 +28,9 @@ export class GetUserMeService implements GetUserMeGateway {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
     const {
-      success,
-      data,
-      status
-    }: HttpResponse<UserEntity & UserPermissionsInterface> =
+      data
+    }: HttpResponseInterface<UserEntity & UserPermissionsInterface> =
       await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponseUserValidator.validate(success, status)
     return data
   }
 }

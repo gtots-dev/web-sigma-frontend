@@ -1,10 +1,7 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 import type { PostPermissionProfileAndFeaturesGateway } from '../../domain/gateways/post-permission-profile-and-features.gateway'
-import { HttpResponsePermissionProfileValidator } from '../../domain/validators/http-response-permission-profile.validator'
 import type { PermissionProfileAndFeaturesInterface } from '../../domain/interfaces/permission-profile-and-features'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
@@ -42,9 +39,6 @@ export class PostPermissionProfileAndFeaturesService
       token,
       permissionProfileAndFeatures
     )
-
-    const { success, status }: HttpResponse<PermissionProfileInterface> =
-      await this.httpRequest.execute(settingsAuthHTTP)
-    HttpResponsePermissionProfileValidator.validate(success, status)
+    await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

@@ -1,12 +1,9 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { GroupEntity } from '../../domain/entities/group.entity'
-import { HttpResponseGroupValidator } from '../../domain/validators/http-response-group.validator'
 import type { PostGroupGateway } from '../../domain/gateways/post-group.gateway'
 
 export class PostGroupService implements PostGroupGateway {
@@ -49,8 +46,6 @@ export class PostGroupService implements PostGroupGateway {
       token,
       group
     )
-    const { success, status }: HttpResponse<null> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseGroupValidator.validate(success, status)
+    await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

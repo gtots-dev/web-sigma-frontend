@@ -1,6 +1,6 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { UserPermissionProfileContractInterface } from '../../domain/interfaces/user-permission-profile-contract.interface'
 import type { GetUserPermissionProfileContractGateway } from '../../domain/gateways/get-user-permission-profiles-contract.gateway'
@@ -32,7 +32,7 @@ export class GetUserPermissionProfileContractService
   async execute(): Promise<UserPermissionProfileContractInterface[]> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
-    const { data }: HttpResponse<UserPermissionProfileContractInterface[]> =
+    const { data }: HttpResponseInterface<UserPermissionProfileContractInterface[]> =
       await this.httpRequest.execute(settingsAuthHTTP)
     return data
   }
