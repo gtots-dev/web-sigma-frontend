@@ -3,9 +3,10 @@ import { TokenService } from '../token.service'
 import { JwtValidator } from '@/modules/shared/domain/validators/jwt.validator'
 import type { UserCredentialsInterface } from '@/modules/authentication/domain/interfaces/user-credentials.interface'
 import type { OAuthResponseInterface } from '@/modules/authentication/domain/interfaces/o-auth-response.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
+import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 
 jest.mock('@/modules/shared/infrastructure/services/execute-request.service')
 jest.mock('@/modules/shared/domain/validators/jwt.validator')
@@ -14,8 +15,8 @@ describe('TokenService', () => {
   let tokenService: TokenService
   let executeRequestMock: jest.Mocked<ExecuteRequest>
   let tokenValidatorMock: jest.Mocked<JwtValidator>
-  const invalidStatusMock = HttpStatusCodeEnum.UNAUTHORIZED
-  const validStatusMock = HttpStatusCodeEnum.OK
+  const invalidStatusMock = Number(HttpStatusCodeEnum.UNAUTHORIZED)
+  const validStatusMock = Number(HttpStatusCodeEnum.OK)
 
   beforeEach(() => {
     executeRequestMock = {
@@ -35,7 +36,7 @@ describe('TokenService', () => {
       password: 'pass'
     }
 
-    const mockResponse: HttpResponse<OAuthResponseInterface> = {
+    const mockResponse: HttpResponseInterface<OAuthResponseInterface> = {
       success: true,
       data: {
         access_token: 'fakeAccessToken123',
@@ -55,22 +56,18 @@ describe('TokenService', () => {
     expect(executeRequestMock.execute).toHaveBeenCalledTimes(1)
   })
 
-  test('should throw an error when the response is unsuccessful', async () => {
+  test('should throw an error when the request fails', async () => {
     const mockCredentials: UserCredentialsInterface = {
       username: 'user',
       password: 'pass'
     }
 
-    const mockResponse: HttpResponse<OAuthResponseInterface> = {
-      success: false,
-      data: {} as OAuthResponseInterface,
-      status: invalidStatusMock
-    }
-
-    executeRequestMock.execute.mockResolvedValue(mockResponse)
+    executeRequestMock.execute.mockRejectedValue(
+      new HttpResponseError('invalid credentials', invalidStatusMock)
+    )
 
     await expect(tokenService.getToken(mockCredentials)).rejects.toThrow(
-      new Error(invalidStatusMock)
+      HttpResponseError
     )
 
     expect(executeRequestMock.execute).toHaveBeenCalledTimes(1)
