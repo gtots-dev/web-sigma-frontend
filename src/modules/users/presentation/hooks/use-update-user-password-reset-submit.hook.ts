@@ -45,7 +45,7 @@ export function usePutUserPasswordResetSubmit() {
         }
       }
     },
-    [solicitedNewPassword, getUsers, operationId]
+    [solicitedNewPassword, getUsers, operationId, userId]
   )
 
   return { onAction }
