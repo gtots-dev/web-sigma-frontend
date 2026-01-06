@@ -39,12 +39,10 @@ export const useContractStore = create<ContractState>((set) => ({
       const getContractsRouterApiFactory = GetContractsRouterApiFactory.create({
         operationId
       })
-      const contracts = await getContractsRouterApiFactory.execute()
+      const { data: contracts } = await getContractsRouterApiFactory.execute()
       set({ contracts })
     } catch (error) {
-      if (error instanceof HttpResponseError) {
-        throw error
-      }
+      if (error instanceof HttpResponseError) throw error
     }
   },
 
@@ -55,9 +53,7 @@ export const useContractStore = create<ContractState>((set) => ({
       )
       await postContractsRouterApiFactory.execute(contract)
     } catch (error) {
-      if (error instanceof HttpResponseError) {
-        throw error
-      }
+      if (error instanceof HttpResponseError) throw error
     }
   },
 
@@ -71,9 +67,7 @@ export const useContractStore = create<ContractState>((set) => ({
       )
       await putContractsRouterApiFactory.execute(contract)
     } catch (error) {
-      if (error instanceof HttpResponseError) {
-        throw error
-      }
+      if (error instanceof HttpResponseError) throw error
     }
   },
 
@@ -86,9 +80,7 @@ export const useContractStore = create<ContractState>((set) => ({
         PutContractStatusRouterApiFactory.create({ operationId })
       await putContractStatusRouterApiFactory.execute(contract)
     } catch (error) {
-      if (error instanceof HttpResponseError) {
-        throw error
-      }
+      if (error instanceof HttpResponseError) throw error
     }
   },
 
