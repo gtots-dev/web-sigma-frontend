@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
 
-export interface RouterApiFileResponse {
+export interface RouterApiFileResponseInterface {
   data: Blob | ArrayBuffer
   status?: HttpStatusCodeEnum
   headers?: Record<string, string>
@@ -17,15 +19,22 @@ export type RouterApiResponse<T = unknown> = {
   headers?: Record<string, string>
 }
 
-export interface ErrorResponse {
-  success: false
+export interface ErrorResponseInterface {
+  success: boolean
   message: string
 }
 
-export type HandlerCallback<P = void, R = unknown> = (
+export type HandlerResult<T> =
+  | void
+  | T
+  | HttpResponseInterface<T>
+  | HttpResponseErrorInterface
+  | RouterApiResponse<T | ErrorResponseInterface>
+
+export type HandlerCallback<P, R> = (
   params: P,
-  req?: NextRequest
-) => Promise<void | R | RouterApiResponse<R | ErrorResponse>>
+  req: NextRequest
+) => Promise<HandlerResult<R>>
 
 export interface RouterApiGateway {
   GET<P = void, R = unknown>(
