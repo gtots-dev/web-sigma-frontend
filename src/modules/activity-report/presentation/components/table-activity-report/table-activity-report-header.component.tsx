@@ -5,41 +5,31 @@ import {
   TableHeader,
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
-import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 
 export function TableActivityReportHeaderComponent() {
-  const isLarge = useMediaQuery('(min-width: 1024px)')
-  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
   const baseClass = 'h-9 px-5 sm:px-10 text-xs'
 
   return (
     <TableHeader>
       <TableRow className="bg-muted !border-0">
-        <TableHead className={`${baseClass} rounded-tl-lg`} colSpan={1}>
+        <TableHead className={`${baseClass} w-[160px] rounded-tl-lg`}>
           Realizado
         </TableHead>
 
-        {isLarge && (
-          <TableHead className={baseClass} colSpan={1}>
-            Usuário
-          </TableHead>
-        )}
+        <TableHead className={`${baseClass} w-[180px] hidden lg:table-cell`}>
+          Usuário
+        </TableHead>
 
-        {isExtraLarge && (
-          <TableHead className={baseClass} colSpan={1}>
-            Contrato
-          </TableHead>
-        )}
+        <TableHead className={`${baseClass} w-[180px] hidden xl:table-cell`}>
+          Contrato
+        </TableHead>
 
-        {isExtraLarge && (
-          <TableHead className={baseClass} colSpan={1}>
-            Ação
-          </TableHead>
-        )}
+        <TableHead className={`${baseClass} hidden xl:table-cell`}>
+          Ação
+        </TableHead>
 
         <TableHead
-          className={`${baseClass} rounded-tr-lg text-right`}
-          colSpan={1}
+          className={`${baseClass} w-[120px] rounded-tr-lg text-right`}
         >
           Opções
         </TableHead>

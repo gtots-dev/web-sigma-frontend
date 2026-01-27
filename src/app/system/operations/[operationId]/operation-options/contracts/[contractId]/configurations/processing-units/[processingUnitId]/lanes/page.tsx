@@ -10,6 +10,12 @@ import { LaneOptionsDropdown } from '@/modules/lanes/presentation/components/lan
 import { EditLaneMenuComponent } from '@/modules/lanes/presentation/components/edit-lane-menu/edit-lane-menu.component'
 import { PatchLaneStatusMenu } from '@/modules/lanes/presentation/components/patch-lane-menu'
 import { PatchLaneStatusMenuComponent } from '@/modules/lanes/presentation/components/patch-lane-menu/patch-lane-status-menu.component'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+
+interface LanesPageProps {
+  params: Promise<UrlParams>
+}
 
 interface Data {
   title: string
@@ -22,7 +28,12 @@ interface Data {
   menuPatchLaneStatusDescription: string
 }
 
-export default async function LanesPage() {
+export default async function LanesPage({ params }: LanesPageProps) {
+  const [{ operationId: rawOperationId, contractId: rawContractId }] =
+    await Promise.all([params])
+
+  const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/configurations/processing-units`
+
   const data: Data = {
     title: MESSAGES_LANE[8.1],
     description: MESSAGES_LANE['8.2'],
@@ -36,12 +47,16 @@ export default async function LanesPage() {
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
-      <HeaderSection.Root>
-        <HeaderSection.Title>{data.title}</HeaderSection.Title>
-        <HeaderSection.Description>
-          {data.description}
-        </HeaderSection.Description>
-      </HeaderSection.Root>
+      <div className="flex gap-5 flex-col lg:flex-row">
+        <SectionRedirectLink.Button href={previousSection} />
+        <HeaderSection.Root>
+          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Description>
+            {data.description}
+          </HeaderSection.Description>
+        </HeaderSection.Root>
+      </div>
+
       <Separator orientation="horizontal" />
       <ActionSection.Root>
         <AddLaneMenu.Provider>

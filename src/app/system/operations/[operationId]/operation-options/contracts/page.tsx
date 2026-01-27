@@ -10,6 +10,12 @@ import { ContractOptionsDropdown } from '@/modules/contracts/presentation/compon
 import { EditContractMenuComponent } from '@/modules/contracts/presentation/components/edit-contract-menu/edit-contract-menu.component'
 import { PutContractStatusMenuComponent } from '@/modules/contracts/presentation/components/put-contract-status-menu/put-contract-status-menu.component'
 import { PutContractStatusMenu } from '@/modules/contracts/presentation/components/put-contract-status-menu'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
+
+interface ContractsPageProps {
+  params: Promise<UrlParams>
+}
 
 interface Data {
   title: string
@@ -22,7 +28,11 @@ interface Data {
   menuPutContractStatusDescription: string
 }
 
-export default async function ContractsPage() {
+export default async function ContractsPage({ params }: ContractsPageProps) {
+  const [{ operationId: rawOperationId }] = await Promise.all([params])
+
+  const previousSection = `/system/operations/${rawOperationId}/operation-options`
+
   const data: Data = {
     title: MESSAGES_CONTRACTS['3.1'],
     description: MESSAGES_CONTRACTS['3.2'],
@@ -36,12 +46,15 @@ export default async function ContractsPage() {
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
-      <HeaderSection.Root>
-        <HeaderSection.Title>{data.title}</HeaderSection.Title>
-        <HeaderSection.Description>
-          {data.description}
-        </HeaderSection.Description>
-      </HeaderSection.Root>
+      <div className="flex gap-5 flex-col lg:flex-row">
+        <SectionRedirectLink.Button href={previousSection} />
+        <HeaderSection.Root>
+          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Description>
+            {data.description}
+          </HeaderSection.Description>
+        </HeaderSection.Root>
+      </div>
       <Separator orientation="horizontal" />
       <ActionSection.Root>
         <AddContractMenu.Provider>

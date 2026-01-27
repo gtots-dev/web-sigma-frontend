@@ -16,6 +16,7 @@ import {
   type LucideIcon
 } from 'lucide-react'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
 interface OperationOptionsPageProps {
   params: Promise<UrlParams>
@@ -51,6 +52,7 @@ export default async function OperationOptionsPage({
   const subDescription = MESSAGES_OPTIONS_OPERATION['11.3']
   const operationSelectionMenuTitle = MESSAGES_OPTIONS_OPERATION['11.8']
   const operationSelectionMenuDescription = MESSAGES_OPTIONS_OPERATION['11.9']
+  const previousSection = '/system/operations'
 
   const operationOptions: OperationCardOption[] = [
     {
@@ -93,12 +95,19 @@ export default async function OperationOptionsPage({
     <FrameOptions.Root>
       <FrameOptions.Header>
         <HeaderOptions.Root>
-          <div className="flex flex-col gap-1">
-            <HeaderOptions.Title>{title}</HeaderOptions.Title>
-            <HeaderOptions.Description>{description}</HeaderOptions.Description>
-            <HeaderOptions.SubDescription name={operationSelectedMoreInfo.name}>
-              {subDescription}
-            </HeaderOptions.SubDescription>
+          <div className="flex gap-5 flex-col lg:flex-row">
+            <SectionRedirectLink.Button href={previousSection} />
+            <div className="flex flex-col gap-1">
+              <HeaderOptions.Title>{title}</HeaderOptions.Title>
+              <HeaderOptions.Description>
+                {description}
+              </HeaderOptions.Description>
+              <HeaderOptions.SubDescription
+                name={operationSelectedMoreInfo.name}
+              >
+                {subDescription}
+              </HeaderOptions.SubDescription>
+            </div>
           </div>
           <OperationSelector.Root
             title={operationSelectionMenuTitle}

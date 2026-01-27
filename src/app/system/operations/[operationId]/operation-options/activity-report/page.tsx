@@ -16,6 +16,7 @@ import {
 import { auth } from '@/auth'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
 interface ActivityReportPageProps {
   params: Promise<UrlParams>
@@ -30,6 +31,8 @@ export default async function ActivityReportPage({
   } = await auth()
   const { operationId: rawOperationId } = await params
   const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+
+  const previousSection = `/system/operations/${rawOperationId}/operation-options`
 
   const data = {
     title: MESSAGES_ACTIVITY_REPORT['15.1'],
@@ -60,12 +63,15 @@ export default async function ActivityReportPage({
   return (
     <ActivityReportForm.Form initSettings={initialSettingsLogs}>
       <main className="flex flex-col flex-1 h-full w-full p-8 sm:p-10 sm:pb-0 gap-5">
-        <HeaderSection.Root>
-          <HeaderSection.Title>{data.title}</HeaderSection.Title>
-          <HeaderSection.Description>
-            {data.description}
-          </HeaderSection.Description>
-        </HeaderSection.Root>
+        <div className="flex gap-5 flex-col lg:flex-row">
+          <SectionRedirectLink.Button href={previousSection} />
+          <HeaderSection.Root>
+            <HeaderSection.Title>{data.title}</HeaderSection.Title>
+            <HeaderSection.Description>
+              {data.description}
+            </HeaderSection.Description>
+          </HeaderSection.Root>
+        </div>
 
         <Separator orientation="horizontal" />
 

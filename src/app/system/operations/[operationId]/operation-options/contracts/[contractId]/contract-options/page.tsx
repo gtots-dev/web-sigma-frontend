@@ -10,6 +10,7 @@ import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { Settings, type LucideIcon } from 'lucide-react'
 import { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
 interface ContractOptionsPageProps {
   params: Promise<UrlParams>
@@ -51,6 +52,7 @@ export default async function ContractOptionsPage({
   const subDescription = MESSAGES_OPTIONS_CONTRACT['16.3']
   const contractSelectionMenuTitle = MESSAGES_OPTIONS_CONTRACT['16.7']
   const contractSelectionMenuDescription = MESSAGES_OPTIONS_CONTRACT['16.8']
+  const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts`
 
   const operationOptions: ContractCardOption[] = [
     {
@@ -76,19 +78,26 @@ export default async function ContractOptionsPage({
     <FrameOptions.Root>
       <FrameOptions.Header>
         <HeaderOptions.Root>
-          <div className="flex flex-col gap-1">
-            <HeaderOptions.Title>{title}</HeaderOptions.Title>
-            <HeaderOptions.Description>{description}</HeaderOptions.Description>
-            <HeaderOptions.SubDescription name={contractSelectedMoreInfo.name}>
-              {subDescription}
-            </HeaderOptions.SubDescription>
+          <div className="flex w-full gap-5">
+            <SectionRedirectLink.Button href={previousSection} />
+            <div className="flex flex-col gap-1">
+              <HeaderOptions.Title>{title}</HeaderOptions.Title>
+              <HeaderOptions.Description>
+                {description}
+              </HeaderOptions.Description>
+              <HeaderOptions.SubDescription
+                name={contractSelectedMoreInfo.name}
+              >
+                {subDescription}
+              </HeaderOptions.SubDescription>
+            </div>
+            <ContractSelector.Root
+              title={contractSelectionMenuTitle}
+              description={contractSelectionMenuDescription}
+              contractId={Number(rawContractId)}
+              contracts={contracts}
+            />
           </div>
-          <ContractSelector.Root
-            title={contractSelectionMenuTitle}
-            description={contractSelectionMenuDescription}
-            contractId={Number(rawContractId)}
-            contracts={contracts}
-          />
         </HeaderOptions.Root>
       </FrameOptions.Header>
       <FrameOptions.Content>
