@@ -62,7 +62,7 @@ export const usePermissionProfileStore = create<PermissionsState>((set) => ({
     try {
       const getPermissionProfilesRouterApiFactory =
         GetPermissionProfilesRouterApiFactory.create({ operationId })
-      const permissionProfiles =
+      const { data: permissionProfiles } =
         await getPermissionProfilesRouterApiFactory.execute()
       set({ permissionProfiles })
     } catch (error) {
@@ -102,7 +102,7 @@ export const usePermissionProfileStore = create<PermissionsState>((set) => ({
           operationId,
           permissionProfileId
         })
-      const features =
+      const { data: features } =
         await getPermissionProfileFeaturesRouterApiFactory.execute()
       set({ features })
     } catch (error) {
