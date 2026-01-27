@@ -4,5 +4,5 @@ import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/h
 export interface PostContractRouterApiGateway {
   execute(
     contract: ContractEntity
-  ): Promise<HttpResponseInterface<ContractEntity[]>>
+  ): Promise<HttpResponseInterface<ContractEntity>>
 }
