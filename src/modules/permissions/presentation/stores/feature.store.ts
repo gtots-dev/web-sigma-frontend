@@ -15,7 +15,7 @@ export const useFeatureStore = create<FeatureState>((set) => ({
   getFeatures: async () => {
     try {
       const getFeaturesRouterApiFactory = GetFeatureRouterApiFactory.create()
-      const features = await getFeaturesRouterApiFactory.execute()
+      const { data: features } = await getFeaturesRouterApiFactory.execute()
       set({ features })
     } catch (error) {
       if (error instanceof HttpResponseError) {
