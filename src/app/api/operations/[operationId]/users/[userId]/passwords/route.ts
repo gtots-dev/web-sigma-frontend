@@ -1,5 +1,4 @@
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { PostUserPasswordResetFactory } from '@/modules/users/infrastructure/factories/post-user-password-reset.factory'
 
@@ -12,10 +11,6 @@ export const POST = routerApi.POST<UrlParams>(
       operationId,
       userId
     })
-    await postUserPasswordReset.execute(daysPasswordRegDeadline)
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.OK
-    }
+    return await postUserPasswordReset.execute(daysPasswordRegDeadline)
   }
 )

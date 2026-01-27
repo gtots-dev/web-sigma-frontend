@@ -1,5 +1,4 @@
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 import { GetPermissionProfilesFactory } from '@/modules/permissions/infrastructure/factories/get-permission-profiles.factory'
 import { PostPermissionProfileFactory } from '@/modules/permissions/infrastructure/factories/post-permission-profile.factory'
@@ -12,11 +11,7 @@ export const POST = routerApi.POST<UrlParams>(async ({ operationId }, req) => {
   const postPermissionProfile = PostPermissionProfileFactory.create({
     operationId
   })
-  await postPermissionProfile.execute(permissionProfile)
-  return {
-    data: { success: true },
-    status: HttpStatusCodeEnum.OK
-  }
+  return await postPermissionProfile.execute(permissionProfile)
 })
 
 export const GET = routerApi.GET<UrlParams, PermissionProfileInterface[]>(
@@ -24,7 +19,6 @@ export const GET = routerApi.GET<UrlParams, PermissionProfileInterface[]>(
     const getPermissionProfiles = GetPermissionProfilesFactory.create({
       operationId
     })
-    const response = await getPermissionProfiles.execute()
-    return { data: response, status: HttpStatusCodeEnum.OK }
+    return await getPermissionProfiles.execute()
   }
 )

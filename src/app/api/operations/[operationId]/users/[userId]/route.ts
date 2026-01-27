@@ -1,5 +1,4 @@
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { PatchUserFactory } from '@/modules/users/infrastructure/factories/patch-user.factory'
 
@@ -9,7 +8,6 @@ export const PATCH = routerApi.PATCH<UrlParams>(
   async ({ operationId }, req) => {
     const user = await req?.formData()
     const patchUser = PatchUserFactory.create({ operationId })
-    await patchUser.execute(user)
-    return { data: { success: true }, status: HttpStatusCodeEnum.OK }
+    return await patchUser.execute(user)
   }
 )

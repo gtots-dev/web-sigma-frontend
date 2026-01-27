@@ -32,6 +32,5 @@ export const GET = routerApi.GET<
       permissionProfileId
     }
   )
-  const response = await getPermissionProfileFeature.execute()
-  return { data: response, status: HttpStatusCodeEnum.OK }
+  return await getPermissionProfileFeature.execute()
 })
