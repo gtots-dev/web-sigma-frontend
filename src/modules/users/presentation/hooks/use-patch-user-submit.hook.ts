@@ -24,8 +24,7 @@ export function useEditUserSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao atualizar usuário',
-            description:
-              'Ocorreu um problema ao tentar atualizar o usuário. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

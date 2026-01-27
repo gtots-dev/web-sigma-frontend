@@ -38,8 +38,7 @@ export function usePutUserPasswordResetSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao redefinir a senha',
-            description:
-              'Ocorreu um problema ao tentar solicitar a redefinição de senha. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

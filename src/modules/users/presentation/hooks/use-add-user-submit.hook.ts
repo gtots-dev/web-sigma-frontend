@@ -26,8 +26,7 @@ export function useAddUserSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao cadastrar o usuário',
-            description:
-              'Ocorreu um problema ao tentar cadastrar o usuário. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

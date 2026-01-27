@@ -33,8 +33,7 @@ export function usePatchPermissionProfileStatusSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao alterar o status da permissão',
-            description:
-              'Ocorreu um problema ao tentar alterar o status. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

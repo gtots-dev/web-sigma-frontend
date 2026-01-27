@@ -54,8 +54,7 @@ export function useBindUserWithPermissionProfileSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao vincular perfis de permissão',
-            description:
-              'Não foi possível vincular os perfis ao usuário. Tente novamente ou entre em contato com o suporte.',
+            description: error.message,
             variant: 'destructive'
           })
         }
