@@ -29,13 +29,11 @@ export class GetPermissionProfileFeatureService
     }
   }
 
-  async execute(): Promise<PermissionProfileWithFeatureInterface[]> {
+  async execute(): Promise<
+    HttpResponseInterface<PermissionProfileWithFeatureInterface[]>
+  > {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
-    const {
-      data
-    }: HttpResponseInterface<PermissionProfileWithFeatureInterface[]> =
-      await this.httpRequest.execute(settingsAuthHTTP)
-    return data
+    return await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

@@ -10,19 +10,15 @@ export class GetUsersRouterApiService implements GetUsersRouterApiGateway {
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams
   ) {}
-  getHttpRequestConfig({
-    operationId
-  }: UrlParams): HttpRequestConfig<null, null> {
+  getHttpRequestConfig(): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `api/operations/${operationId}/users`
+      url: `api/operations/${this.params.operationId}/users`
     }
   }
 
-  async execute(): Promise<UserEntity[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
-    const { data }: HttpResponseInterface<UserEntity[]> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    return data
+  async execute(): Promise<HttpResponseInterface<UserEntity[]>> {
+    const settingsAuthHTTP = this.getHttpRequestConfig()
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

@@ -18,13 +18,12 @@ export class PostPermissionProfileService
   ) {}
 
   getHttpRequestConfig(
-    { operationId }: UrlParams,
     token: TokenEntities,
     permissionProfile: PermissionProfileEntity
   ): HttpRequestConfig<PermissionProfileEntity> {
     return {
       method: 'POST',
-      url: `/operations/${operationId}/perm-profiles`,
+      url: `/operations/${this.params.operationId}/perm-profiles`,
       data: permissionProfile,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
@@ -34,15 +33,9 @@ export class PostPermissionProfileService
 
   async execute(
     permissionProfile: PermissionProfileEntity
-  ): Promise<PermissionProfileInterface> {
+  ): Promise<HttpResponseInterface<PermissionProfileInterface>> {
     const token = await this.auth.getToken()
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params,
-      token,
-      permissionProfile
-    )
-    const { data }: HttpResponseInterface<PermissionProfileInterface> =
-      await this.httpRequest.execute(settingsAuthHTTP)
-    return data
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, permissionProfile)
+    return await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

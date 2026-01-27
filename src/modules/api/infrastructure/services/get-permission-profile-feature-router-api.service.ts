@@ -5,26 +5,23 @@ import type { GetPermissionProfileFeatureRouterApiGateway } from '../../domain/g
 import type { PermissionProfileWithFeatureInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-feature.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class GetPermissionProfileFeatureRouterApiService implements GetPermissionProfileFeatureRouterApiGateway {
+export class GetPermissionProfileFeatureRouterApiService
+  implements GetPermissionProfileFeatureRouterApiGateway
+{
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
   ) {}
-  getHttpRequestConfig({
-    permissionProfileId,
-    operationId
-  }: UrlParams): HttpRequestConfig {
+  getHttpRequestConfig(): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `api/operations/${operationId}/permissions/${permissionProfileId}/features`
+      url: `api/operations/${this.params.operationId}/permissions/${this.params.permissionProfileId}/features`
     }
   }
-  async execute(): Promise<PermissionProfileWithFeatureInterface[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
-    const {
-      data
-    }: HttpResponseInterface<PermissionProfileWithFeatureInterface[]> =
-      await this.httpRequest.execute(settingsAuthHTTP)
-    return data
+  async execute(): Promise<
+    HttpResponseInterface<PermissionProfileWithFeatureInterface[]>
+  > {
+    const settingsAuthHTTP = this.getHttpRequestConfig()
+    return await this.httpRequest.execute(settingsAuthHTTP)
   }
 }
