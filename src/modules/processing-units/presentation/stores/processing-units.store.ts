@@ -49,7 +49,7 @@ export const useProcessingUnitStore = create<ProcessingUnitState>((set) => ({
         operationId,
         contractId
       })
-      const processingUnits = await getProcessingUnit.execute()
+      const { data: processingUnits } = await getProcessingUnit.execute()
       set({ processingUnits })
     } catch (error) {
       if (error instanceof HttpResponseError) {
