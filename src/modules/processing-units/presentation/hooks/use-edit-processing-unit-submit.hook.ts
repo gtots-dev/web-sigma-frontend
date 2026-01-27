@@ -26,9 +26,8 @@ export function useEditProcessingUnitSubmit() {
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao atualizar o contrato',
-            description:
-              'Ocorreu um problema ao tentar atualizar o contrato. Verifique e tente novamente',
+            title: 'Erro ao atualizar a unidade de processamento',
+            description: error.message,
             variant: 'destructive'
           })
         }
