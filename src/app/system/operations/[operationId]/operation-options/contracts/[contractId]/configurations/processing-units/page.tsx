@@ -10,6 +10,8 @@ import { Separator } from '@/modules/shared/presentation/components/shadcn/separ
 import { MESSAGES_PROCESSING_UNIT } from '@/modules/shared/presentation/messages/processing-unit'
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 interface Data {
   title: string
@@ -22,7 +24,18 @@ interface Data {
   descriptionPutStatus: string
 }
 
-export default function ProcessingUnitsPage() {
+interface ProcessingUnitsPageProps {
+  params: Promise<UrlParams>
+}
+
+export default async function ProcessingUnitsPage({
+  params
+}: ProcessingUnitsPageProps) {
+  const [{ operationId: rawOperationId, contractId: rawContractId }] =
+    await Promise.all([params])
+
+  const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/configurations`
+
   const data: Data = {
     title: MESSAGES_PROCESSING_UNIT['7.1'],
     description: MESSAGES_PROCESSING_UNIT['7.2'],
@@ -36,12 +49,16 @@ export default function ProcessingUnitsPage() {
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
-      <HeaderSection.Root>
-        <HeaderSection.Title>{data.title}</HeaderSection.Title>
-        <HeaderSection.Description>
-          {data.description}
-        </HeaderSection.Description>
-      </HeaderSection.Root>
+      <div className="flex gap-5 flex-col lg:flex-row">
+        <SectionRedirectLink.Button href={previousSection} />
+        <HeaderSection.Root>
+          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Description>
+            {data.description}
+          </HeaderSection.Description>
+        </HeaderSection.Root>
+      </div>
+
       <Separator orientation="horizontal" />
       <ActionSection.Root>
         <AddProcessingUnitMenu.Provider>
@@ -70,7 +87,7 @@ export default function ProcessingUnitsPage() {
                         <PatchProcessingUnitsStatusMenu.Trigger />
                       </ProcessingUnitsOptionsDropdown.Item>
                     </ProcessingUnitsOptionsDropdown.Menu>
-                    
+
                     <EditProcessingUnitsMenuComponent
                       title={data.titleEdit}
                       description={data.descriptionEdit}
