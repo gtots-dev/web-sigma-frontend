@@ -6,6 +6,7 @@ import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/t
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
+import type { UserEntity } from '../../domain/entities/user.entity'
 
 export class PostUserService implements PostUserGateway {
   constructor(
@@ -15,13 +16,12 @@ export class PostUserService implements PostUserGateway {
   ) {}
 
   getHttpRequestConfig(
-    { operationId }: UrlParams,
     token: TokenEntities,
     user: FormData
   ): HttpRequestConfig<FormData> {
     return {
       method: 'POST',
-      url: `/operations/${operationId}/users`,
+      url: `/operations/${this.params.operationId}/users`,
       data: user,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
@@ -31,9 +31,9 @@ export class PostUserService implements PostUserGateway {
 
   async execute(
     user: FormData
-  ): Promise<HttpResponseInterface<null> | HttpResponseErrorInterface> {
+  ): Promise<HttpResponseInterface<UserEntity> | HttpResponseErrorInterface> {
     const token = await this.auth.getToken()
-    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token, user)
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, user)
     return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

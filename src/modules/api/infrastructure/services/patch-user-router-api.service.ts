@@ -4,6 +4,8 @@ import type { PatchUserRouterApiGateway } from '../../domain/gateways/patch-user
 import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files'
 import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 export class PatchUserRouterApiService implements PatchUserRouterApiGateway {
   constructor(
@@ -21,12 +23,14 @@ export class PatchUserRouterApiService implements PatchUserRouterApiGateway {
       url: `api/operations/${operationId}/users/${userWithFiles.get('id')}`
     }
   }
-  async execute(userWithFiles: UserWithFiles): Promise<void> {
+  async execute(
+    userWithFiles: UserWithFiles
+  ): Promise<HttpResponseInterface<UserEntity>> {
     const userFormData = this.formData.execute(userWithFiles)
     const settingsAuthHTTP = this.getHttpRequestConfig(
       this.params,
       userFormData
     )
-    await this.httpRequest.execute(settingsAuthHTTP)
+    return await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

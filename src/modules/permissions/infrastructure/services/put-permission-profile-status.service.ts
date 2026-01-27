@@ -39,7 +39,6 @@ export class PatchPermissionProfileStatusService
       token,
       permissionProfileEnableAndDisable
     )
-
     await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

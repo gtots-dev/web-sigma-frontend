@@ -4,6 +4,8 @@ import type { PostUserRouterApiGateway } from '../../domain/gateways/post-user-r
 import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files'
 import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 export class PostUserRouterApiService implements PostUserRouterApiGateway {
   constructor(
@@ -19,9 +21,11 @@ export class PostUserRouterApiService implements PostUserRouterApiGateway {
       url: `api/operations/${this.params.operationId}/users`
     }
   }
-  async execute(userWithFiles: UserWithFiles): Promise<void> {
+  async execute(
+    userWithFiles: UserWithFiles
+  ): Promise<HttpResponseInterface<UserEntity>> {
     const userFormData = this.formData.execute({ ...userWithFiles })
     const settingsAuthHTTP = this.getHttpRequestConfig(userFormData)
-    await this.httpRequest.execute(settingsAuthHTTP)
+    return await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

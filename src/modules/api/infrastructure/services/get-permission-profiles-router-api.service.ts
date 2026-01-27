@@ -5,22 +5,24 @@ import type { PermissionProfileInterface } from '@/modules/permissions/domain/in
 import type { GetPermissionProfilesRouterApiGateway } from '../../domain/gateways/get-permission-profile-router-api.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class GetPermissionProfilesRouterApiService implements GetPermissionProfilesRouterApiGateway {
+export class GetPermissionProfilesRouterApiService
+  implements GetPermissionProfilesRouterApiGateway
+{
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams
   ) {}
-  getHttpRequestConfig({ operationId }: UrlParams): HttpRequestConfig {
+  getHttpRequestConfig(): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `api/operations/${operationId}/permissions`
+      url: `api/operations/${this.params.operationId}/permissions`
     }
   }
 
-  async execute(): Promise<PermissionProfileInterface[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
-    const { data }: HttpResponseInterface<PermissionProfileInterface[]> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    return data
+  async execute(): Promise<
+    HttpResponseInterface<PermissionProfileInterface[]>
+  > {
+    const settingsAuthHTTP = this.getHttpRequestConfig()
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

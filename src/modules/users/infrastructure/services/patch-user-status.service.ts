@@ -5,6 +5,8 @@ import type { PatchUserStatusGateway } from '../../domain/gateways/patch-user-st
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { UserEnableAndDisableInterface } from '../../domain/interfaces/user-enable-and-disable.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
 
 export class PatchUserStatusService implements PatchUserStatusGateway {
   constructor(
@@ -14,13 +16,12 @@ export class PatchUserStatusService implements PatchUserStatusGateway {
   ) {}
 
   getHttpRequestConfig(
-    { operationId }: UrlParams,
     token: TokenEntities,
     userEnableAndDisable: UserEnableAndDisableInterface
   ): HttpRequestConfig<UserEnableAndDisableInterface> {
     return {
       method: 'PATCH',
-      url: `/operations/${operationId}/users/${userEnableAndDisable.id}/status`,
+      url: `/operations/${this.params.operationId}/users/${userEnableAndDisable.id}/status`,
       data: userEnableAndDisable,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
@@ -30,13 +31,12 @@ export class PatchUserStatusService implements PatchUserStatusGateway {
 
   async execute(
     userEnableAndDisable: UserEnableAndDisableInterface
-  ): Promise<void> {
+  ): Promise<HttpResponseInterface<void> | HttpResponseErrorInterface> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params,
       token,
       userEnableAndDisable
     )
-    await this.httpRequest.execute(settingsAuthHTTP)
+    return await this.httpRequest.execute(settingsAuthHTTP)
   }
 }
