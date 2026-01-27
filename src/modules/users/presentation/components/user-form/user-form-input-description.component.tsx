@@ -58,6 +58,7 @@ export function UserFormInputDescriptionComponent({
                 textareaRef.current = el
                 field.ref(el)
               }}
+              value={field.value ?? ''}
               onInput={(e) => {
                 field.onChange(e)
                 autoResize()
