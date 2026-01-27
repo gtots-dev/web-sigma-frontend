@@ -4,6 +4,7 @@ import { PostPointMenu } from '@/modules/points/presentation/components/post-poi
 import { PostPointMenuComponent } from '@/modules/points/presentation/components/post-point-menu/post-point-menu.component'
 import { TablePoints } from '@/modules/points/presentation/components/table-points'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_POINT } from '@/modules/shared/presentation/messages/points'
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
@@ -35,9 +36,11 @@ export default async function PointsPage({ params }: PointsPageProps) {
       token: JWT,
       user: { isAdmin }
     },
-    { operationId }
+    { operationId: rawOperationId, contractId: rawContractId }
   ] = await Promise.all([auth(), params])
-  const { userPermissions } = await loadAuthContext(JWT, operationId)
+  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+
+  const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/configurations`
 
   const data: Data = {
     title: MESSAGES_POINT['14.1'],
@@ -56,12 +59,15 @@ export default async function PointsPage({ params }: PointsPageProps) {
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
-      <HeaderSection.Root>
-        <HeaderSection.Title>{data.title}</HeaderSection.Title>
-        <HeaderSection.Description>
-          {data.description}
-        </HeaderSection.Description>
-      </HeaderSection.Root>
+      <div className="flex gap-5 flex-col lg:flex-row">
+        <SectionRedirectLink.Button href={previousSection} />
+        <HeaderSection.Root>
+          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Description>
+            {data.description}
+          </HeaderSection.Description>
+        </HeaderSection.Root>
+      </div>
       <Separator orientation="horizontal" />
       <ActionSection.Root>
         <PostPointMenu.Provider>

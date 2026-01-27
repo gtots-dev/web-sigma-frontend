@@ -14,9 +14,9 @@ interface TableActivityReportItemComponentProps {
   children: ReactNode
 }
 
-const truncateText =
-  'h-auto md:h-[38px] sm:max-w-full truncate whitespace-nowrap overflow-hidden'
-const baseCell = 'ps-5 sm:ps-10 text-zinc-700 dark:text-zinc-50'
+const cellBase = 'ps-5 sm:ps-10 text-zinc-700 dark:text-zinc-50 align-middle'
+
+const textCell = 'truncate whitespace-nowrap overflow-hidden min-w-0 w-full'
 
 export function TableActivityReportItemComponent({
   children
@@ -26,63 +26,42 @@ export function TableActivityReportItemComponent({
   const isLarge = useMediaQuery('(min-width: 1024px)')
   const isExtraLarge = useMediaQuery('(min-width: 1230px)')
 
-  const renderSkeleton = () => (
-    <TableRow className="!h-[38px]">
-      <TableCell className={`${baseCell} ${truncateText}`} colSpan={6}>
-        <Skeleton className="w-full !h-[5px] rounded-full" />
-      </TableCell>
-    </TableRow>
-  )
-
-  const renderCompactView = () => (
-    <TableCell className={`${baseCell} flex flex-col gap-y-0.5`}>
-      <span title={log.user?.name} className={`${truncateText} !h-auto`}>
-        {log.user?.name}
-      </span>
-      <span
-        title={log.action}
-        className={`${truncateText} !h-auto`}
-      >
-        {log.action}
-      </span>
-    </TableCell>
-  )
-
-  const renderExpandedView = () => (
-    <>
-      <TableCell className={`${baseCell} ${truncateText}`} colSpan={1}>
-        {formatted}
-      </TableCell>
-
-      {isLarge && (
-        <TableCell
-          className={`${baseCell} ${truncateText} flex items-center gap-x-3.5`}
-          colSpan={1}
-        >
-          {log.user?.name}
-        </TableCell>
-      )}
-      {isExtraLarge && (
-        <TableCell className={`${baseCell} ${truncateText}`} colSpan={1}>
-          {log.contract?.name ?? 'Nenhum'}
-        </TableCell>
-      )}
-      {isExtraLarge && (
-        <TableCell className={`${baseCell} ${truncateText}`} colSpan={1}>
-          {log.action}
-        </TableCell>
-      )}
-    </>
-  )
-
   if (isExtraLarge === undefined || isLarge === undefined) {
-    return renderSkeleton()
+    return (
+      <TableRow className="h-[38px]">
+        <TableCell className={cellBase} colSpan={5}>
+          <Skeleton className="w-full h-[5px] rounded-full" />
+        </TableCell>
+      </TableRow>
+    )
   }
 
   return (
-    <TableRow className="!h-[38px]">
-      {isLarge ? renderExpandedView() : renderCompactView()}
-      <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
+    <TableRow className="h-[38px]">
+      {/* Data */}
+      <TableCell className={cellBase}>
+        <div className={textCell}>{formatted}</div>
+      </TableCell>
+
+      {/* Usuário */}
+      <TableCell className={cellBase}>
+        <div className="min-w-0">
+          <div className={textCell}>{log.user?.name}</div>
+        </div>
+      </TableCell>
+
+      {/* Contrato */}
+      <TableCell className={`${cellBase} hidden xl:table-cell`}>
+        <div className={textCell}>{log.contract?.name ?? 'Nenhum'}</div>
+      </TableCell>
+
+      {/* Ação */}
+      <TableCell className={`${cellBase} hidden xl:table-cell`}>
+        <div className={textCell}>{log.action}</div>
+      </TableCell>
+
+      {/* Ações (children) */}
+      <TableCell className="pe-5 sm:pe-10 text-right align-middle">
         {children}
       </TableCell>
     </TableRow>

@@ -9,6 +9,7 @@ import { auth } from '@/auth'
 import { UserOptionsDropdown } from '@/modules/users/presentation/components/user-options-dropdown'
 import { AddUserMenu } from '@/modules/users/presentation/components/add-user-menu'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
 interface UsersPageProps {
   params: Promise<UrlParams>
@@ -21,6 +22,8 @@ export default async function UsersPage({ params }: UsersPageProps) {
   } = await auth()
   const { operationId: rawOperationId } = await params
   const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+
+  const previousSection = `/system/operations/${rawOperationId}/configurations`
 
   const data = {
     title: MESSAGES_USERS['5.1'],
@@ -41,12 +44,15 @@ export default async function UsersPage({ params }: UsersPageProps) {
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
-      <HeaderSection.Root>
-        <HeaderSection.Title>{data.title}</HeaderSection.Title>
-        <HeaderSection.Description>
-          {data.description}
-        </HeaderSection.Description>
-      </HeaderSection.Root>
+      <div className="flex gap-5 flex-col lg:flex-row">
+        <SectionRedirectLink.Button href={previousSection} />
+        <HeaderSection.Root>
+          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Description>
+            {data.description}
+          </HeaderSection.Description>
+        </HeaderSection.Root>
+      </div>
 
       <Separator orientation="horizontal" />
 
