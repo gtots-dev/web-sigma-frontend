@@ -8,6 +8,7 @@ import { PermissionProfileOptionsDropdown } from '@/modules/permissions/presenta
 import { auth } from '@/auth'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
 interface PermissionsPageProps {
   params: Promise<UrlParams>
@@ -23,6 +24,8 @@ export default async function PermissionsPage({
   const { operationId: rawOperationId } = await params
   const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
 
+  const previousSection = `/system/operations/${rawOperationId}/configurations`
+
   const data = {
     title: MESSAGES_PERMISSIONS['6.1'],
     description: MESSAGES_PERMISSIONS['6.2'],
@@ -36,12 +39,15 @@ export default async function PermissionsPage({
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
-      <HeaderSection.Root>
-        <HeaderSection.Title>{data.title}</HeaderSection.Title>
-        <HeaderSection.Description>
-          {data.description}
-        </HeaderSection.Description>
-      </HeaderSection.Root>
+      <div className="flex gap-5 flex-col lg:flex-row">
+        <SectionRedirectLink.Button href={previousSection} />
+        <HeaderSection.Root>
+          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Description>
+            {data.description}
+          </HeaderSection.Description>
+        </HeaderSection.Root>
+      </div>
       <Separator orientation="horizontal" />
       <ActionSection.Root>
         <AddPermissionProfileMenu.Client

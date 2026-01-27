@@ -10,6 +10,7 @@ import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { FileKey2, UsersRound, type LucideIcon } from 'lucide-react'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
 interface ConfigurationOptionsPageProps {
   params: Promise<UrlParams>
@@ -46,6 +47,7 @@ export default async function ConfigurationOptionsPage({
   const operationSelectionMenuTitle = MESSAGES_CONFIGURATION_OPERATION['14.10']
   const operationSelectionMenuDescription =
     MESSAGES_CONFIGURATION_OPERATION['14.11']
+  const previousSection = `/system/operations/${rawOperationId}/operation-options`
 
   const operationOptions: ConfigurationCardOption[] = [
     {
@@ -77,12 +79,20 @@ export default async function ConfigurationOptionsPage({
     <FrameOptions.Root>
       <FrameOptions.Header>
         <HeaderOptions.Root>
-          <div className="flex flex-col gap-1">
-            <HeaderOptions.Title>{title}</HeaderOptions.Title>
-            <HeaderOptions.Description>{description}</HeaderOptions.Description>
-            <HeaderOptions.SubDescription name={operationSelectedMoreInfo.name}>
-              {subDescription}
-            </HeaderOptions.SubDescription>
+          <div className="flex gap-5 flex-col lg:flex-row">
+            <SectionRedirectLink.Button href={previousSection} />
+
+            <div className="flex flex-col gap-1">
+              <HeaderOptions.Title>{title}</HeaderOptions.Title>
+              <HeaderOptions.Description>
+                {description}
+              </HeaderOptions.Description>
+              <HeaderOptions.SubDescription
+                name={operationSelectedMoreInfo.name}
+              >
+                {subDescription}
+              </HeaderOptions.SubDescription>
+            </div>
           </div>
           <OperationSelector.Root
             title={operationSelectionMenuTitle}
