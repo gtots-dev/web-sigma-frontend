@@ -10,7 +10,7 @@ export function MenuSelectContractTriggerComponent() {
 
   return (
     <DrawerDialog.Trigger>
-      <div className="h-16 flex bg-white dark:bg-zinc-950 border rounded-lg fill: w-full gap-x-3 p-3 xl:w-[350px] cursor-pointer hover:bg-white/50 dark:hover:bg-zinc-950/50">
+      <div className="h-16 flex bg-white dark:bg-zinc-950 border rounded-lg fill: w-full gap-x-3 p-3 xl:w-[350px] cursor-pointer hover:bg-white/50 dark:hover:bg-zinc-950/50 ms-auto">
         <div className="grid place-content-center h-10 w-10 rounded-md bg-primary-600">
           <FileText className="h-4 w-4 text-white" />
         </div>
