@@ -6,8 +6,6 @@ export class RouterApiErrorHandler {
   constructor(private readonly responseFactory: RouterApiResponseFactory) {}
 
   handle(error: unknown) {
-    console.error('RouterApi Error:', error)
-
     if (error instanceof HttpResponseError) {
       return this.responseFactory.json(
         {
