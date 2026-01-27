@@ -1,4 +1,3 @@
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { GetUserPermissionProfileContractFactory } from '@/modules/users/infrastructure/factories/get-user-permission-profiles-contract.factory'
@@ -16,6 +15,5 @@ export const GET = routerApi.GET<
       userId,
       permissionProfileId
     })
-  const response = await getUserPermissionProfileContract.execute()
-  return { data: response, status: HttpStatusCodeEnum.OK }
+  return await getUserPermissionProfileContract.execute()
 })

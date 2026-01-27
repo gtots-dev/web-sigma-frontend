@@ -1,27 +1,11 @@
-import { auth } from "@/auth"
-import { HttpStatusCodeEnum } from "@/modules/authentication/domain/enums/status-codes.enum"
-import { GetFeatureFactory } from "@/modules/permissions/infrastructure/factories/get-feature.factory"
-import { HttpResponseError } from "@/modules/shared/infrastructure/errors/http-response.error"
-import { NextResponse } from "next/server"
+import { GetFeatureFactory } from '@/modules/permissions/infrastructure/factories/get-feature.factory'
+import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { FeaturesInterface } from '@/modules/permissions/domain/interfaces/features.interface'
 
-export async function GET(): Promise<NextResponse> {
-  const { token } = await auth()
+const routerApi = RouterApiFactory.create()
+
+export const GET = routerApi.GET<UrlParams, FeaturesInterface[]>(async () => {
   const getFeaturesFactory = GetFeatureFactory.create()
-  try {
-    const response = await getFeaturesFactory.execute(token)
-    return NextResponse.json(response, {
-      status: Number(HttpStatusCodeEnum.OK)
-    })
-  } catch (error) {
-    if (error instanceof HttpResponseError) {
-      return NextResponse.json(
-        {
-          success: false,
-          data: null,
-          message: error.message
-        },
-        { status: Number(HttpStatusCodeEnum.BAD_REQUEST) }
-      )
-    }
-  }
-}
+  return await getFeaturesFactory.execute()
+})
