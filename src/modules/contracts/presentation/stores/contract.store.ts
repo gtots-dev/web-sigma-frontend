@@ -6,6 +6,7 @@ import { PostContractRouterApiFactory } from '@/modules/api/infrastructure/facto
 import { PatchContractRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-contract-router-api.factory'
 import { PutContractStatusRouterApiFactory } from '@/modules/api/infrastructure/factories/put-contract-status-router-api.factory'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 type ContractState = {
   contracts: ContractEntity[]
@@ -14,11 +15,11 @@ type ContractState = {
   addContract: (
     { operationId }: UrlParams,
     contract: ContractEntity
-  ) => Promise<void>
+  ) => Promise<HttpResponseInterface<ContractEntity>>
   patchContract: (
     { operationId }: UrlParams,
     contract: ContractEntity
-  ) => Promise<void>
+  ) => Promise<HttpResponseInterface<ContractEntity>>
   updateStatus: (
     { operationId }: UrlParams,
     contract: ContractEntity
@@ -51,7 +52,7 @@ export const useContractStore = create<ContractState>((set) => ({
       const postContractsRouterApiFactory = PostContractRouterApiFactory.create(
         { operationId }
       )
-      await postContractsRouterApiFactory.execute(contract)
+      return await postContractsRouterApiFactory.execute(contract)
     } catch (error) {
       if (error instanceof HttpResponseError) throw error
     }
@@ -65,7 +66,7 @@ export const useContractStore = create<ContractState>((set) => ({
       const putContractsRouterApiFactory = PatchContractRouterApiFactory.create(
         { operationId }
       )
-      await putContractsRouterApiFactory.execute(contract)
+      return await putContractsRouterApiFactory.execute(contract)
     } catch (error) {
       if (error instanceof HttpResponseError) throw error
     }
