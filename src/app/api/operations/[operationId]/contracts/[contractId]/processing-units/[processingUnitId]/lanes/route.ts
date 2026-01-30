@@ -1,5 +1,4 @@
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import type { LaneEntity } from '@/modules/lanes/domain/entities/lane.entity'
 import { GetLanesFactory } from '@/modules/lanes/infrastructure/factories/get-lanes.factory'
 import { PatchLaneFactory } from '@/modules/lanes/infrastructure/factories/patch-lane.factory'
@@ -16,11 +15,7 @@ export const POST = routerApi.POST<UrlParams>(
       contractId,
       processingUnitId
     })
-    await postLane.execute(lane)
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.OK
-    }
+    return await postLane.execute(lane)
   }
 )
 
@@ -31,8 +26,7 @@ export const GET = routerApi.GET<UrlParams, LaneEntity[]>(
       contractId,
       processingUnitId
     })
-    const response = await getLanes.execute()
-    return { data: response, status: HttpStatusCodeEnum.OK }
+    return await getLanes.execute()
   }
 )
 
@@ -44,10 +38,6 @@ export const PATCH = routerApi.PATCH<UrlParams>(
       contractId,
       processingUnitId
     })
-    await pathLane.execute(lane)
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.OK
-    }
+    return await pathLane.execute(lane)
   }
 )

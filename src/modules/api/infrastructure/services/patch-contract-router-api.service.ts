@@ -1,9 +1,9 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import { HttpResponseContractsValidator } from '@/modules/contracts/domain/validators/http-response-contracts.validator'
 import type { PatchContractRouterApiGateway } from '../../domain/gateways/put-contract-router-api.gateway'
 import { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 export class PatchContractRouterApiService
   implements PatchContractRouterApiGateway
@@ -14,20 +14,19 @@ export class PatchContractRouterApiService
   ) {}
 
   getHttpRequestConfig(
-    { operationId }: UrlParams,
     contract: ContractEntity
   ): HttpRequestConfig<ContractEntity> {
     return {
       method: 'PATCH',
       data: contract,
-      url: `api/operations/${operationId}/contracts`
+      url: `api/operations/${this.params.operationId}/contracts`
     }
   }
 
-  async execute(contract: ContractEntity): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, contract)
-    const { success, status } =
-      await this.executeRequest.execute<null>(settingsAuthHTTP)
-    HttpResponseContractsValidator.validate(success, status)
+  async execute(
+    contract: ContractEntity
+  ): Promise<HttpResponseInterface<ContractEntity>> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(contract)
+    return await this.executeRequest.execute<ContractEntity>(settingsAuthHTTP)
   }
 }

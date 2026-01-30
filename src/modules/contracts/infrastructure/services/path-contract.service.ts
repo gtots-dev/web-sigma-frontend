@@ -1,12 +1,11 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-import { HttpResponseContractsValidator } from '../../domain/validators/http-response-contracts.validator'
 import type { PatchContractGateway } from '../../domain/gateways/patch-contract.gateway'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 export class PatchContractService implements PatchContractGateway {
   constructor(
@@ -41,15 +40,13 @@ export class PatchContractService implements PatchContractGateway {
     }
   }
 
-  async execute(contract: ContractEntity): Promise<void> {
+  async execute(contract: ContractEntity): Promise<HttpResponseInterface<ContractEntity>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(
       this.params,
       token,
       contract
     )
-    const { success, status }: HttpResponse<null> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseContractsValidator.validate(success, status)
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

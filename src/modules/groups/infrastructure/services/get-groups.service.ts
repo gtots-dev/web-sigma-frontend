@@ -1,10 +1,9 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
-import { HttpResponseGroupValidator } from '../../domain/validators/http-response-group.validator'
 import type { GetGroupsGateway } from '../../domain/gateways/get-groups.gateway'
 import type { GroupWithGroupInterface } from '../../domain/interfaces/group-with-group.interface'
 
@@ -31,9 +30,8 @@ export class GetGroupsService implements GetGroupsGateway {
   async execute(): Promise<GroupWithGroupInterface[]> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token, this.params)
-    const { success, data, status }: HttpResponse<GroupWithGroupInterface[]> =
+    const { data }: HttpResponseInterface<GroupWithGroupInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseGroupValidator.validate(success, status)
     return data
   }
 }

@@ -1,5 +1,8 @@
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { ContractEntity } from '../entities/contract.entity'
 
 export interface PutContractStatusGateway {
-  execute(contract: ContractEntity): Promise<void>
+  execute(
+    contract: ContractEntity
+  ): Promise<HttpResponseInterface<ContractEntity>>
 }

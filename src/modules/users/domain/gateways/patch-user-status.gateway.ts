@@ -1,5 +1,8 @@
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { UserEnableAndDisableInterface } from '../interfaces/user-enable-and-disable.interface'
 
 export interface PatchUserStatusGateway {
-  execute(userEnableAndDisable: UserEnableAndDisableInterface): Promise<void>
+  execute(
+    userEnableAndDisable: UserEnableAndDisableInterface
+  ): Promise<HttpResponseInterface<void>>
 }

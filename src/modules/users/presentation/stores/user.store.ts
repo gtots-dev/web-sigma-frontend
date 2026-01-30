@@ -31,12 +31,10 @@ export const useUserStore = create<UserState>((set) => ({
       const getUsersRouterApiFactory = GetUsersRouterApiFactory.create({
         operationId
       })
-      const users = await getUsersRouterApiFactory.execute()
+      const { data: users } = await getUsersRouterApiFactory.execute()
       set({ users })
     } catch (error) {
-      if (error instanceof HttpResponseError) {
-        throw error
-      }
+      if (error instanceof HttpResponseError) throw error
     }
   },
 
@@ -45,11 +43,9 @@ export const useUserStore = create<UserState>((set) => ({
       const postUsersRouterApiFactory = PostUserRouterApiFactory.create({
         operationId
       })
-      await postUsersRouterApiFactory.execute(user, operationId)
+      await postUsersRouterApiFactory.execute(user)
     } catch (error) {
-      if (error instanceof HttpResponseError) {
-        throw error
-      }
+      if (error instanceof HttpResponseError) throw error
     }
   },
 
@@ -60,9 +56,7 @@ export const useUserStore = create<UserState>((set) => ({
       })
       await patchUsersRouterApiFactory.execute(user)
     } catch (error) {
-      if (error instanceof HttpResponseError) {
-        throw error
-      }
+      if (error instanceof HttpResponseError) throw error
     }
   },
 
@@ -75,9 +69,7 @@ export const useUserStore = create<UserState>((set) => ({
         PatchUserStatusRouterApiFactory.create({ operationId })
       await putUserStatusRouterApiFactory.execute(userEnableAndDisable)
     } catch (error) {
-      if (error instanceof HttpResponseError) {
-        throw error
-      }
+      if (error instanceof HttpResponseError) throw error
     }
   }
 }))

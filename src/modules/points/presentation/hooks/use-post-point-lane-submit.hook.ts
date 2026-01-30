@@ -26,9 +26,7 @@ export function usePostPointLaneSubmit() {
           .filter((item) => item.point_id === point.id)
           .map((item) => item.lane.id)
 
-        const toAdd = formLaneIds.filter(
-          (id) => !apiLanesSelected.includes(id)
-        )
+        const toAdd = formLaneIds.filter((id) => !apiLanesSelected.includes(id))
         let toDelete = apiLanesSelected.filter(
           (id) => !formLaneIds.includes(id)
         )
@@ -73,8 +71,7 @@ export function usePostPointLaneSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao atualizar o ponto',
-            description:
-              'Ocorreu um problema ao tentar atualizar. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

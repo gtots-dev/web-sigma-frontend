@@ -11,14 +11,14 @@ describe('JwtValidator', () => {
 
   test('should throw UNAUTHORIZED error if verification fails', () => {
     const verifyMock = jest.fn(() => {
-      throw new HttpResponseError(HttpStatusCodeEnum.UNAUTHORIZED)
+      throw new HttpResponseError(null, Number(HttpStatusCodeEnum.UNAUTHORIZED))
     })
 
     const tokenVerifierMock = createJwtVerifierMock(verifyMock)
     const validator = new JwtValidator(tokenVerifierMock, secret)
 
     expect(() => validator.validate('invalid-token')).toThrow(
-      new HttpResponseError(HttpStatusCodeEnum.UNAUTHORIZED)
+      new HttpResponseError(null, Number(HttpStatusCodeEnum.UNAUTHORIZED))
     )
 
     expect(verifyMock).toHaveBeenCalledWith('invalid-token', secret)
@@ -30,7 +30,7 @@ describe('JwtValidator', () => {
     const validator = new JwtValidator(tokenVerifierMock, secret)
 
     expect(() => validator.validate('')).toThrow(
-      new HttpResponseError(HttpStatusCodeEnum.UNAUTHORIZED)
+      new HttpResponseError(null, Number(HttpStatusCodeEnum.UNAUTHORIZED))
     )
 
     expect(verifyMock).not.toHaveBeenCalled()

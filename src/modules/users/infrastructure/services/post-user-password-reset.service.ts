@@ -1,12 +1,11 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { PostUserPasswordResetGateway } from '../../domain/gateways/post-user-password-reset.gateway'
 import type { UserPasswordResetInterface } from '../../domain/interfaces/user-password-reset.interface'
-import { HttpResponseUserPasswordResetValidator } from '../../domain/validators/http-response-user-password-reset.validator'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 export class PostUserPasswordResetService
   implements PostUserPasswordResetGateway
@@ -18,13 +17,12 @@ export class PostUserPasswordResetService
   ) {}
 
   getHttpRequestConfig(
-    { operationId, userId }: UrlParams,
     token: TokenEntities,
     userPasswordReset: UserPasswordResetInterface
   ): HttpRequestConfig<UserPasswordResetInterface> {
     return {
       method: 'POST',
-      url: `/operations/${operationId}/users/${userId}/passwords`,
+      url: `/operations/${this.params.operationId}/users/${this.params.userId}/passwords`,
       data: userPasswordReset,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
@@ -32,15 +30,11 @@ export class PostUserPasswordResetService
     }
   }
 
-  async execute(userPasswordReset: UserPasswordResetInterface): Promise<void> {
+  async execute(
+    userPasswordReset: UserPasswordResetInterface
+  ): Promise<HttpResponseInterface<void>> {
     const token = await this.auth.getToken()
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params,
-      token,
-      userPasswordReset
-    )
-    const { success, status }: HttpResponse<null> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseUserPasswordResetValidator.validate(success, status)
+    const settingsAuthHTTP = this.getHttpRequestConfig(token, userPasswordReset)
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

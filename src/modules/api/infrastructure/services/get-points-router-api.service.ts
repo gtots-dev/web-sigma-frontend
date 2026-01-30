@@ -1,9 +1,8 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { GetPointsRouterApiGateway } from '../../domain/gateways/get-points-router-api.gateway'
-import { HttpResponsePointValidator } from '@/modules/points/domain/validators/http-response-point.validator'
 import type { PointWithGroupInterface } from '@/modules/points/domain/interfaces/point-with-group.interface'
 
 export class GetPointsRouterApiService implements GetPointsRouterApiGateway {
@@ -23,9 +22,8 @@ export class GetPointsRouterApiService implements GetPointsRouterApiGateway {
 
   async execute(): Promise<PointWithGroupInterface[]> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
-    const { success, data, status }: HttpResponse<PointWithGroupInterface[]> =
+    const { data }: HttpResponseInterface<PointWithGroupInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponsePointValidator.validate(success, status)
     return data
   }
 }

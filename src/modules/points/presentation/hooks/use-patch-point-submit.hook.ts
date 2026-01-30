@@ -26,8 +26,7 @@ export function usePatchPointSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao adicionar o ponto',
-            description:
-              'Ocorreu um problema ao tentar adicionar o ponto. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

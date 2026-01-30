@@ -1,5 +1,4 @@
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import type { ProcessingUnitEntity } from '@/modules/processing-units/domain/entities/processing-unit.entity'
 import { GetProcessingUnitsFactory } from '@/modules/processing-units/infrastructure/factories/get-processing-unit.factory'
 import { PatchProcessingUnitFactory } from '@/modules/processing-units/infrastructure/factories/patch-processing-unit.factory'
@@ -15,11 +14,7 @@ export const POST = routerApi.POST<UrlParams>(
       operationId,
       contractId
     })
-    await postProcessingUnit.execute(processingUnit)
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.OK
-    }
+    return await postProcessingUnit.execute(processingUnit)
   }
 )
 
@@ -29,8 +24,7 @@ export const GET = routerApi.GET<UrlParams, ProcessingUnitEntity[]>(
       operationId,
       contractId
     })
-    const response = await getProcessingUnits.execute()
-    return { data: response, status: HttpStatusCodeEnum.OK }
+    return await getProcessingUnits.execute()
   }
 )
 
@@ -41,10 +35,6 @@ export const PATCH = routerApi.PATCH<UrlParams>(
       operationId,
       contractId
     })
-    await patchProcessingUnit.execute(processingUnit)
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.OK
-    }
+    return await patchProcessingUnit.execute(processingUnit)
   }
 )

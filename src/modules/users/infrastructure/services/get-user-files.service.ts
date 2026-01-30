@@ -1,10 +1,9 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { GetUserFilesGateway } from '../../domain/gateways/get-user-files.gateway'
 import type { UserFileInterface } from '../../domain/interfaces/user-file.interface'
-import { HttpResponseUserFilesValidator } from '../../domain/validators/http-response-user-files.validator'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 
@@ -31,9 +30,8 @@ export class GetUserFilesService implements GetUserFilesGateway {
   async execute(): Promise<UserFileInterface[]> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
-    const { success, data, status }: HttpResponse<UserFileInterface[]> =
+    const { data }: HttpResponseInterface<UserFileInterface[]> =
       await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseUserFilesValidator.validate(success, data, status)
     return data
   }
 }

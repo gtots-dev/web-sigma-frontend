@@ -1,10 +1,8 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { HttpResponseLaneValidator } from '../../domain/validators/http-response-lane.validator'
 import type { LaneEnableAndDisableInterface } from '../../domain/interfaces/lane-enable-and-disable.interface'
 import type { PatchLaneStatusGateway } from '../../domain/gateways/patch-lane-status.gateway'
 export class PatchLaneStatusService implements PatchLaneStatusGateway {
@@ -38,8 +36,6 @@ export class PatchLaneStatusService implements PatchLaneStatusGateway {
       token,
       laneEnabledAndDisabled
     )
-    const { success, status }: HttpResponse<null> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponseLaneValidator.validate(success, status)
+    await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

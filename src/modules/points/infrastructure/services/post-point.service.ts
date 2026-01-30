@@ -1,12 +1,9 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
-
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { PointEntity } from '../../domain/entities/point.entity'
-import { HttpResponsePointValidator } from '../../domain/validators/http-response-point.validator'
 import type { PostPointGateway } from '../../domain/gateways/post-point.gateway'
 
 export class PostPointService implements PostPointGateway {
@@ -49,8 +46,6 @@ export class PostPointService implements PostPointGateway {
       token,
       point
     )
-    const { success, status }: HttpResponse<null> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    HttpResponsePointValidator.validate(success, status)
+    await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

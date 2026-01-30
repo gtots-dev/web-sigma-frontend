@@ -1,10 +1,11 @@
 import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
+import type { HttpResponseInterface } from '../../domain/interfaces/http-response.interface'
 
 export interface handleRedirectToOperationsDependencies {
   getAuthToken(): Promise<TokenEntities | null>
   decodeToken(token: TokenEntities): { operation_ids: number[] }
-  getOperations(): Promise<OperationEntity[]>
+  getOperations(): Promise<HttpResponseInterface<OperationEntity[]>>
   createOperation(data: OperationEntity): OperationEntity
   saveOperationToCookies(operation: OperationEntity): void
   getRedirectUrl(single: boolean, id?: string): string
@@ -23,7 +24,7 @@ export async function handleRedirectToOperationsUtil(
   const { operation_ids: operationIds } = deps.decodeToken(token)
   if (!operationIds?.length) return null
 
-  const operations = await deps.getOperations()
+  const { data: operations } = await deps.getOperations()
   const hasSingleOperation = operationIds.length === 1
 
   let operationId: string | undefined = undefined

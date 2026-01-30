@@ -1,4 +1,3 @@
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { DeleteGroupSubgroupFactory } from '@/modules/groups/infrastructure/factories/delete-group-subgroup.factory'
@@ -13,10 +12,6 @@ export const DELETE = routerApi.DELETE<UrlParams>(
       groupId,
       subgroupId
     })
-    await deleteGroupSubgroup.execute()
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.NO_CONTENT
-    }
+    return await deleteGroupSubgroup.execute()
   }
 )
