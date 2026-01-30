@@ -1,5 +1,4 @@
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import { PatchProcessingUnitStatusFactory } from '@/modules/processing-units/infrastructure/factories/patch-processing-unit-status.factory'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
@@ -13,10 +12,6 @@ export const PATCH = routerApi.PATCH<UrlParams>(
       contractId,
       processingUnitId
     })
-    await patchProcessingUnit.execute(processingUnitEnableAndDisabled)
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.OK
-    }
+    return await patchProcessingUnit.execute(processingUnitEnableAndDisabled)
   }
 )
