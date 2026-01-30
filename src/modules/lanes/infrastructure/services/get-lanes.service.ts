@@ -14,24 +14,19 @@ export class GetLanesService implements GetLanesGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    token: TokenEntities,
-    { operationId, contractId, processingUnitId }: UrlParams
-  ): HttpRequestConfig<null> {
+  getHttpRequestConfig(token: TokenEntities): HttpRequestConfig<null> {
     return {
       method: 'GET',
-      url: `/operations/${operationId}/contracts/${contractId}/ups/${processingUnitId}/lanes`,
+      url: `/operations/${this.params.operationId}/contracts/${this.params.contractId}/ups/${this.params.processingUnitId}/lanes`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(): Promise<LaneEntity[]> {
+  async execute(): Promise<HttpResponseInterface<LaneEntity[]>> {
     const token = await this.auth.getToken()
-    const settingsAuthHTTP = this.getHttpRequestConfig(token, this.params)
-    const { data }: HttpResponseInterface<LaneEntity[]> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    return data
+    const settingsAuthHTTP = this.getHttpRequestConfig(token)
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

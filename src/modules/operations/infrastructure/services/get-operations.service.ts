@@ -22,11 +22,9 @@ export class GetOperationsService implements GetOperationsGateway {
     }
   }
 
-  async execute(): Promise<OperationEntity[]> {
+  async execute(): Promise<HttpResponseInterface<OperationEntity[]>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
-    const { data }: HttpResponseInterface<OperationEntity[]> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    return data
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }
