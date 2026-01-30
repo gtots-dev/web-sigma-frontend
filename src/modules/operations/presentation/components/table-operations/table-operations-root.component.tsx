@@ -12,7 +12,7 @@ import { GetOperationsFactory } from '@/modules/operations/infrastructure/factor
 
 export async function TableOperationsRootComponent() {
   const getOperationFactory = GetOperationsFactory.create()
-  const operations = await getOperationFactory.execute()
+  const { data: operations } = await getOperationFactory.execute()
   const containerHeight = 69 + 36 + 53 * 10
 
   return (

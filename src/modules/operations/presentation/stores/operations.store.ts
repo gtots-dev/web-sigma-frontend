@@ -14,12 +14,10 @@ export const useOperationsStore = create<OperationsState>((set) => ({
   getOperations: async () => {
     try {
       const getOperationRouterApiFactory = GetOperationRouterApiFactory.create()
-      const operations = await getOperationRouterApiFactory.execute()
+      const { data: operations } = await getOperationRouterApiFactory.execute()
       set({ operations })
     } catch (error) {
-      if (error instanceof HttpResponseError) {
-        throw error
-      }
+      if (error instanceof HttpResponseError) throw error
     }
   }
 }))
