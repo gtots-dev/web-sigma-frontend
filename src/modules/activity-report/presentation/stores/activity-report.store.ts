@@ -28,7 +28,8 @@ export const useActivityReportStore = create<UserState>((set) => ({
     try {
       const postActivityReportRouterApiFactory =
         PostActivityReportRouterApiFactory.create()
-      const logs = await postActivityReportRouterApiFactory.execute(filters)
+      const { data: logs } =
+        await postActivityReportRouterApiFactory.execute(filters)
       set({
         logs
       })

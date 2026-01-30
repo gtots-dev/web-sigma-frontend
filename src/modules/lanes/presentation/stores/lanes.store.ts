@@ -66,7 +66,7 @@ export const useLaneStore = create<LaneState>((set) => ({
         contractId,
         processingUnitId
       })
-      const lanes = await getLanes.execute()
+      const { data: lanes } = await getLanes.execute()
       set({ lanes })
     } catch (error) {
       if (error instanceof HttpResponseError) {
