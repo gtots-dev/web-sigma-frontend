@@ -1,4 +1,6 @@
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import { handleRedirectToOperationsUtil } from '../handle-redirect-to-operations.util'
+import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 
 describe('handleRedirectToOperationsUtil', () => {
   const baseDeps = {
@@ -41,7 +43,12 @@ describe('handleRedirectToOperationsUtil', () => {
       ...baseDeps,
       getAuthToken: jest.fn().mockResolvedValue({ access_token: 'token' }),
       decodeToken: jest.fn().mockReturnValue({ operation_ids: ['1'] }),
-      getOperations: jest.fn().mockResolvedValue([{ id: '1' }]),
+      getOperations: jest.fn().mockResolvedValue({
+        status: 200,
+        success: true,
+        data: [{ id: '1' }],
+        message: ''
+      } as HttpResponseInterface<OperationEntity[]>),
       createOperation: jest.fn().mockReturnValue({ id: '1' }),
       saveOperationToCookies: jest.fn(),
       getRedirectUrl: jest.fn().mockReturnValue('/operation-options')
