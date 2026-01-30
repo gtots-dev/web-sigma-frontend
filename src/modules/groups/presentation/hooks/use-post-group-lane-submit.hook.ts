@@ -71,8 +71,7 @@ export function usePostGroupLaneSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao atualizar o grupo',
-            description:
-              'Ocorreu um problema ao tentar atualizar. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

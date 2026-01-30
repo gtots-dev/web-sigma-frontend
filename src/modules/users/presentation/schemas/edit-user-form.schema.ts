@@ -5,6 +5,7 @@ const VALID_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf']
 const MAX_SIZE_MB = 10
 
 export const EditUserFormSchema = z.object({
+  id: z.number(),
   name: z
     .string()
     .nonempty({

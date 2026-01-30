@@ -1,4 +1,3 @@
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { PostPointLaneFactory } from '@/modules/points/infrastructure/factories/post-point-lane.factory'
@@ -14,10 +13,6 @@ export const POST = routerApi.POST<UrlParams>(
       pointId,
       laneId
     })
-    await postPointLane.execute(pointLane)
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.OK
-    }
+    return await postPointLane.execute(pointLane)
   }
 )

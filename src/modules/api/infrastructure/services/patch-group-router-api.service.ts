@@ -2,7 +2,6 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { GroupEntity } from '@/modules/groups/domain/entities/group.entity'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { HttpResponseGroupValidator } from '@/modules/groups/domain/validators/http-response-group.validator'
 import type { PatchGroupRouterApiGateway } from '../../domain/gateways/patch-group-router-api.gateway'
 
 export class PatchGroupRouterApiService implements PatchGroupRouterApiGateway {
@@ -24,8 +23,6 @@ export class PatchGroupRouterApiService implements PatchGroupRouterApiGateway {
 
   async execute(group: GroupEntity): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, group)
-    const { success, status } =
-      await this.executeRequest.execute<null>(settingsAuthHTTP)
-    HttpResponseGroupValidator.validate(success, status)
+    await this.executeRequest.execute<null>(settingsAuthHTTP)
   }
 }

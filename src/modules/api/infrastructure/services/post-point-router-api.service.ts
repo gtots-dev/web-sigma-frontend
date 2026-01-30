@@ -2,7 +2,6 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { PointEntity } from '@/modules/points/domain/entities/point.entity'
-import { HttpResponsePointValidator } from '@/modules/points/domain/validators/http-response-point.validator'
 import type { PostPointRouterApiGateway } from '../../domain/gateways/post-point-router-api.gateway'
 
 export class PostPointRouterApiService implements PostPointRouterApiGateway {
@@ -23,8 +22,6 @@ export class PostPointRouterApiService implements PostPointRouterApiGateway {
 
   async execute(point: PointEntity): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, point)
-    const { success, status } =
-      await this.executeRequest.execute<null>(settingsAuthHTTP)
-    HttpResponsePointValidator.validate(success, status)
+    await this.executeRequest.execute<null>(settingsAuthHTTP)
   }
 }

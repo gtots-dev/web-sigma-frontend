@@ -36,7 +36,7 @@ export default async function ConfigurationOptionsPage({
   ] = await Promise.all([auth(), params])
 
   const getOperationsFactory = GetOperationsFactory.create()
-  const [{ userPermissions }, operations] = await Promise.all([
+  const [{ userPermissions }, { data: operations }] = await Promise.all([
     loadAuthContext(JWT, rawOperationId),
     getOperationsFactory.execute()
   ])

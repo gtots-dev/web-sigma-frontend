@@ -1,4 +1,3 @@
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import { DeleteFeatureFactory } from '@/modules/permissions/infrastructure/factories/delete-feature.factory'
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
@@ -12,10 +11,6 @@ export const DELETE = routerApi.DELETE<UrlParams>(
       permissionProfileId,
       featureId
     })
-    await deleteFeature.execute()
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.NO_CONTENT
-    }
+    return await deleteFeature.execute()
   }
 )

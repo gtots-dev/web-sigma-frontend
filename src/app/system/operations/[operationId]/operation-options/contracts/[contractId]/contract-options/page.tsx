@@ -38,7 +38,7 @@ export default async function ContractOptionsPage({
   const getContractFactory = GetContractsFactory.create({
     operationId: rawOperationId
   })
-  const [{ userPermissions }, contracts] = await Promise.all([
+  const [{ userPermissions }, { data: contracts }] = await Promise.all([
     loadAuthContext(JWT, rawOperationId),
     getContractFactory.execute()
   ])

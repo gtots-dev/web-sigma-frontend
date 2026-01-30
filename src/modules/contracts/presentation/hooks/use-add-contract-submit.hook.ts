@@ -1,10 +1,10 @@
 import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useContractStore } from '../stores/contract.store'
-import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 
 export function useAddContractSubmit() {
   const { addContract, getContracts } = useContractStore()
@@ -24,8 +24,7 @@ export function useAddContractSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao cadastrar o contrato',
-            description:
-              'Ocorreu um problema ao tentar cadastrar o contrato. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

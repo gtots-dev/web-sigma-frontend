@@ -15,12 +15,8 @@ export function usePostGroupSubgroupSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { group } = useTableGroup()
 
-  const {
-    getGroups,
-    postGroupSubgroup,
-    deleteGroupSubgroup,
-    groups
-  } = useGroupStore()
+  const { getGroups, postGroupSubgroup, deleteGroupSubgroup, groups } =
+    useGroupStore()
 
   const onAction = useCallback(
     async (
@@ -73,8 +69,7 @@ export function usePostGroupSubgroupSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao atualizar o grupo',
-            description:
-              'Ocorreu um problema ao tentar atualizar. Verifique e tente novamente.',
+            description: error.message,
             variant: 'destructive'
           })
         }

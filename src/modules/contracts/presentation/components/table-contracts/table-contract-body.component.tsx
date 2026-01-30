@@ -25,7 +25,7 @@ export function TableContractsBodyComponent({
       </TableBody>
     )
 
-  if (contracts.length === 0)
+  if (contracts?.length === 0 || contracts == null)
     return (
       <TableBody>
         <TableMessage colSpan={6} message={MESSAGES_CONTRACTS['3.3']} />

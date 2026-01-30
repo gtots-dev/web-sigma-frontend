@@ -27,8 +27,7 @@ export function useAddProcessingUnitSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao cadastrar a unidade de Processamento',
-            description:
-              'Ocorreu um problema ao tentar cadastrar a unidade de Processamento. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

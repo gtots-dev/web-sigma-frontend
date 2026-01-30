@@ -1,7 +1,7 @@
 import type { HttpClientGateway } from '@/modules/shared/domain/gateways/http-client.gateway'
 import { ExecuteRequest } from '../execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { HttpResponse } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 describe('ExecuteRequest', () => {
   let httpClientMock: jest.Mocked<HttpClientGateway>
@@ -20,9 +20,9 @@ describe('ExecuteRequest', () => {
       method: 'GET'
     }
 
-    const mockResponse: HttpResponse<string> = {
+    const mockResponse: HttpResponseInterface<string> = {
       success: true,
-      status: '200',
+      status: 200,
       data: 'Success'
     }
 

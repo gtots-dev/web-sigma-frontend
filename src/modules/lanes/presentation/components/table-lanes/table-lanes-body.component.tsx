@@ -26,7 +26,7 @@ export function TableLanesBodyComponent({
       </TableBody>
     )
 
-  if (lanes.length === 0)
+  if (lanes?.length === 0 || lanes == null)
     return (
       <TableBody>
         <TableMessage colSpan={4} message={MESSAGES_LANE['8.3']} />
