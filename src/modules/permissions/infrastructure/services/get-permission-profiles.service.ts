@@ -6,8 +6,6 @@ import type { PermissionProfileInterface } from '../../domain/interfaces/permiss
 import type { GetPermissionProfilesGateway } from '../../domain/gateways/get-permission-profiles.gateway'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
-
 export class GetPermissionProfilesService
   implements GetPermissionProfilesGateway
 {
@@ -28,8 +26,7 @@ export class GetPermissionProfilesService
   }
 
   async execute(): Promise<
-    | HttpResponseInterface<PermissionProfileInterface[]>
-    | HttpResponseErrorInterface
+    HttpResponseInterface<PermissionProfileInterface[]>
   > {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token)

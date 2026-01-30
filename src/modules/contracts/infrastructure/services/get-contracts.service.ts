@@ -6,7 +6,6 @@ import type { GetContractsGateway } from '../../domain/gateways/get-contracts.ga
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
 
 export class GetContractsService implements GetContractsGateway {
   constructor(
@@ -25,9 +24,7 @@ export class GetContractsService implements GetContractsGateway {
     }
   }
 
-  async execute(): Promise<
-    HttpResponseInterface<ContractEntity[]> | HttpResponseErrorInterface
-  > {
+  async execute(): Promise<HttpResponseInterface<ContractEntity[]>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
     return await this.executeRequest.execute(settingsAuthHTTP)

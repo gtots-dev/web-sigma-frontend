@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
 
 export interface RouterApiFileResponseInterface {
   data: Blob | ArrayBuffer
@@ -28,7 +27,6 @@ export type HandlerResult<T> =
   | void
   | T
   | HttpResponseInterface<T>
-  | HttpResponseErrorInterface
   | RouterApiResponse<T | ErrorResponseInterface>
 
 export type HandlerCallback<P, R> = (
