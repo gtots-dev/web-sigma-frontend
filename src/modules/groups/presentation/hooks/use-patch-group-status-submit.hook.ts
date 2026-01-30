@@ -29,8 +29,7 @@ export function usePatchGroupStatusSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao adicionar o grupo',
-            description:
-              'Ocorreu um problema ao tentar adicionar o grupo. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

@@ -26,8 +26,7 @@ export function useEditLaneSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao atualizar o faixa',
-            description:
-              'Ocorreu um problema ao tentar atualizar o faixa. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

@@ -26,7 +26,9 @@ export function usePostGroupPointSubmit() {
           .filter((item) => item.group_id.includes(group.id))
           .map((item) => item.point.id)
 
-        const toAdd = formPointIds.filter((id) => !apiPointsSelected.includes(id))
+        const toAdd = formPointIds.filter(
+          (id) => !apiPointsSelected.includes(id)
+        )
         let toDelete = apiPointsSelected.filter(
           (id) => !formPointIds.includes(id)
         )
@@ -71,8 +73,7 @@ export function usePostGroupPointSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao atualizar o grupo',
-            description:
-              'Ocorreu um problema ao tentar atualizar. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

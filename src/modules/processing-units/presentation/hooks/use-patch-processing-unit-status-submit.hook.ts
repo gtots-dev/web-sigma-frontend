@@ -37,8 +37,7 @@ export function usePatchProcessingUnitStatusSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao atualizar o status unidade de processamento',
-            description:
-              'Ocorreu um problema ao tentar atualizar o status do unidade de processamento. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

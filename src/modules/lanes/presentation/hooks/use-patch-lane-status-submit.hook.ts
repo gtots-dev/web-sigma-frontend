@@ -32,8 +32,7 @@ export function usePatchLaneStatusSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao atualizar o status contrato',
-            description:
-              'Ocorreu um problema ao tentar atualizar o status do contrato. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }

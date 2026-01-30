@@ -26,8 +26,7 @@ export function useAddLaneSubmit() {
         if (error instanceof HttpResponseError) {
           toast({
             title: 'Erro ao cadastrar a faixa',
-            description:
-              'Ocorreu um problema ao tentar cadastrar a faixa. Verifique e tente novamente',
+            description: error.message,
             variant: 'destructive'
           })
         }
