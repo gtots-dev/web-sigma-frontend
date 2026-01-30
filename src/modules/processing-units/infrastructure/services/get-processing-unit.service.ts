@@ -14,24 +14,19 @@ export class GetProcessingUnitsService implements GetProcessingUnitsGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    token: TokenEntities,
-    { operationId, contractId }: UrlParams
-  ): HttpRequestConfig<null> {
+  getHttpRequestConfig(token: TokenEntities): HttpRequestConfig<null> {
     return {
       method: 'GET',
-      url: `/operations/${operationId}/contracts/${contractId}/ups`,
+      url: `/operations/${this.params.operationId}/contracts/${this.params.contractId}/ups`,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
       }
     }
   }
 
-  async execute(): Promise<ProcessingUnitEntity[]> {
+  async execute(): Promise<HttpResponseInterface<ProcessingUnitEntity[]>> {
     const token = await this.auth.getToken()
-    const settingsAuthHTTP = this.getHttpRequestConfig(token, this.params)
-    const { data }: HttpResponseInterface<ProcessingUnitEntity[]> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    return data
+    const settingsAuthHTTP = this.getHttpRequestConfig(token)
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

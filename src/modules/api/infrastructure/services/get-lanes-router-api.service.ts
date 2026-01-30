@@ -10,21 +10,15 @@ export class GetLanesRouterApiService implements GetLanesRouterApiGateway {
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams
   ) {}
-  getHttpRequestConfig({
-    operationId,
-    contractId,
-    processingUnitId
-  }: UrlParams): HttpRequestConfig {
+  getHttpRequestConfig(): HttpRequestConfig {
     return {
       method: 'GET',
-      url: `api/operations/${operationId}/contracts/${contractId}/processing-units/${processingUnitId}/lanes`
+      url: `api/operations/${this.params.operationId}/contracts/${this.params.contractId}/processing-units/${this.params.processingUnitId}/lanes`
     }
   }
 
-  async execute(): Promise<LaneEntity[]> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
-    const { data }: HttpResponseInterface<LaneEntity[]> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    return data
+  async execute(): Promise<HttpResponseInterface<LaneEntity[]>> {
+    const settingsAuthHTTP = this.getHttpRequestConfig()
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

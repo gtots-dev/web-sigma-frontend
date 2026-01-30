@@ -4,6 +4,7 @@ import type { PostActivityReportRouterApiGateway } from '../../domain/gateways/p
 import type { ActivityReportFiltersInterface } from '@/modules/activity-report/domain/interfaces/activity-report-filters.interface'
 import type { PaginationInterface } from '@/modules/shared/domain/interfaces/pagination.interfaces'
 import type { ActivityReportInterface } from '@/modules/activity-report/domain/interfaces/activity-report.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 export class PostActivityReportRouterApiService implements PostActivityReportRouterApiGateway {
   constructor(private readonly httpRequest: ExecuteRequest) {}
@@ -21,17 +22,16 @@ export class PostActivityReportRouterApiService implements PostActivityReportRou
   async execute(filters: {
     filters: ActivityReportFiltersInterface
     pagination: PaginationInterface
-  }): Promise<{
-    data: ActivityReportInterface[]
-    meta: PaginationInterface
-  }> {
+  }): Promise<
+    HttpResponseInterface<{
+      data: ActivityReportInterface[]
+      meta: PaginationInterface
+    }>
+  > {
     const settingsAuthHTTP = this.getHttpRequestConfig(filters)
-    const { data } = await this.httpRequest.execute<{
-      data: {
-        data: ActivityReportInterface[]
-        meta: PaginationInterface
-      }
+    return await this.httpRequest.execute<{
+      data: ActivityReportInterface[]
+      meta: PaginationInterface
     }>(settingsAuthHTTP)
-    return data.data
   }
 }

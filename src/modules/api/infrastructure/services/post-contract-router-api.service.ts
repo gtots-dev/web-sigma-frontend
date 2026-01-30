@@ -25,18 +25,8 @@ export class PostContractRouterApiService
 
   async execute(
     contract: ContractEntity
-  ): Promise<HttpResponseInterface<ContractEntity[]>> {
+  ): Promise<HttpResponseInterface<ContractEntity>> {
     const config = this.getHttpRequestConfig(contract)
-    const {
-      success,
-      status,
-      data,
-      message
-    }: HttpResponseInterface<ContractEntity[]> =
-      await this.executeRequest.execute(config)
-    if (!success) {
-      throw { success, status, data, message }
-    }
-    return { success, status, data, message }
+    return await this.executeRequest.execute(config)
   }
 }

@@ -5,6 +5,7 @@ import type { ContractEntity } from '../../domain/entities/contract.entity'
 import type { PutContractStatusGateway } from '../../domain/gateways/put-contract-status.gateway'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
 export class PutContractStatusService implements PutContractStatusGateway {
   constructor(
@@ -28,13 +29,15 @@ export class PutContractStatusService implements PutContractStatusGateway {
     }
   }
 
-  async execute(contract: ContractEntity): Promise<void> {
+  async execute(
+    contract: ContractEntity
+  ): Promise<HttpResponseInterface<ContractEntity>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(
       this.params,
       token,
       contract
     )
-    await this.executeRequest.execute(settingsAuthHTTP)
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }
