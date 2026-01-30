@@ -5,7 +5,6 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import type { FeaturesInterface } from '../../domain/interfaces/features.interface'
 import type { GetFeatureGateway } from '../../domain/gateways/get-feature.gateway'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
-import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
 
 export class GetFeatureService implements GetFeatureGateway {
   constructor(
@@ -23,9 +22,7 @@ export class GetFeatureService implements GetFeatureGateway {
     }
   }
 
-  async execute(): Promise<
-    HttpResponseInterface<FeaturesInterface[]> | HttpResponseErrorInterface
-  > {
+  async execute(): Promise<HttpResponseInterface<FeaturesInterface[]>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
     return await this.httpRequest.execute(settingsAuthHTTP)

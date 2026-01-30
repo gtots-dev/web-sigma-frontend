@@ -6,8 +6,6 @@ import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/t
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { UserEnableAndDisableInterface } from '../../domain/interfaces/user-enable-and-disable.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
-
 export class PatchUserStatusService implements PatchUserStatusGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
@@ -31,7 +29,7 @@ export class PatchUserStatusService implements PatchUserStatusGateway {
 
   async execute(
     userEnableAndDisable: UserEnableAndDisableInterface
-  ): Promise<HttpResponseInterface<void> | HttpResponseErrorInterface> {
+  ): Promise<HttpResponseInterface<void>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(
       token,

@@ -6,7 +6,6 @@ import type { PostContractGateway } from '../../domain/gateways/post-contract.ga
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
 
 export class PostContractService implements PostContractGateway {
   constructor(
@@ -44,7 +43,7 @@ export class PostContractService implements PostContractGateway {
 
   async execute(
     contract: ContractEntity
-  ): Promise<HttpResponseInterface<null> | HttpResponseErrorInterface> {
+  ): Promise<HttpResponseInterface<null>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token, contract)
     return await this.executeRequest.execute(settingsAuthHTTP)

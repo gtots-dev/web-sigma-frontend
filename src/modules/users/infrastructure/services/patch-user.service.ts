@@ -5,7 +5,6 @@ import type { PatchUserGateway } from '../../domain/gateways/patch-user.gateway'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
 import type { UserEntity } from '../../domain/entities/user.entity'
 
 export class PatchUserService implements PatchUserGateway {
@@ -29,9 +28,7 @@ export class PatchUserService implements PatchUserGateway {
     }
   }
 
-  async execute(
-    user: FormData
-  ): Promise<HttpResponseInterface<UserEntity> | HttpResponseErrorInterface> {
+  async execute(user: FormData): Promise<HttpResponseInterface<UserEntity>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token, user)
     return await this.httpRequest.execute(settingsAuthHTTP)

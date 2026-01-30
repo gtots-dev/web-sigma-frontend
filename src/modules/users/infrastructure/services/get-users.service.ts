@@ -5,7 +5,6 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import type { GetUsersGateway } from '../../domain/gateways/get-users.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
-import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
 import type { UserEntity } from '../../domain/entities/user.entity'
 
 export class GetUsersService implements GetUsersGateway {
@@ -25,9 +24,7 @@ export class GetUsersService implements GetUsersGateway {
     }
   }
 
-  async execute(): Promise<
-    HttpResponseInterface<UserEntity[]> | HttpResponseErrorInterface
-  > {
+  async execute(): Promise<HttpResponseInterface<UserEntity[]>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token)
     return await this.executeRequest.execute(settingsAuthHTTP)

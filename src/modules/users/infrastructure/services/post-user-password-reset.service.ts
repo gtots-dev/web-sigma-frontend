@@ -6,7 +6,6 @@ import type { UserPasswordResetInterface } from '../../domain/interfaces/user-pa
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
-import type { HttpResponseErrorInterface } from '@/modules/shared/domain/interfaces/http-response-error.interface'
 
 export class PostUserPasswordResetService
   implements PostUserPasswordResetGateway
@@ -33,7 +32,7 @@ export class PostUserPasswordResetService
 
   async execute(
     userPasswordReset: UserPasswordResetInterface
-  ): Promise<HttpResponseInterface<void> | HttpResponseErrorInterface> {
+  ): Promise<HttpResponseInterface<void>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token, userPasswordReset)
     return await this.executeRequest.execute(settingsAuthHTTP)
