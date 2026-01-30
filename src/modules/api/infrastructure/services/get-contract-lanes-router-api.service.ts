@@ -5,7 +5,9 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { LaneWithPointAndGroupInterface } from '@/modules/lanes/domain/interfaces/lane-with-point-and-group.interface'
 import type { GetContractLanesRouterApiGateway } from '../../domain/gateways/get-contract-lanes-router-api.gateway'
 
-export class GetContractLanesRouterApiService implements GetContractLanesRouterApiGateway {
+export class GetContractLanesRouterApiService
+  implements GetContractLanesRouterApiGateway
+{
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -20,10 +22,10 @@ export class GetContractLanesRouterApiService implements GetContractLanesRouterA
     }
   }
 
-  async execute(): Promise<LaneWithPointAndGroupInterface[]> {
+  async execute(): Promise<
+    HttpResponseInterface<LaneWithPointAndGroupInterface[]>
+  > {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
-    const { data }: HttpResponseInterface<LaneWithPointAndGroupInterface[]> =
-      await this.executeRequest.execute(settingsAuthHTTP)
-    return data
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }
