@@ -1,5 +1,4 @@
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
-import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
 import type { PermissionProfileWithFeatureInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-feature.interface'
 import { GetPermissionProfileFeatureFactory } from '@/modules/permissions/infrastructure/factories/get-permission-profile-feature.factory'
 import { PostFeatureFactory } from '@/modules/permissions/infrastructure/factories/post-feature.factory'
@@ -14,11 +13,7 @@ export const POST = routerApi.POST<UrlParams>(
       operationId,
       permissionProfileId
     })
-    await postFeature.execute(features)
-    return {
-      data: { success: true },
-      status: HttpStatusCodeEnum.CREATE
-    }
+    return await postFeature.execute(features)
   }
 )
 
