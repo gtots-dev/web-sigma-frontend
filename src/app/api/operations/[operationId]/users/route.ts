@@ -7,7 +7,7 @@ import { PostUserFactory } from '@/modules/users/infrastructure/factories/post-u
 const routerApi = RouterApiFactory.create()
 
 export const POST = routerApi.POST<UrlParams>(async ({ operationId }, req) => {
-  const user = await req?.formData()
+  const user = await req?.json()
   const postUser = PostUserFactory.create({ operationId })
   return await postUser.execute(user)
 })

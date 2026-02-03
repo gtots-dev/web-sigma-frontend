@@ -12,10 +12,7 @@ import { PatchUserStatusRouterApiFactory } from '@/modules/api/infrastructure/fa
 type UserState = {
   users: UserEntity[]
   getUsers: ({ operationId }: UrlParams) => Promise<void>
-  addUser: (
-    { operationId }: UrlParams,
-    user: Omit<UserWithFiles, 'id'>
-  ) => Promise<void>
+  addUser: ({ operationId }: UrlParams, user: UserEntity) => Promise<void>
   patchUser: ({ operationId }: UrlParams, user: UserWithFiles) => Promise<void>
   updateUserStatus: (
     { operationId }: UrlParams,
@@ -38,7 +35,7 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 
-  addUser: async ({ operationId }: UrlParams, user: UserWithFiles) => {
+  addUser: async ({ operationId }: UrlParams, user: UserEntity) => {
     try {
       const postUsersRouterApiFactory = PostUserRouterApiFactory.create({
         operationId
