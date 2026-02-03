@@ -2,10 +2,7 @@ import { MESSAGES_PASSWORD_RESET } from '@/modules/shared/presentation/messages/
 import { MESSAGES_USERS } from '@/modules/shared/presentation/messages/users'
 import { z } from 'zod'
 
-const VALID_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf']
-const MAX_SIZE_MB = 10
-
-export const AddUserFormSchema = z.object({
+export const PostUserFormSchema = z.object({
   name: z
     .string()
     .nonempty({
@@ -58,21 +55,6 @@ export const AddUserFormSchema = z.object({
     .max(365, {
       message: MESSAGES_PASSWORD_RESET['2.17']
     }),
-  files: z
-    .array(z.instanceof(File))
-    .refine(
-      (files: File[]) =>
-        files.every((file: File) => VALID_TYPES.includes(file.type)),
-      {
-        message: MESSAGES_USERS['5.20']
-      }
-    )
-    .refine(
-      (files: File[]) =>
-        files.every((file: File) => file.size <= MAX_SIZE_MB * 1024 * 1024),
-      { message: MESSAGES_USERS['5.31'] }
-    )
-    .optional(),
   description: z
     .string()
     .max(255, {
@@ -83,4 +65,4 @@ export const AddUserFormSchema = z.object({
     .transform((val) => (!val || val.trim() === '' ? null : val))
 })
 
-export type AddUserFormType = z.infer<typeof AddUserFormSchema>
+export type PostUserFormType = z.infer<typeof PostUserFormSchema>

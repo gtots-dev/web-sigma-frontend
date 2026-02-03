@@ -4,16 +4,16 @@ import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useUserStore } from '../stores/user.store'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import type { UserWithFiles } from '../../domain/types/user-with-files'
 import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { UserEntity } from '../../domain/entities/user.entity'
 
 export function useAddUserSubmit() {
   const { addUser, getUsers } = useUserStore()
   const { operationId }: UrlParams = useParams()
 
   const onAction = useCallback(
-    async (data: UserWithFiles, onSuccess: VoidFunction): Promise<void> => {
+    async (data: UserEntity, onSuccess: VoidFunction): Promise<void> => {
       try {
         await addUser({ operationId }, data)
         await getUsers({ operationId })
