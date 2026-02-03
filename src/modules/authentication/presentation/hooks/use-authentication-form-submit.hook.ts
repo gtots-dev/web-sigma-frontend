@@ -23,8 +23,8 @@ export function useAuthenticationFormSubmitHook() {
     try {
       await authSignIn.signIn(data)
       router.push(PATHNAMES.SYSTEM)
-    } catch (errorMessage) {
-      setError(errorMessage)
+    } catch (err) {
+      if (err instanceof Error) setError(err.message)
     } finally {
       setLoading(false)
     }

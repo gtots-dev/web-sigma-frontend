@@ -15,48 +15,56 @@ describe('AuthSignInService', () => {
     authSignInService = new AuthSignInService(authSignInRepositoryMock)
   })
 
-  test('should call execute on authSignIn with correct parameters', async () => {
-    const data: AuthenticationFormType = {
-      username: 'user',
-      password: 'pass'
-    }
+  const data: AuthenticationFormType = {
+    username: 'user',
+    password: 'pass'
+  }
 
+  test('should call execute with correct parameters and resolve when no error', async () => {
     ;(authSignInRepositoryMock.execute as jest.Mock).mockResolvedValue({
       code: null,
-      error: null
+      error: null,
+      ok: true,
+      status: 200,
+      url: null
     })
 
-    const result = await authSignInService.signIn(data)
+    await expect(authSignInService.signIn(data)).resolves.toBeUndefined()
 
     expect(authSignInRepositoryMock.execute).toHaveBeenCalledWith({
       data,
       type: 'credentials',
       options: { redirect: false }
     })
-    expect(result).toBeNull()
   })
 
-  test('should return an error message when an error occurs', async () => {
-    const data: AuthenticationFormType = {
-      username: 'user',
-      password: 'pass'
-    }
-
-    const errorMessage = 'Invalid credentials'
-
+  test('should throw backend code when code is provided', async () => {
     ;(authSignInRepositoryMock.execute as jest.Mock).mockResolvedValue({
       code: 'INVALID_CREDENTIALS',
-      error: true
+      error: 'true',
+      ok: false,
+      status: 401,
+      url: null
     })
 
-    jest.spyOn(AuthMessagesError, 'message').mockReturnValue(errorMessage)
+    await expect(authSignInService.signIn(data)).rejects.toThrow(new Error())
+  })
 
-    await expect(authSignInService.signIn(data)).rejects.toBe(errorMessage)
-
-    expect(authSignInRepositoryMock.execute).toHaveBeenCalledWith({
-      data,
-      type: 'credentials',
-      options: { redirect: false }
+  test('should throw mapped friendly message when no code is provided', async () => {
+    ;(authSignInRepositoryMock.execute as jest.Mock).mockResolvedValue({
+      code: null,
+      error: '401',
+      ok: false,
+      status: 401,
+      url: null
     })
+
+    jest
+      .spyOn(AuthMessagesError, 'message')
+      .mockReturnValue('Invalid credentials')
+
+    await expect(authSignInService.signIn(data)).rejects.toThrow(
+      'Invalid credentials'
+    )
   })
 })

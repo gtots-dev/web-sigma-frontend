@@ -30,7 +30,7 @@ export const CredentialsProviderAuth = CredentialsProvider({
       }
     } catch (error) {
       if (error instanceof HttpResponseError) {
-        throw new InvalidAuthError(error.message)
+        throw new InvalidAuthError(error.message, error)
       }
       return null
     }

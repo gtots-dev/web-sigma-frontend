@@ -5,13 +5,12 @@ import type { AuthSignInRepository } from '../repositories/auth-sign-in.reposito
 export class AuthSignInService {
   constructor(private readonly authSignIn: AuthSignInRepository) {}
 
-  async signIn(data: AuthenticationFormType): Promise<null> {
-    const { code, error } = await this.authSignIn.execute({
+  async signIn(data: AuthenticationFormType): Promise<void> {
+    const { error } = await this.authSignIn.execute({
       data,
       type: 'credentials',
       options: { redirect: false }
     })
-    if (error) throw AuthMessagesError.message(code)
-    return null
+    if (error) throw new Error(AuthMessagesError.message(error))
   }
 }
