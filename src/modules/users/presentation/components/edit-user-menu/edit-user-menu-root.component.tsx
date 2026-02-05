@@ -1,18 +1,35 @@
+'use client'
+
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
-import type { ReactNode } from 'react'
-import { useDialog } from './edit-user-menu-provider.component'
+import { useEffect, type ReactNode } from 'react'
+import { FormProvider } from 'react-hook-form'
+import { usePatchUserForm } from '../../hooks/use-patch-user-form.hook'
+import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 
 interface EditUserMenuRootComponentProps {
+  user: UserEntity
   children: ReactNode
+  isOpen: boolean
+  close: () => void
 }
 
 export function EditUserMenuRootComponent({
-  children
+  user,
+  children,
+  isOpen,
+  close
 }: EditUserMenuRootComponentProps) {
-  const { isOpen, close } = useDialog()
+  const { methods, defaultValues } = usePatchUserForm(user)
+
+  useEffect(() => {
+    if (isOpen) methods.reset(defaultValues)
+  }, [isOpen, defaultValues, methods])
+
   return (
-    <DrawerDialog.Root open={isOpen} onOpenChange={close}>
-      {children}
-    </DrawerDialog.Root>
+    <FormProvider {...methods}>
+      <DrawerDialog.Root open={isOpen} onOpenChange={close}>
+        {children}
+      </DrawerDialog.Root>
+    </FormProvider>
   )
 }

@@ -4,7 +4,7 @@ import { z } from 'zod'
 const VALID_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf']
 const MAX_SIZE_MB = 10
 
-export const EditUserFormSchema = z.object({
+export const PatchUserFormSchema = z.object({
   id: z.number(),
   name: z
     .string()
@@ -77,4 +77,4 @@ export const EditUserFormSchema = z.object({
     .transform((val) => (!val || val.trim() === '' ? null : val))
 })
 
-export type EditUserFormType = z.infer<typeof EditUserFormSchema>
+export type PatchUserFormType = z.infer<typeof PatchUserFormSchema>
