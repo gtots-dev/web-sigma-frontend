@@ -5,9 +5,9 @@ import { PatchUserFactory } from '@/modules/users/infrastructure/factories/patch
 const routerApi = RouterApiFactory.create()
 
 export const PATCH = routerApi.PATCH<UrlParams>(
-  async ({ operationId }, req) => {
-    const user = await req?.formData()
-    const patchUser = PatchUserFactory.create({ operationId })
+  async ({ operationId, userId }, req) => {
+    const user = await req?.json()
+    const patchUser = PatchUserFactory.create({ operationId, userId })
     return await patchUser.execute(user)
   }
 )

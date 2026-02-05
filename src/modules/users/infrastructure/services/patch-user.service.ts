@@ -16,11 +16,11 @@ export class PatchUserService implements PatchUserGateway {
 
   getHttpRequestConfig(
     token: TokenEntities,
-    user: FormData
-  ): HttpRequestConfig<FormData> {
+    user: UserEntity
+  ): HttpRequestConfig<UserEntity> {
     return {
       method: 'PATCH',
-      url: `/operations/${this.params.operationId}/users/${user.get('id')}`,
+      url: `/operations/${this.params.operationId}/users/${this.params.userId}`,
       data: user,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`
@@ -28,7 +28,7 @@ export class PatchUserService implements PatchUserGateway {
     }
   }
 
-  async execute(user: FormData): Promise<HttpResponseInterface<UserEntity>> {
+  async execute(user: UserEntity): Promise<HttpResponseInterface<UserEntity>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token, user)
     return await this.httpRequest.execute(settingsAuthHTTP)
