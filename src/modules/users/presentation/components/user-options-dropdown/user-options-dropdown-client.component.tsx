@@ -23,6 +23,8 @@ export function UserOptionsDropdownClient({
   viewMoreDescription,
   editTitle,
   editDescription,
+  attachFilesTitle,
+  attachFilesDescription,
   resetTitle,
   resetDescription,
   permissions,
@@ -37,6 +39,8 @@ export function UserOptionsDropdownClient({
   viewMoreDescription: string
   editTitle: string
   editDescription: string
+  attachFilesTitle: string
+  attachFilesDescription: string
   resetTitle: string
   resetDescription: string
   bindUserWithPermissionProfilesTitle: string
@@ -149,10 +153,8 @@ export function UserOptionsDropdownClient({
 
                 {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
                   <AddUserFilesMenuComponent
-                    title={'Anexe os Documentos'}
-                    description={
-                      'Anexe os documentos do usuário selecionado a abaixo'
-                    }
+                    title={attachFilesTitle}
+                    description={attachFilesDescription}
                   />
                 )}
               </PatchUserStatusMenu.Provider>
