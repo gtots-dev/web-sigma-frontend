@@ -1,7 +1,7 @@
 'use client'
 
-import { AddUserMenu } from '@/modules/users/presentation/components/add-user-menu'
-import { AddUserMenuComponent } from '@/modules/users/presentation/components/add-user-menu/add-user-menu.component'
+import { AddUserMenu } from '.'
+import { AddUserMenuComponent } from './add-user-menu.component'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 
 export function AddUserMenuClient({

@@ -1,11 +1,11 @@
-import { MESSAGES_PASSWORD_RESET } from '@/modules/shared/presentation/messages/password-reset'
 import { MESSAGES_USERS } from '@/modules/shared/presentation/messages/users'
 import { z } from 'zod'
 
 const VALID_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf']
 const MAX_SIZE_MB = 10
 
-export const AddUserFormSchema = z.object({
+export const PatchUserFormSchema = z.object({
+  id: z.number(),
   name: z
     .string()
     .nonempty({
@@ -23,6 +23,9 @@ export const AddUserFormSchema = z.object({
       message: MESSAGES_USERS['5.36']
     })
     .email({
+      message: MESSAGES_USERS['5.12']
+    })
+    .refine((val) => !val || z.string().email().safeParse(val).success, {
       message: MESSAGES_USERS['5.12']
     }),
   company: z
@@ -49,15 +52,6 @@ export const AddUserFormSchema = z.object({
     .max(150, {
       message: MESSAGES_USERS['5.36']
     }),
-  days_passwd_reg_deadline: z
-    .number()
-    .int()
-    .gt(0, {
-      message: MESSAGES_PASSWORD_RESET['2.16']
-    })
-    .max(365, {
-      message: MESSAGES_PASSWORD_RESET['2.17']
-    }),
   files: z
     .array(z.instanceof(File))
     .refine(
@@ -75,7 +69,7 @@ export const AddUserFormSchema = z.object({
     .optional(),
   description: z
     .string()
-    .max(255, {
+    .max(150, {
       message: MESSAGES_USERS['5.32']
     })
     .optional()
@@ -83,4 +77,4 @@ export const AddUserFormSchema = z.object({
     .transform((val) => (!val || val.trim() === '' ? null : val))
 })
 
-export type AddUserFormType = z.infer<typeof AddUserFormSchema>
+export type PatchUserFormType = z.infer<typeof PatchUserFormSchema>

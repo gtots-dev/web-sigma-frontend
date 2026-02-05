@@ -1,11 +1,11 @@
+import { MESSAGES_PASSWORD_RESET } from '@/modules/shared/presentation/messages/password-reset'
 import { MESSAGES_USERS } from '@/modules/shared/presentation/messages/users'
 import { z } from 'zod'
 
 const VALID_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'application/pdf']
 const MAX_SIZE_MB = 10
 
-export const EditUserFormSchema = z.object({
-  id: z.number(),
+export const PostUserFormSchema = z.object({
   name: z
     .string()
     .nonempty({
@@ -23,9 +23,6 @@ export const EditUserFormSchema = z.object({
       message: MESSAGES_USERS['5.36']
     })
     .email({
-      message: MESSAGES_USERS['5.12']
-    })
-    .refine((val) => !val || z.string().email().safeParse(val).success, {
       message: MESSAGES_USERS['5.12']
     }),
   company: z
@@ -67,9 +64,18 @@ export const EditUserFormSchema = z.object({
       { message: MESSAGES_USERS['5.31'] }
     )
     .optional(),
+  days_passwd_reg_deadline: z
+    .number()
+    .int()
+    .gt(0, {
+      message: MESSAGES_PASSWORD_RESET['2.16']
+    })
+    .max(365, {
+      message: MESSAGES_PASSWORD_RESET['2.17']
+    }),
   description: z
     .string()
-    .max(150, {
+    .max(255, {
       message: MESSAGES_USERS['5.32']
     })
     .optional()
@@ -77,4 +83,4 @@ export const EditUserFormSchema = z.object({
     .transform((val) => (!val || val.trim() === '' ? null : val))
 })
 
-export type EditUserFormType = z.infer<typeof EditUserFormSchema>
+export type PostUserFormType = z.infer<typeof PostUserFormSchema>

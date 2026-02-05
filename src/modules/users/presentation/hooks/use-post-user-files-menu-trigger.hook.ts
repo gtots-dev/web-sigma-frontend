@@ -1,10 +1,10 @@
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
-import { useDialog } from '../components/edit-user-menu/edit-user-menu-provider.component'
+import { useDialog } from '../components/add-user-files-menu/add-user-files-menu-provider.component'
 
-export function useEditUserMenuTrigger() {
+export function usePostUserFilesMenuTrigger() {
   const { open: openDialog } = useDialog()
 
-  const loadUserEditOpenDialog = () => {
+  const loadUserPostFilesOpenDialog = () => {
     queueMicrotask(async () => {
       try {
         openDialog()
@@ -19,5 +19,5 @@ export function useEditUserMenuTrigger() {
     })
   }
 
-  return { loadUserEditOpenDialog }
+  return { loadUserPostFilesOpenDialog }
 }

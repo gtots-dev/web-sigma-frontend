@@ -2,37 +2,41 @@
 
 import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
-import { useUserStore } from '../stores/user.store'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import type { UserWithFiles } from '../../domain/types/user-with-files'
 import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useTableUser } from '../contexts/table-user.context'
+import type { UserFilesInterface } from '../../domain/interfaces/user-files.interface'
+import { useUserFilesStore } from '../stores/user-files.store'
 
-export function useAddUserSubmit() {
-  const { addUser, getUsers } = useUserStore()
+export function usePostUserFilesSubmit() {
+  const { postUserFiles } = useUserFilesStore()
   const { operationId }: UrlParams = useParams()
+  const { id: userId } = useTableUser()
 
   const onAction = useCallback(
-    async (data: UserWithFiles, onSuccess: VoidFunction): Promise<void> => {
+    async (
+      files: UserFilesInterface,
+      onSuccess: VoidFunction
+    ): Promise<void> => {
       try {
-        await addUser({ operationId }, data)
-        await getUsers({ operationId })
+        await postUserFiles({ operationId, userId: String(userId) }, files)
         toast({
-          title: 'Usuário adicionado com sucesso!',
+          title: 'Anexo adicionado com sucesso!',
           variant: 'success'
         })
         onSuccess?.()
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao cadastrar o usuário',
+            title: 'Erro ao anexar o documento(s)',
             description: error.message,
             variant: 'destructive'
           })
         }
       }
     },
-    [addUser, getUsers, operationId]
+    [operationId]
   )
 
   return { onAction }
