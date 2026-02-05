@@ -3,29 +3,22 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useMemo } from 'react'
-import type { UserEntity } from '../../domain/entities/user.entity'
 import {
-  PostUserFormSchema,
-  type PostUserFormType
-} from '../schemas/post-user-form.schema'
+  PostUserFilesFormSchema,
+  type PostUserFilesFormType
+} from '../schemas/post-user-files-form.schema'
+import type { UserFilesInterface } from '../../domain/interfaces/user-files.interface'
 
-export function usePostUserForm() {
-  const random = Math.floor(Math.random() * 9999)
-  const defaultValues = useMemo<UserEntity>(
+export function usePostUserFilesForm() {
+  const defaultValues = useMemo<UserFilesInterface>(
     () => ({
-      login_name: `User ${random}`,
-      name: `User ${random}`,
-      email: `user.${random}@email.com`,
-      company: '',
-      position: '',
-      days_passwd_reg_deadline: 30,
-      description: ''
+      files: []
     }),
     []
   )
 
-  const methods = useForm<PostUserFormType>({
-    resolver: zodResolver(PostUserFormSchema),
+  const methods = useForm<PostUserFilesFormType>({
+    resolver: zodResolver(PostUserFilesFormSchema),
     defaultValues
   })
 
