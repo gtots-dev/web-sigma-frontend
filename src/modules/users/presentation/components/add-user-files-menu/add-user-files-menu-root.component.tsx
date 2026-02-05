@@ -2,8 +2,8 @@
 
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 import { useEffect, type ReactNode } from 'react'
-import { usePostUserForm } from '../../hooks/use-post-user-form.hook'
 import { FormProvider } from 'react-hook-form'
+import { usePostUserFilesForm } from '../../hooks/use-post-user-files-form.hook'
 
 interface AddUserFilesMenuRootComponentProps {
   children: ReactNode
@@ -16,7 +16,7 @@ export function AddUserFilesMenuRootComponent({
   isOpen,
   close
 }: AddUserFilesMenuRootComponentProps) {
-  const { methods, defaultValues } = usePostUserForm()
+  const { methods, defaultValues } = usePostUserFilesForm()
 
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)
