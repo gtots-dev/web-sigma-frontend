@@ -10,14 +10,14 @@ import {
 } from '../schemas/post-user-form.schema'
 
 export function usePostUserForm() {
-  const random = Math.floor(Math.random() * 9999)
   const defaultValues = useMemo<UserEntity>(
     () => ({
-      login_name: `User ${random}`,
-      name: `User ${random}`,
-      email: `user.${random}@email.com`,
+      login_name: '',
+      name: '',
+      email: '',
       company: '',
       position: '',
+      files: [],
       days_passwd_reg_deadline: 30,
       description: ''
     }),
