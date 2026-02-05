@@ -3,9 +3,9 @@
 import { UserForm } from '../user-form'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { AddUserFilesMenu } from '.'
-import { useAddUserSubmit } from '../../hooks/use-post-user-submit.hook'
-import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
 import { useDialog } from './add-user-files-menu-provider.component'
+import { usePostUserFilesSubmit } from '../../hooks/use-post-user-files-submit.hook'
+import type { UserFilesInterface } from '@/modules/users/domain/interfaces/user-files.interface'
 
 interface AddUserFilesMenuComponentProps {
   title: string
@@ -17,7 +17,7 @@ export function AddUserFilesMenuComponent({
   description
 }: AddUserFilesMenuComponentProps) {
   const { isOpen, close } = useDialog()
-  const { onAction } = useAddUserSubmit()
+  const { onAction } = usePostUserFilesSubmit()
 
   return (
     <AddUserFilesMenu.Root isOpen={isOpen} close={close}>
@@ -37,7 +37,7 @@ export function AddUserFilesMenuComponent({
             Cancelar
           </Button>
           <UserForm.Submit
-            onSubmit={(user: UserEntity) => onAction(user, close)}
+            onSubmit={(files: UserFilesInterface) => onAction(files, close)}
           />
         </AddUserFilesMenu.Footer>
       </AddUserFilesMenu.Content>

@@ -5,7 +5,7 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useDialog } from './add-user-menu-provider.component'
 import { AddUserMenu } from '.'
 import { useAddUserSubmit } from '../../hooks/use-post-user-submit.hook'
-import type { UserEntity } from '@/modules/users/domain/entities/user.entity'
+import type { UserWithFiles } from '@/modules/users/domain/types/user-with-files'
 
 interface AddUserMenuComponentProps {
   title: string
@@ -44,7 +44,7 @@ export function AddUserMenuComponent({
             Cancelar
           </Button>
           <UserForm.Submit
-            onSubmit={(user: UserEntity) => onAction(user, close)}
+            onSubmit={(user: UserWithFiles) => onAction(user, close)}
           />
         </AddUserMenu.Footer>
       </AddUserMenu.Content>
