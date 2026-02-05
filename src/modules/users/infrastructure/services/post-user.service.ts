@@ -16,8 +16,8 @@ export class PostUserService implements PostUserGateway {
 
   getHttpRequestConfig(
     token: TokenEntities,
-    user: FormData
-  ): HttpRequestConfig<FormData> {
+    user: UserEntity
+  ): HttpRequestConfig<UserEntity> {
     return {
       method: 'POST',
       url: `/operations/${this.params.operationId}/users`,
@@ -28,7 +28,7 @@ export class PostUserService implements PostUserGateway {
     }
   }
 
-  async execute(user: FormData): Promise<HttpResponseInterface<UserEntity>> {
+  async execute(user: UserEntity): Promise<HttpResponseInterface<UserEntity>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(token, user)
     return await this.executeRequest.execute(settingsAuthHTTP)

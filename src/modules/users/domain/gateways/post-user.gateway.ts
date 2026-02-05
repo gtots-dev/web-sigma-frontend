@@ -2,5 +2,5 @@ import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/h
 import type { UserEntity } from '../entities/user.entity'
 
 export interface PostUserGateway {
-  execute(user: FormData): Promise<HttpResponseInterface<UserEntity>>
+  execute(user: UserEntity): Promise<HttpResponseInterface<UserEntity>>
 }

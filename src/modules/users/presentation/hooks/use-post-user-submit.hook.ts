@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useUserStore } from '../stores/user.store'
@@ -7,15 +9,14 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { UserWithFiles } from '../../domain/types/user-with-files'
 import { useUserFilesStore } from '../stores/user-files.store'
 
-export function useEditUserSubmit() {
+export function useAddUserSubmit() {
   const { postUserFiles } = useUserFilesStore()
-  const { patchUser, getUsers } = useUserStore()
+  const { addUser, getUsers } = useUserStore()
   const { operationId }: UrlParams = useParams()
 
   const onAction = useCallback(
     async (data: UserWithFiles, onSuccess: VoidFunction): Promise<void> => {
       const user = {
-        id: data.id,
         name: data.name,
         email: data.email,
         login_name: data.login_name,
@@ -24,31 +25,33 @@ export function useEditUserSubmit() {
         days_passwd_reg_deadline: data.days_passwd_reg_deadline,
         description: data.description
       }
-
       const files = {
         files: data.files
       }
       try {
-        await patchUser({ operationId, userId: String(user.id) }, user)
+        const { data: responseUser } = await addUser({ operationId }, user)
         if (files.files?.length > 0)
-          await postUserFiles({ operationId, userId: String(user.id) }, files)
+          await postUserFiles(
+            { operationId, userId: String(responseUser.id) },
+            files
+          )
         await getUsers({ operationId })
         toast({
-          title: 'Usuário atualizado com sucesso!',
+          title: 'Usuário adicionado com sucesso!',
           variant: 'success'
         })
         onSuccess?.()
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao atualizar usuário',
+            title: 'Erro ao cadastrar o usuário',
             description: error.message,
             variant: 'destructive'
           })
         }
       }
     },
-    [patchUser, postUserFiles, getUsers, operationId]
+    [addUser, getUsers, operationId]
   )
 
   return { onAction }

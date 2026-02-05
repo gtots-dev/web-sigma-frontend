@@ -32,6 +32,8 @@ export default async function UsersPage({ params }: UsersPageProps) {
     menuAddUserDescription: MESSAGES_USERS['5.5'],
     menuEditUserTitle: MESSAGES_USERS['5.29'],
     menuEditUserDescription: MESSAGES_USERS['5.30'],
+    attachFilesTitle: MESSAGES_USERS['5.37'],
+    attachFilesDescription: MESSAGES_USERS['5.38'],
     menuViewMoreUserTitle: MESSAGES_USERS['5.27'],
     menuViewMoreUserDescription: MESSAGES_USERS['5.28'],
     menuPasswordResetUserTitle: MESSAGES_PASSWORD_RESET['2.14'],
@@ -77,6 +79,8 @@ export default async function UsersPage({ params }: UsersPageProps) {
               viewMoreDescription={data.menuViewMoreUserDescription}
               editTitle={data.menuEditUserTitle}
               editDescription={data.menuEditUserDescription}
+              attachFilesTitle={data.attachFilesTitle}
+              attachFilesDescription={data.attachFilesDescription}
               resetTitle={data.menuPasswordResetUserTitle}
               resetDescription={data.menuPasswordResetUserDescription}
               bindUserWithPermissionProfilesTitle={
