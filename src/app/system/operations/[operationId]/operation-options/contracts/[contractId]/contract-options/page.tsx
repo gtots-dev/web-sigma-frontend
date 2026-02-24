@@ -8,7 +8,7 @@ import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.con
 import { MESSAGES_OPTIONS_CONTRACT } from '@/modules/shared/presentation/messages/options-contract'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { Settings, type LucideIcon } from 'lucide-react'
+import { ChartLine, Settings, type LucideIcon } from 'lucide-react'
 import { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
@@ -67,6 +67,16 @@ export default async function ContractOptionsPage({
         isAdmin ||
         userPermissions.has(PermissionEnum.POINTS_VIEW) ||
         userPermissions.has(PermissionEnum.PROCESSING_UNITS_VIEW)
+    },
+    {
+      title: MESSAGES_OPTIONS_CONTRACT['16.9'],
+      description: MESSAGES_OPTIONS_CONTRACT['16.10'],
+      pathName: PATHNAMES.TRAFFIC_FLOW(
+        Number(rawOperationId),
+        Number(rawContractId)
+      ),
+      icon: ChartLine,
+      accessAllowed: true
     }
   ]
 
