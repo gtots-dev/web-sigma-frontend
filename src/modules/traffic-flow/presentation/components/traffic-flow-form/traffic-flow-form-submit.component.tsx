@@ -17,7 +17,7 @@ export function TrafficFlowFormSubmitComponent<T>({
   return (
     <Button
       type="submit"
-      className="w-full sm:w-[100px]"
+      className="w-full lg:w-[100px] lg:ms-auto"
       variant="primary"
       disabled={isSubmitting}
       onClick={handleSubmit(onSubmit)}

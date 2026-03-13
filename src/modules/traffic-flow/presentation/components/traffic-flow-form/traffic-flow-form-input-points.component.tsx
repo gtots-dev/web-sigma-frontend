@@ -47,7 +47,7 @@ export function TrafficFlowPointsComponent({
       control={control}
       name="places.point_ids"
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem className="flex flex-col w-full lg:w-auto">
           <FormLabel className="flex items-center gap-x-1.5 text-sm dark:text-zinc-50">
             Pontos{require ? ': *' : ':'}
             <HelpMeButtonComponent description={description} />
@@ -57,7 +57,7 @@ export function TrafficFlowPointsComponent({
             <MultiSelect
               items={pointsItems}
               value={field.value ?? []}
-              className="min-w-[190px]"
+              className="w-full md:min-w-[190px]"
               onChange={(value) => field.onChange(value.map(Number))}
               placeholder="Selecionar pontos"
               notFoundItemPlaceholder="Nenhum ponto encontrado"

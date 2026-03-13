@@ -67,7 +67,7 @@ export function TrafficFlowTimeRangeComponent({
         const end = field.value?.end
 
         return (
-          <FormItem className="flex flex-col">
+          <FormItem className="flex flex-col w-full lg:w-auto">
             <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
               Intervalo de horas{require ? ': *' : ':'}
               <HelpMeButtonComponent description={description} />
