@@ -33,8 +33,7 @@ export function TrafficFlowDateRangeComponent({
   require?: boolean
   description?: string
 }) {
-  const { control, setValue, watch } =
-    useFormContext<TrafficFlowSchemaType>()
+  const { control, setValue, watch } = useFormContext<TrafficFlowSchemaType>()
   const today = useMemo(() => new Date(), [])
   const dateRange = watch('date_range')
 
@@ -67,7 +66,7 @@ export function TrafficFlowDateRangeComponent({
               : undefined
 
         return (
-          <FormItem className="flex flex-col">
+          <FormItem className="flex flex-col w-full lg:w-auto">
             <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
               Intervalo de datas{require ? ': *' : ':'}
               <HelpMeButtonComponent description={description} />

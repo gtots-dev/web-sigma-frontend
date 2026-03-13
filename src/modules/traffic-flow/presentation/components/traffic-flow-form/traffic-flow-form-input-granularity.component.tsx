@@ -53,7 +53,7 @@ export function TrafficFlowGranularityComponent({
       control={control}
       name="granularity"
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem className="flex flex-col w-full lg:w-auto">
           <FormLabel className="flex items-center gap-x-1.5 text-sm dark:text-zinc-50">
             Granularidade{require ? ': *' : ':'}
             <HelpMeButtonComponent description={description} />
