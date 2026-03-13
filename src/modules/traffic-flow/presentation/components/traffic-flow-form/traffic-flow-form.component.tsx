@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react'
 import { FormProvider } from 'react-hook-form'
 import { useTrafficFlowForm } from '../../hooks/use-traffic-flow-form.hook'
-import type { TrafficFlowFiltersInterface } from '../../stores/traffic-flow.store'
+import type { TrafficFlowFiltersInterface } from '@/modules/traffic-flow/domain/interfaces/traffic-flow-filters.interface'
 
 interface TrafficFlowFormComponentProps {
   children: ReactNode

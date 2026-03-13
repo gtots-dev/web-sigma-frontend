@@ -4,9 +4,9 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import type { TrafficFlowInterface } from '../../domain/interfaces/traffic-flow.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
-import type { TrafficFlowFiltersInterface } from '../../presentation/stores/traffic-flow.store'
 import type { PostTrafficFlowServiceGateway } from '../../domain/gateways/post-traffic-flow-service.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { TrafficFlowFiltersInterface } from '../../domain/interfaces/traffic-flow-filters.interface'
 
 export class PostTrafficFlowService implements PostTrafficFlowServiceGateway {
   constructor(
