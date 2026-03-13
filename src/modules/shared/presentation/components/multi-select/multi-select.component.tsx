@@ -131,6 +131,7 @@ export function MultiSelect<T extends MultiSelectItem>({
             {selectedItems.length === filteredItems.length ? (
               <Button
                 size="sm"
+                variant='ghost'
                 className="underline underline-offset-4 px-2"
                 onClick={clearAll}
               >
@@ -139,6 +140,7 @@ export function MultiSelect<T extends MultiSelectItem>({
             ) : (
               <Button
                 size="sm"
+                variant='ghost'
                 className="underline underline-offset-4 px-2"
                 onClick={selectAll}
               >
