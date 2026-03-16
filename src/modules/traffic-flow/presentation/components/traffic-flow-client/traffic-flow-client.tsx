@@ -24,7 +24,11 @@ export function TrafficFlowClient() {
 
   const { trafficsFlows, vehiclesTypes, isLoading, fetchTrafficFlow } =
     useTrafficFlowData(initialSettings)
-  const { handleExport } = useTrafficFlowExport(trafficsFlows, vehiclesTypes)
+  const { handleExport } = useTrafficFlowExport(
+    trafficsFlows,
+    vehiclesTypes,
+    granularity
+  )
   const series = useTrafficFlowSeries(trafficsFlows, vehiclesTypes)
   const chartData = useTrafficChartAdapter(trafficsFlows)
   const { onAction } = useGetTrafficFlowSubmit()
