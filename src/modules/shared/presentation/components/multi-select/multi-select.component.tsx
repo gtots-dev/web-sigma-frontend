@@ -27,6 +27,8 @@ interface Props<T extends MultiSelectItem> {
   onChange: (value: (string | number)[]) => void
   placeholder?: string
   notFoundItemPlaceholder?: string
+  minSelected?: number
+  dotColor?: string | ((item: T) => string)
 }
 
 export function MultiSelect<T extends MultiSelectItem>({
@@ -35,7 +37,9 @@ export function MultiSelect<T extends MultiSelectItem>({
   onChange,
   className,
   placeholder = 'Selecionar',
-  notFoundItemPlaceholder = 'Nenhum item encontrado'
+  notFoundItemPlaceholder = 'Nenhum item encontrado',
+  minSelected,
+  dotColor
 }: Props<T>) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [triggerWidth, setTriggerWidth] = useState(0)
@@ -57,10 +61,19 @@ export function MultiSelect<T extends MultiSelectItem>({
   })
 
   useEffect(() => {
-    if (triggerRef.current) {
-      setTriggerWidth(triggerRef.current.offsetWidth)
-    }
+    if (triggerRef.current) setTriggerWidth(triggerRef.current.offsetWidth)
   }, [items])
+
+  const handleToggle = (id: string | number) => {
+    const isSelected = value.includes(id)
+    if (isSelected && minSelected && value.length <= minSelected) return
+    toggle(id)
+  }
+
+  const getDotColor = (item: T) => {
+    if (!dotColor) return null
+    return typeof dotColor === 'function' ? dotColor(item) : dotColor
+  }
 
   return (
     <Popover>
@@ -131,16 +144,20 @@ export function MultiSelect<T extends MultiSelectItem>({
             {selectedItems.length === filteredItems.length ? (
               <Button
                 size="sm"
-                variant='ghost'
+                variant="ghost"
                 className="underline underline-offset-4 px-2"
                 onClick={clearAll}
+                disabled={
+                  minSelected !== undefined &&
+                  selectedItems.length <= minSelected
+                }
               >
                 Limpar seleção
               </Button>
             ) : (
               <Button
                 size="sm"
-                variant='ghost'
+                variant="ghost"
                 className="underline underline-offset-4 px-2"
                 onClick={selectAll}
               >
@@ -158,15 +175,16 @@ export function MultiSelect<T extends MultiSelectItem>({
           ) : (
             filteredItems.map((item) => {
               const isSelected = value.includes(item.id)
+              const dot = getDotColor(item)
 
               return (
                 <div
                   key={item.id}
                   className={cn(
-                    'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-accent',
-                    isSelected && 'bg-accent'
+                    'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-accent/35',
+                    isSelected && 'bg-accent/35'
                   )}
-                  onClick={() => toggle(item.id)}
+                  onClick={() => handleToggle(item.id)}
                 >
                   {isSelected ? (
                     <Check className="h-4 w-4" />
@@ -175,6 +193,13 @@ export function MultiSelect<T extends MultiSelectItem>({
                   )}
 
                   <span className="truncate">{item.label}</span>
+
+                  {dot && (
+                    <span
+                      className="h-2.5 w-2.5 ms-auto rounded-full"
+                      style={{ backgroundColor: dot }}
+                    />
+                  )}
                 </div>
               )
             })
