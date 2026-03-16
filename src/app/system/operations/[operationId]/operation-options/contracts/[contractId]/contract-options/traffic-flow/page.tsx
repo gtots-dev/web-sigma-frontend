@@ -3,6 +3,7 @@ import { SectionRedirectLink } from '@/modules/shared/presentation/components/se
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_TRAFFIC_FLOW } from '@/modules/shared/presentation/messages/traffic-flow'
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
+import { TrafficFlowClient } from '@/modules/traffic-flow/presentation/components/traffic-flow-client/traffic-flow-client'
 
 interface TrafficFlowPageProps {
   params: Promise<UrlParams>
@@ -38,6 +39,7 @@ export default async function TrafficFlowPage({
         </HeaderSection.Root>
       </div>
       <Separator orientation="horizontal" />
+      <TrafficFlowClient />
     </main>
   )
 }
