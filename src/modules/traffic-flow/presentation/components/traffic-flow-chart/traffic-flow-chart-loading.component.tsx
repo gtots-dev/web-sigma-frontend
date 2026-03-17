@@ -1,8 +1,9 @@
+import type { ReactNode } from 'react'
 import { TrafficFlowChart } from '.'
 
 type ChartLoadingProps = {
   loading: boolean
-  children: React.ReactNode
+  children?: ReactNode
 }
 
 export function TrafficFlowChartLoading({
@@ -10,7 +11,7 @@ export function TrafficFlowChartLoading({
   children
 }: ChartLoadingProps) {
   return (
-    <div className="relative min-h-[450px] border rounded-lg">
+    <div className="relative h-[650px] border rounded-lg">
       {loading && (
         <div className="absolute inset-0 z-10">
           <TrafficFlowChart.Skeleton />

@@ -1,21 +1,19 @@
 'use client'
 
-import type { ReactNode } from 'react'
-import type { TrafficFlowGranularityInterface } from '@/modules/traffic-flow/domain/interfaces/traffic-flow-granularity.interface'
-import { TrafficFlowChart, type SeriesConfig } from '../traffic-flow-chart'
-import type { ChartDatum } from '../../hooks/use-traffic-chart-adapter'
-import { ChartProvider } from '../../contexts/chart.context'
+import { useMemo, type ReactNode } from 'react'
+import { TrafficFlowChart } from '.'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
-import { Download, RefreshCcw } from 'lucide-react'
-import { SeriesMultiSelectInline } from './traffic-flow-chart-multiple-select-inline.component'
-import { MultiSelect } from '@/modules/shared/presentation/components/multi-select/multi-select.component'
+import { Download } from 'lucide-react'
+import { CardContent } from '@/modules/shared/presentation/components/shadcn/card'
+import { ChartGradientLine } from '../chart-gradient-line'
+import { useChartSeries } from '../../hooks/use-chart-series.hook'
+import { useChartZoom } from '../../hooks/use-zoom-chart.hook'
+import { useChartDimensions } from '../../hooks/use-chart-dimensions.hook'
+import { TrafficFlowChartEmptyData } from './traffic-flow-chart-empty-data.component'
+import { TrafficFlowChartEmptySeries } from './traffic-flow-chart-empty-series.component'
+import { useTrafficFlowChartContext } from '../../contexts/traffic-flow-chart.context'
 
-type Props = {
-  data: ChartDatum[]
-  series: SeriesConfig<string>[]
-  granularity: TrafficFlowGranularityInterface
-  selectedSeries: string[]
-  onSeriesChange: (keys: string[]) => void
+type TrafficFlowChartRootProps = {
   isLoading?: boolean
   onRefresh: () => void
   onExport: () => void
@@ -23,81 +21,109 @@ type Props = {
 }
 
 export function TrafficFlowChartRoot({
-  data,
-  series,
-  granularity,
-  selectedSeries,
-  onSeriesChange,
   isLoading,
   onRefresh,
   onExport
-}: Props) {
-  const teste = series.map((serie, index) => {
-    return {
-      id: serie.key,
-      label: serie.label,
-      value: serie.label
-    }
-  })
+}: TrafficFlowChartRootProps) {
+  const { data, granularity, selectedSeries, series } =
+    useTrafficFlowChartContext()
+
+  const { visibleSeries, chartConfig } = useChartSeries(series, selectedSeries)
+
+  const {
+    zoomedData,
+    startDate,
+    refAreaLeft,
+    refAreaRight,
+    handleWheelZoom,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
+    resetZoom
+  } = useChartZoom(data)
+
+  const { chartWidth } = useChartDimensions(zoomedData.length)
+
+  const orderedVisibleSeries = useMemo(() => {
+    return [...visibleSeries].sort((a, b) => {
+      const sum = (key: string) =>
+        zoomedData.reduce((acc, item) => acc + ((item as any)[key] ?? 0), 0)
+      return sum(a.key) - sum(b.key)
+    })
+  }, [visibleSeries, zoomedData])
+
+  const hasData = zoomedData && zoomedData.length > 0
+  const hasVisibleSeries = visibleSeries.length > 0
+  const isEmptyState = !isLoading && !hasData
+  const isEmptySeriesState = !isLoading && hasData && !hasVisibleSeries
+
+  if (isLoading) return <TrafficFlowChart.Loading loading />
+  if (isEmptyState) return <TrafficFlowChartEmptyData />
+  if (isEmptySeriesState)
+    return (
+      <TrafficFlowChartEmptySeries>
+        <ChartGradientLine.Legend>
+          <ChartGradientLine.MultiSelectSeriesInline />
+        </ChartGradientLine.Legend>
+      </TrafficFlowChartEmptySeries>
+    )
 
   return (
-    <ChartProvider
-      data={data}
-      series={series}
-      granularity={granularity}
-      selectedSeries={selectedSeries}
-      onSeriesChange={onSeriesChange}
-    >
-      <TrafficFlowChart.Loading loading={isLoading}>
-        <TrafficFlowChart.Header
-          title="Passagens de Veículos (Classes)"
-          description="Passagens por classe de tamanho – Valor absoluto"
-        >
-          <Button size="icon" variant="outline" onClick={onExport}>
-            <Download />
-          </Button>
-        </TrafficFlowChart.Header>
+    <div className="relative min-h-[450px] border rounded-lg">
+      <TrafficFlowChart.Header
+        title="Passagens de Veículos (Classes)"
+        description="Passagens por classe de tamanho – Valor absoluto"
+      >
+        <Button size="icon" variant="outline" onClick={onExport}>
+          <Download />
+        </Button>
+      </TrafficFlowChart.Header>
 
-        <TrafficFlowChart.Content
-          refresh={
-            <Button
-              variant="outline"
-              size="icon"
-              className="w-8 h-8"
-              onClick={onRefresh}
+      <CardContent className="flex flex-col h-[800px] gap-y-5 p-6">
+        <ChartGradientLine.Provider
+          zoomedData={zoomedData}
+          visibleSeries={visibleSeries}
+          orderedVisibleSeries={orderedVisibleSeries}
+          chartConfig={chartConfig}
+          chartWidth={chartWidth}
+          granularity={granularity}
+          refAreaLeft={refAreaLeft}
+          refAreaRight={refAreaRight}
+          startDate={startDate}
+        >
+          <ChartGradientLine.Toolbar>
+            <ChartGradientLine.ResetZoom
+              onClick={resetZoom}
+              disabled={!startDate}
+            />
+            <ChartGradientLine.LockScroll />
+            <ChartGradientLine.Refresh onClick={onRefresh} />
+            <ChartGradientLine.MultiSelectSeries />
+          </ChartGradientLine.Toolbar>
+
+          <ChartGradientLine.ScrollArea>
+            <ChartGradientLine.Chart
+              handleMouseDown={handleMouseDown}
+              handleMouseMove={handleMouseMove}
+              handleMouseUp={handleMouseUp}
+              handleWheelZoom={handleWheelZoom}
             >
-              <RefreshCcw />
-            </Button>
-          }
-          legendHeader={
-            <div className="flex gap-x-4 ms-auto">
-              <MultiSelect
-                items={teste}
-                value={selectedSeries}
-                className="!w-[200px]"
-                onChange={onSeriesChange}
-                placeholder="Selecionar modelos"
-                notFoundItemPlaceholder="Nenhum modelo encontrado"
-                minSelected={1}
-                dotColor={(item) =>
-                  series.find((serie) => serie.key === item.id)?.color
-                }
-              />
-            </div>
-          }
-          legend={
-            <div className="bg-white dark:bg-black border rounded-md p-3">
-              <SeriesMultiSelectInline
-                className="!ms-auto"
-                verticalAlign="center"
-                series={series}
-                value={selectedSeries}
-                onChange={onSeriesChange}
-              />
-            </div>
-          }
-        />
-      </TrafficFlowChart.Loading>
-    </ChartProvider>
+              <ChartGradientLine.Gradients />
+              <ChartGradientLine.Grid />
+              <ChartGradientLine.YAxis />
+              <ChartGradientLine.XAxis />
+              <ChartGradientLine.Areas />
+              <ChartGradientLine.ZoomArea />
+            </ChartGradientLine.Chart>
+          </ChartGradientLine.ScrollArea>
+
+          {series && (
+            <ChartGradientLine.Legend>
+              <ChartGradientLine.MultiSelectSeriesInline />
+            </ChartGradientLine.Legend>
+          )}
+        </ChartGradientLine.Provider>
+      </CardContent>
+    </div>
   )
 }

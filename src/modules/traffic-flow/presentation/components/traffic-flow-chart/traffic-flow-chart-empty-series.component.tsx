@@ -1,11 +1,14 @@
 import { CardContent } from '@/modules/shared/presentation/components/shadcn/card'
 import { SearchX } from 'lucide-react'
+import type { ReactNode } from 'react'
 
-type Props = {
-  legend?: React.ReactNode
+type TrafficFlowChartEmptySeriesProps = {
+  children?: ReactNode
 }
 
-export function TrafficFlowChartEmptySeries({ legend }: Props) {
+export function TrafficFlowChartEmptySeries({
+  children
+}: TrafficFlowChartEmptySeriesProps) {
   return (
     <CardContent className="flex flex-col h-[800px] justify-center p-6">
       <div className="flex flex-col items-center justify-center h-full  text-center gap-3">
@@ -22,7 +25,7 @@ export function TrafficFlowChartEmptySeries({ legend }: Props) {
         </div>
       </div>
 
-      {legend && <div className="mt-auto">{legend}</div>}
+      {children && <div className="mt-auto">{children}</div>}
     </CardContent>
   )
 }

@@ -1,8 +1,8 @@
 import { TrafficFlowChartLoading } from './traffic-flow-chart-loading.component'
-import { TrafficFlowChartContent } from './traffic-flow-chart-content.component'
 import { TrafficFlowChartHeader } from './traffic-flow-chart-header.component'
 import { TrafficFlowChartSkeleton } from './traffic-flow-chart-skeleton.component'
 import { TrafficFlowChartRoot } from './traffic-flow-chart-root.component'
+import { TrafficFlowChartProvider } from './traffic-flow-chart-provider.component'
 
 export type SeriesKey = string
 
@@ -16,7 +16,7 @@ export type SeriesConfig<TKey extends SeriesKey = SeriesKey> = {
 export const TrafficFlowChart = {
   Root: TrafficFlowChartRoot,
   Header: TrafficFlowChartHeader,
-  Content: TrafficFlowChartContent,
   Skeleton: TrafficFlowChartSkeleton,
-  Loading: TrafficFlowChartLoading
+  Loading: TrafficFlowChartLoading,
+  Provider: TrafficFlowChartProvider
 }
