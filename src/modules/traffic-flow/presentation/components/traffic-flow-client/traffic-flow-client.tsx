@@ -64,16 +64,19 @@ export function TrafficFlowClient() {
         }
       />
 
-      <TrafficFlowChart.Root
+      <TrafficFlowChart.Provider
         data={chartData}
         series={series}
         selectedSeries={selectedSeries}
         onSeriesChange={setSelectedSeries}
         granularity={granularity}
-        isLoading={isLoading}
-        onRefresh={fetchTrafficFlow}
-        onExport={() => handleExport('volume_absolute')}
-      />
+      >
+        <TrafficFlowChart.Root
+          isLoading={isLoading}
+          onRefresh={fetchTrafficFlow}
+          onExport={() => handleExport('volume_absolute')}
+        />
+      </TrafficFlowChart.Provider>
     </>
   )
 }
