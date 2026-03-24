@@ -1,4 +1,4 @@
-import type { SeriesConfig } from '../components/traffic-flow-chart'
+import type { SeriesConfig } from '../components/traffic-flow-absolute-chart'
 
 export function useChartSeries<TKey extends string>(
   series: SeriesConfig<TKey>[],

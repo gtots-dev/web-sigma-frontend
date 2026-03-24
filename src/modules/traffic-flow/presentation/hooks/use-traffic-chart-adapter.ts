@@ -1,6 +1,6 @@
 'use client'
 
-import type { TrafficFlowInterface } from '../../domain/interfaces/traffic-flow.interface'
+import type { SeriesGroupInterface } from '../../domain/interfaces/traffic-flow.interface'
 
 export type ChartDatum = {
   date: string
@@ -8,10 +8,10 @@ export type ChartDatum = {
 }
 
 export function useTrafficChartAdapter(
-  apiResponse?: TrafficFlowInterface
+  apiResponse?: SeriesGroupInterface<string>[]
 ): ChartDatum[] {
-  if (!apiResponse?.volume_absolute?.length) return []
-  const seriesObject = apiResponse.volume_absolute[0]
+  if (!apiResponse?.length) return []
+  const seriesObject = apiResponse[0]
   const resultMap: Record<string, Record<string, number>> = {}
 
   for (const vehicleType of Object.keys(seriesObject)) {

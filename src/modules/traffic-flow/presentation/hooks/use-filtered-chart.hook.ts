@@ -4,7 +4,7 @@ import type { TrafficFlowGranularityInterface } from '../../domain/interfaces/tr
 import {
   type SeriesConfig,
   type SeriesKey
-} from '../components/traffic-flow-chart'
+} from '../components/traffic-flow-absolute-chart'
 import type { ChartDatum } from './use-traffic-chart-adapter'
 
 function addTime(
