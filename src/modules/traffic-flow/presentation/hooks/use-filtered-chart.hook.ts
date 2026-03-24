@@ -46,7 +46,7 @@ export function generateRandomChartData<TKey extends SeriesKey>(params: {
 
   for (let i = 0; i < points; i++) {
     const row: ChartDatum = {
-      date: String(currentDate.getTime())
+      date: currentDate.getTime()
     }
 
     for (const item of series) {
