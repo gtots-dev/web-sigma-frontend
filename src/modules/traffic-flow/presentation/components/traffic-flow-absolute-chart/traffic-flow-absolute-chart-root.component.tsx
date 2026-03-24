@@ -13,22 +13,37 @@ import { TrafficFlowAbsoluteChartEmptyData } from './traffic-flow-absolute-chart
 import { TrafficFlowAbsoluteChartEmptySeries } from './traffic-flow-absolute-chart-empty-series.component'
 import { useTrafficFlowAbsoluteChartContext } from '../../contexts/traffic-flow-absolute-chart.context'
 
-type TrafficFlowAbsoluteChartRootProps = {
+type BaseChartItem = {
+  date: string
+} & Record<string, number | string>
+
+type SeriesConfig<T extends string> = {
+  key: T
+  label: string
+  color: string
+}
+
+type Props = {
   isLoading?: boolean
   onRefresh: () => void
   onExport: () => void
   children?: ReactNode
 }
 
-export function TrafficFlowAbsoluteChartRoot({
+export function TrafficFlowAbsoluteChartRoot<
+  T extends BaseChartItem = BaseChartItem
+>({
   isLoading = false,
   onRefresh,
   onExport
-}: TrafficFlowAbsoluteChartRootProps) {
+}: Props) {
   const { data, granularity, selectedSeries, series, isFetched } =
     useTrafficFlowAbsoluteChartContext()
-
-  const { visibleSeries, chartConfig } = useChartSeries(series, selectedSeries)
+  const typedSeries = series as SeriesConfig<keyof T & string>[]
+  const { visibleSeries, chartConfig } = useChartSeries<keyof T & string>(
+    typedSeries,
+    selectedSeries as (keyof T & string)[]
+  )
 
   const {
     zoomedData,
@@ -46,14 +61,18 @@ export function TrafficFlowAbsoluteChartRoot({
 
   const orderedVisibleSeries = useMemo(() => {
     return [...visibleSeries].sort((a, b) => {
-      const sum = (key: string) =>
-        zoomedData.reduce((acc, item) => acc + ((item as any)[key] ?? 0), 0)
+      const sum = (key: keyof typeof zoomedData[number]) =>
+        zoomedData.reduce((acc, item) => {
+          const value = item[key]
+          return acc + (typeof value === 'number' ? value : 0)
+        }, 0)
 
-      return sum(a.key) - sum(b.key)
+      return sum(a.key as keyof typeof zoomedData[number]) -
+        sum(b.key as keyof typeof zoomedData[number])
     })
   }, [visibleSeries, zoomedData])
 
-  const hasData = zoomedData && zoomedData.length > 0
+  const hasData = zoomedData.length > 0
   const hasVisibleSeries = visibleSeries.length > 0
 
   const isEmptyState = isFetched && !hasData

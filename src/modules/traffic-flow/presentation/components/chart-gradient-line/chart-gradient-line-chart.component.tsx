@@ -3,6 +3,19 @@
 import { AreaChart } from 'recharts'
 import { ChartContainer } from '@/modules/shared/presentation/components/shadcn/chart'
 import { useChartGradientLineContext } from '../../contexts/chart-gradient-line.context'
+import type { ReactNode } from 'react'
+
+type ChartMouseEvent = {
+  activeLabel?: number
+}
+
+type ChartBarChartProps = {
+  children?: ReactNode
+  handleMouseDown?: (e: ChartMouseEvent) => void
+  handleMouseMove?: (e: ChartMouseEvent) => void
+  handleMouseUp?: () => void
+  handleWheelZoom?: React.WheelEventHandler<HTMLDivElement>
+}
 
 export function ChartGradientLineChart({
   children,
@@ -10,7 +23,7 @@ export function ChartGradientLineChart({
   handleMouseMove,
   handleMouseUp,
   handleWheelZoom
-}: any) {
+}: ChartBarChartProps) {
   const { zoomedData, chartWidth, chartConfig, locked } =
     useChartGradientLineContext()
 
@@ -18,15 +31,15 @@ export function ChartGradientLineChart({
     <ChartContainer
       config={chartConfig}
       className="h-full w-full"
-      onWheelCapture={locked ? handleWheelZoom : undefined}
+      onWheel={locked ? handleWheelZoom : undefined}
     >
       <AreaChart
         height={220}
         width={chartWidth}
         data={zoomedData}
         margin={{ top: 10, right: 30, left: 0, bottom: 45 }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
+        onMouseDown={(e) => handleMouseDown?.(e as ChartMouseEvent)}
+        onMouseMove={(e) => handleMouseMove?.(e as ChartMouseEvent)}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >

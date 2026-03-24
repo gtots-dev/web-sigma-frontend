@@ -13,22 +13,34 @@ import { TrafficFlowPercentageChartEmptySeries } from './traffic-flow-percentage
 import { useTrafficFlowPercentageChartContext } from '../../contexts/traffic-flow-percentage-chart.context'
 import { ChartBar } from '../chart-bar'
 
-type TrafficFlowPercentageChartRootProps = {
+type BaseChartItem = {
+  date: string
+} & Record<string, number | string>
+
+type SeriesConfig<T extends string> = {
+  key: T
+  label: string
+  color: string
+}
+
+type Props = {
   isLoading?: boolean
   onRefresh: () => void
   onExport: () => void
   children?: ReactNode
 }
 
-export function TrafficFlowPercentageChartRoot({
-  isLoading,
-  onRefresh,
-  onExport
-}: TrafficFlowPercentageChartRootProps) {
+export function TrafficFlowPercentageChartRoot<
+  T extends BaseChartItem = BaseChartItem
+>({ isLoading, onRefresh, onExport }: Props) {
   const { data, granularity, selectedSeries, series, isFetched } =
     useTrafficFlowPercentageChartContext()
 
-  const { visibleSeries, chartConfig } = useChartSeries(series, selectedSeries)
+  const typedSeries = series as SeriesConfig<keyof T & string>[]
+  const { visibleSeries, chartConfig } = useChartSeries<keyof T & string>(
+    typedSeries,
+    selectedSeries as (keyof T & string)[]
+  )
 
   const {
     zoomedData,
@@ -46,13 +58,20 @@ export function TrafficFlowPercentageChartRoot({
 
   const orderedVisibleSeries = useMemo(() => {
     return [...visibleSeries].sort((a, b) => {
-      const sum = (key: string) =>
-        zoomedData.reduce((acc, item) => acc + ((item as any)[key] ?? 0), 0)
-      return sum(a.key) - sum(b.key)
+      const sum = (key: keyof (typeof zoomedData)[number]) =>
+        zoomedData.reduce((acc, item) => {
+          const value = item[key]
+          return acc + (typeof value === 'number' ? value : 0)
+        }, 0)
+
+      return (
+        sum(a.key as keyof (typeof zoomedData)[number]) -
+        sum(b.key as keyof (typeof zoomedData)[number])
+      )
     })
   }, [visibleSeries, zoomedData])
 
-  const hasData = zoomedData && zoomedData.length > 0
+  const hasData = zoomedData.length > 0
   const hasVisibleSeries = visibleSeries.length > 0
   const isEmptyState = !isLoading && !hasData
   const isEmptySeriesState = !isLoading && hasData && !hasVisibleSeries
@@ -60,8 +79,12 @@ export function TrafficFlowPercentageChartRoot({
   if (!isFetched || isLoading) {
     return <TrafficFlowPercentageChart.Loading loading />
   }
-  if (isEmptyState) return <TrafficFlowPercentageChartEmptyData />
-  if (isEmptySeriesState)
+
+  if (isEmptyState) {
+    return <TrafficFlowPercentageChartEmptyData />
+  }
+
+  if (isEmptySeriesState) {
     return (
       <TrafficFlowPercentageChartEmptySeries>
         <ChartBar.Legend>
@@ -69,6 +92,7 @@ export function TrafficFlowPercentageChartRoot({
         </ChartBar.Legend>
       </TrafficFlowPercentageChartEmptySeries>
     )
+  }
 
   return (
     <div className="relative min-h-[450px] border rounded-lg">
