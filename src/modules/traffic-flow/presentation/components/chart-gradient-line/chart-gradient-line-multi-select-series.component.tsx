@@ -16,7 +16,7 @@ export function ChartGradientLineMultiSelectSeries() {
           }
         })}
         value={selectedSeries}
-        className="!w-[200px]"
+        className="!w-full md:!w-[200px] !m-0 md:ms-auto"
         onChange={setSelectedSeries}
         placeholder="Selecionar modelos"
         notFoundItemPlaceholder="Nenhum modelo encontrado"
