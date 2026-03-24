@@ -1,66 +1,91 @@
+'use client'
+
 import { useMemo, useRef, useState } from 'react'
 
-export function useChartZoom<T extends { date: string }>(data: T[]) {
+const MIN_RANGE = 60 * 60 * 1000
+
+export type ChartMouseEvent = {
+  activeLabel?: number
+}
+
+export function useChartZoom<T extends { date: number }>(data: T[]) {
   const parsedData = useMemo(() => {
-    return data.map((item) => ({
-      ...item,
-      date: new Date(item.date).getTime()
-    }))
+    if (data.length <= 1) return data
+    return [...data].sort((a, b) => a.date - b.date)
   }, [data])
+
+  const dataMin = parsedData[0]?.date ?? 0
+  const dataMax = parsedData[parsedData.length - 1]?.date ?? 0
 
   const zoomRef = useRef<{ start: number; end: number } | null>(null)
   const rafRef = useRef<number | null>(null)
-
-  const [refAreaLeft, setRefAreaLeft] = useState<number | null>(null)
-  const [refAreaRight, setRefAreaRight] = useState<number | null>(null)
+  const rectRef = useRef<DOMRect | null>(null)
 
   const [startDate, setStartDate] = useState<number | null>(null)
   const [endDate, setEndDate] = useState<number | null>(null)
 
+  const [refAreaLeft, setRefAreaLeft] = useState<number | null>(null)
+  const [refAreaRight, setRefAreaRight] = useState<number | null>(null)
+
   function handleWheelZoom(e: React.WheelEvent<HTMLDivElement>) {
     e.preventDefault()
-    if (!data.length) return
 
-    const direction = e.deltaY < 0 ? 1 : -1
-    const zoomFactor = 0.15
+    if (!parsedData.length) return
 
-    const container = e.currentTarget.getBoundingClientRect()
-    const mouseX = e.clientX - container.left
-    const mouseRatio = mouseX / container.width
+    if (!rectRef.current) {
+      rectRef.current = e.currentTarget.getBoundingClientRect()
+    }
 
-    const min = zoomRef.current?.start ?? parsedData[0].date
-    const max = zoomRef.current?.end ?? parsedData[parsedData.length - 1].date
+    const rect = rectRef.current
+    const mouseX = e.clientX - rect.left
+    const mouseRatio = mouseX / rect.width
 
-    const range = max - min
-    const zoomAmount = range * zoomFactor * direction
+    const zoomIntensity = 0.08
+    const delta = Math.sign(e.deltaY)
+    const scale = Math.exp(delta * zoomIntensity)
 
-    const newStart = min + zoomAmount * mouseRatio
-    const newEnd = max - zoomAmount * (1 - mouseRatio)
+    const currentStart = zoomRef.current?.start ?? dataMin
+    const currentEnd = zoomRef.current?.end ?? dataMax
 
-    if (newEnd - newStart < 60 * 60 * 1000) return
+    const range = currentEnd - currentStart
+    const newRange = range * scale
+
+    if (newRange < MIN_RANGE) return
+
+    const center = currentStart + range * mouseRatio
+
+    let newStart = center - newRange * mouseRatio
+    let newEnd = center + newRange * (1 - mouseRatio)
+
+    newStart = Math.max(dataMin, newStart)
+    newEnd = Math.min(dataMax, newEnd)
+
+    if (newEnd <= newStart) return
 
     zoomRef.current = { start: newStart, end: newEnd }
 
-    if (rafRef.current) return
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        const z = zoomRef.current
+        if (!z) return
 
-    rafRef.current = requestAnimationFrame(() => {
-      if (!zoomRef.current) return
+        setStartDate((prev) => (prev !== z.start ? z.start : prev))
+        setEndDate((prev) => (prev !== z.end ? z.end : prev))
 
-      setStartDate(zoomRef.current.start)
-      setEndDate(zoomRef.current.end)
-
-      rafRef.current = null
-    })
-  }
-
-  function handleMouseDown(e: any) {
-    if (typeof e?.activeLabel === 'number') {
-      setRefAreaLeft(e.activeLabel)
+        rafRef.current = null
+      })
     }
   }
 
-  function handleMouseMove(e: any) {
-    if (refAreaLeft && typeof e?.activeLabel === 'number') {
+  function handleMouseDown(e: ChartMouseEvent) {
+    if (typeof e.activeLabel === 'number') {
+      setRefAreaLeft(e.activeLabel)
+      setRefAreaRight(null)
+    }
+  }
+
+  function handleMouseMove(e: ChartMouseEvent) {
+    if (refAreaLeft !== null && typeof e.activeLabel === 'number') {
       setRefAreaRight(e.activeLabel)
     }
   }
@@ -74,6 +99,14 @@ export function useChartZoom<T extends { date: string }>(data: T[]) {
 
     const [from, to] = [refAreaLeft, refAreaRight].sort((a, b) => a - b)
 
+    if (to - from < MIN_RANGE) {
+      setRefAreaLeft(null)
+      setRefAreaRight(null)
+      return
+    }
+
+    zoomRef.current = { start: from, end: to }
+
     setStartDate(from)
     setEndDate(to)
 
@@ -82,18 +115,30 @@ export function useChartZoom<T extends { date: string }>(data: T[]) {
   }
 
   function resetZoom() {
+    zoomRef.current = null
+    rectRef.current = null
     setStartDate(null)
     setEndDate(null)
   }
 
   const zoomedData = useMemo(() => {
-    if (!startDate || !endDate) return parsedData
+    if (startDate == null || endDate == null) return parsedData
 
-    const filtered = parsedData.filter(
-      (item) => item.date >= startDate && item.date <= endDate
-    )
+    let startIdx = 0
+    let endIdx = parsedData.length - 1
 
-    return filtered.length > 1 ? filtered : parsedData
+    while (
+      startIdx < parsedData.length &&
+      parsedData[startIdx].date < startDate
+    ) {
+      startIdx++
+    }
+
+    while (endIdx > 0 && parsedData[endIdx].date > endDate) {
+      endIdx--
+    }
+
+    return parsedData.slice(startIdx, endIdx + 1)
   }, [parsedData, startDate, endDate])
 
   return {
