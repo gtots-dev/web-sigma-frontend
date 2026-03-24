@@ -5,7 +5,7 @@ import type { TrafficFlowGranularityInterface } from '../../domain/interfaces/tr
 import type { SeriesConfig } from '../components/traffic-flow-absolute-chart'
 import type { ChartDatum } from '../hooks/use-traffic-chart-adapter'
 
-type ChartGradientLineContextValue = {
+type ChartBarContextValue = {
   zoomedData: ChartDatum[]
   visibleSeries: SeriesConfig[]
   orderedVisibleSeries: SeriesConfig[]
@@ -22,15 +22,12 @@ type ChartGradientLineContextValue = {
   chartWrapperRef: React.RefObject<HTMLDivElement>
 }
 
-export const ChartGradientLineContext =
-  createContext<ChartGradientLineContextValue | null>(null)
+export const ChartBarContext = createContext<ChartBarContextValue | null>(null)
 
-export function useChartGradientLineContext() {
-  const ctx = useContext(ChartGradientLineContext)
+export function useChartBarContext() {
+  const ctx = useContext(ChartBarContext)
   if (!ctx) {
-    throw new Error(
-      'ChartGradientLine components must be inside ChartGradientLine'
-    )
+    throw new Error('ChartBar components must be inside ChartBar')
   }
   return ctx
 }
