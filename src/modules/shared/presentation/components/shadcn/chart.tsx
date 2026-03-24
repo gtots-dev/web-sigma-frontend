@@ -132,6 +132,7 @@ type CustomTooltipProps = TooltipContentProps<ValueType, NameType> & {
   ) => React.ReactNode
   labelClassName?: string
   color?: string
+  percentage?: boolean
 }
 
 function ChartTooltipContent({
@@ -147,9 +148,26 @@ function ChartTooltipContent({
   labelClassName,
   color,
   nameKey,
-  labelKey
+  labelKey,
+  percentage = false
 }: CustomTooltipProps) {
   const { config } = useChart()
+
+  const total = React.useMemo(() => {
+    if (!percentage || !payload?.length) return null
+
+    return payload.reduce((acc, item) => {
+      return acc + (Number(item?.value) || 0)
+    }, 0)
+  }, [payload, percentage])
+
+  const getValue = React.useCallback(
+    (value: number) => {
+      if (!percentage || !total) return value
+      return (Number(value) / total) * 100
+    },
+    [percentage, total]
+  )
 
   const tooltipLabel = React.useMemo(() => {
     if (hideLabel || !payload?.length) {
@@ -210,6 +228,9 @@ function ChartTooltipContent({
             config[key as keyof typeof config]?.color ||
             item.color
 
+          const rawValue = Number(item?.value) || 0
+          const computedValue = getValue(rawValue)
+
           return (
             <div
               key={item.dataKey}
@@ -219,7 +240,13 @@ function ChartTooltipContent({
               )}
             >
               {formatter && item?.value !== undefined && item.name ? (
-                formatter(item.value, item.name, item, index, item.payload)
+                formatter(
+                  percentage ? computedValue : rawValue,
+                  item.name,
+                  item,
+                  index,
+                  item.payload
+                )
               ) : (
                 <>
                   {itemConfig?.icon ? (
@@ -254,9 +281,11 @@ function ChartTooltipContent({
                         {itemConfig?.label || item.name}
                       </span>
                     </div>
-                    {item.value && (
+                    {item.value !== undefined && (
                       <span className="ms-5 text-foreground font-mono font-medium tabular-nums">
-                        {item.value.toLocaleString()}
+                        {percentage && total
+                          ? `${computedValue.toFixed(0)}%`
+                          : rawValue.toLocaleString()}
                       </span>
                     )}
                   </div>
