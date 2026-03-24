@@ -7,7 +7,9 @@ export function ChartBarTooltip() {
   return (
     <ChartTooltip
       cursor={false}
-      content={(props) => <ChartTooltipContent {...props} indicator="dot" />}
+      content={(props) => (
+        <ChartTooltipContent {...props} indicator="dot" percentage />
+      )}
     />
   )
 }
