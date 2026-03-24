@@ -20,7 +20,7 @@ export default async function TrafficFlowPage({
   const [{ operationId: rawOperationId, contractId: rawContractId }] =
     await Promise.all([params])
 
-  const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/configurations`
+  const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/contract-options`
 
   const data: Data = {
     title: MESSAGES_TRAFFIC_FLOW['19.1'],
