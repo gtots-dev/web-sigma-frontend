@@ -9,6 +9,7 @@ type TrafficFlowAbsoluteChartProviderProps<TSeriesKey extends string> =
     series: SeriesConfig<TSeriesKey>[]
     granularity: TrafficFlowGranularityInterface
     selectedSeries: TSeriesKey[]
+    isFetched: boolean
     onSeriesChange: (keys: TSeriesKey[]) => void
   }>
 
@@ -16,6 +17,7 @@ export function TrafficFlowAbsoluteChartProvider<TSeriesKey extends string>({
   data,
   series,
   granularity,
+  isFetched,
   selectedSeries,
   onSeriesChange,
   children
@@ -25,6 +27,7 @@ export function TrafficFlowAbsoluteChartProvider<TSeriesKey extends string>({
       value={{
         data,
         series,
+        isFetched,
         granularity,
         selectedSeries,
         setSelectedSeries: onSeriesChange

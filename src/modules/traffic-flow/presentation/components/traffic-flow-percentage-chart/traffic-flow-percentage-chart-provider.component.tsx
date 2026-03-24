@@ -10,6 +10,7 @@ type TrafficFlowPercentageChartProviderProps<TSeriesKey extends string> =
     granularity: TrafficFlowGranularityInterface
     selectedSeries: TSeriesKey[]
     onSeriesChange: (keys: TSeriesKey[]) => void
+    isFetched: boolean
   }>
 
 export function TrafficFlowPercentageChartProvider<TSeriesKey extends string>({
@@ -18,6 +19,7 @@ export function TrafficFlowPercentageChartProvider<TSeriesKey extends string>({
   granularity,
   selectedSeries,
   onSeriesChange,
+  isFetched,
   children
 }: TrafficFlowPercentageChartProviderProps<TSeriesKey>) {
   return (
@@ -27,6 +29,7 @@ export function TrafficFlowPercentageChartProvider<TSeriesKey extends string>({
         series,
         granularity,
         selectedSeries,
+        isFetched,
         setSelectedSeries: onSeriesChange
       }}
     >

@@ -21,11 +21,11 @@ type TrafficFlowAbsoluteChartRootProps = {
 }
 
 export function TrafficFlowAbsoluteChartRoot({
-  isLoading,
+  isLoading = false,
   onRefresh,
   onExport
 }: TrafficFlowAbsoluteChartRootProps) {
-  const { data, granularity, selectedSeries, series } =
+  const { data, granularity, selectedSeries, series, isFetched } =
     useTrafficFlowAbsoluteChartContext()
 
   const { visibleSeries, chartConfig } = useChartSeries(series, selectedSeries)
@@ -48,18 +48,26 @@ export function TrafficFlowAbsoluteChartRoot({
     return [...visibleSeries].sort((a, b) => {
       const sum = (key: string) =>
         zoomedData.reduce((acc, item) => acc + ((item as any)[key] ?? 0), 0)
+
       return sum(a.key) - sum(b.key)
     })
   }, [visibleSeries, zoomedData])
 
   const hasData = zoomedData && zoomedData.length > 0
   const hasVisibleSeries = visibleSeries.length > 0
-  const isEmptyState = !isLoading && !hasData
-  const isEmptySeriesState = !isLoading && hasData && !hasVisibleSeries
 
-  if (isLoading) return <TrafficFlowAbsoluteChart.Loading loading />
-  if (isEmptyState) return <TrafficFlowAbsoluteChartEmptyData />
-  if (isEmptySeriesState)
+  const isEmptyState = isFetched && !hasData
+  const isEmptySeriesState = isFetched && hasData && !hasVisibleSeries
+
+  if (!isFetched || isLoading) {
+    return <TrafficFlowAbsoluteChart.Loading loading />
+  }
+
+  if (isEmptyState) {
+    return <TrafficFlowAbsoluteChartEmptyData />
+  }
+
+  if (isEmptySeriesState) {
     return (
       <TrafficFlowAbsoluteChartEmptySeries>
         <ChartGradientLine.Legend>
@@ -67,6 +75,7 @@ export function TrafficFlowAbsoluteChartRoot({
         </ChartGradientLine.Legend>
       </TrafficFlowAbsoluteChartEmptySeries>
     )
+  }
 
   return (
     <div className="relative min-h-[450px] border rounded-lg">

@@ -11,9 +11,9 @@ export function TrafficFlowPercentageChartLoading({
   children
 }: ChartLoadingProps) {
   return (
-    <div className="relative h-[650px] border rounded-lg">
+    <div className="relative h-[850px] border rounded-lg">
       {loading && (
-        <div className="Percentage inset-0 z-10">
+        <div className="absolute inset-0 z-10">
           <TrafficFlowPercentageChart.Skeleton />
         </div>
       )}

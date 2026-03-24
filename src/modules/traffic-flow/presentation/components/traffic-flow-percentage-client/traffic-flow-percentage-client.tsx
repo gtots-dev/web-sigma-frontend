@@ -17,15 +17,22 @@ export function TrafficFlowPercentageClient() {
     granularity
   }
 
-  const { trafficsFlows, vehiclesTypes, isLoading, fetchTrafficFlow } =
-    useTrafficFlowData(initialSettings)
+  const {
+    trafficsFlows,
+    vehiclesTypes,
+    isLoading,
+    isFetched,
+    fetchTrafficFlow
+  } = useTrafficFlowData(initialSettings)
   const { handleExport } = useTrafficFlowExport(
     trafficsFlows,
     vehiclesTypes,
     granularity
   )
   const series = useTrafficFlowPercentageSeries(trafficsFlows, vehiclesTypes)
-  const chartData = useTrafficChartAdapter(trafficsFlows.volume_percentage)
+  const chartData = useTrafficChartAdapter(
+    trafficsFlows?.volume_percentage ?? []
+  )
 
   useEffect(() => {
     setSelectedSeries(series.map((s) => s.key))
@@ -34,6 +41,7 @@ export function TrafficFlowPercentageClient() {
   return (
     <>
       <TrafficFlowPercentageChart.Provider
+        isFetched={isFetched}
         data={chartData}
         series={series}
         selectedSeries={selectedSeries}
