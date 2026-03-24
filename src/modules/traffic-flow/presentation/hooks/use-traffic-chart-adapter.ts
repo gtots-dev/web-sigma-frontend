@@ -3,9 +3,8 @@
 import type { SeriesGroupInterface } from '../../domain/interfaces/traffic-flow.interface'
 
 export type ChartDatum = {
-  date: string
-  [vehicleType: string]: string | number
-}
+  date: number
+} & Record<string, number>
 
 export function useTrafficChartAdapter(
   apiResponse?: SeriesGroupInterface<string>[]
@@ -26,8 +25,10 @@ export function useTrafficChartAdapter(
     }
   }
 
-  return Object.entries(resultMap).map(([date, values]) => ({
-    date,
-    ...values
-  }))
+  return Object.entries(resultMap)
+    .map(([date, values]) => ({
+      date: new Date(date).getTime(),
+      ...values
+    }))
+    .sort((a, b) => a.date - b.date)
 }
