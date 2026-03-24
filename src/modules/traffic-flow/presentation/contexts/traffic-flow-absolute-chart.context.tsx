@@ -10,6 +10,7 @@ export type TrafficFlowAbsoluteChartContextValue = {
   series: SeriesConfig<string>[]
   granularity: TrafficFlowGranularityInterface
   selectedSeries: string[]
+  isFetched: boolean
   setSelectedSeries: (keys: string[]) => void
 }
 

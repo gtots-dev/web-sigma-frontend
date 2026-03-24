@@ -25,7 +25,7 @@ export function TrafficFlowPercentageChartRoot({
   onRefresh,
   onExport
 }: TrafficFlowPercentageChartRootProps) {
-  const { data, granularity, selectedSeries, series } =
+  const { data, granularity, selectedSeries, series, isFetched } =
     useTrafficFlowPercentageChartContext()
 
   const { visibleSeries, chartConfig } = useChartSeries(series, selectedSeries)
@@ -57,7 +57,9 @@ export function TrafficFlowPercentageChartRoot({
   const isEmptyState = !isLoading && !hasData
   const isEmptySeriesState = !isLoading && hasData && !hasVisibleSeries
 
-  if (isLoading) return <TrafficFlowPercentageChart.Loading loading />
+  if (!isFetched || isLoading) {
+    return <TrafficFlowPercentageChart.Loading loading />
+  }
   if (isEmptyState) return <TrafficFlowPercentageChartEmptyData />
   if (isEmptySeriesState)
     return (

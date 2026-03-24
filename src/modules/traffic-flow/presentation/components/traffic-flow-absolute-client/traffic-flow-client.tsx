@@ -22,7 +22,7 @@ export function TrafficFlowAbsoluteClient() {
     granularity
   }
 
-  const { trafficsFlows, vehiclesTypes, isLoading, fetchTrafficFlow } =
+  const { trafficsFlows, vehiclesTypes, isLoading, isFetched, fetchTrafficFlow } =
     useTrafficFlowData(initialSettings)
   const { handleExport } = useTrafficFlowExport(
     trafficsFlows,
@@ -30,7 +30,7 @@ export function TrafficFlowAbsoluteClient() {
     granularity
   )
   const series = useTrafficFlowAbsoluteSeries(trafficsFlows, vehiclesTypes)
-  const chartData = useTrafficChartAdapter(trafficsFlows.volume_absolute)
+  const chartData = useTrafficChartAdapter(trafficsFlows?.volume_absolute ?? [])
   const { onAction } = useGetTrafficFlowSubmit()
 
   const trafficFlowModels = useMemo(() => {
@@ -66,6 +66,7 @@ export function TrafficFlowAbsoluteClient() {
 
       <TrafficFlowAbsoluteChart.Provider
         data={chartData}
+        isFetched={isFetched}
         series={series}
         selectedSeries={selectedSeries}
         onSeriesChange={setSelectedSeries}

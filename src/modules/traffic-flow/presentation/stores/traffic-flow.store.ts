@@ -6,8 +6,9 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { TrafficFlowFiltersInterface } from '../../domain/interfaces/traffic-flow-filters.interface'
 
 type TrafficState = {
-  trafficsFlows: TrafficFlowInterface
+  trafficsFlows: TrafficFlowInterface | null
   isLoading: boolean
+  isFetched: boolean
   error: HttpResponseError | null
 
   getTrafficFlow: (
@@ -17,38 +18,37 @@ type TrafficState = {
 }
 
 export const useTrafficFlowStore = create<TrafficState>((set) => ({
-  trafficsFlows: {
-    volume_absolute: [],
-    volume_percentage: []
-  },
-
+  trafficsFlows: null,
   isLoading: false,
+  isFetched: false,
   error: null,
 
-  getTrafficFlow: async ({ operationId, contractId }: UrlParams, filters) => {
+  getTrafficFlow: async ({ operationId, contractId }, filters) => {
     set({ isLoading: true, error: null })
 
     try {
-      const postTrafficFlowRouterApiFactory =
-        PostTrafficFlowRouterApiFactory.create({ operationId, contractId })
+      const api = PostTrafficFlowRouterApiFactory.create({
+        operationId,
+        contractId
+      })
 
-      const { data: trafficsFlows } =
-        await postTrafficFlowRouterApiFactory.execute(filters)
+      const { data: trafficsFlows } = await api.execute(filters)
 
       set({
         trafficsFlows,
-        isLoading: false
+        isLoading: false,
+        isFetched: true
       })
     } catch (error) {
+      set({
+        isLoading: false,
+        isFetched: true
+      })
+
       if (error instanceof HttpResponseError) {
-        set({
-          error,
-          isLoading: false
-        })
+        set({ error })
         throw error
       }
-
-      set({ isLoading: false })
     }
   }
 }))

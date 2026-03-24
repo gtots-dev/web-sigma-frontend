@@ -12,7 +12,8 @@ export function useTrafficFlowData(
 ) {
   const { operationId, contractId }: UrlParams = useParams()
   const { vehiclesTypes, getVehiclesTypes } = useVehiclesTypeStore()
-  const { trafficsFlows, getTrafficFlow, isLoading } = useTrafficFlowStore()
+  const { trafficsFlows, getTrafficFlow, isLoading, isFetched } =
+    useTrafficFlowStore()
 
   const fetchTrafficFlow = async () => {
     await getVehiclesTypes({ operationId, contractId })
@@ -24,6 +25,7 @@ export function useTrafficFlowData(
   }, [])
 
   return {
+    isFetched,
     trafficsFlows,
     vehiclesTypes,
     isLoading,
