@@ -2,15 +2,15 @@ import { CardContent } from '@/modules/shared/presentation/components/shadcn/car
 import { SearchX } from 'lucide-react'
 import type { ReactNode } from 'react'
 
-type TrafficFlowChartEmptySeriesProps = {
+type TrafficFlowPercentageChartEmptySeriesProps = {
   children?: ReactNode
 }
 
-export function TrafficFlowChartEmptySeries({
+export function TrafficFlowPercentageChartEmptySeries({
   children
-}: TrafficFlowChartEmptySeriesProps) {
+}: TrafficFlowPercentageChartEmptySeriesProps) {
   return (
-    <CardContent className="flex flex-col h-[800px] justify-center p-6">
+    <CardContent className="flex flex-col h-[800px] justify-center p-6 border rounded-lg">
       <div className="flex flex-col items-center justify-center h-full  text-center gap-3">
         <SearchX className="w-8 h-8 text-muted-foreground" />
 

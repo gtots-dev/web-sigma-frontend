@@ -1,9 +1,9 @@
-import { useTrafficFlowAbsoluteChartContext } from '../../contexts/traffic-flow-absolute-chart.context'
-import { SeriesMultiSelectInline } from '../traffic-flow-absolute-chart/traffic-flow-absolute-chart-multiple-select-inline.component'
+import { useTrafficFlowPercentageChartContext } from '../../contexts/traffic-flow-percentage-chart.context'
+import { SeriesMultiSelectInline } from '../traffic-flow-percentage-chart/traffic-flow-percentage-chart-multiple-select-inline.component'
 
-export function ChartGradientLineMultiSelectSeriesInline() {
+export function ChartBarMultiSelectSeriesInline() {
   const { series, selectedSeries, setSelectedSeries } =
-    useTrafficFlowAbsoluteChartContext()
+    useTrafficFlowPercentageChartContext()
 
   return (
     <div className="bg-white dark:bg-black border rounded-md p-3">

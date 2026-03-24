@@ -1,9 +1,9 @@
 import { CardContent } from '@/modules/shared/presentation/components/shadcn/card'
 import { SearchX } from 'lucide-react'
 
-export function TrafficFlowChartEmptyData() {
+export function TrafficFlowAbsoluteChartEmptyData() {
   return (
-    <CardContent className="flex flex-col h-[800px] justify-center p-6">
+    <CardContent className="flex flex-col h-[800px] justify-center p-6 border rounded-lg">
       <div className="flex flex-col items-center justify-center h-full text-center gap-3">
         <SearchX className="w-8 h-8 text-muted-foreground" />
 
