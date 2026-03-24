@@ -8,7 +8,7 @@ export function ChartBarMultiSelectSeriesInline() {
   return (
     <div className="bg-white dark:bg-black border rounded-md p-3">
       <SeriesMultiSelectInline
-        className="!ms-auto"
+        className="!ms-auto flex-col md:flex-row p-3 md:p-0"
         verticalAlign="center"
         series={series}
         value={selectedSeries}

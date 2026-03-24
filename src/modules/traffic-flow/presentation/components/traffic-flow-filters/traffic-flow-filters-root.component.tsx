@@ -12,13 +12,13 @@ export function TrafficFlowFiltersRoot({ initialSettings, onSubmit }: Props) {
   return (
     <div className="flex flex-col gap-y-2 border rounded-md p-5">
       <TrafficFlowForm.Form initSettings={initialSettings}>
-        <div className="flex items-end gap-5">
+        <div className="flex flex-col lg:flex-row lg:flex-wrap items-end gap-5 w-full flex-1">
           <TrafficFlowForm.Inputs.Points />
           <TrafficFlowForm.Inputs.Lanes />
           <TrafficFlowForm.Inputs.groups />
           <TrafficFlowForm.Inputs.Date />
           <TrafficFlowForm.Inputs.Time />
-          <TrafficFlowForm.Inputs.Granularity />
+          <TrafficFlowForm.Inputs.Granularity require/>
 
           <TrafficFlowForm.Submit onSubmit={onSubmit} />
         </div>

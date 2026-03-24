@@ -90,7 +90,7 @@ export function MultiSelect<T extends MultiSelectItem>({
                 className
               )}
             >
-              <span className="truncate">{label ?? placeholder}</span>
+              <span className="truncate overflow-hidden">{label ?? placeholder}</span>
 
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
