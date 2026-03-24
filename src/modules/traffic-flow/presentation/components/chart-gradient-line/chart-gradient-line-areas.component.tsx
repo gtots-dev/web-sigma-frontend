@@ -1,7 +1,7 @@
 import { Area } from 'recharts'
 import { useChartGradientLineContext } from '../../contexts/chart-gradient-line.context'
 
-export function TrafficFlowChartAreas() {
+export function TrafficFlowAbsoluteChartAreas() {
   const { orderedVisibleSeries: series } = useChartGradientLineContext()
 
   return (

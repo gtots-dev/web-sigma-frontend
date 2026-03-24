@@ -7,7 +7,7 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/card'
 import type { ReactNode } from 'react'
 
-export function TrafficFlowChartHeader({
+export function TrafficFlowPercentageChartHeader({
   title,
   description,
   children

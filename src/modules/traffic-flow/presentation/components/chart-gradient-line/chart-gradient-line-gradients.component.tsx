@@ -1,6 +1,6 @@
 import { useChartGradientLineContext } from "../../contexts/chart-gradient-line.context"
 
-export function TrafficFlowChartGradients() {
+export function TrafficFlowAbsoluteChartGradients() {
   const { orderedVisibleSeries: series } = useChartGradientLineContext()
 
   return (
@@ -8,7 +8,7 @@ export function TrafficFlowChartGradients() {
       {series.map((serie) => (
         <linearGradient
           key={serie.key}
-          id={`fill-${serie.color}`}
+          // id={`fill-${serie.color}`}
           x1="0"
           y1="0"
           x2="0"

@@ -1,9 +1,9 @@
 import { MultiSelect } from '@/modules/shared/presentation/components/multi-select/multi-select.component'
-import { useTrafficFlowAbsoluteChartContext } from '../../contexts/traffic-flow-absolute-chart.context'
+import { useTrafficFlowPercentageChartContext } from '../../contexts/traffic-flow-percentage-chart.context'
 
-export function ChartGradientLineMultiSelectSeries() {
+export function ChartBarMultiSelectSeries() {
   const { series, selectedSeries, setSelectedSeries } =
-    useTrafficFlowAbsoluteChartContext()
+    useTrafficFlowPercentageChartContext()
 
   return (
     <div className="flex gap-x-4 ms-auto">

@@ -1,4 +1,4 @@
-export function TrafficFlowChartSkeleton() {
+export function TrafficFlowAbsoluteChartSkeleton() {
   return (
     <div className="w-full h-full flex flex-col animate-pulse">
       <div className="space-y-1.5 p-6 flex flex-col gap-2 border-b">
@@ -7,11 +7,6 @@ export function TrafficFlowChartSkeleton() {
       </div>
 
       <div className="w-full h-full flex flex-col animate-pulse p-6">
-        <div className="flex justify-center gap-x-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-3 w-10 bg-muted rounded-md" />
-          ))}
-        </div>
         <div className="p-6 h-full">
           <div className="relative h-full overflow-hidden rounded-md bg-muted/30">
             <div className="absolute inset-0 flex flex-col justify-between py-6">

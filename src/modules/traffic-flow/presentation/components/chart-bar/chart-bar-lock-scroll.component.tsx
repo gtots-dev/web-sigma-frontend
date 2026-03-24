@@ -1,9 +1,9 @@
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { Lock, LockOpen } from 'lucide-react'
-import { useChartGradientLineContext } from '../../contexts/chart-gradient-line.context'
+import { useChartBarContext } from '../../contexts/chart-bar.context'
 
-export function ChartGradientLineLockScroll() {
-  const { locked, focusAndLock, unlock } = useChartGradientLineContext()
+export function ChartBarLockScroll() {
+  const { locked, focusAndLock, unlock } = useChartBarContext()
 
   return (
     <Button

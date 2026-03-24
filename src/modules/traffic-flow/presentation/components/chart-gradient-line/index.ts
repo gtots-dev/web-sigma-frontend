@@ -6,14 +6,15 @@ import { ChartGradientLineGrid } from './chart-gradient-line-grid.component'
 import { ChartGradientLineXAxis } from './chart-gradient-line-x-axis.component'
 import { ChartGradientLineYAxis } from './chart-gradient-line-y-axis.component'
 import { ChartGradientLineZoomArea } from './chart-gradient-line-zoom-area.component'
-import { TrafficFlowChartAreas } from './chart-gradient-line-areas.component'
-import { TrafficFlowChartGradients } from './chart-gradient-line-gradients.component'
+import { TrafficFlowAbsoluteChartAreas } from './chart-gradient-line-areas.component'
+import { TrafficFlowAbsoluteChartGradients } from './chart-gradient-line-gradients.component'
 import { ChartGradientLineRefreshButton } from './chart-gradient-line-refresh.component'
 import { ChartGradientLineMultiSelectSeries } from './chart-gradient-line-multi-select-series.component'
 import { ChartGradientLineResetZoom } from './chart-gradient-line-reset-zoom.component'
 import { ChartGradientLineLockScroll } from './chart-gradient-line-lock-scroll.component'
 import { ChartGradientLineLegend } from './chart-gradient-line-legend.component'
 import { ChartGradientLineMultiSelectSeriesInline } from './chart-gradient-line-multi-select-series-inline.component'
+import { ChartGradientLineTooltip } from './chart-gradient-line-tooltip.component'
 
 export const ChartGradientLine = {
   Provider: ChartGradientLineProvider,
@@ -30,6 +31,7 @@ export const ChartGradientLine = {
   XAxis: ChartGradientLineXAxis,
   YAxis: ChartGradientLineYAxis,
   ZoomArea: ChartGradientLineZoomArea,
-  Areas: TrafficFlowChartAreas,
-  Gradients: TrafficFlowChartGradients
+  Areas: TrafficFlowAbsoluteChartAreas,
+  Gradients: TrafficFlowAbsoluteChartGradients,
+  Tooltip: ChartGradientLineTooltip
 }
