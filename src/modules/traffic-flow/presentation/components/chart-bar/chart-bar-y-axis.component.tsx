@@ -6,7 +6,9 @@ export function ChartBarYAxis() {
       domain={[0, 100]}
       tickLine={false}
       axisLine={false}
-      tickFormatter={(value) => `${value}%`}
+      tickFormatter={(value) =>
+        `${Math.round((value + Number.EPSILON) * 100) / 100}%`
+      }
     />
   )
 }
