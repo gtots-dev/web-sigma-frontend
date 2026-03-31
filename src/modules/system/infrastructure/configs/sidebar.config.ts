@@ -1,6 +1,7 @@
 import {
   ArrowUpDown,
   Building2,
+  Car,
   ChartLine,
   FileText,
   HardDrive,
@@ -146,6 +147,13 @@ export function getSidebarData(
                             PermissionEnum.CONTRACTS_VIEW,
                             PermissionEnum.GROUPS_VIEW
                           ]
+                        },
+                        {
+                          title: 'Tipos de Veículos',
+                          url: PATHNAMES.VEHICLES(operationId, contractId),
+                          icon: Car,
+                          isToExpand: true,
+                          permissions: [PermissionEnum.CONTRACTS_VIEW]
                         }
                       ]
                     },
