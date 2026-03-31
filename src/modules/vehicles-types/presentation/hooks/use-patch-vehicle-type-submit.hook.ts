@@ -18,7 +18,10 @@ export function usePatchVehicleTypeSubmit() {
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        await patchVehicleType({ operationId, contractId }, vehicleType)
+        await patchVehicleType(
+          { operationId, contractId, VehicleTypeId: String(vehicleType.id) },
+          vehicleType
+        )
         toast({
           title: 'Tipos de veículos adicionado com sucesso!',
           variant: 'success'
