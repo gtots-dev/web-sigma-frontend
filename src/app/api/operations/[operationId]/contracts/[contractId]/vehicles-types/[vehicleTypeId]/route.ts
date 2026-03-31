@@ -5,12 +5,12 @@ import { PatchVehicleTypeFactory } from '@/modules/vehicles-types/infrastructure
 const routerApi = RouterApiFactory.create()
 
 export const PATCH = routerApi.PATCH<UrlParams>(
-  async ({ operationId, contractId, VehicleTypeId }, req) => {
+  async ({ operationId, contractId, vehicleTypeId }, req) => {
     const vehicleType = await req?.json()
     const patchVehicleType = PatchVehicleTypeFactory.create({
       operationId,
       contractId,
-      VehicleTypeId
+      vehicleTypeId
     })
     return await patchVehicleType.execute(vehicleType)
   }
