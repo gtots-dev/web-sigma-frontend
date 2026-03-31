@@ -25,7 +25,7 @@ export function PostVehicleMenuComponent({
         <PostVehicleMenu.Header title={title} description={description} />
         <VehicleTypeForm.Form>
           <VehicleTypeForm.Input.Name require />
-          <VehicleTypeForm.Input.Code />
+          <VehicleTypeForm.Input.Code require />
           <VehicleTypeForm.Input.ColorPicker
             name="color"
             label="Cor do veículo"

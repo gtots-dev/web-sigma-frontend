@@ -1,6 +1,6 @@
 export interface VehiclesTypesInterface {
   name: string
-  code?: number
+  code: number
   color: string
   id?: number
 }

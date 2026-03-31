@@ -36,10 +36,10 @@ export function TableVehiclesTypesItemComponent({
     <>
       <TableCell className={`${baseCell} flex flex-col gap-y-0.5`}>
         <span title={vehicleType.name} className={`${truncateText} !h-auto`}>
-          {vehicleType.name}
+          {vehicleType.name} - {vehicleType.code}
         </span>
         <div className={`${truncateText} !h-auto`}>
-          <div className='flex items-center gap-x-3'>
+          <div className="flex items-center gap-x-3">
             <div
               className={`flex h-3 w-3 rounded-sm`}
               style={{ backgroundColor: vehicleType.color }}
@@ -55,6 +55,9 @@ export function TableVehiclesTypesItemComponent({
     <>
       <TableCell colSpan={2} className={`${baseCell} ${truncateText} w-[30%]`}>
         {vehicleType.name}
+      </TableCell>
+      <TableCell className={`${baseCell} ${truncateText} w-[20%]`}>
+        {vehicleType.code}
       </TableCell>
       <TableCell className={`${baseCell} ${truncateText} w-[30%]`}>
         <div className={`${truncateText} flex items-center gap-x-3 !h-auto`}>
