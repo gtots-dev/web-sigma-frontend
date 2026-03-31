@@ -38,12 +38,15 @@ export function TableVehiclesTypesItemComponent({
         <span title={vehicleType.name} className={`${truncateText} !h-auto`}>
           {vehicleType.name}
         </span>
-        <span className={`${truncateText} !h-auto`}>
-          <div
-            className={`flex h-3 w-3 rounded-sm me-2 bg-[${vehicleType.color}]`}
-          ></div>
-          {vehicleType.color}
-        </span>
+        <div className={`${truncateText} !h-auto`}>
+          <div className='flex items-center gap-x-3'>
+            <div
+              className={`flex h-3 w-3 rounded-sm`}
+              style={{ backgroundColor: vehicleType.color }}
+            ></div>
+            {vehicleType.color}
+          </div>
+        </div>
       </TableCell>
     </>
   )
