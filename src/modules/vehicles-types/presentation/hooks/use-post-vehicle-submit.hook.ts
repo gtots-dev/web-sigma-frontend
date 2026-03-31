@@ -5,16 +5,16 @@ import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
-import type { VehicleEntity } from '../../domain/entities/vehicle-types.entity'
+import type { VehicleTypeEntity } from '../../domain/entities/vehicle-types.entity'
 import { useVehiclesTypeStore } from '../stores/vehicles-types.store'
 
-export function usePostVehicleSubmit() {
+export function usePostVehicleTypeSubmit() {
   const { getVehiclesTypes, postVehicleType } = useVehiclesTypeStore()
   const { operationId, contractId }: UrlParams = useParams()
 
   const onAction = useCallback(
     async (
-      vehicleType: VehicleEntity,
+      vehicleType: VehicleTypeEntity,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {

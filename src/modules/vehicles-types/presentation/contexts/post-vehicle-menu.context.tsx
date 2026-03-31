@@ -2,11 +2,11 @@
 
 import { createContext, useContext, ReactNode } from 'react'
 import {
-  usePostVehicleMenu,
-  type UsePostVehicleMenuReturn
+  usePostVehicleTypeMenu,
+  type usePostVehicleTypeMenuReturn
 } from '../hooks/use-post-vehicle-menu.hook'
 
-const PostVehicleMenuContext = createContext<UsePostVehicleMenuReturn | undefined>(
+const PostVehicleMenuContext = createContext<usePostVehicleTypeMenuReturn | undefined>(
   undefined
 )
 
@@ -15,7 +15,7 @@ export const PostVehicleMenuProvider = ({
 }: {
   children: ReactNode
 }) => {
-  const value = usePostVehicleMenu()
+  const value = usePostVehicleTypeMenu()
   return (
     <PostVehicleMenuContext.Provider value={value}>
       {children}
@@ -23,11 +23,11 @@ export const PostVehicleMenuProvider = ({
   )
 }
 
-export const usePostVehicleMenuContext = () => {
+export const usePostVehicleTypeMenuContext = () => {
   const context = useContext(PostVehicleMenuContext)
   if (!context) {
     throw new Error(
-      'usePostVehicleMenuContext must be used within a PostVehicleMenuProvider'
+      'usePostVehicleTypeMenuContext must be used within a PostVehicleMenuProvider'
     )
   }
   return context

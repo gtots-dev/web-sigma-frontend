@@ -3,7 +3,7 @@
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 import { useEffect, type ReactNode } from 'react'
 import { FormProvider } from 'react-hook-form'
-import { usePostVehicleForm } from '../../hooks/use-post-vehicle-form.hook'
+import { usePostVehicleTypeForm } from '../../hooks/use-post-vehicle-form.hook'
 
 interface PostVehicleMenuRootComponentProps {
   children: ReactNode
@@ -16,7 +16,7 @@ export function PostVehicleMenuRootComponent({
   isOpen,
   close
 }: PostVehicleMenuRootComponentProps) {
-  const { methods, defaultValues } = usePostVehicleForm()
+  const { methods, defaultValues } = usePostVehicleTypeForm()
   
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)

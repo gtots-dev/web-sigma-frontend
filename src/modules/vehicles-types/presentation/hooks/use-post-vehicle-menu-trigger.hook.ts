@@ -1,8 +1,8 @@
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
-import { usePostVehicleMenuContext } from '../contexts/post-vehicle-menu.context'
+import { usePostVehicleTypeMenuContext } from '../contexts/post-vehicle-menu.context'
 
-export function usePostVehicleMenuTrigger() {
-  const { open: openDialog } = usePostVehicleMenuContext()
+export function usePostVehicleTypeMenuTrigger() {
+  const { open: openDialog } = usePostVehicleTypeMenuContext()
 
   const loadPostVehicleOpenDialog = () => {
     queueMicrotask(async () => {
