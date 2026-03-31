@@ -7,10 +7,10 @@ import {
   PostVehicleFormSchema,
   type PostVehicleFormType
 } from '../schemas/post-vehicle-form.schema'
-import type { VehicleEntity } from '../../domain/entities/vehicle-types.entity'
+import type { VehicleTypeEntity } from '../../domain/entities/vehicle-types.entity'
 
-export function usePostVehicleForm() {
-  const defaultValues = useMemo<VehicleEntity>(
+export function usePostVehicleTypeForm() {
+  const defaultValues = useMemo<VehicleTypeEntity>(
     () => ({
       name: '',
       color: '#000000',

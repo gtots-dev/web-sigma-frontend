@@ -5,7 +5,7 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { PostVehicleTypeServiceGateway } from '../../domain/gateways/post-vehicle-type-service.gateway'
-import type { VehicleEntity } from '../../domain/entities/vehicle-types.entity'
+import type { VehicleTypeEntity } from '../../domain/entities/vehicle-types.entity'
 
 export class PostVehicleTypeService implements PostVehicleTypeServiceGateway {
   constructor(
@@ -15,7 +15,7 @@ export class PostVehicleTypeService implements PostVehicleTypeServiceGateway {
   ) {}
 
   getHttpRequestConfig(
-    vehicleType: VehicleEntity,
+    vehicleType: VehicleTypeEntity,
     token: TokenEntities
   ): HttpRequestConfig {
     return {
@@ -29,8 +29,8 @@ export class PostVehicleTypeService implements PostVehicleTypeServiceGateway {
   }
 
   async execute(
-    vehicleType: VehicleEntity
-  ): Promise<HttpResponseInterface<VehicleEntity>> {
+    vehicleType: VehicleTypeEntity
+  ): Promise<HttpResponseInterface<VehicleTypeEntity>> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(vehicleType, token)
     return await this.executeRequest.execute(settingsAuthHTTP)

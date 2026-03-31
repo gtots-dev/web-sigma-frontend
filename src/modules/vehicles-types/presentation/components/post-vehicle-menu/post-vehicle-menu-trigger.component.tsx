@@ -2,10 +2,10 @@
 
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { Car } from 'lucide-react'
-import { usePostVehicleMenuTrigger } from '../../hooks/use-post-vehicle-menu-trigger.hook'
+import { usePostVehicleTypeMenuTrigger } from '../../hooks/use-post-vehicle-menu-trigger.hook'
 
 export function PostVehicleMenuTriggerComponent() {
-  const { loadPostVehicleOpenDialog } = usePostVehicleMenuTrigger()
+  const { loadPostVehicleOpenDialog } = usePostVehicleTypeMenuTrigger()
   return (
     <Button
       variant="primary"

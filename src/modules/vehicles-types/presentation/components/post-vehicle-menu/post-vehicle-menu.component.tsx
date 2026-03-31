@@ -2,10 +2,10 @@
 
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { PostVehicleMenu } from '.'
-import { VehicleForm } from '../vehicle-form'
-import type { VehicleEntity } from '@/modules/vehicles-types/domain/entities/vehicle-types.entity'
-import { usePostVehicleSubmit } from '../../hooks/use-post-vehicle-submit.hook'
-import { usePostVehicleMenuContext } from '../../contexts/post-vehicle-menu.context'
+import { VehicleTypeForm } from '../vehicle-type-form'
+import type { VehicleTypeEntity } from '@/modules/vehicles-types/domain/entities/vehicle-types.entity'
+import { usePostVehicleTypeSubmit } from '../../hooks/use-post-vehicle-submit.hook'
+import { usePostVehicleTypeMenuContext } from '../../contexts/post-vehicle-menu.context'
 
 interface PostVehicleMenuComponentProps {
   title: string
@@ -16,22 +16,22 @@ export function PostVehicleMenuComponent({
   title,
   description
 }: PostVehicleMenuComponentProps) {
-  const { isOpen, close } = usePostVehicleMenuContext()
-  const { onAction } = usePostVehicleSubmit()
+  const { isOpen, close } = usePostVehicleTypeMenuContext()
+  const { onAction } = usePostVehicleTypeSubmit()
 
   return (
     <PostVehicleMenu.Root isOpen={isOpen} close={close}>
       <PostVehicleMenu.Content>
         <PostVehicleMenu.Header title={title} description={description} />
-        <VehicleForm.Form>
-          <VehicleForm.Input.Name require />
-          <VehicleForm.Input.Code />
-          <VehicleForm.Input.ColorPicker
+        <VehicleTypeForm.Form>
+          <VehicleTypeForm.Input.Name require />
+          <VehicleTypeForm.Input.Code />
+          <VehicleTypeForm.Input.ColorPicker
             name="color"
             label="Cor do veículo"
             require
           />
-        </VehicleForm.Form>
+        </VehicleTypeForm.Form>
 
         <PostVehicleMenu.Footer>
           <Button
@@ -41,8 +41,8 @@ export function PostVehicleMenuComponent({
           >
             Cancelar
           </Button>
-          <VehicleForm.Submit<VehicleEntity>
-            onSubmit={(vehicle: VehicleEntity) => onAction(vehicle, close)}
+          <VehicleTypeForm.Submit<VehicleTypeEntity>
+            onSubmit={(vehicle: VehicleTypeEntity) => onAction(vehicle, close)}
           />
         </PostVehicleMenu.Footer>
       </PostVehicleMenu.Content>

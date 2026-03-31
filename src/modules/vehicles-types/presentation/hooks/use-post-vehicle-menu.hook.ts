@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-export const usePostVehicleMenu = () => {
+export const usePostVehicleTypeMenu = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const open = () => setIsOpen(true)
@@ -12,4 +12,4 @@ export const usePostVehicleMenu = () => {
   return { isOpen, open, close, toggle }
 }
 
-export type UsePostVehicleMenuReturn = ReturnType<typeof usePostVehicleMenu>
+export type usePostVehicleTypeMenuReturn = ReturnType<typeof usePostVehicleTypeMenu>

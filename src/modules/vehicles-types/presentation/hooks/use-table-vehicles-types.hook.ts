@@ -4,10 +4,10 @@ import { useEffect, useState, useCallback } from 'react'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
 import { useVehiclesTypeStore } from '../stores/vehicles-types.store'
-import type { VehicleEntity } from '../../domain/entities/vehicle-types.entity'
+import type { VehicleTypeEntity } from '../../domain/entities/vehicle-types.entity'
 
 export interface UseTableVehiclesTypesResult {
-  vehiclesTypes: VehicleEntity[]
+  vehiclesTypes: VehicleTypeEntity[]
   loading: boolean
 }
 
