@@ -20,7 +20,7 @@ export class PatchVehicleTypeService implements PatchVehicleTypeServiceGateway {
   ): HttpRequestConfig {
     return {
       method: 'PATCH',
-      url: `/operations/${this.params.operationId}/contracts/${this.params.contractId}/vehicle-types/${this.params.VehicleTypeId}`,
+      url: `/operations/${this.params.operationId}/contracts/${this.params.contractId}/vehicle-types/${this.params.vehicleTypeId}`,
       data: vehicleType,
       headers: token.access_token && {
         Authorization: `${token.token_type} ${token.access_token}`

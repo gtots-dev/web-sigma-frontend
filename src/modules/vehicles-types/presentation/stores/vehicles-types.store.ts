@@ -6,6 +6,7 @@ import { GetVehiclesTypesRouterApiFactory } from '@/modules/api/infrastructure/f
 import type { VehicleTypeEntity } from '../../domain/entities/vehicle-types.entity'
 import { PostVehicleTypeRouterApiFactory } from '@/modules/api/infrastructure/factories/post-vehicle-type-router-api.factory'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
+import { PatchVehicleTypeRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-vehicle-type-router-api.factory'
 
 type VehiclesTypeState = {
   vehiclesTypes: VehiclesTypesInterface[]
@@ -15,7 +16,7 @@ type VehiclesTypeState = {
     vehicleType: VehicleTypeEntity
   ) => Promise<HttpResponseInterface<VehicleTypeEntity>>
   patchVehicleType: (
-    { operationId, contractId, VehicleTypeId }: UrlParams,
+    { operationId, contractId, vehicleTypeId }: UrlParams,
     vehicleType: VehicleTypeEntity
   ) => Promise<HttpResponseInterface<VehicleTypeEntity>>
 }
@@ -55,15 +56,15 @@ export const useVehiclesTypeStore = create<VehiclesTypeState>((set) => ({
   },
 
   patchVehicleType: async (
-    { operationId, contractId, VehicleTypeId }: UrlParams,
+    { operationId, contractId, vehicleTypeId }: UrlParams,
     vehicleType: VehicleTypeEntity
   ) => {
     try {
       const patchVehicleTypeRouterApiFactory =
-        PostVehicleTypeRouterApiFactory.create({
+        PatchVehicleTypeRouterApiFactory.create({
           operationId,
           contractId,
-          VehicleTypeId
+          vehicleTypeId
         })
       return await patchVehicleTypeRouterApiFactory.execute(vehicleType)
     } catch (error) {

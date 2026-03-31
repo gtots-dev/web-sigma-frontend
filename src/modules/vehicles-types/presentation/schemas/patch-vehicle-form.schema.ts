@@ -2,6 +2,7 @@ import { MESSAGES_VEHICLES } from '@/modules/shared/presentation/messages/vehicl
 import { z } from 'zod'
 
 export const PatchVehicleTypeFormSchema = z.object({
+  id: z.number(),
   name: z
     .string()
     .nonempty({
