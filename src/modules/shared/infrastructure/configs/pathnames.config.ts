@@ -48,7 +48,7 @@ export const PATHNAMES: PathnamesInterface = {
   TRAFFIC_FLOW: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/traffic-flow`,
   VEHICLES: (operationId, contractId) =>
-    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/vehicles`
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/vehicles-types`
 }
 
 export const publicRoutes: string[] = [PATHNAMES.AUTHENTICATION]
