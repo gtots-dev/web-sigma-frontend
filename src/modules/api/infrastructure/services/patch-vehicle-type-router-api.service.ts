@@ -12,9 +12,10 @@ export class PatchVehicleTypeRouterApiService implements PatchVehicleTypeRouterA
   ) {}
   getHttpRequestConfig(vehicleType: VehicleTypeEntity): HttpRequestConfig {
     return {
-      method: 'POST',
+      method: 'PATCH',
       data: vehicleType,
-      url: `api/operations/${this.params.operationId}/contracts/${this.params.contractId}/vehicles-types/${this.params.VehicleTypeId}`
+
+      url: `api/operations/${this.params.operationId}/contracts/${this.params.contractId}/vehicles-types/${this.params.vehicleTypeId}`
     }
   }
 
