@@ -9,7 +9,6 @@ import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-que
 
 export function TableVehiclesTypesHeaderComponent() {
   const isLarge = useMediaQuery('(min-width: 1024px)')
-  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
   const baseClass = 'h-9 px-5 sm:px-10 text-xs'
 
   return (
@@ -22,7 +21,7 @@ export function TableVehiclesTypesHeaderComponent() {
           Nome
         </TableHead>
 
-        {isExtraLarge && <TableHead className={baseClass}>Cor</TableHead>}
+        {isLarge && <TableHead className={baseClass}>Cor</TableHead>}
 
         <TableHead className={`${baseClass} rounded-tr-lg text-right`}>
           Opções
