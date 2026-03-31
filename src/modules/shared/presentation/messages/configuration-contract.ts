@@ -29,6 +29,6 @@ export const MESSAGES_CONFIGURATION_CONTRACT: Record<MessageKeys, string> = {
   '17.11': 'Grupos',
   '17.12':
     'Navegue, gerencie e adicione grupos de faixa, pontos e outro grupos.',
-  '17.13': 'Veículos',
+  '17.13': 'Tipos de Veículos',
   '17.14': 'Navegue, gerencie os tipos de veículos disponíveis.'
 }
