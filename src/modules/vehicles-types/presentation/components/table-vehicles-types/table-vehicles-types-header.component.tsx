@@ -21,6 +21,8 @@ export function TableVehiclesTypesHeaderComponent() {
           Nome
         </TableHead>
 
+        {isLarge && <TableHead className={baseClass}>Código</TableHead>}
+
         {isLarge && <TableHead className={baseClass}>Cor</TableHead>}
 
         <TableHead className={`${baseClass} rounded-tr-lg text-right`}>

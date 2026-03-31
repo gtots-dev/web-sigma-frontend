@@ -18,7 +18,13 @@ export const PostVehicleFormSchema = z.object({
     .regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, {
       message: MESSAGES_VEHICLES['20.9']
     }),
-  code: z.number().optional()
+  code: z.coerce
+    .number({
+      invalid_type_error: MESSAGES_VEHICLES['20.12']
+    })
+    .min(1, {
+      message: MESSAGES_VEHICLES['20.12']
+    })
 })
 
 export type PostVehicleFormType = z.infer<typeof PostVehicleFormSchema>

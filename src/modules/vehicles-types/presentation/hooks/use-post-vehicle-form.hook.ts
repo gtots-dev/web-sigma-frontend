@@ -14,7 +14,7 @@ export function usePostVehicleTypeForm() {
     () => ({
       name: '',
       color: '#000000',
-      code: undefined
+      code: 1
     }),
     []
   )
