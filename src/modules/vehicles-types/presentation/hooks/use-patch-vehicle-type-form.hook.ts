@@ -9,13 +9,14 @@ import {
   PatchVehicleTypeFormSchema,
   type PatchVehicleTypeFormType
 } from '../schemas/patch-vehicle-form.schema'
+import { normalizeHex } from '../utils/color-utils'
 
 export function usePatchVehicleTypeForm(vehicleType: VehicleTypeEntity) {
   const defaultValues = useMemo<VehicleTypeEntity>(
     () => ({
       id: vehicleType.id,
       name: vehicleType.name ?? '',
-      color: vehicleType?.color ?? '',
+      color: normalizeHex(vehicleType?.color) ?? '',
       code: vehicleType?.code ?? 1
     }),
     [vehicleType]

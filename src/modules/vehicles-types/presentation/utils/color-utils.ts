@@ -2,7 +2,8 @@ type RGB = { r: number; g: number; b: number }
 type HSL = { h: number; s: number; l: number }
 
 export const rgbToHex = ({ r, g, b }: RGB): string => {
-  const toHex = (n: number) => Math.max(0, Math.min(255, n)).toString(16).padStart(2, "0")
+  const toHex = (n: number) =>
+    Math.max(0, Math.min(255, n)).toString(16).padStart(2, '0')
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`
 }
 
@@ -12,9 +13,21 @@ export const hexToRgb = (hex: string): RGB | null => {
     ? {
         r: Number.parseInt(result[1], 16),
         g: Number.parseInt(result[2], 16),
-        b: Number.parseInt(result[3], 16),
+        b: Number.parseInt(result[3], 16)
       }
     : null
+}
+
+export const normalizeHex = (value?: string): string | null => {
+  if (!value) return null
+
+  const cleaned = value.replace('#', '')
+
+  if (!/^[0-9A-Fa-f]{6}$/.test(cleaned)) {
+    return '#000000'
+  }
+
+  return `#${cleaned}`
 }
 
 export const rgbToHsl = ({ r, g, b }: RGB): HSL => {
@@ -50,7 +63,7 @@ export const rgbToHsl = ({ r, g, b }: RGB): HSL => {
   return {
     h: Math.round(h * 360),
     s: Math.round(s * 100),
-    l: Math.round(l * 100),
+    l: Math.round(l * 100)
   }
 }
 
@@ -84,7 +97,7 @@ export const hslToRgb = ({ h, s, l }: HSL): RGB => {
   return {
     r: Math.round(r * 255),
     g: Math.round(g * 255),
-    b: Math.round(b * 255),
+    b: Math.round(b * 255)
   }
 }
 
@@ -95,4 +108,3 @@ export const formatRgba = (rgb: RGB, a = 1): string => {
 export const formatHsla = (hsl: HSL, a = 1): string => {
   return `hsla(${hsl.h}, ${hsl.s}%, ${hsl.l}%, ${a})`
 }
-
