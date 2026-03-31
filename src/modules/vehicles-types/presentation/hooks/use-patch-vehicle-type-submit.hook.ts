@@ -19,7 +19,7 @@ export function usePatchVehicleTypeSubmit() {
     ): Promise<void> => {
       try {
         await patchVehicleType(
-          { operationId, contractId, VehicleTypeId: String(vehicleType.id) },
+          { operationId, contractId, vehicleTypeId: String(vehicleType.id) },
           vehicleType
         )
         toast({
