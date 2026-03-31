@@ -56,7 +56,7 @@ export function useColorPickerUI({ value, rgb, hsl, onChange }: Props) {
   }
 
   const handleRgb = (key: 'r' | 'g' | 'b', v: string) => {
-    const n = Number(v)
+    const n = Number(v) 
     if (isNaN(n) || n < 0 || n > 255) return
 
     const next = { ...rgb, [key]: n }
