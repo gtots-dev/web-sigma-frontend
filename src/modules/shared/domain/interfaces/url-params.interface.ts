@@ -10,4 +10,5 @@ export interface UrlParams {
   pointId?: string
   groupId?: string
   subgroupId?: string
+  vehicleTypeId?: string
 }

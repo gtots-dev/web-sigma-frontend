@@ -8,7 +8,7 @@ import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.con
 import { MESSAGES_CONFIGURATION_CONTRACT } from '@/modules/shared/presentation/messages/configuration-contract'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { HardDrive, Map, MapPin, type LucideIcon } from 'lucide-react'
+import { Car, HardDrive, Map, MapPin, type LucideIcon } from 'lucide-react'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
@@ -76,6 +76,16 @@ export default async function ConfigurationsPage({
       pathName: PATHNAMES.GROUPS(Number(rawOperationId), Number(rawContractId)),
       icon: Map,
       accessAllowed: isAdmin || userPermissions.has(PermissionEnum.GROUPS_VIEW)
+    },
+    {
+      title: MESSAGES_CONFIGURATION_CONTRACT['17.13'],
+      description: MESSAGES_CONFIGURATION_CONTRACT['17.14'],
+      pathName: PATHNAMES.VEHICLES(
+        Number(rawOperationId),
+        Number(rawContractId)
+      ),
+      icon: Car,
+      accessAllowed: isAdmin
     }
   ]
 

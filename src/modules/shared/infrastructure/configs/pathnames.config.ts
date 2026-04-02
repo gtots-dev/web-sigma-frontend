@@ -14,6 +14,7 @@ export interface PathnamesInterface {
   POINTS: (operationId: number, contractId: number) => string
   GROUPS: (operationId: number, contractId: number) => string
   TRAFFIC_FLOW: (operationId: number, contractId: number) => string
+  VEHICLES: (operationId: number, contractId: number) => string
   LANES: (
     operationId: number,
     contractId: number,
@@ -45,7 +46,9 @@ export const PATHNAMES: PathnamesInterface = {
   LANES: (operationId, contractId, processingUnitId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units/${processingUnitId}/lanes`,
   TRAFFIC_FLOW: (operationId, contractId) =>
-    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/traffic-flow`
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/traffic-flow`,
+  VEHICLES: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/vehicles-types`
 }
 
 export const publicRoutes: string[] = [PATHNAMES.AUTHENTICATION]
