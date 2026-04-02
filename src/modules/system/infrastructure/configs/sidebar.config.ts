@@ -1,6 +1,7 @@
 import {
   ArrowUpDown,
   Building2,
+  ChartLine,
   FileText,
   HardDrive,
   List,
@@ -147,6 +148,13 @@ export function getSidebarData(
                           ]
                         }
                       ]
+                    },
+                    {
+                      title: 'Tráfego Veicular',
+                      url: PATHNAMES.TRAFFIC_FLOW(operationId, contractId),
+                      icon: ChartLine,
+                      isToExpand: true,
+                      permissions: [PermissionEnum.CONTRACTS_VIEW]
                     }
                   ]
                 }
