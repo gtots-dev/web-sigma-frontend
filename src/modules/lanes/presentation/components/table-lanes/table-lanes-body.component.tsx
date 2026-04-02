@@ -1,7 +1,6 @@
 'use client'
 
 import { ReactNode } from 'react'
-// import { MESSAGES_CONTRACTS } from '@/modules/shared/presentation/messages/lanes'
 import { TableBody } from '@/modules/shared/presentation/components/shadcn/table'
 import { TableMessage } from '@/modules/shared/presentation/components/table-addons/table-message.component'
 import { TableLoading } from '@/modules/shared/presentation/components/table-addons/table-loading.component'

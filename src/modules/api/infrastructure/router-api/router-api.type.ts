@@ -1,4 +1,3 @@
-// api/infrastructure/services/router-api.type.ts
 import type { RouterApiFileResponseInterface } from '../../domain/interfaces/router-api-service.interface'
 
 export function isFileResponse(
