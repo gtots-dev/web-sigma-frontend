@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import type { TrafficFlowGranularityInterface } from '../../domain/interfaces/traffic-flow-granularity.interface'
 import { TOTAL_CHART_SERIES } from '@/modules/system/infrastructure/configs/total-chart-series.config'
+import type { VehiclesTypesInterface } from '@/modules/vehicles-types/domain/interfaces/vehicle-type.interface'
 
 type DatasetItem = {
   data: string
@@ -36,7 +37,7 @@ function formatDate(
 
 export function mapVehicleNames(
   dataset: DatasetRow,
-  vehiclesTypes: { id: string | number; name: string }[]
+  vehiclesTypes: VehiclesTypesInterface[]
 ): DatasetRow {
   const vehiclesMap = new Map(vehiclesTypes.map((v) => [String(v.id), v.name]))
 
