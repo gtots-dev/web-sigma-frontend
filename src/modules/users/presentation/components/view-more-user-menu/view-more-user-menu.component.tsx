@@ -6,10 +6,7 @@ import { useDialog } from './view-more-user-menu-provider.component'
 import { useTableUser } from '../../contexts/table-user.context'
 import { useUserFilesStore } from '../../stores/user-files.store'
 import type { UserFileInterface } from '@/modules/users/domain/interfaces/user-file.interface'
-import { useUserFileStore } from '../../stores/user-file.store'
-import { useDownloadFile } from '@/modules/shared/presentation/hooks/use-download-file'
-import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { useParams } from 'next/navigation'
+import { useUserFileDownload } from '../../hooks/use-file-download.hook'
 
 interface ViewMoreUserMenuComponentProps {
   title: string
@@ -20,11 +17,10 @@ export function ViewMoreUserMenuComponent({
   title,
   description
 }: ViewMoreUserMenuComponentProps) {
-  const { download } = useDownloadFile()
   const { close } = useDialog()
   const { files } = useUserFilesStore()
-  const { operationId }: UrlParams = useParams()
-  const { getUserFile } = useUserFileStore()
+  const { downloadFile } = useUserFileDownload()
+
   const {
     name,
     email,
@@ -91,25 +87,19 @@ export function ViewMoreUserMenuComponent({
               title="Arquivos anexados"
               notFoundData="Sem Informação"
             >
-              {files.length !== 0 && (
+              {files.length > 0 && (
                 <ViewMoreUserMenu.Group>
                   {files.map(
-                    ({
-                      id: fileId,
-                      original_name,
-                      user_id: userId
-                    }: UserFileInterface) => (
+                    ({ id, original_name, user_id }: UserFileInterface) => (
                       <ViewMoreUserMenu.Item.file
-                        key={fileId}
+                        key={id}
                         title="Nome"
                         fileName={original_name}
                         action={() =>
-                          getUserFile({
-                            userId: String(userId),
-                            fileId: String(fileId),
-                            operationId
-                          }).then((file: File) => {
-                            download(file, original_name)
+                          downloadFile({
+                            userId: String(user_id),
+                            fileId: String(id),
+                            originalName: original_name
                           })
                         }
                       />
