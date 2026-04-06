@@ -5,6 +5,7 @@ import type { TokenEntities } from '@/modules/authentication/domain/entities/tok
 import type { GetUserFileGateway } from '../../domain/gateways/get-user-file.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
+import type { UrlFileInterface } from '../../domain/interfaces/url-file.interface'
 
 export class GetUserFileService implements GetUserFileGateway {
   constructor(
@@ -26,10 +27,10 @@ export class GetUserFileService implements GetUserFileGateway {
     }
   }
 
-  async execute(): Promise<File> {
+  async execute(): Promise<UrlFileInterface> {
     const token = await this.auth.getToken()
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, token)
-    const { data }: HttpResponseInterface<File> =
+    const { data }: HttpResponseInterface<UrlFileInterface> =
       await this.executeRequest.execute(settingsAuthHTTP)
     return data
   }
