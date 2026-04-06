@@ -2,9 +2,14 @@ import { create } from 'zustand'
 import { GetUserFileRouterApiFactory } from '@/modules/api/infrastructure/factories/get-user-file-router-api.factory'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { UrlFileInterface } from '../../domain/interfaces/url-file.interface'
 
 type UserFileState = {
-  getUserFile: ({ userId, fileId, operationId }: UrlParams) => Promise<File>
+  getUserFile: ({
+    userId,
+    fileId,
+    operationId
+  }: UrlParams) => Promise<UrlFileInterface>
 }
 
 export const useUserFileStore = create<UserFileState>(() => ({
