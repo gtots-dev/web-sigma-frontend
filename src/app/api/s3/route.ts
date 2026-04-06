@@ -1,11 +1,12 @@
 import { RouterApiFactory } from '@/modules/api/infrastructure/factories/router-service-api.factory'
 import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status-codes.enum'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
 import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
 
 const routerApi = RouterApiFactory.create()
 
-export const POST = routerApi.POST<File>(async (_, req) => {
+export const POST = routerApi.POST<UrlParams>(async (_, req) => {
   const formJson = await req?.json()
   const parsedUrl = new URL(formJson.url)
   const url = parsedUrl.pathname + parsedUrl.search
