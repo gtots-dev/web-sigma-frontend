@@ -2,7 +2,7 @@ name: AWS CI/CD Pipeline
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "file-download-test" ]
 
 env:
   AWS_REGION: us-east-2
