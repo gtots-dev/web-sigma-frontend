@@ -24,6 +24,7 @@ export const POST = routerApi.POST<UrlParams>(async (_, req) => {
     headers: {
       'Content-Type': fileBlob.type || 'application/octet-stream',
       'Content-Disposition': `attachment; filename="${filename}"`
-    }
+    },
+    isFile: true
   }
 })
