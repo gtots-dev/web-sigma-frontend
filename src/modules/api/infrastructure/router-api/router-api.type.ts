@@ -4,6 +4,7 @@ export function isFileResponse(
   result: unknown
 ): result is RouterApiFileResponseInterface {
   if (typeof result !== 'object' || result === null) return false
+  if ('isFile' in result && result.isFile === true) return true
   if (!('data' in result)) return false
 
   const data = (result as { data?: unknown }).data
