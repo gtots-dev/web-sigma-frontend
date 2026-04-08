@@ -1,11 +1,11 @@
 import { useCallback } from 'react'
 
 export function useDownloadFile() {
-  const download = useCallback((file: File, fileName: string) => {
-    const url = URL.createObjectURL(file)
+  const download = useCallback((url: string, fileName: string) => {
     const a = document.createElement('a')
     a.href = url
     a.download = fileName
+    a.target = '_blank'
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
