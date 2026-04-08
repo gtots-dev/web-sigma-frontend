@@ -2,7 +2,6 @@
 
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useDownloadFile } from '@/modules/shared/presentation/hooks/use-download-file'
-import { useS3Store } from '@/modules/shared/presentation/stores/s3.store'
 import { useParams } from 'next/navigation'
 import { useCallback } from 'react'
 import { useUserFileStore } from '../stores/user-file.store'
@@ -16,7 +15,6 @@ type DownloadFileParams = {
 }
 
 export function useUserFileDownload() {
-  const { getS3 } = useS3Store()
   const { getUserFile } = useUserFileStore()
   const { download } = useDownloadFile()
   const { operationId }: UrlParams = useParams()
@@ -34,15 +32,8 @@ export function useUserFileDownload() {
     [getUserFile, operationId]
   )
 
-  const fetchFileBlob = useCallback(
-    async (url: string) => {
-      return await getS3(url)
-    },
-    [getS3]
-  )
-
   const downloadLocalFile = useCallback(
-    (file: File, originalName: string) => {
+    (file: string, originalName: string) => {
       download(file, originalName)
     },
     [download]
@@ -61,13 +52,12 @@ export function useUserFileDownload() {
     async ({ userId, fileId, originalName }: DownloadFileParams) => {
       try {
         const url = await fetchFileUrl({ userId, fileId })
-        const file = await fetchFileBlob(url)
-        downloadLocalFile(file, originalName)
+        downloadLocalFile(url, originalName)
       } catch (error) {
         handleError(error)
       }
     },
-    [fetchFileUrl, fetchFileBlob, downloadLocalFile]
+    [fetchFileUrl, downloadLocalFile]
   )
 
   return { downloadFile }
