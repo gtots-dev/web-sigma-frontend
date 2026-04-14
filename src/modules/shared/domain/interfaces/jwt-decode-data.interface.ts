@@ -7,4 +7,5 @@ export interface JwtDecodeDataInterface {
   exp: number
   permissions: UserPermissionsInterface
   accessToken: string
+  type: '2fa_pending' | 'access'
 }
