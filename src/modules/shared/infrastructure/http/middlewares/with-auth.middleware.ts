@@ -5,22 +5,46 @@ import {
   PATHNAMES
 } from '../../configs/pathnames.config'
 import { auth } from '@/auth'
+import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
 
 export async function WithAuthMiddleware(req: NextRequest) {
-  const currentPathname = req.nextUrl.pathname
+  const pathname = req.nextUrl.pathname
 
-  if (isProtectedRoute(currentPathname)) {
-    const session = await auth()
-    const { AUTHENTICATION, SYSTEM } = PATHNAMES
+  const {
+    AUTHENTICATION: authPath,
+    SYSTEM: systemPath,
+    TWO_FACTOR: twoFactorPath
+  } = PATHNAMES
 
-    if (!session || !session.token?.access_token) {
-      return NextResponse.redirect(new URL(AUTHENTICATION, req.url))
-    }
-
-    if (isPublicRoute(currentPathname) && session.token?.access_token) {
-      return NextResponse.redirect(new URL(SYSTEM, req.url))
-    }
+  if (pathname.startsWith('/api')) {
+    return NextResponse.next()
   }
 
-  return null
+  const session = await auth()
+  const accessToken = session?.token?.access_token
+
+  const isAuthenticated = Boolean(accessToken)
+  const isAuthPage = pathname === authPath
+  const isTwoFactorPage = pathname === twoFactorPath
+  const isPublicPage = isPublicRoute(pathname)
+  const isProtectedPage = isProtectedRoute(pathname)
+
+  if (!isAuthenticated && isProtectedPage)
+    return NextResponse.redirect(new URL(authPath, req.url))
+
+  if (!isAuthenticated) return NextResponse.next()
+
+  const jwtFactory = JwtTokenDecodeFactory.create()
+  const decodedToken = jwtFactory.decode(accessToken)
+  const requiresTwoFactor = decodedToken.type === '2fa_pending'
+
+  if (requiresTwoFactor && !isTwoFactorPage)
+    return NextResponse.redirect(new URL(twoFactorPath, req.url))
+
+  if (requiresTwoFactor) return NextResponse.next()
+
+  if (isAuthPage || isTwoFactorPage || isPublicPage)
+    return NextResponse.redirect(new URL(systemPath, req.url))
+
+  return NextResponse.next()
 }
