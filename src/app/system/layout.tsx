@@ -13,25 +13,39 @@ import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories
 import { auth } from '@/auth'
 import { ContractSelectedLabel } from '@/modules/contracts/presentation/components/contract-selected-label'
 import { GetUserMeFactory } from '@/modules/users/infrastructure/factories/get-user-me.factory'
+import { redirect } from 'next/navigation'
+import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
 interface LayoutProps {
   children: ReactNode
 }
 
 export default async function Layout({ children }: LayoutProps) {
+  const session = await auth()
+  const accessToken = session?.token?.access_token
+
+  const isAuthenticated = Boolean(accessToken)
+
+  if (!isAuthenticated) redirect(PATHNAMES.AUTHENTICATION)
+
   const jwtFactory = JwtTokenDecodeFactory.create()
-  const getUserMeFactory = GetUserMeFactory.create()
-  const [{ token: JWT, user }, { name, email }] = await Promise.all([
-    auth(),
-    getUserMeFactory.execute()
-  ])
-  const { permissions } = jwtFactory.decode(JWT.access_token)
-  const userBasic = { name, email }
-  const userWithAdmin = { ...userBasic, isAdmin: user.isAdmin }
+  const decodedToken = jwtFactory.decode(accessToken)
+
+  const requiresTwoFactor = decodedToken.type === '2fa_pending'
+
+  if (requiresTwoFactor) redirect(PATHNAMES.TWO_FACTOR)
+
+  const getUserMe = GetUserMeFactory.create()
+  const { name, email } = await getUserMe.execute()
+
+  const permissions = decodedToken.permissions
+
+  const user = { name, email }
+  const userWithRole = { ...user, isAdmin: session.user.isAdmin }
 
   return (
     <SidebarProvider>
-      <SidebarSystem.Client user={userWithAdmin} permissions={permissions} />
+      <SidebarSystem.Client user={userWithRole} permissions={permissions} />
 
       <SidebarInset>
         <HeaderSystem.Root>
@@ -44,9 +58,9 @@ export default async function Layout({ children }: LayoutProps) {
               <UserDropdown.Trigger
                 className="ms-auto h-auto w-auto aspect-square"
                 isInfoEnabled={false}
-                user={userBasic}
+                user={user}
               />
-              <UserDropdown.Menu align="end" side="bottom" user={userBasic} />
+              <UserDropdown.Menu align="end" side="bottom" user={user} />
             </UserDropdown.Root>
           </div>
           <ContractSelectedLabel.Button />
