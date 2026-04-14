@@ -16,10 +16,6 @@ export async function WithAuthMiddleware(req: NextRequest) {
     TWO_FACTOR: twoFactorPath
   } = PATHNAMES
 
-  if (pathname.startsWith('/api')) {
-    return NextResponse.next()
-  }
-
   const session = await auth()
   const accessToken = session?.token?.access_token
 
@@ -32,7 +28,7 @@ export async function WithAuthMiddleware(req: NextRequest) {
   if (!isAuthenticated && isProtectedPage)
     return NextResponse.redirect(new URL(authPath, req.url))
 
-  if (!isAuthenticated) return NextResponse.next()
+  if (!isAuthenticated) return null
 
   const jwtFactory = JwtTokenDecodeFactory.create()
   const decodedToken = jwtFactory.decode(accessToken)
@@ -41,10 +37,10 @@ export async function WithAuthMiddleware(req: NextRequest) {
   if (requiresTwoFactor && !isTwoFactorPage)
     return NextResponse.redirect(new URL(twoFactorPath, req.url))
 
-  if (requiresTwoFactor) return NextResponse.next()
+  if (requiresTwoFactor) return null
 
   if (isAuthPage || isTwoFactorPage || isPublicPage)
     return NextResponse.redirect(new URL(systemPath, req.url))
 
-  return NextResponse.next()
+  return null
 }
