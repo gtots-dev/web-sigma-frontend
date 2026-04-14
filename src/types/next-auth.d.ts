@@ -3,6 +3,7 @@ import { DefaultSession } from 'next-auth'
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
+    authType: '2fa_pending' | 'access'
     token?: TokenEntities
   }
 
@@ -15,6 +16,7 @@ declare module 'next-auth' {
 
 declare module 'next-auth/jwt' {
   interface JWT {
+    authType: '2fa_pending' | 'access'
     access_token?: string
   }
 }
