@@ -2,6 +2,7 @@ export interface PathnamesInterface {
   AUTHENTICATION: string
   SYSTEM: string
   OPERATIONS: string
+  TWO_FACTOR: string
   OPERATION_OPTIONS: (id: number) => string
   OPERATION_CONFIGURATIONS: (id: number) => string
   CONTRACTS: (id: number) => string
@@ -24,6 +25,7 @@ export interface PathnamesInterface {
 
 export const PATHNAMES: PathnamesInterface = {
   AUTHENTICATION: '/authentication',
+  TWO_FACTOR: '/two-factor',
   SYSTEM: '/system',
   OPERATIONS: '/system/operations',
   OPERATION_OPTIONS: (id) => `/system/operations/${id}/operation-options`,
