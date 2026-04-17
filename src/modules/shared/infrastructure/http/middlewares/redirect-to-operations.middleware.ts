@@ -59,14 +59,15 @@ export async function RedirectToOperationsMiddleware(
       error instanceof HttpResponseError &&
       error.message === HttpStatusCodeEnum.UNAUTHORIZED
     ) {
-      const clearCookiesResponse = NextResponse.next()
+      const redirectUrl = new URL(PATHNAMES.AUTHENTICATION, req.nextUrl.origin)
+      const response = NextResponse.redirect(redirectUrl)
       req.cookies.getAll().forEach((cookie) => {
-        clearCookiesResponse.cookies.set(cookie.name, '', {
+        response.cookies.set(cookie.name, '', {
           expires: new Date(0),
           path: '/'
         })
       })
-      return clearCookiesResponse
+      return response
     }
 
     throw error
