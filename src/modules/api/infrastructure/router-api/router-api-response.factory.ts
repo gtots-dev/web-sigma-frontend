@@ -3,6 +3,9 @@ import { HttpStatusCodeEnum } from '@/modules/authentication/domain/enums/status
 
 export class RouterApiResponseFactory {
   json(data: unknown, status: number) {
+    if (status === Number(HttpStatusCodeEnum.NO_CONTENT))
+      return this.noContent()
+
     return NextResponse.json(JSON.parse(JSON.stringify(data ?? null)), {
       status
     })
