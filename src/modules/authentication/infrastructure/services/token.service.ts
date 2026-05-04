@@ -23,7 +23,8 @@ export class TokenService implements TokenGateway {
     return {
       method: 'POST',
       url: '/oauth2/token',
-      data: credentialsFormData
+      data: credentialsFormData,
+      requiresAuth: false
     }
   }
 
