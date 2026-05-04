@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-
+import { useEffect } from 'react'
 import { ThemeToggle } from '@/modules/shared/presentation/components/theme-toggle/theme-toggle.component'
 import { MESSAGES_TWO_FACTOR } from '@/modules/shared/presentation/messages/two-factor'
 import type { TwoFactorInterface } from '@/modules/two-factor/domain/interfaces/two-factor.interface'
