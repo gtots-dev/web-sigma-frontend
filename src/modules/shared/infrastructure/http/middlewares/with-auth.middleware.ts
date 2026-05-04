@@ -1,9 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import {
-  isPublicRoute,
-  isProtectedRoute,
-  PATHNAMES
-} from '../../configs/pathnames.config'
+import { isPublicRoute, PATHNAMES } from '../../configs/pathnames.config'
 import { auth } from '@/auth'
 import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
 
@@ -19,28 +15,34 @@ export async function WithAuthMiddleware(req: NextRequest) {
   const session = await auth()
   const accessToken = session?.token?.access_token
 
+  const hasTrustedDevice = req.cookies.has('trusted_device')
   const isAuthenticated = Boolean(accessToken)
+
   const isAuthPage = pathname === authPath
-  const isTwoFactorPage = pathname === twoFactorPath
+  const isTwoFactorPage = pathname.startsWith(twoFactorPath)
   const isPublicPage = isPublicRoute(pathname)
-  const isProtectedPage = isProtectedRoute(pathname)
+  const isSystemPage = pathname.startsWith(systemPath)
 
-  if (!isAuthenticated && isProtectedPage)
-    return NextResponse.redirect(new URL(authPath, req.url))
+  if (!isAuthenticated) {
+    if (isSystemPage || isTwoFactorPage)
+      return NextResponse.redirect(new URL(authPath, req.url))
+    return null
+  }
 
-  if (!isAuthenticated) return null
+  const decodedToken = JwtTokenDecodeFactory.create().decode(accessToken)
+  const isTwoFactorPending = decodedToken?.type === '2fa_pending'
+  const isReleased = !isTwoFactorPending || hasTrustedDevice
 
-  const jwtFactory = JwtTokenDecodeFactory.create()
-  const decodedToken = jwtFactory.decode(accessToken)
-  const requiresTwoFactor = decodedToken.type === '2fa_pending'
-
-  if (requiresTwoFactor && !isTwoFactorPage)
-    return NextResponse.redirect(new URL(twoFactorPath, req.url))
-
-  if (requiresTwoFactor) return null
+  if (!isReleased) {
+    if (!isTwoFactorPage)
+      return NextResponse.redirect(new URL(twoFactorPath, req.url))
+    return null
+  }
 
   if (isAuthPage || isTwoFactorPage || isPublicPage)
     return NextResponse.redirect(new URL(systemPath, req.url))
 
-  return null
+  if (isSystemPage) return null
+
+  return NextResponse.redirect(new URL(systemPath, req.url))
 }
