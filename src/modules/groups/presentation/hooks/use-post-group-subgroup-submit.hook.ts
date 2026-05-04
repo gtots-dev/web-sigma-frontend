@@ -10,10 +10,12 @@ import type { GroupSubgroupInterface } from '../../domain/interfaces/group-subgr
 
 import { useGroupStore } from '@/modules/groups/presentation/stores/group.store'
 import { useTableGroup } from '../contexts/table-group.context'
+import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePostGroupSubgroupSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { group } = useTableGroup()
+  const { challenge } = useTwoFactorChallenge()
 
   const { getGroups, postGroupSubgroup, deleteGroupSubgroup, groups } =
     useGroupStore()
@@ -23,6 +25,9 @@ export function usePostGroupSubgroupSubmit() {
       { subgroupId: formSubgroupIds }: GroupSubgroupInterface,
       onSuccess?: VoidFunction
     ) => {
+      const twoFactorCode = await challenge()
+      if (!twoFactorCode) return
+
       try {
         if (!group?.id) return
 
@@ -82,7 +87,8 @@ export function usePostGroupSubgroupSubmit() {
       groups,
       group?.id,
       operationId,
-      contractId
+      contractId,
+      challenge
     ]
   )
 

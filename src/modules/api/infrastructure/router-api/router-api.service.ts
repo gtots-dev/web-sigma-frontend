@@ -27,10 +27,10 @@ export class RouterApiService implements RouterApiGateway {
     )
   }
 
-  private handler<P, R>(callback: HandlerCallback<P, R>) {
-    return async (req: NextRequest, context?: { params?: Promise<P> }) => {
+  private handler<P = {}, R = unknown>(callback: HandlerCallback<P, R>) {
+    return async (req: NextRequest, context: { params: Promise<P> }) => {
       try {
-        const params = await context?.params
+        const params = await context.params
         const result = await callback(params, req)
 
         if (!result) {
@@ -63,23 +63,23 @@ export class RouterApiService implements RouterApiGateway {
     }
   }
 
-  GET<P, R>(callback: HandlerCallback<P, R>) {
-    return this.handler(callback)
+  GET<P = {}, R = unknown>(callback: HandlerCallback<P, R>) {
+    return this.handler<P, R>(callback)
   }
 
-  POST<P, R>(callback: HandlerCallback<P, R>) {
-    return this.handler(callback)
+  POST<P = {}, R = unknown>(callback: HandlerCallback<P, R>) {
+    return this.handler<P, R>(callback)
   }
 
-  PUT<P, R>(callback: HandlerCallback<P, R>) {
-    return this.handler(callback)
+  PUT<P = {}, R = unknown>(callback: HandlerCallback<P, R>) {
+    return this.handler<P, R>(callback)
   }
 
-  PATCH<P, R>(callback: HandlerCallback<P, R>) {
-    return this.handler(callback)
+  PATCH<P = {}, R = unknown>(callback: HandlerCallback<P, R>) {
+    return this.handler<P, R>(callback)
   }
 
-  DELETE<P, R>(callback: HandlerCallback<P, R>) {
-    return this.handler(callback)
+  DELETE<P = {}, R = unknown>(callback: HandlerCallback<P, R>) {
+    return this.handler<P, R>(callback)
   }
 }

@@ -5,16 +5,21 @@ import { usePermissionProfileStore } from '../stores/permission-profile.store'
 import type { PermissionProfileEnableAndDisableInterface } from '../../domain/interfaces/permission-profile-enable-and-disable.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
+import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePatchPermissionProfileStatusSubmit() {
   const { operationId }: UrlParams = useParams()
   const { getPermissionProfiles, updatePermissionProfileStatus } =
     usePermissionProfileStore()
+  const { challenge } = useTwoFactorChallenge()
   const onAction = useCallback(
     async (
       permissionProfileStatus: PermissionProfileEnableAndDisableInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
+      const twoFactorCode = await challenge()
+      if (!twoFactorCode) return
+
       try {
         await updatePermissionProfileStatus(
           {
@@ -39,7 +44,7 @@ export function usePatchPermissionProfileStatusSubmit() {
         }
       }
     },
-    [getPermissionProfiles, updatePermissionProfileStatus, operationId]
+    [getPermissionProfiles, updatePermissionProfileStatus, operationId, challenge]
   )
 
   return { onAction }

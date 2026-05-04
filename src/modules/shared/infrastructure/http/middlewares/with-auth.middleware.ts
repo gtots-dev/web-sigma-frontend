@@ -1,26 +1,53 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import {
-  isPublicRoute,
-  isProtectedRoute,
-  PATHNAMES
-} from '../../configs/pathnames.config'
+import { isPublicRoute, PATHNAMES } from '../../configs/pathnames.config'
 import { auth } from '@/auth'
+import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
 
 export async function WithAuthMiddleware(req: NextRequest) {
-  const currentPathname = req.nextUrl.pathname
+  const pathname = req.nextUrl.pathname
 
-  if (isProtectedRoute(currentPathname)) {
-    const session = await auth()
-    const { AUTHENTICATION, SYSTEM } = PATHNAMES
+  const {
+    AUTHENTICATION: authPath,
+    SYSTEM: systemPath,
+    TWO_FACTOR: twoFactorPath
+  } = PATHNAMES
 
-    if (!session || !session.token?.access_token) {
-      return NextResponse.redirect(new URL(AUTHENTICATION, req.url))
+  const session = await auth()
+  const accessToken = session?.token?.access_token
+
+  const hasTrustedDevice =
+    req.cookies.has('trusted_device') ||
+    req.cookies.has('__Secure-trusted_device')
+  const isAuthenticated = Boolean(accessToken)
+
+  const isAuthPage = pathname === authPath
+  const isTwoFactorPage = pathname.startsWith(twoFactorPath)
+  const isPublicPage = isPublicRoute(pathname)
+  const isSystemPage = pathname.startsWith(systemPath)
+
+  if (!isAuthenticated) {
+    if (isSystemPage || isTwoFactorPage) {
+      return NextResponse.redirect(new URL(authPath, req.url))
     }
-
-    if (isPublicRoute(currentPathname) && session.token?.access_token) {
-      return NextResponse.redirect(new URL(SYSTEM, req.url))
-    }
+    return null
   }
 
-  return null
+  const decodedToken = JwtTokenDecodeFactory.create().decode(accessToken)
+  const isTwoFactorPending = decodedToken?.type === '2fa_pending'
+  const isReleased = !isTwoFactorPending || hasTrustedDevice
+
+  if (!isReleased) {
+    if (!isTwoFactorPage) {
+      return NextResponse.redirect(new URL(twoFactorPath, req.url))
+    }
+    return null
+  }
+
+  if (isAuthPage || isTwoFactorPage || isPublicPage) {
+    return NextResponse.redirect(new URL(systemPath, req.url))
+  }
+
+  if (isSystemPage) return null
+
+  return NextResponse.redirect(new URL(systemPath, req.url))
 }

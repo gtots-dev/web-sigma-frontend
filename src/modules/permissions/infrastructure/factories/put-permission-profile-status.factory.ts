@@ -3,16 +3,13 @@ import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories
 import type { PatchPermissionProfileStatusGateway } from '../../domain/gateways/put-permission-profile-status.gateway'
 import { PatchPermissionProfileStatusService } from '../services/put-permission-profile-status.service'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { AuthTokenFactory } from '@/modules/api/infrastructure/factories/auth-token.factory'
 
 export class PatchPermissionProfileStatusFactory {
   static create(params: UrlParams): PatchPermissionProfileStatusGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    const authToken = AuthTokenFactory.create()
     return new PatchPermissionProfileStatusService(
       executeRequest,
-      authToken,
       params
     )
   }
