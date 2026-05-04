@@ -33,7 +33,9 @@ export default async function Layout({ children }: LayoutProps) {
   const decodedToken = jwtFactory.decode(accessToken)
 
   const cookieStore = await cookies()
-  const hasTrustedDevice = cookieStore.has('trusted_device')
+  const hasTrustedDevice =
+    cookieStore.has('trusted_device') ||
+    cookieStore.has('__Secure-trusted_device')
 
   const requiresTwoFactor =
     decodedToken.type === '2fa_pending' && !hasTrustedDevice
