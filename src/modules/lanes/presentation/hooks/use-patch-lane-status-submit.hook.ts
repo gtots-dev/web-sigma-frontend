@@ -7,16 +7,21 @@ import { useLaneStore } from '../stores/lanes.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
 import type { LaneEnableAndDisableInterface } from '../../domain/interfaces/lane-enable-and-disable.interface'
+import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePatchLaneStatusSubmit() {
   const { operationId, contractId, processingUnitId }: UrlParams = useParams()
   const { getLanes, patchLaneStatus } = useLaneStore()
+  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       laneEnableAndDisable: LaneEnableAndDisableInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
+      const twoFactorCode = await challenge()
+      if (!twoFactorCode) return
+
       try {
         await patchLaneStatus(
           { operationId, contractId, processingUnitId },
@@ -38,7 +43,7 @@ export function usePatchLaneStatusSubmit() {
         }
       }
     },
-    [getLanes, patchLaneStatus, operationId, contractId, processingUnitId]
+    [getLanes, patchLaneStatus, operationId, contractId, processingUnitId, challenge]
   )
 
   return { onAction }
