@@ -5,17 +5,24 @@ import { ThemeLogoComponent } from '@/modules/shared/presentation/components/the
 import { ThemeToggle } from '@/modules/shared/presentation/components/theme-toggle/theme-toggle.component'
 import { MESSAGES_AUTHENTICATION } from '@/modules/shared/presentation/messages/authentication'
 import { MESSAGES_HELP_ME } from '@/modules/shared/presentation/messages/help-me'
+import bannerImage from '@/../public/backgrounds/authentication_roads.jpg'
+import lightLogo from '@/../public/logos/gtots_principal_hor_margem.svg'
+import darkLogo from '@/../public/logos/gtots_preto_hor_margem.svg'
+import mobileLightLogo from '@/../public/logos/gtots_principal_hor.svg'
+import mobileDarkLogo from '@/../public/logos/gtots_branco_hor.svg'
+
+import type { StaticImageData } from 'next/image'
 
 interface Images {
-  bannerImageSrc: string
+  bannerImageSrc: StaticImageData | string
   bannerImageAlt: string
-  lightLogoSrc: string
+  lightLogoSrc: StaticImageData | string
   lightLogoAlt: string
-  darkLogoSrc: string
+  darkLogoSrc: StaticImageData | string
   darkLogoAlt: string
-  mobileLightLogoSrc: string
+  mobileLightLogoSrc: StaticImageData | string
   mobileLightLogoAlt: string
-  mobileDarkLogoSrc: string
+  mobileDarkLogoSrc: StaticImageData | string
   mobileDarkLogoAlt: string
 }
 
@@ -37,16 +44,19 @@ const data: Data = {
   helpMePassword: MESSAGES_HELP_ME['password'],
   helpMeForgotPassword: MESSAGES_HELP_ME['forgotPassword'],
   images: {
-    bannerImageSrc: '/backgrounds/authentication_roads.jpg',
-    lightLogoSrc: '/logos/gtots_principal_hor_margem.svg',
-    darkLogoSrc: '/logos/gtots_preto_hor_margem.svg',
-    mobileLightLogoSrc: '/logos/gtots_principal_hor.svg',
-    mobileDarkLogoSrc: '/logos/gtots_branco_hor.svg',
-
+    bannerImageSrc: bannerImage,
     bannerImageAlt: 'Imagem de uma estrada ao amanhecer',
+
+    lightLogoSrc: lightLogo,
     lightLogoAlt: 'Logotipo claro da GTOTS',
+
+    darkLogoSrc: darkLogo,
     darkLogoAlt: 'Logotipo escuro da GTOTS',
+
+    mobileLightLogoSrc: mobileLightLogo,
     mobileLightLogoAlt: 'Logotipo claro da GTOTS para dispositivos móveis',
+
+    mobileDarkLogoSrc: mobileDarkLogo,
     mobileDarkLogoAlt: 'Logotipo escuro da GTOTS para dispositivos móveis'
   }
 }
@@ -74,7 +84,7 @@ export default function AuthenticationPage() {
           <AuthenticationFormCard.Root>
             <AuthenticationFormCard.Header>
               <ThemeLogoComponent
-                isMobileOnly={true}
+                isMobileOnly
                 height={50}
                 width={121}
                 className="mb-2"
@@ -83,6 +93,7 @@ export default function AuthenticationPage() {
                 logoDarkSrc={data.images.mobileDarkLogoSrc}
                 logoDarkAlt={data.images.mobileDarkLogoAlt}
               />
+
               <AuthenticationFormCard.Title title={data.title} />
               <AuthenticationFormCard.Description
                 description={data.description}
@@ -93,6 +104,7 @@ export default function AuthenticationPage() {
               <AuthenticationForm.InputUsername
                 description={data.helpMeUsername}
               />
+
               <AuthenticationForm.InputPassword
                 description={data.helpMePassword}
               >
@@ -108,6 +120,7 @@ export default function AuthenticationPage() {
           </AuthenticationFormCard.Root>
         </AuthenticationForm.Root>
       </AuthenticationCard.Content>
+
       <ThemeToggle className="fixed top-10 right-10" title="Altere seu tema" />
     </AuthenticationCard.Root>
   )
