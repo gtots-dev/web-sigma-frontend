@@ -4,7 +4,7 @@ import { PostTwoFactorVerifyFactory } from '@/modules/two-factor/infrastructure/
 
 const routerApi = RouterApiFactory.create()
 
-export const POST = routerApi.POST<void>(async (_, req) => {
+export const POST = routerApi.POST(async (_, req) => {
   const code = await req?.json()
   const postTwoFactorVerify = PostTwoFactorVerifyFactory.create()
   const response = await postTwoFactorVerify.execute(code)
