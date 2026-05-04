@@ -1,15 +1,16 @@
 import Image from 'next/image'
+import logo from '@/../public/logos/gtots_principal_hor.svg'
 
-export default async function Loading() {
+export default function Loading() {
   return (
     <main className="grid place-content-center gap-3 h-full w-full shrink-0">
       <Image
-        src="/logos/gtots_principal_hor.svg"
+        src={logo}
         alt="Logotipo da empresa Traffic Safe"
         className="aspect-auto animate-pulse duration-1000"
         height={100}
         width={250}
-        fetchPriority="high"
+        priority
       />
     </main>
   )

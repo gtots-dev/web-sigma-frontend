@@ -9,7 +9,7 @@ export interface RouterApiFileResponseInterface {
 }
 
 export type NextRouteContext<P> = {
-  params?: Promise<P>
+  params: Promise<P>
 }
 
 export type RouterApiResponse<T = unknown> = {
@@ -35,38 +35,38 @@ export type HandlerCallback<P, R> = (
 ) => Promise<HandlerResult<R>>
 
 export interface RouterApiGateway {
-  GET<P = void, R = unknown>(
+  GET<P = {}, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
-    context?: NextRouteContext<P>
+    context: NextRouteContext<P>
   ) => Promise<Response | NextResponse>
 
-  POST<P = void, R = unknown>(
+  POST<P = {}, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
-    context?: NextRouteContext<P>
+    context: NextRouteContext<P>
   ) => Promise<Response | NextResponse>
 
-  PUT<P = void, R = unknown>(
+  PUT<P = {}, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
-    context?: NextRouteContext<P>
+    context: NextRouteContext<P>
   ) => Promise<Response | NextResponse>
 
-  PATCH<P = void, R = unknown>(
+  PATCH<P = {}, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
-    context?: NextRouteContext<P>
+    context: NextRouteContext<P>
   ) => Promise<Response | NextResponse>
 
-  DELETE<P = void, R = unknown>(
+  DELETE<P = {}, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
-    context?: NextRouteContext<P>
+    context: NextRouteContext<P>
   ) => Promise<Response | NextResponse>
 }

@@ -2,5 +2,12 @@ import type { HttpRequestConfig } from '../interfaces/http-request-config.interf
 import type { HttpResponseInterface } from '../interfaces/http-response.interface'
 
 export interface HttpClientGateway {
-  request<T>(config: HttpRequestConfig): Promise<HttpResponseInterface<T>>
+  request<
+    T,
+    TData = unknown,
+    TParams = unknown,
+    THeaders = Record<string, string>
+  >(
+    config: HttpRequestConfig<TData, TParams>
+  ): Promise<HttpResponseInterface<T, THeaders>>
 }

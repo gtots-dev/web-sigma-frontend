@@ -1,24 +1,29 @@
-import type { ComponentProps, ReactNode } from 'react'
+import Image, { type StaticImageData } from 'next/image'
+import type { ReactNode } from 'react'
 
-interface AuthenticationCardBannerComponentProps extends ComponentProps<'img'> {
+type ImageSrc = string | StaticImageData
+
+interface AuthenticationCardBannerComponentProps {
+  src: ImageSrc
+  alt: string
   children: ReactNode
 }
 
 export function AuthenticationCardBannerComponent({
   children,
-  ...props
+  src,
+  alt
 }: AuthenticationCardBannerComponentProps) {
   return (
-    <picture className="relative hidden xl:block h-full w-full">
-      <img
-        {...props}
-        className="absolute inset-0 h-full w-full dark:brightness-[0.9] dark:grayscale"
-        alt="Imagem ilustrativa relacionada a seção de autenticação"
-        height="100%"
-        width="100%"
-        fetchPriority="high"
+    <div className="relative hidden xl:block h-full w-full">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover dark:brightness-[0.9] dark:grayscale"
+        priority
       />
       {children}
-    </picture>
+    </div>
   )
 }

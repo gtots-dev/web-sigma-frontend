@@ -13,11 +13,12 @@ export async function RedirectToOperationsMiddleware(
   req: NextRequest
 ): Promise<NextResponse> {
   const { pathname, origin } = req.nextUrl
-  const { SYSTEM, OPERATIONS } = PATHNAMES
+  const { SYSTEM, OPERATIONS, OPERATION_OPTIONS, TWO_FACTOR } = PATHNAMES
+
+  if (!pathname.startsWith(SYSTEM)) return NextResponse.next()
+  if (pathname.startsWith(TWO_FACTOR)) return NextResponse.next()
 
   try {
-    const response = NextResponse.next()
-
     const redirectTo = await handleRedirectToOperationsUtil(pathname, SYSTEM, {
       async getAuthToken() {
         const session = await auth()
@@ -33,41 +34,34 @@ export async function RedirectToOperationsMiddleware(
         return OperationFactory.create(data)
       },
       saveOperationToCookies(operation) {
+        const response = NextResponse.next()
         const writer = CookiesFactory.createWriter(req, response, 'operation')
         writer.saveToCookies(operation)
       },
       getRedirectUrl(isSingle, id) {
-        const pathname =
-          isSingle && id != null
-            ? `${OPERATIONS}/${id}/operation-options`
-            : `${OPERATIONS}`
-        return new URL(pathname, origin).toString()
+        const path =
+          isSingle && id != null ? OPERATION_OPTIONS(Number(id)) : OPERATIONS
+
+        return new URL(path, origin).toString()
       }
     })
 
-    if (redirectTo) {
-      const redirectResponse = NextResponse.redirect(redirectTo)
-      response.cookies.getAll().forEach((cookie) => {
-        redirectResponse.cookies.set(cookie.name, cookie.value, cookie)
-      })
-      return redirectResponse
-    }
+    if (redirectTo && redirectTo !== pathname)
+      return NextResponse.redirect(new URL(redirectTo, origin))
 
-    return response
+    return NextResponse.next()
   } catch (error) {
     if (
       error instanceof HttpResponseError &&
-      error.message === HttpStatusCodeEnum.UNAUTHORIZED
-    ) {
-      const clearCookiesResponse = NextResponse.next()
-      req.cookies.getAll().forEach((cookie) => {
-        clearCookiesResponse.cookies.set(cookie.name, '', {
-          expires: new Date(0),
-          path: '/'
-        })
-      })
-      return clearCookiesResponse
-    }
+      error.message.includes('Two-factor authentication')
+    )
+      return NextResponse.next()
+
+    if (
+      error instanceof HttpResponseError &&
+      String(error.status) === HttpStatusCodeEnum.UNAUTHORIZED
+    )
+      return NextResponse.next()
 
     throw error
   }

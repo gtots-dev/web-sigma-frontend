@@ -7,16 +7,21 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { useParams } from 'next/navigation'
 import type { PointEnableAndDisableInterface } from '../../domain/interfaces/point-enable-and-disable.interface'
 import { usePointStore } from '../stores/point.store'
+import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePatchPointStatusSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { getPoints, patchPointStatus } = usePointStore()
+  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       point: PointEnableAndDisableInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
+      const twoFactorCode = await challenge()
+      if (!twoFactorCode) return
+
       try {
         await patchPointStatus({ operationId, contractId }, point)
         toast({
@@ -35,7 +40,7 @@ export function usePatchPointStatusSubmit() {
         }
       }
     },
-    [getPoints, patchPointStatus, operationId, contractId]
+    [getPoints, patchPointStatus, operationId, contractId, challenge]
   )
 
   return { onAction }
