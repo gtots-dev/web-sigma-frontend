@@ -12,10 +12,12 @@ import { ContentSystem } from '@/modules/system/presentation/components/content-
 import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories/jwt-decode.factory'
 import { auth } from '@/auth'
 import { ContractSelectedLabel } from '@/modules/contracts/presentation/components/contract-selected-label'
+import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import { GetUserMeFactory } from '@/modules/users/infrastructure/factories/get-user-me.factory'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
+import { TwoFactorChallengeProvider } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 interface LayoutProps {
   children: ReactNode
@@ -42,8 +44,20 @@ export default async function Layout({ children }: LayoutProps) {
 
   if (requiresTwoFactor) redirect(PATHNAMES.TWO_FACTOR)
 
-  const getUserMe = GetUserMeFactory.create()
-  const { name, email } = await getUserMe.execute()
+  let name = ''
+  let email = ''
+  
+  try {
+    const getUserMe = GetUserMeFactory.create()
+    const result = await getUserMe.execute()
+    name = result.name
+    email = result.email
+  } catch (error) {
+    if (error instanceof HttpResponseError && error.message.includes('Two-factor authentication not completed')) {
+      redirect(PATHNAMES.TWO_FACTOR)
+    }
+    throw error
+  }
 
   const permissions = decodedToken.permissions
 
@@ -51,29 +65,31 @@ export default async function Layout({ children }: LayoutProps) {
   const userWithRole = { ...user, isAdmin: session.user.isAdmin }
 
   return (
-    <SidebarProvider>
-      <SidebarSystem.Client user={userWithRole} permissions={permissions} />
+    <TwoFactorChallengeProvider>
+      <SidebarProvider>
+        <SidebarSystem.Client user={userWithRole} permissions={permissions} />
 
-      <SidebarInset>
-        <HeaderSystem.Root>
-          <div className="flex items-center gap-x-2">
-            <SidebarTrigger className="h-12 w-12 aspect-square" />
-            <Separator orientation="vertical" className="h-9" />
-          </div>
-          <div className="sm:hidden">
-            <UserDropdown.Root>
-              <UserDropdown.Trigger
-                className="ms-auto h-auto w-auto aspect-square"
-                isInfoEnabled={false}
-                user={user}
-              />
-              <UserDropdown.Menu align="end" side="bottom" user={user} />
-            </UserDropdown.Root>
-          </div>
-          <ContractSelectedLabel.Button />
-        </HeaderSystem.Root>
-        <ContentSystem.Root>{children}</ContentSystem.Root>
-      </SidebarInset>
-    </SidebarProvider>
+        <SidebarInset>
+          <HeaderSystem.Root>
+            <div className="flex items-center gap-x-2">
+              <SidebarTrigger className="h-12 w-12 aspect-square" />
+              <Separator orientation="vertical" className="h-9" />
+            </div>
+            <div className="sm:hidden">
+              <UserDropdown.Root>
+                <UserDropdown.Trigger
+                  className="ms-auto h-auto w-auto aspect-square"
+                  isInfoEnabled={false}
+                  user={user}
+                />
+                <UserDropdown.Menu align="end" side="bottom" user={user} />
+              </UserDropdown.Root>
+            </div>
+            <ContractSelectedLabel.Button />
+          </HeaderSystem.Root>
+          <ContentSystem.Root>{children}</ContentSystem.Root>
+        </SidebarInset>
+      </SidebarProvider>
+    </TwoFactorChallengeProvider>
   )
 }
