@@ -20,11 +20,6 @@ export async function WithAuthMiddleware(req: NextRequest) {
     req.cookies.has('__Secure-trusted_device')
   const isAuthenticated = Boolean(accessToken)
 
-  console.log(`[Auth Middleware] Path: ${pathname} | Auth: ${isAuthenticated} | Trust: ${hasTrustedDevice}`)
-  if (!hasTrustedDevice) {
-    console.log(`[Auth Middleware] Cookies found: ${req.cookies.getAll().map(c => c.name).join(', ')}`)
-  }
-
   const isAuthPage = pathname === authPath
   const isTwoFactorPage = pathname.startsWith(twoFactorPath)
   const isPublicPage = isPublicRoute(pathname)
