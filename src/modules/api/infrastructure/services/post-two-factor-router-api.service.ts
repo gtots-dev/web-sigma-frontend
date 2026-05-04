@@ -3,11 +3,8 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { PostTwoFactorRouterApiGateway } from '../../domain/gateways/post-two-factor-router-api.gateway'
 
 export class PostTwoFactorRouterApiService implements PostTwoFactorRouterApiGateway {
-  constructor(
-    private readonly executeRequest: ExecuteRequest,
-  ) {}
-  getHttpRequestConfig(
-  ): HttpRequestConfig {
+  constructor(private readonly executeRequest: ExecuteRequest) {}
+  getHttpRequestConfig(): HttpRequestConfig {
     return {
       method: 'POST',
       url: `api/2fa`
