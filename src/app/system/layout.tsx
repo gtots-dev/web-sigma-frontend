@@ -13,6 +13,7 @@ import { JwtTokenDecodeFactory } from '@/modules/shared/infrastructure/factories
 import { auth } from '@/auth'
 import { ContractSelectedLabel } from '@/modules/contracts/presentation/components/contract-selected-label'
 import { GetUserMeFactory } from '@/modules/users/infrastructure/factories/get-user-me.factory'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
@@ -31,7 +32,11 @@ export default async function Layout({ children }: LayoutProps) {
   const jwtFactory = JwtTokenDecodeFactory.create()
   const decodedToken = jwtFactory.decode(accessToken)
 
-  const requiresTwoFactor = decodedToken.type === '2fa_pending'
+  const cookieStore = await cookies()
+  const hasTrustedDevice = cookieStore.has('trusted_device')
+
+  const requiresTwoFactor =
+    decodedToken.type === '2fa_pending' && !hasTrustedDevice
 
   if (requiresTwoFactor) redirect(PATHNAMES.TWO_FACTOR)
 
