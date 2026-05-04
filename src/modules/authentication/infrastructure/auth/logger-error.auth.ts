@@ -10,7 +10,7 @@ export function LoggerErrorAuth(error: Error): void {
   if (error instanceof CredentialsSignin) {
     const cause = (error as ErrorWithCause).cause
 
-    console.error('🔐 [AUTH] Login failed')
+    console.error('🔐 [AUTH] Login failed', error)
 
     if (isError(cause) && cause.message) {
       console.error('↳ Backend:', cause.message)
