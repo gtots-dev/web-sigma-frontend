@@ -4,5 +4,6 @@ import { z } from 'zod'
 export const TwoFactorFormSchema = z.object({
   otp_code: z.string().nonempty({
     message: MESSAGES_TWO_FACTOR['21.4']
-  })
+  }),
+  remember_device: z.boolean()
 })

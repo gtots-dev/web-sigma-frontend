@@ -9,7 +9,8 @@ import type { TwoFactorInterface } from '../../domain/interfaces/two-factor.inte
 export function usePostTwoFactorForm() {
   const defaultValues = useMemo<TwoFactorInterface>(
     () => ({
-      otp_code: ''
+      otp_code: '',
+      remember_device: false
     }),
     []
   )
