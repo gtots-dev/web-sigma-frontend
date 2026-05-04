@@ -9,30 +9,35 @@ import { LoadingSpinComponent } from '@/modules/shared/presentation/components/l
 interface TwoFactorFormSubmitComponentProps {
   onSubmit: (twoFactor: TwoFactorInterface) => Promise<void>
   error?: string
+  disabled?: boolean
 }
 
 export function TwoFactorFormSubmitComponent({
   onSubmit,
-  error
+  error,
+  disabled
 }: TwoFactorFormSubmitComponentProps) {
   const {
     handleSubmit,
     formState: { isSubmitting }
   } = useFormContext<TwoFactorInterface>()
 
+  const isDisabled = isSubmitting || disabled
+
   return (
     <div className="flex flex-col gap-y-3 w-full">
       <ErrorMessageComponent error={error} />
 
       <Button
-        disabled={isSubmitting}
+        disabled={isDisabled}
         className="w-full text-sm bg-primary-600 text-zinc-50 hover:bg-primary-600/90"
         type="submit"
         onClick={handleSubmit(onSubmit)}
       >
-        <LoadingSpinComponent loading={isSubmitting} />
+        <LoadingSpinComponent loading={isDisabled} />
         Autenticar
       </Button>
     </div>
   )
 }
+
