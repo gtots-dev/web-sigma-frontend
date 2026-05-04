@@ -23,7 +23,7 @@ export function ThemeLogoComponent({
   isMobileOnly = false
 }: ThemeLogoComponentProps) {
   return (
-    <picture>
+    <>
       {['light', 'dark'].map((mode) => (
         <Image
           key={mode}
@@ -39,6 +39,6 @@ export function ThemeLogoComponent({
           fetchPriority="high"
         />
       ))}
-    </picture>
+    </>
   )
 }
