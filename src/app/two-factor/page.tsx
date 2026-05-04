@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
+
 import { ThemeToggle } from '@/modules/shared/presentation/components/theme-toggle/theme-toggle.component'
 import { MESSAGES_TWO_FACTOR } from '@/modules/shared/presentation/messages/two-factor'
 import type { TwoFactorInterface } from '@/modules/two-factor/domain/interfaces/two-factor.interface'
@@ -16,8 +18,12 @@ interface Data {
 }
 
 export default function TwoFactorPage() {
-  const { postTwoFactor } = useTwoFactorStore()
+  const postTwoFactor = useTwoFactorStore((state) => state.postTwoFactor)
   const { onAction } = usePostTwoFactorSubmit()
+
+  useEffect(() => {
+    postTwoFactor()
+  }, [postTwoFactor])
 
   const data: Data = {
     title: MESSAGES_TWO_FACTOR['21.1'],
@@ -35,18 +41,20 @@ export default function TwoFactorPage() {
 
           <TwoFactorFormCard.Content>
             <TwoFactorForm.Form>
-              <TwoFactorForm.Input.otp />
+              <TwoFactorForm.Input.OTP>
+                <TwoFactorForm.Input.RememberMe />
+              </TwoFactorForm.Input.OTP>
             </TwoFactorForm.Form>
           </TwoFactorFormCard.Content>
           <TwoFactorFormCard.Footer>
-            <TwoFactorForm.Input.resend
+            <TwoFactorForm.Input.Resend
               onResend={postTwoFactor}
               cooldownSeconds={300}
             >
               <TwoFactorForm.Submit
                 onSubmit={(otp: TwoFactorInterface) => onAction(otp)}
               />
-            </TwoFactorForm.Input.resend>
+            </TwoFactorForm.Input.Resend>
 
             <TwoFactorForm.Cancel />
           </TwoFactorFormCard.Footer>
