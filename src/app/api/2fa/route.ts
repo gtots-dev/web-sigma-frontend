@@ -3,7 +3,7 @@ import { PostTwoFactorFactory } from '@/modules/two-factor/infrastructure/factor
 
 const routerApi = RouterApiFactory.create()
 
-export const POST = routerApi.POST<void>(async () => {
+export const POST = routerApi.POST(async () => {
   const postTwoFactor = PostTwoFactorFactory.create()
   return await postTwoFactor.execute()
 })
