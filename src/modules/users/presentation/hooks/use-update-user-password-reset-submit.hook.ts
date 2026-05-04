@@ -9,18 +9,23 @@ import { useUserPasswordResetStore } from '../stores/user-password-reset.store'
 import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useTableUser } from '../contexts/table-user.context'
+import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePutUserPasswordResetSubmit() {
   const { getUsers } = useUserStore()
   const { id: userId } = useTableUser()
   const { operationId }: UrlParams = useParams()
   const { solicitedNewPassword } = useUserPasswordResetStore()
+  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       userPasswordReset: UserPasswordResetInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
+      const twoFactorCode = await challenge()
+      if (!twoFactorCode) return
+
       try {
         await solicitedNewPassword(
           { operationId, userId: String(userId) },
@@ -44,7 +49,7 @@ export function usePutUserPasswordResetSubmit() {
         }
       }
     },
-    [solicitedNewPassword, getUsers, operationId, userId]
+    [solicitedNewPassword, getUsers, operationId, userId, challenge]
   )
 
   return { onAction }
