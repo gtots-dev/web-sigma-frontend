@@ -24,10 +24,19 @@ export async function handleRedirectToOperationsUtil(
   const { operation_ids: operationIds } = deps.decodeToken(token)
   if (!operationIds?.length) return null
 
-  const { data: operations } = await deps.getOperations()
+  let operations: OperationEntity[] = []
+
+  try {
+    const response = await deps.getOperations()
+    operations = Array.isArray(response?.data) ? response.data : []
+  } catch (error) {
+    throw error
+  }
+
   const hasSingleOperation = operationIds.length === 1
 
   let operationId: string | undefined = undefined
+
   if (hasSingleOperation && operations.length) {
     const operation = deps.createOperation(operations[0])
     operationId = operation.id
