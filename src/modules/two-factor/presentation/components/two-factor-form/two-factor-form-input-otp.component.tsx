@@ -15,17 +15,19 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/input-otp'
 import { useOtpInput } from '@/modules/shared/presentation/hooks/use-otp.hook'
 import { useFormContext } from 'react-hook-form'
-import type { ClipboardEvent } from 'react'
+import type { ClipboardEvent, ReactNode } from 'react'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 
 interface TwoFactorFormInputOTPComponentProps {
   require?: boolean
   description?: string
+  children?: ReactNode
 }
 
 export function TwoFactorFormInputOTPComponent({
   require,
-  description
+  description,
+  children
 }: TwoFactorFormInputOTPComponentProps) {
   const { control, resetField, setValue } = useFormContext()
 
@@ -59,36 +61,39 @@ export function TwoFactorFormInputOTPComponent({
             </FormLabel>
 
             <FormControl>
-              <InputOTP
-                id="otp_code"
-                value={field.value ?? ''}
-                onChange={field.onChange}
-                onPaste={onPaste}
-                autoComplete="one-time-code"
-                maxLength={6}
-                pattern={REGEXP_ONLY_DIGITS}
-              >
-                <InputOTPGroup className="flex w-full h-[45px]">
-                  {Array.from({ length: 6 }).map((_, index) => (
-                    <InputOTPSlot
-                      key={index}
-                      index={index}
-                      className="flex-1 w-full h-full"
-                    />
-                  ))}
-                </InputOTPGroup>
-              </InputOTP>
-            </FormControl>
+              <div className="flex flex-col gap-4">
+                <InputOTP
+                  id="otp_code"
+                  value={field.value ?? ''}
+                  onChange={field.onChange}
+                  onPaste={onPaste}
+                  autoComplete="one-time-code"
+                  maxLength={6}
+                  pattern={REGEXP_ONLY_DIGITS}
+                >
+                  <InputOTPGroup className="flex w-full h-[45px]">
+                    {Array.from({ length: 6 }).map((_, index) => (
+                      <InputOTPSlot
+                        key={index}
+                        index={index}
+                        className="flex-1 w-full h-full"
+                      />
+                    ))}
+                  </InputOTPGroup>
+                </InputOTP>
 
-            <div className="flex justify-end mt-2">
-              <button
-                type="button"
-                onClick={handleClear}
-                className="text-xs text-muted-foreground hover:text-red-500 transition-colors"
-              >
-                Limpar código
-              </button>
-            </div>
+                <div className="flex gap-4 justify-between">
+                  {children}
+                  <button
+                    type="button"
+                    onClick={handleClear}
+                    className="text-xs text-muted-foreground hover:text-red-500 transition-colors"
+                  >
+                    Limpar código
+                  </button>
+                </div>
+              </div>
+            </FormControl>
 
             <FormMessage />
           </FormItem>
