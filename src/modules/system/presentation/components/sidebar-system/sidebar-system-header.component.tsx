@@ -1,11 +1,13 @@
 import { SidebarHeader } from '@/modules/shared/presentation/components/shadcn/sidebar'
 import { ThemeLogoComponent } from '@/modules/shared/presentation/components/theme-logo/theme-logo.component'
 import { ThemeToggle } from '@/modules/shared/presentation/components/theme-toggle/theme-toggle.component'
+import lightLogoSrc from '@/../public/logos/gtots_principal_hor.svg'
+import darkLogoSrc from '@/../public/logos/gtots_branco_hor.svg'
 
 export function SidebarSystemHeaderComponent() {
   const images = {
-    lightLogoSrc: '/logos/gtots_principal_hor.svg',
-    darkLogoSrc: '/logos/gtots_branco_hor.svg',
+    lightLogoSrc: lightLogoSrc,
+    darkLogoSrc: darkLogoSrc,
     lightLogoAlt: 'Logotipo claro da GTOTS',
     darkLogoAlt: 'Logotipo escuro da GTOTS'
   }

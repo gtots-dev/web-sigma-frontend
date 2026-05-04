@@ -1,7 +1,6 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { PostUserFilesRouterApiGateway } from '../../domain/gateways/post-user-files-router-api.gateway'
-import type { ConvertJsonToFormData } from '@/modules/shared/infrastructure/services/convert-json-to-form-data.service'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { UserFilesInterface } from '@/modules/users/domain/interfaces/user-files.interface'
@@ -9,7 +8,6 @@ import type { UserFilesInterface } from '@/modules/users/domain/interfaces/user-
 export class PostUserFilesRouterApiService implements PostUserFilesRouterApiGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
-    private readonly formData: ConvertJsonToFormData,
     private readonly params: UrlParams
   ) {}
   getHttpRequestConfig(files: FormData): HttpRequestConfig<FormData> {
@@ -22,8 +20,13 @@ export class PostUserFilesRouterApiService implements PostUserFilesRouterApiGate
   async execute(
     files: UserFilesInterface
   ): Promise<HttpResponseInterface<void>> {
-    const userFormData = this.formData.execute({ ...files })
-    const settingsAuthHTTP = this.getHttpRequestConfig(userFormData)
-    return await this.httpRequest.execute<void>(settingsAuthHTTP)
+    const formData = new FormData()
+
+    files.files.forEach((file) =>
+      formData.append(`file:${file.name}`, file, file.name)
+    )
+
+    const config = this.getHttpRequestConfig(formData)
+    return await this.httpRequest.execute<void>(config)
   }
 }

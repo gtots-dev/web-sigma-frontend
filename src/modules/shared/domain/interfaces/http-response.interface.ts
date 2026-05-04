@@ -1,6 +1,7 @@
-export interface HttpResponseInterface<T> {
+export interface HttpResponseInterface<TData, THeaders = unknown> {
   success: boolean
   status: number
-  data?: T
   message?: string
+  data: TData
+  headers: THeaders
 }

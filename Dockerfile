@@ -28,6 +28,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/next.config.ts ./
 
+RUN chown -R node:node /app/.next
+
 USER node
 
 EXPOSE ${APP_PORT}

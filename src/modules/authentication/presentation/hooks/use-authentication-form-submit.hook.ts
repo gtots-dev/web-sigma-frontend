@@ -6,6 +6,8 @@ import type { AuthenticationFormType } from '../schemas/authentication-form.sche
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { AuthSignInFactory } from '../../infrastructure/factories/auth-sign-in.factory'
 import { AuthSignOutFactory } from '../../infrastructure/factories/auth-sign-out.factory'
+import { getSession } from 'next-auth/react'
+import type { Session } from 'next-auth'
 
 export function useAuthenticationFormSubmitHook() {
   const router = useRouter()
@@ -22,6 +24,12 @@ export function useAuthenticationFormSubmitHook() {
     setLoading(true)
     try {
       await authSignIn.signIn(data)
+      const session = await getSession()
+      if (!session) throw new Error('Sessão não encontrada')
+      if ((session as Session).authType == '2fa_pending') {
+        router.push(PATHNAMES.TWO_FACTOR)
+        return
+      }
       router.push(PATHNAMES.SYSTEM)
     } catch (err) {
       if (err instanceof Error) setError(err.message)
@@ -29,12 +37,11 @@ export function useAuthenticationFormSubmitHook() {
       setLoading(false)
     }
   }
-
   const onSubmitSignOut = async (): Promise<void> => {
     setLoading(true)
     try {
       await authSignOut.signOut()
-      router.push(PATHNAMES.AUTHENTICATION)
+      window.location.href = PATHNAMES.AUTHENTICATION
     } finally {
       setLoading(false)
     }

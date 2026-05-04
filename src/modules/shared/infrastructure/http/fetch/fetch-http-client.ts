@@ -8,29 +8,39 @@ import type { ParseResponseBody } from './dependencies/parse-response-body'
 import type { ExtractErrorMessage } from './dependencies/extract-error-message'
 import type { HttpQueryParamsInterface } from '@/modules/shared/domain/interfaces/http-query-params.interface'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
+import type { ParseHeadersType } from './dependencies/parse-headers'
 
 export class FetchHttpClient implements HttpClientGateway {
   constructor(
     private readonly baseURL: string,
     private readonly resolveBodyAndHeaders: ResolveBodyAndHeaders,
     private readonly parseResponseBody: ParseResponseBody,
+    private readonly parseHeaders: ParseHeadersType,
     private readonly extractErrorMessage: ExtractErrorMessage
   ) {}
 
-  async request<T, TData = unknown, TParams = unknown>(
+  request = async <
+    T,
+    TData = unknown,
+    TParams = unknown,
+    THeaders = Record<string, string>
+  >(
     config: HttpRequestConfig<TData, TParams>
-  ): Promise<HttpResponseInterface<T>> {
+  ): Promise<HttpResponseInterface<T, THeaders>> => {
     const queryString = buildQueryString(
       config.params as HttpQueryParamsInterface
     )
 
-    const { body, headers } = this.resolveBodyAndHeaders(
+    const { body, headers: resolvedHeaders } = this.resolveBodyAndHeaders(
       config.data,
       config.headers
     )
 
+    let headers = { ...resolvedHeaders } as Record<string, string>
+
     let response: Response
-    let parsedData: unknown
+    let parsedData: T
+    let parsedHeaders: Record<string, string>
 
     try {
       response = await fetch(`${this.baseURL}${config.url}${queryString}`, {
@@ -40,6 +50,7 @@ export class FetchHttpClient implements HttpClientGateway {
         cache: 'no-cache'
       })
 
+      parsedHeaders = this.parseHeaders(response.headers)
       parsedData = await this.parseResponseBody<T>(response)
     } catch (error) {
       throw new HttpResponseError(
@@ -58,7 +69,8 @@ export class FetchHttpClient implements HttpClientGateway {
     return {
       success: true,
       status: response.status,
-      data: parsedData as T
+      data: parsedData,
+      headers: parsedHeaders as THeaders
     }
   }
 }
