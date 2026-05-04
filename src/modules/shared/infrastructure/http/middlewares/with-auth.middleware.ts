@@ -15,8 +15,15 @@ export async function WithAuthMiddleware(req: NextRequest) {
   const session = await auth()
   const accessToken = session?.token?.access_token
 
-  const hasTrustedDevice = req.cookies.has('trusted_device')
+  const hasTrustedDevice =
+    req.cookies.has('trusted_device') ||
+    req.cookies.has('__Secure-trusted_device')
   const isAuthenticated = Boolean(accessToken)
+
+  console.log(`[Auth Middleware] Path: ${pathname} | Auth: ${isAuthenticated} | Trust: ${hasTrustedDevice}`)
+  if (!hasTrustedDevice) {
+    console.log(`[Auth Middleware] Cookies found: ${req.cookies.getAll().map(c => c.name).join(', ')}`)
+  }
 
   const isAuthPage = pathname === authPath
   const isTwoFactorPage = pathname.startsWith(twoFactorPath)
@@ -24,8 +31,9 @@ export async function WithAuthMiddleware(req: NextRequest) {
   const isSystemPage = pathname.startsWith(systemPath)
 
   if (!isAuthenticated) {
-    if (isSystemPage || isTwoFactorPage)
+    if (isSystemPage || isTwoFactorPage) {
       return NextResponse.redirect(new URL(authPath, req.url))
+    }
     return null
   }
 
@@ -34,13 +42,15 @@ export async function WithAuthMiddleware(req: NextRequest) {
   const isReleased = !isTwoFactorPending || hasTrustedDevice
 
   if (!isReleased) {
-    if (!isTwoFactorPage)
+    if (!isTwoFactorPage) {
       return NextResponse.redirect(new URL(twoFactorPath, req.url))
+    }
     return null
   }
 
-  if (isAuthPage || isTwoFactorPage || isPublicPage)
+  if (isAuthPage || isTwoFactorPage || isPublicPage) {
     return NextResponse.redirect(new URL(systemPath, req.url))
+  }
 
   if (isSystemPage) return null
 

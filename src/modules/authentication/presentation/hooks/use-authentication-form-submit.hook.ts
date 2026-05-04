@@ -41,7 +41,7 @@ export function useAuthenticationFormSubmitHook() {
     setLoading(true)
     try {
       await authSignOut.signOut()
-      router.push(PATHNAMES.AUTHENTICATION)
+      window.location.href = PATHNAMES.AUTHENTICATION
     } finally {
       setLoading(false)
     }
