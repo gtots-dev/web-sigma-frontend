@@ -10,7 +10,6 @@ import lightLogo from '@/../public/logos/gtots_principal_hor_margem.svg'
 import darkLogo from '@/../public/logos/gtots_preto_hor_margem.svg'
 import mobileLightLogo from '@/../public/logos/gtots_principal_hor.svg'
 import mobileDarkLogo from '@/../public/logos/gtots_branco_hor.svg'
-
 import type { StaticImageData } from 'next/image'
 
 interface Images {

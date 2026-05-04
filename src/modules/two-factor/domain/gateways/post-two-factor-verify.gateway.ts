@@ -5,5 +5,7 @@ import type { OAuthResponseInterface } from '@/modules/authentication/domain/int
 export interface PostTwoFactorVerifyGateway {
   execute(
     twoFactor: TwoFactorInterface
-  ): Promise<HttpResponseInterface<OAuthResponseInterface>>
+  ): Promise<
+    HttpResponseInterface<OAuthResponseInterface, HttpHeadersInterface>
+  >
 }

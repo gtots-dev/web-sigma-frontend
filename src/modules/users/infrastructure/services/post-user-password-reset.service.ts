@@ -1,9 +1,7 @@
 import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
-import type { TokenEntities } from '@/modules/authentication/domain/entities/token.entity'
 import type { PostUserPasswordResetGateway } from '../../domain/gateways/post-user-password-reset.gateway'
 import type { UserPasswordResetInterface } from '../../domain/interfaces/user-password-reset.interface'
-import type { AuthTokenProvider } from '@/modules/api/infrastructure/providers/token.provider'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
@@ -12,29 +10,24 @@ export class PostUserPasswordResetService
 {
   constructor(
     private readonly executeRequest: ExecuteRequest,
-    private readonly auth: AuthTokenProvider,
     private readonly params: UrlParams
   ) {}
 
   getHttpRequestConfig(
-    token: TokenEntities,
     userPasswordReset: UserPasswordResetInterface
   ): HttpRequestConfig<UserPasswordResetInterface> {
     return {
       method: 'POST',
       url: `/operations/${this.params.operationId}/users/${this.params.userId}/passwords`,
       data: userPasswordReset,
-      headers: token.access_token && {
-        Authorization: `${token.token_type} ${token.access_token}`
-      }
+      requiresAuth: true
     }
   }
 
   async execute(
     userPasswordReset: UserPasswordResetInterface
   ): Promise<HttpResponseInterface<void>> {
-    const token = await this.auth.getToken()
-    const settingsAuthHTTP = this.getHttpRequestConfig(token, userPasswordReset)
+    const settingsAuthHTTP = this.getHttpRequestConfig(userPasswordReset)
     return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

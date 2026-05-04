@@ -43,11 +43,6 @@ export class FetchHttpClient implements HttpClientGateway {
     let parsedHeaders: Record<string, string>
 
     try {
-      console.log({
-        url: `${this.baseURL}${config.url}${queryString}`,
-        headers: headers
-      })
-
       response = await fetch(`${this.baseURL}${config.url}${queryString}`, {
         method: config.method,
         headers,
@@ -58,8 +53,6 @@ export class FetchHttpClient implements HttpClientGateway {
       parsedHeaders = this.parseHeaders(response.headers)
       parsedData = await this.parseResponseBody<T>(response)
     } catch (error) {
-      console.log(error.message)
-
       throw new HttpResponseError(
         error instanceof Error ? error.message : 'Erro de rede',
         Number(HttpStatusCodeEnum.INTERNAL_SERVER_ERROR)
