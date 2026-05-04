@@ -7,16 +7,21 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { useParams } from 'next/navigation'
 import type { VehicleTypeEntity } from '../../domain/entities/vehicle-types.entity'
 import { useVehiclesTypeStore } from '../stores/vehicles-types.store'
+import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePatchVehicleTypeSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { getVehiclesTypes, patchVehicleType } = useVehiclesTypeStore()
+  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       vehicleType: VehicleTypeEntity,
       onSuccess: VoidFunction
     ): Promise<void> => {
+      const twoFactorCode = await challenge()
+      if (!twoFactorCode) return
+
       try {
         await patchVehicleType(
           { operationId, contractId, vehicleTypeId: String(vehicleType.id) },
@@ -38,7 +43,7 @@ export function usePatchVehicleTypeSubmit() {
         }
       }
     },
-    [getVehiclesTypes, patchVehicleType, operationId, contractId]
+    [getVehiclesTypes, patchVehicleType, operationId, contractId, challenge]
   )
 
   return { onAction }

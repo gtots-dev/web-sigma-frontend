@@ -1,10 +1,11 @@
 import { cn } from '@/modules/shared/presentation/lib/utils'
+import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 
 interface ThemeLogoComponentProps {
-  logoLightSrc: string
+  logoLightSrc: string | StaticImport
   logoLightAlt: string
-  logoDarkSrc: string
+  logoDarkSrc: string | StaticImport
   logoDarkAlt: string
   className?: string
   width: number
@@ -23,7 +24,7 @@ export function ThemeLogoComponent({
   isMobileOnly = false
 }: ThemeLogoComponentProps) {
   return (
-    <picture>
+    <>
       {['light', 'dark'].map((mode) => (
         <Image
           key={mode}
@@ -39,6 +40,6 @@ export function ThemeLogoComponent({
           fetchPriority="high"
         />
       ))}
-    </picture>
+    </>
   )
 }

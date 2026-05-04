@@ -8,17 +8,22 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { useTableUser } from '../contexts/table-user.context'
 import type { UserFilesInterface } from '../../domain/interfaces/user-files.interface'
 import { useUserFilesStore } from '../stores/user-files.store'
+import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePostUserFilesSubmit() {
   const { postUserFiles } = useUserFilesStore()
   const { operationId }: UrlParams = useParams()
   const { id: userId } = useTableUser()
+  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       files: UserFilesInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
+      const twoFactorCode = await challenge()
+      if (!twoFactorCode) return
+
       try {
         await postUserFiles({ operationId, userId: String(userId) }, files)
         toast({
@@ -36,7 +41,7 @@ export function usePostUserFilesSubmit() {
         }
       }
     },
-    [operationId]
+    [operationId, userId, challenge, postUserFiles]
   )
 
   return { onAction }
