@@ -18,6 +18,7 @@ export function useAddPermissionProfileSubmit() {
   const { addPermissionProfileAndFeatures, getPermissionProfiles } =
     usePermissionProfileStore()
   const { challenge } = useTwoFactorChallenge()
+
   const onAction = useCallback(
     async (
       permissionProfileForm: ExtendedPermissionProfile,
@@ -51,7 +52,12 @@ export function useAddPermissionProfileSubmit() {
         }
       }
     },
-    [addPermissionProfileAndFeatures, getPermissionProfiles, operationId, challenge]
+    [
+      addPermissionProfileAndFeatures,
+      getPermissionProfiles,
+      operationId,
+      challenge
+    ]
   )
 
   return { onAction }

@@ -7,13 +7,18 @@ import type { LaneEntity } from '../../domain/entities/lane.entity'
 import { useLaneStore } from '../stores/lanes.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
+import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function useEditLaneSubmit() {
   const { operationId, contractId, processingUnitId }: UrlParams = useParams()
   const { getLanes, patchLane } = useLaneStore()
+  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (lane: LaneEntity, onSuccess: VoidFunction): Promise<void> => {
+      const twoFactorCode = await challenge()
+      if (!twoFactorCode) return
+
       try {
         await patchLane({ operationId, contractId, processingUnitId }, lane)
         toast({
@@ -32,7 +37,7 @@ export function useEditLaneSubmit() {
         }
       }
     },
-    [getLanes, patchLane, operationId, contractId, processingUnitId]
+    [getLanes, patchLane, operationId, contractId, processingUnitId, challenge]
   )
 
   return { onAction }
