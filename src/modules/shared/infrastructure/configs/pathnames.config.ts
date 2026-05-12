@@ -15,6 +15,7 @@ export interface PathnamesInterface {
   POINTS: (operationId: number, contractId: number) => string
   GROUPS: (operationId: number, contractId: number) => string
   TRAFFIC_FLOW: (operationId: number, contractId: number) => string
+  MONITORING: (operationId: number, contractId: number) => string
   VEHICLES: (operationId: number, contractId: number) => string
   LANES: (
     operationId: number,
@@ -49,6 +50,8 @@ export const PATHNAMES: PathnamesInterface = {
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/processing-units/${processingUnitId}/lanes`,
   TRAFFIC_FLOW: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/traffic-flow`,
+  MONITORING: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/monitoring`,
   VEHICLES: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/vehicles-types`
 }
