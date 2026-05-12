@@ -1,13 +1,15 @@
 'use client'
 
-import { MonitoringItem } from '../../../domain/interfaces/monitoring-item.interface'
+import { MonitoringCell } from '../../../domain/interfaces/monitoring-cell.interface'
 import { useMenuStatus } from '../../hooks/use-menu-status.hook'
 
 interface MonitoringMenuStatusBarProps {
-  status: MonitoringItem['status']
+  status: MonitoringCell['status']
 }
 
-export function MonitoringMenuStatusBar({ status }: MonitoringMenuStatusBarProps) {
+export function MonitoringMenuStatusBar({
+  status
+}: MonitoringMenuStatusBarProps) {
   const { bar, width } = useMenuStatus(status)
   return (
     <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
