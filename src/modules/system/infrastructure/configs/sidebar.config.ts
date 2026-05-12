@@ -1,4 +1,5 @@
 import {
+  MonitorDot,
   ArrowUpDown,
   Building2,
   Car,
@@ -161,6 +162,13 @@ export function getSidebarData(
                       title: 'Tráfego Veicular',
                       url: PATHNAMES.TRAFFIC_FLOW(operationId, contractId),
                       icon: ChartLine,
+                      isToExpand: true,
+                      permissions: [PermissionEnum.CONTRACTS_VIEW]
+                    },
+                    {
+                      title: 'Monitoramento',
+                      url: PATHNAMES.MONITORING(operationId, contractId),
+                      icon: MonitorDot,
                       isToExpand: true,
                       permissions: [PermissionEnum.CONTRACTS_VIEW]
                     }
