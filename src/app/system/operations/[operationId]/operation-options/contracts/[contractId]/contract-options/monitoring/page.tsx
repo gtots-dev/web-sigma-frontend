@@ -7,8 +7,8 @@ import { SectionRedirectLink } from '@/modules/shared/presentation/components/se
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
-import { useMonitoringDataSync } from '@/modules/monitoring/presentation/hooks/use-monitoring-data-sync.hook'
-import { LoadingSpinComponent } from '@/modules/shared/presentation/components/loading-spin/loading-spin.component'
+import { useMonitoringMetadata } from '@/modules/monitoring/presentation/hooks/use-monitoring-metadata.hook'
+import { useMonitoringDashboardSocket } from '@/modules/monitoring/presentation/hooks/use-monitoring-dashboard-socket.hook'
 
 interface MonitoringPageProps {
   params: Promise<UrlParams>
@@ -16,7 +16,14 @@ interface MonitoringPageProps {
 
 export default function MonitoringPage({ params }: MonitoringPageProps) {
   const { operationId, contractId } = use(params)
-  const { cells, isLoading } = useMonitoringDataSync(operationId, contractId)
+
+  const { processingUnits, isLoading } = useMonitoringMetadata(
+    operationId,
+    contractId
+  )
+
+  const { cells, hasFailed, isReconnecting, reconnect } =
+    useMonitoringDashboardSocket(processingUnits)
 
   return (
     <Monitoring.Root cells={cells}>
@@ -68,6 +75,8 @@ export default function MonitoringPage({ params }: MonitoringPageProps) {
             )}
           </Monitoring.Consumer>
           <Separator orientation="vertical" />
+          <Monitoring.Controls.Simulation />
+          <Separator orientation="vertical" />
           <Monitoring.Controls.ResetView />
         </Monitoring.Controls>
 
@@ -81,16 +90,20 @@ export default function MonitoringPage({ params }: MonitoringPageProps) {
                 </>
               )}
 
-              {isLoading ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-background/50 backdrop-blur-sm z-50">
-                  <LoadingSpinComponent loading={isLoading} />
-                  <p className="text-sm font-medium text-muted-foreground animate-pulse">
-                    Carregando equipamentos...
-                  </p>
-                </div>
+              {isLoading || isReconnecting ? (
+                <Monitoring.Loading isReconnecting={isReconnecting} />
+              ) : hasFailed ? (
+                <Monitoring.Error onReconnect={reconnect} />
               ) : (
                 <Monitoring.Menu>
-                  {({ id, name, status, connectionStatus, errorCount, json }) => (
+                  {({
+                    id,
+                    name,
+                    status,
+                    connectionStatus,
+                    errorCount,
+                    json
+                  }) => (
                     <>
                       <Monitoring.Menu.AccentBar status={status} />
                       <Monitoring.Menu.Header name={name} /> <Separator />
