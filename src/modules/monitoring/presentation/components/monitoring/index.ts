@@ -6,6 +6,8 @@ import { Legend } from '../monitoring-legend'
 import { Stats } from '../monitoring-stats'
 import { MonitoringProvider, MonitoringConsumer } from './monitoring-context.component'
 import { MonitoringContent } from './monitoring-content.component'
+import { MonitoringLoading } from './monitoring-loading.component'
+import { MonitoringError } from './monitoring-error.component'
 
 export const Monitoring = {
   Root: MonitoringProvider,
@@ -16,5 +18,7 @@ export const Monitoring = {
   Controls,
   Menu,
   Legend,
-  Stats
+  Stats,
+  Loading: MonitoringLoading,
+  Error: MonitoringError
 }
