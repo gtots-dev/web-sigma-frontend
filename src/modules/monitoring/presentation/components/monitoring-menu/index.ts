@@ -6,6 +6,7 @@ import { MonitoringMenuHealth } from './monitoring-menu-health.component'
 import { MonitoringMenuConnection } from './monitoring-menu-connection.component'
 import { MonitoringMenuMeta } from './monitoring-menu-meta.component'
 import { MonitoringMenuFooter } from './monitoring-menu-footer.component'
+import { MonitoringMenuDetails } from './monitoring-menu-details.component'
 
 import { MonitoringMenuPayload } from './monitoring-menu-payload.component'
 import { MonitoringMenuTimestamp } from './monitoring-menu-timestamp.component'
@@ -19,5 +20,6 @@ export const Menu = Object.assign(MonitoringMenuRoot, {
   Meta: MonitoringMenuMeta,
   Payload: MonitoringMenuPayload,
   Timestamp: MonitoringMenuTimestamp,
-  Footer: MonitoringMenuFooter
+  Footer: MonitoringMenuFooter,
+  Details: MonitoringMenuDetails
 })
