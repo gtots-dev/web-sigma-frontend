@@ -17,39 +17,49 @@ interface MonitoringPageProps {
 export default function MonitoringPage({ params }: MonitoringPageProps) {
   const { operationId, contractId } = use(params)
 
-  const { processingUnits, isLoading } = useMonitoringMetadata(
+  const { unifiedNodes, isLoading } = useMonitoringMetadata(
     operationId,
     contractId
   )
 
-  const { cells, hasFailed, isReconnecting, reconnect } =
-    useMonitoringDashboardSocket(processingUnits)
+  const { cells, hasFailed, isReconnecting, reconnect, hasReceivedInitialData } =
+    useMonitoringDashboardSocket(unifiedNodes, contractId)
 
   return (
     <Monitoring.Root cells={cells}>
-      <Monitoring.Header>
-        <SectionRedirectLink.Button
-          href={PATHNAMES.CONTRACTS_OPTIONS(
-            Number(operationId),
-            Number(contractId)
-          )}
-        />
-        <HeaderSection.Root>
-          <HeaderSection.Title>
-            Monitoramento de Equipamentos
-          </HeaderSection.Title>
-          <HeaderSection.Description>
-            Visualização em tempo real do status e integridade de todos os
-            ativos vinculados ao contrato.
-          </HeaderSection.Description>
-        </HeaderSection.Root>
+      <Monitoring.Consumer>
+        {({ isMaximized }) =>
+          !isMaximized && (
+            <>
+              <Monitoring.Header>
+                <SectionRedirectLink.Button
+                  href={PATHNAMES.CONTRACTS_OPTIONS(
+                    Number(operationId),
+                    Number(contractId)
+                  )}
+                />
+                <HeaderSection.Root>
+                  <HeaderSection.Title>
+                    Monitoramento de Equipamentos
+                  </HeaderSection.Title>
+                  <HeaderSection.Description>
+                    Visualização em tempo real do status e integridade de todos os
+                    ativos vinculados ao contrato.
+                  </HeaderSection.Description>
+                </HeaderSection.Root>
+              </Monitoring.Header>
 
-        <Monitoring.Header.Filters>
-          <Monitoring.Header.SortFilter />
-          <Monitoring.Header.ConnectionFilter />
-          <Monitoring.Header.StatusFilter />
-        </Monitoring.Header.Filters>
-      </Monitoring.Header>
+              <Separator />
+
+              <Monitoring.Header.Filters>
+                <Monitoring.Header.SortFilter />
+                <Monitoring.Header.ConnectionFilter />
+                <Monitoring.Header.StatusFilter />
+              </Monitoring.Header.Filters>
+            </>
+          )
+        }
+      </Monitoring.Consumer>
 
       <Monitoring.Content>
         <Monitoring.Controls>
@@ -75,8 +85,6 @@ export default function MonitoringPage({ params }: MonitoringPageProps) {
             )}
           </Monitoring.Consumer>
           <Separator orientation="vertical" />
-          <Monitoring.Controls.Simulation />
-          <Separator orientation="vertical" />
           <Monitoring.Controls.ResetView />
         </Monitoring.Controls>
 
@@ -90,38 +98,24 @@ export default function MonitoringPage({ params }: MonitoringPageProps) {
                 </>
               )}
 
-              {isLoading || isReconnecting ? (
+              {isLoading || (unifiedNodes.length > 0 && !hasReceivedInitialData) || isReconnecting ? (
                 <Monitoring.Loading isReconnecting={isReconnecting} />
               ) : hasFailed ? (
                 <Monitoring.Error onReconnect={reconnect} />
               ) : (
                 <Monitoring.Menu>
-                  {({
-                    id,
-                    name,
-                    status,
-                    connectionStatus,
-                    errorCount,
-                    json
-                  }) => (
+                  {(cell) => (
                     <>
-                      <Monitoring.Menu.AccentBar status={status} />
-                      <Monitoring.Menu.Header name={name} /> <Separator />
-                      <Monitoring.Menu.Health status={status} />
+                      {cell.connectionStatus === 'online' && (
+                        <Monitoring.Menu.AccentBar status={cell.status} />
+                      )}
+                      <Monitoring.Menu.Header name={cell.name} />
                       <Separator />
                       <Monitoring.Menu.Connection
-                        connectionStatus={connectionStatus}
+                        connectionStatus={cell.connectionStatus}
                       />
                       <Separator />
-                      <Monitoring.Menu.Meta
-                        id={id}
-                        errorCount={errorCount}
-                        status={status}
-                      />
-                      <Separator />
-                      <Monitoring.Menu.Payload json={json} />
-                      <Separator />
-                      <Monitoring.Menu.Timestamp />
+                      <Monitoring.Menu.Details cell={cell} />
                       <Separator />
                       <Monitoring.Menu.Footer />
                     </>
