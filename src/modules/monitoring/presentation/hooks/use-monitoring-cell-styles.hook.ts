@@ -8,16 +8,16 @@ import { truncateSvgText } from '../utils/svg-text.utils'
  * Organizado por Tema -> Estado de Seleção -> Estado de Conexão.
  */
 const CELL_SIZE_CONFIG = {
-  SELECTED: 2,
-  IDLE: 0.4
+  SELECTED: 2.2,
+  IDLE: 0.8
 }
 const CELL_VISUAL_CONFIG = {
   DARK: {
     FILL: {
-      SELECTED_ONLINE: 0.35,
-      SELECTED_OFFLINE: 0.7,
-      IDLE_ONLINE: 0.12,
-      IDLE_OFFLINE: 0.08
+      SELECTED_ONLINE: 0.25,
+      SELECTED_OFFLINE: 0.15,
+      IDLE_ONLINE: 0.08,
+      IDLE_OFFLINE: 0.15
     },
     STROKE: {
       SELECTED: 1.0,
@@ -26,14 +26,14 @@ const CELL_VISUAL_CONFIG = {
   },
   LIGHT: {
     FILL: {
-      SELECTED_ONLINE: 0.15,
+      SELECTED_ONLINE: 0.25,
       SELECTED_OFFLINE: 0.5,
-      IDLE_ONLINE: 0.03,
-      IDLE_OFFLINE: 0.02
+      IDLE_ONLINE: 0.08,
+      IDLE_OFFLINE: 0.08
     },
     STROKE: {
       SELECTED: 1.0,
-      IDLE: 0.7
+      IDLE: 0.8
     }
   }
 } as const
@@ -97,12 +97,6 @@ export function useMonitoringCellStyles({
     [cell.name, widthOrRadius, fontSize]
   )
 
-  const errorCount = cell.errorCount || 0
-  const badgeFill =
-    cell.status === 'error'
-      ? 'rgb(var(--monitoring-error))'
-      : 'rgb(var(--monitoring-warning))'
-
   return {
     isOffline,
     healthColorRgb: `rgb(${healthColorToken})`,
@@ -112,8 +106,6 @@ export function useMonitoringCellStyles({
     fillColor,
     strokeColor,
     strokeWidth,
-    displayName,
-    errorCount,
-    badgeFill
+    displayName
   }
 }

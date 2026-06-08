@@ -7,6 +7,11 @@ const STATUS_PRIORITY = {
   ok: 1
 }
 
+function getCellPriority(cell: MonitoringCell): number {
+  if (cell.connectionStatus === 'offline') return 4 // Offline é o mais crítico
+  return STATUS_PRIORITY[cell.status || 'ok'] || 0
+}
+
 export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
   const [statusFilter, setStatusFilter] = useState<MonitoringCell['status'] | 'all'>('all')
   const [connectionFilter, setConnectionFilter] = useState<MonitoringCell['connectionStatus'] | 'all'>('all')
@@ -16,7 +21,9 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
     let result = [...cellsArray]
 
     if (statusFilter !== 'all') {
-      result = result.filter((cell) => cell.status === statusFilter)
+      result = result.filter(
+        (cell) => cell.status === statusFilter && cell.connectionStatus === 'online'
+      )
     }
 
     if (connectionFilter !== 'all') {
@@ -24,9 +31,9 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
     }
 
     if (sortMode === 'highest') {
-      result.sort((a, b) => STATUS_PRIORITY[b.status] - STATUS_PRIORITY[a.status])
+      result.sort((a, b) => getCellPriority(b) - getCellPriority(a))
     } else if (sortMode === 'lowest') {
-      result.sort((a, b) => STATUS_PRIORITY[a.status] - STATUS_PRIORITY[b.status])
+      result.sort((a, b) => getCellPriority(a) - getCellPriority(b))
     }
 
     return result
