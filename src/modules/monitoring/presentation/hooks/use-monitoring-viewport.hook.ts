@@ -4,8 +4,8 @@ export function useMonitoringViewport() {
   const containerRef = useRef<HTMLDivElement>(null)
   const dragOriginRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
 
-  const [zoom, setZoom] = useState(1)
-  const [radius, setRadius] = useState(25)
+  const [zoom, setZoom] = useState(1.5)
+  const [radius, setRadius] = useState(37.5)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const [active, setActive] = useState<string | null>(null)
@@ -19,24 +19,49 @@ export function useMonitoringViewport() {
   }, [])
 
   const handleMouseDown = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
-      if ('button' in e && e.button !== 0) return
-      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
-      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
+    (e: React.PointerEvent) => {
+      // Ignorar se o evento veio de fora do container DOM (ex: Portals como dialogs e drawers)
+      if (containerRef.current && e.target instanceof Node && !containerRef.current.contains(e.target)) {
+        return
+      }
+
+      // Ignorar se houver um dialog ou drawer aberto na página
+      if (document.querySelector('[role="dialog"]') || document.querySelector('[data-radix-portal] [data-state="open"]')) {
+        return
+      }
+
+      // Ignorar cliques em elementos interativos
+      if (e.target instanceof Element && e.target.closest('.pointer-events-auto, button, a, [role="button"]')) {
+        return
+      }
+
+      if (e.button !== 0) return
       setIsDragging(true)
-      dragOriginRef.current = { x: clientX - offset.x, y: clientY - offset.y }
+      setActive(null) // Fecha o menu ao interagir com o background
+      dragOriginRef.current = { x: e.clientX - offset.x, y: e.clientY - offset.y }
     },
     [offset]
   )
 
   const handleMouseMove = useCallback(
-    (e: React.MouseEvent | React.TouchEvent) => {
+    (e: React.PointerEvent) => {
       if (!isDragging) return
-      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
-      const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
+
+      // Ignorar se o evento veio de fora do container DOM (ex: Portals como dialogs e drawers)
+      if (containerRef.current && e.target instanceof Node && !containerRef.current.contains(e.target)) {
+        setIsDragging(false)
+        return
+      }
+
+      // Cancelar o arrasto se um dialog foi aberto nesse meio tempo
+      if (document.querySelector('[role="dialog"]') || document.querySelector('[data-radix-portal] [data-state="open"]')) {
+        setIsDragging(false)
+        return
+      }
+
       setOffset({
-        x: clientX - dragOriginRef.current.x,
-        y: clientY - dragOriginRef.current.y
+        x: e.clientX - dragOriginRef.current.x,
+        y: e.clientY - dragOriginRef.current.y
       })
     },
     [isDragging]
@@ -46,8 +71,21 @@ export function useMonitoringViewport() {
     setIsDragging(false)
   }, [])
 
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    setOffset((prev) => ({ x: prev.x - e.deltaX, y: prev.y - e.deltaY }))
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+
+    const onWheel = (e: WheelEvent) => {
+      if (e.target instanceof Element) {
+        const isInteractive = e.target.closest('.pointer-events-auto')
+        if (isInteractive) return
+      }
+      e.preventDefault()
+      setOffset((prev) => ({ x: prev.x - e.deltaX, y: prev.y - e.deltaY }))
+    }
+
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
   const resetView = useCallback(() => {
@@ -110,8 +148,7 @@ export function useMonitoringViewport() {
     handlers: {
       handleMouseDown,
       handleMouseMove,
-      handleMouseUp,
-      handleWheel
+      handleMouseUp
     },
     resetView
   }
