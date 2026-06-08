@@ -1,8 +1,10 @@
 'use client'
 
 import { memo } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 import { MonitoringHexCell as MonitoringHexCellType } from '../../../domain/interfaces/monitoring-cell.interface'
 import { useMonitoringCellStyles } from '../../hooks/use-monitoring-cell-styles.hook'
+import { useMonitoringDashboardStore } from '../../stores/use-monitoring-dashboard.store'
 
 const COMPACT_RADIUS_THRESHOLD = 28
 
@@ -25,19 +27,76 @@ function MonitoringHexagonCellComponent({
 
   const {
     healthColorRgb,
-    connectionColorRgb,
     fillColor,
     strokeColor,
     strokeWidth,
     displayName,
-    errorCount,
-    badgeFill
+    isOffline
   } = useMonitoringCellStyles({
     cell: hex.cell,
     isActive,
     widthOrRadius: maxTextWidth,
     fontSize
   })
+
+
+
+  const upStatuses = useMonitoringDashboardStore(
+    useShallow((state) => (hex.cell.upIds || []).map((upId) => state.upData.get(upId)))
+  )
+  const laneStatuses = useMonitoringDashboardStore(
+    useShallow((state) => (hex.cell.laneIds || []).map((laneId) => state.laneData.get(laneId)))
+  )
+
+  const ups = (hex.cell.upIds || []).map((upId, idx) => {
+    const liveData = upStatuses[idx]
+    const hasData = !!liveData
+    const requestData = liveData?.request
+    const items = requestData?.items || []
+
+    let maxLevel = 0
+    items.forEach((group) => {
+      group.elements.forEach((el) => {
+        if (el.level > maxLevel) {
+          maxLevel = el.level
+        }
+      })
+    })
+
+    return {
+      id: upId,
+      level: maxLevel,
+      hasData,
+      offline: !hasData
+    }
+  })
+
+  const lanes = (hex.cell.laneIds || []).map((laneId, idx) => {
+    const liveData = laneStatuses[idx]
+    const hasData = !!liveData
+    const requestData = liveData?.request
+    const items = requestData?.items || []
+
+    let maxLevel = 0
+    items.forEach((group) => {
+      group.elements?.forEach((el) => {
+        if (el.level > maxLevel) {
+          maxLevel = el.level
+        }
+      })
+    })
+
+    return {
+      lane_id: Number(laneId),
+      level: maxLevel,
+      hasData
+    }
+  })
+
+  const hasStructure = true
+
+  const topCount = ups.length
+  const bottomVal = lanes.length
 
   const polygon = (
     <polygon
@@ -49,41 +108,91 @@ function MonitoringHexagonCellComponent({
         e.stopPropagation()
         onSelect(hex.cell.id)
       }}
-      filter={isActive ? 'url(#glow)' : 'url(#inner-glow)'}
       style={{ color: healthColorRgb }}
       className="cursor-pointer hover:stroke-blue-400 transition-colors duration-200"
     />
   )
 
+  let badgeFill = '#1f2937'
+  let maxLaneLevel = -1
+  lanes.forEach((l) => {
+    if (l.hasData && l.level !== undefined) {
+      if (l.level > maxLaneLevel) {
+        maxLaneLevel = l.level
+      }
+    }
+  })
+
+  if (maxLaneLevel === 0) {
+    badgeFill = 'rgb(var(--monitoring-ok))'
+  } else if (maxLaneLevel === 1) {
+    badgeFill = 'rgb(var(--monitoring-warning))'
+  } else if (maxLaneLevel >= 2) {
+    badgeFill = 'rgb(var(--monitoring-error))'
+  } else if (lanes.length > 0) {
+    badgeFill = 'rgb(var(--monitoring-offline))'
+  }
+
+  const renderTopCircles = (isComp: boolean) => {
+    // Constant size and gap regardless of quantity
+    const r = isComp ? Math.max(1, radius * 0.06) : radius * 0.09
+    const gap = isComp ? 1 : 2
+    const spacing = r * 2 + gap
+    const totalWidth = (topCount - 1) * spacing
+
+    const startX = hex.cx - totalWidth / 2
+    const centerY =
+      (isComp ? hex.cy - radius * 0.35 : hex.cy - radius * 0.4) - 1
+
+    const circles = []
+    for (let i = 0; i < topCount; i++) {
+      const cx = startX + i * spacing
+      const cy = centerY
+
+      let fill = 'rgb(var(--monitoring-offline))'
+      if (hasStructure && ups[i]) {
+        const upItem = ups[i]
+        if (upItem.hasData && !upItem.offline) {
+          if (upItem.level === 0) fill = 'rgb(var(--monitoring-ok))'
+          else if (upItem.level === 1) fill = 'rgb(var(--monitoring-warning))'
+          else fill = 'rgb(var(--monitoring-error))'
+        }
+      }
+
+      circles.push(
+        <circle
+          key={`top-circle-${i}`}
+          cx={cx}
+          cy={cy}
+          r={r}
+          fill={fill}
+          className="pointer-events-none transition-all duration-200"
+        />
+      )
+    }
+    return circles
+  }
+
   if (isCompact) {
-    const dot1cx = hex.cx - radius * 0.22
-    const dot2cx = hex.cx + radius * 0.22
-    const dotY = hex.cy - radius * 0.25
-    const dotR = radius * 0.12
+    const badgeSize = radius * 0.38
+    const badgeY = hex.cy + radius * 0.4 + 1
 
     return (
       <g
-        className={isActive ? 'z-10' : 'z-0'}
+        className={`${isActive ? 'z-10' : 'z-0'} ${
+          isOffline
+            ? isActive
+              ? 'opacity-95'
+              : 'opacity-80 hover:opacity-90'
+            : ''
+        } transition-opacity duration-200`}
         style={{ transformOrigin: `${hex.cx}px ${hex.cy}px` }}
       >
         {polygon}
-        <circle
-          cx={dot1cx}
-          cy={dotY}
-          r={dotR}
-          fill={healthColorRgb}
-          className="pointer-events-none"
-        />
-        <circle
-          cx={dot2cx}
-          cy={dotY}
-          r={dotR}
-          fill={connectionColorRgb}
-          className="pointer-events-none"
-        />
+        {renderTopCircles(true)}
         <text
           x={hex.cx}
-          y={hex.cy + radius * 0.38}
+          y={hex.cy + fontSize * 0.35}
           textAnchor="middle"
           fontSize={fontSize}
           fill={
@@ -94,36 +203,45 @@ function MonitoringHexagonCellComponent({
         >
           {displayName}
         </text>
+
+        {/* Bottom Badge (Compact) */}
+        <g className="pointer-events-none">
+          <circle cx={hex.cx} cy={badgeY} r={badgeSize / 2} fill={badgeFill} />
+          <text
+            x={hex.cx}
+            y={badgeY + badgeSize * 0.15}
+            textAnchor="middle"
+            fontSize={Math.max(6, radius * 0.22)}
+            fill="white"
+            fontWeight="bold"
+          >
+            {bottomVal}
+          </text>
+        </g>
       </g>
     )
   }
 
-  const dotY = hex.cy - radius * 0.25
-  const dotR = radius * 0.14
-  const connDotY = hex.cy + radius * 0.55
-  const connDotR = radius * 0.08
-
-  const badgeSize = radius * 0.35
-  const badgeX = hex.cx + radius * 0.38
-  const badgeY = hex.cy - radius * 0.45
+  const badgeSize = radius * 0.45
+  const badgeY = hex.cy + radius * 0.45 + 1
 
   return (
     <g
-      className={isActive ? 'z-10' : 'z-0'}
+      className={`${isActive ? 'z-10' : 'z-0'} ${
+        isOffline
+          ? isActive
+            ? 'opacity-95'
+            : 'opacity-80 hover:opacity-90'
+          : ''
+      } transition-opacity duration-200`}
       style={{ transformOrigin: `${hex.cx}px ${hex.cy}px` }}
     >
       {polygon}
-      <circle
-        cx={hex.cx}
-        cy={dotY}
-        r={dotR}
-        fill={healthColorRgb}
-        className="pointer-events-none"
-      />
+      {renderTopCircles(false)}
 
       <text
         x={hex.cx}
-        y={hex.cy + radius * 0.38}
+        y={hex.cy + fontSize * 0.35}
         textAnchor="middle"
         fontSize={fontSize}
         fill={isActive ? 'var(--primary-500)' : 'hsl(var(--muted-foreground))'}
@@ -133,29 +251,20 @@ function MonitoringHexagonCellComponent({
         {displayName}
       </text>
 
-      <circle
-        cx={hex.cx}
-        cy={connDotY}
-        r={connDotR}
-        fill={connectionColorRgb}
-        className="pointer-events-none"
-      />
-
-      {errorCount > 0 && (
-        <g className="pointer-events-none">
-          <circle cx={badgeX} cy={badgeY} r={badgeSize / 2} fill={badgeFill} />
-          <text
-            x={badgeX}
-            y={badgeY + badgeSize * 0.18}
-            textAnchor="middle"
-            fontSize={radius * 0.22}
-            fill="white"
-            fontWeight="bold"
-          >
-            {errorCount > 9 ? '9+' : errorCount}
-          </text>
-        </g>
-      )}
+      {/* Bottom Badge (Normal) */}
+      <g className="pointer-events-none">
+        <circle cx={hex.cx} cy={badgeY} r={badgeSize / 2} fill={badgeFill} />
+        <text
+          x={hex.cx}
+          y={badgeY + badgeSize * 0.15}
+          textAnchor="middle"
+          fontSize={Math.max(8, radius * 0.25)}
+          fill="white"
+          fontWeight="bold"
+        >
+          {bottomVal}
+        </text>
+      </g>
     </g>
   )
 }
@@ -168,8 +277,8 @@ export const MonitoringHexagonCell = memo(
       prev.hex.cell.status === next.hex.cell.status &&
       prev.hex.cell.name === next.hex.cell.name &&
       prev.hex.cell.connectionStatus === next.hex.cell.connectionStatus &&
-      prev.hex.cell.errorCount === next.hex.cell.errorCount &&
-      prev.hex.cell.json === next.hex.cell.json &&
+      (prev.hex.cell.upIds || []).join(',') === (next.hex.cell.upIds || []).join(',') &&
+      (prev.hex.cell.laneIds || []).join(',') === (next.hex.cell.laneIds || []).join(',') &&
       prev.isActive === next.isActive &&
       prev.radius === next.radius &&
       prev.hex.cx === next.hex.cx &&

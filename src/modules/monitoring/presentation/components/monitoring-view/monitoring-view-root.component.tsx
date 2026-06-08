@@ -15,7 +15,6 @@ export function MonitoringViewRoot({ children }: MonitoringViewRootProps) {
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
-    handleWheel,
     isDragging,
     offset,
     isMaximized
@@ -24,14 +23,10 @@ export function MonitoringViewRoot({ children }: MonitoringViewRootProps) {
   return (
     <div
       ref={containerRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      onWheel={handleWheel}
-      onTouchStart={handleMouseDown}
-      onTouchMove={handleMouseMove}
-      onTouchEnd={handleMouseUp}
+      onPointerDown={handleMouseDown}
+      onPointerMove={handleMouseMove}
+      onPointerUp={handleMouseUp}
+      onPointerLeave={handleMouseUp}
       className={`flex flex-1 w-full relative bg-background/50 overflow-hidden select-none p-4 ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       } ${isMaximized ? 'h-full' : 'h-[calc(100svh-130px)]'}`}
