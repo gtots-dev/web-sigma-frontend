@@ -4,10 +4,10 @@ export type MonitoringConnectionStatus = 'online' | 'offline'
 export interface MonitoringCell {
   id: string
   name: string
-  status: MonitoringStatus
+  status?: MonitoringStatus
   connectionStatus?: MonitoringConnectionStatus
-  errorCount?: number
-  json: string
+  upIds: string[]
+  laneIds: string[]
 }
 
 export interface MonitoringHexCell {

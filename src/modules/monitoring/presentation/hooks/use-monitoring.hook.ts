@@ -6,6 +6,8 @@ import { useMonitoringViewport } from './use-monitoring-viewport.hook'
 import { useMonitoringLayout } from './use-monitoring-layout.hook'
 
 export function useMonitoring(initialCells: MonitoringCell[]) {
+
+
   // 1. Gestão de Dados (Dicionário, Upsert, Batch, etc)
   const {
     cellsDict,
@@ -57,7 +59,7 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
   } = useMonitoringLayout(processedCells, containerRef, radius, zoom)
 
   // 5. Utilitários (Cores, Pontos e Coordenadas Ativas)
-  const getDotColor = useCallback((status: MonitoringCell['status']) => {
+  const getDotColor = useCallback((status: MonitoringCell[] | any) => {
     switch (status) {
       case 'ok': return 'rgb(var(--monitoring-ok))'
       case 'error': return 'rgb(var(--monitoring-error))'
@@ -138,6 +140,7 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
     activeCell,
     activeCoords,
     
+
     // Handlers e Utils
     ...handlers,
     points,
