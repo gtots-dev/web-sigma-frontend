@@ -6,6 +6,7 @@ import { MonitoringControlsLayoutToggle } from './monitoring-controls-layout-tog
 import { MonitoringControlsScalingSlider } from './monitoring-controls-scaling-slider.component'
 import { MonitoringControlsResetView } from './monitoring-controls-reset-view.component'
 
+
 export const Controls = Object.assign(MonitoringControlsRoot, {
   MinimizeToggle: MonitoringControlsMinimizeToggle,
   MaximizeToggle: MonitoringControlsMaximizeToggle,
