@@ -3,16 +3,16 @@
 import { ZoomIn } from 'lucide-react'
 import { useMonitoringContext } from '../monitoring/monitoring-context.component'
 
-const BASE_RADIUS = 25
+const BASE_RADIUS = 37.5
 
 export function MonitoringControlsScalingSlider() {
   const { mode, radius, setRadius, zoom, setZoom } = useMonitoringContext()
 
   const isHex = mode === 'hex'
-  const value = isHex ? radius / BASE_RADIUS : zoom
+  const value = isHex ? radius / BASE_RADIUS : zoom / 1.5
   const setValue = (v: number) => {
     if (isHex) setRadius(v * BASE_RADIUS)
-    else setZoom(v)
+    else setZoom(v * 1.5)
   }
 
   return (
@@ -28,7 +28,7 @@ export function MonitoringControlsScalingSlider() {
       </div>
       <input
         type="range"
-        min={0.5}
+        min={0.8}
         max={isHex ? 2.5 : 2.0}
         step={0.1}
         value={value}
