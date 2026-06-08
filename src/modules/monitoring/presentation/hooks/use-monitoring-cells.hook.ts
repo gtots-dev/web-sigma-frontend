@@ -2,94 +2,104 @@ import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import { MonitoringCell } from '../../domain/interfaces/monitoring-cell.interface'
 
 export function useMonitoringCells(initialCells: MonitoringCell[]) {
-  const [cellsDict, setCellsDict] = useState<Record<string, MonitoringCell>>(
-    () => initialCells.reduce((acc, cell) => ({ ...acc, [cell.id]: cell }), {})
-  )
+  // Estado local para overrides mutados manualmente (se houver)
+  const [localOverrides, setLocalOverrides] = useState<Record<string, Partial<MonitoringCell>>>({})
+  const [deletedIds, setDeletedIds] = useState<Set<string>>(() => new Set())
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
   
   // Ref para o active (usado para limpar seleção se célula for deletada sem disparar re-renders extras)
   const activeRef = useRef<string | null>(null)
 
-  const cellsArray = useMemo(() => Object.values(cellsDict), [cellsDict])
+  // Derivação síncrona combinando initialCells e overrides locais
+  const { cellsDict, cellsArray } = useMemo(() => {
+    const dict: Record<string, MonitoringCell> = {}
+    const array: MonitoringCell[] = []
+
+    initialCells.forEach((cell) => {
+      if (deletedIds.has(cell.id)) return
+
+      const override = localOverrides[cell.id]
+      const finalCell = override ? ({ ...cell, ...override } as MonitoringCell) : cell
+      dict[cell.id] = finalCell
+      array.push(finalCell)
+    })
+
+    // Adicionar itens que foram inseridos e não existem em initialCells
+    Object.keys(localOverrides).forEach((id) => {
+      if (!dict[id] && !deletedIds.has(id)) {
+        const item = {
+          id,
+          name: 'Unknown',
+          status: 'ok',
+          upIds: [],
+          laneIds: [],
+          ...localOverrides[id]
+        } as MonitoringCell
+        dict[id] = item
+        array.push(item)
+      }
+    })
+
+    return { cellsDict: dict, cellsArray: array }
+  }, [initialCells, localOverrides, deletedIds])
 
   const cellsFingerprint = useMemo(
-    () => initialCells.map((i) => `${i.id}-${i.status}-${i.connectionStatus}-${i.json}`).join('|'),
+    () => initialCells.map((i) => `${i.id}-${i.status}-${i.connectionStatus}-${(i.upIds || []).join(',')}-${(i.laneIds || []).join(',')}`).join('|'),
     [initialCells]
   )
 
+  // Atualizar lastUpdated e limpar overrides locais quando os dados iniciais do socket mudarem (resetar cache local)
   useEffect(() => {
-    const dict: Record<string, MonitoringCell> = {}
-    initialCells.forEach(cell => {
-      dict[cell.id] = cell
-    })
-    setCellsDict(dict)
+    setLocalOverrides({})
+    setDeletedIds(new Set())
     setLastUpdated(new Date())
   }, [cellsFingerprint])
 
   const upsertCells = useCallback((newCells: (Partial<MonitoringCell> & { id: string })[]) => {
-    setCellsDict((prev) => {
+    setLocalOverrides((prev) => {
       const next = { ...prev }
-      let changed = false
       newCells.forEach((cell) => {
-        const current = next[cell.id]
-        if (!current || current.status !== cell.status || current.name !== cell.name || current.json !== cell.json) {
-          next[cell.id] = {
-            ...(current || { name: 'Unknown', status: 'ok' }),
-            ...cell
-          } as MonitoringCell
-          changed = true
+        next[cell.id] = {
+          ...next[cell.id],
+          ...cell
         }
       })
-      if (changed) setLastUpdated(new Date())
-      return changed ? next : prev
+      return next
     })
+    setLastUpdated(new Date())
   }, [])
 
   const removeCells = useCallback((ids: string[]) => {
-    setCellsDict((prev) => {
-      const next = { ...prev }
-      let changed = false
-      ids.forEach((id) => {
-        if (next[id]) {
-          delete next[id]
-          changed = true
-        }
-      })
-      if (changed) setLastUpdated(new Date())
-      return changed ? next : prev
+    setDeletedIds((prev) => {
+      const next = new Set(prev)
+      ids.forEach((id) => next.add(id))
+      return next
     })
+    setLastUpdated(new Date())
   }, [])
 
   const updateCellsBatch = useCallback((updates: { action: 'upsert' | 'delete', cell: Partial<MonitoringCell> & { id: string } }[]) => {
-    setCellsDict((prev) => {
-      const next = { ...prev }
-      let hasChanged = false
-
-      updates.forEach(({ action, cell }) => {
-        if (action === 'upsert') {
-          const current = next[cell.id]
-          if (!current && !cell.name) return
-
-          const updatedCell = {
-            ...(current || { name: 'Unknown', status: 'ok' }),
-            ...cell
-          } as MonitoringCell
-
-          if (!current || current.status !== updatedCell.status || current.name !== updatedCell.name || current.json !== updatedCell.json) {
-            next[cell.id] = updatedCell
-            hasChanged = true
+    setLocalOverrides((prev) => {
+      const nextOverrides = { ...prev }
+      setDeletedIds((prevDeleted) => {
+        const nextDeleted = new Set(prevDeleted)
+        updates.forEach(({ action, cell }) => {
+          if (action === 'upsert') {
+            nextOverrides[cell.id] = {
+              ...nextOverrides[cell.id],
+              ...cell
+            }
+            nextDeleted.delete(cell.id)
+          } else if (action === 'delete') {
+            nextDeleted.add(cell.id)
+            delete nextOverrides[cell.id]
           }
-        } else if (action === 'delete') {
-          if (next[cell.id]) {
-            delete next[cell.id]
-            hasChanged = true
-          }
-        }
+        })
+        return nextDeleted
       })
-
-      if (hasChanged) setLastUpdated(new Date())
-      return hasChanged ? next : prev
+      return nextOverrides
     })
+    setLastUpdated(new Date())
   }, [])
 
   return {
