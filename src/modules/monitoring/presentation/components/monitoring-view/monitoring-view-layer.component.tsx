@@ -19,7 +19,7 @@ export function MonitoringViewLayer() {
     CELL_WIDTH, 
     CELL_HEIGHT, 
     points, 
-    radius 
+    radius
   } = useMonitoringContext()
 
   const sortedData = useMemo<ViewCellData[]>(() => {
