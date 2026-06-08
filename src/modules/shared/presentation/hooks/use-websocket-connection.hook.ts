@@ -15,6 +15,8 @@ export function useWebSocketConnection(
   }, [onConnectionChange])
 
   useEffect(() => {
-    return service.onConnectionChange((connected) => savedCallback.current(connected))
+    return service.onConnectionChange((connected) =>
+      savedCallback.current(connected)
+    )
   }, [service])
 }
