@@ -27,11 +27,17 @@ export function MonitoringMenuRoot({
   return (
     <div
       ref={menuRef}
-      className="absolute z-[110] pointer-events-none"
+      className="absolute z-[40] pointer-events-none"
       style={positionStyle}
     >
-      <div className="pointer-events-auto animate-in fade-in zoom-in-95 duration-200">
-        <div className="flex flex-col bg-card border min-w-[240px] relative overflow-hidden ms-2 rounded-lg">
+      <div 
+        className="pointer-events-auto animate-in fade-in zoom-in-95 duration-200"
+        onWheel={(e) => e.stopPropagation()}
+        onPointerDown={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+      >
+        <div className="flex flex-col bg-card border min-w-[270px] relative ms-2 rounded-lg">
           {typeof children === 'function' ? children(activeCell) : children}
         </div>
       </div>
