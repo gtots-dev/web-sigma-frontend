@@ -1,3 +1,9 @@
-node_modules/
-.next/
-next-env.d.ts
+node_modules
+.next
+.git
+dist
+coverage
+Dockerfile
+docker-compose.yml
+.env
+.env.local
