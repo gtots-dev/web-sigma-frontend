@@ -9,7 +9,6 @@ import { useTablePermissionProfile } from '../contexts/table-permission-profiles
 import type { PermissionProfileWithFeatureInterface } from '../../domain/interfaces/permission-profile-with-feature.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function useEditPermissionProfileSubmit() {
   const { id: permissionProfileId } = useTablePermissionProfile()
@@ -19,16 +18,12 @@ export function useEditPermissionProfileSubmit() {
     deleteFeature,
     features: selectedApiFeatures
   } = usePermissionProfileStore()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       { features: selectedFormFeatures }: ExtendedPermissionProfile,
       onSuccess: VoidFunction
     ): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         const selectedApiFeatureIds = selectedApiFeatures.map(
           ({ feature_id }: PermissionProfileWithFeatureInterface) => feature_id
@@ -75,8 +70,7 @@ export function useEditPermissionProfileSubmit() {
       deleteFeature,
       selectedApiFeatures,
       permissionProfileId,
-      operationId,
-      challenge
+      operationId
     ]
   )
 
