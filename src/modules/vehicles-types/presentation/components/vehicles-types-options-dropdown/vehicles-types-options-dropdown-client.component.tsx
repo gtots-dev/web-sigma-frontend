@@ -18,18 +18,18 @@ export function VehiclesTypesOptionsDropdownClient({
 }) {
   return (
     <PatchVehicleTypeMenu.Provider>
-      <VehiclesTypesOptionsDropdown.Root>
-        <VehiclesTypesOptionsDropdown.Trigger />
-        <VehiclesTypesOptionsDropdown.Menu>
-          {isAdmin && (
+      {(isAdmin || permissions.has(PermissionEnum.VEHICLE_TYPES_EDIT)) ? (
+        <VehiclesTypesOptionsDropdown.Root>
+          <VehiclesTypesOptionsDropdown.Trigger />
+          <VehiclesTypesOptionsDropdown.Menu>
             <VehiclesTypesOptionsDropdown.Item>
               <PatchVehicleTypeMenu.Trigger />
             </VehiclesTypesOptionsDropdown.Item>
-          )}
-        </VehiclesTypesOptionsDropdown.Menu>
-      </VehiclesTypesOptionsDropdown.Root>
+          </VehiclesTypesOptionsDropdown.Menu>
+        </VehiclesTypesOptionsDropdown.Root>
+      ) : null}
 
-      {isAdmin && (
+      {(isAdmin || permissions.has(PermissionEnum.VEHICLE_TYPES_EDIT)) && (
         <PatchVehicleTypeMenuComponent
           title={patchTitle}
           description={patchDescription}
