@@ -1,12 +1,10 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import {
   TableCell,
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
-import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import { AvailabilityStatusComponent } from '@/modules/shared/presentation/components/availability-status/availability-status.component'
 import { useTableGroup } from '../../contexts/table-group.context'
 
@@ -22,47 +20,30 @@ export function TableGroupsItemComponent({
   children
 }: TableGroupsItemComponentProps) {
   const { group } = useTableGroup()
-  const isLarge = useMediaQuery('(min-width: 1024px)')
-  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
-
-  const renderSkeleton = () => (
-    <TableRow>
-      <TableCell className={`${baseCell} ${truncateText}`} colSpan={6}>
-        <Skeleton className="w-full !h-[10px] rounded-full" />
-      </TableCell>
-    </TableRow>
-  )
-
-  const renderCompactView = () => (
-    <>
-      <TableCell className={`${baseCell} flex flex-col gap-y-0.5`}>
-        <span title={group.name} className={`${truncateText} !h-auto`}>
-          {group.name}
-        </span>
-      </TableCell>
-    </>
-  )
-
-  const renderExpandedView = () => (
-    <>
-      <TableCell colSpan={2} className={`${baseCell} ${truncateText} w-[30%]`}>
-        {group.name}
-      </TableCell>
-      {isExtraLarge && (
-        <TableCell className={`${baseCell} ${truncateText}`}>
-          <AvailabilityStatusComponent enabled={group.enabled} />
-        </TableCell>
-      )}
-    </>
-  )
-
-  if (isExtraLarge === undefined || isLarge === undefined) {
-    return renderSkeleton()
-  }
 
   return (
     <TableRow>
-      {isLarge ? renderExpandedView() : renderCompactView()}
+      <TableCell className={`${baseCell} w-[30%] max-w-0`}>
+        <div className="flex flex-col gap-y-0.5 min-w-0 w-full">
+          <span
+            title={group.name}
+            className={`${truncateText} !h-auto font-medium`}
+          >
+            {group.name}
+          </span>
+          {group.description && (
+            <span
+              title={group.description}
+              className="truncate text-xs text-zinc-500 block mt-0.5"
+            >
+              {group.description}
+            </span>
+          )}
+        </div>
+      </TableCell>
+      <TableCell className={`${baseCell} ${truncateText} hidden xl:table-cell`}>
+        <AvailabilityStatusComponent enabled={group.enabled} />
+      </TableCell>
       <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
         {children}
       </TableCell>

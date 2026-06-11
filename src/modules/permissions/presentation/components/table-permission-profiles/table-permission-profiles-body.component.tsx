@@ -19,14 +19,14 @@ export function TablePermissionProfilesBodyComponent({
   if (loading)
     return (
       <TableBody>
-        <TableLoading colSpan={4} />
+        <TableLoading colSpan={2} />
       </TableBody>
     )
 
   if (permissionProfiles.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={4} message={MESSAGES_PERMISSIONS['6.3']} />
+        <TableMessage colSpan={2} message={MESSAGES_PERMISSIONS['6.3']} />
       </TableBody>
     )
 
