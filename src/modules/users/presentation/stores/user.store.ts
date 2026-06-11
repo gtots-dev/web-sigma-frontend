@@ -11,6 +11,7 @@ import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/h
 
 type UserState = {
   users: UserEntity[]
+  loading: boolean
   getUsers: ({ operationId }: UrlParams) => Promise<void>
   addUser: (
     { operationId }: UrlParams,
@@ -28,8 +29,10 @@ type UserState = {
 
 export const useUserStore = create<UserState>((set) => ({
   users: [],
+  loading: false,
 
   getUsers: async ({ operationId }: UrlParams) => {
+    set({ loading: true })
     try {
       const getUsersRouterApiFactory = GetUsersRouterApiFactory.create({
         operationId
@@ -38,6 +41,8 @@ export const useUserStore = create<UserState>((set) => ({
       set({ users })
     } catch (error) {
       if (error instanceof HttpResponseError) throw error
+    } finally {
+      set({ loading: false })
     }
   },
 
