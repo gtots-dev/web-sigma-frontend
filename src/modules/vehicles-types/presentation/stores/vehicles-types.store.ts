@@ -10,6 +10,7 @@ import { PatchVehicleTypeRouterApiFactory } from '@/modules/api/infrastructure/f
 
 type VehiclesTypeState = {
   vehiclesTypes: VehiclesTypesInterface[]
+  loading: boolean
   getVehiclesTypes: ({ operationId, contractId }: UrlParams) => Promise<void>
   postVehicleType: (
     { operationId, contractId }: UrlParams,
@@ -23,8 +24,10 @@ type VehiclesTypeState = {
 
 export const useVehiclesTypeStore = create<VehiclesTypeState>((set) => ({
   vehiclesTypes: [],
+  loading: false,
 
   getVehiclesTypes: async ({ operationId, contractId }: UrlParams) => {
+    set({ loading: true })
     try {
       const getVehiclesTypes = GetVehiclesTypesRouterApiFactory.create({
         operationId,
@@ -36,6 +39,8 @@ export const useVehiclesTypeStore = create<VehiclesTypeState>((set) => ({
       if (error instanceof HttpResponseError) {
         throw error
       }
+    } finally {
+      set({ loading: false })
     }
   },
 

@@ -11,6 +11,8 @@ import type { ActivityReportFiltersInterface } from '@/modules/activity-report/d
 import type { PaginationInterface } from '@/modules/shared/domain/interfaces/pagination.interfaces'
 import { MESSAGES_ACTIVITY_REPORT } from '@/modules/shared/presentation/messages/activity-report'
 
+import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
+
 export function TableActivityReportBodyComponent({
   children,
   initSettings
@@ -22,18 +24,29 @@ export function TableActivityReportBodyComponent({
   }
 }) {
   const { logs, loading } = useTableActivityReport(initSettings)
+  const isLarge = useMediaQuery('(min-width: 1024px)')
+  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
+
+  const getColSpan = () => {
+    if (isExtraLarge === undefined || isLarge === undefined) return 5
+    if (isExtraLarge) return 5
+    if (isLarge) return 3
+    return 2
+  }
+
+  const colSpan = getColSpan()
 
   if (loading)
     return (
       <TableBody>
-        <TableLoading colSpan={6} />
+        <TableLoading colSpan={colSpan} />
       </TableBody>
     )
 
   if (logs.data.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={6} message={MESSAGES_ACTIVITY_REPORT['15.3']} />
+        <TableMessage colSpan={colSpan} message={MESSAGES_ACTIVITY_REPORT['15.3']} />
       </TableBody>
     )
 

@@ -18,6 +18,7 @@ type PermissionsState = {
   permissionProfiles: PermissionProfileInterface[]
   permissionProfile: PermissionProfileEntity | null
   features: PermissionProfileWithFeatureInterface[] | []
+  loading: boolean
 
   getPermissionProfiles: ({ operationId }: UrlParams) => Promise<void>
 
@@ -57,8 +58,10 @@ export const usePermissionProfileStore = create<PermissionsState>((set) => ({
   permissionProfiles: [],
   permissionProfile: null,
   features: [],
+  loading: false,
 
   getPermissionProfiles: async ({ operationId }: UrlParams) => {
+    set({ loading: true })
     try {
       const getPermissionProfilesRouterApiFactory =
         GetPermissionProfilesRouterApiFactory.create({ operationId })
@@ -69,6 +72,8 @@ export const usePermissionProfileStore = create<PermissionsState>((set) => ({
       if (error instanceof HttpResponseError) {
         throw error
       }
+    } finally {
+      set({ loading: false })
     }
   },
 
