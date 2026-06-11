@@ -1,12 +1,8 @@
-'use client'
-
 import type { ReactNode } from 'react'
-import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import {
   TableCell,
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
-import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import { useTableVehiclesTypes } from '../../contexts/table-vehicles-types.context'
 
 interface TableVehiclesTypesItemComponentProps {
@@ -21,63 +17,41 @@ export function TableVehiclesTypesItemComponent({
   children
 }: TableVehiclesTypesItemComponentProps) {
   const vehicleType = useTableVehiclesTypes()
-  const isLarge = useMediaQuery('(min-width: 1024px)')
-  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
-
-  const renderSkeleton = () => (
-    <TableRow>
-      <TableCell className={`${baseCell} ${truncateText}`} colSpan={6}>
-        <Skeleton className="w-full !h-[10px] rounded-full" />
-      </TableCell>
-    </TableRow>
-  )
-
-  const renderCompactView = () => (
-    <>
-      <TableCell className={`${baseCell} flex flex-col gap-y-0.5`}>
-        <span title={vehicleType.name} className={`${truncateText} !h-auto`}>
-          {vehicleType.name} - {vehicleType.code}
-        </span>
-        <div className={`${truncateText} !h-auto`}>
-          <div className="flex items-center gap-x-3">
-            <div
-              className={`flex h-3 w-3 rounded-sm`}
-              style={{ backgroundColor: vehicleType.color }}
-            ></div>
-            {vehicleType.color}
-          </div>
-        </div>
-      </TableCell>
-    </>
-  )
-
-  const renderExpandedView = () => (
-    <>
-      <TableCell colSpan={2} className={`${baseCell} ${truncateText} w-[30%]`}>
-        {vehicleType.name}
-      </TableCell>
-      <TableCell className={`${baseCell} ${truncateText} w-[20%]`}>
-        {vehicleType.code}
-      </TableCell>
-      <TableCell className={`${baseCell} ${truncateText} w-[30%]`}>
-        <div className={`${truncateText} flex items-center gap-x-3 !h-auto`}>
-          <div
-            className={`flex h-3 w-3 rounded-sm`}
-            style={{ backgroundColor: vehicleType.color }}
-          ></div>
-          {vehicleType.color}
-        </div>
-      </TableCell>
-    </>
-  )
-
-  if (isExtraLarge === undefined || isLarge === undefined) {
-    return renderSkeleton()
-  }
 
   return (
     <TableRow>
-      {isLarge ? renderExpandedView() : renderCompactView()}
+      <TableCell className={`${baseCell} ${truncateText} w-[30%] max-w-0`}>
+        <div className="flex flex-col gap-y-0.5 min-w-0 w-full">
+          <span title={vehicleType.name} className="truncate font-medium block">
+            {vehicleType.name}
+          </span>
+          <span title={String(vehicleType.code)} className="truncate text-xs text-zinc-500 lg:hidden block mt-0.5">
+            Código: {vehicleType.code}
+          </span>
+          <div className="lg:hidden flex items-center gap-x-1.5 mt-0.5">
+            <span className="text-xs text-zinc-500">Cor:</span>
+            <div
+              className="h-2.5 w-2.5 rounded-sm shrink-0 border border-zinc-200 dark:border-zinc-800"
+              style={{ backgroundColor: vehicleType.color }}
+            />
+          </div>
+        </div>
+      </TableCell>
+
+      <TableCell className={`${baseCell} ${truncateText} hidden lg:table-cell`}>
+        {vehicleType.code}
+      </TableCell>
+
+      <TableCell className={`${baseCell} ${truncateText} hidden lg:table-cell`}>
+        <div className="flex items-center gap-x-2">
+          <div
+            className="h-3 w-3 rounded-sm border border-zinc-200 dark:border-zinc-800"
+            style={{ backgroundColor: vehicleType.color }}
+          />
+          <span className="text-zinc-500 text-xs">{vehicleType.color}</span>
+        </div>
+      </TableCell>
+
       <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
         {children}
       </TableCell>

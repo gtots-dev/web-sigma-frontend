@@ -17,18 +17,19 @@ export function TabledProcessingUnitsBodyComponent({
   children
 }: TabledProcessingUnitsBodyComponentProps) {
   const { processingUnits, loading } = useTableProcessingUnits()
+  const colSpan = 4
 
   if (loading)
     return (
       <TableBody>
-        <TableLoading colSpan={5} />
+        <TableLoading colSpan={colSpan} />
       </TableBody>
     )
 
   if (processingUnits.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={5} message={MESSAGES_PROCESSING_UNIT['7.3']} />
+        <TableMessage colSpan={colSpan} message={MESSAGES_PROCESSING_UNIT['7.3']} />
       </TableBody>
     )
 

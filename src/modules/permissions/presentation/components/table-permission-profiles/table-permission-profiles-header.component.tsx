@@ -12,7 +12,7 @@ export function TablePermissionProfilesHeaderComponent() {
   return (
     <TableHeader>
       <TableRow className="bg-muted !border-0">
-        <TableHead className={cn(baseClass, 'rounded-tl-lg')}>Nome</TableHead>
+        <TableHead className={cn(baseClass, 'w-[30%] max-w-0 rounded-tl-lg')}>Nome</TableHead>
         <TableHead
           className={cn(baseClass, 'rounded-tr-lg text-right')}
           colSpan={1}

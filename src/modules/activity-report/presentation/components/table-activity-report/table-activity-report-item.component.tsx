@@ -1,11 +1,9 @@
 'use client'
 
-import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import {
   TableCell,
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
-import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import type { ReactNode } from 'react'
 import { useTableActivityReport } from '../../contexts/table-activity-report.context'
 import { useFormattedDate } from '@/modules/shared/presentation/hooks/use-formatted-date.hook'
@@ -23,18 +21,6 @@ export function TableActivityReportItemComponent({
 }: TableActivityReportItemComponentProps) {
   const log = useTableActivityReport()
   const { formatted } = useFormattedDate(log.created_at)
-  const isLarge = useMediaQuery('(min-width: 1024px)')
-  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
-
-  if (isExtraLarge === undefined || isLarge === undefined) {
-    return (
-      <TableRow className="h-[38px]">
-        <TableCell className={cellBase} colSpan={5}>
-          <Skeleton className="w-full h-[5px] rounded-full" />
-        </TableCell>
-      </TableRow>
-    )
-  }
 
   return (
     <TableRow className="h-[38px]">
@@ -44,7 +30,7 @@ export function TableActivityReportItemComponent({
       </TableCell>
 
       {/* Usuário */}
-      <TableCell className={cellBase}>
+      <TableCell className={`${cellBase} hidden lg:table-cell`}>
         <div className="min-w-0">
           <div className={textCell}>{log.user?.name}</div>
         </div>
