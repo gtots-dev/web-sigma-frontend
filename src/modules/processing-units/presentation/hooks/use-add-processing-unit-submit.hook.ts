@@ -5,21 +5,16 @@ import type { ProcessingUnitEntity } from '../../domain/entities/processing-unit
 import { useProcessingUnitStore } from '../stores/processing-units.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function useAddProcessingUnitSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { getProcessingUnits, addProcessingUnit } = useProcessingUnitStore()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       data: ProcessingUnitEntity,
       onSuccess: VoidFunction
     ): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         await addProcessingUnit({ operationId, contractId }, data)
         toast({
@@ -38,7 +33,7 @@ export function useAddProcessingUnitSubmit() {
         }
       }
     },
-    [addProcessingUnit, getProcessingUnits, operationId, contractId, challenge]
+    [addProcessingUnit, getProcessingUnits, operationId, contractId]
   )
 
   return { onAction }

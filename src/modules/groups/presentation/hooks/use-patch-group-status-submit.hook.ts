@@ -7,21 +7,16 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { useParams } from 'next/navigation'
 import type { GroupEnableAndDisableInterface } from '../../domain/interfaces/group-enable-and-disable.interface'
 import { useGroupStore } from '../stores/group.store'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePatchGroupStatusSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { getGroups, patchGroupStatus } = useGroupStore()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       group: GroupEnableAndDisableInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         await patchGroupStatus({ operationId, contractId }, group)
         toast({
@@ -40,7 +35,7 @@ export function usePatchGroupStatusSubmit() {
         }
       }
     },
-    [getGroups, patchGroupStatus, operationId, contractId, challenge]
+    [getGroups, patchGroupStatus, operationId, contractId]
   )
 
   return { onAction }

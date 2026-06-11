@@ -5,21 +5,16 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 import type { UserEnableAndDisableInterface } from '../../domain/interfaces/user-enable-and-disable.interface'
 import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePatchUserStatusSubmit() {
   const { getUsers, updateUserStatus } = useUserStore()
   const { operationId }: UrlParams = useParams()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       userStatus: UserEnableAndDisableInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         await updateUserStatus({ operationId }, userStatus)
         await getUsers({ operationId })
@@ -38,7 +33,7 @@ export function usePatchUserStatusSubmit() {
         }
       }
     },
-    [getUsers, updateUserStatus, operationId, challenge]
+    [getUsers, updateUserStatus, operationId]
   )
 
   return { onAction }

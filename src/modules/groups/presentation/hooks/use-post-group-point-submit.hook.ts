@@ -9,23 +9,18 @@ import { useGroupStore } from '../stores/group.store'
 import type { GroupPointInterface } from '../../domain/interfaces/group-point.interface.ts'
 import { usePointStore } from '@/modules/points/presentation/stores/point.store'
 import { useTableGroup } from '../contexts/table-group.context'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePostGroupPointSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { group } = useTableGroup()
   const { points } = usePointStore()
   const { getGroups, postGroupPoint, deleteGroupPoint } = useGroupStore()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       { pointId: formPointIds }: GroupPointInterface,
       onSuccess?: VoidFunction
     ) => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         const apiPointsSelected = points
           .filter((item) => item.group_id.includes(group.id))
@@ -92,7 +87,6 @@ export function usePostGroupPointSubmit() {
       group?.id,
       operationId,
       contractId,
-      challenge
     ]
   )
 

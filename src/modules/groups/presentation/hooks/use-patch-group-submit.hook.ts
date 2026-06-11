@@ -7,18 +7,13 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { useParams } from 'next/navigation'
 import type { GroupEntity } from '../../domain/entities/group.entity'
 import { useGroupStore } from '../stores/group.store'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePatchGroupSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { getGroups, patchGroup } = useGroupStore()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (group: GroupEntity, onSuccess: VoidFunction): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         await patchGroup({ operationId, contractId }, group)
         toast({
@@ -37,7 +32,7 @@ export function usePatchGroupSubmit() {
         }
       }
     },
-    [getGroups, patchGroup, operationId, contractId, challenge]
+    [getGroups, patchGroup, operationId, contractId]
   )
 
   return { onAction }

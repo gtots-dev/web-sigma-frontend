@@ -7,22 +7,17 @@ import { useProcessingUnitStore } from '../stores/processing-units.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
 import type { ProcessingUnitEnableAndDisableInterface } from '../../domain/interfaces/processing-unit-enable-and-disable.interface'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePatchProcessingUnitStatusSubmit() {
   const { getProcessingUnits, patchProcessingUnitStatus } =
     useProcessingUnitStore()
   const { operationId, contractId }: UrlParams = useParams()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       processingUnitEnableAndDisabled: ProcessingUnitEnableAndDisableInterface,
       onSuccess: VoidFunction
     ): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         await patchProcessingUnitStatus(
           {
@@ -48,7 +43,7 @@ export function usePatchProcessingUnitStatusSubmit() {
         }
       }
     },
-    [getProcessingUnits, patchProcessingUnitStatus, operationId, contractId, challenge]
+    [getProcessingUnits, patchProcessingUnitStatus, operationId, contractId]
   )
 
   return { onAction }

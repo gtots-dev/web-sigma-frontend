@@ -9,23 +9,18 @@ import { usePointStore } from '../stores/point.store'
 import type { PointLaneInterface } from '../../domain/interfaces/point-lane.interface'
 import { useLaneStore } from '@/modules/lanes/presentation/stores/lanes.store'
 import { useTablePoint } from '../contexts/table-point.context'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePostPointLaneSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { point } = useTablePoint()
   const { contractLanes } = useLaneStore()
   const { getPoints, postPointLane, deletePointLane } = usePointStore()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       { laneId: formLaneIds }: PointLaneInterface,
       onSuccess?: VoidFunction
     ) => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         const apiLanesSelected = contractLanes
           .filter((item) => item.point_id === point.id)
@@ -89,8 +84,7 @@ export function usePostPointLaneSubmit() {
       contractLanes,
       point?.id,
       operationId,
-      contractId,
-      challenge
+      contractId
     ]
   )
 

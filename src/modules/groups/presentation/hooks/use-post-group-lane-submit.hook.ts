@@ -9,23 +9,18 @@ import { useGroupStore } from '../stores/group.store'
 import type { GroupLaneInterface } from '../../domain/interfaces/group-lane.interface'
 import { useLaneStore } from '@/modules/lanes/presentation/stores/lanes.store'
 import { useTableGroup } from '../contexts/table-group.context'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePostGroupLaneSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
   const { group } = useTableGroup()
   const { contractLanes } = useLaneStore()
   const { getGroups, postGroupLane, deleteGroupLane } = useGroupStore()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (
       { laneId: formLaneIds }: GroupLaneInterface,
       onSuccess?: VoidFunction
     ) => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         const apiLanesSelected = contractLanes
           .filter((item) => item.group_id.includes(group.id))
@@ -89,8 +84,7 @@ export function usePostGroupLaneSubmit() {
       contractLanes,
       group?.id,
       operationId,
-      contractId,
-      challenge
+      contractId
     ]
   )
 
