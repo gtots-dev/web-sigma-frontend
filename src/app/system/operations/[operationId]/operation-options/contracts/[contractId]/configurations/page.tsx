@@ -85,7 +85,8 @@ export default async function ConfigurationsPage({
         Number(rawContractId)
       ),
       icon: Car,
-      accessAllowed: isAdmin
+      accessAllowed:
+        isAdmin || userPermissions.has(PermissionEnum.VEHICLE_TYPES_VIEW)
     }
   ]
 
