@@ -48,7 +48,7 @@ export default async function ProcessingUnitsPage({
   }
 
   return (
-    <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
+    <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
       <div className="flex gap-5 flex-col lg:flex-row">
         <SectionRedirectLink.Button href={previousSection} />
         <HeaderSection.Root>

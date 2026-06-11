@@ -62,7 +62,7 @@ export default async function ActivityReportPage({
 
   return (
     <ActivityReportForm.Form initSettings={initialSettingsLogs}>
-      <main className="flex flex-col flex-1 h-full w-full p-8 sm:p-10 sm:pb-0 gap-5">
+      <main className="flex flex-col flex-1 w-full p-8 sm:p-10 sm:pb-0 gap-5">
         <div className="flex gap-5 flex-col lg:flex-row">
           <SectionRedirectLink.Button href={previousSection} />
           <HeaderSection.Root>
@@ -83,7 +83,7 @@ export default async function ActivityReportPage({
           />
         </ActionSection.Root>
 
-        <div className="flex flex-col h-full w-full">
+        <div className="flex flex-col w-full">
           <TableActivityReport.Root>
             <TableActivityReport.Header />
             <TableActivityReport.Body initSettings={initialSettingsLogs}>
