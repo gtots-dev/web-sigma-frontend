@@ -1,12 +1,10 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import {
   TableCell,
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
-import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import { useTableContract } from '../../contexts/table-contract.context'
 import { AvailabilityStatusComponent } from '@/modules/shared/presentation/components/availability-status/availability-status.component'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
@@ -30,63 +28,27 @@ export function TableContractsItemComponent({
   const { operationId }: UrlParams = useParams()
   const { replace } = useRouter()
   const contract = useTableContract()
-  const isLarge = useMediaQuery('(min-width: 1024px)')
-  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
 
-  const renderSkeleton = () => (
+  return (
     <TableRow>
-      <TableCell className={`${baseCell} ${truncateText}`} colSpan={6}>
-        <Skeleton className="w-full !h-[10px] rounded-full" />
+      <TableCell className={`${baseCell} ${truncateText} w-[30%] max-w-0`}>
+        <div className="flex flex-col gap-y-0.5 min-w-0 w-full">
+          <span title={contract.name} className="truncate font-medium block">
+            {contract.name}
+          </span>
+          <span title={contract.alias} className="truncate text-xs text-zinc-500 lg:hidden block mt-0.5">
+            {contract.alias}
+          </span>
+        </div>
       </TableCell>
-    </TableRow>
-  )
-
-  const renderCompactView = () => (
-    <>
-      <TableCell className={`${baseCell} flex flex-col gap-y-0.5`}>
-        <span title={contract.name} className={`${truncateText} !h-auto`}>
-          {contract.name}
-        </span>
-        <span title={contract.alias} className={`${truncateText} !h-auto`}>
-          {contract.alias}
-        </span>
+      <TableCell className={`${baseCell} ${truncateText} hidden lg:table-cell`}>
+        {contract.alias}
       </TableCell>
-      <TableCell className="px-5 sm:px-10 text-center">
-        <Button
-          size="icon"
-          variant="outline"
-          onClick={() =>
-            replace(
-              PATHNAMES.CONTRACTS_OPTIONS(
-                Number(operationId),
-                Number(contract.id)
-              )
-            )
-          }
-        >
-          <LogIn />
-        </Button>
+      <TableCell className={`${baseCell} ${truncateText} hidden xl:table-cell`}>
+        <AvailabilityStatusComponent enabled={contract.enabled} />
       </TableCell>
-    </>
-  )
-
-  const renderExpandedView = () => (
-    <>
-      <TableCell colSpan={2} className={`${baseCell} ${truncateText} w-[30%]`}>
-        {contract.name}
-      </TableCell>
-      {isLarge && (
-        <TableCell className={`${baseCell} ${truncateText}`}>
-          {contract.alias}
-        </TableCell>
-      )}
-      {isExtraLarge && (
-        <TableCell className={`${baseCell} ${truncateText}`}>
-          <AvailabilityStatusComponent enabled={contract.enabled} />
-        </TableCell>
-      )}
-      {children && <TableCell className="text-center">{children}</TableCell>}
-      <TableCell className="px-5 text sm:px-10 text-right" colSpan={1}>
+      <TableCell className="text-center w-[120px]">{children}</TableCell>
+      <TableCell className="px-5 sm:px-10 text-right w-[100px]" colSpan={1}>
         <Button
           size="icon"
           variant="outline"
@@ -102,14 +64,6 @@ export function TableContractsItemComponent({
           <LogIn />
         </Button>
       </TableCell>
-    </>
-  )
-
-  if (isExtraLarge === undefined || isLarge === undefined) {
-    return renderSkeleton()
-  }
-
-  return (
-    <TableRow>{isLarge ? renderExpandedView() : renderCompactView()}</TableRow>
+    </TableRow>
   )
 }

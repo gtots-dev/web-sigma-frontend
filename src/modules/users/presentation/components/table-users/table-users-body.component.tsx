@@ -12,18 +12,19 @@ import type { UserEnableAndDisableInterface } from '@/modules/users/domain/inter
 
 export function TableUsersBodyComponent({ children }: { children: ReactNode }) {
   const { users, loading } = useTableUsers()
+  const colSpan = 4
 
   if (loading)
     return (
       <TableBody>
-        <TableLoading colSpan={4} />
+        <TableLoading colSpan={colSpan} />
       </TableBody>
     )
 
   if (users.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={4} message={MESSAGES_USERS['5.3']} />
+        <TableMessage colSpan={colSpan} message={MESSAGES_USERS['5.3']} />
       </TableBody>
     )
 

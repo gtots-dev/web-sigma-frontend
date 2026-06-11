@@ -13,8 +13,11 @@ export interface UseTableProcessingUnitsResult {
 
 export function useTableProcessingUnits(): UseTableProcessingUnitsResult {
   const { operationId, contractId }: UrlParams = useParams()
-  const { processingUnits, getProcessingUnits: getProcessingUnitsFromStore } =
-    useProcessingUnitStore()
+  const {
+    processingUnits,
+    getProcessingUnits: getProcessingUnitsFromStore,
+    loading: storeLoading
+  } = useProcessingUnitStore()
   const [loading, setLoading] = useState(true)
 
   const getProcessingUnits = useCallback(async () => {
@@ -27,5 +30,5 @@ export function useTableProcessingUnits(): UseTableProcessingUnitsResult {
     getProcessingUnits()
   }, [getProcessingUnits])
 
-  return { processingUnits, loading }
+  return { processingUnits, loading: loading || storeLoading }
 }

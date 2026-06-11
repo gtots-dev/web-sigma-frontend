@@ -10,6 +10,7 @@ type UserState = {
     data: ActivityReportInterface[]
     meta: PaginationInterface
   }
+  loading: boolean
   getActivityReport: (filters: {
     filters: ActivityReportFiltersInterface
     pagination: PaginationInterface
@@ -21,10 +22,12 @@ export const useActivityReportStore = create<UserState>((set) => ({
     data: [],
     meta: null
   },
+  loading: false,
   getActivityReport: async (filters: {
     filters: ActivityReportFiltersInterface
     pagination: PaginationInterface
   }) => {
+    set({ loading: true })
     try {
       const postActivityReportRouterApiFactory =
         PostActivityReportRouterApiFactory.create()
@@ -37,6 +40,8 @@ export const useActivityReportStore = create<UserState>((set) => ({
       if (error instanceof HttpResponseError) {
         throw error
       }
+    } finally {
+      set({ loading: false })
     }
   }
 }))

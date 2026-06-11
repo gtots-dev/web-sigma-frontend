@@ -12,7 +12,7 @@ export interface UseTableUsersResult {
 }
 
 export function useTableUsers(): UseTableUsersResult {
-  const { users, getUsers } = useUserStore()
+  const { users, getUsers, loading: storeLoading } = useUserStore()
   const { operationId }: UrlParams = useParams()
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -26,5 +26,5 @@ export function useTableUsers(): UseTableUsersResult {
     fetchUsers()
   }, [getUsers, operationId])
 
-  return { users, loading }
+  return { users, loading: loading || storeLoading }
 }

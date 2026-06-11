@@ -19,6 +19,7 @@ import { DeleteGroupSubgroupRouterApiFactory } from '@/modules/api/infrastructur
 
 type GroupState = {
   groups: GroupWithGroupInterface[]
+  loading: boolean
   getGroups: ({ operationId, contractId }: UrlParams) => Promise<void>
   addGroup: (
     { operationId, contractId }: UrlParams,
@@ -66,6 +67,7 @@ type GroupState = {
 
 export const useGroupStore = create<GroupState>((set) => ({
   groups: [],
+  loading: false,
 
   addGroup: async (
     { operationId, contractId }: UrlParams,
@@ -85,6 +87,7 @@ export const useGroupStore = create<GroupState>((set) => ({
   },
 
   getGroups: async ({ operationId, contractId }: UrlParams) => {
+    set({ loading: true })
     try {
       const getGroups = GetGroupsRouterApiFactory.create({
         operationId,
@@ -96,6 +99,8 @@ export const useGroupStore = create<GroupState>((set) => ({
       if (error instanceof HttpResponseError) {
         throw error
       }
+    } finally {
+      set({ loading: false })
     }
   },
 
