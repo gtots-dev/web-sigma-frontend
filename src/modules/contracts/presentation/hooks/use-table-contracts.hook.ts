@@ -12,7 +12,7 @@ export interface UseTableContractsResult {
 }
 
 export function useTableContracts(): UseTableContractsResult {
-  const { contracts, getContracts: getContractsFromStore } = useContractStore()
+  const { contracts, getContracts: getContractsFromStore, loading: storeLoading } = useContractStore()
   const { operationId }: UrlParams = useParams()
   const [loading, setLoading] = useState(true)
 
@@ -26,5 +26,5 @@ export function useTableContracts(): UseTableContractsResult {
     getContracts()
   }, [getContracts])
 
-  return { contracts, loading }
+  return { contracts, loading: loading || storeLoading }
 }
