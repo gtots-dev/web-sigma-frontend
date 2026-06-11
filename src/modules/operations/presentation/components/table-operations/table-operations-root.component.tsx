@@ -13,13 +13,9 @@ import { GetOperationsFactory } from '@/modules/operations/infrastructure/factor
 export async function TableOperationsRootComponent() {
   const getOperationFactory = GetOperationsFactory.create()
   const { data: operations } = await getOperationFactory.execute()
-  const containerHeight = 69 + 36 + 53 * 10
 
   return (
-    <section
-      style={{ height: `${containerHeight}px` }}
-      className="flex flex-col w-full"
-    >
+    <section className="flex flex-col w-full">
       <Table className="w-full overflow-x-hidden">
         <TableHeader>
           <TableOperationHeaderRowComponent />
