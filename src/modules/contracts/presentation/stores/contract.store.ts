@@ -11,6 +11,7 @@ import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/h
 type ContractState = {
   contracts: ContractEntity[]
   contract: ContractEntity
+  loading: boolean
   getContracts: ({ operationId }: UrlParams) => Promise<void>
   addContract: (
     { operationId }: UrlParams,
@@ -34,8 +35,10 @@ export const useContractStore = create<ContractState>((set) => ({
     cfg: '',
     name: ''
   },
+  loading: false,
 
   getContracts: async ({ operationId }: UrlParams) => {
+    set({ loading: true })
     try {
       const getContractsRouterApiFactory = GetContractsRouterApiFactory.create({
         operationId
@@ -44,6 +47,8 @@ export const useContractStore = create<ContractState>((set) => ({
       set({ contracts })
     } catch (error) {
       if (error instanceof HttpResponseError) throw error
+    } finally {
+      set({ loading: false })
     }
   },
 

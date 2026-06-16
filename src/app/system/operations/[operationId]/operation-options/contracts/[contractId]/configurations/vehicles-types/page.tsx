@@ -12,6 +12,7 @@ import { TableVehiclesTypes } from '@/modules/vehicles-types/presentation/compon
 import { VehiclesTypesOptionsDropdown } from '@/modules/vehicles-types/presentation/components/vehicles-types-options-dropdown'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { auth } from '@/auth'
+import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 
 interface VehiclesPageProps {
   params: Promise<UrlParams>
@@ -48,7 +49,7 @@ export default async function VehiclesPage({ params }: VehiclesPageProps) {
   }
 
   return (
-    <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
+    <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
       <div className="flex gap-5 flex-col lg:flex-row">
         <SectionRedirectLink.Button href={previousSection} />
         <HeaderSection.Root>
@@ -59,15 +60,17 @@ export default async function VehiclesPage({ params }: VehiclesPageProps) {
         </HeaderSection.Root>
       </div>
       <Separator orientation="horizontal" />
-      <ActionSection.Root>
-        <PostVehicleMenu.Provider>
-          <PostVehicleMenu.Trigger />
-          <PostVehicleMenuComponent
-            title={data.menuPostVehicleTypeTitle}
-            description={data.menuPostVehicleTypeDescription}
-          />
-        </PostVehicleMenu.Provider>
-      </ActionSection.Root>
+      {(isAdmin || userPermissions.has(PermissionEnum.VEHICLE_TYPES_EDIT)) && (
+        <ActionSection.Root>
+          <PostVehicleMenu.Provider>
+            <PostVehicleMenu.Trigger />
+            <PostVehicleMenuComponent
+              title={data.menuPostVehicleTypeTitle}
+              description={data.menuPostVehicleTypeDescription}
+            />
+          </PostVehicleMenu.Provider>
+        </ActionSection.Root>
+      )}
       <TableVehiclesTypes.Root>
         <TableVehiclesTypes.Header />
         <TableVehiclesTypes.Body>

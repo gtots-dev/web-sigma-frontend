@@ -33,16 +33,22 @@ export function TablePermissionProfilesItemComponent({
 
   return (
     <TableRow>
-      <TableCell
-        className={cn(baseCell, truncateText, 'flex items-center gap-x-3.5')}
-      >
-        {!permission.enabled ? (
-          <span className="block bg-red-500 outline-2 outline outline-red-600 h-1 w-1 rounded-full"></span>
-        ) : (
-          <span className="block bg-green-500 outline-2 outline outline-green-600 h-1 w-1 rounded-full"></span>
-        )}
-
-        {permission.name}
+      <TableCell className={cn(baseCell, truncateText, 'w-[30%] max-w-0')}>
+        <div className="flex items-center gap-x-3.5 h-full w-full">
+          {!permission.enabled ? (
+            <span className="block bg-red-500 outline-2 outline outline-red-600 h-1.5 w-1.5 rounded-full shrink-0"></span>
+          ) : (
+            <span className="block bg-green-500 outline-2 outline outline-green-600 h-1.5 w-1.5 rounded-full shrink-0"></span>
+          )}
+          <div className="flex flex-col min-w-0 w-full">
+            <span className="truncate font-medium">{permission.name}</span>
+            {permission.description && (
+              <span title={permission.description} className="truncate text-xs text-zinc-500 block mt-0.5">
+                {permission.description}
+              </span>
+            )}
+          </div>
+        </div>
       </TableCell>
       <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
         {children}

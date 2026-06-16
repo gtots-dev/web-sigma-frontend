@@ -13,8 +13,11 @@ export interface UseTableVehiclesTypesResult {
 
 export function useTableVehiclesTypes(): UseTableVehiclesTypesResult {
   const { operationId, contractId }: UrlParams = useParams()
-  const { vehiclesTypes, getVehiclesTypes: getVehiclesTypesFromStore } =
-    useVehiclesTypeStore()
+  const {
+    vehiclesTypes,
+    getVehiclesTypes: getVehiclesTypesFromStore,
+    loading: storeLoading
+  } = useVehiclesTypeStore()
   const [loading, setLoading] = useState(true)
 
   const getVehiclesTypes = useCallback(async () => {
@@ -30,5 +33,5 @@ export function useTableVehiclesTypes(): UseTableVehiclesTypesResult {
     getVehiclesTypes()
   }, [getVehiclesTypes])
 
-  return { vehiclesTypes, loading }
+  return { vehiclesTypes, loading: loading || storeLoading }
 }
