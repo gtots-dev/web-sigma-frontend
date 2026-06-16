@@ -1,12 +1,10 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import {
   TableCell,
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
-import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import { useTableProcessingUnit } from '../../contexts/table-processing-units.context'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { LogIn } from 'lucide-react'
@@ -29,26 +27,21 @@ export function TabledProcessingUnitsItemComponent({
   const processingUnit = useTableProcessingUnit()
   const { operationId, contractId }: UrlParams = useParams()
   const { replace } = useRouter()
-  const isLarge = useMediaQuery('(min-width: 1024px)')
-  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
 
-  const renderSkeleton = () => (
+  return (
     <TableRow>
-      <TableCell className={`${baseCell} ${truncateText}`}>
-        <Skeleton className="w-full !h-[10px] rounded-full" />
+      <TableCell className={`${baseCell} w-[30%] max-w-0`}>
+        <div className="flex flex-col gap-y-0.5 w-full">
+          <span title={processingUnit.name} className={`${truncateText} !h-auto`}>
+            {processingUnit.name}
+          </span>
+        </div>
       </TableCell>
-    </TableRow>
-  )
-
-  const renderCompactView = () => (
-    <>
-      <TableCell className={`${baseCell} flex flex-col gap-y-0.5`} colSpan={3}>
-        <span title={processingUnit.name} className={`${truncateText} !h-auto`}>
-          {processingUnit.name}
-        </span>
+      <TableCell className={`${baseCell} ${truncateText} hidden xl:table-cell`}>
+        <AvailabilityStatusComponent enabled={processingUnit.enabled} />
       </TableCell>
-      {children && <TableCell className="text-center">{children}</TableCell>}
-      <TableCell className="px-5 sm:px-10 text-center !w-[100px]" colSpan={1}>
+      <TableCell className="text-center">{children}</TableCell>
+      <TableCell className="px-5 sm:px-10 text-right !w-[100px]" colSpan={1}>
         <Button
           size="icon"
           variant="outline"
@@ -65,45 +58,6 @@ export function TabledProcessingUnitsItemComponent({
           <LogIn />
         </Button>
       </TableCell>
-    </>
-  )
-
-  const renderExpandedView = () => (
-    <>
-      <TableCell className={`${baseCell} ${truncateText}`} colSpan={2}>
-        {processingUnit.name}
-      </TableCell>
-      {isExtraLarge && (
-        <TableCell className={`${baseCell} ${truncateText}`}>
-          <AvailabilityStatusComponent enabled={processingUnit.enabled} />
-        </TableCell>
-      )}
-      {children && <TableCell className="text-center">{children}</TableCell>}
-      <TableCell className="px-5 sm:px-10 text-end !w-[100px]" colSpan={1}>
-        <Button
-          size="icon"
-          variant="outline"
-          onClick={() => {
-            replace(
-              PATHNAMES.LANES(
-                Number(operationId),
-                Number(contractId),
-                Number(processingUnit.id)
-              )
-            )
-          }}
-        >
-          <LogIn />
-        </Button>
-      </TableCell>
-    </>
-  )
-
-  if (isExtraLarge === undefined || isLarge === undefined) {
-    return renderSkeleton()
-  }
-
-  return (
-    <TableRow>{isLarge ? renderExpandedView() : renderCompactView()}</TableRow>
+    </TableRow>
   )
 }

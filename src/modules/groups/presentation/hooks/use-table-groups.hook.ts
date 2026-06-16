@@ -13,7 +13,7 @@ export interface UseTableGroupsResult {
 
 export function useTableGroups(): UseTableGroupsResult {
   const { operationId, contractId }: UrlParams = useParams()
-  const { groups, getGroups: getGroupsFromStore } = useGroupStore()
+  const { groups, getGroups: getGroupsFromStore, loading: storeLoading } = useGroupStore()
   const [loading, setLoading] = useState(true)
 
   const getGroups = useCallback(async () => {
@@ -29,5 +29,5 @@ export function useTableGroups(): UseTableGroupsResult {
     getGroups()
   }, [getGroups])
 
-  return { groups, loading }
+  return { groups, loading: loading || storeLoading }
 }

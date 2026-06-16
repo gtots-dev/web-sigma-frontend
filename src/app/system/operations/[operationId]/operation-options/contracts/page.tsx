@@ -12,6 +12,9 @@ import { PutContractStatusMenuComponent } from '@/modules/contracts/presentation
 import { PutContractStatusMenu } from '@/modules/contracts/presentation/components/put-contract-status-menu'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
+import { auth } from '@/auth'
+import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 
 interface ContractsPageProps {
   params: Promise<UrlParams>
@@ -29,7 +32,15 @@ interface Data {
 }
 
 export default async function ContractsPage({ params }: ContractsPageProps) {
-  const [{ operationId: rawOperationId }] = await Promise.all([params])
+  const [
+    {
+      token: JWT,
+      user: { isAdmin }
+    },
+    { operationId: rawOperationId }
+  ] = await Promise.all([auth(), params])
+
+  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
 
   const previousSection = `/system/operations/${rawOperationId}/operation-options`
 
@@ -45,7 +56,7 @@ export default async function ContractsPage({ params }: ContractsPageProps) {
   }
 
   return (
-    <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
+    <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
       <div className="flex gap-5 flex-col lg:flex-row">
         <SectionRedirectLink.Button href={previousSection} />
         <HeaderSection.Root>
@@ -56,44 +67,68 @@ export default async function ContractsPage({ params }: ContractsPageProps) {
         </HeaderSection.Root>
       </div>
       <Separator orientation="horizontal" />
-      <ActionSection.Root>
-        <AddContractMenu.Provider>
-          <AddContractMenu.Trigger />
-          <AddContractMenuComponent
-            title={data.menuAddContractTitle}
-            description={data.menuAddContractDescription}
-          />
-        </AddContractMenu.Provider>
-      </ActionSection.Root>
+      {(isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_EDIT)) && (
+        <ActionSection.Root>
+          <AddContractMenu.Provider>
+            <AddContractMenu.Trigger />
+            <AddContractMenuComponent
+              title={data.menuAddContractTitle}
+              description={data.menuAddContractDescription}
+            />
+          </AddContractMenu.Provider>
+        </ActionSection.Root>
+      )}
       <TableContracts.Root>
         <TableContracts.Header />
         <TableContracts.Body>
           <TableContracts.Item>
-            <PutContractStatusMenu.Provider>
-              <EditContractMenu.Provider>
-                <ContractOptionsDropdown.Root>
-                  <ContractOptionsDropdown.Trigger />
-                  <ContractOptionsDropdown.Menu>
-                    <ContractOptionsDropdown.Item>
-                      <EditContractMenu.Trigger />
-                    </ContractOptionsDropdown.Item>
+            {((isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_EDIT)) ||
+              (isAdmin ||
+                userPermissions.has(
+                  PermissionEnum.CONTRACTS_ENABLE_AND_DISABLE
+                ))) ? (
+              <PutContractStatusMenu.Provider>
+                <EditContractMenu.Provider>
+                  <ContractOptionsDropdown.Root>
+                    <ContractOptionsDropdown.Trigger />
+                    <ContractOptionsDropdown.Menu>
+                      {(isAdmin ||
+                        userPermissions.has(PermissionEnum.CONTRACTS_EDIT)) && (
+                        <ContractOptionsDropdown.Item>
+                          <EditContractMenu.Trigger />
+                        </ContractOptionsDropdown.Item>
+                      )}
 
-                    <ContractOptionsDropdown.Item>
-                      <PutContractStatusMenu.Trigger />
-                    </ContractOptionsDropdown.Item>
-                  </ContractOptionsDropdown.Menu>
-                  <EditContractMenuComponent
-                    title={data.menuEditContractTitle}
-                    description={data.menuEditContractDescription}
-                  />
+                      {(isAdmin ||
+                        userPermissions.has(
+                          PermissionEnum.CONTRACTS_ENABLE_AND_DISABLE
+                        )) && (
+                        <ContractOptionsDropdown.Item>
+                          <PutContractStatusMenu.Trigger />
+                        </ContractOptionsDropdown.Item>
+                      )}
+                    </ContractOptionsDropdown.Menu>
+                    {(isAdmin ||
+                      userPermissions.has(PermissionEnum.CONTRACTS_EDIT)) && (
+                      <EditContractMenuComponent
+                        title={data.menuEditContractTitle}
+                        description={data.menuEditContractDescription}
+                      />
+                    )}
 
-                  <PutContractStatusMenuComponent
-                    title={data.menuPutContractStatusTitle}
-                    description={data.menuPutContractStatusDescription}
-                  />
-                </ContractOptionsDropdown.Root>
-              </EditContractMenu.Provider>
-            </PutContractStatusMenu.Provider>
+                    {(isAdmin ||
+                      userPermissions.has(
+                        PermissionEnum.CONTRACTS_ENABLE_AND_DISABLE
+                      )) && (
+                      <PutContractStatusMenuComponent
+                        title={data.menuPutContractStatusTitle}
+                        description={data.menuPutContractStatusDescription}
+                      />
+                    )}
+                  </ContractOptionsDropdown.Root>
+                </EditContractMenu.Provider>
+              </PutContractStatusMenu.Provider>
+            ) : null}
           </TableContracts.Item>
         </TableContracts.Body>
       </TableContracts.Root>

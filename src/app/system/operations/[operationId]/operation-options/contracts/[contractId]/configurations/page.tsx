@@ -85,7 +85,8 @@ export default async function ConfigurationsPage({
         Number(rawContractId)
       ),
       icon: Car,
-      accessAllowed: isAdmin
+      accessAllowed:
+        isAdmin || userPermissions.has(PermissionEnum.VEHICLE_TYPES_VIEW)
     }
   ]
 
@@ -101,8 +102,9 @@ export default async function ConfigurationsPage({
     <FrameOptions.Root>
       <FrameOptions.Header>
         <HeaderOptions.Root>
-          <div className="flex w-full gap-5">
+          <div className="flex gap-5 flex-col lg:flex-row">
             <SectionRedirectLink.Button href={previousSection} />
+
             <div className="flex flex-col gap-1">
               <HeaderOptions.Title>{title}</HeaderOptions.Title>
               <HeaderOptions.Description>
@@ -114,13 +116,13 @@ export default async function ConfigurationsPage({
                 {subDescription}
               </HeaderOptions.SubDescription>
             </div>
-            <ContractSelector.Root
-              title={contractSelectionMenuTitle}
-              description={contractSelectionMenuDescription}
-              contractId={Number(rawContractId)}
-              contracts={contracts}
-            />
           </div>
+          <ContractSelector.Root
+            title={contractSelectionMenuTitle}
+            description={contractSelectionMenuDescription}
+            contractId={Number(rawContractId)}
+            contracts={contracts}
+          />
         </HeaderOptions.Root>
       </FrameOptions.Header>
       <FrameOptions.Content>

@@ -13,6 +13,7 @@ import type { LaneWithPointAndGroupInterface } from '../../domain/interfaces/lan
 type LaneState = {
   lanes: LaneEntity[]
   contractLanes: LaneWithPointAndGroupInterface[]
+  loading: boolean
   getLanes: ({
     operationId,
     contractId,
@@ -36,6 +37,7 @@ type LaneState = {
 export const useLaneStore = create<LaneState>((set) => ({
   lanes: [],
   contractLanes: [],
+  loading: false,
 
   addLane: async (
     { operationId, contractId, processingUnitId }: UrlParams,
@@ -60,6 +62,7 @@ export const useLaneStore = create<LaneState>((set) => ({
     contractId,
     processingUnitId
   }: UrlParams) => {
+    set({ loading: true })
     try {
       const getLanes = GetLanesRouterApiFactory.create({
         operationId,
@@ -72,6 +75,8 @@ export const useLaneStore = create<LaneState>((set) => ({
       if (error instanceof HttpResponseError) {
         throw error
       }
+    } finally {
+      set({ loading: false })
     }
   },
 

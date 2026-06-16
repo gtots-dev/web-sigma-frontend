@@ -98,8 +98,9 @@ export default async function ContractOptionsPage({
     <FrameOptions.Root>
       <FrameOptions.Header>
         <HeaderOptions.Root>
-          <div className="flex w-full gap-5">
+          <div className="flex gap-5 flex-col lg:flex-row">
             <SectionRedirectLink.Button href={previousSection} />
+
             <div className="flex flex-col gap-1">
               <HeaderOptions.Title>{title}</HeaderOptions.Title>
               <HeaderOptions.Description>
@@ -111,13 +112,13 @@ export default async function ContractOptionsPage({
                 {subDescription}
               </HeaderOptions.SubDescription>
             </div>
-            <ContractSelector.Root
-              title={contractSelectionMenuTitle}
-              description={contractSelectionMenuDescription}
-              contractId={Number(rawContractId)}
-              contracts={contracts}
-            />
           </div>
+          <ContractSelector.Root
+            title={contractSelectionMenuTitle}
+            description={contractSelectionMenuDescription}
+            contractId={Number(rawContractId)}
+            contracts={contracts}
+          />
         </HeaderOptions.Root>
       </FrameOptions.Header>
       <FrameOptions.Content>

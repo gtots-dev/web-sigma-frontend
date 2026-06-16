@@ -12,7 +12,7 @@ export interface useTablePermissionProfilesResult {
 }
 export function useTablePermissionProfiles(): useTablePermissionProfilesResult {
   const { operationId }: UrlParams = useParams()
-  const { getPermissionProfiles, permissionProfiles } =
+  const { getPermissionProfiles, permissionProfiles, loading: storeLoading } =
     usePermissionProfileStore()
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -25,5 +25,5 @@ export function useTablePermissionProfiles(): useTablePermissionProfilesResult {
     fetchData()
   }, [getPermissionProfiles, operationId])
 
-  return { permissionProfiles, loading }
+  return { permissionProfiles, loading: loading || storeLoading }
 }
