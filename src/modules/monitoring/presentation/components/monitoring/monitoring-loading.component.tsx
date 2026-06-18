@@ -1,3 +1,5 @@
+'use client'
+
 import { LoaderCircle, RefreshCw } from 'lucide-react'
 
 interface MonitoringLoadingProps {
@@ -7,12 +9,21 @@ interface MonitoringLoadingProps {
 export function MonitoringLoading({
   isReconnecting = false
 }: MonitoringLoadingProps) {
+  
+  const stopPropagation = (e: React.SyntheticEvent) => {
+    e.stopPropagation()
+  }
+
   return (
     <div
-      className="absolute inset-0 flex flex-col items-center justify-center gap-6 bg-background/60 backdrop-blur-md z-50 transition-all duration-300"
-      onMouseDown={(e) => e.stopPropagation()}
-      onTouchStart={(e) => e.stopPropagation()}
-      onWheel={(e) => e.stopPropagation()}
+      onPointerDown={stopPropagation}
+      onMouseDown={stopPropagation}
+      onPointerMove={stopPropagation}
+      onMouseMove={stopPropagation}
+      onWheel={stopPropagation}
+      onTouchStart={stopPropagation}
+      onTouchMove={stopPropagation}
+      className="absolute inset-0 flex flex-col items-center justify-center gap-6 bg-background/60 backdrop-blur-md z-50 transition-all duration-300 pointer-events-auto"
     >
       {/* Container de Anel de Radar Pulsante Premium */}
       <div className="relative flex items-center justify-center w-20 h-20">
