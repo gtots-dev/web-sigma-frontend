@@ -5,18 +5,13 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function useEditContractSubmit() {
   const { patchContract, getContracts } = useContractStore()
   const { operationId }: UrlParams = useParams()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (data: ContractEntity, onSuccess: VoidFunction): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         await patchContract({ operationId }, data)
         toast({
@@ -35,7 +30,7 @@ export function useEditContractSubmit() {
         }
       }
     },
-    [patchContract, getContracts, operationId, challenge]
+    [patchContract, getContracts, operationId]
   )
 
   return { onAction }

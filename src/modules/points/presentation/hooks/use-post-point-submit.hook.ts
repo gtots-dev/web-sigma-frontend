@@ -7,18 +7,13 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { useParams } from 'next/navigation'
 import type { PointEntity } from '../../domain/entities/point.entity'
 import { usePointStore } from '../stores/point.store'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function usePostPointSubmit() {
   const { getPoints, addPoint } = usePointStore()
   const { operationId, contractId }: UrlParams = useParams()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (point: PointEntity, onSuccess: VoidFunction): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         await addPoint({ operationId, contractId }, point)
         toast({
@@ -37,7 +32,7 @@ export function usePostPointSubmit() {
         }
       }
     },
-    [getPoints, addPoint, operationId, contractId, challenge]
+    [getPoints, addPoint, operationId, contractId]
   )
 
   return { onAction }
