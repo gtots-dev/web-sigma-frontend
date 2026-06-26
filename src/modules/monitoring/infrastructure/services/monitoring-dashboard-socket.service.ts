@@ -25,12 +25,32 @@ export class MonitoringDashboardSocketService
     await super.connect(`/ws/contracts/${this.contractId}/dashboard`)
   }
 
-  onDataUpdate(callback: (data: (UpStatusMessage | LaneStatusMessage)[]) => void): () => void {
+  onDataUpdate(
+    callback: (data: (UpStatusMessage | LaneStatusMessage)[]) => void
+  ): () => void {
+    let buffer: (UpStatusMessage | LaneStatusMessage)[] = []
+    let timeoutId: NodeJS.Timeout | null = null
+
+    const flush = () => {
+      if (buffer.length > 0) {
+        callback(buffer)
+        buffer = []
+      }
+      timeoutId = null
+    }
+
+    const queueUpdate = (updates: (UpStatusMessage | LaneStatusMessage)[]) => {
+      buffer.push(...updates)
+      if (!timeoutId) {
+        timeoutId = setTimeout(flush, 16)
+      }
+    }
+
     const unSubUpHistory = this.onEvent<MonitoringDashboardEvents>(
       'up_status_history'
     ).execute<StatusHistoryMessage>((message) => {
       if (message && message.response) {
-        callback(message.response)
+        queueUpdate(message.response)
       }
     })
 
@@ -38,7 +58,7 @@ export class MonitoringDashboardSocketService
       'lane_status_history'
     ).execute<StatusHistoryMessage>((message) => {
       if (message && message.response) {
-        callback(message.response)
+        queueUpdate(message.response)
       }
     })
 
@@ -46,7 +66,7 @@ export class MonitoringDashboardSocketService
       'up_status'
     ).execute<UpStatusMessage>((message) => {
       if (message && message.request?.up_id !== undefined) {
-        callback([message])
+        queueUpdate([message])
       }
     })
 
@@ -54,11 +74,14 @@ export class MonitoringDashboardSocketService
       'lane_status'
     ).execute<LaneStatusMessage>((message) => {
       if (message && message.request?.lane_id !== undefined) {
-        callback([message])
+        queueUpdate([message])
       }
     })
 
     return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
       unSubUpHistory()
       unSubLaneHistory()
       unSubUp()
