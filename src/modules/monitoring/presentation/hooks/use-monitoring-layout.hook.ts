@@ -169,14 +169,7 @@ export function useMonitoringLayout(
   const lastUpdateRef = useRef('')
 
   useEffect(() => {
-    function update() {
-      if (!containerRef.current) return
-      const rect = containerRef.current.getBoundingClientRect()
-      const cs = getComputedStyle(containerRef.current)
-      const pLeft = parseFloat(cs.paddingLeft) || 0
-      const pRight = parseFloat(cs.paddingRight) || 0
-      const contentW = rect.width - pLeft - pRight
-
+    function update(contentW: number) {
       // Cria um hash da situação atual para evitar updates desnecessários
       const currentHash = `${mode}-${layout}-${radius}-${zoom}-${cellIdsFingerprint}-${contentW}`
       if (lastUpdateRef.current === currentHash) return
@@ -199,17 +192,36 @@ export function useMonitoringLayout(
       }
     }
 
-    // O Observer é assíncrono e evita o estouro de pilha (stack overflow)
-    const observer = new ResizeObserver(() => {
-      window.requestAnimationFrame(update)
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
+    let latestW = 0
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0]
+      if (!entry) return
+
+      latestW = entry.contentRect.width
+
+      if (timeoutId) clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        window.requestAnimationFrame(() => update(latestW))
+      }, 150) // 150ms debounce
     })
 
-    if (containerRef.current) observer.observe(containerRef.current)
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
 
-    // Chamada inicial
-    update()
+      // Chamada inicial
+      const rect = containerRef.current.getBoundingClientRect()
+      const cs = getComputedStyle(containerRef.current)
+      const pLeft = parseFloat(cs.paddingLeft) || 0
+      const pRight = parseFloat(cs.paddingRight) || 0
+      update(rect.width - pLeft - pRight)
+    }
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      if (timeoutId) clearTimeout(timeoutId)
+    }
   }, [
     mode,
     layout,

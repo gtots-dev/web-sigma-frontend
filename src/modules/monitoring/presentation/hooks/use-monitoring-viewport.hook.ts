@@ -17,7 +17,6 @@ export function useMonitoringViewport() {
   const [hoveredCellId, setHoveredCellId] = useState<string | null>(null)
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
 
   const handleSetActive = useCallback((id: string | null) => {
     setActive((prev) => (prev === id ? null : id))
@@ -132,17 +131,6 @@ export function useMonitoringViewport() {
     setOffset({ x: 0, y: 0 })
   }, [])
 
-  useEffect(() => {
-    const update = () => {
-      if (!containerRef.current) return
-      const rect = containerRef.current.getBoundingClientRect()
-      setContainerSize({ width: rect.width, height: rect.height })
-    }
-    update()
-    const observer = new ResizeObserver(update)
-    if (containerRef.current) observer.observe(containerRef.current)
-    return () => observer.disconnect()
-  }, [])
 
   // Sincronizar com a API de Fullscreen do Browser (F11 behavior)
   useEffect(() => {
@@ -186,7 +174,7 @@ export function useMonitoringViewport() {
     setIsMaximized,
     isControlsMinimized,
     setIsControlsMinimized,
-    containerSize,
+
     handlers: {
       handleMouseDown,
       handleMouseMove,
