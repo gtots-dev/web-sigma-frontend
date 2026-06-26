@@ -32,7 +32,7 @@ function MonitoringPageContent({
   isReconnecting: boolean
   hasFailed: boolean
 }) {
-  const { isMaximized, isSidebarOpen, setIsSidebarOpen, mode } = useMonitoringContext()
+  const { isMaximized, setIsSidebarOpen, mode } = useMonitoringContext()
 
   // Sincroniza o estado inicial do menu lateral após o carregamento
   useEffect(() => {
