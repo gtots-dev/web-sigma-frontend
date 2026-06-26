@@ -41,7 +41,7 @@ export function MonitoringSidebarFiltersContent({
   return (
     <div
       className={`w-[300px] h-full bg-white dark:bg-zinc-950 flex flex-col overflow-hidden transition-opacity duration-300 ${
-        isSidebarOpen ? 'opacity-100' : 'opacity-0'
+        isSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}
     >
       {/* Header */}
