@@ -7,12 +7,12 @@ import { useMenuPosition } from './use-menu-position.hook'
 import type { MonitoringCell } from '../../domain/interfaces/monitoring-cell.interface'
 import type { StatusGroup } from '../../domain/interfaces/monitoring-dashboard-websocket.interface'
 
-// ── Extrai apenas elementos com alertas/erros ──────────────────────────────────
+// ── Extrai todos os elementos ordenados por gravidade ───────────────────────────
 export function getAlertElements(items: StatusGroup[]) {
   const result: { name: string; value: string; level: number; group: string }[] = []
   items.forEach((group) => {
     group.elements.forEach((el) => {
-      if (el.level >= 1) result.push({ ...el, group: group.group })
+      result.push({ ...el, group: group.group })
     })
   })
   return result.sort((a, b) => b.level - a.level)
