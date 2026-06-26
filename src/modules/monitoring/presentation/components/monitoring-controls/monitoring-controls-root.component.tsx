@@ -12,7 +12,8 @@ interface MonitoringControlsRootProps {
 export function MonitoringControlsRoot({
   children
 }: MonitoringControlsRootProps) {
-  const { isControlsMinimized, setIsControlsMinimized } = useMonitoringContext()
+  const { isControlsMinimized, setIsControlsMinimized, isSidebarOpen } =
+    useMonitoringContext()
 
   if (isControlsMinimized) {
     return (
@@ -20,7 +21,8 @@ export function MonitoringControlsRoot({
         variant="outline"
         size="icon"
         onClick={() => setIsControlsMinimized(false)}
-        className="fixed bottom-6 right-6 z-[40] shadow-lg"
+        className="fixed bottom-6 z-[40] shadow-lg transition-all duration-300"
+        style={{ right: isSidebarOpen ? 'calc(300px + 3.5rem)' : '3.5rem' }}
         title="Expandir controles"
       >
         <Settings2 size={16} />
@@ -29,7 +31,10 @@ export function MonitoringControlsRoot({
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-[40] flex flex-col md:flex-row items-center gap-4 bg-card border p-3 md:h-16 shadow-lg">
+    <div
+      className="fixed bottom-6 z-[40] flex flex-col md:flex-row items-center gap-4 bg-card border p-3 md:h-16 shadow-lg transition-all duration-300"
+      style={{ right: isSidebarOpen ? 'calc(300px + 3.5rem)' : '3.5rem' }}
+    >
       {children}
     </div>
   )
