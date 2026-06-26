@@ -1,68 +1,51 @@
 'use client'
 
 import { useMonitoringContext } from '../monitoring/monitoring-context.component'
-import { Wifi, WifiOff, ChevronDown, Filter } from 'lucide-react'
-import { Button } from '@/modules/shared/presentation/components/shadcn/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from '@/modules/shared/presentation/components/shadcn/dropdown-menu'
+import { Wifi, WifiOff, Filter } from 'lucide-react'
+import { SingleSelect } from '@/modules/shared/presentation/components/single-select/single-select.component'
 
 export function MonitoringHeaderConnectionFilter() {
   const { connectionFilter, setConnectionFilter } = useMonitoringContext()
 
   const filters = [
-    { id: 'all', label: 'Conexão: Todas', icon: Wifi, color: 'text-foreground' },
-    { id: 'online', label: 'Apenas Online', icon: Wifi, color: 'text-primary-500' },
-    { id: 'offline', label: 'Apenas Offline', icon: WifiOff, color: 'text-[rgb(var(--monitoring-offline))]' }
+    {
+      id: 'all',
+      label: 'Conexão: Todas',
+      icon: Wifi,
+      color: 'text-muted-foreground',
+      colorValue: 'rgb(113, 113, 122)'
+    },
+    {
+      id: 'online',
+      label: 'Apenas Online',
+      icon: Wifi,
+      color: 'text-primary-500',
+      colorValue: 'rgb(59, 130, 246)'
+    },
+    {
+      id: 'offline',
+      label: 'Apenas Offline',
+      icon: WifiOff,
+      color: 'text-[rgb(var(--monitoring-offline))]',
+      colorValue: 'rgb(var(--monitoring-offline))'
+    }
   ]
 
-  const activeFilter = filters.find(f => f.id === connectionFilter) || filters[0]
-  const ActiveIcon = activeFilter.icon
+  const activeFilter =
+    filters.find((f) => f.id === connectionFilter) || filters[0]
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="h-9 gap-2 px-3 bg-muted/20 border-border/50 hover:bg-muted/40 transition-all w-full 2xl:w-auto 2xl:max-w-48 justify-between shadow-none"
-        >
-          <div className="flex items-center gap-2 overflow-hidden">
-            <Filter size={14} className="text-muted-foreground shrink-0" />
-            <div className="flex items-center gap-2 border-l border-border/50 pl-2 overflow-hidden">
-               <ActiveIcon size={14} className={activeFilter.color + " shrink-0"} />
-               <span className="text-[10px] font-bold uppercase tracking-wider truncate">{activeFilter.label}</span>
-            </div>
-          </div>
-          <ChevronDown size={14} className="text-muted-foreground opacity-50 shrink-0" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[var(--radix-dropdown-menu-trigger-width)]">
-        <DropdownMenuRadioGroup
-          value={connectionFilter}
-          onValueChange={(v) => setConnectionFilter(v as 'all' | 'online' | 'offline')}
-        >
-          {filters.map((filter) => {
-            const Icon = filter.icon
-            const isActive = connectionFilter === filter.id
-            return (
-              <DropdownMenuRadioItem
-                key={filter.id}
-                value={filter.id}
-                className={`flex items-center gap-2 text-xs font-semibold py-2.5 cursor-pointer pl-3 transition-colors rounded-md
-                  data-[state=checked]:bg-primary-500 data-[state=checked]:text-white [&>span]:hidden`}
-              >
-                <Icon size={14} className={isActive ? 'text-white' : filter.color} />
-                {filter.label}
-              </DropdownMenuRadioItem>
-            )
-          })}
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <SingleSelect
+      items={filters}
+      value={connectionFilter}
+      onChange={(v) => setConnectionFilter((v || 'all') as 'all' | 'online' | 'offline')}
+      leftIcon={Filter}
+      innerIcon={activeFilter.icon}
+      innerIconColor={activeFilter.color}
+      textUppercase
+      dotColor={(item) => item.colorValue}
+      searchable={false}
+      className="w-full md:w-[230px]"
+    />
   )
 }

@@ -46,7 +46,7 @@ export function MonitoringHeaderUpFilter() {
       onChange={setUpErrorFilters}
       placeholder={loading ? 'Carregando status...' : 'Filtrar por Status'}
       notFoundItemPlaceholder="Nenhum status encontrado"
-      className="w-full 2xl:w-auto"
+      className="w-full md:w-[230px]"
       leftIcon={Filter}
       textUppercase
     />
