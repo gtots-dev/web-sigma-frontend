@@ -1,13 +1,22 @@
 'use client'
 
-import { useState, type ReactNode, type RefObject, useRef, useEffect } from 'react'
+import {
+  useState,
+  type ReactNode,
+  type RefObject,
+  useRef,
+  useEffect
+} from 'react'
 import { Cpu, Layers, SlidersHorizontal } from 'lucide-react'
 import { useMonitoringTooltip } from '../../hooks/use-monitoring-tooltip.hook'
 import { MonitoringTooltipBox } from './monitoring-tooltip-box.component'
 import { MonitoringTooltipEntityBlock } from './monitoring-tooltip-entity-block.component'
 import type { MonitoringCell } from '../../../domain/interfaces/monitoring-cell.interface'
 import type { MonitoringTooltipProps } from './monitoring-tooltip-root.component'
-import type { UpInfo, LaneInfo } from '../../hooks/use-monitoring-menu-details.hook'
+import type {
+  UpInfo,
+  LaneInfo
+} from '../../hooks/use-monitoring-menu-details.hook'
 import { MultiSelect } from '@/modules/shared/presentation/components/multi-select/multi-select.component'
 
 interface MonitoringTooltipRendererProps {
@@ -20,7 +29,13 @@ interface MonitoringTooltipRendererProps {
   containerRef: RefObject<HTMLDivElement>
 }
 
-function TooltipLaneAccordion({ lane, selectedLevels }: { lane: LaneInfo; selectedLevels: number[] }) {
+function TooltipLaneAccordion({
+  lane,
+  selectedLevels
+}: {
+  lane: LaneInfo
+  selectedLevels: number[]
+}) {
   const [isOpen, setIsOpen] = useState(true)
 
   return (
@@ -69,7 +84,10 @@ function TooltipUPAccordion({
           {associatedLanes.map((lane) => (
             <div key={lane.lane_id} className="relative">
               <div className="absolute -left-[10px] top-1/2 -translate-y-1/2 w-[10px] h-[1px] bg-border/50 pointer-events-none" />
-              <TooltipLaneAccordion lane={lane} selectedLevels={selectedLevels} />
+              <TooltipLaneAccordion
+                lane={lane}
+                selectedLevels={selectedLevels}
+              />
             </div>
           ))}
         </div>
@@ -123,7 +141,12 @@ export function MonitoringTooltipRenderer({
     if (content === null) return null
 
     if (renderContainer) {
-      return renderContainer({ cell, children: content, style: positionStyle, ref: tooltipRef })
+      return renderContainer({
+        cell,
+        children: content,
+        style: positionStyle,
+        ref: tooltipRef
+      })
     }
 
     return (
@@ -159,7 +182,7 @@ export function MonitoringTooltipRenderer({
     <div className="flex flex-col w-full h-full max-h-[500px] overflow-hidden rounded-lg bg-card text-card-foreground">
       <div className="flex items-center justify-between px-3 py-2 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 relative shrink-0">
         <span className="text-[11px] font-bold text-foreground tracking-wide">
-          Status da Célula
+          Status do Ponto
         </span>
         <div className="relative flex items-center">
           <MultiSelect
@@ -197,7 +220,8 @@ export function MonitoringTooltipRenderer({
               selectedLevels.includes(lane.level)
             )
 
-            const isUpVisible = selectedLevels.includes(up.level) || filteredLanes.length > 0
+            const isUpVisible =
+              selectedLevels.includes(up.level) || filteredLanes.length > 0
             if (!isUpVisible) return null
 
             return (
@@ -215,7 +239,12 @@ export function MonitoringTooltipRenderer({
   )
 
   if (renderContainer) {
-    return renderContainer({ cell, children: defaultContent, style: positionStyle, ref: tooltipRef })
+    return renderContainer({
+      cell,
+      children: defaultContent,
+      style: positionStyle,
+      ref: tooltipRef
+    })
   }
 
   return (
