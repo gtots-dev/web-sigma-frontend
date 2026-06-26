@@ -61,10 +61,6 @@ export function SingleSelect<T extends SingleSelectItem>({
   const [triggerWidth, setTriggerWidth] = useState(0)
   const [open, setOpen] = useState(false)
 
-  useEffect(() => {
-    onOpenChange?.(open)
-  }, [open, onOpenChange])
-
   const {
     search,
     setSearch,
@@ -83,7 +79,7 @@ export function SingleSelect<T extends SingleSelectItem>({
     if (triggerRef.current) {
       setTriggerWidth(triggerRef.current.offsetWidth)
     }
-  }, [items])
+  }, [items, open])
 
   const getDotColor = (item: T) => {
     if (!dotColor) return null
@@ -91,7 +87,10 @@ export function SingleSelect<T extends SingleSelectItem>({
   }
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={(v) => {
+      setOpen(v)
+      onOpenChange?.(v)
+    }}>
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>

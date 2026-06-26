@@ -81,7 +81,7 @@ export function MultiSelect<T extends MultiSelectItem>({
 
   useEffect(() => {
     if (triggerRef.current) setTriggerWidth(triggerRef.current.offsetWidth)
-  }, [items])
+  }, [items, open])
 
   const handleToggle = (id: string | number) => {
     const isSelected = value.includes(id)
