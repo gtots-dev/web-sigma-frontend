@@ -147,6 +147,14 @@ export function MonitoringTooltipRenderer({
     )
   }
 
+  const visibleUpsCount = ups.filter((up) => {
+    const associatedLanes = sortedLanesByUp(up.up_id)
+    const filteredLanes = associatedLanes.filter((lane) =>
+      selectedLevels.includes(lane.level)
+    )
+    return selectedLevels.includes(up.level) || filteredLanes.length > 0
+  }).length
+
   const defaultContent = (
     <div className="flex flex-col w-full h-full max-h-[500px] overflow-hidden rounded-lg bg-card text-card-foreground">
       <div className="flex items-center justify-between px-3 py-2 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 relative shrink-0">
@@ -173,31 +181,35 @@ export function MonitoringTooltipRenderer({
       </div>
 
       <div className="flex-1 overflow-y-auto p-2.5 flex flex-col gap-2">
-        {ups.length === 0 && (
+        {ups.length === 0 ? (
           <p className="text-xs text-muted-foreground italic text-center py-1">
             Nenhuma UP vinculada
           </p>
+        ) : visibleUpsCount === 0 ? (
+          <p className="text-xs text-muted-foreground italic text-center py-1">
+            Nenhuma informação encontrada
+          </p>
+        ) : (
+          ups.map((up) => {
+            const associatedLanes = sortedLanesByUp(up.up_id)
+
+            const filteredLanes = associatedLanes.filter((lane) =>
+              selectedLevels.includes(lane.level)
+            )
+
+            const isUpVisible = selectedLevels.includes(up.level) || filteredLanes.length > 0
+            if (!isUpVisible) return null
+
+            return (
+              <TooltipUPAccordion
+                key={up.up_id}
+                up={up}
+                associatedLanes={filteredLanes}
+                selectedLevels={selectedLevels}
+              />
+            )
+          })
         )}
-
-        {ups.map((up) => {
-          const associatedLanes = sortedLanesByUp(up.up_id)
-
-          const filteredLanes = associatedLanes.filter((lane) =>
-            selectedLevels.includes(lane.level)
-          )
-
-          const isUpVisible = selectedLevels.includes(up.level) || filteredLanes.length > 0
-          if (!isUpVisible) return null
-
-          return (
-            <TooltipUPAccordion
-              key={up.up_id}
-              up={up}
-              associatedLanes={filteredLanes}
-              selectedLevels={selectedLevels}
-            />
-          )
-        })}
       </div>
     </div>
   )
