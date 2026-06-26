@@ -8,19 +8,14 @@ import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { UserWithFiles } from '../../domain/types/user-with-files'
 import { useUserFilesStore } from '../stores/user-files.store'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export function useAddUserSubmit() {
   const { postUserFiles } = useUserFilesStore()
   const { addUser, getUsers } = useUserStore()
   const { operationId }: UrlParams = useParams()
-  const { challenge } = useTwoFactorChallenge()
 
   const onAction = useCallback(
     async (data: UserWithFiles, onSuccess: VoidFunction): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       const user = {
         name: data.name,
         email: data.email,
@@ -56,7 +51,7 @@ export function useAddUserSubmit() {
         }
       }
     },
-    [addUser, getUsers, operationId, challenge]
+    [addUser, getUsers, operationId]
   )
 
   return { onAction }
