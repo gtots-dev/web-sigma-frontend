@@ -29,9 +29,9 @@ export function MonitoringSidebarFilters() {
       onWheel={stopPropagation}
       onTouchStart={stopPropagation}
       onTouchMove={stopPropagation}
-      className={`relative border-zinc-200 dark:border-zinc-800 flex flex-row items-center z-30 transition-all duration-300 ease-in-out ${
+      className={`md:relative absolute right-0 top-0 bg-white dark:bg-zinc-950 md:bg-transparent border-zinc-200 dark:border-zinc-800 flex flex-row items-center z-30 transition-all duration-300 ease-in-out ${
         isMaximized ? 'h-full' : 'h-[calc(100svh-115px)]'
-      } ${isSidebarOpen ? 'w-[300px] border-l' : 'w-0 border-l-0'}`}
+      } ${isSidebarOpen ? 'w-[300px] border-l' : 'w-0 border-l-0 pointer-events-none'}`}
     >
       {/* Trigger Tab/Button on the left edge */}
       <MonitoringSidebarFiltersTrigger
