@@ -27,7 +27,7 @@ export function MonitoringTooltipBox({
     >
       <div className="pointer-events-none animate-in fade-in-0 zoom-in-95 duration-100">
         <div
-          className={`flex flex-col bg-card border w-[300px] max-h-[500px] max-w-[300px] overflow-y-auto relative ms-2 rounded-lg p-2.5 shadow-xl pointer-events-auto ${className || ''}`}
+          className={`flex flex-col bg-card border w-[300px] max-h-[500px] max-w-[300px] overflow-visible relative ms-2 rounded-lg pointer-events-auto ${className || ''}`}
           onPointerEnter={() => setHoveredCellId(hoveredCellId)}
           onPointerLeave={() => setHoveredCellId(null)}
         >
