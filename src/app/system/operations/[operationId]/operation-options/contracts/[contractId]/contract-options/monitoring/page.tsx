@@ -11,6 +11,7 @@ import { useMonitoringMetadata } from '@/modules/monitoring/presentation/hooks/u
 import { useMonitoringDashboardSocket } from '@/modules/monitoring/presentation/hooks/use-monitoring-dashboard-socket.hook'
 import type { MonitoringCell } from '@/modules/monitoring/domain/interfaces/monitoring-cell.interface'
 import { useMonitoringContext } from '@/modules/monitoring/presentation/components/monitoring/monitoring-context.component'
+import { MESSAGES_OPTIONS_CONTRACT } from '@/modules/shared/presentation/messages/options-contract'
 
 interface MonitoringPageProps {
   params: Promise<UrlParams>
@@ -55,11 +56,10 @@ function MonitoringPageContent({
             />
             <HeaderSection.Root>
               <HeaderSection.Title>
-                Monitoramento de Equipamentos
+                {MESSAGES_OPTIONS_CONTRACT['16.11']}
               </HeaderSection.Title>
               <HeaderSection.Description>
-                Visualização em tempo real do status e integridade de
-                todos os ativos vinculados ao contrato.
+                {MESSAGES_OPTIONS_CONTRACT['16.12']}
               </HeaderSection.Description>
             </HeaderSection.Root>
           </Monitoring.Header>
