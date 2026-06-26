@@ -14,7 +14,7 @@ export function MonitoringControlsModeToggle() {
         onClick={() => setMode('hex')}
         className={`h-7 px-3 text-xs gap-1.5 ${
           mode === 'hex'
-            ? 'bg-primary-500 text-white hover:bg-primary-500/90'
+            ? 'bg-primary-500 text-white hover:bg-primary-500/90 hover:text-white'
             : 'bg-transparent text-muted-foreground hover:bg-accent hover:text-foreground'
         }`}
       >
@@ -27,7 +27,7 @@ export function MonitoringControlsModeToggle() {
         onClick={() => setMode('grid')}
         className={`h-7 px-3 text-xs gap-1.5 ${
           mode === 'grid'
-            ? 'bg-primary-500 text-white hover:bg-primary-500/90'
+            ? 'bg-primary-500 text-white hover:bg-primary-500/90 hover:text-white'
             : 'bg-transparent text-muted-foreground hover:bg-accent hover:text-foreground'
         }`}
       >

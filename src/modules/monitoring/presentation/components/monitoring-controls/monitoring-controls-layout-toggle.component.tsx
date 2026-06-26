@@ -12,7 +12,7 @@ export function MonitoringControlsLayoutToggle() {
         onClick={() => setLayout('linear')}
         className={`h-7 px-3 text-xs gap-1.5 ${
           layout === 'linear'
-            ? 'bg-primary-500 text-white hover:bg-primary-500/90'
+            ? 'bg-primary-500 text-white hover:bg-primary-500/90 hover:text-white'
             : 'bg-transparent text-muted-foreground hover:bg-accent hover:text-foreground'
         }`}
       >
@@ -23,7 +23,7 @@ export function MonitoringControlsLayoutToggle() {
         onClick={() => setLayout('radial')}
         className={`h-7 px-3 text-xs gap-1.5 ${
           layout === 'radial'
-            ? 'bg-primary-500 text-white hover:bg-primary-500/90'
+            ? 'bg-primary-500 text-white hover:bg-primary-500/90 hover:text-white'
             : 'bg-transparent text-muted-foreground hover:bg-accent hover:text-foreground'
         }`}
       >
