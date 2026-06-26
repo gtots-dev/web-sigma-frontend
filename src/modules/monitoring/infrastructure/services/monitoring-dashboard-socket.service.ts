@@ -26,11 +26,19 @@ export class MonitoringDashboardSocketService
   }
 
   onDataUpdate(callback: (data: (UpStatusMessage | LaneStatusMessage)[]) => void): () => void {
-    const unSubHistory = this.onEvent<MonitoringDashboardEvents>(
-      'status_history'
+    const unSubUpHistory = this.onEvent<MonitoringDashboardEvents>(
+      'up_status_history'
     ).execute<StatusHistoryMessage>((message) => {
-      if (message && message.data) {
-        callback(message.data)
+      if (message && message.response) {
+        callback(message.response)
+      }
+    })
+
+    const unSubLaneHistory = this.onEvent<MonitoringDashboardEvents>(
+      'lane_status_history'
+    ).execute<StatusHistoryMessage>((message) => {
+      if (message && message.response) {
+        callback(message.response)
       }
     })
 
@@ -51,7 +59,8 @@ export class MonitoringDashboardSocketService
     })
 
     return () => {
-      unSubHistory()
+      unSubUpHistory()
+      unSubLaneHistory()
       unSubUp()
       unSubLane()
     }

@@ -9,6 +9,7 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { useMonitoringMetadata } from '@/modules/monitoring/presentation/hooks/use-monitoring-metadata.hook'
 import { useMonitoringDashboardSocket } from '@/modules/monitoring/presentation/hooks/use-monitoring-dashboard-socket.hook'
+import type { MonitoringCell } from '@/modules/monitoring/domain/interfaces/monitoring-cell.interface'
 
 interface MonitoringPageProps {
   params: Promise<UrlParams>
@@ -22,110 +23,145 @@ export default function MonitoringPage({ params }: MonitoringPageProps) {
     contractId
   )
 
-  const { cells, hasFailed, isReconnecting, reconnect, hasReceivedInitialData } =
-    useMonitoringDashboardSocket(unifiedNodes, contractId)
+  const {
+    cells,
+    hasFailed,
+    isReconnecting,
+    reconnect,
+    hasReceivedInitialData
+  } = useMonitoringDashboardSocket(unifiedNodes, contractId)
+
+  const isOverlayActive =
+    hasFailed ||
+    isLoading ||
+    (unifiedNodes.length > 0 && !hasReceivedInitialData) ||
+    isReconnecting
 
   return (
     <Monitoring.Root cells={cells}>
       <Monitoring.Consumer>
-        {({ isMaximized }) =>
-          !isMaximized && (
+        {({ isMaximized, isSidebarOpen, setIsSidebarOpen, mode }) => {
+          if (!isOverlayActive && !isSidebarOpen) {
+            Promise.resolve().then(() => setIsSidebarOpen(true))
+          } else if (isOverlayActive && isSidebarOpen) {
+            Promise.resolve().then(() => setIsSidebarOpen(false))
+          }
+
+          return (
             <>
-              <Monitoring.Header>
-                <SectionRedirectLink.Button
-                  href={PATHNAMES.CONTRACTS_OPTIONS(
-                    Number(operationId),
-                    Number(contractId)
-                  )}
-                />
-                <HeaderSection.Root>
-                  <HeaderSection.Title>
-                    Monitoramento de Equipamentos
-                  </HeaderSection.Title>
-                  <HeaderSection.Description>
-                    Visualização em tempo real do status e integridade de todos os
-                    ativos vinculados ao contrato.
-                  </HeaderSection.Description>
-                </HeaderSection.Root>
-              </Monitoring.Header>
-
-              <Separator />
-
-              <Monitoring.Header.Filters>
-                <Monitoring.Header.SortFilter />
-                <Monitoring.Header.ConnectionFilter />
-                <Monitoring.Header.StatusFilter />
-              </Monitoring.Header.Filters>
-            </>
-          )
-        }
-      </Monitoring.Consumer>
-
-      <Monitoring.Content>
-        <Monitoring.Controls>
-          <Monitoring.Controls.MinimizeToggle />
-          <Separator orientation="vertical" />
-          <Monitoring.Controls.MaximizeToggle />
-          <Separator orientation="vertical" />
-          <Monitoring.Controls.ModeToggle />
-          <Separator orientation="vertical" />
-          <Monitoring.Consumer>
-            {({ mode, isMaximized }) => (
-              <div className="flex items-center gap-4">
-                {isMaximized && (
-                  <div className="flex items-center gap-2">
-                    <Monitoring.Legend />
-                    <Monitoring.Stats />
-                    <Separator orientation="vertical" />
-                  </div>
-                )}
-                {mode === 'hex' && <Monitoring.Controls.LayoutToggle />}
-                <Monitoring.Controls.ScalingSlider />
-              </div>
-            )}
-          </Monitoring.Consumer>
-          <Separator orientation="vertical" />
-          <Monitoring.Controls.ResetView />
-        </Monitoring.Controls>
-
-        <Monitoring.Consumer>
-          {({ isMaximized }) => (
-            <Monitoring.View>
               {!isMaximized && (
                 <>
-                  <Monitoring.Legend />
-                  <Monitoring.Stats />
+                  <Monitoring.Header>
+                    <SectionRedirectLink.Button
+                      href={PATHNAMES.CONTRACTS_OPTIONS(
+                        Number(operationId),
+                        Number(contractId)
+                      )}
+                    />
+                    <HeaderSection.Root>
+                      <HeaderSection.Title>
+                        Monitoramento de Equipamentos
+                      </HeaderSection.Title>
+                      <HeaderSection.Description>
+                        Visualização em tempo real do status e integridade de
+                        todos os ativos vinculados ao contrato.
+                      </HeaderSection.Description>
+                    </HeaderSection.Root>
+                  </Monitoring.Header>
+
+                  <Separator />
+
+                  <Monitoring.Header.Filters>
+                    <Monitoring.Header.SortFilter />
+                    <Monitoring.Header.ConnectionFilter />
+                    <Monitoring.Header.StatusFilter />
+                    <Monitoring.Header.UpFilter />
+                  </Monitoring.Header.Filters>
                 </>
               )}
 
-              {isLoading || (unifiedNodes.length > 0 && !hasReceivedInitialData) || isReconnecting ? (
-                <Monitoring.Loading isReconnecting={isReconnecting} />
-              ) : hasFailed ? (
-                <Monitoring.Error onReconnect={reconnect} />
-              ) : (
-                <Monitoring.Menu>
-                  {(cell) => (
-                    <>
-                      {cell.connectionStatus === 'online' && (
-                        <Monitoring.Menu.AccentBar status={cell.status} />
+              <Monitoring.Content>
+                {!isOverlayActive && (
+                  <Monitoring.Controls>
+                    <Monitoring.Controls.MinimizeToggle />
+                    <Separator orientation="vertical" />
+                    <Monitoring.Controls.MaximizeToggle />
+                    <Separator orientation="vertical" />
+                    <Monitoring.Controls.ModeToggle />
+                    <Separator orientation="vertical" />
+                    <div className="flex items-center gap-4">
+                      {isMaximized && (
+                        <div className="flex items-center gap-2">
+                          <Monitoring.Legend />
+                          <Monitoring.Stats.TriggerMaximized>
+                            <Monitoring.Stats.Content />
+                          </Monitoring.Stats.TriggerMaximized>
+                          <Separator orientation="vertical" />
+                        </div>
                       )}
-                      <Monitoring.Menu.Header name={cell.name} />
-                      <Separator />
-                      <Monitoring.Menu.Connection
-                        connectionStatus={cell.connectionStatus}
-                      />
-                      <Separator />
-                      <Monitoring.Menu.Details cell={cell} />
-                      <Separator />
-                      <Monitoring.Menu.Footer />
-                    </>
-                  )}
-                </Monitoring.Menu>
-              )}
-            </Monitoring.View>
-          )}
-        </Monitoring.Consumer>
-      </Monitoring.Content>
+                      {mode === 'hex' && <Monitoring.Controls.LayoutToggle />}
+                      <Monitoring.Controls.ScalingSlider />
+                    </div>
+                    <Separator orientation="vertical" />
+                    <Monitoring.Controls.TelemetryFilterToggle />
+                    <Separator orientation="vertical" />
+                    <Monitoring.Controls.ResetView />
+                  </Monitoring.Controls>
+                )}
+
+                <div className="flex flex-row flex-1 h-full w-full relative overflow-hidden">
+                  <Monitoring.View>
+                    {!isMaximized && (
+                      <div className="absolute top-4 right-4 z-20 flex items-start pointer-events-none gap-2">
+                        <div className="pointer-events-auto">
+                          <Monitoring.Legend />
+                        </div>
+                        <div className="pointer-events-auto">
+                          <Monitoring.Stats>
+                            <Monitoring.Stats.Content />
+                          </Monitoring.Stats>
+                        </div>
+                      </div>
+                    )}
+
+                    {hasFailed ? (
+                      <Monitoring.Error onReconnect={reconnect} />
+                    ) : isOverlayActive ? (
+                      <Monitoring.Loading isReconnecting={isReconnecting} />
+                    ) : (
+                      <>
+                        <Monitoring.Tooltip />
+                        <Monitoring.Menu>
+                          {(cell: MonitoringCell) => (
+                            <>
+                              {cell.connectionStatus === 'online' && (
+                                <Monitoring.Menu.AccentBar
+                                  status={cell.status}
+                                />
+                              )}
+                              <Monitoring.Menu.Header name={cell.name} />
+                              <Separator />
+                              <Monitoring.Menu.Connection
+                                connectionStatus={cell.connectionStatus}
+                              />
+                              <Separator />
+                              <Monitoring.Menu.Details cell={cell} />
+                              <Separator />
+                              <Monitoring.Menu.Footer />
+                            </>
+                          )}
+                        </Monitoring.Menu>
+                      </>
+                    )}
+                  </Monitoring.View>
+
+                  <Monitoring.SidebarFilters />
+                </div>
+              </Monitoring.Content>
+            </>
+          )
+        }}
+      </Monitoring.Consumer>
     </Monitoring.Root>
   )
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useCallback, useRef, useEffect } from 'react'
 
 export function useMonitoringViewport() {
@@ -12,10 +14,31 @@ export function useMonitoringViewport() {
   const [isMaximized, setIsMaximized] = useState(false)
   const [isControlsMinimized, setIsControlsMinimized] = useState(false)
 
+  const [hoveredCellId, setHoveredCellId] = useState<string | null>(null)
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 })
 
   const handleSetActive = useCallback((id: string | null) => {
     setActive((prev) => (prev === id ? null : id))
+  }, [])
+
+  const handleHoverCellId = useCallback((id: string | null) => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current)
+      hoverTimeoutRef.current = null
+    }
+
+    if (id === null) {
+      // Pequeno delay ao esconder para que o mouse possa ir da célula até o tooltip
+      hoverTimeoutRef.current = setTimeout(() => {
+        setHoveredCellId(null)
+      }, 150)
+    } else {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setHoveredCellId(id)
+      }, 500)
+    }
   }, [])
 
   const handleMouseDown = useCallback(
@@ -38,6 +61,14 @@ export function useMonitoringViewport() {
       if (e.button !== 0) return
       setIsDragging(true)
       setActive(null) // Fecha o menu ao interagir com o background
+
+      // Cancelar qualquer timer ativo e fechar tooltip imediatamente ao interagir
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current)
+        hoverTimeoutRef.current = null
+      }
+      setHoveredCellId(null)
+
       dragOriginRef.current = { x: e.clientX - offset.x, y: e.clientY - offset.y }
     },
     [offset]
@@ -69,6 +100,15 @@ export function useMonitoringViewport() {
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false)
+  }, [])
+
+  // Limpar timer no unmount para evitar memory leaks
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current)
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -140,6 +180,8 @@ export function useMonitoringViewport() {
     active,
     setActive,
     handleSetActive,
+    hoveredCellId,
+    setHoveredCellId: handleHoverCellId,
     isMaximized,
     setIsMaximized,
     isControlsMinimized,
