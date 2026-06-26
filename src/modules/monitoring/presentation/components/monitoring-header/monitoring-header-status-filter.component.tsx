@@ -17,7 +17,7 @@ export function MonitoringHeaderFilter() {
   const filters = [
     {
       id: 'all',
-      label: 'Todas as Células',
+      label: 'Todas as Condições',
       icon: LayoutGrid,
       color: 'text-muted-foreground',
       colorValue: 'rgb(113, 113, 122)'
