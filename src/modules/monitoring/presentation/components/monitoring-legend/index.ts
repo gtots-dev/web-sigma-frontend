@@ -1,1 +1,1 @@
-export { MonitoringLegend as Legend } from './monitoring-legend.component'
+export { MonitoringLegend as Legend } from './monitoring-legend-root.component'
