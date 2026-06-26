@@ -19,7 +19,8 @@ export function MonitoringViewLayer() {
     CELL_WIDTH, 
     CELL_HEIGHT, 
     points, 
-    radius
+    radius,
+    setHoveredCellId
   } = useMonitoringContext()
 
   const sortedData = useMemo<ViewCellData[]>(() => {
@@ -44,6 +45,7 @@ export function MonitoringViewLayer() {
               points={points}
               radius={radius}
               onSelect={setActive}
+              onHover={setHoveredCellId}
             />
           )
         }
@@ -56,6 +58,7 @@ export function MonitoringViewLayer() {
             width={CELL_WIDTH}
             height={CELL_HEIGHT}
             onSelect={setActive}
+            onHover={setHoveredCellId}
           />
         )
       })}

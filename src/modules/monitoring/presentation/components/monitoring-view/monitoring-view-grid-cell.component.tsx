@@ -13,13 +13,15 @@ function MonitoringGridCellComponent({
   isActive,
   width,
   height,
-  onSelect
+  onSelect,
+  onHover
 }: {
   cell: MonitoringGridCellType
   isActive: boolean
   width: number
   height: number
   onSelect: (id: string) => void
+  onHover: (id: string | null) => void
 }) {
   const fontSize = 11
   const isCompact = width < COMPACT_WIDTH_THRESHOLD
@@ -167,7 +169,7 @@ function MonitoringGridCellComponent({
           cy={cy}
           r={r}
           fill={fill}
-          className="pointer-events-none transition-all duration-200"
+          className="pointer-events-none transition-colors duration-200"
         />
       )
     }
@@ -188,6 +190,8 @@ function MonitoringGridCellComponent({
               : 'opacity-80 hover:opacity-90'
             : ''
         } transition-opacity duration-200`}
+        onPointerEnter={() => onHover(cell.cell.id)}
+        onPointerLeave={() => onHover(null)}
       >
         {rect}
         {renderTopCircles(true)}
@@ -240,6 +244,8 @@ function MonitoringGridCellComponent({
             : 'opacity-80 hover:opacity-90'
           : ''
       } transition-opacity duration-200`}
+      onPointerEnter={() => onHover(cell.cell.id)}
+      onPointerLeave={() => onHover(null)}
     >
       {rect}
       {renderTopCircles(false)}

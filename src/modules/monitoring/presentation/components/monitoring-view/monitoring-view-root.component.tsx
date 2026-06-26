@@ -29,7 +29,7 @@ export function MonitoringViewRoot({ children }: MonitoringViewRootProps) {
       onPointerLeave={handleMouseUp}
       className={`flex flex-1 w-full relative bg-background/50 overflow-hidden select-none p-4 ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
-      } ${isMaximized ? 'h-full' : 'h-[calc(100svh-130px)]'}`}
+      } ${isMaximized ? 'h-full' : 'h-[calc(100svh-115px)]'}`}
     >
       <MonitoringViewBackgroundPattern offset={offset} />
 
