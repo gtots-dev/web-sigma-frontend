@@ -13,13 +13,15 @@ function MonitoringHexagonCellComponent({
   isActive,
   points,
   radius,
-  onSelect
+  onSelect,
+  onHover
 }: {
   hex: MonitoringHexCellType
   isActive: boolean
   points: (cx: number, cy: number, r: number) => string
   radius: number
   onSelect: (id: string) => void
+  onHover: (id: string | null) => void
 }) {
   const fontSize = Math.max(8, radius * 0.32)
   const maxTextWidth = radius * 1.0
@@ -166,7 +168,7 @@ function MonitoringHexagonCellComponent({
           cy={cy}
           r={r}
           fill={fill}
-          className="pointer-events-none transition-all duration-200"
+          className="pointer-events-none transition-colors duration-200"
         />
       )
     }
@@ -187,6 +189,8 @@ function MonitoringHexagonCellComponent({
             : ''
         } transition-opacity duration-200`}
         style={{ transformOrigin: `${hex.cx}px ${hex.cy}px` }}
+        onPointerEnter={() => onHover(hex.cell.id)}
+        onPointerLeave={() => onHover(null)}
       >
         {polygon}
         {renderTopCircles(true)}
@@ -235,6 +239,8 @@ function MonitoringHexagonCellComponent({
           : ''
       } transition-opacity duration-200`}
       style={{ transformOrigin: `${hex.cx}px ${hex.cy}px` }}
+      onPointerEnter={() => onHover(hex.cell.id)}
+      onPointerLeave={() => onHover(null)}
     >
       {polygon}
       {renderTopCircles(false)}
