@@ -26,6 +26,16 @@ interface Props<T extends SingleSelectItem> {
   onChange: (value?: string | number) => void
   placeholder?: string
   notFoundItemPlaceholder?: string
+  className?: string
+  dotColor?: string | ((item: T) => string)
+  leftIcon?: React.ComponentType<{ className?: string; size?: number }>
+  innerIcon?: React.ComponentType<{ className?: string; size?: number }>
+  innerIconColor?: string
+  textUppercase?: boolean
+  popoverAlign?: 'start' | 'center' | 'end'
+  popoverWidth?: number
+  popoverClassName?: string
+  searchable?: boolean
 }
 
 export function SingleSelect<T extends SingleSelectItem>({
@@ -33,7 +43,17 @@ export function SingleSelect<T extends SingleSelectItem>({
   value,
   onChange,
   placeholder = 'Selecionar',
-  notFoundItemPlaceholder = 'Nenhum item encontrado'
+  notFoundItemPlaceholder = 'Nenhum item encontrado',
+  className,
+  dotColor,
+  leftIcon: LeftIcon,
+  innerIcon: InnerIcon,
+  innerIconColor,
+  textUppercase,
+  popoverAlign = 'start',
+  popoverWidth,
+  popoverClassName,
+  searchable = true
 }: Props<T>) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [triggerWidth, setTriggerWidth] = useState(0)
@@ -58,6 +78,11 @@ export function SingleSelect<T extends SingleSelectItem>({
     }
   }, [items])
 
+  const getDotColor = (item: T) => {
+    if (!dotColor) return null
+    return typeof dotColor === 'function' ? dotColor(item) : dotColor
+  }
+
   return (
     <Popover>
       <Tooltip>
@@ -69,10 +94,45 @@ export function SingleSelect<T extends SingleSelectItem>({
               role="combobox"
               className={cn(
                 'w-full justify-between truncate',
-                !value && 'text-muted-foreground'
+                !value && 'text-muted-foreground',
+                LeftIcon &&
+                  'h-9 gap-2 px-3 bg-muted/20 border-border/50 hover:bg-muted/40 transition-all w-full justify-between shadow-none text-xs font-semibold py-2.5',
+                className
               )}
             >
-              <span className="truncate">{label ?? placeholder}</span>
+              {LeftIcon ? (
+                <div className="flex items-center gap-2 overflow-hidden w-full">
+                  <LeftIcon
+                    size={14}
+                    className="text-muted-foreground shrink-0"
+                  />
+                  <div className="flex items-center gap-2 border-l border-border/50 pl-2 overflow-hidden">
+                    {InnerIcon && (
+                      <InnerIcon
+                        size={14}
+                        className={cn(
+                          innerIconColor || 'text-muted-foreground',
+                          'shrink-0'
+                        )}
+                      />
+                    )}
+                    <span
+                      className={cn(
+                        'truncate overflow-hidden',
+                        textUppercase
+                          ? 'text-[10px] font-bold uppercase tracking-wider'
+                          : 'text-xs font-semibold'
+                      )}
+                    >
+                      {label ?? placeholder}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <span className="truncate overflow-hidden">
+                  {label ?? placeholder}
+                </span>
+              )}
 
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -93,30 +153,32 @@ export function SingleSelect<T extends SingleSelectItem>({
       </Tooltip>
 
       <PopoverContent
-        align="start"
-        className="p-2 flex flex-col gap-y-2"
-        style={{ minWidth: triggerWidth }}
+        align={popoverAlign}
+        className={cn("p-2 flex flex-col gap-y-2", popoverClassName)}
+        style={{ width: popoverWidth ?? (triggerWidth || undefined) }}
       >
         {/* SEARCH */}
-        <div className="relative flex">
-          <Input
-            placeholder="Buscar..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full !pe-10"
-          />
+        {searchable && (
+          <div className="relative flex">
+            <Input
+              placeholder="Buscar..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full !pe-10"
+            />
 
-          {search && (
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={clearSearch}
-              className="absolute right-1 top-1/2 -translate-y-1/2"
-            >
-              <X className="stroke-destructive" />
-            </Button>
-          )}
-        </div>
+            {search && (
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={clearSearch}
+                className="absolute right-1 top-1/2 -translate-y-1/2"
+              >
+                <X className="stroke-destructive" />
+              </Button>
+            )}
+          </div>
+        )}
 
         {/* LIST */}
         <div className="flex flex-col gap-y-1 max-h-64 overflow-y-auto">
@@ -127,12 +189,13 @@ export function SingleSelect<T extends SingleSelectItem>({
           ) : (
             filteredItems.map((item) => {
               const isSelected = value === item.id
+              const dot = getDotColor(item)
 
               return (
                 <div
                   key={item.id}
                   className={cn(
-                    'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-accent',
+                    'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-xs hover:bg-accent',
                     isSelected && 'bg-accent'
                   )}
                   onClick={() => select(item.id)}
@@ -144,6 +207,13 @@ export function SingleSelect<T extends SingleSelectItem>({
                   )}
 
                   <span className="truncate">{item.label}</span>
+
+                  {dot && (
+                    <span
+                      className="h-2.5 w-2.5 ms-auto rounded-full"
+                      style={{ backgroundColor: dot }}
+                    />
+                  )}
                 </div>
               )
             })
