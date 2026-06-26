@@ -5,7 +5,7 @@ import { MonitoringControlsModeToggle } from './monitoring-controls-mode-toggle.
 import { MonitoringControlsLayoutToggle } from './monitoring-controls-layout-toggle.component'
 import { MonitoringControlsScalingSlider } from './monitoring-controls-scaling-slider.component'
 import { MonitoringControlsResetView } from './monitoring-controls-reset-view.component'
-
+import { MonitoringControlsTelemetryFilterToggle } from './monitoring-controls-telemetry-filter-toggle.component'
 
 export const Controls = Object.assign(MonitoringControlsRoot, {
   MinimizeToggle: MonitoringControlsMinimizeToggle,
@@ -13,5 +13,6 @@ export const Controls = Object.assign(MonitoringControlsRoot, {
   ModeToggle: MonitoringControlsModeToggle,
   LayoutToggle: MonitoringControlsLayoutToggle,
   ScalingSlider: MonitoringControlsScalingSlider,
-  ResetView: MonitoringControlsResetView
+  ResetView: MonitoringControlsResetView,
+  TelemetryFilterToggle: MonitoringControlsTelemetryFilterToggle
 })
