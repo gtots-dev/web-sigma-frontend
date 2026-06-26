@@ -36,6 +36,7 @@ interface Props<T extends SingleSelectItem> {
   popoverWidth?: number
   popoverClassName?: string
   searchable?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 export function SingleSelect<T extends SingleSelectItem>({
@@ -53,10 +54,16 @@ export function SingleSelect<T extends SingleSelectItem>({
   popoverAlign = 'start',
   popoverWidth,
   popoverClassName,
-  searchable = true
+  searchable = true,
+  onOpenChange
 }: Props<T>) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [triggerWidth, setTriggerWidth] = useState(0)
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    onOpenChange?.(open)
+  }, [open, onOpenChange])
 
   const {
     search,

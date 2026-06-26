@@ -37,6 +37,7 @@ interface Props<T extends MultiSelectItem> {
   popoverWidth?: number
   popoverClassName?: string
   searchable?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 export function MultiSelect<T extends MultiSelectItem>({
@@ -55,10 +56,12 @@ export function MultiSelect<T extends MultiSelectItem>({
   popoverAlign = 'start',
   popoverWidth,
   popoverClassName,
-  searchable = true
+  searchable = true,
+  onOpenChange
 }: Props<T>) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [triggerWidth, setTriggerWidth] = useState(0)
+  const [open, setOpen] = useState(false)
 
   const {
     search,
@@ -92,7 +95,10 @@ export function MultiSelect<T extends MultiSelectItem>({
   }
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={(v) => {
+      setOpen(v)
+      onOpenChange?.(v)
+    }}>
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>
