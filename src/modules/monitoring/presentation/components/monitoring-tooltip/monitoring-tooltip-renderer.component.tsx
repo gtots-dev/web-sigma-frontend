@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type ReactNode, type RefObject } from 'react'
+import { useState, type ReactNode, type RefObject, useRef, useEffect } from 'react'
 import { Cpu, Layers, SlidersHorizontal } from 'lucide-react'
 import { useMonitoringTooltip } from '../../hooks/use-monitoring-tooltip.hook'
 import { MonitoringTooltipBox } from './monitoring-tooltip-box.component'
@@ -91,6 +91,26 @@ export function MonitoringTooltipRenderer({
     useMonitoringTooltip(cell, containerRef)
 
   const [selectedLevels, setSelectedLevels] = useState<number[]>([0, 1, 2])
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const isMouseOverTooltipRef = useRef(false)
+  const prevFilterOpenRef = useRef(false)
+
+  const handleHoverChange = (id: string | null) => {
+    if (id === null) {
+      if (isFilterOpen) return
+      if (isMouseOverTooltipRef.current) return
+    }
+    setHoveredCellId(id)
+  }
+
+  useEffect(() => {
+    if (prevFilterOpenRef.current && !isFilterOpen) {
+      if (!isMouseOverTooltipRef.current) {
+        setHoveredCellId(null)
+      }
+    }
+    prevFilterOpenRef.current = isFilterOpen
+  }, [isFilterOpen, setHoveredCellId])
 
   const filterOptions = [
     { id: 0, label: 'Normal', color: 'rgb(var(--monitoring-ok))' },
@@ -112,7 +132,15 @@ export function MonitoringTooltipRenderer({
         positionStyle={positionStyle}
         className={className}
         hoveredCellId={hoveredCellId}
-        setHoveredCellId={setHoveredCellId}
+        setHoveredCellId={(id) => {
+          if (id !== null) {
+            isMouseOverTooltipRef.current = true
+            handleHoverChange(cell.id)
+          } else {
+            isMouseOverTooltipRef.current = false
+            handleHoverChange(null)
+          }
+        }}
       >
         {content}
       </MonitoringTooltipBox>
@@ -138,6 +166,7 @@ export function MonitoringTooltipRenderer({
             popoverWidth={150}
             popoverClassName="z-[200]"
             searchable={false}
+            onOpenChange={setIsFilterOpen}
             className="h-7 w-8 p-0 flex items-center justify-center border-none bg-transparent hover:bg-zinc-100 dark:hover:bg-zinc-800 shadow-none [&>svg:last-child]:hidden [&>div>div]:hidden [&>div]:w-auto [&>div]:justify-center [&>div]:gap-0"
           />
         </div>
@@ -183,7 +212,15 @@ export function MonitoringTooltipRenderer({
       positionStyle={positionStyle}
       className={className}
       hoveredCellId={hoveredCellId}
-      setHoveredCellId={setHoveredCellId}
+      setHoveredCellId={(id) => {
+        if (id !== null) {
+          isMouseOverTooltipRef.current = true
+          handleHoverChange(cell.id)
+        } else {
+          isMouseOverTooltipRef.current = false
+          handleHoverChange(null)
+        }
+      }}
     >
       {defaultContent}
     </MonitoringTooltipBox>
