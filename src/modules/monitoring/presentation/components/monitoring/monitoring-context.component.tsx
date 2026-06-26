@@ -20,10 +20,10 @@ export function MonitoringProvider({
   return (
     <MonitoringContext.Provider value={value}>
       <div
-        className={`flex flex-1 flex-col gap-y-5 bg-white dark:bg-zinc-950 ${
+        className={`flex flex-1 flex-col gap-y-3 md:gap-y-5 bg-white dark:bg-zinc-950 ${
           value.isMaximized
             ? 'fixed inset-0 z-[100] !p-0 overflow-hidden'
-            : 'w-full !p-8'
+            : 'w-full p-4 md:p-8'
         }`}
       >
         {children}
