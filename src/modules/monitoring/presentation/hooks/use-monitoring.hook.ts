@@ -28,6 +28,8 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
     isDragging,
     active,
     handleSetActive,
+    hoveredCellId,
+    setHoveredCellId,
     isMaximized, setIsMaximized,
     isControlsMinimized, setIsControlsMinimized,
     handlers,
@@ -43,7 +45,11 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
   const {
     statusFilter, setStatusFilter,
     connectionFilter, setConnectionFilter,
+    upErrorFilters, setUpErrorFilters,
+    laneErrorFilters, setLaneErrorFilters,
     sortMode, setSortMode,
+    selectedTelemetryFilters, setSelectedTelemetryFilters, toggleTelemetryFilter, clearTelemetryFilters,
+    telemetryItems, isSidebarOpen, setIsSidebarOpen,
     processedCells,
     totalCount,
     filteredCount
@@ -100,6 +106,31 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
     return active ? cellsDict[active] : null
   }, [cellsDict, active])
 
+  const hoveredCell = useMemo(() => {
+    return hoveredCellId ? cellsDict[hoveredCellId] : null
+  }, [cellsDict, hoveredCellId])
+
+  const hoveredCoords = useMemo(() => {
+    if (!hoveredCellId) return null
+    if (mode === 'hex') {
+      const hex = hexes.find((h) => h.cell.id === hoveredCellId)
+      if (!hex) return null
+      return {
+        x: hex.cx + offset.x,
+        y: hex.cy - radius + offset.y,
+        itemHeight: radius * 2
+      }
+    } else {
+      const cell = cells.find((c) => c.cell.id === hoveredCellId)
+      if (!cell) return null
+      return {
+        x: (cell.x + CELL_WIDTH / 2) * zoom + offset.x,
+        y: cell.y * zoom + offset.y,
+        itemHeight: CELL_HEIGHT * zoom
+      }
+    }
+  }, [hoveredCellId, mode, hexes, cells, zoom, offset, radius])
+
   return {
     // Dados e Mutadores
     cellsDict,
@@ -123,7 +154,18 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
     // Filtros e Ordenação
     statusFilter, setStatusFilter,
     connectionFilter, setConnectionFilter,
+    upErrorFilters,
+    setUpErrorFilters,
+    laneErrorFilters,
+    setLaneErrorFilters,
     sortMode, setSortMode,
+    selectedTelemetryFilters,
+    setSelectedTelemetryFilters,
+    toggleTelemetryFilter,
+    clearTelemetryFilters,
+    telemetryItems,
+    isSidebarOpen,
+    setIsSidebarOpen,
     totalCount,
     filteredCount,
     
@@ -140,6 +182,11 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
     activeCell,
     activeCoords,
     
+    // Hover e Tooltip
+    hoveredCellId,
+    setHoveredCellId,
+    hoveredCoords,
+    hoveredCell,
 
     // Handlers e Utils
     ...handlers,

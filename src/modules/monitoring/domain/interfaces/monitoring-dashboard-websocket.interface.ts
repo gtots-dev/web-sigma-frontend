@@ -1,5 +1,6 @@
 export type MonitoringDashboardEvents =
-  | 'status_history'
+  | 'up_status_history'
+  | 'lane_status_history'
   | 'up_status'
   | 'lane_status'
   | 'connection'
@@ -42,9 +43,8 @@ export interface LaneStatusMessage {
   request: LaneStatusRequest
 }
 
-
 export interface StatusHistoryMessage {
-  data: (UpStatusMessage | LaneStatusMessage)[]
+  response: (UpStatusMessage | LaneStatusMessage)[]
 }
 
 export interface ConnectionMessage {
