@@ -29,6 +29,15 @@ interface Props<T extends MultiSelectItem> {
   notFoundItemPlaceholder?: string
   minSelected?: number
   dotColor?: string | ((item: T) => string)
+  leftIcon?: React.ComponentType<{ className?: string; size?: number }>
+  innerIcon?: React.ComponentType<{ className?: string; size?: number }>
+  innerIconColor?: string
+  textUppercase?: boolean
+  popoverAlign?: 'start' | 'center' | 'end'
+  popoverWidth?: number
+  popoverClassName?: string
+  searchable?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 export function MultiSelect<T extends MultiSelectItem>({
@@ -39,10 +48,20 @@ export function MultiSelect<T extends MultiSelectItem>({
   placeholder = 'Selecionar',
   notFoundItemPlaceholder = 'Nenhum item encontrado',
   minSelected,
-  dotColor
+  dotColor,
+  leftIcon: LeftIcon,
+  innerIcon: InnerIcon,
+  innerIconColor,
+  textUppercase,
+  popoverAlign = 'start',
+  popoverWidth,
+  popoverClassName,
+  searchable = true,
+  onOpenChange
 }: Props<T>) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [triggerWidth, setTriggerWidth] = useState(0)
+  const [open, setOpen] = useState(false)
 
   const {
     search,
@@ -62,7 +81,7 @@ export function MultiSelect<T extends MultiSelectItem>({
 
   useEffect(() => {
     if (triggerRef.current) setTriggerWidth(triggerRef.current.offsetWidth)
-  }, [items])
+  }, [items, open])
 
   const handleToggle = (id: string | number) => {
     const isSelected = value.includes(id)
@@ -76,7 +95,10 @@ export function MultiSelect<T extends MultiSelectItem>({
   }
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={(v) => {
+      setOpen(v)
+      onOpenChange?.(v)
+    }}>
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>
@@ -87,10 +109,44 @@ export function MultiSelect<T extends MultiSelectItem>({
               className={cn(
                 'w-full justify-between truncate',
                 value.length === 0 && 'text-muted-foreground',
+                LeftIcon &&
+                  'h-9 gap-2 px-3 bg-muted/20 border-border/50 hover:bg-muted/40 transition-all w-full justify-between shadow-none text-xs font-semibold py-2.5',
                 className
               )}
             >
-              <span className="truncate overflow-hidden">{label ?? placeholder}</span>
+              {LeftIcon ? (
+                <div className="flex items-center gap-2 overflow-hidden w-full">
+                  <LeftIcon
+                    size={14}
+                    className="text-muted-foreground shrink-0"
+                  />
+                  <div className="flex items-center gap-2 border-l border-border/50 pl-2 overflow-hidden">
+                    {InnerIcon && (
+                      <InnerIcon
+                        size={14}
+                        className={cn(
+                          innerIconColor || 'text-muted-foreground',
+                          'shrink-0'
+                        )}
+                      />
+                    )}
+                    <span
+                      className={cn(
+                        'truncate overflow-hidden',
+                        textUppercase
+                          ? 'text-[10px] font-bold uppercase tracking-wider'
+                          : 'text-xs font-semibold'
+                      )}
+                    >
+                      {label ?? placeholder}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <span className="truncate overflow-hidden">
+                  {label ?? placeholder}
+                </span>
+              )}
 
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -115,29 +171,31 @@ export function MultiSelect<T extends MultiSelectItem>({
       </Tooltip>
 
       <PopoverContent
-        align="start"
-        className="p-2 flex flex-col gap-y-2"
-        style={{ minWidth: triggerWidth }}
+        align={popoverAlign}
+        className={cn("p-2 flex flex-col gap-y-2", popoverClassName)}
+        style={{ width: popoverWidth ?? (triggerWidth || undefined) }}
       >
-        <div className="relative flex">
-          <Input
-            placeholder="Buscar..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-md border px-2 py-1 !pe-10 text-sm outline-none"
-          />
+        {searchable && (
+          <div className="relative flex">
+            <Input
+              placeholder="Buscar..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full rounded-md border px-2 py-1 !pe-10 text-sm outline-none"
+            />
 
-          {search && (
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={clearSearch}
-              className="absolute -translate-y-2/4 top-2/4 right-1 !bg-transparent"
-            >
-              <X className="stroke-destructive" />
-            </Button>
-          )}
-        </div>
+            {search && (
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={clearSearch}
+                className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+              >
+                <X className="stroke-destructive" />
+              </Button>
+            )}
+          </div>
+        )}
 
         {filteredItems.length > 0 && (
           <div className="flex gap-3">
@@ -181,7 +239,7 @@ export function MultiSelect<T extends MultiSelectItem>({
                 <div
                   key={item.id}
                   className={cn(
-                    'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-accent/35',
+                    'flex cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-xs hover:bg-accent/35',
                     isSelected && 'bg-accent/35'
                   )}
                   onClick={() => handleToggle(item.id)}

@@ -4,22 +4,28 @@ import { DrawerHeader } from '@/modules/shared/presentation/components/shadcn/dr
 import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 
 interface DialogWithDrawerHeaderComponentProps {
+  className?: string
   children: ReactNode
 }
 
 export function DialogWithDrawerHeaderComponent({
+  className,
   children
 }: DialogWithDrawerHeaderComponentProps) {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (isDesktop) {
     return (
-      <DialogHeader className="h-[170px] border-b p-8">{children}</DialogHeader>
+      <DialogHeader className={`h-[170px] border-b p-8 ${className}`}>
+        {children}
+      </DialogHeader>
     )
   }
 
   return (
-    <DrawerHeader className="py-2 px-5 border-b sm:py-6 sm:px-10 text-left">
+    <DrawerHeader
+      className={`py-2 px-5 border-b sm:py-6 sm:px-10 text-left ${className}`}
+    >
       {children}
     </DrawerHeader>
   )

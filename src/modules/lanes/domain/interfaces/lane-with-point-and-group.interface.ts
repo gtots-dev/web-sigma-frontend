@@ -7,6 +7,7 @@ export interface LaneWithPointAndGroupInterface {
     cfg: string
     id: number
   }
+  up_id: number
   point_id: number
   group_id: number[]
 }
