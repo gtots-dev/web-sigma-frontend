@@ -12,6 +12,9 @@ import { ActionSection } from '@/modules/system/presentation/components/actions-
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { auth } from '@/auth'
+import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 
 interface Data {
   title: string
@@ -31,8 +34,15 @@ interface ProcessingUnitsPageProps {
 export default async function ProcessingUnitsPage({
   params
 }: ProcessingUnitsPageProps) {
-  const [{ operationId: rawOperationId, contractId: rawContractId }] =
-    await Promise.all([params])
+  const [
+    {
+      token: JWT,
+      user: { isAdmin }
+    },
+    { operationId: rawOperationId, contractId: rawContractId }
+  ] = await Promise.all([auth(), params])
+
+  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
 
   const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/configurations`
 
@@ -48,7 +58,7 @@ export default async function ProcessingUnitsPage({
   }
 
   return (
-    <main className="flex flex-col flex-1 p-8 sm:p-10 sm:pb-0 gap-5">
+    <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
       <div className="flex gap-5 flex-col lg:flex-row">
         <SectionRedirectLink.Button href={previousSection} />
         <HeaderSection.Root>
@@ -60,45 +70,75 @@ export default async function ProcessingUnitsPage({
       </div>
 
       <Separator orientation="horizontal" />
-      <ActionSection.Root>
-        <AddProcessingUnitMenu.Provider>
-          <AddProcessingUnitMenu.Trigger />
-          <AddProcessingUnitMenuComponent
-            title={data.titleAdd}
-            description={data.descriptionAdd}
-          />
-        </AddProcessingUnitMenu.Provider>
-      </ActionSection.Root>
+      {(isAdmin ||
+        userPermissions.has(PermissionEnum.PROCESSING_UNITS_EDIT)) && (
+        <ActionSection.Root>
+          <AddProcessingUnitMenu.Provider>
+            <AddProcessingUnitMenu.Trigger />
+            <AddProcessingUnitMenuComponent
+              title={data.titleAdd}
+              description={data.descriptionAdd}
+            />
+          </AddProcessingUnitMenu.Provider>
+        </ActionSection.Root>
+      )}
       <ActionSection.Root>
         <TabledProcessingUnits.Root>
           <TabledProcessingUnits.Header />
           <TabledProcessingUnits.Body>
             <TabledProcessingUnits.Item>
-              <PatchProcessingUnitsStatusMenu.Provider>
-                <EditProcessingUnitsMenu.Provider>
-                  <ProcessingUnitsOptionsDropdown.Root>
-                    <ProcessingUnitsOptionsDropdown.Trigger />
-                    <ProcessingUnitsOptionsDropdown.Menu>
-                      <ProcessingUnitsOptionsDropdown.Item>
-                        <EditProcessingUnitsMenu.Trigger />
-                      </ProcessingUnitsOptionsDropdown.Item>
+              {((isAdmin ||
+                userPermissions.has(PermissionEnum.PROCESSING_UNITS_EDIT)) ||
+                (isAdmin ||
+                  userPermissions.has(
+                    PermissionEnum.PROCESSING_UNITS_ENABLE_AND_DISABLE
+                  ))) ? (
+                <PatchProcessingUnitsStatusMenu.Provider>
+                  <EditProcessingUnitsMenu.Provider>
+                    <ProcessingUnitsOptionsDropdown.Root>
+                      <ProcessingUnitsOptionsDropdown.Trigger />
+                      <ProcessingUnitsOptionsDropdown.Menu>
+                        {(isAdmin ||
+                          userPermissions.has(
+                            PermissionEnum.PROCESSING_UNITS_EDIT
+                          )) && (
+                          <ProcessingUnitsOptionsDropdown.Item>
+                            <EditProcessingUnitsMenu.Trigger />
+                          </ProcessingUnitsOptionsDropdown.Item>
+                        )}
 
-                      <ProcessingUnitsOptionsDropdown.Item>
-                        <PatchProcessingUnitsStatusMenu.Trigger />
-                      </ProcessingUnitsOptionsDropdown.Item>
-                    </ProcessingUnitsOptionsDropdown.Menu>
+                        {(isAdmin ||
+                          userPermissions.has(
+                            PermissionEnum.PROCESSING_UNITS_ENABLE_AND_DISABLE
+                          )) && (
+                          <ProcessingUnitsOptionsDropdown.Item>
+                            <PatchProcessingUnitsStatusMenu.Trigger />
+                          </ProcessingUnitsOptionsDropdown.Item>
+                        )}
+                      </ProcessingUnitsOptionsDropdown.Menu>
 
-                    <EditProcessingUnitsMenuComponent
-                      title={data.titleEdit}
-                      description={data.descriptionEdit}
-                    />
-                    <PatchProcessingUnitsStatusMenuComponent
-                      title={data.titlePutStatus}
-                      description={data.descriptionPutStatus}
-                    />
-                  </ProcessingUnitsOptionsDropdown.Root>
-                </EditProcessingUnitsMenu.Provider>
-              </PatchProcessingUnitsStatusMenu.Provider>
+                      {(isAdmin ||
+                        userPermissions.has(
+                          PermissionEnum.PROCESSING_UNITS_EDIT
+                        )) && (
+                        <EditProcessingUnitsMenuComponent
+                          title={data.titleEdit}
+                          description={data.descriptionEdit}
+                        />
+                      )}
+                      {(isAdmin ||
+                        userPermissions.has(
+                          PermissionEnum.PROCESSING_UNITS_ENABLE_AND_DISABLE
+                        )) && (
+                        <PatchProcessingUnitsStatusMenuComponent
+                          title={data.titlePutStatus}
+                          description={data.descriptionPutStatus}
+                        />
+                      )}
+                    </ProcessingUnitsOptionsDropdown.Root>
+                  </EditProcessingUnitsMenu.Provider>
+                </PatchProcessingUnitsStatusMenu.Provider>
+              ) : null}
             </TabledProcessingUnits.Item>
           </TabledProcessingUnits.Body>
         </TabledProcessingUnits.Root>

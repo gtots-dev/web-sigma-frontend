@@ -7,7 +7,6 @@ import type { PermissionProfileInterface } from '../../domain/interfaces/permiss
 import { usePermissionProfileStore } from '../stores/permission-profile.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
-import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 export type ExtendedPermissionProfile = PermissionProfileInterface & {
   features: number[]
@@ -17,15 +16,12 @@ export function useAddPermissionProfileSubmit() {
   const { operationId }: UrlParams = useParams()
   const { addPermissionProfileAndFeatures, getPermissionProfiles } =
     usePermissionProfileStore()
-  const { challenge } = useTwoFactorChallenge()
+
   const onAction = useCallback(
     async (
       permissionProfileForm: ExtendedPermissionProfile,
       onSuccess: VoidFunction
     ): Promise<void> => {
-      const twoFactorCode = await challenge()
-      if (!twoFactorCode) return
-
       try {
         await addPermissionProfileAndFeatures(
           { operationId },
@@ -51,7 +47,7 @@ export function useAddPermissionProfileSubmit() {
         }
       }
     },
-    [addPermissionProfileAndFeatures, getPermissionProfiles, operationId, challenge]
+    [addPermissionProfileAndFeatures, getPermissionProfiles, operationId]
   )
 
   return { onAction }

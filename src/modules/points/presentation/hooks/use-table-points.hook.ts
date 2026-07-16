@@ -13,7 +13,7 @@ export interface UseTablePointsResult {
 
 export function useTablePoints(): UseTablePointsResult {
   const { operationId, contractId }: UrlParams = useParams()
-  const { points, getPoints: getPointsFromStore } = usePointStore()
+  const { points, getPoints: getPointsFromStore, loading: storeLoading } = usePointStore()
   const [loading, setLoading] = useState(true)
 
   const getPoints = useCallback(async () => {
@@ -29,5 +29,5 @@ export function useTablePoints(): UseTablePointsResult {
     getPoints()
   }, [getPoints])
 
-  return { points, loading }
+  return { points, loading: loading || storeLoading }
 }

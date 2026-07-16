@@ -10,6 +10,7 @@ import type { ProcessingUnitEnableAndDisableInterface } from '../../domain/inter
 
 type ProcessingUnitState = {
   processingUnits: ProcessingUnitEntity[]
+  loading: boolean
   getProcessingUnits: ({ operationId, contractId }: UrlParams) => Promise<void>
   addProcessingUnit: (
     { operationId, contractId }: UrlParams,
@@ -27,6 +28,7 @@ type ProcessingUnitState = {
 
 export const useProcessingUnitStore = create<ProcessingUnitState>((set) => ({
   processingUnits: [],
+  loading: false,
 
   addProcessingUnit: async (
     { operationId, contractId }: UrlParams,
@@ -44,6 +46,7 @@ export const useProcessingUnitStore = create<ProcessingUnitState>((set) => ({
   },
 
   getProcessingUnits: async ({ operationId, contractId }: UrlParams) => {
+    set({ loading: true })
     try {
       const getProcessingUnit = GetProcessingUnitRouterApiFactory.create({
         operationId,
@@ -55,6 +58,8 @@ export const useProcessingUnitStore = create<ProcessingUnitState>((set) => ({
       if (error instanceof HttpResponseError) {
         throw error
       }
+    } finally {
+      set({ loading: false })
     }
   },
 

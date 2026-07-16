@@ -14,6 +14,7 @@ import { DeletePointLaneRouterApiFactory } from '@/modules/api/infrastructure/fa
 
 type PointState = {
   points: PointWithGroupInterface[]
+  loading: boolean
   getPoints: ({ operationId, contractId }: UrlParams) => Promise<void>
   addPoint: (
     { operationId, contractId }: UrlParams,
@@ -41,6 +42,7 @@ type PointState = {
 
 export const usePointStore = create<PointState>((set) => ({
   points: [],
+  loading: false,
 
   addPoint: async (
     { operationId, contractId }: UrlParams,
@@ -60,6 +62,7 @@ export const usePointStore = create<PointState>((set) => ({
   },
 
   getPoints: async ({ operationId, contractId }: UrlParams) => {
+    set({ loading: true })
     try {
       const getPoints = GetPointsRouterApiFactory.create({
         operationId,
@@ -71,6 +74,8 @@ export const usePointStore = create<PointState>((set) => ({
       if (error instanceof HttpResponseError) {
         throw error
       }
+    } finally {
+      set({ loading: false })
     }
   },
 

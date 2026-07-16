@@ -1,12 +1,10 @@
 'use client'
 
 import type { ReactNode } from 'react'
-import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import {
   TableCell,
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
-import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import { useTableLane } from '../../contexts/table-lanes.context'
 import { AvailabilityStatusComponent } from '@/modules/shared/presentation/components/availability-status/availability-status.component'
 
@@ -22,47 +20,19 @@ export function TableLanesItemComponent({
   children
 }: TableLanesItemComponentProps) {
   const Lane = useTableLane()
-  const isLarge = useMediaQuery('(min-width: 1024px)')
-  const isExtraLarge = useMediaQuery('(min-width: 1230px)')
-
-  const renderSkeleton = () => (
-    <TableRow>
-      <TableCell className={`${baseCell} ${truncateText}`} colSpan={6}>
-        <Skeleton className="w-full !h-[10px] rounded-full" />
-      </TableCell>
-    </TableRow>
-  )
-
-  const renderCompactView = () => (
-    <>
-      <TableCell className={`${baseCell} flex flex-col gap-y-0.5`}>
-        <span title={Lane.name} className={`${truncateText} !h-auto`}>
-          {Lane.name}
-        </span>
-      </TableCell>
-    </>
-  )
-
-  const renderExpandedView = () => (
-    <>
-      <TableCell colSpan={2} className={`${baseCell} ${truncateText} w-[30%]`}>
-        {Lane.name}
-      </TableCell>
-      {isExtraLarge && (
-        <TableCell className={`${baseCell} ${truncateText}`}>
-          <AvailabilityStatusComponent enabled={Lane.enabled} />
-        </TableCell>
-      )}
-    </>
-  )
-
-  if (isExtraLarge === undefined || isLarge === undefined) {
-    return renderSkeleton()
-  }
 
   return (
     <TableRow>
-      {isLarge ? renderExpandedView() : renderCompactView()}
+      <TableCell className={`${baseCell} w-[30%] max-w-0`}>
+        <div className="flex flex-col gap-y-0.5 w-full">
+          <span title={Lane.name} className={`${truncateText} !h-auto`}>
+            {Lane.name}
+          </span>
+        </div>
+      </TableCell>
+      <TableCell className={`${baseCell} ${truncateText} hidden xl:table-cell`}>
+        <AvailabilityStatusComponent enabled={Lane.enabled} />
+      </TableCell>
       <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
         {children}
       </TableCell>

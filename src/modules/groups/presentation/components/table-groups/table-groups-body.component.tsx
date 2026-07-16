@@ -17,18 +17,19 @@ export function TableGroupsBodyComponent({
   children
 }: TableGroupsBodyComponentProps) {
   const { groups, loading } = useTableGroups()
+  const colSpan = 3
 
   if (loading)
     return (
       <TableBody>
-        <TableLoading colSpan={4} />
+        <TableLoading colSpan={colSpan} />
       </TableBody>
     )
 
   if (groups.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={4} message={MESSAGES_GROUP['18.3']} />
+        <TableMessage colSpan={colSpan} message={MESSAGES_GROUP['18.3']} />
       </TableBody>
     )
 

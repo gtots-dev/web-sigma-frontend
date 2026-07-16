@@ -17,18 +17,19 @@ export function TableContractsBodyComponent({
   children
 }: TableContractsBodyComponentProps) {
   const { contracts, loading } = useTableContracts()
+  const colSpan = 5
 
   if (loading)
     return (
       <TableBody>
-        <TableLoading colSpan={6} />
+        <TableLoading colSpan={colSpan} />
       </TableBody>
     )
 
   if (contracts?.length === 0 || contracts == null)
     return (
       <TableBody>
-        <TableMessage colSpan={6} message={MESSAGES_CONTRACTS['3.3']} />
+        <TableMessage colSpan={colSpan} message={MESSAGES_CONTRACTS['3.3']} />
       </TableBody>
     )
 
