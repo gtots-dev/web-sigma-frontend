@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { DialogContent } from '@/modules/shared/presentation/components/shadcn/dialog'
+import { DialogContent, DialogTitle } from '@/modules/shared/presentation/components/shadcn/dialog'
 import { DrawerContent } from '@/modules/shared/presentation/components/shadcn/drawer'
 import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import { cn } from '../../lib/utils'
@@ -27,6 +27,7 @@ export function DialogWithDrawerContentComponent({
           className
         )}
       >
+        <DialogTitle className="sr-only">Menu</DialogTitle>
         {children}
       </DialogContent>
     )
