@@ -21,7 +21,7 @@ export class NativeWebSocketService<
     private readonly interceptors: WebSocketInterceptor[] = [],
     baseURL: string
   ) {
-    this.baseURL = baseURL.replace(/^http/, 'ws')
+    this.baseURL = (baseURL ?? '').replace(/^http/, 'ws')
   }
 
   async connect(url?: string): Promise<void> {
