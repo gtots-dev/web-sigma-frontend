@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
-import { useInfractionsMenuTrigger } from '../../hooks/use-view-infractions-menu-trigger.hook'
+import { useInfractionsMenuTrigger } from '../../hooks/use-infractions-menu-trigger.hook'
 import { useInfractionImage } from '../../test/components/infractions-images'
 
 export function InfractionsMenuTriggerComponent() {
