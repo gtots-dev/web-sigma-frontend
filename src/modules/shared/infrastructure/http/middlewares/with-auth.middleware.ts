@@ -18,7 +18,19 @@ export async function WithAuthMiddleware(req: NextRequest) {
   const hasTrustedDevice =
     req.cookies.has('trusted_device') ||
     req.cookies.has('__Secure-trusted_device')
-  const isAuthenticated = Boolean(accessToken)
+  let decodedToken = null
+  let isExpired = true
+
+  if (accessToken) {
+    try {
+      decodedToken = JwtTokenDecodeFactory.create().decode(accessToken)
+      isExpired = decodedToken?.exp ? decodedToken.exp * 1000 < Date.now() : true
+    } catch (err) {
+      console.error('Error decoding JWT token:', err)
+    }
+  }
+
+  const isAuthenticated = Boolean(accessToken) && !isExpired
 
   const isAuthPage = pathname === authPath
   const isTwoFactorPage = pathname.startsWith(twoFactorPath)
@@ -32,7 +44,6 @@ export async function WithAuthMiddleware(req: NextRequest) {
     return null
   }
 
-  const decodedToken = JwtTokenDecodeFactory.create().decode(accessToken)
   const isTwoFactorPending = decodedToken?.type === '2fa_pending'
   const isReleased = !isTwoFactorPending || hasTrustedDevice
 

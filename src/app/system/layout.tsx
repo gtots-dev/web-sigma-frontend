@@ -33,6 +33,9 @@ export default async function Layout({ children }: LayoutProps) {
 
   const jwtFactory = JwtTokenDecodeFactory.create()
   const decodedToken = jwtFactory.decode(accessToken)
+  const isExpired = decodedToken?.exp ? decodedToken.exp * 1000 < Date.now() : true
+
+  if (!decodedToken || isExpired) redirect(PATHNAMES.AUTHENTICATION)
 
   const cookieStore = await cookies()
   const hasTrustedDevice =
@@ -55,6 +58,12 @@ export default async function Layout({ children }: LayoutProps) {
   } catch (error) {
     if (error instanceof HttpResponseError && error.message.includes('Two-factor authentication not completed')) {
       redirect(PATHNAMES.TWO_FACTOR)
+    }
+    if (error instanceof HttpResponseError && (error.status === 401 || error.status === 403)) {
+      redirect(PATHNAMES.AUTHENTICATION)
+    }
+    if (error instanceof HttpResponseError) {
+      redirect(PATHNAMES.AUTHENTICATION)
     }
     throw error
   }
