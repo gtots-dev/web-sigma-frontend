@@ -1,4 +1,4 @@
-import type { Infraction } from '@/modules/infractions/domain/interfaces/infractions-websocket.interface'
+import type { Infraction } from '@/modules/infractions/domain/interfaces/infraction.interface'
 
 export interface GetInfractionsRouterApiGateway {
   execute(): Promise<Infraction[]>
