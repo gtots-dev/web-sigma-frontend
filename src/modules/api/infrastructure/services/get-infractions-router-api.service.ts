@@ -3,7 +3,7 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { GetInfractionsRouterApiGateway } from '../../domain/gateways/get-infractions-router-api.gateway'
-import type { Infraction } from '@/modules/infractions/domain/interfaces/infractions-websocket.interface'
+import type { Infraction } from '@/modules/infractions/domain/interfaces/infraction.interface'
 
 export class GetInfractionsRouterApiService implements GetInfractionsRouterApiGateway {
   constructor(
