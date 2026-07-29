@@ -13,7 +13,6 @@ import {
   Shield,
   UserRoundSearch,
   UsersRound,
-  Cctv,
   FileVideo2
 } from 'lucide-react'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
@@ -175,34 +174,12 @@ export function getSidebarData(
                       permissions: [PermissionEnum.CONTRACTS_VIEW]
                     },
                     {
-                      title: 'Infrações',
+                      title: 'Visualizador de registros',
                       url: PATHNAMES.INFRACTIONS(operationId, contractId),
-                      icon: Cctv,
+                      icon: FileVideo2,
                       isToExpand: true,
-                      permissions: [PermissionEnum.CONTRACTS_VIEW],
-                      items: [
-                        {
-                          title: 'Opções de Infrações',
-                          url: PATHNAMES.INFRACTIONS_OPTIONS(
-                            operationId,
-                            contractId
-                          ),
-                          icon: List,
-                          permissions: [PermissionEnum.CONTRACTS_VIEW],
-                          items: [
-                            {
-                              title: 'Registros',
-                              url: PATHNAMES.INFRACTIONS_RECORDS(
-                                operationId,
-                                contractId
-                              ),
-                              icon: FileVideo2,
-                              permissions: [PermissionEnum.CONTRACTS_VIEW]
-                            }
-                          ]
-                        }
-                      ]
-                    },
+                      permissions: [PermissionEnum.CONTRACTS_VIEW]
+                    }
                   ]
                 }
               ]
