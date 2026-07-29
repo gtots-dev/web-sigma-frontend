@@ -14,10 +14,14 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - AUTH_SECRET=${AUTH_SECRET}
+      - AUTH_TRUST_HOST=${AUTH_TRUST_HOST}
+      - HOST_API=${HOST_API}
+      - SECRET_KEY_ACCESS_TOKEN=${SECRET_KEY_ACCESS_TOKEN}
     networks:
       - sigma-network
 
 networks:
   sigma-network:
-    driver: bridge
+    external: true
     name: sigma-network
