@@ -17,7 +17,7 @@ export class PostTrafficFlowService implements PostTrafficFlowServiceGateway {
   ): HttpRequestConfig {
     return {
       method: 'POST',
-      url: `/operations/${this.params.operationId}/contracts/${this.params.contractId}/trafficflow/search`,
+      url: `operations/${this.params.operationId}/contracts/${this.params.contractId}/trafficflow/search`,
       data: filters,
       requiresAuth: true
     }
