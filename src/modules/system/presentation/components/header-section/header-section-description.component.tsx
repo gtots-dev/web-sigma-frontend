@@ -1,11 +1,22 @@
-import type { ReactNode } from 'react'
+import type { ComponentProps } from 'react'
+import { cn } from '@/modules/shared/presentation/lib/utils'
 
-interface HeaderSectionDescriptionComponentProps {
-  children: ReactNode
-}
+export interface HeaderSectionDescriptionComponentProps extends ComponentProps<'p'> {}
 
 export function HeaderSectionDescriptionComponent({
-  children
+  className,
+  children,
+  ...props
 }: HeaderSectionDescriptionComponentProps) {
-  return <p className="text-muted-foreground font-light text-sm">{children}</p>
+  return (
+    <p
+      className={cn(
+        'text-xs leading-[1.3rem] text-muted-foreground flex items-center gap-1.5 truncate',
+        className
+      )}
+      {...props}
+    >
+      <span className="truncate">{children}</span>
+    </p>
+  )
 }

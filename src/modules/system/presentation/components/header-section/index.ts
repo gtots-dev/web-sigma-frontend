@@ -7,3 +7,7 @@ export const HeaderSection = {
   Title: HeaderSectionTitleComponent,
   Description: HeaderSectionDescriptionComponent
 }
+
+export * from './header-section-root.component'
+export * from './header-section-title.component'
+export * from './header-section-description.component'
