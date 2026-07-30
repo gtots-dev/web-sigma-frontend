@@ -2,11 +2,11 @@
 
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { useInfractionsMenuTrigger } from '../../hooks/use-infractions-menu-trigger.hook'
-import { useInfractionImage } from '../../test/components/infractions-images'
+import { useInfractionGrid } from '../infractions-grid'
 
 export function InfractionsMenuTriggerComponent() {
   const { loadPatchPointOpenDialog } = useInfractionsMenuTrigger()
-  const infraction = useInfractionImage()
+  const infraction = useInfractionGrid()
 
   return (
     <Button
