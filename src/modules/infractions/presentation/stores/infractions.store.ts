@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import type { InfractionsFiltersInterface } from '../../domain/interfaces/infractions-filters.interface'
-import { GetInfractionsRouterApiFactory } from '@/modules/api/infrastructure/factories/get-infractions-router-api.factory'
+import { PostInfractionsRouterApiFactory } from '@/modules/api/infrastructure/factories/post-infractions-router-api.factory'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { Infraction } from '../../domain/interfaces/infraction.interface'
 
@@ -64,13 +64,11 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
       activeFilters: filters
     })
     try {
-      const svc = GetInfractionsRouterApiFactory.create({
-        operationId,
-        contractId,
+      const svc = PostInfractionsRouterApiFactory.create({ operationId, contractId })
+      const data = await svc.execute({
         pagination: { page: 1, per_page: PER_PAGE },
         filters
       })
-      const data = await svc.execute()
       const uniqueData = deduplicateInfractions(data)
       set({ infractions: uniqueData, hasOlder: data.length === PER_PAGE })
     } catch (err) {
@@ -95,13 +93,11 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
     const targetPage = pageEnd + 1
 
     try {
-      const svc = GetInfractionsRouterApiFactory.create({
-        operationId,
-        contractId,
+      const svc = PostInfractionsRouterApiFactory.create({ operationId, contractId })
+      const older = await svc.execute({
         pagination: { page: targetPage, per_page: PER_PAGE },
         filters: activeFilters
       })
-      const older = await svc.execute()
 
       const currentState = get()
       if (currentState.loading || currentState.pageEnd !== targetPage - 1) {
@@ -158,13 +154,11 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
     const targetPage = pageStart - 1
 
     try {
-      const svc = GetInfractionsRouterApiFactory.create({
-        operationId,
-        contractId,
+      const svc = PostInfractionsRouterApiFactory.create({ operationId, contractId })
+      const newer = await svc.execute({
         pagination: { page: targetPage, per_page: PER_PAGE },
         filters: activeFilters
       })
-      const newer = await svc.execute()
 
       const currentState = get()
       if (currentState.loading || currentState.pageStart !== targetPage + 1) {
