@@ -43,7 +43,10 @@ export class FetchHttpClient implements HttpClientGateway {
     let parsedHeaders: Record<string, string>
 
     try {
-      response = await fetch(`${this.baseURL}${config.url}${queryString}`, {
+      const sanitizedUrl = this.baseURL
+        ? `${this.baseURL.replace(/\/+$/, '')}/${config.url.replace(/^\/+/, '')}`
+        : `/${config.url.replace(/^\/+/, '')}`
+      response = await fetch(`${sanitizedUrl}${queryString}`, {
         method: config.method,
         headers,
         body,
