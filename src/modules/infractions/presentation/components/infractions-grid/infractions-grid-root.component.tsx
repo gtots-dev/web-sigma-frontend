@@ -3,7 +3,6 @@
 import type { ReactNode } from 'react'
 import type { Infraction } from '@/modules/infractions/domain/interfaces/infraction.interface'
 import { InfractionsGridProvider } from './infractions-grid-provider.component'
-import { useInfractionsMenuTrigger } from '../../hooks/use-infractions-menu-trigger.hook'
 
 interface InfractionsGridRootProps {
   infraction: Infraction
@@ -16,12 +15,9 @@ export function InfractionsGridRootComponent({
   animate = false,
   children
 }: InfractionsGridRootProps) {
-  const { loadPatchPointOpenDialog } = useInfractionsMenuTrigger()
-
   return (
     <InfractionsGridProvider infraction={infraction}>
       <div
-        onClick={() => loadPatchPointOpenDialog(infraction)}
         data-infraction-card="true"
         className={`relative overflow-hidden rounded-md ${
           animate ? 'animate-in fade-in zoom-in-95 duration-300' : ''
