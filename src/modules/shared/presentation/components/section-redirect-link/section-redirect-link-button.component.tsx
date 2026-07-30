@@ -1,19 +1,39 @@
+import type { ComponentProps } from 'react'
 import Link from 'next/link'
 import { Button } from '../shadcn/button'
 import { CornerUpLeft } from 'lucide-react'
+import { cn } from '@/modules/shared/presentation/lib/utils'
 
-interface SectionRedirectLinkButtonComponentProps {
+export interface SectionRedirectLinkButtonComponentProps extends ComponentProps<
+  typeof Button
+> {
   href: string
 }
 
 export function SectionRedirectLinkButtonComponent({
-  href
+  className,
+  href,
+  variant = 'outline',
+  children,
+  ...props
 }: SectionRedirectLinkButtonComponentProps) {
   return (
-    <Button className="lg:!w-[38px] h-auto self-stretch" variant="outline" asChild>
+    <Button
+      className={cn(
+        'h-auto w-full lg:!w-9 lg:!aspect-square self-stretch',
+        className
+      )}
+      variant={variant}
+      asChild
+      {...props}
+    >
       <Link href={href} aria-label="Voltar">
-        <CornerUpLeft size={4} />
-        <span className="lg:hidden">Voltar</span>
+        {children ?? (
+          <>
+            <CornerUpLeft className="w-4 h-4" />
+            <span className="md:hidden">Voltar</span>
+          </>
+        )}
       </Link>
     </Button>
   )
