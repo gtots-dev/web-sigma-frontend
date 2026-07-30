@@ -6,10 +6,7 @@ import { InfractionViewer } from '../infraction-viewer'
 import { InfractionsPanel } from '../infractions-panel'
 import { InfractionsSidebar } from '../infractions-sidebar'
 import { InfractionsTimeline } from '../infractions-timeline'
-import { useInfractionMedia } from '../../hooks/use-infraction-media.hook'
 import { useInfractionsSelection } from '../../hooks/use-infractions-selection.hook'
-import { formatInfractionSidebarItems } from '../../utils/format-infraction-sidebar-items.util'
-import { resolveLocation } from '../../utils/resolve-location.util'
 import { useInfractionsMenuContext } from '../../contexts/infractions-menu.context'
 
 export function InfractionsMenuComponent() {
@@ -19,30 +16,35 @@ export function InfractionsMenuComponent() {
   const { activeId, handleSelect, activeInfraction, sortedInfractions } =
     useInfractionsSelection(infractions)
 
-  const {
-    activeAssetIndex,
-    setActiveAssetIndex,
-    activeMediaAssets,
-    displaySrc
-  } = useInfractionMedia(activeInfraction)
-
-  if (infractions.length === 0) return <InfractionsPanel.Empty />
   if (!selectedInfraction) return null
   if (!activeInfraction) return null
+  if (infractions.length === 0) return <InfractionsPanel.Empty />
 
-  const activeMeta = activeInfraction.request.items.metadata[0] ?? null
-  const listItems = formatInfractionSidebarItems(sortedInfractions)
-  const location = resolveLocation(activeMeta)
+  const activeMeta = activeInfraction.response?.metadata?.[0] ?? null
+  const laneId = activeInfraction.lane_id
+  const location = activeMeta ? `${activeMeta.city} — ${activeMeta.state}` : ''
+  const activeImageUrl = activeInfraction.response.file.url
 
   return (
     <InfractionsMenu.Root isOpen={isOpen} close={close}>
       <InfractionsMenu.Content className="md:max-w-[1200px] lg:max-w-[1400px] xl:max-w-[1600px] 2xl:max-w-[1800px] w-[98vw] !h-[95vh] p-3">
         <InfractionsPanel.Root>
           <InfractionsSidebar.Root>
-            <InfractionsSidebar.Header count={listItems.length} />
+            <InfractionsSidebar.Header count={sortedInfractions.length} />
             <InfractionsSidebar.List>
-              {listItems.map(({ infraction, plate, thumbnailSrc, time }) => {
+              {sortedInfractions.map((infraction) => {
                 const isSelected = infraction.id === activeId
+                const meta = infraction.response?.metadata?.[0]
+                const plate = meta?.plate
+                  ? meta.plate.toUpperCase()
+                  : `#${infraction.id}`
+                const dateStr = infraction.response?.file?.date ?? ''
+                const time = dateStr
+                  ? (dateStr.split('T')[1]?.substring(0, 8) ??
+                    dateStr.split(' ')[1] ??
+                    dateStr)
+                  : ''
+
                 return (
                   <InfractionsSidebar.List.Item.Root
                     key={infraction.id}
@@ -50,7 +52,7 @@ export function InfractionsMenuComponent() {
                     onSelect={() => handleSelect(infraction.id)}
                   >
                     <InfractionsSidebar.List.Item.Thumbnail
-                      src={thumbnailSrc}
+                      src={infraction.response?.file?.url}
                       plate={plate}
                     />
                     <InfractionsSidebar.List.Item.Info
@@ -65,46 +67,32 @@ export function InfractionsMenuComponent() {
           </InfractionsSidebar.Root>
 
           <InfractionViewer.Root>
-            <InfractionViewer.Image src={displaySrc}>
+            <InfractionViewer.Image src={activeImageUrl}>
               <InfractionViewer.Empty />
             </InfractionViewer.Image>
-            {activeMediaAssets.length > 0 && (
-              <InfractionViewer.Strip>
-                <InfractionsTimeline.Root>
-                  {activeMediaAssets.map((asset, index) => {
-                    const isActive = index === activeAssetIndex
-                    return (
-                      <InfractionsTimeline.Item.Root
-                        key={index}
-                        isActive={isActive}
-                        onSelect={() => setActiveAssetIndex(index)}
-                      >
-                        {asset.type === 'image' && (
-                          <InfractionsTimeline.Item.Image
-                            src={asset.src}
-                            alt={asset.label}
-                          />
-                        )}
-
-                        {asset.type === 'video' && (
-                          <InfractionsTimeline.Item.Video />
-                        )}
-
-                        <InfractionsTimeline.Item.Label>
-                          {asset.label}
-                        </InfractionsTimeline.Item.Label>
-                      </InfractionsTimeline.Item.Root>
-                    )
-                  })}
-                </InfractionsTimeline.Root>
-              </InfractionViewer.Strip>
-            )}
+            <InfractionViewer.Strip>
+              <InfractionsTimeline.Root>
+                <InfractionsTimeline.Item.Root
+                  key={activeInfraction.id}
+                  isActive={true}
+                  onSelect={() => true}
+                >
+                  <InfractionsTimeline.Item.Image
+                    src={activeImageUrl}
+                    alt={activeInfraction.response.file.name}
+                  />
+                  <InfractionsTimeline.Item.Label>
+                    {activeInfraction.response.file.name}
+                  </InfractionsTimeline.Item.Label>
+                </InfractionsTimeline.Item.Root>
+              </InfractionsTimeline.Root>
+            </InfractionViewer.Strip>
           </InfractionViewer.Root>
 
           <InfractionDescription.Root>
             <InfractionDescription.Header
               id={activeInfraction.id}
-              laneId={activeInfraction.request.lane_id}
+              laneId={laneId}
             />
             <InfractionDescription.List>
               {activeMeta?.plate && (
@@ -121,7 +109,7 @@ export function InfractionsMenuComponent() {
               />
               <InfractionDescription.List.Item
                 label="Data / Hora"
-                value={activeMeta?.date}
+                value={activeInfraction?.response.file.date}
                 mono
               />
               <InfractionDescription.List.Item
