@@ -1,19 +1,31 @@
 'use client'
 
-import { Button } from '@/modules/shared/presentation/components/shadcn/button'
+import type { ReactNode } from 'react'
+import type { Infraction } from '@/modules/infractions/domain/interfaces/infraction.interface'
 import { useInfractionsMenuTrigger } from '../../hooks/use-infractions-menu-trigger.hook'
 import { useInfractionGrid } from '../infractions-grid'
 
-export function InfractionsMenuTriggerComponent() {
-  const { loadPatchPointOpenDialog } = useInfractionsMenuTrigger()
-  const infraction = useInfractionGrid()
+interface InfractionsMenuTriggerProps {
+  infraction?: Infraction
+  children: ReactNode
+  className?: string
+}
+
+export function InfractionsMenuTriggerComponent({
+  infraction: propInfraction,
+  children,
+  className = 'cursor-pointer'
+}: InfractionsMenuTriggerProps) {
+  const { loadInfractionOpenDialog } = useInfractionsMenuTrigger()
+  const contextInfraction = useInfractionGrid()
+  const infraction = propInfraction ?? contextInfraction
 
   return (
-    <Button
-      className="justify-start w-full h-auto cursor-pointer p-1.5 ps-3 rounded-none text-sm disabled:bg-muted-foreground [&>svg]:size-4 [&>svg]:shrink-0 shadow-none"
-      onClick={() => loadPatchPointOpenDialog(infraction)}
+    <div
+      onClick={() => infraction && loadInfractionOpenDialog(infraction)}
+      className={className}
     >
-      Editar
-    </Button>
+      {children}
+    </div>
   )
 }
