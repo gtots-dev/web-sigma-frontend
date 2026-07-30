@@ -25,7 +25,8 @@ import {
 import type { InfractionsFiltersSchemaType } from '@/modules/infractions/presentation/hooks/use-infractions-filters-schema.hook'
 
 export function InfractionsFormInputDateComponent() {
-  const { control, setValue, watch } = useFormContext<InfractionsFiltersSchemaType>()
+  const { control, setValue, watch } =
+    useFormContext<InfractionsFiltersSchemaType>()
   const today = useMemo(() => new Date(), [])
   const dateRange = watch('date_range')
 
@@ -74,13 +75,16 @@ export function InfractionsFormInputDateComponent() {
                             {formatDatePTBR(start)} - {formatDatePTBR(end)}
                           </span>
                         ) : (
-                          <span className="text-xs font-semibold text-muted-foreground">Intervalo de datas</span>
+                          <span className="text-xs font-semibold text-muted-foreground">
+                            Intervalo de datas
+                          </span>
                         )}
                       </div>
                     </div>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent
+                  align="start"
                   className="w-auto overflow-hidden p-0"
                   sideOffset={10}
                 >
