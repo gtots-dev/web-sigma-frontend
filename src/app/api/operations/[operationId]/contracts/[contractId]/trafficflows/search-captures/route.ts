@@ -13,7 +13,10 @@ export const POST = routerApi.POST<UrlParams, Infraction[]>(
     const page = pagination?.page ?? 1
     const perPage = pagination?.per_page ?? 50
 
-    const postInfractions = PostInfractionsFactory.create({ operationId, contractId })
+    const postInfractions = PostInfractionsFactory.create({
+      operationId,
+      contractId
+    })
     return await postInfractions.execute({
       pagination: { page, per_page: perPage },
       filters

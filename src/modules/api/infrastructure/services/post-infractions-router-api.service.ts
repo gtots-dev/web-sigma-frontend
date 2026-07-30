@@ -17,7 +17,7 @@ export class PostInfractionsRouterApiService implements PostInfractionsRouterApi
   ): HttpRequestConfig<PostInfractionsPayload> {
     return {
       method: 'POST',
-      url: `/api/operations/${this.params.operationId}/contracts/${this.params.contractId}/infractions`,
+      url: `api/operations/${this.params.operationId}/contracts/${this.params.contractId}/trafficflows/search-captures`,
       data: {
         filters: payload?.filters ?? {},
         pagination: payload?.pagination ?? { page: 1, per_page: 50 }

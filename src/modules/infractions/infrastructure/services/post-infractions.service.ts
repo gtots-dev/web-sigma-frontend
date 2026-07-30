@@ -17,7 +17,7 @@ export class PostInfractionsService implements PostInfractionsGateway {
   ): HttpRequestConfig<PostInfractionsPayload> {
     return {
       method: 'POST',
-      url: `/operations/${this.params.operationId}/contracts/${this.params.contractId}/infractions`,
+      url: `operations/${this.params.operationId}/contracts/${this.params.contractId}/trafficflows/search-captures`,
       data: {
         filters: payload?.filters ?? {},
         pagination: payload?.pagination ?? { page: 1, per_page: 50 }
