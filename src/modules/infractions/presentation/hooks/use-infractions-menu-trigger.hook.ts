@@ -1,11 +1,11 @@
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { useInfractionsMenuContext } from '../contexts/infractions-menu.context'
-import type { Infraction } from '../../domain/interfaces/infractions-websocket.interface'
+import type { Infraction } from '../../domain/interfaces/infraction.interface'
 
 export function useInfractionsMenuTrigger() {
   const { open: openDialog } = useInfractionsMenuContext()
 
-  const loadPatchPointOpenDialog = (infraction: Infraction) => {
+  const loadInfractionOpenDialog = (infraction: Infraction) => {
     queueMicrotask(async () => {
       try {
         openDialog(infraction)
@@ -20,6 +20,5 @@ export function useInfractionsMenuTrigger() {
     })
   }
 
-  return { loadPatchPointOpenDialog }
+  return { loadInfractionOpenDialog }
 }
-
