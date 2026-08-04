@@ -1,48 +1,43 @@
 'use client'
 
-import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import {
   FormControl,
   FormField,
-  FormItem
+  FormItem,
+  FormMessage
 } from '@/modules/shared/presentation/components/shadcn/form'
-import { Input } from '@/modules/shared/presentation/components/shadcn/input'
 import { Search } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 import type { ActivityReportSchemaType } from '../../hooks/use-activity-schema.hook'
-import { useActivityReportSubmit } from '../../hooks/use-activity-submit.hook'
 
 export function ActivityReportFormInputSearchComponent() {
-  const { control, handleSubmit } = useFormContext<ActivityReportSchemaType>()
-  const { handleSubmit: onSubmit } = useActivityReportSubmit()
+  const { control } = useFormContext<ActivityReportSchemaType>()
 
   return (
     <FormField
       name="actions"
       control={control}
       render={({ field }) => (
-        <FormItem className="flex justify-end w-full">
-          <div className="flex w-full max-w-[600px]">
-            <FormControl>
-              <Input
-                type="text"
-                id="actions"
-                autoComplete="off"
-                className="dark:text-zinc-50 dark:border-zinc-800 dark:focus:border-zinc-800 focus-visible:ring-0 border-r-0 rounded-tr-none w-full rounded-br-none "
-                style={{ minWidth: 'auto' }}
-                placeholder="Busque aqui..."
-                {...field}
-              />
-            </FormControl>
-            <Button
-              className="rounded-tl-none rounded-bl-none"
-              variant="primary"
-              size="icon"
-              onClick={handleSubmit(onSubmit)}
-            >
-              <Search />
-            </Button>
-          </div>
+        <FormItem className="flex flex-col w-full">
+          <FormControl>
+            <div className="h-9 gap-2 px-3 bg-muted/20 border border-border/50 hover:bg-muted/40 transition-all rounded-md w-full shadow-none flex items-center justify-between">
+              <div className="flex items-center gap-2 overflow-hidden w-full h-full">
+                <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                <div className="flex items-center gap-2 border-l border-border/50 pl-2 overflow-hidden w-full">
+                  <input
+                    type="text"
+                    id="actions"
+                    autoComplete="off"
+                    className="w-full h-full bg-transparent border-none outline-none ring-0 p-0 text-xs font-semibold placeholder:text-muted-foreground placeholder:font-semibold dark:text-zinc-50"
+                    placeholder="Busque por palavra-chave..."
+                    {...field}
+                    value={field.value ?? ''}
+                  />
+                </div>
+              </div>
+            </div>
+          </FormControl>
+          <FormMessage />
         </FormItem>
       )}
     />
