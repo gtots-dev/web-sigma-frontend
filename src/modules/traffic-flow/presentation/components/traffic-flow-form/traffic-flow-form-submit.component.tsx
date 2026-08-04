@@ -3,7 +3,7 @@
 import { useFormContext } from 'react-hook-form'
 import { LoadingSpinComponent } from '@/modules/shared/presentation/components/loading-spin/loading-spin.component'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
-import { Filter, RotateCcw } from 'lucide-react'
+import { Filter, FilterX } from 'lucide-react'
 import type { TrafficFlowSchemaType } from '@/modules/traffic-flow/presentation/hooks/use-traffic-flow-schema.hook'
 
 interface TrafficFlowFormSubmitComponentProps<T> {
@@ -36,7 +36,7 @@ export function TrafficFlowFormSubmitComponent<T>({
         className="flex-1 lg:flex-initial gap-2 font-medium shadow-none hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-all duration-200"
         title="Limpar todos os filtros"
       >
-        <RotateCcw className="w-3.5 h-3.5" />
+        <FilterX className="w-3.5 h-3.5" />
       </Button>
 
       <Button
