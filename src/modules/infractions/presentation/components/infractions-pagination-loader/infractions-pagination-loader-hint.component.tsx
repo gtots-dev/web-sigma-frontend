@@ -18,8 +18,8 @@ export function InfractionsPaginationLoaderHintComponent({
 
   const isTop = position === 'top'
   const defaultLabel = isTop
-    ? 'Role para cima para carregar infrações mais recentes'
-    : 'Role para baixo para carregar mais infrações'
+    ? 'Role para cima para carregar registros mais recentes'
+    : 'Role para baixo para carregar mais registros'
 
   return (
     <div

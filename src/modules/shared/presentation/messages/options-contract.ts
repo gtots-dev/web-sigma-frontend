@@ -27,7 +27,8 @@ export const MESSAGES_OPTIONS_CONTRACT: Record<MessageKeys, string> = {
   '16.10':
     'Visualize, calcule e analise estatísticas do fluxo de tráfego veicular com filtros.',
   '16.11': 'Monitoramento',
-  '16.12': 'Acompanhe em tempo real o status e o funcionamento dos itens do contrato.',
-  '16.13': 'Infrações',
-  '16.14': 'Monitore, visualize e gerencie as infrações registradas em tempo real.'
+  '16.12':
+    'Acompanhe em tempo real o status e o funcionamento dos equipamentos do contrato.',
+  '16.13': 'Visualizador de Registro',
+  '16.14': 'Analise, visualize e filtre os registros apresentados.'
 }

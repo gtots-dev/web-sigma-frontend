@@ -1,6 +1,7 @@
 'use client'
 
 import { LoaderCircle } from 'lucide-react'
+import { MESSAGES_INFRACTIONS } from '@/modules/shared/presentation/messages/infractions'
 
 export function InfractionsInitialLoading() {
   return (
@@ -16,10 +17,10 @@ export function InfractionsInitialLoading() {
 
       <div className="flex flex-col items-center gap-1.5 text-center px-4">
         <span className="text-[10px] uppercase font-bold tracking-widest text-primary/80">
-          Infrações
+          {MESSAGES_INFRACTIONS['22.1']}
         </span>
         <p className="text-sm font-semibold text-muted-foreground animate-pulse duration-1000">
-          Carregando registros em tempo real...
+          {MESSAGES_INFRACTIONS['22.6']}
         </p>
       </div>
     </div>

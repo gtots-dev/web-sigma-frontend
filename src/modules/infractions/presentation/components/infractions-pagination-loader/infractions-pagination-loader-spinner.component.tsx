@@ -18,8 +18,8 @@ export function InfractionsPaginationLoaderSpinnerComponent({
 
   const defaultLabel =
     position === 'top'
-      ? 'Buscando infrações mais recentes...'
-      : 'Buscando infrações anteriores...'
+      ? 'Buscando registros mais recentes...'
+      : 'Buscando registros anteriores...'
 
   return (
     <div

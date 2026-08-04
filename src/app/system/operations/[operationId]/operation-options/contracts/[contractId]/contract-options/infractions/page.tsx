@@ -15,6 +15,7 @@ import { InfractionsPaginationLoader } from '@/modules/infractions/presentation/
 import { InfractionsForm } from '@/modules/infractions/presentation/components/infractions-form'
 import { InfractionsMenu } from '@/modules/infractions/presentation/components/infractions-menu'
 import { SystemFilters } from '@/modules/shared/presentation/components/system-filters'
+import { MESSAGES_INFRACTIONS } from '@/modules/shared/presentation/messages/infractions'
 import { useInfractionsFilterResolver } from '@/modules/infractions/presentation/hooks/use-infractions-filter-resolver.hook'
 import { useInfractionsInitialFetch } from '@/modules/infractions/presentation/hooks/use-infractions-initial-fetch.hook'
 
@@ -59,9 +60,9 @@ export default function RealTimeInfractionsPage({ params }: RealTimePageProps) {
           href={previousSection}
         />
         <Separator orientation="vertical" className="h-5 hidden lg:block" />
-        <HeaderSection.Title>Visualizador de Registros</HeaderSection.Title>
+        <HeaderSection.Title>{MESSAGES_INFRACTIONS['22.1']}</HeaderSection.Title>
         <HeaderSection.Description>
-          Visualize e filtre pelas infrações registradas.
+          {MESSAGES_INFRACTIONS['22.2']}
         </HeaderSection.Description>
       </HeaderSection.Root>
 
@@ -72,10 +73,9 @@ export default function RealTimeInfractionsPage({ params }: RealTimePageProps) {
               <SlidersHorizontal className="w-4 h-4" />
             </SystemFilters.Icon>
             <div className="min-w-0 flex-1">
-              <SystemFilters.Title>Filtros de Busca</SystemFilters.Title>
+              <SystemFilters.Title>{MESSAGES_INFRACTIONS['22.3']}</SystemFilters.Title>
               <SystemFilters.Description>
-                Refine a visualização por pontos, faixas, grupos, data/hora,
-                violações e restrições
+                {MESSAGES_INFRACTIONS['22.4']}
               </SystemFilters.Description>
             </div>
           </div>
