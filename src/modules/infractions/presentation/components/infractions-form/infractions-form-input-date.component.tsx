@@ -20,7 +20,8 @@ import { ptBR } from 'date-fns/locale'
 import { startOfMonth, subMonths } from 'date-fns'
 import {
   formatDateOnly,
-  formatDatePTBR
+  formatDatePTBR,
+  parseDateOnly
 } from '@/modules/shared/presentation/utils/formatted.utils'
 import type { InfractionsFiltersSchemaType } from '@/modules/infractions/presentation/hooks/use-infractions-filters-schema.hook'
 
@@ -47,10 +48,8 @@ export function InfractionsFormInputDateComponent() {
       control={control}
       name="date_range"
       render={({ field }) => {
-        const start = field.value?.start
-          ? new Date(field.value.start)
-          : undefined
-        const end = field.value?.end ? new Date(field.value.end) : undefined
+        const start = parseDateOnly(field.value?.start)
+        const end = parseDateOnly(field.value?.end)
         const selected =
           start && end
             ? { from: start, to: end }
