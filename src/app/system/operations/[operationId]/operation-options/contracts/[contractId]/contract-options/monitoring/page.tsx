@@ -48,13 +48,18 @@ function MonitoringPageContent({
       {!isMaximized && (
         <>
           <Monitoring.Header>
-            <SectionRedirectLink.Button
-              href={PATHNAMES.CONTRACTS_OPTIONS(
-                Number(operationId),
-                Number(contractId)
-              )}
-            />
             <HeaderSection.Root>
+              <SectionRedirectLink.Button
+                className="mb-5 lg:mb-0"
+                href={PATHNAMES.CONTRACTS_OPTIONS(
+                  Number(operationId),
+                  Number(contractId)
+                )}
+              />
+              <Separator
+                orientation="vertical"
+                className="h-5 hidden lg:block"
+              />
               <HeaderSection.Title>
                 {MESSAGES_OPTIONS_CONTRACT['16.11']}
               </HeaderSection.Title>
@@ -63,8 +68,6 @@ function MonitoringPageContent({
               </HeaderSection.Description>
             </HeaderSection.Root>
           </Monitoring.Header>
-
-          <Separator />
 
           <Monitoring.Header.Filters>
             <Monitoring.Header.SortFilter />
@@ -130,9 +133,7 @@ function MonitoringPageContent({
                   {(cell: MonitoringCell) => (
                     <>
                       {cell.connectionStatus === 'online' && (
-                        <Monitoring.Menu.AccentBar
-                          status={cell.status}
-                        />
+                        <Monitoring.Menu.AccentBar status={cell.status} />
                       )}
                       <Monitoring.Menu.Header name={cell.name} />
                       <Separator />

@@ -22,7 +22,6 @@ export default async function OperationsPage() {
           {data.description}
         </HeaderSection.Description>
       </HeaderSection.Root>
-      <Separator orientation="horizontal" />
       <TableOperations />
     </main>
   )

@@ -57,17 +57,18 @@ export default async function LanesPage({ params }: LanesPageProps) {
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
-      <div className="flex gap-5 flex-col lg:flex-row">
-        <SectionRedirectLink.Button href={previousSection} />
-        <HeaderSection.Root>
-          <HeaderSection.Title>{data.title}</HeaderSection.Title>
-          <HeaderSection.Description>
-            {data.description}
-          </HeaderSection.Description>
-        </HeaderSection.Root>
-      </div>
+      <HeaderSection.Root>
+        <SectionRedirectLink.Button
+          className="mb-5 lg:mb-0"
+          href={previousSection}
+        />
+        <Separator orientation="vertical" className="h-5 hidden lg:block" />
+        <HeaderSection.Title>{data.title}</HeaderSection.Title>
+        <HeaderSection.Description>
+          {data.description}
+        </HeaderSection.Description>
+      </HeaderSection.Root>
 
-      <Separator orientation="horizontal" />
       {(isAdmin || userPermissions.has(PermissionEnum.LANES_EDIT)) && (
         <ActionSection.Root>
           <AddLaneMenu.Provider>

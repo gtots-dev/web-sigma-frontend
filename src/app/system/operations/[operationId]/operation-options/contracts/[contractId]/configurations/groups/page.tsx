@@ -66,16 +66,17 @@ export default async function GroupsPage({ params }: GroupsPageProps) {
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
-      <div className="flex gap-5 flex-col lg:flex-row">
-        <SectionRedirectLink.Button href={previousSection} />
-        <HeaderSection.Root>
-          <HeaderSection.Title>{data.title}</HeaderSection.Title>
-          <HeaderSection.Description>
-            {data.description}
-          </HeaderSection.Description>
-        </HeaderSection.Root>
-      </div>
-      <Separator orientation="horizontal" />
+      <HeaderSection.Root>
+        <SectionRedirectLink.Button
+          className="mb-5 lg:mb-0"
+          href={previousSection}
+        />
+        <Separator orientation="vertical" className="h-5 hidden lg:block" />
+        <HeaderSection.Title>{data.title}</HeaderSection.Title>
+        <HeaderSection.Description>
+          {data.description}
+        </HeaderSection.Description>
+      </HeaderSection.Root>
       <ActionSection.Root>
         <PostGroupMenu.Provider>
           <PostGroupMenu.Client
