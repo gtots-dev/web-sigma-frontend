@@ -5,7 +5,7 @@ import {
   useInfractionsMenu,
   type UseInfractionsMenuReturn
 } from '../hooks/use-infractions-menu.hook'
-import type { Infraction } from '../../domain/interfaces/infractions-websocket.interface'
+import type { Infraction } from '../../domain/interfaces/infraction.interface'
 
 const InfractionsMenuContext = createContext<
   UseInfractionsMenuReturn | undefined

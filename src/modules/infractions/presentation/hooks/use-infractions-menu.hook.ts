@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { Infraction } from '../../domain/interfaces/infractions-websocket.interface'
+import type { Infraction } from '../../domain/interfaces/infraction.interface'
 
 export const useInfractionsMenu = (initialInfractions: Infraction[] = []) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -23,9 +23,14 @@ export const useInfractionsMenu = (initialInfractions: Infraction[] = []) => {
     }
   }
 
-  return { isOpen, open, close, toggle, infractions: initialInfractions, selectedInfraction }
+  return {
+    isOpen,
+    open,
+    close,
+    toggle,
+    infractions: initialInfractions,
+    selectedInfraction
+  }
 }
 
-export type UseInfractionsMenuReturn = ReturnType<
-  typeof useInfractionsMenu
->
+export type UseInfractionsMenuReturn = ReturnType<typeof useInfractionsMenu>
