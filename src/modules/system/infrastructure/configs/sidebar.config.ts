@@ -12,7 +12,7 @@ import {
   Settings,
   Shield,
   UserRoundSearch,
-  FileVideo2
+  FileVideo2,
   AlertTriangle,
   ShieldAlert,
   UsersRound
