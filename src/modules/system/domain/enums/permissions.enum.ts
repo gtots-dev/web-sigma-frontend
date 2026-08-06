@@ -19,6 +19,8 @@ export enum PermissionEnum {
   VEHICLE_TYPES_EDIT = 'vehicle_types_edit',
   VIOLATIONS_VIEW = 'violations_view',
   VIOLATIONS_EDIT = 'violations_edit',
+  RESTRICTIONS_VIEW = 'restrictions_view',
+  RESTRICTIONS_EDIT = 'restrictions_edit',
   USERS_VIEW = 'users_view',
   ACTIVITY_REPORT_VIEW = 'report_view',
   USERS_EDIT = 'users_edit',
