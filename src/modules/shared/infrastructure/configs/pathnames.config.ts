@@ -18,6 +18,7 @@ export interface PathnamesInterface {
   MONITORING: (operationId: number, contractId: number) => string
   VEHICLES: (operationId: number, contractId: number) => string
   VIOLATIONS: (operationId: number, contractId: number) => string
+  RESTRICTIONS: (operationId: number, contractId: number) => string
   LANES: (
     operationId: number,
     contractId: number,
@@ -56,7 +57,9 @@ export const PATHNAMES: PathnamesInterface = {
   VEHICLES: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/vehicles-types`,
   VIOLATIONS: (operationId, contractId) =>
-    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/violations`
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/violations`,
+  RESTRICTIONS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/restrictions`
 }
 
 export const publicRoutes: string[] = [PATHNAMES.AUTHENTICATION]

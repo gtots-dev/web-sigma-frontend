@@ -3,48 +3,42 @@
 import { useCallback } from 'react'
 import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
-import { useViolationStore } from '../stores/violations.store'
+import { useRestrictionStore } from '../stores/restrictions.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
-import type { ViolationEntity } from '../../domain/entities/violation.entity'
-import { useTableViolations } from '../contexts/table-violations.context'
+import type { RestrictionEntity } from '../../domain/entities/restriction.entity'
 
-export function usePatchViolationSubmit() {
+export function usePostRestrictionSubmit() {
   const { operationId, contractId }: UrlParams = useParams()
-  const { getViolations, patchViolation } = useViolationStore()
-  const violation = useTableViolations()
+  const { getRestrictions, postRestriction } = useRestrictionStore()
 
   const onAction = useCallback(
     async (
-      data: ViolationEntity,
+      data: RestrictionEntity,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        await patchViolation(
-          {
-            operationId: String(operationId),
-            contractId: String(contractId),
-            violationId: String(violation.id)
-          },
+        await postRestriction(
+          { operationId, contractId },
           data
         )
         toast({
-          title: 'Violação atualizada com sucesso!',
+          title: 'Restrição criada com sucesso!',
           variant: 'success'
         })
-        await getViolations({ operationId, contractId })
+        await getRestrictions({ operationId, contractId })
         onSuccess?.()
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao atualizar a violação',
+            title: 'Erro ao criar a restrição',
             description: error.message,
             variant: 'destructive'
           })
         }
       }
     },
-    [getViolations, patchViolation, operationId, contractId, violation.id]
+    [getRestrictions, postRestriction, operationId, contractId]
   )
 
   return { onAction }

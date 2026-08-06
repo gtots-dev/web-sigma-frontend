@@ -12,4 +12,5 @@ export interface UrlParams {
   subgroupId?: string
   vehicleTypeId?: string
   violationId?: string
+  restrictionId?: string
 }
