@@ -143,8 +143,10 @@ export default function RealTimeInfractionsPage({ params }: RealTimePageProps) {
                   <InfractionsMenu.Trigger>
                     <InfractionsGrid.Header>
                       <InfractionsGrid.Header.Date />
-                      <InfractionsGrid.Header.Violation />
-                      <InfractionsGrid.Header.Restriction />
+                      <div className='flex gap-x-2 w-auto'>
+                        <InfractionsGrid.Header.Violation />
+                        <InfractionsGrid.Header.Restriction />
+                      </div>
                     </InfractionsGrid.Header>
 
                     <InfractionsGrid.Image />
