@@ -13,6 +13,7 @@ export function usePostRestrictionForm() {
   const defaultValues = useMemo<RestrictionEntity>(
     () => ({
       name: '',
+      color: '#000000',
       code: 1
     }),
     []
