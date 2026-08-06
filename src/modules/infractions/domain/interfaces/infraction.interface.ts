@@ -28,5 +28,7 @@ export interface Infraction {
   id: number
   up_id: number
   lane_id: number
+  violation_id: number | null
+  restriction_id: number | null
   response: InfractionResponseData
 }
