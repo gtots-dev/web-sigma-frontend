@@ -12,6 +12,7 @@ import {
   Settings,
   Shield,
   UserRoundSearch,
+  AlertTriangle,
   UsersRound
 } from 'lucide-react'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
@@ -155,6 +156,16 @@ export function getSidebarData(
                           icon: Car,
                           isToExpand: true,
                           permissions: [PermissionEnum.CONTRACTS_VIEW]
+                        },
+                        {
+                          title: 'Violações',
+                          url: PATHNAMES.VIOLATIONS(operationId, contractId),
+                          icon: AlertTriangle,
+                          isToExpand: true,
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.VIOLATIONS_VIEW
+                          ]
                         }
                       ]
                     },

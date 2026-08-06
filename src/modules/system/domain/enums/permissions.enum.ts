@@ -17,6 +17,8 @@ export enum PermissionEnum {
   GROUPS_ENABLE_AND_DISABLE = 'groups_enable_disable',
   VEHICLE_TYPES_VIEW = 'vehicle_types_view',
   VEHICLE_TYPES_EDIT = 'vehicle_types_edit',
+  VIOLATIONS_VIEW = 'violations_view',
+  VIOLATIONS_EDIT = 'violations_edit',
   USERS_VIEW = 'users_view',
   ACTIVITY_REPORT_VIEW = 'report_view',
   USERS_EDIT = 'users_edit',
