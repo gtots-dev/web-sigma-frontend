@@ -26,6 +26,11 @@ export function PostRestrictionMenuComponent({
         <RestrictionForm.Form>
           <RestrictionForm.Input.Name require />
           <RestrictionForm.Input.Code require />
+          <RestrictionForm.Input.ColorPicker
+            name="color"
+            label="Cor da restrição"
+            require
+          />
         </RestrictionForm.Form>
 
         <PostRestrictionMenu.Footer>

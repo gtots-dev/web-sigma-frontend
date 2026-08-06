@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { MESSAGES_RESTRICTIONS } from '@/modules/shared/presentation/messages/restrictions'
 
-export const postRestrictionSchema = z.object({
+export const patchRestrictionSchema = z.object({
   name: z.string().min(1, MESSAGES_RESTRICTIONS['24.6']).max(150, MESSAGES_RESTRICTIONS['24.7']),
   code: z
     .number({ invalid_type_error: MESSAGES_RESTRICTIONS['24.12'] })
@@ -12,4 +12,4 @@ export const postRestrictionSchema = z.object({
   color: z.string().min(1, MESSAGES_RESTRICTIONS['24.8'])
 })
 
-export type PostRestrictionFormType = z.infer<typeof postRestrictionSchema>
+export type PatchRestrictionFormType = z.infer<typeof patchRestrictionSchema>

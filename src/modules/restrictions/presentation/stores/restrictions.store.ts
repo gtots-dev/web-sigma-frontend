@@ -2,9 +2,9 @@ import { create } from 'zustand'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { RestrictionEntity } from '../../domain/entities/restriction.entity'
-import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import { GetRestrictionsRouterApiFactory } from '@/modules/api/infrastructure/factories/get-restrictions-router-api.factory'
 import { PostRestrictionRouterApiFactory } from '@/modules/api/infrastructure/factories/post-restriction-router-api.factory'
+import { PatchRestrictionRouterApiFactory } from '@/modules/api/infrastructure/factories/patch-restriction-router-api.factory'
 
 type RestrictionState = {
   restrictions: RestrictionEntity[]
@@ -13,7 +13,11 @@ type RestrictionState = {
   postRestriction: (
     { operationId, contractId }: UrlParams,
     restriction: RestrictionEntity
-  ) => Promise<HttpResponseInterface<RestrictionEntity>>
+  ) => Promise<void>
+  patchRestriction: (
+    { operationId, contractId, restrictionId }: UrlParams,
+    restriction: RestrictionEntity
+  ) => Promise<void>
 }
 
 export const useRestrictionStore = create<RestrictionState>((set) => ({
@@ -46,7 +50,24 @@ export const useRestrictionStore = create<RestrictionState>((set) => ({
           operationId,
           contractId
         })
-      return await postRestrictionRouterApiFactory.execute(restriction)
+      await postRestrictionRouterApiFactory.execute(restriction)
+    } catch (error) {
+      if (error instanceof HttpResponseError) throw error
+    }
+  },
+
+  patchRestriction: async (
+    { operationId, contractId, restrictionId }: UrlParams,
+    restriction: RestrictionEntity
+  ) => {
+    try {
+      const patchRestrictionRouterApiFactory =
+        PatchRestrictionRouterApiFactory.create({
+          operationId,
+          contractId,
+          restrictionId
+        })
+      await patchRestrictionRouterApiFactory.execute(restriction)
     } catch (error) {
       if (error instanceof HttpResponseError) throw error
     }

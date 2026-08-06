@@ -5,6 +5,7 @@ import { ActionSection } from '@/modules/system/presentation/components/actions-
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
 import { MESSAGES_RESTRICTIONS } from '@/modules/shared/presentation/messages/restrictions'
 import { TableRestrictions } from '@/modules/restrictions/presentation/components/table-restrictions'
+import { RestrictionsOptionsDropdownClient } from '@/modules/restrictions/presentation/components/restrictions-options-dropdown/restrictions-options-dropdown-client.component'
 import { PostRestrictionMenuContextProvider } from '@/modules/restrictions/presentation/contexts/post-restriction-menu.context'
 import { PostRestrictionMenuTriggerComponent } from '@/modules/restrictions/presentation/components/post-restriction-menu/post-restriction-menu-trigger.component'
 import { PostRestrictionMenuComponent } from '@/modules/restrictions/presentation/components/post-restriction-menu/post-restriction-menu.component'
@@ -57,7 +58,14 @@ export default async function RestrictionsPage({ params }: RestrictionsPageProps
       <TableRestrictions.Root>
         <TableRestrictions.Header />
         <TableRestrictions.Body>
-          <TableRestrictions.Item />
+          <TableRestrictions.Item>
+            <RestrictionsOptionsDropdownClient
+              isAdmin={isAdmin}
+              permissions={userPermissions}
+              patchTitle={MESSAGES_RESTRICTIONS['24.10']}
+              patchDescription={MESSAGES_RESTRICTIONS['24.11']}
+            />
+          </TableRestrictions.Item>
         </TableRestrictions.Body>
       </TableRestrictions.Root>
     </main>

@@ -1,6 +1,7 @@
 import { RestrictionFormComponent } from './restriction-form.component'
 import { RestrictionFormInputNameComponent } from './restriction-form-input-name.component'
 import { RestrictionFormInputCodeComponent } from './restriction-form-input-code.component'
+import { ColorPickerFormField } from './restriction-form-input-color-picker.component'
 import { RestrictionFormSubmitComponent } from './restriction-form-submit.component'
 
 export const RestrictionForm = {
@@ -8,6 +9,7 @@ export const RestrictionForm = {
   Submit: RestrictionFormSubmitComponent,
   Input: {
     Name: RestrictionFormInputNameComponent,
-    Code: RestrictionFormInputCodeComponent
+    Code: RestrictionFormInputCodeComponent,
+    ColorPicker: ColorPickerFormField
   }
 }
