@@ -8,7 +8,8 @@ export const postRestrictionSchema = z.object({
     .min(1, MESSAGES_RESTRICTIONS['24.12'])
     .max(999999999, {
       message: 'O código não pode ser maior que 999999999'
-    })
+    }),
+  color: z.string().min(1, MESSAGES_RESTRICTIONS['24.8'])
 })
 
 export type PostRestrictionFormType = z.infer<typeof postRestrictionSchema>
