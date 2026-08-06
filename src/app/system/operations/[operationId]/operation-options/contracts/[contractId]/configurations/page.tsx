@@ -8,7 +8,15 @@ import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.con
 import { MESSAGES_CONFIGURATION_CONTRACT } from '@/modules/shared/presentation/messages/configuration-contract'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { Car, HardDrive, Map, MapPin, type LucideIcon } from 'lucide-react'
+import {
+  AlertTriangle,
+  Car,
+  HardDrive,
+  Map,
+  MapPin,
+  ShieldAlert,
+  type LucideIcon
+} from 'lucide-react'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
@@ -87,6 +95,28 @@ export default async function ConfigurationsPage({
       icon: Car,
       accessAllowed:
         isAdmin || userPermissions.has(PermissionEnum.VEHICLE_TYPES_VIEW)
+    },
+    {
+      title: MESSAGES_CONFIGURATION_CONTRACT['17.15'],
+      description: MESSAGES_CONFIGURATION_CONTRACT['17.16'],
+      pathName: PATHNAMES.VIOLATIONS(
+        Number(rawOperationId),
+        Number(rawContractId)
+      ),
+      icon: AlertTriangle,
+      accessAllowed:
+        isAdmin || userPermissions.has(PermissionEnum.VIOLATIONS_VIEW)
+    },
+    {
+      title: MESSAGES_CONFIGURATION_CONTRACT['17.17'],
+      description: MESSAGES_CONFIGURATION_CONTRACT['17.18'],
+      pathName: PATHNAMES.RESTRICTIONS(
+        Number(rawOperationId),
+        Number(rawContractId)
+      ),
+      icon: ShieldAlert,
+      accessAllowed:
+        isAdmin || userPermissions.has(PermissionEnum.RESTRICTIONS_VIEW)
     }
   ]
 

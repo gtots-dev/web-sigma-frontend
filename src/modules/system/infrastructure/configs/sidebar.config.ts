@@ -12,8 +12,10 @@ import {
   Settings,
   Shield,
   UserRoundSearch,
-  UsersRound,
   FileVideo2
+  AlertTriangle,
+  ShieldAlert,
+  UsersRound
 } from 'lucide-react'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { PermissionEnum } from '../../domain/enums/permissions.enum'
@@ -156,6 +158,23 @@ export function getSidebarData(
                           icon: Car,
                           isToExpand: true,
                           permissions: [PermissionEnum.CONTRACTS_VIEW]
+                        },
+                        {
+                          title: 'Violações',
+                          url: PATHNAMES.VIOLATIONS(operationId, contractId),
+                          icon: AlertTriangle,
+                          isToExpand: true,
+                          permissions: [PermissionEnum.CONTRACTS_VIEW]
+                        },
+                        {
+                          title: 'Restrições',
+                          url: PATHNAMES.RESTRICTIONS(operationId, contractId),
+                          icon: ShieldAlert,
+                          isToExpand: true,
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.RESTRICTIONS_VIEW
+                          ]
                         }
                       ]
                     },
