@@ -1,5 +1,3 @@
-export interface RestrictionEntity {
-  code?: number
-  name?: string
-  id?: number
-}
+import type { RestrictionInterface } from '../interfaces/restriction.interface'
+
+export interface RestrictionEntity extends RestrictionInterface {}
