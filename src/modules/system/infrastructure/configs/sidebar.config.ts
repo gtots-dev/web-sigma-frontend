@@ -162,7 +162,10 @@ export function getSidebarData(
                           url: PATHNAMES.VIOLATIONS(operationId, contractId),
                           icon: AlertTriangle,
                           isToExpand: true,
-                          permissions: [PermissionEnum.CONTRACTS_VIEW]
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.VIOLATIONS_VIEW
+                          ]
                         }
                       ]
                     },

@@ -18,7 +18,7 @@ export function ViolationsOptionsDropdownClient({
 }) {
   return (
     <PatchViolationMenu.Provider>
-      {(isAdmin || permissions.has(PermissionEnum.TRAFFIC_FLOW_EDIT)) ? (
+      {isAdmin || permissions.has(PermissionEnum.VIOLATIONS_EDIT) ? (
         <ViolationsOptionsDropdown.Root>
           <ViolationsOptionsDropdown.Trigger />
           <ViolationsOptionsDropdown.Menu>
@@ -29,7 +29,7 @@ export function ViolationsOptionsDropdownClient({
         </ViolationsOptionsDropdown.Root>
       ) : null}
 
-      {(isAdmin || permissions.has(PermissionEnum.TRAFFIC_FLOW_EDIT)) && (
+      {(isAdmin || permissions.has(PermissionEnum.VIOLATIONS_EDIT)) && (
         <PatchViolationMenuComponent
           title={patchTitle}
           description={patchDescription}
