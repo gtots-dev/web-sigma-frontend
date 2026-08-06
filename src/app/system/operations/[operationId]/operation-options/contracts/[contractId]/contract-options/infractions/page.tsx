@@ -60,7 +60,9 @@ export default function RealTimeInfractionsPage({ params }: RealTimePageProps) {
           href={previousSection}
         />
         <Separator orientation="vertical" className="h-5 hidden lg:block" />
-        <HeaderSection.Title>{MESSAGES_INFRACTIONS['22.1']}</HeaderSection.Title>
+        <HeaderSection.Title>
+          {MESSAGES_INFRACTIONS['22.1']}
+        </HeaderSection.Title>
         <HeaderSection.Description>
           {MESSAGES_INFRACTIONS['22.2']}
         </HeaderSection.Description>
@@ -73,7 +75,9 @@ export default function RealTimeInfractionsPage({ params }: RealTimePageProps) {
               <SlidersHorizontal className="w-4 h-4" />
             </SystemFilters.Icon>
             <div className="min-w-0 flex-1">
-              <SystemFilters.Title>{MESSAGES_INFRACTIONS['22.3']}</SystemFilters.Title>
+              <SystemFilters.Title>
+                {MESSAGES_INFRACTIONS['22.3']}
+              </SystemFilters.Title>
               <SystemFilters.Description>
                 {MESSAGES_INFRACTIONS['22.4']}
               </SystemFilters.Description>
@@ -137,9 +141,17 @@ export default function RealTimeInfractionsPage({ params }: RealTimePageProps) {
                   animate={isInitialLoad}
                 >
                   <InfractionsMenu.Trigger>
-                    <InfractionsGrid.Header />
-                    <InfractionsGrid.Content />
-                    <InfractionsGrid.Footer />
+                    <InfractionsGrid.Header>
+                      <InfractionsGrid.Header.Date />
+                      <InfractionsGrid.Header.Violation />
+                      <InfractionsGrid.Header.Restriction />
+                    </InfractionsGrid.Header>
+
+                    <InfractionsGrid.Image />
+
+                    <InfractionsGrid.Footer>
+                      <InfractionsGrid.Footer.Plate />
+                    </InfractionsGrid.Footer>
                   </InfractionsMenu.Trigger>
                 </InfractionsGrid.Root>
               ))}
