@@ -4,8 +4,8 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { PostRestrictionMenu } from '.'
 import { usePostRestrictionMenuContext } from '../../contexts/post-restriction-menu.context'
 import { usePostRestrictionSubmit } from '../../hooks/use-post-restriction-submit.hook'
-import type { RestrictionEntity } from '../../domain/entities/restriction.entity'
 import { RestrictionForm } from '../restriction-form'
+import type { RestrictionEntity } from '@/modules/restrictions/domain/entities/restriction.entity'
 
 interface PostRestrictionMenuComponentProps {
   title: string
