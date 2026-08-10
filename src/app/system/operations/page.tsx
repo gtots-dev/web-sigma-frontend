@@ -1,6 +1,5 @@
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
 import { TableOperations } from '@/modules/operations/presentation/components/table-operations'
-import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_OPERATIONS } from '@/modules/shared/presentation/messages/operations'
 
 interface Data {
