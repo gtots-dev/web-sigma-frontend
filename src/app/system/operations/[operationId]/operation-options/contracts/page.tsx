@@ -5,9 +5,9 @@ import { MESSAGES_CONTRACTS } from '@/modules/shared/presentation/messages/contr
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { AddContractMenu } from '@/modules/contracts/presentation/components/add-contract-menu'
 import { AddContractMenuComponent } from '@/modules/contracts/presentation/components/add-contract-menu/add-contract-menu.component'
-import { EditContractMenu } from '@/modules/contracts/presentation/components/edit-contract-menu'
+import { PatchContractMenu } from '@/modules/contracts/presentation/components/patch-contract-menu'
 import { ContractOptionsDropdown } from '@/modules/contracts/presentation/components/contract-options-dropdown'
-import { EditContractMenuComponent } from '@/modules/contracts/presentation/components/edit-contract-menu/edit-contract-menu.component'
+import { PatchContractMenuComponent } from '@/modules/contracts/presentation/components/patch-contract-menu/patch-contract-menu.component'
 import { PutContractStatusMenuComponent } from '@/modules/contracts/presentation/components/put-contract-status-menu/put-contract-status-menu.component'
 import { PutContractStatusMenu } from '@/modules/contracts/presentation/components/put-contract-status-menu'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
@@ -88,14 +88,14 @@ export default async function ContractsPage({ params }: ContractsPageProps) {
                   PermissionEnum.CONTRACTS_ENABLE_AND_DISABLE
                 ))) ? (
               <PutContractStatusMenu.Provider>
-                <EditContractMenu.Provider>
+                <PatchContractMenu.Provider>
                   <ContractOptionsDropdown.Root>
                     <ContractOptionsDropdown.Trigger />
                     <ContractOptionsDropdown.Menu>
                       {(isAdmin ||
                         userPermissions.has(PermissionEnum.CONTRACTS_EDIT)) && (
                         <ContractOptionsDropdown.Item>
-                          <EditContractMenu.Trigger />
+                          <PatchContractMenu.Trigger />
                         </ContractOptionsDropdown.Item>
                       )}
 
@@ -110,7 +110,7 @@ export default async function ContractsPage({ params }: ContractsPageProps) {
                     </ContractOptionsDropdown.Menu>
                     {(isAdmin ||
                       userPermissions.has(PermissionEnum.CONTRACTS_EDIT)) && (
-                      <EditContractMenuComponent
+                      <PatchContractMenuComponent
                         title={data.menuEditContractTitle}
                         description={data.menuEditContractDescription}
                       />
@@ -126,7 +126,7 @@ export default async function ContractsPage({ params }: ContractsPageProps) {
                       />
                     )}
                   </ContractOptionsDropdown.Root>
-                </EditContractMenu.Provider>
+                </PatchContractMenu.Provider>
               </PutContractStatusMenu.Provider>
             ) : null}
           </TableContracts.Item>

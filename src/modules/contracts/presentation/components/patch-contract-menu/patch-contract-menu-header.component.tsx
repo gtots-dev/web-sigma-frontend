@@ -1,14 +1,14 @@
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
 
-interface EditContractMenuHeaderComponentProps {
+interface PatchContractMenuHeaderComponentProps {
   title: string
   description: string
 }
 
-export function EditContractMenuHeaderComponent({
+export function PatchContractMenuHeaderComponent({
   title,
   description
-}: EditContractMenuHeaderComponentProps) {
+}: PatchContractMenuHeaderComponentProps) {
   return (
     <DrawerDialog.Header>
       <DrawerDialog.Title>{title}</DrawerDialog.Title>
