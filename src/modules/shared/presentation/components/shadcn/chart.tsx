@@ -284,7 +284,12 @@ function ChartTooltipContent({
                     {item.value !== undefined && (
                       <span className="ms-5 text-foreground font-mono font-medium tabular-nums">
                         {percentage && total
-                          ? `${computedValue.toFixed(0)}%`
+                          ? `${computedValue.toFixed(2)}%`
+                          : typeof rawValue === 'number' && !Number.isInteger(rawValue)
+                          ? rawValue.toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2
+                            })
                           : rawValue.toLocaleString()}
                       </span>
                     )}
