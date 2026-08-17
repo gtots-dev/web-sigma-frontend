@@ -1,23 +1,24 @@
 'use client'
 
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
+import { SmartFormProvider } from '@/modules/shared/presentation/contexts/smart-form.context'
 import { useEffect, type ReactNode } from 'react'
-import { usePatchProcessingUnitStatusForm } from '../../hooks/use-patch-processing-unit-status-form.hook'
 import { FormProvider } from 'react-hook-form'
+import { usePatchProcessingUnitStatusForm } from '../../hooks/use-patch-processing-unit-status-form.hook'
 import type { ProcessingUnitEntity } from '@/modules/processing-units/domain/entities/processing-unit.entity'
 
 interface PatchProcessingUnitsStatusMenuRootComponentProps {
   processingUnit: ProcessingUnitEntity
+  children: ReactNode
   isOpen: boolean
   close: () => void
-  children: ReactNode
 }
 
 export function PatchProcessingUnitsStatusMenuRootComponent({
   processingUnit,
+  children,
   isOpen,
-  close,
-  children
+  close
 }: PatchProcessingUnitsStatusMenuRootComponentProps) {
   const { methods, defaultValues } = usePatchProcessingUnitStatusForm(processingUnit)
 
@@ -26,10 +27,12 @@ export function PatchProcessingUnitsStatusMenuRootComponent({
   }, [isOpen, defaultValues, methods])
 
   return (
-    <FormProvider {...methods}>
-      <DrawerDialog.Root open={isOpen} onOpenChange={close}>
-        {children}
-      </DrawerDialog.Root>
-    </FormProvider>
+    <SmartFormProvider isPatch>
+      <FormProvider {...methods}>
+        <DrawerDialog.Root open={isOpen} onOpenChange={close}>
+          {children}
+        </DrawerDialog.Root>
+      </FormProvider>
+    </SmartFormProvider>
   )
 }

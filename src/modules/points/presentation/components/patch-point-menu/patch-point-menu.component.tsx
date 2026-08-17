@@ -40,7 +40,7 @@ export function PatchPointMenuComponent({
             Cancelar
           </Button>
           <PointForm.Submit<PointEntity>
-            onSubmit={(point: PointEntity) => onAction(point, close)}
+            onSubmit={(point) => onAction(point as PointEntity, close)}
           />
         </PatchPointMenu.Footer>
       </PatchPointMenu.Content>
