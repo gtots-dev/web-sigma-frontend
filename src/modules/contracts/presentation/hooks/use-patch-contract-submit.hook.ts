@@ -14,11 +14,11 @@ export function usePatchContractSubmit() {
 
   const onAction = useCallback(
     async (
-      data: Partial<ContractEntity>,
+      contract: ContractEntity,
       onSuccess: VoidFunction
     ): Promise<void> => {
       try {
-        await patchContract({ operationId }, data as ContractEntity)
+        await patchContract({ operationId }, contract)
         toast({
           title: 'Contrato atualizado com sucesso!',
           variant: 'success'
