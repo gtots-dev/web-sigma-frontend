@@ -18,7 +18,7 @@ export function InfractionsGridContainerComponent({
       <section
         className={`grid gap-1 rounded-md justify-center content-start ${
           !isManualOverride
-            ? 'grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7'
+            ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-6'
             : ''
         }`}
         style={

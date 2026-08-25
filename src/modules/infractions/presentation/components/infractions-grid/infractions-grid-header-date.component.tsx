@@ -5,7 +5,7 @@ import { useInfractionGrid } from './infractions-grid-provider.component'
 export function InfractionsGridHeaderDateComponent() {
   const infraction = useInfractionGrid()
 
-  const dateRaw = infraction.response?.file?.date
+  const dateRaw = infraction.response?.file?.date || infraction.date
   if (!dateRaw) return null
 
   const date = new Date(dateRaw)
@@ -18,7 +18,7 @@ export function InfractionsGridHeaderDateComponent() {
   const formatted = `${day}/${month}/${year} às ${hours}:${minutes}`
 
   return (
-    <span className="inline-flex items-center px-2 py-0.5 rounded bg-black/80 backdrop-blur-xs border border-white/15 text-[10px] font-medium text-white/90 shadow-2xs">
+    <span className="text-[10px] font-semibold text-foreground/90 font-mono tracking-tight leading-none">
       {formatted}
     </span>
   )

@@ -7,17 +7,32 @@ export function InfractionsGridHeaderViolationComponent() {
   const infraction = useInfractionGrid()
   const { violations } = useViolationStore()
 
-  if (!infraction.violation_id) return null
-
-  const { name, color } = violations.find(
-    (v) => v.id === infraction.violation_id
+  const rawIds = (infraction as { violations_id?: number[] }).violations_id
+  const ids = Array.from(
+    new Set([
+      ...(infraction.violation_id != null ? [infraction.violation_id] : []),
+      ...(rawIds ?? [])
+    ])
   )
 
+  if (ids.length === 0) return null
+
   return (
-    <span
-      className="h-3 w-3 rounded-full aspect-square border border-white/50"
-      title={name}
-      style={{ backgroundColor: color || '#000000' }}
-    />
+    <>
+      {ids.map((id) => {
+        const item = violations.find((v) => v.id === id)
+        const name = item?.name || `Violação #${id}`
+        const color = item?.color || '#ef4444'
+
+        return (
+          <span
+            key={`violation-${id}`}
+            className="h-2.5 w-2.5 rounded-full shrink-0 shadow-2xs cursor-pointer transition-transform hover:scale-125"
+            title={`Violação (Círculo): ${name}`}
+            style={{ backgroundColor: color }}
+          />
+        )
+      })}
+    </>
   )
 }

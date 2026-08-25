@@ -7,17 +7,31 @@ export function InfractionsGridHeaderRestrictionComponent() {
   const infraction = useInfractionGrid()
   const { restrictions } = useRestrictionStore()
 
-  if (!infraction.restriction_id) return null
-
-  const { name, color } = restrictions.find(
-    (r) => r.id === infraction.restriction_id
+  const ids = Array.from(
+    new Set([
+      ...(infraction.restriction_id != null ? [infraction.restriction_id] : []),
+      ...(infraction.restrictions_id ?? [])
+    ])
   )
 
+  if (ids.length === 0) return null
+
   return (
-    <span
-      className="h-3 w-3 rounded-full aspect-square border border-white/50"
-      title={name}
-      style={{ backgroundColor: color || '#000000' }}
-    />
+    <>
+      {ids.map((id) => {
+        const item = restrictions.find((r) => r.id === id)
+        const name = item?.name || `Restrição #${id}`
+        const color = item?.color || '#3b82f6'
+
+        return (
+          <span
+            key={`restriction-${id}`}
+            className="h-2.5 w-2.5 rounded-[2px] shrink-0 shadow-2xs cursor-pointer transition-transform hover:scale-125"
+            title={`Restrição (Quadrado): ${name}`}
+            style={{ backgroundColor: color }}
+          />
+        )
+      })}
+    </>
   )
 }

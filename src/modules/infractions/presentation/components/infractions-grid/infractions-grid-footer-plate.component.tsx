@@ -9,7 +9,11 @@ export function InfractionsGridFooterPlateComponent() {
   if (!plate) return null
 
   return (
-    <span className="inline-flex items-center px-2 py-0.5 rounded bg-black/80 backdrop-blur-xs border border-white/15 font-semibold text-[11px] tracking-wider uppercase text-white drop-shadow-xs">
+    <span
+      className="font-mono font-bold text-[9px] tracking-widest text-primary uppercase select-none opacity-85"
+      style={{ writingMode: 'vertical-rl' }}
+      title={`Placa: ${plate}`}
+    >
       {plate}
     </span>
   )
