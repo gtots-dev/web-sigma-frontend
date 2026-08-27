@@ -1,12 +1,12 @@
 import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-with-drawer'
-import { type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-interface EditContractMenuContentComponentProps {
+interface PatchContractMenuContentComponentProps {
   children: ReactNode
 }
 
-export function EditContractMenuContentComponent({
+export function PatchContractMenuContentComponent({
   children
-}: EditContractMenuContentComponentProps) {
+}: PatchContractMenuContentComponentProps) {
   return <DrawerDialog.Content>{children}</DrawerDialog.Content>
 }

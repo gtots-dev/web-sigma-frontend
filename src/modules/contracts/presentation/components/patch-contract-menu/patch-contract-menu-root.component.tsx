@@ -4,23 +4,23 @@ import { DrawerDialog } from '@/modules/shared/presentation/components/dialog-wi
 import { SmartFormProvider } from '@/modules/shared/presentation/contexts/smart-form.context'
 import { useEffect, type ReactNode } from 'react'
 import { FormProvider } from 'react-hook-form'
-import { usePatchGroupForm } from '../../hooks/use-patch-group-form.hook'
-import type { GroupEntity } from '@/modules/groups/domain/entities/group.entity'
+import { usePatchContractForm } from '../../hooks/use-patch-contract-form.hook'
+import type { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
 
-interface PatchGroupMenuRootComponentProps {
-  group: GroupEntity
+interface PatchContractMenuRootComponentProps {
+  contract: ContractEntity
   children: ReactNode
   isOpen: boolean
   close: () => void
 }
 
-export function PatchGroupMenuRootComponent({
-  group,
+export function PatchContractMenuRootComponent({
+  contract,
   children,
   isOpen,
   close
-}: PatchGroupMenuRootComponentProps) {
-  const { methods, defaultValues } = usePatchGroupForm(group)
+}: PatchContractMenuRootComponentProps) {
+  const { methods, defaultValues } = usePatchContractForm(contract)
 
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)
