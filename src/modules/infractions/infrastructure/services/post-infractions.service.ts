@@ -12,24 +12,24 @@ export class PostInfractionsService implements PostInfractionsGateway {
     private readonly params: UrlParams
   ) {}
 
-  private getHttpRequestConfig(
-    payload?: PostInfractionsPayload
+  getHttpRequestConfig(
+    infraction?: PostInfractionsPayload
   ): HttpRequestConfig<PostInfractionsPayload> {
     return {
       method: 'POST',
-      url: `operations/${this.params.operationId}/contracts/${this.params.contractId}/trafficflows/search-captures`,
+      url: `operations/${this.params.operationId}/contracts/${this.params.contractId}/trafficflows/captures/search`,
       data: {
-        filters: payload?.filters ?? {},
-        pagination: payload?.pagination ?? { page: 1, per_page: 50 }
+        pagination: infraction?.pagination ?? { page: 1, per_page: 50 },
+        ...infraction?.filters
       },
       requiresAuth: true
     }
   }
 
-  async execute(payload?: PostInfractionsPayload): Promise<Infraction[]> {
-    const config = this.getHttpRequestConfig(payload)
-    const { data }: HttpResponseInterface<Infraction[]> =
-      await this.executeRequest.execute(config)
-    return data
+  async execute(
+    payload?: PostInfractionsPayload
+  ): Promise<HttpResponseInterface<Infraction[]>> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(payload)
+    return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }
