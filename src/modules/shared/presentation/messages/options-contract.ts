@@ -23,10 +23,10 @@ export const MESSAGES_OPTIONS_CONTRACT: Record<MessageKeys, string> = {
   '16.6': 'Nenhuma opção disponível para essa contrato.',
   '16.7': 'Selecione o Contrato',
   '16.8': 'Selecione um contrato abaixo para gerenciar suas funcionalidades.',
-  '16.9': 'Tráfego Veicular',
+  '16.9': 'Estatísticas de tráfego',
   '16.10':
     'Visualize, calcule e analise estatísticas do fluxo de tráfego veicular com filtros.',
-  '16.11': 'Monitoramento',
+  '16.11': 'Mapa operacional',
   '16.12':
     'Acompanhe em tempo real o status e o funcionamento dos equipamentos do contrato.',
   '16.13': 'Visualizador de Registro',
