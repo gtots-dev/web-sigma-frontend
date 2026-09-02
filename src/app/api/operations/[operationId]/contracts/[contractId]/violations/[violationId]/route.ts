@@ -4,7 +4,7 @@ import { PatchViolationFactory } from '@/modules/violations/infrastructure/facto
 
 const routerApi = RouterApiFactory.create()
 
-export const PATCH = routerApi.POST<UrlParams>(
+export const PATCH = routerApi.PATCH<UrlParams>(
   async ({ operationId, contractId, violationId }, req) => {
     const violation = await req?.json()
     const patchViolation = PatchViolationFactory.create({
