@@ -8,6 +8,7 @@ export interface SectionRedirectLinkButtonComponentProps extends ComponentProps<
   typeof Button
 > {
   href: string
+  className?: string
 }
 
 export function SectionRedirectLinkButtonComponent({
