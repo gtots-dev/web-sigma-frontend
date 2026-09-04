@@ -1,6 +1,5 @@
 import { InfractionsGridContainerComponent } from './infractions-grid-container.component'
 import { InfractionsGridFooterComponent } from './infractions-grid-footer.component'
-import { InfractionsGridFooterPlateComponent } from './infractions-grid-footer-plate.component'
 import { InfractionsGridHeaderComponent } from './infractions-grid-header.component'
 import { InfractionsGridHeaderDateComponent } from './infractions-grid-header-date.component'
 import { InfractionsGridHeaderRestrictionComponent } from './infractions-grid-header-restriction.component'
@@ -18,9 +17,7 @@ const Header = Object.assign(InfractionsGridHeaderComponent, {
   Restriction: InfractionsGridHeaderRestrictionComponent
 })
 
-const Footer = Object.assign(InfractionsGridFooterComponent, {
-  Plate: InfractionsGridFooterPlateComponent
-})
+const Footer = Object.assign(InfractionsGridFooterComponent)
 
 export const InfractionsGrid = {
   Container: InfractionsGridContainerComponent,

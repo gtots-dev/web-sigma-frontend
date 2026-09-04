@@ -5,7 +5,7 @@ import { useInfractionGrid } from './infractions-grid-provider.component'
 export function InfractionsGridHeaderDateComponent() {
   const infraction = useInfractionGrid()
 
-  const dateRaw = infraction.response?.file?.date || infraction.date
+  const dateRaw = infraction.date
   if (!dateRaw) return null
 
   const date = new Date(dateRaw)
