@@ -3,9 +3,10 @@ import { cleanPayload } from '@/modules/shared/presentation/utils/clean-payload.
 
 export const sanitizePayloadInterceptor: RequestInterceptor = (config) => {
   if (config.data && typeof config.data === 'object') {
+    const sanitizedData = cleanPayload(config.data)
     return {
       ...config,
-      data: cleanPayload(config.data)
+      data: sanitizedData
     }
   }
   return config
