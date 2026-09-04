@@ -1,24 +1,46 @@
 interface InfractionsSidebarItemThumbnailProps {
   src: string | null
-  plate: string
+  plate?: string
+}
+
+function isVideoFile(url?: string | null): boolean {
+  if (!url) return false
+  const lower = url.toLowerCase()
+  return (
+    lower.endsWith('.mp4') ||
+    lower.endsWith('.webm') ||
+    lower.endsWith('.mov') ||
+    lower.endsWith('.m4v')
+  )
 }
 
 export function InfractionsSidebarItemThumbnail({
-  src,
-  plate,
+  src
 }: InfractionsSidebarItemThumbnailProps) {
+  const isVideoSrc = isVideoFile(src)
+
   return (
-    <div className="w-full aspect-video rounded bg-muted/30 border overflow-hidden flex items-center justify-center">
+    <div className="w-16 h-11 shrink-0 rounded-md bg-muted/40 border border-border/60 overflow-hidden flex items-center justify-center relative">
       {src ? (
-        <img
-          src={src}
-          alt={`Infração ${plate}`}
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
+        isVideoSrc ? (
+          <video
+            src={src}
+            preload="metadata"
+            muted
+            playsInline
+            className="w-full h-full object-cover pointer-events-none"
+          />
+        ) : (
+          <img
+            src={src}
+            alt="Captura"
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+        )
       ) : (
         <span className="text-[8px] text-muted-foreground font-mono">
-          Sem imagem
+          Sem Imagem
         </span>
       )}
     </div>

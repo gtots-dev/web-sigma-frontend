@@ -1,13 +1,18 @@
-import type { ReactNode } from 'react'
+'use client'
+
+import { useRef, type ReactNode } from 'react'
 
 interface InfractionsSidebarListProps {
   children: ReactNode
 }
 
 export function InfractionsSidebarList({ children }: InfractionsSidebarListProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
   return (
     <div
-      className="flex-1 min-h-0 overflow-y-auto p-2 flex flex-col gap-1.5
+      ref={containerRef}
+      className="min-h-0 overflow-y-auto p-2 flex flex-col gap-1.5
         [&::-webkit-scrollbar]:w-1
         [&::-webkit-scrollbar-track]:bg-transparent
         [&::-webkit-scrollbar-thumb]:bg-border
