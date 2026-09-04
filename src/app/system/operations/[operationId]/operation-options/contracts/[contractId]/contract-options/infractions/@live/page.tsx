@@ -11,6 +11,8 @@ import { useLiveInfractionActiveAsset } from '@/modules/infractions/presentation
 import { InfractionsPanel } from '@/modules/infractions/presentation/components/infractions-panel'
 import { InfractionsSidebar } from '@/modules/infractions/presentation/components/infractions-sidebar'
 import { InfractionViewer } from '@/modules/infractions/presentation/components/infraction-viewer'
+import { InfractionImageViewer } from '@/modules/infractions/presentation/components/infraction-image-viewer'
+import { InfractionVideoViewer } from '@/modules/infractions/presentation/components/infraction-video-viewer'
 import { InfractionDescription } from '@/modules/infractions/presentation/components/infraction-description'
 import { InfractionsTimeline } from '@/modules/infractions/presentation/components/infractions-timeline'
 
@@ -22,9 +24,7 @@ export default function LiveSlotPage({ params }: LiveSlotPageProps) {
   const { contractId } = use(params)
   useInfractionsSocket(String(contractId), true)
 
-  const infractions = useInfractionsWebsocketStore(
-    (state) => state.infractions
-  )
+  const infractions = useInfractionsWebsocketStore((state) => state.infractions)
 
   const {
     isLiveMode,
@@ -92,21 +92,38 @@ export default function LiveSlotPage({ params }: LiveSlotPageProps) {
 
         <InfractionViewer.Root>
           {activeIsVideo && activeSrc ? (
-            <InfractionViewer.Video src={activeSrc} />
+            <InfractionVideoViewer.Root src={activeSrc}>
+              <InfractionVideoViewer.Player />
+              <InfractionVideoViewer.Sequence />
+            </InfractionVideoViewer.Root>
           ) : (
-            <InfractionViewer.Image
-              src={activeSrc}
-              hasPrevious={hasPrevious}
-              hasNext={hasNext}
-              onNavigatePrevious={handleNavigatePrevious}
-              onNavigateNext={handleNavigateNext}
-              currentIndex={currentIndex}
-              totalCount={infractions.length}
-              isLive={isLiveMode}
-              onToggleLive={handleToggleLive}
-            >
-              <InfractionViewer.Empty />
-            </InfractionViewer.Image>
+            <InfractionImageViewer.Root>
+              <InfractionImageViewer.Display src={activeSrc}>
+                <InfractionViewer.Empty />
+              </InfractionImageViewer.Display>
+
+              <InfractionImageViewer.Nav
+                hasPrevious={hasPrevious}
+                hasNext={hasNext}
+                onPrevious={handleNavigatePrevious}
+                onNext={handleNavigateNext}
+              />
+
+              <InfractionImageViewer.Badge
+                currentIndex={currentIndex}
+                totalCount={infractions.length}
+                isLive={isLiveMode}
+                onToggleLive={handleToggleLive}
+              />
+
+              <InfractionImageViewer.Fullscreen
+                src={activeSrc}
+                hasPrevious={hasPrevious}
+                hasNext={hasNext}
+                onPrevious={handleNavigatePrevious}
+                onNext={handleNavigateNext}
+              />
+            </InfractionImageViewer.Root>
           )}
 
           <InfractionViewer.Strip>

@@ -3,6 +3,8 @@
 import { InfractionsMenu } from '.'
 import { InfractionDescription } from '../infraction-description'
 import { InfractionViewer } from '../infraction-viewer'
+import { InfractionImageViewer } from '../infraction-image-viewer'
+import { InfractionVideoViewer } from '../infraction-video-viewer'
 import { InfractionsPanel } from '../infractions-panel'
 import { InfractionsSidebar } from '../infractions-sidebar'
 import { InfractionsTimeline } from '../infractions-timeline'
@@ -87,19 +89,36 @@ export function InfractionsMenuComponent() {
 
           <InfractionViewer.Root>
             {activeAsset?.type === 'video' ? (
-              <InfractionViewer.Video src={activeAsset.src} />
+              <InfractionVideoViewer.Root src={activeAsset.src}>
+                <InfractionVideoViewer.Player />
+                <InfractionVideoViewer.Sequence />
+              </InfractionVideoViewer.Root>
             ) : (
-              <InfractionViewer.Image
-                src={activeImageUrl || null}
-                hasPrevious={hasPrevious}
-                hasNext={hasNext}
-                onNavigatePrevious={handleNavigatePrevious}
-                onNavigateNext={handleNavigateNext}
-                currentIndex={currentIndex}
-                totalCount={sortedInfractions.length}
-              >
-                <InfractionViewer.Empty />
-              </InfractionViewer.Image>
+              <InfractionImageViewer.Root>
+                <InfractionImageViewer.Display src={activeImageUrl || null}>
+                  <InfractionViewer.Empty />
+                </InfractionImageViewer.Display>
+
+                <InfractionImageViewer.Nav
+                  hasPrevious={hasPrevious}
+                  hasNext={hasNext}
+                  onPrevious={handleNavigatePrevious}
+                  onNext={handleNavigateNext}
+                />
+
+                <InfractionImageViewer.Badge
+                  currentIndex={currentIndex}
+                  totalCount={sortedInfractions.length}
+                />
+
+                <InfractionImageViewer.Fullscreen
+                  src={activeImageUrl || null}
+                  hasPrevious={hasPrevious}
+                  hasNext={hasNext}
+                  onPrevious={handleNavigatePrevious}
+                  onNext={handleNavigateNext}
+                />
+              </InfractionImageViewer.Root>
             )}
 
             <InfractionViewer.Strip>
