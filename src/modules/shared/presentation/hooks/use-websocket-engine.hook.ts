@@ -12,7 +12,7 @@ export function useWebSocketEngine<
     TOutgoing
   >
 >(factory: () => TService, options: { enabled?: boolean } = { enabled: true }) {
-  const service = useMemo(factory, [])
+  const service = useMemo(factory, [factory])
 
   const [isConnected, setIsConnected] = useState(false)
 
