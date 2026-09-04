@@ -6,28 +6,29 @@ import {
   InfractionsFiltersSchema,
   type InfractionsFiltersSchemaType
 } from './use-infractions-filters-schema.hook'
+import { getDefaultInfractionsFilters } from '../utils/default-infractions-filters.util'
 
 export function useInfractionsFiltersForm(filters?: InfractionsFiltersInterface) {
-  const defaultValues = useMemo<InfractionsFiltersSchemaType>(
-    () => ({
+  const defaultValues = useMemo<InfractionsFiltersSchemaType>(() => {
+    const initial = filters ?? getDefaultInfractionsFilters()
+    return {
       places: {
-        point_ids: filters?.places?.point_ids ?? null,
-        lane_ids: filters?.places?.lane_ids ?? null,
-        group_ids: filters?.places?.group_ids ?? null
+        point_ids: initial.places?.point_ids ?? [],
+        lane_ids: initial.places?.lane_ids ?? [],
+        group_ids: initial.places?.group_ids ?? []
       },
       date_range: {
-        start: filters?.date_range?.start ?? null,
-        end: filters?.date_range?.end ?? null
+        start: initial.date_range.start,
+        end: initial.date_range.end
       },
       time_range: {
-        start: filters?.time_range?.start ?? null,
-        end: filters?.time_range?.end ?? null
+        start: initial.time_range?.start ?? '00:00:00',
+        end: initial.time_range?.end ?? '23:59:59'
       },
-      violation_id: filters?.violation_id ?? null,
-      restriction_id: filters?.restriction_id ?? null
-    }),
-    [filters]
-  )
+      violation_id: initial.violation_id ?? [],
+      restriction_id: initial.restriction_id ?? []
+    }
+  }, [filters])
 
   return useForm<InfractionsFiltersSchemaType>({
     defaultValues,

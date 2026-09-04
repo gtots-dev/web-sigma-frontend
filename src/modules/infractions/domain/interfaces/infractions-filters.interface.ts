@@ -5,8 +5,8 @@ export interface InfractionsPlacesInterface {
 }
 
 export interface InfractionsDateRangeInterface {
-  start?: string | null
-  end?: string | null
+  start: string
+  end: string
 }
 
 export interface InfractionsTimeRangeInterface {
@@ -16,7 +16,7 @@ export interface InfractionsTimeRangeInterface {
 
 export interface InfractionsFiltersInterface {
   places?: InfractionsPlacesInterface | null
-  date_range?: InfractionsDateRangeInterface | null
+  date_range: InfractionsDateRangeInterface
   time_range?: InfractionsTimeRangeInterface | null
   violation_id?: number[] | null
   restriction_id?: number[] | null

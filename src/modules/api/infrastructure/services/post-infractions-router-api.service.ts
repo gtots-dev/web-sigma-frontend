@@ -5,6 +5,7 @@ import type { PostInfractionsRouterApiGateway } from '../../domain/gateways/post
 import type { Infraction } from '@/modules/infractions/domain/interfaces/infraction.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { PostInfractionsPayload } from '@/modules/infractions/domain/interfaces/post-infractions-payload.interface'
+import type { PaginationInterface } from '@/modules/shared/domain/interfaces/pagination.interfaces'
 
 export class PostInfractionsRouterApiService implements PostInfractionsRouterApiGateway {
   constructor(
@@ -17,18 +18,19 @@ export class PostInfractionsRouterApiService implements PostInfractionsRouterApi
   ): HttpRequestConfig<PostInfractionsPayload> {
     return {
       method: 'POST',
-      url: `api/operations/${this.params.operationId}/contracts/${this.params.contractId}/trafficflows/search-captures`,
-      data: {
-        filters: payload?.filters ?? {},
-        pagination: payload?.pagination ?? { page: 1, per_page: 50 }
+      url: `api/operations/${this.params.operationId}/contracts/${this.params.contractId}/trafficflows/captures/search`,
+      data: payload ?? {
+        pagination: { page: 1, per_page: 50 }
       }
     }
   }
 
   async execute(payload?: PostInfractionsPayload): Promise<Infraction[]> {
     const config = this.getHttpRequestConfig(payload)
-    const { data }: HttpResponseInterface<Infraction[]> =
-      await this.executeRequest.execute(config)
-    return data
+    const res: HttpResponseInterface<{
+      data: Infraction[]
+      meta: PaginationInterface
+    }> = await this.executeRequest.execute(config)
+    return res?.data?.data ?? []
   }
 }

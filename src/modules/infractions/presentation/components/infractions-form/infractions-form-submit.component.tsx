@@ -6,6 +6,7 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { Filter, FilterX } from 'lucide-react'
 import type { InfractionsFiltersInterface } from '@/modules/infractions/domain/interfaces/infractions-filters.interface'
 import type { InfractionsFiltersSchemaType } from '@/modules/infractions/presentation/hooks/use-infractions-filters-schema.hook'
+import { getDefaultInfractionsFilters } from '@/modules/infractions/presentation/utils/default-infractions-filters.util'
 
 interface InfractionsFormSubmitProps {
   onSubmit: (filters: InfractionsFiltersInterface) => void
@@ -20,19 +21,20 @@ export function InfractionsFormSubmitComponent({
 
   const handleFormSubmit = () => {
     handleSubmit((values) => {
+      const defaults = getDefaultInfractionsFilters()
       const filters: InfractionsFiltersInterface = {
         places: values.places ?? {
           lane_ids: [],
           point_ids: [],
           group_ids: []
         },
-        date_range: values.date_range ?? {
-          start: '',
-          end: ''
+        date_range: {
+          start: values.date_range?.start || defaults.date_range.start,
+          end: values.date_range?.end || defaults.date_range.end
         },
-        time_range: values.time_range ?? {
-          start: '',
-          end: ''
+        time_range: {
+          start: values.time_range?.start || defaults.time_range?.start,
+          end: values.time_range?.end || defaults.time_range?.end
         },
         violation_id: values.violation_id ?? [],
         restriction_id: values.restriction_id ?? []
@@ -42,14 +44,15 @@ export function InfractionsFormSubmitComponent({
   }
 
   const handleReset = () => {
+    const defaults = getDefaultInfractionsFilters()
     reset({
       places: { point_ids: [], lane_ids: [], group_ids: [] },
-      date_range: { start: '', end: '' },
-      time_range: { start: '', end: '' },
+      date_range: { start: defaults.date_range.start, end: defaults.date_range.end },
+      time_range: { start: defaults.time_range?.start, end: defaults.time_range?.end },
       violation_id: [],
       restriction_id: []
     })
-    onSubmit({})
+    onSubmit(defaults)
   }
 
   return (
