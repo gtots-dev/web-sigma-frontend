@@ -7,12 +7,7 @@ export function InfractionsGridHeaderRestrictionComponent() {
   const infraction = useInfractionGrid()
   const { restrictions } = useRestrictionStore()
 
-  const ids = Array.from(
-    new Set([
-      ...(infraction.restriction_id != null ? [infraction.restriction_id] : []),
-      ...(infraction.restrictions_id ?? [])
-    ])
-  )
+  const ids = Array.from(new Set(infraction.restrictions_id ?? []))
 
   if (ids.length === 0) return null
 
