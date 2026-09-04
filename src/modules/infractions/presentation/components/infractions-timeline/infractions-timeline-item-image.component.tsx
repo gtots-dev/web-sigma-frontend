@@ -1,5 +1,5 @@
 interface InfractionsTimelineItemImageProps {
-  src: string
+  src: string | null
   alt?: string
 }
 
@@ -7,6 +7,8 @@ export function InfractionsTimelineItemImage({
   src,
   alt = 'Registro'
 }: InfractionsTimelineItemImageProps) {
+  if (!src) return null
+
   return (
     <img
       src={src}
