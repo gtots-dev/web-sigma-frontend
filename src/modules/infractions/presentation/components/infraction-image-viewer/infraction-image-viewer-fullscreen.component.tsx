@@ -10,6 +10,8 @@ interface InfractionImageViewerFullscreenProps {
   hasNext?: boolean
   onPrevious?: () => void
   onNext?: () => void
+  currentIndex?: number
+  totalCount?: number
 }
 
 export function InfractionImageViewerFullscreen({
@@ -17,7 +19,9 @@ export function InfractionImageViewerFullscreen({
   hasPrevious = false,
   hasNext = false,
   onPrevious,
-  onNext
+  onNext,
+  currentIndex,
+  totalCount
 }: InfractionImageViewerFullscreenProps) {
   const [isFullscreen, setIsFullscreen] = useState(false)
 
@@ -51,10 +55,20 @@ export function InfractionImageViewerFullscreen({
           className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-0 animate-in fade-in duration-200 ring-0 outline-none shadow-none"
           onClick={() => setIsFullscreen(false)}
         >
+          {/* Item count badge in fullscreen mode */}
+          {typeof currentIndex === 'number' && typeof totalCount === 'number' && (
+            <div className="absolute top-6 left-6 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800/90 text-white backdrop-blur-md border border-white/10 text-xs font-mono font-semibold z-50 shadow-lg">
+              <span className="text-primary-400 font-bold">•</span>
+              <span>
+                {currentIndex + 1} de {totalCount}
+              </span>
+            </div>
+          )}
+
           <button
             type="button"
             onClick={() => setIsFullscreen(false)}
-            className="absolute top-6 right-6 p-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-white transition-colors cursor-pointer"
+            className="absolute top-6 right-6 p-2.5 rounded-full bg-slate-800 hover:bg-slate-700 text-white transition-colors cursor-pointer z-50"
           >
             <X className="w-6 h-6" />
           </button>
