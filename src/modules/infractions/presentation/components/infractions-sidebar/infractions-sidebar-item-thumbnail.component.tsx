@@ -20,7 +20,7 @@ export function InfractionsSidebarItemThumbnail({
   const isVideoSrc = isVideoFile(src)
 
   return (
-    <div className="w-16 h-11 shrink-0 rounded-md bg-muted/40 border border-border/60 overflow-hidden flex items-center justify-center relative">
+    <div className="w-24 h-16 shrink-0 rounded-md bg-muted/40 border border-border/60 overflow-hidden flex items-center justify-center relative shadow-xs">
       {src ? (
         isVideoSrc ? (
           <video
