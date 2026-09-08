@@ -13,10 +13,11 @@ export function InfractionsTimelineItemRoot({
 }: InfractionsTimelineItemRootProps) {
   return (
     <button
+      type="button"
       onClick={onSelect}
       className={`
-        shrink-0 relative rounded-md border overflow-hidden
-        transition-all duration-150 h-full w-24 aspect-video cursor-pointer select-none
+        relative w-full aspect-video h-auto rounded-md border overflow-hidden
+        transition-all duration-150 cursor-pointer select-none
         ${
           isActive
             ? 'border-primary-500 ring-2 ring-primary-500/50 opacity-100'
