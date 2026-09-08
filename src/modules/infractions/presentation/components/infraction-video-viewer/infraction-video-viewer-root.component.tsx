@@ -16,7 +16,7 @@ export function InfractionVideoViewerRoot({
 }: InfractionVideoViewerRootProps) {
   const content = (
     <div
-      className={`flex flex-col flex-1 min-h-0 w-full h-full overflow-hidden p-2 gap-2 bg-background ${className}`}
+      className={`flex flex-col flex-1 min-h-0 min-w-0 w-full h-full overflow-hidden p-2 gap-2 bg-background ${className}`}
     >
       {children}
     </div>
