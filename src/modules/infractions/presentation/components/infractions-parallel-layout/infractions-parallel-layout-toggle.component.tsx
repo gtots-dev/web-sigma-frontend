@@ -5,8 +5,7 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { LayoutGrid, Radio } from 'lucide-react'
 
 export function InfractionsParallelLayoutToggleComponent() {
-  const { viewMode, handleViewChange, isConnected } =
-    useInfractionsParallelLayoutContext()
+  const { viewMode, handleViewChange } = useInfractionsParallelLayoutContext()
 
   return (
     <div className="inline-flex items-center p-1 rounded-lg bg-muted/60 border border-border/50 gap-1 ml-auto shrink-0 mt-3 lg:mt-0">
@@ -32,11 +31,7 @@ export function InfractionsParallelLayoutToggleComponent() {
           'bg-primary-600 !text-white hover:bg-primary-500'
         }`}
       >
-        <Radio
-          className={`w-3.5 h-3.5 ${
-            isConnected ? 'text-primary-500 animate-pulse' : ''
-          }`}
-        />
+        <Radio className={'w-3.5 h-3.5'} />
         Ao Vivo
       </Button>
     </div>
