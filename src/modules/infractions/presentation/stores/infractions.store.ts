@@ -3,6 +3,11 @@ import type { InfractionsFiltersInterface } from '../../domain/interfaces/infrac
 import { PostInfractionsRouterApiFactory } from '@/modules/api/infrastructure/factories/post-infractions-router-api.factory'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { Infraction } from '../../domain/interfaces/infraction.interface'
+import { deduplicateInfractions } from '../utils/deduplicate-infractions.util'
+import {
+  mergeOlderInfractionsBuffer,
+  mergeNewerInfractionsBuffer
+} from '../utils/merge-infractions-buffer.util'
 
 const PER_PAGE = 50
 
@@ -24,16 +29,6 @@ type InfractionsState = {
   ) => Promise<void>
   fetchOlder: (params: UrlParams) => Promise<void>
   fetchNewer: (params: UrlParams) => Promise<void>
-}
-
-const deduplicateInfractions = (items: Infraction[]): Infraction[] => {
-  const map = new Map<number, Infraction>()
-  for (const item of items) {
-    if (item && item.id != null && !map.has(item.id)) {
-      map.set(item.id, item)
-    }
-  }
-  return Array.from(map.values())
 }
 
 export const useInfractionsStore = create<InfractionsState>((set, get) => ({
@@ -113,26 +108,15 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
         return
       }
 
-      const uniqueOlder = deduplicateInfractions(older)
-
       set((state) => {
         if (state.pageEnd !== targetPage - 1) return state
-
-        const merged = deduplicateInfractions([
-          ...state.infractions,
-          ...uniqueOlder
-        ])
-        const shouldSlice = merged.length > state.bufferLimit
-        const sliced = shouldSlice ? merged.slice(PER_PAGE) : merged
-        const newPageStart = shouldSlice ? state.pageStart + 1 : state.pageStart
-
-        return {
-          infractions: sliced,
-          pageStart: newPageStart,
-          pageEnd: targetPage,
-          hasOlder: older.length === PER_PAGE,
-          hasNewer: newPageStart > 1
-        }
+        return mergeOlderInfractionsBuffer(state.infractions, older, {
+          pageStart: state.pageStart,
+          pageEnd: state.pageEnd,
+          targetPage,
+          bufferLimit: state.bufferLimit,
+          perPage: PER_PAGE
+        })
       })
     } catch (err) {
       console.error(err)
@@ -179,26 +163,15 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
         return
       }
 
-      const uniqueNewer = deduplicateInfractions(newer)
-
       set((state) => {
         if (state.pageStart !== targetPage + 1) return state
-
-        const merged = deduplicateInfractions([
-          ...uniqueNewer,
-          ...state.infractions
-        ])
-        const shouldSlice = merged.length > state.bufferLimit
-        const sliced = shouldSlice ? merged.slice(0, state.bufferLimit) : merged
-        const newPageEnd = shouldSlice ? state.pageEnd - 1 : state.pageEnd
-
-        return {
-          infractions: sliced,
-          pageStart: targetPage,
-          pageEnd: newPageEnd,
-          hasNewer: targetPage > 1,
-          hasOlder: true
-        }
+        return mergeNewerInfractionsBuffer(state.infractions, newer, {
+          pageStart: state.pageStart,
+          pageEnd: state.pageEnd,
+          targetPage,
+          bufferLimit: state.bufferLimit,
+          perPage: PER_PAGE
+        })
       })
     } catch (err) {
       console.error(err)
