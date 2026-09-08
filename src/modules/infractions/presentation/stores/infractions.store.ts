@@ -29,7 +29,9 @@ type InfractionsState = {
 const deduplicateInfractions = (items: Infraction[]): Infraction[] => {
   const map = new Map<number, Infraction>()
   for (const item of items) {
-    if (item && item.id != null && !map.has(item.id)) map.set(item.id, item)
+    if (item && item.id != null && !map.has(item.id)) {
+      map.set(item.id, item)
+    }
   }
   return Array.from(map.values())
 }
@@ -49,9 +51,11 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
   setBufferLimit: (limit: number) => set({ bufferLimit: limit }),
 
   getInitialInfractions: async (
-    { operationId, contractId }: UrlParams,
+    params: UrlParams,
     filters?: InfractionsFiltersInterface
   ) => {
+    if (get().loading) return
+
     set({
       loading: true,
       loadingOlder: false,
@@ -64,7 +68,7 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
       activeFilters: filters
     })
     try {
-      const svc = PostInfractionsRouterApiFactory.create({ operationId, contractId })
+      const svc = PostInfractionsRouterApiFactory.create(params)
       const data = await svc.execute({
         pagination: { page: 1, per_page: PER_PAGE },
         filters
@@ -78,7 +82,7 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
     }
   },
 
-  fetchOlder: async ({ operationId, contractId }: UrlParams) => {
+  fetchOlder: async (params: UrlParams) => {
     const {
       infractions,
       loadingOlder,
@@ -93,7 +97,7 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
     const targetPage = pageEnd + 1
 
     try {
-      const svc = PostInfractionsRouterApiFactory.create({ operationId, contractId })
+      const svc = PostInfractionsRouterApiFactory.create(params)
       const older = await svc.execute({
         pagination: { page: targetPage, per_page: PER_PAGE },
         filters: activeFilters
@@ -109,10 +113,15 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
         return
       }
 
+      const uniqueOlder = deduplicateInfractions(older)
+
       set((state) => {
         if (state.pageEnd !== targetPage - 1) return state
 
-        const merged = deduplicateInfractions([...state.infractions, ...older])
+        const merged = deduplicateInfractions([
+          ...state.infractions,
+          ...uniqueOlder
+        ])
         const shouldSlice = merged.length > state.bufferLimit
         const sliced = shouldSlice ? merged.slice(PER_PAGE) : merged
         const newPageStart = shouldSlice ? state.pageStart + 1 : state.pageStart
@@ -132,7 +141,7 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
     }
   },
 
-  fetchNewer: async ({ operationId, contractId }: UrlParams) => {
+  fetchNewer: async (params: UrlParams) => {
     const {
       infractions,
       loadingNewer,
@@ -154,7 +163,7 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
     const targetPage = pageStart - 1
 
     try {
-      const svc = PostInfractionsRouterApiFactory.create({ operationId, contractId })
+      const svc = PostInfractionsRouterApiFactory.create(params)
       const newer = await svc.execute({
         pagination: { page: targetPage, per_page: PER_PAGE },
         filters: activeFilters
@@ -170,10 +179,15 @@ export const useInfractionsStore = create<InfractionsState>((set, get) => ({
         return
       }
 
+      const uniqueNewer = deduplicateInfractions(newer)
+
       set((state) => {
         if (state.pageStart !== targetPage + 1) return state
 
-        const merged = deduplicateInfractions([...newer, ...state.infractions])
+        const merged = deduplicateInfractions([
+          ...uniqueNewer,
+          ...state.infractions
+        ])
         const shouldSlice = merged.length > state.bufferLimit
         const sliced = shouldSlice ? merged.slice(0, state.bufferLimit) : merged
         const newPageEnd = shouldSlice ? state.pageEnd - 1 : state.pageEnd
