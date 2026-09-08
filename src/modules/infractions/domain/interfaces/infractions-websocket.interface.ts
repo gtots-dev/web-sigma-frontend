@@ -40,6 +40,7 @@ export interface LiveInfractionCapture {
   formattedDate: string
   formattedTime: string
   files: LiveTrafficCaptureFileItem[]
+  expiresAt?: number
 }
 
 export type TrafficCaptureMessage = LiveTrafficCaptureSocketEvent
