@@ -44,7 +44,7 @@ export function FrameSequenceRootComponent({
   const safeTotal = Number.isNaN(totalFrames) ? 0 : totalFrames
 
   return (
-    <Card className="relative flex flex-col shrink-0 overflow-hidden">
+    <Card className="relative flex flex-col shrink-0 overflow-hidden min-w-0 w-full">
       {/* ── Accordion Trigger ─────────────────────────────────────── */}
       <button
         type="button"
