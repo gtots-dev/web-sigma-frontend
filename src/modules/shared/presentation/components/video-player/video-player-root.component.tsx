@@ -6,5 +6,5 @@ interface VideoPlayerRootProps {
 }
 
 export function VideoPlayerRootComponent({ children }: VideoPlayerRootProps) {
-  return <Card className="overflow-hidden p-0 relative border flex flex-col flex-1 min-h-0">{children}</Card>
+  return <Card className="overflow-hidden p-0 relative border flex flex-col flex-1 min-h-0 min-w-0 w-full">{children}</Card>
 }
