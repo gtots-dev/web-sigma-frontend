@@ -4,6 +4,7 @@ interface InfractionsSidebarItemInfoProps {
   time?: string | null
   isSelected: boolean
   isViewed?: boolean
+  expiresAt?: number
 }
 
 export function InfractionsSidebarItemInfo({
@@ -46,25 +47,13 @@ export function InfractionsSidebarItemInfo({
         </span>
       )}
 
-      {/* Linha 3: Horário */}
-      {time && (
-        <span className="text-[9px] text-muted-foreground/75 font-mono truncate flex items-center gap-1">
-          <svg
-            className="w-2.5 h-2.5 opacity-60 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          {time}
-        </span>
-      )}
+      <div className="flex items-center justify-between gap-1 w-full mt-0.5">
+        {time && (
+          <span className="text-[9px] text-muted-foreground/75 font-mono truncate flex items-center gap-1">
+            {time}
+          </span>
+        )}
+      </div>
     </div>
   )
 }
