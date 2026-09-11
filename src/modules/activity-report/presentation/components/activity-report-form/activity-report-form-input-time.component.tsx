@@ -5,8 +5,7 @@ import { Clock } from 'lucide-react'
 import {
   FormControl,
   FormField,
-  FormItem,
-  FormLabel
+  FormItem
 } from '@/modules/shared/presentation/components/shadcn/form'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import {
@@ -14,45 +13,44 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/modules/shared/presentation/components/shadcn/popover'
-import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
-import type { ActivityReportSchemaType } from '@/modules/activity-report/presentation/hooks/use-activity-schema.hook'
 import {
   normalizeInputValue,
   toInputHHMM
 } from '@/modules/shared/presentation/utils/formatted.utils'
+import type { ActivityReportSchemaType } from '@/modules/activity-report/presentation/hooks/use-activity-schema.hook'
 
-export function ActivityReportTimeRangeComponent({
-  require,
-  description
-}: {
-  require?: boolean
-  description?: string
-}) {
+export function ActivityReportTimeRangeComponent() {
   const { control } = useFormContext<ActivityReportSchemaType>()
 
   const renderTimePopover = (
-    label: 'Início' | 'Fim',
-    value: string,
-    onChange: (v: string) => void
+    label: 'Hora Início' | 'Hora Fim',
+    value: string | null | undefined,
+    onChange: (v: string | null) => void
   ) => (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="w-full justify-between text-left font-normal dark:text-zinc-50 dark:border-zinc-800"
+          className="h-9 gap-1.5 px-2 sm:px-3 bg-muted/20 border-border/50 hover:bg-muted/40 transition-all w-full justify-between shadow-none text-xs font-semibold py-2.5 dark:text-zinc-50 min-w-0 flex-1"
         >
-          <span className="flex items-center gap-2">
-            <Clock className="h-4 w-4" />
-            {value || label}
-          </span>
+          <div className="flex items-center gap-1.5 overflow-hidden w-full min-w-0">
+            <Clock className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+            <div className="flex items-center gap-1.5 border-l border-border/50 pl-1.5 overflow-hidden min-w-0 flex-1">
+              <span className="truncate text-xs font-semibold">
+                {value || label}
+              </span>
+            </div>
+          </div>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-2" sideOffset={10}>
         <input
           type="time"
           className="border rounded px-2 py-1 text-sm dark:bg-zinc-900 dark:text-zinc-50"
-          value={toInputHHMM(value)}
-          onChange={(e) => onChange(normalizeInputValue(e.target.value))}
+          value={toInputHHMM(value ?? '')}
+          onChange={(e) =>
+            onChange(e.target.value ? normalizeInputValue(e.target.value) : null)
+          }
         />
       </PopoverContent>
     </Popover>
@@ -67,18 +65,13 @@ export function ActivityReportTimeRangeComponent({
         const end = field.value?.end
 
         return (
-          <FormItem className="flex flex-col">
-            <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
-              Intervalo de horas{require ? ': *' : ':'}
-              <HelpMeButtonComponent description={description} />
-            </FormLabel>
-
+          <FormItem className="flex flex-col w-full">
             <FormControl>
-              <div className="flex gap-2">
-                {renderTimePopover('Início', start, (newValue) =>
+              <div className="flex gap-2 w-full">
+                {renderTimePopover('Hora Início', start, (newValue) =>
                   field.onChange({ ...field.value, start: newValue })
                 )}
-                {renderTimePopover('Fim', end, (newValue) =>
+                {renderTimePopover('Hora Fim', end, (newValue) =>
                   field.onChange({ ...field.value, end: newValue })
                 )}
               </div>

@@ -49,7 +49,7 @@ export function MonitoringHeaderSort() {
       textUppercase
       dotColor={(item) => item.colorValue}
       searchable={false}
-      className="w-full md:w-[230px]"
+      className="w-full"
     />
   )
 }

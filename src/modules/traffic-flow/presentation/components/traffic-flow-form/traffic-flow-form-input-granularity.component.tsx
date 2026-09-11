@@ -2,22 +2,16 @@
 
 import { useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { BarChart3 } from 'lucide-react'
 import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from '@/modules/shared/presentation/components/shadcn/form'
-import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 import type { TrafficFlowSchemaType } from '@/modules/traffic-flow/presentation/hooks/use-traffic-flow-schema.hook'
 import { SingleSelect } from '@/modules/shared/presentation/components/single-select/single-select.component'
 import type { TrafficFlowGranularityInterface } from '@/modules/traffic-flow/domain/interfaces/traffic-flow-granularity.interface'
-
-interface TrafficFlowGranularityComponentProps {
-  require?: boolean
-  description?: string
-}
 
 const GRANULARITY_LABELS: Record<TrafficFlowGranularityInterface, string> = {
   day: 'Dia',
@@ -26,10 +20,7 @@ const GRANULARITY_LABELS: Record<TrafficFlowGranularityInterface, string> = {
   year: 'Ano'
 }
 
-export function TrafficFlowGranularityComponent({
-  require,
-  description
-}: TrafficFlowGranularityComponentProps) {
+export function TrafficFlowGranularityComponent() {
   const { control } = useFormContext<TrafficFlowSchemaType>()
 
   const granularities: TrafficFlowGranularityInterface[] = [
@@ -53,26 +44,21 @@ export function TrafficFlowGranularityComponent({
       control={control}
       name="granularity"
       render={({ field }) => (
-        <FormItem className="flex flex-col w-full lg:w-auto">
-          <FormLabel className="flex items-center gap-x-1.5 text-sm dark:text-zinc-50">
-            Granularidade{require ? ': *' : ':'}
-            <HelpMeButtonComponent description={description} />
-          </FormLabel>
-
+        <FormItem className="flex flex-col w-full">
           <FormControl>
             <SingleSelect
               items={granularityItems}
               value={field.value ?? ''}
+              leftIcon={BarChart3}
               onChange={(value) => {
                 if (!value) return
                 if (value === field.value) return
                 field.onChange(value)
               }}
-              placeholder="Selecionar granularidade"
+              placeholder="Granularidade"
               notFoundItemPlaceholder="Nenhuma granularidade encontrada"
             />
           </FormControl>
-
           <FormMessage />
         </FormItem>
       )}

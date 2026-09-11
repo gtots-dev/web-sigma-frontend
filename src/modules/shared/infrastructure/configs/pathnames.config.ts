@@ -19,6 +19,9 @@ export interface PathnamesInterface {
   VEHICLES: (operationId: number, contractId: number) => string
   VIOLATIONS: (operationId: number, contractId: number) => string
   RESTRICTIONS: (operationId: number, contractId: number) => string
+  INFRACTIONS: (operationId: number, contractId: number) => string
+  INFRACTIONS_OPTIONS: (operationId: number, contractId: number) => string
+  INFRACTIONS_RECORDS: (operationId: number, contractId: number) => string
   LANES: (
     operationId: number,
     contractId: number,
@@ -59,7 +62,13 @@ export const PATHNAMES: PathnamesInterface = {
   VIOLATIONS: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/violations`,
   RESTRICTIONS: (operationId, contractId) =>
-    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/restrictions`
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/restrictions`,
+  INFRACTIONS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/infractions`,
+  INFRACTIONS_OPTIONS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/infractions/infraction-options`,
+  INFRACTIONS_RECORDS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/infractions/infraction-options/records`
 }
 
 export const publicRoutes: string[] = [PATHNAMES.AUTHENTICATION]

@@ -12,6 +12,7 @@ import {
   Settings,
   Shield,
   UserRoundSearch,
+  FileVideo2,
   AlertTriangle,
   ShieldAlert,
   UsersRound
@@ -178,16 +179,23 @@ export function getSidebarData(
                       ]
                     },
                     {
-                      title: 'Tráfego Veicular',
+                      title: 'Estatísticas de tráfego',
                       url: PATHNAMES.TRAFFIC_FLOW(operationId, contractId),
                       icon: ChartLine,
                       isToExpand: true,
                       permissions: [PermissionEnum.CONTRACTS_VIEW]
                     },
                     {
-                      title: 'Monitoramento',
+                      title: 'Mapa operacional',
                       url: PATHNAMES.MONITORING(operationId, contractId),
                       icon: MonitorDot,
+                      isToExpand: true,
+                      permissions: [PermissionEnum.CONTRACTS_VIEW]
+                    },
+                    {
+                      title: 'Visualizador de registros',
+                      url: PATHNAMES.INFRACTIONS(operationId, contractId),
+                      icon: FileVideo2,
                       isToExpand: true,
                       permissions: [PermissionEnum.CONTRACTS_VIEW]
                     }

@@ -17,7 +17,7 @@ export class PostTrafficFlowRouterApiService implements PostTrafficFlowRouterApi
   ): HttpRequestConfig {
     return {
       method: 'POST',
-      url: `api/operations/${this.params.operationId}/contracts/${this.params.contractId}/traffic-flow`,
+      url: `api/operations/${this.params.operationId}/contracts/${this.params.contractId}/trafficflows`,
       data: filters
     }
   }

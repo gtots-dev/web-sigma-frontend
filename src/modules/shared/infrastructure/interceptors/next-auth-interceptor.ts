@@ -1,4 +1,3 @@
-import { auth } from '@/auth'
 import type { RequestInterceptor } from '../services/execute-request.service'
 
 export const nextAuthInterceptor: RequestInterceptor = async (config) => {
@@ -6,6 +5,11 @@ export const nextAuthInterceptor: RequestInterceptor = async (config) => {
     return config
   }
 
+  if (typeof window !== 'undefined') {
+    return config
+  }
+
+  const { auth } = await import('@/auth')
   const session = await auth()
 
   if (!session?.token) {

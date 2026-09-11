@@ -7,7 +7,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from '@/modules/shared/presentation/components/shadcn/form'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
@@ -17,22 +16,16 @@ import {
   PopoverTrigger
 } from '@/modules/shared/presentation/components/shadcn/popover'
 import { Calendar } from '@/modules/shared/presentation/components/shadcn/calendar'
-import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 import { ptBR } from 'date-fns/locale'
 import type { ActivityReportSchemaType } from '@/modules/activity-report/presentation/hooks/use-activity-schema.hook'
 import { startOfMonth, subMonths } from 'date-fns'
 import {
   formatDateOnly,
-  formatDatePTBR
+  formatDatePTBR,
+  parseDateOnly
 } from '@/modules/shared/presentation/utils/formatted.utils'
 
-export function ActivityReportDateRangeComponent({
-  require,
-  description
-}: {
-  require?: boolean
-  description?: string
-}) {
+export function ActivityReportDateRangeComponent() {
   const { control, setValue, watch } =
     useFormContext<ActivityReportSchemaType>()
   const today = useMemo(() => new Date(), [])
@@ -55,10 +48,8 @@ export function ActivityReportDateRangeComponent({
       control={control}
       name="date_range"
       render={({ field }) => {
-        const start = field.value?.start
-          ? new Date(field.value.start)
-          : undefined
-        const end = field.value?.end ? new Date(field.value.end) : undefined
+        const start = parseDateOnly(field.value?.start)
+        const end = parseDateOnly(field.value?.end)
         const selected =
           start && end
             ? { from: start, to: end }
@@ -67,31 +58,32 @@ export function ActivityReportDateRangeComponent({
               : undefined
 
         return (
-          <FormItem className="flex flex-col">
-            <FormLabel className="text-sm flex items-center gap-x-1.5 dark:text-zinc-50">
-              Intervalo de datas{require ? ': *' : ':'}
-              <HelpMeButtonComponent description={description} />
-            </FormLabel>
+          <FormItem className="flex flex-col w-full">
             <FormControl>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="w-full justify-between text-left font-normal dark:text-zinc-50 dark:border-zinc-800"
+                    className="h-9 gap-2 px-3 bg-muted/20 border-border/50 hover:bg-muted/40 transition-all w-full justify-between shadow-none text-xs font-semibold py-2.5 dark:text-zinc-50"
                   >
-                    <span className="flex items-center gap-2">
-                      <CalendarIcon className="h-4 w-4" />
-                      {start && end ? (
-                        <span>
-                          {formatDatePTBR(start)} - {formatDatePTBR(end)}
-                        </span>
-                      ) : (
-                        <span>Selecione intervalo</span>
-                      )}
-                    </span>
+                    <div className="flex items-center gap-2 overflow-hidden w-full">
+                      <CalendarIcon className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                      <div className="flex items-center gap-2 border-l border-border/50 pl-2 overflow-hidden">
+                        {start && end ? (
+                          <span className="truncate text-xs font-semibold">
+                            {formatDatePTBR(start)} - {formatDatePTBR(end)}
+                          </span>
+                        ) : (
+                          <span className="text-xs font-semibold text-muted-foreground">
+                            Intervalo de datas
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent
+                  align="start"
                   className="w-auto overflow-hidden p-0"
                   sideOffset={10}
                 >

@@ -59,17 +59,18 @@ export default async function ProcessingUnitsPage({
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
-      <div className="flex gap-5 flex-col lg:flex-row">
+      <HeaderSection.Root>
         <SectionRedirectLink.Button href={previousSection} />
-        <HeaderSection.Root>
+        <Separator orientation="vertical" className="h-5 shrink-0 hidden sm:block" />
+        <div className="flex flex-col min-w-0 flex-1">
           <HeaderSection.Title>{data.title}</HeaderSection.Title>
           <HeaderSection.Description>
             {data.description}
           </HeaderSection.Description>
-        </HeaderSection.Root>
-      </div>
+        </div>
+      </HeaderSection.Root>
 
-      <Separator orientation="horizontal" />
+      
       {(isAdmin ||
         userPermissions.has(PermissionEnum.PROCESSING_UNITS_EDIT)) && (
         <ActionSection.Root>

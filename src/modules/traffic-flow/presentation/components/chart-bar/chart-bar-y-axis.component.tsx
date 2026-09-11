@@ -1,13 +1,15 @@
 import { YAxis } from 'recharts'
+import { formatChartNumber } from '@/modules/shared/presentation/lib/utils'
 
 export function ChartBarYAxis() {
   return (
     <YAxis
-      domain={[0, 100]}
+      domain={[0, 110]}
       tickLine={false}
       axisLine={false}
+      width={80}
       tickFormatter={(value) =>
-        `${Math.round((value + Number.EPSILON) * 100) / 100}%`
+        formatChartNumber(value, { percentage: true, decimals: 4 })
       }
     />
   )

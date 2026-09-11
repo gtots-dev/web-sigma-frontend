@@ -27,17 +27,18 @@ export default async function ViolationsPage({ params }: ViolationsPageProps) {
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
       <HeaderSection.Root>
         <SectionRedirectLink.Button
-          className="mb-5 lg:mb-0"
           href={PATHNAMES.CONTRACTS_CONFIGURATIONS(
             Number(rawOperationId),
             Number(rawContractId)
           )}
         />
-        <Separator orientation="vertical" className="h-5 hidden lg:block" />
-        <HeaderSection.Title>{MESSAGES_VIOLATIONS['23.1']}</HeaderSection.Title>
-        <HeaderSection.Description>
-          {MESSAGES_VIOLATIONS['23.2']}
-        </HeaderSection.Description>
+        <Separator orientation="vertical" className="h-5 shrink-0 hidden sm:block" />
+        <div className="flex flex-col min-w-0 flex-1">
+          <HeaderSection.Title>{MESSAGES_VIOLATIONS['23.1']}</HeaderSection.Title>
+          <HeaderSection.Description>
+            {MESSAGES_VIOLATIONS['23.2']}
+          </HeaderSection.Description>
+        </div>
       </HeaderSection.Root>
 
       <TableViolations.Root>

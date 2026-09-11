@@ -1,6 +1,5 @@
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
 import { TableOperations } from '@/modules/operations/presentation/components/table-operations'
-import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_OPERATIONS } from '@/modules/shared/presentation/messages/operations'
 
 interface Data {
@@ -17,12 +16,13 @@ export default async function OperationsPage() {
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
       <HeaderSection.Root>
-        <HeaderSection.Title>{data.title}</HeaderSection.Title>
-        <HeaderSection.Description>
-          {data.description}
-        </HeaderSection.Description>
+        <div className="flex flex-col min-w-0 flex-1">
+          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Description>
+            {data.description}
+          </HeaderSection.Description>
+        </div>
       </HeaderSection.Root>
-      <Separator orientation="horizontal" />
       <TableOperations />
     </main>
   )

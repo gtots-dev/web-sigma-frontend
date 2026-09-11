@@ -2,38 +2,29 @@
 
 import { useMemo, useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { ArrowUpDown } from 'lucide-react'
 import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from '@/modules/shared/presentation/components/shadcn/form'
-import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/help-me-button/help-me-button.component'
 import { useParams } from 'next/navigation'
 import { useLaneStore } from '@/modules/lanes/presentation/stores/lanes.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { TrafficFlowSchemaType } from '@/modules/traffic-flow/presentation/hooks/use-traffic-flow-schema.hook'
 import { MultiSelect } from '@/modules/shared/presentation/components/multi-select/multi-select.component'
 
-interface TrafficFlowLanesComponentProps {
-  require?: boolean
-  description?: string
-}
-
-export function TrafficFlowLanesComponent({
-  require,
-  description
-}: TrafficFlowLanesComponentProps) {
+export function TrafficFlowLanesComponent() {
   const { control } = useFormContext<TrafficFlowSchemaType>()
   const { operationId, contractId }: UrlParams = useParams()
   const { contractLanes, getContractLanes } = useLaneStore()
 
   useEffect(() => {
-    if (operationId) {
+    if (operationId && contractLanes.length === 0) {
       getContractLanes({ operationId, contractId })
     }
-  }, [operationId, getContractLanes])
+  }, [operationId, contractId, contractLanes.length, getContractLanes])
 
   const lanesItems = useMemo(() => {
     return contractLanes.map(({ lane }) => ({
@@ -47,23 +38,17 @@ export function TrafficFlowLanesComponent({
       control={control}
       name="places.lane_ids"
       render={({ field }) => (
-        <FormItem className="flex flex-col w-full lg:w-auto">
-          <FormLabel className="flex items-center gap-x-1.5 text-sm dark:text-zinc-50">
-            Faixas{require ? ': *' : ':'}
-            <HelpMeButtonComponent description={description} />
-          </FormLabel>
-
+        <FormItem className="flex flex-col w-full">
           <FormControl>
             <MultiSelect
               items={lanesItems}
               value={field.value ?? []}
-              className="w-full md:min-w-[190px]"
+              leftIcon={ArrowUpDown}
               onChange={(value) => field.onChange(value.map(Number))}
-              placeholder="Selecionar faixas"
+              placeholder="Faixas"
               notFoundItemPlaceholder="Nenhuma faixa encontrada"
             />
           </FormControl>
-
           <FormMessage />
         </FormItem>
       )}
