@@ -11,6 +11,11 @@ export function cleanPayload<T>(obj: T): T | undefined {
   }
 
   if (typeof obj === 'object' && obj !== null) {
+    const proto = Object.getPrototypeOf(obj)
+    const isPlainObject = proto === null || proto === Object.prototype
+
+    if (!isPlainObject) return obj
+
     const cleaned: Record<string, unknown> = {}
     for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
       const val = cleanPayload(value)
@@ -18,10 +23,10 @@ export function cleanPayload<T>(obj: T): T | undefined {
         cleaned[key] = val
       }
     }
-    return Object.keys(cleaned).length > 0 ? (cleaned as unknown as T) : undefined
+    return Object.keys(cleaned).length > 0
+      ? (cleaned as unknown as T)
+      : undefined
   }
 
   return obj
 }
-
-
