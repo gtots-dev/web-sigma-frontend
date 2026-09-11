@@ -18,12 +18,15 @@ export const PostVehicleFormSchema = z.object({
     .regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, {
       message: MESSAGES_VEHICLES['20.9']
     }),
-  code: z.coerce
+  code: z
     .number({
       invalid_type_error: MESSAGES_VEHICLES['20.12']
     })
     .min(1, {
       message: MESSAGES_VEHICLES['20.12']
+    })
+    .max(999999999, {
+      message: 'O código não pode ser maior que 999999999'
     })
 })
 

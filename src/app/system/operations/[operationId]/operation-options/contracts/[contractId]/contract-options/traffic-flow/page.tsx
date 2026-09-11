@@ -5,6 +5,7 @@ import { MESSAGES_TRAFFIC_FLOW } from '@/modules/shared/presentation/messages/tr
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
 import { TrafficFlowAbsoluteClient } from '@/modules/traffic-flow/presentation/components/traffic-flow-absolute-client/traffic-flow-client'
 import { TrafficFlowPercentageClient } from '@/modules/traffic-flow/presentation/components/traffic-flow-percentage-client/traffic-flow-percentage-client'
+
 interface TrafficFlowPageProps {
   params: Promise<UrlParams>
 }
@@ -29,16 +30,16 @@ export default async function TrafficFlowPage({
 
   return (
     <main className="flex flex-col flex-1 !p-8 sm:p-10 sm:pb-0 gap-5 overflow-hidden">
-      <div className="flex gap-5 flex-col lg:flex-row">
+      <HeaderSection.Root>
         <SectionRedirectLink.Button href={previousSection} />
-        <HeaderSection.Root>
+        <Separator orientation="vertical" className="h-5 shrink-0 hidden sm:block" />
+        <div className="flex flex-col min-w-0 flex-1">
           <HeaderSection.Title>{data.title}</HeaderSection.Title>
           <HeaderSection.Description>
             {data.description}
           </HeaderSection.Description>
-        </HeaderSection.Root>
-      </div>
-      <Separator orientation="horizontal" />
+        </div>
+      </HeaderSection.Root>
       <TrafficFlowAbsoluteClient />
       <TrafficFlowPercentageClient />
     </main>

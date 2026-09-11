@@ -17,6 +17,11 @@ export interface PathnamesInterface {
   TRAFFIC_FLOW: (operationId: number, contractId: number) => string
   MONITORING: (operationId: number, contractId: number) => string
   VEHICLES: (operationId: number, contractId: number) => string
+  VIOLATIONS: (operationId: number, contractId: number) => string
+  RESTRICTIONS: (operationId: number, contractId: number) => string
+  INFRACTIONS: (operationId: number, contractId: number) => string
+  INFRACTIONS_OPTIONS: (operationId: number, contractId: number) => string
+  INFRACTIONS_RECORDS: (operationId: number, contractId: number) => string
   LANES: (
     operationId: number,
     contractId: number,
@@ -53,7 +58,17 @@ export const PATHNAMES: PathnamesInterface = {
   MONITORING: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/monitoring`,
   VEHICLES: (operationId, contractId) =>
-    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/vehicles-types`
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/vehicles-types`,
+  VIOLATIONS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/violations`,
+  RESTRICTIONS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/restrictions`,
+  INFRACTIONS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/infractions`,
+  INFRACTIONS_OPTIONS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/infractions/infraction-options`,
+  INFRACTIONS_RECORDS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/infractions/infraction-options/records`
 }
 
 export const publicRoutes: string[] = [PATHNAMES.AUTHENTICATION]

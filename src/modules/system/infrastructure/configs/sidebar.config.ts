@@ -12,6 +12,9 @@ import {
   Settings,
   Shield,
   UserRoundSearch,
+  FileVideo2,
+  AlertTriangle,
+  ShieldAlert,
   UsersRound
 } from 'lucide-react'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
@@ -155,20 +158,44 @@ export function getSidebarData(
                           icon: Car,
                           isToExpand: true,
                           permissions: [PermissionEnum.CONTRACTS_VIEW]
+                        },
+                        {
+                          title: 'Violações',
+                          url: PATHNAMES.VIOLATIONS(operationId, contractId),
+                          icon: AlertTriangle,
+                          isToExpand: true,
+                          permissions: [PermissionEnum.CONTRACTS_VIEW]
+                        },
+                        {
+                          title: 'Restrições',
+                          url: PATHNAMES.RESTRICTIONS(operationId, contractId),
+                          icon: ShieldAlert,
+                          isToExpand: true,
+                          permissions: [
+                            PermissionEnum.CONTRACTS_VIEW,
+                            PermissionEnum.RESTRICTIONS_VIEW
+                          ]
                         }
                       ]
                     },
                     {
-                      title: 'Tráfego Veicular',
+                      title: 'Estatísticas de tráfego',
                       url: PATHNAMES.TRAFFIC_FLOW(operationId, contractId),
                       icon: ChartLine,
                       isToExpand: true,
                       permissions: [PermissionEnum.CONTRACTS_VIEW]
                     },
                     {
-                      title: 'Monitoramento',
+                      title: 'Mapa operacional',
                       url: PATHNAMES.MONITORING(operationId, contractId),
                       icon: MonitorDot,
+                      isToExpand: true,
+                      permissions: [PermissionEnum.CONTRACTS_VIEW]
+                    },
+                    {
+                      title: 'Visualizador de registros',
+                      url: PATHNAMES.INFRACTIONS(operationId, contractId),
+                      icon: FileVideo2,
                       isToExpand: true,
                       permissions: [PermissionEnum.CONTRACTS_VIEW]
                     }

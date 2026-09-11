@@ -48,23 +48,27 @@ function MonitoringPageContent({
       {!isMaximized && (
         <>
           <Monitoring.Header>
-            <SectionRedirectLink.Button
-              href={PATHNAMES.CONTRACTS_OPTIONS(
-                Number(operationId),
-                Number(contractId)
-              )}
-            />
             <HeaderSection.Root>
-              <HeaderSection.Title>
-                {MESSAGES_OPTIONS_CONTRACT['16.11']}
-              </HeaderSection.Title>
-              <HeaderSection.Description>
-                {MESSAGES_OPTIONS_CONTRACT['16.12']}
-              </HeaderSection.Description>
+              <SectionRedirectLink.Button
+                href={PATHNAMES.CONTRACTS_OPTIONS(
+                  Number(operationId),
+                  Number(contractId)
+                )}
+              />
+              <Separator
+                orientation="vertical"
+                className="h-5 shrink-0 hidden sm:block"
+              />
+              <div className="flex flex-col min-w-0 flex-1">
+                <HeaderSection.Title>
+                  {MESSAGES_OPTIONS_CONTRACT['16.11']}
+                </HeaderSection.Title>
+                <HeaderSection.Description>
+                  {MESSAGES_OPTIONS_CONTRACT['16.12']}
+                </HeaderSection.Description>
+              </div>
             </HeaderSection.Root>
           </Monitoring.Header>
-
-          <Separator />
 
           <Monitoring.Header.Filters>
             <Monitoring.Header.SortFilter />
@@ -130,9 +134,7 @@ function MonitoringPageContent({
                   {(cell: MonitoringCell) => (
                     <>
                       {cell.connectionStatus === 'online' && (
-                        <Monitoring.Menu.AccentBar
-                          status={cell.status}
-                        />
+                        <Monitoring.Menu.AccentBar status={cell.status} />
                       )}
                       <Monitoring.Menu.Header name={cell.name} />
                       <Separator />

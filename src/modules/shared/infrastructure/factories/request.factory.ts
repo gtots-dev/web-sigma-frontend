@@ -2,6 +2,7 @@ import type { FetchHttpClient } from '../http/fetch/fetch-http-client'
 import { nextAuthInterceptor } from '../interceptors/next-auth-interceptor'
 import { nextCookieInterceptor } from '../interceptors/next-cookie.interceptor'
 import { next2faInterceptor } from '../interceptors/next-2fa.interceptor'
+import { sanitizePayloadInterceptor } from '../interceptors/sanitize-payload.interceptor'
 import { ExecuteRequest } from '../services/execute-request.service'
 
 export class ExecuteRequestFactory {
@@ -9,7 +10,8 @@ export class ExecuteRequestFactory {
     return new ExecuteRequest(httpClient, [
       nextAuthInterceptor,
       nextCookieInterceptor,
-      next2faInterceptor
+      next2faInterceptor,
+      sanitizePayloadInterceptor
     ])
   }
 }

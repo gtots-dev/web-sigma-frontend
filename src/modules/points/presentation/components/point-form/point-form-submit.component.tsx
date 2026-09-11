@@ -2,16 +2,18 @@
 
 import { LoadingSpinComponent } from '@/modules/shared/presentation/components/loading-spin/loading-spin.component'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
-import { useFormContext } from 'react-hook-form'
+import { useSmartFormSubmit } from '@/modules/shared/presentation/hooks/use-smart-form-submit.hook'
+import { useFormContext, type FieldValues } from 'react-hook-form'
 
-interface PointFormSubmitComponentProps<T> {
-  onSubmit: (values: T) => void
+interface PointFormSubmitComponentProps<T extends FieldValues> {
+  onSubmit: (values: T | Partial<T>) => void
 }
 
-export function PointFormSubmitComponent<T>({
+export function PointFormSubmitComponent<T extends FieldValues>({
   onSubmit
 }: PointFormSubmitComponentProps<T>) {
-  const { handleSubmit, formState } = useFormContext<T>()
+  const handleSmartSubmit = useSmartFormSubmit<T>(onSubmit)
+  const { formState } = useFormContext<T>()
   const { isSubmitting } = formState
 
   return (
@@ -20,7 +22,7 @@ export function PointFormSubmitComponent<T>({
       className="w-full sm:w-[150px]"
       variant="primary"
       disabled={isSubmitting}
-      onClick={handleSubmit(onSubmit)}
+      onClick={handleSmartSubmit}
     >
       Confirmar <LoadingSpinComponent loading={isSubmitting} />
     </Button>

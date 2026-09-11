@@ -11,7 +11,7 @@ import {
 import type { Props as LegendProps } from 'recharts/types/component/Legend'
 import { TooltipContentProps } from 'recharts/types/component/Tooltip'
 
-import { cn } from 'src/modules/shared/presentation/lib/utils'
+import { cn, formatChartNumber } from 'src/modules/shared/presentation/lib/utils'
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: '', dark: '.dark' } as const
@@ -283,9 +283,10 @@ function ChartTooltipContent({
                     </div>
                     {item.value !== undefined && (
                       <span className="ms-5 text-foreground font-mono font-medium tabular-nums">
-                        {percentage && total
-                          ? `${computedValue.toFixed(0)}%`
-                          : rawValue.toLocaleString()}
+                        {formatChartNumber(
+                          percentage ? computedValue : rawValue,
+                          { percentage, decimals: 4 }
+                        )}
                       </span>
                     )}
                   </div>

@@ -8,7 +8,7 @@ import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.con
 import { MESSAGES_OPTIONS_CONTRACT } from '@/modules/shared/presentation/messages/options-contract'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { MonitorDot, ChartLine, Settings, type LucideIcon } from 'lucide-react'
+import { MonitorDot, ChartLine, Settings, type LucideIcon, FileVideo2 } from 'lucide-react'
 import { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
@@ -87,6 +87,16 @@ export default async function ContractOptionsPage({
       ),
       icon: MonitorDot,
       accessAllowed: true
+    },
+    {
+      title: MESSAGES_OPTIONS_CONTRACT['16.13'],
+      description: MESSAGES_OPTIONS_CONTRACT['16.14'],
+      pathName: PATHNAMES.INFRACTIONS(
+        Number(rawOperationId),
+        Number(rawContractId)
+      ),
+      icon: FileVideo2,
+      accessAllowed: true
     }
   ]
 
@@ -98,10 +108,10 @@ export default async function ContractOptionsPage({
     <FrameOptions.Root>
       <FrameOptions.Header>
         <HeaderOptions.Root>
-          <div className="flex gap-5 flex-col lg:flex-row">
+          <div className="flex items-center gap-3 sm:gap-4 flex-row min-w-0">
             <SectionRedirectLink.Button href={previousSection} />
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 min-w-0 flex-1">
               <HeaderOptions.Title>{title}</HeaderOptions.Title>
               <HeaderOptions.Description>
                 {description}

@@ -11,6 +11,8 @@ type MessageKeys =
   | '16.10'
   | '16.11'
   | '16.12'
+  | '16.13'
+  | '16.14'
 
 export const MESSAGES_OPTIONS_CONTRACT: Record<MessageKeys, string> = {
   '16.1': 'Opções de contrato',
@@ -21,9 +23,12 @@ export const MESSAGES_OPTIONS_CONTRACT: Record<MessageKeys, string> = {
   '16.6': 'Nenhuma opção disponível para essa contrato.',
   '16.7': 'Selecione o Contrato',
   '16.8': 'Selecione um contrato abaixo para gerenciar suas funcionalidades.',
-  '16.9': 'Tráfego Veicular',
+  '16.9': 'Estatísticas de tráfego',
   '16.10':
     'Visualize, calcule e analise estatísticas do fluxo de tráfego veicular com filtros.',
-  '16.11': 'Monitoramento',
-  '16.12': 'Acompanhe em tempo real o status e o funcionamento dos itens do contrato.'
+  '16.11': 'Mapa operacional',
+  '16.12':
+    'Acompanhe em tempo real o status e o funcionamento dos equipamentos do contrato.',
+  '16.13': 'Visualizador de Registro',
+  '16.14': 'Analise, visualize e filtre os registros apresentados.'
 }
