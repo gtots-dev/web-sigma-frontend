@@ -23,13 +23,10 @@ export default function RealTimeInfractionsPage({ params }: RealTimePageProps) {
 
   return (
     <HeaderSection.Root className="justify-between">
-      <div className="flex items-center gap-4 min-w-0">
-        <SectionRedirectLink.Button
-          className="mb-5 lg:mb-0 shrink-0"
-          href={previousSection}
-        />
-        <Separator orientation="vertical" className="h-5 hidden lg:block" />
-        <div className="flex flex-col min-w-0">
+      <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
+        <SectionRedirectLink.Button href={previousSection} />
+        <Separator orientation="vertical" className="h-5 shrink-0 hidden sm:block" />
+        <div className="flex flex-col min-w-0 flex-1">
           <HeaderSection.Title>
             {MESSAGES_INFRACTIONS['22.1']}
           </HeaderSection.Title>

@@ -11,12 +11,12 @@ export function HeaderSectionDescriptionComponent({
   return (
     <div
       className={cn(
-        'text-xs leading-[1.3rem] text-muted-foreground flex items-center gap-1.5 truncate',
+        'text-xs leading-relaxed text-muted-foreground flex items-center gap-1.5 min-w-0 truncate',
         className
       )}
       {...props}
     >
-      <span className="truncate">{children}</span>
+      <span className="truncate min-w-0">{children}</span>
     </div>
   )
 }

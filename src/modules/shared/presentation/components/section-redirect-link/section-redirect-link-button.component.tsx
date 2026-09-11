@@ -21,7 +21,7 @@ export function SectionRedirectLinkButtonComponent({
   return (
     <Button
       className={cn(
-        'h-auto w-full lg:!w-9 lg:!aspect-square self-stretch',
+        'h-9 w-9 shrink-0 aspect-square p-0 flex items-center justify-center',
         className
       )}
       variant={variant}
@@ -29,12 +29,7 @@ export function SectionRedirectLinkButtonComponent({
       {...props}
     >
       <Link href={href} aria-label="Voltar">
-        {children ?? (
-          <>
-            <CornerUpLeft className="w-4 h-4" />
-            <span className="md:hidden">Voltar</span>
-          </>
-        )}
+        {children ?? <CornerUpLeft className="w-4 h-4" />}
       </Link>
     </Button>
   )

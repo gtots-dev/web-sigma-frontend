@@ -79,10 +79,10 @@ export default async function ConfigurationOptionsPage({
     <FrameOptions.Root>
       <FrameOptions.Header>
         <HeaderOptions.Root>
-          <div className="flex gap-5 flex-col lg:flex-row">
+          <div className="flex items-center gap-3 sm:gap-4 flex-row min-w-0">
             <SectionRedirectLink.Button href={previousSection} />
 
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 min-w-0 flex-1">
               <HeaderOptions.Title>{title}</HeaderOptions.Title>
               <HeaderOptions.Description>
                 {description}

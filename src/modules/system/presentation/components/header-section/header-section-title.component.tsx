@@ -11,7 +11,7 @@ export function HeaderSectionTitleComponent({
   return (
     <h1
       className={cn(
-        'text-base sm:text-lg font-semibold text-foreground tracking-tight shrink-0',
+        'text-base sm:text-lg font-semibold text-foreground tracking-tight min-w-0 truncate',
         className
       )}
       {...props}

@@ -68,15 +68,14 @@ export default async function ActivityReportPage({
     <ActivityReportForm.Form initSettings={initialSettingsLogs}>
       <main className="flex flex-col flex-1 w-full p-8 sm:p-10 sm:pb-0 gap-5">
         <HeaderSection.Root>
-          <SectionRedirectLink.Button
-            className="mb-5 lg:mb-0"
-            href={previousSection}
-          />
-          <Separator orientation="vertical" className="h-5 hidden lg:block" />
-          <HeaderSection.Title>{data.title}</HeaderSection.Title>
-          <HeaderSection.Description>
-            {data.description}
-          </HeaderSection.Description>
+          <SectionRedirectLink.Button href={previousSection} />
+          <Separator orientation="vertical" className="h-5 shrink-0 hidden sm:block" />
+          <div className="flex flex-col min-w-0 flex-1">
+            <HeaderSection.Title>{data.title}</HeaderSection.Title>
+            <HeaderSection.Description>
+              {data.description}
+            </HeaderSection.Description>
+          </div>
         </HeaderSection.Root>
 
         <SystemFilters.Root>

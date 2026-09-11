@@ -50,7 +50,6 @@ function MonitoringPageContent({
           <Monitoring.Header>
             <HeaderSection.Root>
               <SectionRedirectLink.Button
-                className="mb-5 lg:mb-0"
                 href={PATHNAMES.CONTRACTS_OPTIONS(
                   Number(operationId),
                   Number(contractId)
@@ -58,14 +57,16 @@ function MonitoringPageContent({
               />
               <Separator
                 orientation="vertical"
-                className="h-5 hidden lg:block"
+                className="h-5 shrink-0 hidden sm:block"
               />
-              <HeaderSection.Title>
-                {MESSAGES_OPTIONS_CONTRACT['16.11']}
-              </HeaderSection.Title>
-              <HeaderSection.Description>
-                {MESSAGES_OPTIONS_CONTRACT['16.12']}
-              </HeaderSection.Description>
+              <div className="flex flex-col min-w-0 flex-1">
+                <HeaderSection.Title>
+                  {MESSAGES_OPTIONS_CONTRACT['16.11']}
+                </HeaderSection.Title>
+                <HeaderSection.Description>
+                  {MESSAGES_OPTIONS_CONTRACT['16.12']}
+                </HeaderSection.Description>
+              </div>
             </HeaderSection.Root>
           </Monitoring.Header>
 
