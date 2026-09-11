@@ -17,30 +17,20 @@ export class NativeWebSocketService<
   private url: string | null = null
   private readonly baseURL: string
 
-  private convertToWsUrl(url: string): string {
-    if (!url) return ''
-    let wsUrl = url
-    if (url.startsWith('https://')) {
-      wsUrl = url.replace(/^https:\/\//, 'wss://')
-    } else if (url.startsWith('http://')) {
-      wsUrl = url.replace(/^http:\/\//, 'ws://')
-    }
-    return wsUrl
-  }
-
   constructor(
     private readonly interceptors: WebSocketInterceptor[] = [],
-    baseURL: string
+    baseURL?: string
   ) {
-    this.baseURL = this.convertToWsUrl(baseURL ?? '')
+    const raw = baseURL || ''
+    this.baseURL = raw.startsWith('https://')
+      ? raw.replace(/^https:\/\//, 'wss://')
+      : raw.replace(/^http:\/\//, 'ws://')
   }
 
   async connect(url?: string): Promise<void> {
-    let finalUrl = url
-      ? url.startsWith('ws')
-        ? url
-        : `${this.baseURL}${url}`
-      : this.baseURL
+    const isAbsoluteWsUrl =
+      url?.startsWith('ws://') || url?.startsWith('wss://')
+    let finalUrl = isAbsoluteWsUrl ? url! : `${this.baseURL}${url ?? ''}`
 
     if (!finalUrl) {
       console.error(
