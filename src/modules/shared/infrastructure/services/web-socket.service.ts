@@ -17,11 +17,22 @@ export class NativeWebSocketService<
   private url: string | null = null
   private readonly baseURL: string
 
+  private convertToWsUrl(url: string): string {
+    if (!url) return ''
+    let wsUrl = url
+    if (url.startsWith('https://')) {
+      wsUrl = url.replace(/^https:\/\//, 'wss://')
+    } else if (url.startsWith('http://')) {
+      wsUrl = url.replace(/^http:\/\//, 'ws://')
+    }
+    return wsUrl
+  }
+
   constructor(
     private readonly interceptors: WebSocketInterceptor[] = [],
     baseURL: string
   ) {
-    this.baseURL = (baseURL ?? '').replace(/^http/, 'ws')
+    this.baseURL = this.convertToWsUrl(baseURL ?? '')
   }
 
   async connect(url?: string): Promise<void> {
@@ -60,25 +71,39 @@ export class NativeWebSocketService<
         this.notifyConnectionChange(true)
       }
 
+      this.socket.onerror = (event) => {
+        console.error(
+          `[ERROR WebSocket] Erro na conexão WebSocket com URL: "${finalUrl}"`,
+          event
+        )
+      }
+
       this.socket.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data) as TIncoming
           this.messageListeners.forEach((callback) => callback(data))
         } catch (error) {
           console.error(
-            '[ERROR] Erro ao processar mensagem do WebSocket',
-            error
+            '[ERROR WebSocket] Erro ao processar mensagem recebida do WebSocket:',
+            error,
+            'Dados brutos:',
+            event.data
           )
         }
       }
 
-      this.socket.onclose = () => {
-        console.warn('[WARN] Conexão WebSocket fechada')
+      this.socket.onclose = (event) => {
+        console.warn(
+          `[WARN WebSocket] Conexão encerrada (código: ${event.code}, razão: "${event.reason || 'Nenhuma'}"). URL: ${finalUrl}`
+        )
         this.notifyConnectionChange(false)
         this.handleReconnect()
       }
     } catch (error) {
-      console.error('[ERROR] Falha ao criar instância do WebSocket', error)
+      console.error(
+        `[ERROR WebSocket] Falha crítica ao instanciar WebSocket com URL "${finalUrl}":`,
+        error
+      )
       this.handleReconnect()
     }
   }
