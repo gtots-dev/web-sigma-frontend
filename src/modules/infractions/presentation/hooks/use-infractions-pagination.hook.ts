@@ -29,7 +29,6 @@ export function useInfractionsPagination(params: UrlParams) {
     onNearBottom: handleNearBottom,
     onNearTop: handleNearTop,
     hasMore: { top: hasNewer, bottom: hasOlder },
-    loading: { top: loadingNewer, bottom: loadingOlder },
-    nudgeOnTop: true
+    loading: { top: loadingNewer, bottom: loadingOlder }
   })
 }

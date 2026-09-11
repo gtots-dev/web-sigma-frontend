@@ -32,28 +32,14 @@ export function useBidirectionalScroll({
   loading,
   sentinelTopId = 'sentinel-top',
   sentinelBottomId = 'sentinel-bottom',
-  prefetchMarginPx,
-  nudgeOnTop = false,
-  nudgeMultiplier = 1.5,
   cooldownMs = 500
 }: BidirectionalScrollOptions) {
-  const bottomObs = useRef<IntersectionObserver | null>(null)
-  const topObs = useRef<IntersectionObserver | null>(null)
-
   const onNearTopRef = useRef(onNearTop)
   const onNearBottomRef = useRef(onNearBottom)
   const hasMoreRef = useRef(hasMore)
   const loadingRef = useRef(loading)
   const inFlightBottom = useRef(false)
   const inFlightTop = useRef(false)
-
-  const isBottomIntersecting = useRef(false)
-  const isTopIntersecting = useRef(false)
-
-  const isScrollingDownRef = useRef(false)
-  const isScrollingUpRef = useRef(false)
-  const lastScrollTopRef = useRef(0)
-  const scrollStopTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   // Referência para ancorar o card visível atual e seu deslocamento (offset) em relação à tela
   const anchorCardRef = useRef<{
@@ -100,20 +86,39 @@ export function useBidirectionalScroll({
     }
   }
 
-  const tryTriggerBottom = () => {
-    if (!isScrollingDownRef.current) return
+  const isAtBottom = (container: HTMLElement | Window): boolean => {
+    if (container instanceof HTMLElement) {
+      return (
+        container.scrollHeight - container.scrollTop - container.clientHeight <= 3
+      )
+    }
+    const scrollHeight = document.documentElement.scrollHeight
+    const clientHeight = window.innerHeight
+    const scrollTop = window.scrollY || document.documentElement.scrollTop
+    return scrollHeight - scrollTop - clientHeight <= 3
+  }
 
+  const isAtTop = (container: HTMLElement | Window): boolean => {
+    if (container instanceof HTMLElement) {
+      return container.scrollTop <= 3
+    }
+    const scrollTop = window.scrollY || document.documentElement.scrollTop
+    return scrollTop <= 3
+  }
+
+  const tryTriggerBottom = (container: HTMLElement | Window | null) => {
     if (
-      isBottomIntersecting.current &&
       !inFlightBottom.current &&
       hasMoreRef.current.bottom &&
       !loadingRef.current.bottom
     ) {
-      const sentinelBottom = document.getElementById(sentinelBottomId)
-      const container = resolveScrollContainer(sentinelBottom)
+      const el =
+        container instanceof HTMLElement
+          ? container
+          : resolveScrollContainer(document.getElementById(sentinelBottomId))
 
-      if (container) {
-        captureVisibleAnchorCard(container)
+      if (el) {
+        captureVisibleAnchorCard(el)
       }
 
       inFlightBottom.current = true
@@ -121,20 +126,22 @@ export function useBidirectionalScroll({
     }
   }
 
-  const tryTriggerTop = (container: HTMLElement | null) => {
-    if (!isScrollingUpRef.current) return
-
+  const tryTriggerTop = (container: HTMLElement | Window | null) => {
     if (
-      isTopIntersecting.current &&
       !inFlightTop.current &&
       hasMoreRef.current.top &&
       !loadingRef.current.top
     ) {
-      if (container) {
-        captureVisibleAnchorCard(container)
-        if (container.scrollHeight > container.clientHeight) {
-          prevScrollHeightRef.current = container.scrollHeight
-          prevScrollTopRef.current = container.scrollTop
+      const el =
+        container instanceof HTMLElement
+          ? container
+          : resolveScrollContainer(document.getElementById(sentinelTopId))
+
+      if (el) {
+        captureVisibleAnchorCard(el)
+        if (el.scrollHeight > el.clientHeight) {
+          prevScrollHeightRef.current = el.scrollHeight
+          prevScrollTopRef.current = el.scrollTop
         }
       } else {
         prevScrollHeightRef.current = document.documentElement.scrollHeight
@@ -176,7 +183,7 @@ export function useBidirectionalScroll({
       }, cooldownMs)
       return () => clearTimeout(timer)
     }
-  }, [loading.bottom, cooldownMs])
+  }, [loading.bottom, cooldownMs, sentinelBottomId])
 
   useEffect(() => {
     if (!loading.top) {
@@ -220,126 +227,64 @@ export function useBidirectionalScroll({
       }, cooldownMs)
       return () => clearTimeout(timer)
     }
-  }, [loading.top, cooldownMs])
+  }, [loading.top, cooldownMs, sentinelTopId])
 
-  // Registra ouvintes de rolagem tanto no container quanto na janela para verificar a direção e proximidade
+  // Captura os eventos de rolagem extra (wheel, touch, keydown) apenas quando o container estiver na borda (zona segura)
   useEffect(() => {
     const sentinelBottom = document.getElementById(sentinelBottomId)
     const container = resolveScrollContainer(sentinelBottom)
+    const target = container ?? window
 
-    const handleScroll = () => {
-      const threshold = prefetchMarginPx ?? 600
-      let distanceToBottom = Infinity
-      let scrollTop = 0
+    let touchStartY = 0
 
-      if (container && container.scrollHeight > container.clientHeight) {
-        distanceToBottom =
-          container.scrollHeight - container.scrollTop - container.clientHeight
-        scrollTop = container.scrollTop
-      } else {
-        const scrollHeight = document.documentElement.scrollHeight
-        const clientHeight = window.innerHeight
-        scrollTop = window.scrollY || document.documentElement.scrollTop
-        distanceToBottom = scrollHeight - scrollTop - clientHeight
-      }
-
-      // Detecta a direção ativa do movimento de rolagem
-      const delta = scrollTop - lastScrollTopRef.current
-      if (delta > 0.5) {
-        isScrollingDownRef.current = true
-        isScrollingUpRef.current = false
-      } else if (delta < -0.5) {
-        isScrollingDownRef.current = false
-        isScrollingUpRef.current = true
-      }
-      lastScrollTopRef.current = scrollTop
-
-      // Reseta a intenção de rolagem após 150ms de inatividade
-      if (scrollStopTimerRef.current) clearTimeout(scrollStopTimerRef.current)
-      scrollStopTimerRef.current = setTimeout(() => {
-        isScrollingDownRef.current = false
-        isScrollingUpRef.current = false
-      }, 150)
-
-      if (distanceToBottom <= threshold) {
-        isBottomIntersecting.current = true
-        tryTriggerBottom()
-      } else {
-        isBottomIntersecting.current = false
-      }
-
-      if (scrollTop <= threshold) {
-        isTopIntersecting.current = true
-        tryTriggerTop(container)
-      } else {
-        isTopIntersecting.current = false
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY > 0 && isAtBottom(target)) {
+        tryTriggerBottom(target)
+      } else if (e.deltaY < 0 && isAtTop(target)) {
+        tryTriggerTop(target)
       }
     }
 
-    const target = container ?? window
-    target.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('scroll', handleScroll, { passive: true })
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        touchStartY = e.touches[0].clientY
+      }
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return
+      const currentY = e.touches[0].clientY
+      const diffY = touchStartY - currentY // positivo: arrastando para cima (tentativa de rolar para baixo)
+
+      if (diffY > 15 && isAtBottom(target)) {
+        tryTriggerBottom(target)
+      } else if (diffY < -15 && isAtTop(target)) {
+        tryTriggerTop(target)
+      }
+    }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const isDownKey = e.key === 'ArrowDown' || e.key === 'PageDown'
+      const isUpKey = e.key === 'ArrowUp' || e.key === 'PageUp'
+
+      if (isDownKey && isAtBottom(target)) {
+        tryTriggerBottom(target)
+      } else if (isUpKey && isAtTop(target)) {
+        tryTriggerTop(target)
+      }
+    }
+
+    target.addEventListener('wheel', handleWheel as EventListener, { passive: true })
+    target.addEventListener('touchstart', handleTouchStart as EventListener, { passive: true })
+    target.addEventListener('touchmove', handleTouchMove as EventListener, { passive: true })
+    window.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      target.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('scroll', handleScroll)
-      if (scrollStopTimerRef.current) clearTimeout(scrollStopTimerRef.current)
+      target.removeEventListener('wheel', handleWheel as EventListener)
+      target.removeEventListener('touchstart', handleTouchStart as EventListener)
+      target.removeEventListener('touchmove', handleTouchMove as EventListener)
+      window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [sentinelBottomId, sentinelTopId, prefetchMarginPx, cooldownMs])
-
-  // Observador de interseção do elemento sentinela inferior (fim da página)
-  useEffect(() => {
-    const sentinel = document.getElementById(sentinelBottomId)
-    if (!sentinel) return
-
-    const container = resolveScrollContainer(sentinel)
-    const rootNode =
-      container && container.scrollHeight > container.clientHeight
-        ? container
-        : null
-    const margin = `${prefetchMarginPx ?? 800}px`
-
-    bottomObs.current?.disconnect()
-    bottomObs.current = new IntersectionObserver(
-      ([entry]) => {
-        isBottomIntersecting.current = entry.isIntersecting
-        tryTriggerBottom()
-      },
-      {
-        root: rootNode,
-        rootMargin: `0px 0px ${margin} 0px`
-      }
-    )
-
-    bottomObs.current.observe(sentinel)
-    return () => bottomObs.current?.disconnect()
-  }, [sentinelBottomId, prefetchMarginPx, cooldownMs])
-
-  // Observador de interseção do elemento sentinela superior (topo da página)
-  useEffect(() => {
-    const sentinel = document.getElementById(sentinelTopId)
-    if (!sentinel) return
-
-    const container = resolveScrollContainer(sentinel)
-    const rootNode =
-      container && container.scrollHeight > container.clientHeight
-        ? container
-        : null
-    const margin = `${prefetchMarginPx ?? 800}px`
-
-    topObs.current?.disconnect()
-    topObs.current = new IntersectionObserver(
-      ([entry]) => {
-        isTopIntersecting.current = entry.isIntersecting
-        tryTriggerTop(container)
-      },
-      {
-        root: rootNode,
-        rootMargin: `${margin} 0px 0px 0px`
-      }
-    )
-
-    topObs.current.observe(sentinel)
-    return () => topObs.current?.disconnect()
-  }, [sentinelTopId, prefetchMarginPx, nudgeOnTop, nudgeMultiplier, cooldownMs])
+  }, [sentinelBottomId, sentinelTopId, cooldownMs])
 }
+
