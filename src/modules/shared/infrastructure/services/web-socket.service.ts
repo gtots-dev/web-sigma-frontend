@@ -50,7 +50,11 @@ export class NativeWebSocketService<
     if (this.socket?.readyState === WebSocket.OPEN) return
 
     this.url = finalUrl
-    console.info(`[INFO] Conectando ao WebSocket (interceptado): ${finalUrl}`)
+    console.log(
+      '%c[WebSocket Native Service] Conectando na URL completa:',
+      'color: #00ffff; font-weight: bold; font-size: 13px;',
+      finalUrl
+    )
 
     try {
       this.socket = new WebSocket(finalUrl)
