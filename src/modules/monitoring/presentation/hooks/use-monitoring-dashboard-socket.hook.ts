@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { useSession } from 'next-auth/react'
 import {
   MonitoringCell,
   MonitoringStatus,
@@ -21,6 +22,7 @@ export function useMonitoringDashboardSocket(
   nodes: UnifiedMonitoringNode[],
   contractId: string
 ) {
+  const { status } = useSession()
   const upData = useMonitoringDashboardStore((state) => state.upData)
   const laneData = useMonitoringDashboardStore((state) => state.laneData)
   const hasReceivedInitialData = useMonitoringDashboardStore(
@@ -35,7 +37,7 @@ export function useMonitoringDashboardSocket(
     useWebSocketEngine(
       () => MonitoringDashboardSocketFactory.create(contractId),
       {
-        enabled: nodes.length > 0
+        enabled: nodes.length > 0 && status === 'authenticated'
       }
     )
 
