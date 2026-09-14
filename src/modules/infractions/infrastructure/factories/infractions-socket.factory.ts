@@ -6,7 +6,7 @@ import { InfractionsSocketService } from '../services/infractions-socket.service
 export class InfractionsSocketFactory {
   static create(contractId: string): InfractionsSocketServiceGateway {
     const webSocketService =
-      WebSocketFactory.create<InfractionsIncomingMessage>(process.env.NEXT_PUBLIC_HOST_API)
+      WebSocketFactory.create<InfractionsIncomingMessage>(process.env.HOST_API)
     return new InfractionsSocketService(webSocketService, contractId)
   }
 }
