@@ -9,6 +9,9 @@ RUN npm ci
 
 COPY . .
 
+ARG HOST_API
+ENV HOST_API=${HOST_API}
+
 RUN npm run build
 
 # Estágio de produção
