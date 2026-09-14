@@ -5,7 +5,6 @@ services:
       target: runner
       args:
         - APP_PORT=${APP_PORT}
-        - HOST_API=${HOST_API}
     container_name: sigma-frontend-prod
     image: sigma-frontend-prod
     ports:
