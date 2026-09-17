@@ -6,6 +6,7 @@ import { SidebarSystemItemChildComponent } from './sidebar-system-item-child.com
 import { SidebarSystemItemGrandchildComponent } from './sidebar-system-item-grandchild.component'
 import { useSidebarSystemData } from '../../hooks/use-sidebar-system-data.hook'
 import type { UserPermissionsInterface } from '@/modules/users/domain/interfaces/user-permissions.interface'
+import { ClientLogger } from '@/modules/shared/presentation/components/client-logger'
 
 interface SidebarSystemClientComponentProps {
   permissions: UserPermissionsInterface
@@ -27,6 +28,7 @@ export default function SidebarSystemClientComponent({
 
   return (
     <SidebarSystem.Root>
+      <ClientLogger />
       <SidebarSystem.Header />
       <SidebarSystem.Content>
         <SidebarSystem.Item item={sidebarData}>

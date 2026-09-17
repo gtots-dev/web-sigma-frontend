@@ -7,19 +7,19 @@ export async function POST(req: Request) {
 
     const formattedTime = timestamp ? new Date(timestamp).toISOString() : new Date().toISOString()
     
-    // Extract only the path/search from URL to keep it compact
+    // Extrai apenas o caminho e a busca da URL para mantê-la compacta
     let compactUrl = url || 'N/A'
     try {
       const parsed = new URL(url)
       compactUrl = parsed.pathname + parsed.search
     } catch {}
 
-    // Get the first 2 lines of the stack trace to avoid bloating the logs
+    // Obtém as duas primeiras linhas do rastreamento de pilha (stack trace) para evitar inchar os logs
     const compactStack = stack
       ? stack.split('\n').slice(0, 2).map(line => line.trim()).join(' | ')
       : 'N/A'
 
-    // Output as a single, highly compact line
+    // Exibe como uma única linha altamente compacta
     const logLine = `[CLIENT-${level.toUpperCase()}] [${formattedTime}] [${compactUrl}] ${message} (Stack: ${compactStack})`
 
     if (level === 'error') {
@@ -32,8 +32,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    // Keep internal logging error as a single line too
-    console.error(`[SERVER-ERROR] Failed logging client-side error: ${error instanceof Error ? error.message : String(error)}`)
+    // Mantém erro interno de log em uma única linha também
+    console.error(`[SERVER-ERROR] Falha ao registrar log de erro do cliente: ${error instanceof Error ? error.message : String(error)}`)
     return NextResponse.json({ success: false }, { status: 500 })
   }
 }
