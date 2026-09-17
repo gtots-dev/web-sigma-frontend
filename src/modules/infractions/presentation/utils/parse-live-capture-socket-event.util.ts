@@ -19,6 +19,8 @@ export interface ParsedLiveCaptureData {
 }
 
 interface RawCapturePayload {
+  readonly traffic_capture_id: number | string
+  readonly id?: number | string
   readonly created_at?: string
   readonly date?: string
   readonly timestamp?: string
@@ -35,7 +37,7 @@ export const parseLiveCaptureSocketEvent = (
   ttlMs: number = DEFAULT_TTL_MS
 ): ParsedLiveCaptureData => {
   const rawResponse = (incoming.response ?? {}) as RawCapturePayload
-  const rawId = incoming.id ?? incoming.response?.id
+  const rawId = incoming.response?.traffic_capture_id ?? rawResponse.traffic_capture_id
   const expiresAt = now + ttlMs
   const fileUrl = rawResponse.file?.url
 

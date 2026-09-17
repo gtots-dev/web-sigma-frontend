@@ -9,6 +9,7 @@ export interface LiveTrafficCaptureFileThumb {
 }
 
 export interface LiveTrafficCaptureResponse {
+  traffic_capture_id: number | string
   id?: number | string | null
   contract_id: number
   lane_id: number
