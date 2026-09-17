@@ -25,6 +25,10 @@
           "value": "https://api.sigma.gtots.com.br"
         },
         {
+          "name": "NEXT_PUBLIC_HOST_API",
+          "value": "wss://api.sigma.gtots.com.br"
+        },
+        {
           "name": "PORT",
           "value": "3000"
         }

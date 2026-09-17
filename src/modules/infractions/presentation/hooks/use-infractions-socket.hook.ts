@@ -1,4 +1,5 @@
 import { useMemo, useEffect, useCallback } from 'react'
+import { useSession } from 'next-auth/react'
 import { useWebSocketEngine } from '@/modules/shared/presentation/hooks/use-websocket-engine.hook'
 import { useWebSocketSubscription } from '@/modules/shared/presentation/hooks/use-websocket-subscription.hook'
 import { InfractionsSocketFactory } from '../../infrastructure/factories/infractions-socket.factory'
@@ -9,6 +10,7 @@ export function useInfractionsSocket(
   contractId: string,
   enabled: boolean = true
 ) {
+  const { status } = useSession()
   const infractions = useInfractionsWebsocketStore((state) => state.infractions)
   const addCapture = useInfractionsWebsocketStore((state) => state.addCapture)
   const purgeExpired = useInfractionsWebsocketStore(
@@ -17,7 +19,7 @@ export function useInfractionsSocket(
   const clear = useInfractionsWebsocketStore((state) => state.clear)
 
   const validContractId = contractId ? String(contractId) : ''
-  const isEnabled = enabled && !!validContractId
+  const isEnabled = enabled && !!validContractId && status === 'authenticated'
 
   useEffect(() => {
     if (isEnabled) {

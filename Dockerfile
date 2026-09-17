@@ -9,9 +9,6 @@ RUN npm ci
 
 COPY . .
 
-ARG HOST_API
-ENV HOST_API=${HOST_API}
-
 RUN npm run build
 
 # Estágio de produção
@@ -20,10 +17,8 @@ FROM node:24-bookworm-slim AS runner
 WORKDIR /app
 
 ARG APP_PORT
-ARG HOST_API
 
 ENV PORT=${APP_PORT}
-ENV HOST_API=${HOST_API}
 
 ENV NODE_ENV=production
 
