@@ -1,8 +1,5 @@
 'use client'
 
-import { use } from 'react'
-import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { useInfractionsSocket } from '@/modules/infractions/presentation/hooks/use-infractions-socket.hook'
 import { useInfractionsWebsocketStore } from '@/modules/infractions/presentation/stores/infractions-websocket.store'
 import { useLiveInfractionSelection } from '@/modules/infractions/presentation/hooks/use-live-infraction-selection.hook'
 import { useLiveModeHotKey } from '@/modules/infractions/presentation/hooks/use-live-mode-hotkey.hook'
@@ -17,13 +14,7 @@ import { InfractionVideoViewer } from '@/modules/infractions/presentation/compon
 import { InfractionDescription } from '@/modules/infractions/presentation/components/infraction-description'
 import { InfractionsTimeline } from '@/modules/infractions/presentation/components/infractions-timeline'
 
-interface LiveSlotPageProps {
-  params: Promise<UrlParams>
-}
-
-export default function LiveSlotPage({ params }: LiveSlotPageProps) {
-  const { contractId } = use(params)
-  useInfractionsSocket(String(contractId), true)
+export default function LiveSlotPage() {
 
   const infractions = useInfractionsWebsocketStore((state) => state.infractions)
 
