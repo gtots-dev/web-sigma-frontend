@@ -27,6 +27,8 @@ export class NativeWebSocketService<
       : raw.replace(/^http:\/\//, 'ws://')
   }
 
+  private isConnecting = false
+
   async connect(url?: string): Promise<void> {
     const isAbsoluteWsUrl =
       url?.startsWith('ws://') || url?.startsWith('wss://')
@@ -39,33 +41,51 @@ export class NativeWebSocketService<
       return
     }
 
-    for (const interceptor of this.interceptors) {
-      try {
-        finalUrl = await interceptor(finalUrl)
-      } catch (error) {
-        console.error('[ERROR] Erro no interceptor de WebSocket', error)
-      }
+    if (
+      this.isConnecting ||
+      this.socket?.readyState === WebSocket.OPEN ||
+      this.socket?.readyState === WebSocket.CONNECTING
+    ) {
+      return
     }
 
-    if (this.socket?.readyState === WebSocket.OPEN) return
-
-    this.url = finalUrl
-    console.log(
-      '%c[WebSocket Native Service] Conectando na URL completa:',
-      'color: #00ffff; font-weight: bold; font-size: 13px;',
-      finalUrl
-    )
+    this.isConnecting = true
 
     try {
+      for (const interceptor of this.interceptors) {
+        try {
+          finalUrl = await interceptor(finalUrl)
+        } catch (error) {
+          console.error('[ERROR] Erro no interceptor de WebSocket', error)
+        }
+      }
+
+      if (
+        this.socket?.readyState === WebSocket.OPEN ||
+        this.socket?.readyState === WebSocket.CONNECTING
+      ) {
+        this.isConnecting = false
+        return
+      }
+
+      this.url = finalUrl
+      console.log(
+        '%c[WebSocket Native Service] Conectando na URL completa:',
+        'color: #00ffff; font-weight: bold; font-size: 13px;',
+        finalUrl
+      )
+
       this.socket = new WebSocket(finalUrl)
 
       this.socket.onopen = () => {
+        this.isConnecting = false
         console.info('[INFO] Conexão WebSocket estabelecida')
         this.retryCount = 0
         this.notifyConnectionChange(true)
       }
 
       this.socket.onerror = (event) => {
+        this.isConnecting = false
         console.error(
           `[ERROR WebSocket] Erro na conexão WebSocket com URL: "${finalUrl}"`,
           event
@@ -87,6 +107,7 @@ export class NativeWebSocketService<
       }
 
       this.socket.onclose = (event) => {
+        this.isConnecting = false
         console.warn(
           `[WARN WebSocket] Conexão encerrada (código: ${event.code}, razão: "${event.reason || 'Nenhuma'}"). URL: ${finalUrl}`
         )
@@ -94,6 +115,7 @@ export class NativeWebSocketService<
         this.handleReconnect()
       }
     } catch (error) {
+      this.isConnecting = false
       console.error(
         `[ERROR WebSocket] Falha crítica ao instanciar WebSocket com URL "${finalUrl}":`,
         error
@@ -103,6 +125,7 @@ export class NativeWebSocketService<
   }
 
   disconnect(): void {
+    this.isConnecting = false
     if (this.reconnectTimeout) {
       clearTimeout(this.reconnectTimeout)
       this.reconnectTimeout = null
