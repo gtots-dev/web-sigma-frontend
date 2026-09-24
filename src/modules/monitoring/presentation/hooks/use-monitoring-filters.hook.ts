@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { MonitoringCell } from '../../domain/interfaces/monitoring-cell.interface'
 import { useMonitoringDashboardStore } from '../stores/use-monitoring-dashboard.store'
 
@@ -84,6 +84,32 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
     // Sort alphabetically by name
     return Array.from(itemsMap.values()).sort((a, b) => a.name.localeCompare(b.name))
   }, [cellsArray, upData, laneData])
+
+  // Limpeza automática de filtros selecionados que deixaram de ser erros ativos (status resolvido para 'ok')
+  useEffect(() => {
+    if (selectedTelemetryFilters.size === 0) return
+
+    const validKeys = new Set(telemetryItems.map((item) => `${item.type}-${item.name}`))
+    let needsPruning = false
+
+    selectedTelemetryFilters.forEach((key) => {
+      if (!validKeys.has(key)) {
+        needsPruning = true
+      }
+    })
+
+    if (needsPruning) {
+      setSelectedTelemetryFilters((prev) => {
+        const next = new Set<string>()
+        prev.forEach((key) => {
+          if (validKeys.has(key)) {
+            next.add(key)
+          }
+        })
+        return next
+      })
+    }
+  }, [telemetryItems, selectedTelemetryFilters])
 
   const toggleTelemetryFilter = useCallback((name: string, type: 'up' | 'lane') => {
     setSelectedTelemetryFilters((prev) => {
