@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { circle, rectangle, polygon, latLng } from 'leaflet'
+import { circle, rectangle, polygon, latLng, point } from 'leaflet'
 import type { Map, LayerGroup, LatLngBounds, Circle, Rectangle, Polygon } from 'leaflet'
 import type { MonitoringMapCell } from '../../domain/interfaces/monitoring-cell.interface'
 
@@ -228,7 +228,7 @@ export function useMonitoringMapGroup({
       const boundsCenter = bounds.getCenter()
       const distMeters = mapInstance.distance(currentCenter, boundsCenter)
 
-      const targetZoom = mapInstance.getBoundsZoom(bounds, false, [30, 30])
+      const targetZoom = mapInstance.getBoundsZoom(bounds, false, point(30, 30))
       const currentZoom = mapInstance.getZoom()
 
       const panned =
