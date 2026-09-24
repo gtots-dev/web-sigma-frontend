@@ -2,7 +2,7 @@ name: AWS CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feat/mapa_operacional_dinamico" ]
 
 env:
   AWS_REGION: us-east-2
