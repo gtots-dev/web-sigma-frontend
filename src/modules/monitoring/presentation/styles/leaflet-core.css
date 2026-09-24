@@ -1,0 +1,28 @@
+@import 'leaflet/dist/leaflet.css';
+
+/* Container & Attribution Controls do Leaflet */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: transparent !important;
+}
+
+.leaflet-control-attribution {
+  filter: grayscale(100%) contrast(105%) brightness(100%);
+  color: #000 !important;
+}
+
+.leaflet-control-attribution a,
+.leaflet-control-attribution span {
+  color: currentColor !important;
+}
+
+/* OpenStreetMap Monocromático (Light / Dark) */
+.osm-dark-tile {
+  filter: grayscale(100%) invert(100%) contrast(120%) brightness(50%);
+}
+
+.osm-light-tile {
+  filter: grayscale(100%) contrast(105%) brightness(100%);
+}

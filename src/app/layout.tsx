@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import '@/modules/shared/presentation/styles/globals.css'
+import '@/modules/monitoring/presentation/styles/monitoring-map.css'
 import { ThemeProvider } from '@/modules/shared/presentation/components/shadcn/theme-provider'
 import { SessionProvider } from 'next-auth/react'
 import { Toaster } from '@/modules/shared/presentation/components/shadcn/toaster'

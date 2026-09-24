@@ -1,0 +1,30 @@
+.custom-monitoring-map-pin {
+  background: transparent !important;
+  border: none !important;
+}
+
+.monitoring-pin-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 50px;
+  user-select: none;
+}
+
+.monitoring-pin-shadow {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.monitoring-pin-svg {
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
