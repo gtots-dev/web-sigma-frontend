@@ -26,7 +26,7 @@ export function ContractSelectedLabelComponent() {
 
   return (
     <div className="h-full flex rounded-lg w-full gap-x-4 p-1.5 xl:w-[350px] select-none">
-      <div className="flex flex-col items-start justify-center h-full w-full">
+      <div className="flex flex-col items-end justify-center h-full w-full">
         {contract?.name ? (
           <span className="w-full text-end underline-offset-4 text-[13px] font-semibold">
             {contract.name}
