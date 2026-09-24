@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useEffect } from 'react'
+import { useMemo, useCallback, useEffect, useState } from 'react'
 import { MonitoringCell } from '../../domain/interfaces/monitoring-cell.interface'
 import { useMonitoringCells } from './use-monitoring-cells.hook'
 import { useMonitoringFilters } from './use-monitoring-filters.hook'
@@ -6,8 +6,6 @@ import { useMonitoringViewport } from './use-monitoring-viewport.hook'
 import { useMonitoringLayout } from './use-monitoring-layout.hook'
 
 export function useMonitoring(initialCells: MonitoringCell[]) {
-
-
   // 1. Gestão de Dados (Dicionário, Upsert, Batch, etc)
   const {
     cellsDict,
@@ -22,16 +20,20 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
   // 2. Viewport e Interações (Zoom, Offset, Drag, Refs)
   const {
     containerRef,
-    zoom, setZoom,
-    radius, setRadius,
+    zoom,
+    setZoom,
+    radius,
+    setRadius,
     offset,
     isDragging,
     active,
     handleSetActive,
     hoveredCellId,
     setHoveredCellId,
-    isMaximized, setIsMaximized,
-    isControlsMinimized, setIsControlsMinimized,
+    isMaximized,
+    setIsMaximized,
+    isControlsMinimized,
+    setIsControlsMinimized,
     handlers,
     resetView
   } = useMonitoringViewport()
@@ -43,13 +45,23 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
 
   // 3. Filtragem e Ordenação
   const {
-    statusFilter, setStatusFilter,
-    connectionFilter, setConnectionFilter,
-    upErrorFilters, setUpErrorFilters,
-    laneErrorFilters, setLaneErrorFilters,
-    sortMode, setSortMode,
-    selectedTelemetryFilters, setSelectedTelemetryFilters, toggleTelemetryFilter, clearTelemetryFilters,
-    telemetryItems, isSidebarOpen, setIsSidebarOpen,
+    statusFilter,
+    setStatusFilter,
+    connectionFilter,
+    setConnectionFilter,
+    upErrorFilters,
+    setUpErrorFilters,
+    laneErrorFilters,
+    setLaneErrorFilters,
+    sortMode,
+    setSortMode,
+    selectedTelemetryFilters,
+    setSelectedTelemetryFilters,
+    toggleTelemetryFilter,
+    clearTelemetryFilters,
+    telemetryItems,
+    isSidebarOpen,
+    setIsSidebarOpen,
     processedCells,
     totalCount,
     filteredCount
@@ -57,22 +69,47 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
 
   // 4. Layout e Espacialização (Cálculo de Coordenadas)
   const {
-    mode, setMode,
-    layout, setLayout,
-    hexes, cells,
+    mode,
+    setMode,
+    layout,
+    setLayout,
+    hexes,
+    cells,
+    mapCells,
     totalHeight,
-    CELL_WIDTH, CELL_HEIGHT
+    CELL_WIDTH,
+    CELL_HEIGHT
   } = useMonitoringLayout(processedCells, containerRef, radius, zoom)
 
+  // 4.1 Coordenadas de pixel no container para o marcador ativo e hovered do Mapa
+  const [mapActivePixelCoords, setMapActivePixelCoords] = useState<{
+    x: number
+    y: number
+    itemHeight: number
+  } | null>(null)
+
+  const [mapHoveredPixelCoords, setMapHoveredPixelCoords] = useState<{
+    x: number
+    y: number
+    itemHeight: number
+  } | null>(null)
+
   // 5. Utilitários (Cores, Pontos e Coordenadas Ativas)
-  const getDotColor = useCallback((status: MonitoringCell[] | any) => {
-    switch (status) {
-      case 'ok': return 'rgb(var(--monitoring-ok))'
-      case 'error': return 'rgb(var(--monitoring-error))'
-      case 'warning': return 'rgb(var(--monitoring-warning))'
-      default: return 'rgb(var(--monitoring-offline))'
-    }
-  }, [])
+  const getDotColor = useCallback(
+    (status?: MonitoringCell['status'] | string) => {
+      switch (status) {
+        case 'ok':
+          return 'rgb(var(--monitoring-ok))'
+        case 'error':
+          return 'rgb(var(--monitoring-error))'
+        case 'warning':
+          return 'rgb(var(--monitoring-warning))'
+        default:
+          return 'rgb(var(--monitoring-offline))'
+      }
+    },
+    []
+  )
 
   const points = useCallback((cx: number, cy: number, r: number) => {
     return Array.from({ length: 6 }, (_, i) => {
@@ -83,6 +120,9 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
 
   const activeCoords = useMemo(() => {
     if (!active) return null
+    if (mode === 'map') {
+      return mapActivePixelCoords
+    }
     if (mode === 'hex') {
       const hex = hexes.find((h) => h.cell.id === active)
       if (!hex) return null
@@ -100,7 +140,7 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
         itemHeight: CELL_HEIGHT * zoom
       }
     }
-  }, [active, mode, hexes, cells, zoom, offset, radius])
+  }, [active, mode, hexes, cells, mapActivePixelCoords, zoom, offset, radius])
 
   const activeCell = useMemo(() => {
     return active ? cellsDict[active] : null
@@ -112,6 +152,9 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
 
   const hoveredCoords = useMemo(() => {
     if (!hoveredCellId) return null
+    if (mode === 'map') {
+      return mapHoveredPixelCoords
+    }
     if (mode === 'hex') {
       const hex = hexes.find((h) => h.cell.id === hoveredCellId)
       if (!hex) return null
@@ -129,7 +172,16 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
         itemHeight: CELL_HEIGHT * zoom
       }
     }
-  }, [hoveredCellId, mode, hexes, cells, zoom, offset, radius])
+  }, [
+    hoveredCellId,
+    mode,
+    hexes,
+    cells,
+    mapHoveredPixelCoords,
+    zoom,
+    offset,
+    radius
+  ])
 
   return {
     // Dados e Mutadores
@@ -138,27 +190,34 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
     removeCells,
     updateCellsBatch,
     lastUpdated,
-    
+
     // Refs e Container
     containerRef,
-    
+
     // Viewport
-    zoom, setZoom,
-    radius, setRadius,
+    zoom,
+    setZoom,
+    radius,
+    setRadius,
     offset,
     isDragging,
-    isMaximized, setIsMaximized,
-    isControlsMinimized, setIsControlsMinimized,
+    isMaximized,
+    setIsMaximized,
+    isControlsMinimized,
+    setIsControlsMinimized,
     resetView,
-    
+
     // Filtros e Ordenação
-    statusFilter, setStatusFilter,
-    connectionFilter, setConnectionFilter,
+    statusFilter,
+    setStatusFilter,
+    connectionFilter,
+    setConnectionFilter,
     upErrorFilters,
     setUpErrorFilters,
     laneErrorFilters,
     setLaneErrorFilters,
-    sortMode, setSortMode,
+    sortMode,
+    setSortMode,
     selectedTelemetryFilters,
     setSelectedTelemetryFilters,
     toggleTelemetryFilter,
@@ -168,20 +227,25 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
     setIsSidebarOpen,
     totalCount,
     filteredCount,
-    
+
     // Layout
-    mode, setMode,
-    layout, setLayout,
+    mode,
+    setMode,
+    layout,
+    setLayout,
     hexes,
     cells,
+    mapCells,
+    setMapActivePixelCoords,
+    setMapHoveredPixelCoords,
     totalHeight,
-    
+
     // Seleção e Coordenadas
     active,
     setActive: handleSetActive,
     activeCell,
     activeCoords,
-    
+
     // Hover e Tooltip
     hoveredCellId,
     setHoveredCellId,

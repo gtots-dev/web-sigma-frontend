@@ -2,7 +2,8 @@ import { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import {
   MonitoringCell,
   MonitoringHexCell,
-  MonitoringGridCell
+  MonitoringGridCell,
+  MonitoringMapCell
 } from '../../domain/interfaces/monitoring-cell.interface'
 
 const SQRT3 = Math.sqrt(3)
@@ -17,11 +18,38 @@ export function useMonitoringLayout(
   radius: number,
   zoom: number
 ) {
-  const [mode, setMode] = useState<'hex' | 'grid'>('hex')
+  const [mode, setMode] = useState<'hex' | 'grid' | 'map'>('hex')
   const [layout, setLayout] = useState<'linear' | 'radial'>('linear')
   const [hexes, setHexes] = useState<MonitoringHexCell[]>([])
   const [cells, setCells] = useState<MonitoringGridCell[]>([])
+  const [mapCells, setMapCells] = useState<MonitoringMapCell[]>([])
   const [totalHeight, setTotalHeight] = useState(0)
+
+  // Mapeia posições de coordenadas reais enviadas pela API no objeto da célula
+  const generateMapCells = useCallback((): MonitoringMapCell[] => {
+    return processedCells
+      .filter((cell) => {
+        if (cell.latitude === undefined || cell.latitude === null || cell.longitude === undefined || cell.longitude === null) return false
+        const lat = Number(cell.latitude)
+        const lng = Number(cell.longitude)
+        return !isNaN(lat) && !isNaN(lng)
+      })
+      .map((cell) => {
+        const lat = Number(cell.latitude)
+        const lng = Number(cell.longitude)
+        return {
+          id: cell.id,
+          latitude: lat,
+          longitude: lng,
+          cell
+        }
+      })
+  }, [processedCells])
+
+  // Atualiza os mapCells quando os processedCells mudam
+  useEffect(() => {
+    setMapCells(generateMapCells())
+  }, [generateMapCells])
 
   // Fingerprint para evitar cálculos e re-renders se os dados forem os mesmos
   const cellIdsFingerprint = useMemo(
@@ -29,7 +57,7 @@ export function useMonitoringLayout(
       processedCells
         .map(
           (i) =>
-            `${i.id}-${i.status}-${i.connectionStatus}-${(i.upIds || []).join(',')}-${(i.laneIds || []).join(',')}`
+            `${i.id}-${i.status}-${i.connectionStatus}-${i.latitude}-${i.longitude}-${(i.upIds || []).join(',')}-${(i.laneIds || []).join(',')}`
         )
         .join(','),
     [processedCells]
@@ -165,12 +193,12 @@ export function useMonitoringLayout(
   )
 
   // Usamos Refs para evitar que a função update dispare re-renders infinitos
-  // ao ser lida dentro de dependências
   const lastUpdateRef = useRef('')
 
   useEffect(() => {
     function update(contentW: number) {
-      // Cria um hash da situação atual para evitar updates desnecessários
+      if (mode === 'map') return
+
       const currentHash = `${mode}-${layout}-${radius}-${zoom}-${cellIdsFingerprint}-${contentW}`
       if (lastUpdateRef.current === currentHash) return
       lastUpdateRef.current = currentHash
@@ -204,13 +232,12 @@ export function useMonitoringLayout(
       if (timeoutId) clearTimeout(timeoutId)
       timeoutId = setTimeout(() => {
         window.requestAnimationFrame(() => update(latestW))
-      }, 150) // 150ms debounce
+      }, 150)
     })
 
     if (containerRef.current) {
       observer.observe(containerRef.current)
 
-      // Chamada inicial
       const rect = containerRef.current.getBoundingClientRect()
       const cs = getComputedStyle(containerRef.current)
       const pLeft = parseFloat(cs.paddingLeft) || 0
@@ -241,8 +268,10 @@ export function useMonitoringLayout(
     setLayout,
     hexes,
     cells,
+    mapCells,
     totalHeight,
     CELL_WIDTH,
     CELL_HEIGHT
   }
 }
+
