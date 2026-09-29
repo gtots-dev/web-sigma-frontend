@@ -46,6 +46,20 @@ export function ViewMorePointMenuComponent({
               {point.enabled ? 'Sim' : 'Não'}
             </ViewMorePointMenu.Item>
           </ViewMorePointMenu.Group>
+          <ViewMorePointMenu.Group>
+            <ViewMorePointMenu.Item
+              title="Latitude"
+              notFoundData="Sem Informação"
+            >
+              {point.latitude}
+            </ViewMorePointMenu.Item>
+            <ViewMorePointMenu.Item
+              title="Longitude"
+              notFoundData="Sem Informação"
+            >
+              {point.longitude}
+            </ViewMorePointMenu.Item>
+          </ViewMorePointMenu.Group>
           <ViewMorePointMenu.Group cols={1}>
             <ViewMorePointMenu.Item
               title="Descrição"
