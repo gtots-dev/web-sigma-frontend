@@ -5,6 +5,8 @@ import { PointFormSubmitComponent } from './point-form-submit.component'
 import { PointFormComponent } from './point-form.component'
 import { PointFormInputDescriptionComponent } from './point-form-input-description.component'
 import { PointFormInputLanesComponent } from './point-form-input-lanes.component'
+import { PointFormInputLatitudeComponent } from './point-form-input-latitude.component'
+import { PointFormInputLongitudeComponent } from './point-form-input-longitude.component'
 
 export const PointForm = {
   Form: PointFormComponent,
@@ -14,6 +16,9 @@ export const PointForm = {
     cfg: PointFormInputCfgComponent,
     Description: PointFormInputDescriptionComponent,
     Enabled: PointFormInputEnabledComponent,
-    Lanes: PointFormInputLanesComponent
+    Lanes: PointFormInputLanesComponent,
+    Latitude: PointFormInputLatitudeComponent,
+    Longitude: PointFormInputLongitudeComponent
   }
 }
+
