@@ -16,6 +16,8 @@ export function usePatchPointForm(point: PointEntity) {
       id: point.id,
       name: point.name ?? '',
       description: point?.description ?? '',
+      latitude: point?.latitude ?? '',
+      longitude: point?.longitude ?? '',
       cfg: JSON.stringify(point.cfg === null ? {} : point.cfg)
     }),
     [point]
