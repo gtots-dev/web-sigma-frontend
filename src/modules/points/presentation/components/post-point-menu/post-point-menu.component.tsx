@@ -26,6 +26,10 @@ export function PostPointMenuComponent({
         <PointForm.Form>
           <PointForm.Input.Name require />
           <PointForm.Input.Description />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <PointForm.Input.Latitude />
+            <PointForm.Input.Longitude />
+          </div>
           <PointForm.Input.cfg />
         </PointForm.Form>
 
