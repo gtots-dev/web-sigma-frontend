@@ -4,7 +4,6 @@ import { View } from '../monitoring-view'
 import { Menu } from '../monitoring-menu'
 import { Legend } from '../monitoring-legend'
 import { Stats } from '../monitoring-stats'
-import { Map } from '../monitoring-map'
 import { MonitoringTooltip as Tooltip } from '../monitoring-tooltip'
 import {
   MonitoringProvider,
@@ -25,7 +24,6 @@ export const Monitoring = {
   Menu,
   Legend,
   Stats,
-  Map,
   Tooltip,
   Loading: MonitoringLoading,
   Error: MonitoringError,

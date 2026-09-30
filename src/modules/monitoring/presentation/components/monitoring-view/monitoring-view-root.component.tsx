@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 import { useMonitoringContext } from '../monitoring/monitoring-context.component'
 import { MonitoringViewBackgroundPattern } from './monitoring-view-background-pattern.component'
 import { MonitoringViewLayer } from './monitoring-view-layer.component'
-import { Map } from '../monitoring-map'
+import { MonitoringViewMap } from './monitoring-view-map.component'
 
 interface MonitoringViewRootProps {
   children?: ReactNode
@@ -27,10 +27,7 @@ export function MonitoringViewRoot({ children }: MonitoringViewRootProps) {
         ref={containerRef}
         className="flex flex-1 min-h-0 w-full h-full relative bg-background/50 select-none p-0 overflow-hidden"
       >
-        <Map>
-          <Map.Canvas />
-          {children}
-        </Map>
+        <MonitoringViewMap>{children}</MonitoringViewMap>
       </div>
     )
   }
