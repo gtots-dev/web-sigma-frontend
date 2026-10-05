@@ -18,6 +18,7 @@ export class PutUserPermissionProfileAllInOneRouterApiService
     return {
       method: 'PUT',
       data: profiles,
+      sanitize: false,
       url: `api/operations/${operationId}/users/${userId}/permission-profiles/all-in-one`
     }
   }

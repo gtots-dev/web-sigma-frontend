@@ -20,6 +20,7 @@ export class PutUserPermissionProfileAllInOneService
       method: 'PUT',
       url: `/operations/${operationId}/users/${userId}/perm-profiles/all-in-one`,
       data: profiles,
+      sanitize: false,
       requiresAuth: true
     }
   }
