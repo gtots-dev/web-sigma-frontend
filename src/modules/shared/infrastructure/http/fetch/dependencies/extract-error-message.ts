@@ -45,6 +45,12 @@ export class ExtractErrorMessage implements ExtractErrorMessageGateway {
     }
 
     if ('msg' in value && typeof value.msg === 'string') {
+      if ('loc' in value && Array.isArray(value.loc)) {
+        const fieldLoc = value.loc
+          .filter((locItem) => locItem !== 'body')
+          .join('.')
+        return fieldLoc ? `${value.msg}: ${fieldLoc}` : value.msg
+      }
       return value.msg
     }
 
