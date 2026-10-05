@@ -5,4 +5,5 @@ export interface HttpRequestConfig<TData = unknown, TParams = unknown> {
   params?: TParams
   headers?: Record<string, string>
   requiresAuth?: boolean
+  sanitize?: boolean
 }
