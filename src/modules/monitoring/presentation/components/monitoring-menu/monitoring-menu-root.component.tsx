@@ -25,7 +25,7 @@ export function MonitoringMenuRoot({ children }: MonitoringMenuRootProps) {
   return (
     <div
       ref={menuRef}
-      className="absolute z-[30] pointer-events-none"
+      className="absolute z-[160] pointer-events-none"
       style={positionStyle}
     >
       <div
