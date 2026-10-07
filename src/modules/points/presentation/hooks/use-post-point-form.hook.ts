@@ -14,6 +14,8 @@ export function usePostPointForm() {
     () => ({
       name: '',
       description: '',
+      latitude: '',
+      longitude: '',
       cfg: ''
     }),
     []

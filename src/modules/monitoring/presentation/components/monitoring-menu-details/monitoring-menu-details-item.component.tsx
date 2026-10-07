@@ -2,11 +2,11 @@ import { ArrowUpRight } from 'lucide-react'
 import {
   getLastUpdateText,
   getLevelColor
-} from '../../../utils/monitoring-menu-details.utils'
+} from '../../utils/monitoring-menu-details.utils'
 import type {
   LaneInfo,
   UpInfo
-} from '../../../hooks/use-monitoring-menu-details.hook'
+} from '../../hooks/use-monitoring-menu-details.hook'
 
 interface MonitoringMenuDetailsItemProps {
   data: UpInfo | LaneInfo

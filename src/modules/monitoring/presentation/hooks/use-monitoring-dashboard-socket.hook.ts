@@ -1,6 +1,7 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
+
 import { useSession } from 'next-auth/react'
 import {
   MonitoringCell,
@@ -33,13 +34,16 @@ export function useMonitoringDashboardSocket(
   )
 
   // 1. Motor de Conexão
+  const factory = useCallback(
+    () => MonitoringDashboardSocketFactory.create(contractId),
+    [contractId]
+  )
+
   const { service, isConnected, hasFailed, isReconnecting, reconnect, send } =
-    useWebSocketEngine(
-      () => MonitoringDashboardSocketFactory.create(contractId),
-      {
-        enabled: nodes.length > 0 && status === 'authenticated'
-      }
-    )
+    useWebSocketEngine(factory, {
+      enabled: nodes.length > 0 && status === 'authenticated'
+    })
+
 
   // 2. Ouvindo Mudanças (Memorizamos a função de assinatura para evitar resubscrições)
   const subscribeData = useMemo(
@@ -129,13 +133,26 @@ export function useMonitoringDashboardSocket(
       const connectionStatus: MonitoringConnectionStatus =
         anyUpOffline || anyLaneOffline || !hasData ? 'offline' : 'online'
 
+      // Extração dinâmica das coordenadas reais da entidade do ponto (baseado estritamente em PointInterface / PointEntity)
+      const rawPoint = node.point.point
+      const rawLat = rawPoint.latitude
+      const rawLng = rawPoint.longitude
+
+      const parsedLat = rawLat !== undefined && rawLat !== null && rawLat !== '' ? Number(rawLat) : undefined
+      const parsedLng = rawLng !== undefined && rawLng !== null && rawLng !== '' ? Number(rawLng) : undefined
+
+      const validLat = parsedLat !== undefined && !isNaN(parsedLat) ? parsedLat : undefined
+      const validLng = parsedLng !== undefined && !isNaN(parsedLng) ? parsedLng : undefined
+
       return {
         id: cellId,
         name: node.point.point.name,
         status,
         connectionStatus,
         upIds: associatedUpIds,
-        laneIds: associatedLanes.map((laneDataObj) => String(laneDataObj.lane.id))
+        laneIds: associatedLanes.map((laneDataObj) => String(laneDataObj.lane.id)),
+        latitude: validLat,
+        longitude: validLng
       }
     })
   }, [nodes, upData, laneData])

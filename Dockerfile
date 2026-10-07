@@ -9,6 +9,10 @@ RUN npm ci
 
 COPY . .
 
+# Declare os ARGs que o Docker vai receber de fora
+ARG NEXT_PUBLIC_HOST_API
+ENV NEXT_PUBLIC_HOST_API=${NEXT_PUBLIC_HOST_API}
+
 RUN npm run build
 
 # Estágio de produção

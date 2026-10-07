@@ -6,7 +6,7 @@ import { MonitoringDashboardSocketService } from '../services/monitoring-dashboa
 export class MonitoringDashboardSocketFactory {
   static create(contractId: string): MonitoringDashboardSocketServiceGateway {
     const webSocketService = WebSocketFactory.create<MonitoringIncomingMessage>(
-      process.env.HOST_API
+      process.env.NEXT_PUBLIC_HOST_API
     )
     return new MonitoringDashboardSocketService(webSocketService, contractId)
   }

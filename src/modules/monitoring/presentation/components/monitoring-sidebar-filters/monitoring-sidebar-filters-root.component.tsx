@@ -11,7 +11,6 @@ export function MonitoringSidebarFilters() {
     telemetryItems,
     selectedTelemetryFilters,
     toggleTelemetryFilter,
-    isMaximized,
     searchQuery,
     setSearchQuery,
     filteredItems,
@@ -29,18 +28,18 @@ export function MonitoringSidebarFilters() {
       onWheel={stopPropagation}
       onTouchStart={stopPropagation}
       onTouchMove={stopPropagation}
-      className={`md:relative absolute right-0 top-0 bg-white dark:bg-zinc-950 md:bg-transparent border-zinc-200 dark:border-zinc-800 flex flex-row items-center z-30 transition-all duration-300 ease-in-out ${
-        isMaximized ? 'h-full' : 'h-[calc(100svh-115px)]'
-      } ${isSidebarOpen ? 'w-[300px] border-l' : 'w-0 border-l-0 pointer-events-none'}`}
+      className={`absolute right-0 top-0 bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 flex flex-row items-center z-30 transition-transform duration-300 ease-in-out h-full w-[300px] ${
+        isSidebarOpen
+          ? 'translate-x-0 border-l shadow-xl'
+          : 'translate-x-full border-l-0'
+      }`}
     >
-      {/* Trigger Tab/Button on the left edge */}
       <MonitoringSidebarFiltersTrigger
         isSidebarOpen={isSidebarOpen}
         onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         stopPropagation={stopPropagation}
       />
 
-      {/* Sidebar Content */}
       <MonitoringSidebarFiltersContent
         isSidebarOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}

@@ -18,6 +18,16 @@ export const PostPointFormSchema = z.object({
     .optional()
     .nullable()
     .transform((val) => (!val || val.trim() === '' ? null : val)),
+  latitude: z
+    .string()
+    .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val)),
+  longitude: z
+    .string()
+    .optional()
+    .nullable()
+    .transform((val) => (!val || val.trim() === '' ? null : val)),
   cfg: z.string().optional()
 })
 

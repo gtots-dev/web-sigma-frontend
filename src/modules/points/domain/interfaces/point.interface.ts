@@ -4,4 +4,6 @@ export interface PointInterface {
   description?: string | null
   cfg?: string
   enabled?: boolean
+  latitude?: string | null
+  longitude?: string | null
 }

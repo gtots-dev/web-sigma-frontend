@@ -6,6 +6,8 @@ export class PointEntity implements PointInterface {
     public description?: string | null,
     public cfg?: string,
     public id?: number,
-    public enabled?: boolean
+    public enabled?: boolean,
+    public latitude?: string | null,
+    public longitude?: string | null
   ) {}
 }

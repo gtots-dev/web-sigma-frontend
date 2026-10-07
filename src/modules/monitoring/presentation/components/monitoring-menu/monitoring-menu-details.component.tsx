@@ -3,10 +3,10 @@
 import { HardDrive } from 'lucide-react'
 import { MonitoringCell } from '../../../domain/interfaces/monitoring-cell.interface'
 import { useMonitoringMenuDetails } from '../../hooks/use-monitoring-menu-details.hook'
-import { MonitoringMenuDetailsRoot } from './details/monitoring-menu-details-root.component'
-import { MonitoringMenuDetailsSection } from './details/monitoring-menu-details-section.component'
-import { MonitoringMenuDetailsItem } from './details/monitoring-menu-details-item.component'
-import { MonitoringMenuDetailsDialog } from './details/monitoring-menu-details-dialog.component'
+import { MonitoringMenuDetailsRoot } from '../monitoring-menu-details/monitoring-menu-details-root.component'
+import { MonitoringMenuDetailsSection } from '../monitoring-menu-details/monitoring-menu-details-section.component'
+import { MonitoringMenuDetailsItem } from '../monitoring-menu-details/monitoring-menu-details-item.component'
+import { MonitoringMenuDetailsDialog } from '../monitoring-menu-details/monitoring-menu-details-dialog.component'
 
 interface MonitoringMenuDetailsProps {
   cell: MonitoringCell

@@ -32,7 +32,7 @@ function MonitoringPageContent({
   isReconnecting: boolean
   hasFailed: boolean
 }) {
-  const { isMaximized, setIsSidebarOpen, mode } = useMonitoringContext()
+  const { isMaximized, setIsSidebarOpen } = useMonitoringContext()
 
   // Sincroniza o estado inicial do menu lateral após o carregamento
   useEffect(() => {
@@ -80,36 +80,40 @@ function MonitoringPageContent({
       )}
 
       <Monitoring.Content>
-        {!isOverlayActive && (
-          <Monitoring.Controls>
-            <Monitoring.Controls.MinimizeToggle />
-            <Separator className="h-[1px] w-full md:h-full md:w-[1px]" />
-            <Monitoring.Controls.MaximizeToggle />
-            <Separator className="h-[1px] w-full md:h-full md:w-[1px]" />
-            <Monitoring.Controls.ModeToggle />
-            <Separator className="h-[1px] w-full md:h-full md:w-[1px]" />
-            <div className="flex flex-col md:flex-row items-center gap-4">
-              {isMaximized && (
-                <div className="flex items-center gap-2">
-                  <Monitoring.Legend />
-                  <Monitoring.Stats.TriggerMaximized>
-                    <Monitoring.Stats.Content />
-                  </Monitoring.Stats.TriggerMaximized>
-                  <Separator className="h-[1px] w-full md:h-full md:w-[1px]" />
-                </div>
-              )}
-              {mode === 'hex' && <Monitoring.Controls.LayoutToggle />}
-              <Monitoring.Controls.ScalingSlider />
-            </div>
-            <Separator className="h-[1px] w-full md:h-full md:w-[1px]" />
-            <Monitoring.Controls.TelemetryFilterToggle />
-            <Separator className="h-[1px] w-full md:h-full md:w-[1px]" />
-            <Monitoring.Controls.ResetView />
-          </Monitoring.Controls>
-        )}
-
-        <div className="flex flex-row flex-1 h-full w-full relative overflow-hidden">
+        <div className="flex flex-row flex-1 h-full w-full relative">
           <Monitoring.View>
+            {!isOverlayActive && (
+              <Monitoring.Controls>
+                {/* Grupo 1: Modos Principais */}
+                <Monitoring.Controls.ModeToggle />
+
+                {/* Grupo 2: Submodo de Layout (Condicionado ao Hex) */}
+                <Monitoring.Controls.LayoutToggle />
+
+                <Separator orientation="vertical" className="h-5 w-[1px] hidden sm:block bg-border/80" />
+
+                {/* Grupo 3: Ações de Viewport e Zoom */}
+                <Monitoring.Controls.ScalingSlider />
+                <Monitoring.Controls.ResetView />
+
+                <Separator orientation="vertical" className="h-5 w-[1px] hidden sm:block bg-border/80" />
+
+                {/* Grupo 4: Painéis, Estado & Utilitários */}
+                {isMaximized && (
+                  <div className="flex items-center gap-2">
+                    <Monitoring.Legend />
+                    <Monitoring.Stats.TriggerMaximized>
+                      <Monitoring.Stats.Content />
+                    </Monitoring.Stats.TriggerMaximized>
+                    <Separator orientation="vertical" className="h-5 w-[1px] hidden sm:block bg-border/80" />
+                  </div>
+                )}
+                <Monitoring.Controls.TelemetryFilterToggle />
+                <Monitoring.Controls.MaximizeToggle />
+                <Monitoring.Controls.MinimizeToggle />
+              </Monitoring.Controls>
+            )}
+
             {!isMaximized && (
               <div className="absolute top-4 right-4 z-20 flex items-start pointer-events-none gap-2">
                 <div className="pointer-events-auto">

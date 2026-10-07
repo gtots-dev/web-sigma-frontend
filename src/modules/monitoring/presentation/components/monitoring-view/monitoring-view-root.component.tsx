@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 import { useMonitoringContext } from '../monitoring/monitoring-context.component'
 import { MonitoringViewBackgroundPattern } from './monitoring-view-background-pattern.component'
 import { MonitoringViewLayer } from './monitoring-view-layer.component'
+import { MonitoringViewMap } from './monitoring-view-map.component'
 
 interface MonitoringViewRootProps {
   children?: ReactNode
@@ -17,8 +18,19 @@ export function MonitoringViewRoot({ children }: MonitoringViewRootProps) {
     handleMouseUp,
     isDragging,
     offset,
-    isMaximized
+    mode
   } = useMonitoringContext()
+
+  if (mode === 'map') {
+    return (
+      <div
+        ref={containerRef}
+        className="flex flex-1 min-h-0 w-full h-full relative bg-background/50 select-none p-0 overflow-hidden"
+      >
+        <MonitoringViewMap>{children}</MonitoringViewMap>
+      </div>
+    )
+  }
 
   return (
     <div
@@ -27,9 +39,9 @@ export function MonitoringViewRoot({ children }: MonitoringViewRootProps) {
       onPointerMove={handleMouseMove}
       onPointerUp={handleMouseUp}
       onPointerLeave={handleMouseUp}
-      className={`flex flex-1 w-full relative bg-background/50 overflow-hidden select-none p-4 ${
+      className={`flex flex-1 min-h-0 w-full h-full relative bg-background/50 select-none touch-none p-4 overflow-hidden ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
-      } ${isMaximized ? 'h-full' : 'h-[calc(100svh-115px)]'}`}
+      }`}
     >
       <MonitoringViewBackgroundPattern offset={offset} />
 

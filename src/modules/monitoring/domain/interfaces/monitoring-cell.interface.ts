@@ -8,6 +8,8 @@ export interface MonitoringCell {
   connectionStatus?: MonitoringConnectionStatus
   upIds: string[]
   laneIds: string[]
+  latitude?: number
+  longitude?: number
 }
 
 export interface MonitoringHexCell {
@@ -23,3 +25,11 @@ export interface MonitoringGridCell {
   y: number
   cell: MonitoringCell
 }
+
+export interface MonitoringMapCell {
+  id: string
+  latitude: number
+  longitude: number
+  cell: MonitoringCell
+}
+

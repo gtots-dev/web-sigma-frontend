@@ -1,9 +1,9 @@
-import { StatusGroup } from '../../../../domain/interfaces/monitoring-dashboard-websocket.interface'
+import { StatusGroup } from '../../../domain/interfaces/monitoring-dashboard-websocket.interface'
 import {
   formatBrDate,
   getLevelColor,
   getLevelText
-} from '../../../utils/monitoring-menu-details.utils'
+} from '../../utils/monitoring-menu-details.utils'
 
 interface MonitoringMenuDetailsStatusGroupProps {
   group: StatusGroup

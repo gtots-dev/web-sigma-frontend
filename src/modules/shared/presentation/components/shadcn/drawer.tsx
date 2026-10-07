@@ -36,10 +36,13 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
 
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
+    onOverlayClick?: (e: React.MouseEvent) => void
+    overlayClassName?: string
+  }
+>(({ className, children, onOverlayClick, overlayClassName, ...props }, ref) => (
   <DrawerPortal>
-    <DrawerOverlay />
+    <DrawerOverlay onClick={onOverlayClick} className={overlayClassName} />
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(

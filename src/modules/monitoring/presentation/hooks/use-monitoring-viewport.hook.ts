@@ -17,7 +17,6 @@ export function useMonitoringViewport() {
   const [hoveredCellId, setHoveredCellId] = useState<string | null>(null)
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-
   const handleSetActive = useCallback((id: string | null) => {
     setActive((prev) => (prev === id ? null : id))
   }, [])
@@ -40,24 +39,48 @@ export function useMonitoringViewport() {
     }
   }, [])
 
+  const isDraggingRef = useRef(false)
+
   const handleMouseDown = useCallback(
     (e: React.PointerEvent) => {
       // Ignorar se o evento veio de fora do container DOM (ex: Portals como dialogs e drawers)
-      if (containerRef.current && e.target instanceof Node && !containerRef.current.contains(e.target)) {
+      if (
+        containerRef.current &&
+        e.target instanceof Node &&
+        !containerRef.current.contains(e.target)
+      ) {
         return
       }
 
       // Ignorar se houver um dialog ou drawer aberto na página
-      if (document.querySelector('[role="dialog"]') || document.querySelector('[data-radix-portal] [data-state="open"]')) {
+      if (
+        document.querySelector('[role="dialog"]') ||
+        document.querySelector('[data-radix-portal] [data-state="open"]')
+      ) {
         return
       }
 
       // Ignorar cliques em elementos interativos
-      if (e.target instanceof Element && e.target.closest('.pointer-events-auto, button, a, [role="button"]')) {
+      if (
+        e.target instanceof Element &&
+        e.target.closest('.pointer-events-auto, button, a, [role="button"]')
+      ) {
         return
       }
 
       if (e.button !== 0) return
+
+      // Tenta travar o ponteiro de toque no container para arrasto fluido e sem engasgos no mobile
+      if (
+        e.currentTarget instanceof Element &&
+        typeof e.currentTarget.setPointerCapture === 'function'
+      ) {
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId)
+        } catch {}
+      }
+
+      isDraggingRef.current = true
       setIsDragging(true)
       setActive(null) // Fecha o menu ao interagir com o background
 
@@ -68,36 +91,36 @@ export function useMonitoringViewport() {
       }
       setHoveredCellId(null)
 
-      dragOriginRef.current = { x: e.clientX - offset.x, y: e.clientY - offset.y }
+      dragOriginRef.current = {
+        x: e.clientX - offset.x,
+        y: e.clientY - offset.y
+      }
     },
     [offset]
   )
 
-  const handleMouseMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!isDragging) return
+  const handleMouseMove = useCallback((e: React.PointerEvent) => {
+    if (!isDraggingRef.current) return
 
-      // Ignorar se o evento veio de fora do container DOM (ex: Portals como dialogs e drawers)
-      if (containerRef.current && e.target instanceof Node && !containerRef.current.contains(e.target)) {
-        setIsDragging(false)
-        return
-      }
+    setOffset({
+      x: e.clientX - dragOriginRef.current.x,
+      y: e.clientY - dragOriginRef.current.y
+    })
+  }, [])
 
-      // Cancelar o arrasto se um dialog foi aberto nesse meio tempo
-      if (document.querySelector('[role="dialog"]') || document.querySelector('[data-radix-portal] [data-state="open"]')) {
-        setIsDragging(false)
-        return
-      }
-
-      setOffset({
-        x: e.clientX - dragOriginRef.current.x,
-        y: e.clientY - dragOriginRef.current.y
-      })
-    },
-    [isDragging]
-  )
-
-  const handleMouseUp = useCallback(() => {
+  const handleMouseUp = useCallback((e?: React.PointerEvent) => {
+    if (
+      e &&
+      e.currentTarget instanceof Element &&
+      typeof e.currentTarget.releasePointerCapture === 'function'
+    ) {
+      try {
+        if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+          e.currentTarget.releasePointerCapture(e.pointerId)
+        }
+      } catch {}
+    }
+    isDraggingRef.current = false
     setIsDragging(false)
   }, [])
 
@@ -130,7 +153,6 @@ export function useMonitoringViewport() {
   const resetView = useCallback(() => {
     setOffset({ x: 0, y: 0 })
   }, [])
-
 
   // Sincronizar com a API de Fullscreen do Browser (F11 behavior)
   useEffect(() => {
