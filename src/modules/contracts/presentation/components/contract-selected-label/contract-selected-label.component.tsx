@@ -6,6 +6,7 @@ import { FileText } from 'lucide-react'
 import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import { useContractStore } from '../../stores/contract.store'
 import { isContractWorkspaceRoute } from '@/modules/shared/infrastructure/configs/pathnames.config'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export function ContractSelectedLabelComponent() {
   const pathname = usePathname()
