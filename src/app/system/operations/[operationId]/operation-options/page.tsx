@@ -33,19 +33,19 @@ interface OperationCardOption {
 export default async function OperationOptionsPage({
   params
 }: OperationOptionsPageProps) {
-  const [
-    {
-      token: JWT,
-      user: { isAdmin }
-    },
-    { operationId: rawOperationId }
-  ] = await Promise.all([auth(), params])
+  const [session, resolvedParams] = await Promise.all([auth(), params])
+  const JWT = session?.token
+  const isAdmin = session?.user?.isAdmin ?? false
+  const rawOperationId = resolvedParams.operationId
 
   const getOperationFactory = GetOperationsFactory.create()
-  const [{ userPermissions }, { data: operations }] = await Promise.all([
+  const [authCtx, operationsRes] = await Promise.all([
     loadAuthContext(JWT, rawOperationId),
     getOperationFactory.execute()
   ])
+
+  const userPermissions = authCtx.userPermissions
+  const operations = operationsRes.data
 
   const title = MESSAGES_OPTIONS_OPERATION['11.1']
   const description = MESSAGES_OPTIONS_OPERATION['11.2']
