@@ -102,3 +102,30 @@ export function isProtectedRoute(pathname: string): boolean {
     isSelectionOperationRoute(pathname)
   )
 }
+
+export const CONTRACT_WORKSPACE_SEGMENTS = [
+  '/contract-options',
+  '/configurations',
+  '/traffic-flow',
+  '/monitoring',
+  '/infractions',
+  '/processing-units',
+  '/points',
+  '/groups',
+  '/vehicles',
+  '/violations',
+  '/restrictions'
+] as const
+
+export const MODAL_SEGMENT = '/modal'
+
+export function isModalRoute(pathname: string): boolean {
+  return Boolean(pathname) && pathname.includes(MODAL_SEGMENT)
+}
+
+export function isContractWorkspaceRoute(pathname: string): boolean {
+  if (!pathname || isModalRoute(pathname)) return false
+  return CONTRACT_WORKSPACE_SEGMENTS.some((segment) =>
+    pathname.includes(segment)
+  )
+}

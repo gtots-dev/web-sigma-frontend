@@ -1,17 +1,20 @@
-import type { ReactNode } from 'react'
+import type { FormEvent, ReactNode } from 'react'
 
 interface ContractFormComponentProps {
   children: ReactNode
+  onSubmit?: (e: FormEvent<HTMLFormElement>) => void
 }
 
 export function ContractFormComponent({
-  children
+  children,
+  onSubmit
 }: ContractFormComponentProps) {
   return (
-    <main className="flex flex-col flex-1 h-full w-full gap-y-8 overflow-auto">
+    <main className="flex flex-col flex-1 h-full w-full gap-y-8">
       <form
         className="flex flex-1 flex-col gap-y-5 px-5 py-5 sm:py-6 sm:px-10 w-full"
         autoComplete="off"
+        onSubmit={onSubmit}
       >
         {children}
       </form>

@@ -1,37 +1,41 @@
 'use client'
 
-import { useParams, usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 import { getSidebarData } from '@/modules/system/infrastructure/configs/sidebar.config'
 import { filterSidebarByPermissions } from '../utils/filter-sidebar-by-permissions.util'
+import { useActiveContractWorkspace } from './use-active-contract-workspace.hook'
 import type { UserPermissionsInterface } from '@/modules/users/domain/interfaces/user-permissions.interface'
 
 export function useSidebarSystemData(
   permissions: UserPermissionsInterface,
   isAdmin?: boolean
 ) {
-  const pathname = usePathname()
-  const {
-    operationId,
-    contractId,
-    processingUnitId
-  }: { operationId: string; contractId: string; processingUnitId: string } =
-    useParams()
+  const { pathname, operationId, activeContractId, processingUnitId } =
+    useActiveContractWorkspace()
+
+  const strOperationId = operationId ? String(operationId) : undefined
 
   const sidebarData = useMemo(() => {
     const rawData = getSidebarData(
-      Number(operationId),
-      Number(contractId),
-      Number(processingUnitId)
+      operationId,
+      activeContractId,
+      processingUnitId
     )
     return isAdmin
       ? rawData
-      : filterSidebarByPermissions(rawData, permissions, operationId)
-  }, [operationId, contractId, processingUnitId, permissions, isAdmin])
+      : filterSidebarByPermissions(rawData, permissions, strOperationId)
+  }, [
+    operationId,
+    activeContractId,
+    processingUnitId,
+    permissions,
+    isAdmin,
+    strOperationId
+  ])
 
   return {
     pathname,
-    operationId,
+    operationId: strOperationId,
     sidebarData
   }
 }

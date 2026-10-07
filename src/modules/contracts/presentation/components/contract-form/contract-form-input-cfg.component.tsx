@@ -26,7 +26,10 @@ export function ContractFormInputCfgComponent({
     const el = textareaRef.current
     if (el) {
       el.style.height = 'auto'
-      el.style.height = `${el.scrollHeight}px`
+      const maxHeight = 280
+      const newHeight = Math.min(el.scrollHeight, maxHeight)
+      el.style.height = `${newHeight}px`
+      el.style.overflowY = el.scrollHeight > maxHeight ? 'auto' : 'hidden'
     }
   }
 
@@ -51,7 +54,7 @@ export function ContractFormInputCfgComponent({
             <Textarea
               id="cfg-contract"
               autoComplete="off"
-              className="!mt-1 dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"
+              className="!mt-1 max-h-[280px] min-h-[120px] resize-y overflow-auto dark:text-zinc-50 dark:border-zinc-800 focus:dark:border-zinc-50"
               placeholder="Adicione a configuração desejada."
               {...field}
               ref={(el) => {
