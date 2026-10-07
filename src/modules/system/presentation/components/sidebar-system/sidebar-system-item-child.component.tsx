@@ -19,7 +19,10 @@ import type { SidebarSystemItemComponentProps } from '.'
 import type { Item } from '.'
 import type { ReactNode } from 'react'
 import { useParams, usePathname } from 'next/navigation'
-import { isSelectionOperationRoute } from '@/modules/shared/infrastructure/configs/pathnames.config'
+import {
+  isSelectionOperationRoute,
+  normalizePathname
+} from '@/modules/shared/infrastructure/configs/pathnames.config'
 
 const variants = {
   open: { opacity: 1, height: 'auto', transition: { duration: 0.3 } },
@@ -86,7 +89,9 @@ export function SidebarSystemItemChildComponent({
             <motion.div
               initial="closed"
               animate={
-                (operationId || isSelectionOperationRoute(pathname)) && isOpen
+                (operationId ||
+                  isSelectionOperationRoute(normalizePathname(pathname))) &&
+                isOpen
                   ? 'open'
                   : 'closed'
               }

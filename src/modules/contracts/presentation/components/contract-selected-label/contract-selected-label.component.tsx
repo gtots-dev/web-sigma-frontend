@@ -5,24 +5,8 @@ import { useParams, usePathname } from 'next/navigation'
 import { FileText } from 'lucide-react'
 import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import { useContractStore } from '../../stores/contract.store'
+import { isContractWorkspaceRoute } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-
-function isContractWorkspaceRoute(pathname: string): boolean {
-  if (!pathname || pathname.includes('/modal')) return false
-  return (
-    pathname.includes('/contract-options') ||
-    pathname.includes('/configurations') ||
-    pathname.includes('/traffic-flow') ||
-    pathname.includes('/monitoring') ||
-    pathname.includes('/infractions') ||
-    pathname.includes('/processing-units') ||
-    pathname.includes('/points') ||
-    pathname.includes('/groups') ||
-    pathname.includes('/vehicles') ||
-    pathname.includes('/violations') ||
-    pathname.includes('/restrictions')
-  )
-}
 
 export function ContractSelectedLabelComponent() {
   const pathname = usePathname()
