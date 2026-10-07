@@ -36,10 +36,10 @@ function PatchContractFormBody({
   const { onAction } = usePatchContractSubmit()
 
   const handleSubmit = (contractData: Partial<ContractEntity>) => {
-    const updatedContract: ContractEntity = {
-      ...contract,
+    const updatedContract = {
+      id: contract.id,
       ...contractData
-    }
+    } as ContractEntity
     onAction(updatedContract, onClose)
   }
 
