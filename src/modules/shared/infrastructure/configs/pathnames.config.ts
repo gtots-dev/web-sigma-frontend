@@ -119,13 +119,23 @@ export const CONTRACT_WORKSPACE_SEGMENTS = [
 
 export const MODAL_SEGMENT = '/modal'
 
+export function normalizePathname(pathname: string): string {
+  if (!pathname) return ''
+  const modalIndex = pathname.indexOf(MODAL_SEGMENT)
+  if (modalIndex !== -1) {
+    return pathname.substring(0, modalIndex)
+  }
+  return pathname
+}
+
 export function isModalRoute(pathname: string): boolean {
   return Boolean(pathname) && pathname.includes(MODAL_SEGMENT)
 }
 
 export function isContractWorkspaceRoute(pathname: string): boolean {
-  if (!pathname || isModalRoute(pathname)) return false
+  if (!pathname) return false
+  const cleanPath = normalizePathname(pathname)
   return CONTRACT_WORKSPACE_SEGMENTS.some((segment) =>
-    pathname.includes(segment)
+    cleanPath.includes(segment)
   )
 }

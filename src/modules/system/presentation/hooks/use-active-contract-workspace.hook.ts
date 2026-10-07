@@ -4,7 +4,8 @@ import { useParams, usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import {
   isContractWorkspaceRoute,
-  isModalRoute
+  isModalRoute,
+  normalizePathname
 } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
 export interface UseActiveContractWorkspaceResult {
@@ -24,7 +25,8 @@ export interface UseActiveContractWorkspaceResult {
  * garantindo que a barra lateral (Sidebar) não resete nem colapse indevidamente.
  */
 export function useActiveContractWorkspace(): UseActiveContractWorkspaceResult {
-  const pathname = usePathname()
+  const rawPathname = usePathname()
+  const pathname = normalizePathname(rawPathname)
   const params = useParams()
 
   const operationId = params?.operationId ? Number(params.operationId) : undefined

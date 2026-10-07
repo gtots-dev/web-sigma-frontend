@@ -22,6 +22,7 @@ import { useParams, usePathname } from 'next/navigation'
 import {
   isSelectionContractRoute,
   isSelectionProcessingUnitRoute,
+  normalizePathname,
   PATHNAMES
 } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
@@ -108,7 +109,8 @@ export function SidebarSystemItemGrandchildComponent({
               </Button>
             </div>
 
-            {PATHNAMES.CONTRACTS(Number(operationId)) === pathname &&
+            {PATHNAMES.CONTRACTS(Number(operationId)) ===
+              normalizePathname(pathname) &&
               shouldBlockContract && (
                 <motion.div
                   initial="closed"
@@ -132,7 +134,7 @@ export function SidebarSystemItemGrandchildComponent({
             {PATHNAMES.PROCESSING_UNITS(
               Number(operationId),
               Number(contractId)
-            ) === pathname &&
+            ) === normalizePathname(pathname) &&
               shouldBlockProcessingUnit && (
                 <motion.div
                   initial="closed"
