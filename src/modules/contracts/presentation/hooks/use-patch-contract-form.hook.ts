@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import {
@@ -10,13 +10,13 @@ import {
   type PatchContractFormType
 } from '../schemas/patch-contract-form.schema'
 
-export function usePatchContractForm(contract: ContractEntity) {
-  const defaultValues = useMemo<ContractEntity>(
+export function usePatchContractForm(contract?: ContractEntity) {
+  const defaultValues = useMemo<Partial<ContractEntity>>(
     () => ({
       id: contract?.id,
       name: contract?.name ?? '',
       alias: contract?.alias ?? '',
-      cfg: JSON.stringify(contract?.cfg === null ? {} : contract?.cfg)
+      cfg: JSON.stringify(contract?.cfg === null || !contract?.cfg ? {} : contract.cfg)
     }),
     [contract]
   )
@@ -25,6 +25,12 @@ export function usePatchContractForm(contract: ContractEntity) {
     resolver: zodResolver(PatchContractFormSchema),
     defaultValues
   })
+
+  useEffect(() => {
+    if (contract) {
+      methods.reset(defaultValues)
+    }
+  }, [contract, defaultValues, methods])
 
   return {
     defaultValues,

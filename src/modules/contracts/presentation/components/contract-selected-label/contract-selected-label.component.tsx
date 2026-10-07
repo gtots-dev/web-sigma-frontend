@@ -1,28 +1,48 @@
 'use client'
 
 import { useEffect, useCallback } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { FileText } from 'lucide-react'
 import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import { useContractStore } from '../../stores/contract.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
+function isContractWorkspaceRoute(pathname: string): boolean {
+  if (!pathname || pathname.includes('/modal')) return false
+  return (
+    pathname.includes('/contract-options') ||
+    pathname.includes('/configurations') ||
+    pathname.includes('/traffic-flow') ||
+    pathname.includes('/monitoring') ||
+    pathname.includes('/infractions') ||
+    pathname.includes('/processing-units') ||
+    pathname.includes('/points') ||
+    pathname.includes('/groups') ||
+    pathname.includes('/vehicles') ||
+    pathname.includes('/violations') ||
+    pathname.includes('/restrictions')
+  )
+}
+
 export function ContractSelectedLabelComponent() {
+  const pathname = usePathname()
   const { contract, contracts, getContracts, setContract } = useContractStore()
   const { contractId, operationId }: UrlParams = useParams()
 
+  const isWorkspaceActive = isContractWorkspaceRoute(pathname)
+
   const loadSelectedContract = useCallback(async () => {
-    if (!contractId) return
+    if (!contractId || !isWorkspaceActive) return
     if (!contracts?.length) await getContracts({ operationId })
     const selected = contracts.find((c) => c.id === Number(contractId))
     if (selected) setContract(selected)
-  }, [contractId, contracts, getContracts, setContract, operationId])
+  }, [contractId, isWorkspaceActive, contracts, getContracts, setContract, operationId])
 
   useEffect(() => {
-    if (!contract.id) loadSelectedContract()
-  }, [contract, loadSelectedContract])
+    if (isWorkspaceActive && !contract.id) loadSelectedContract()
+  }, [isWorkspaceActive, contract, loadSelectedContract])
 
-  if (!contractId) return null
+  if (!contractId || !isWorkspaceActive) return null
 
   return (
     <div className="h-full flex rounded-lg w-full gap-x-4 p-1.5 xl:w-[350px] select-none">

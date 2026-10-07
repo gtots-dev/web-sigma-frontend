@@ -6,13 +6,18 @@ import { useContractStore } from '../stores/contract.store'
 import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export interface UseTableContractsResult {
+export interface UseContractsResult {
   contracts: ContractEntity[]
   loading: boolean
   error: boolean
+  getContractById: (id: number) => ContractEntity | undefined
 }
 
-export function useTableContracts(): UseTableContractsResult {
+/**
+ * Hook centralizado do módulo de contratos.
+ * Gerencia a reutilização dos contratos em memória (Zustand) e busca condicional apenas se a store estiver vazia (ex: F5 / Acesso direto).
+ */
+export function useContracts(): UseContractsResult {
   const {
     contracts,
     getContracts: getContractsFromStore,
@@ -22,13 +27,16 @@ export function useTableContracts(): UseTableContractsResult {
   const [loading, setLoading] = useState(() => contracts.length === 0)
   const [error, setError] = useState(false)
 
-  const getContracts = useCallback(async () => {
+  const fetchContractsIfNeeded = useCallback(async () => {
+    // SÓ faz a requisição se a memória/store estiver vazia
     if (contracts.length === 0) {
       setLoading(true)
     }
     setError(false)
     try {
-      await getContractsFromStore({ operationId })
+      if (contracts.length === 0) {
+        await getContractsFromStore({ operationId })
+      }
     } catch {
       setError(true)
     } finally {
@@ -37,12 +45,18 @@ export function useTableContracts(): UseTableContractsResult {
   }, [contracts.length, getContractsFromStore, operationId])
 
   useEffect(() => {
-    getContracts()
-  }, [getContracts])
+    fetchContractsIfNeeded()
+  }, [fetchContractsIfNeeded])
+
+  const getContractById = useCallback(
+    (id: number) => contracts.find((c) => c.id === id),
+    [contracts]
+  )
 
   return {
     contracts,
     loading: (loading || storeLoading) && contracts.length === 0,
-    error
+    error,
+    getContractById
   }
 }
