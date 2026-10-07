@@ -19,6 +19,8 @@ import { redirect } from 'next/navigation'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { TwoFactorChallengeProvider } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
+import { RouteTracker } from '@/modules/system/presentation/components/route-tracker/route-tracker.component'
+
 interface LayoutProps {
   children: ReactNode
 }
@@ -75,6 +77,7 @@ export default async function Layout({ children }: LayoutProps) {
 
   return (
     <TwoFactorChallengeProvider>
+      <RouteTracker />
       <SidebarProvider>
         <SidebarSystem.Client user={userWithRole} permissions={permissions} />
 
