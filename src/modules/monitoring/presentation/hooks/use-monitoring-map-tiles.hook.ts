@@ -34,7 +34,9 @@ export function useMonitoringMapTiles({
 
     tileLayerRef.current = tileLayer(tileUrl, {
       attribution,
+      minZoom: 3,
       maxZoom: 19,
+      noWrap: true,
       opacity: mapOpacity,
       className
     }).addTo(mapInstance)
