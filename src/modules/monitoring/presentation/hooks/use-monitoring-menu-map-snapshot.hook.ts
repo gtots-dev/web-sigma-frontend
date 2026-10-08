@@ -49,6 +49,13 @@ export function useMonitoringMenuMapSnapshot({
     const mapInstance = createMap(mapRef.current, {
       center: [initLat, initLng],
       zoom: 17,
+      minZoom: 3,
+      maxZoom: 19,
+      maxBounds: [
+        [-90, -180],
+        [90, 180]
+      ],
+      maxBoundsViscosity: 1.0,
       zoomControl: false,
       dragging: false,
       scrollWheelZoom: false,
@@ -65,6 +72,9 @@ export function useMonitoringMenuMapSnapshot({
     const tileLayerInstance = tileLayer(
       'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
       {
+        minZoom: 3,
+        maxZoom: 19,
+        noWrap: true,
         className: isDark ? 'osm-dark-tile' : 'osm-light-tile'
       }
     )

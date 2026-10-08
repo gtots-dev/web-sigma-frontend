@@ -141,8 +141,14 @@ export function useMonitoringMapInstance({
     const mapInst = map(mapRef.current, {
       center: spCenter,
       zoom: 13,
+      minZoom: 3,
+      maxZoom: 19,
       zoomControl: true,
-      maxBounds: null
+      maxBounds: [
+        [-90, -180],
+        [90, 180]
+      ],
+      maxBoundsViscosity: 1.0
     })
 
     leafletMapInstanceRef.current = mapInst
