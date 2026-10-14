@@ -17,6 +17,10 @@ type MessageKeys =
   | '17.16'
   | '17.17'
   | '17.18'
+  | '17.19'
+  | '17.20'
+  | '17.21'
+  | '17.22'
 
 export const MESSAGES_CONFIGURATION_CONTRACT: Record<MessageKeys, string> = {
   '17.1': 'Configurações',
@@ -38,5 +42,11 @@ export const MESSAGES_CONFIGURATION_CONTRACT: Record<MessageKeys, string> = {
   '17.15': 'Violações',
   '17.16': 'Navegue e gerencie as violações configuradas no contrato.',
   '17.17': 'Restrições',
-  '17.18': 'Navegue, gerencie e adicione restrições de tráfego veicular.'
+  '17.18': 'Navegue, gerencie e adicione restrições de tráfego veicular.',
+  '17.19': 'Status de U.P.s',
+  '17.20':
+    'Visualize os status das U.P.s e defina quais serão ignorados no mapa operacional.',
+  '17.21': 'Status de Faixas',
+  '17.22':
+    'Visualize os status das faixas e defina quais serão ignorados no mapa operacional.'
 }
