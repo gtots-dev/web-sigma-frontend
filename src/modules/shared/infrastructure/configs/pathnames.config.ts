@@ -19,6 +19,8 @@ export interface PathnamesInterface {
   VEHICLES: (operationId: number, contractId: number) => string
   VIOLATIONS: (operationId: number, contractId: number) => string
   RESTRICTIONS: (operationId: number, contractId: number) => string
+  STATUS_PROCESSING_UNITS: (operationId: number, contractId: number) => string
+  STATUS_LANES: (operationId: number, contractId: number) => string
   INFRACTIONS: (operationId: number, contractId: number) => string
   INFRACTIONS_OPTIONS: (operationId: number, contractId: number) => string
   INFRACTIONS_RECORDS: (operationId: number, contractId: number) => string
@@ -63,6 +65,10 @@ export const PATHNAMES: PathnamesInterface = {
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/violations`,
   RESTRICTIONS: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/restrictions`,
+  STATUS_PROCESSING_UNITS: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/status-processing-units`,
+  STATUS_LANES: (operationId, contractId) =>
+    `/system/operations/${operationId}/operation-options/contracts/${contractId}/configurations/status-lanes`,
   INFRACTIONS: (operationId, contractId) =>
     `/system/operations/${operationId}/operation-options/contracts/${contractId}/contract-options/infractions`,
   INFRACTIONS_OPTIONS: (operationId, contractId) =>
@@ -114,7 +120,9 @@ export const CONTRACT_WORKSPACE_SEGMENTS = [
   '/groups',
   '/vehicles',
   '/violations',
-  '/restrictions'
+  '/restrictions',
+  '/status-processing-units',
+  '/status-lanes'
 ] as const
 
 export const MODAL_SEGMENT = '/modal'
