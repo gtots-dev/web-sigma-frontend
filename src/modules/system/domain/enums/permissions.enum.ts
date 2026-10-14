@@ -21,6 +21,8 @@ export enum PermissionEnum {
   VIOLATIONS_EDIT = 'violations_edit',
   RESTRICTIONS_VIEW = 'restrictions_view',
   RESTRICTIONS_EDIT = 'restrictions_edit',
+  STATUS_PROCESSING_UNITS_VIEW = 'ups_status_view',
+  STATUS_LANES_VIEW = 'lanes_status_view',
   USERS_VIEW = 'users_view',
   ACTIVITY_REPORT_VIEW = 'report_view',
   USERS_EDIT = 'users_edit',
