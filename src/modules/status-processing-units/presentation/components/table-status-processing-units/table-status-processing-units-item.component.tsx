@@ -1,0 +1,50 @@
+'use client'
+
+import type { ReactNode } from 'react'
+import {
+  TableCell,
+  TableRow
+} from '@/modules/shared/presentation/components/shadcn/table'
+import { useTableStatusProcessingUnits } from '../../contexts/table-status-processing-units.context'
+
+interface TableStatusProcessingUnitsItemComponentProps {
+  children?: ReactNode
+}
+
+const truncateText =
+  'h-auto md:h-[52.5px] sm:max-w-full truncate whitespace-nowrap overflow-hidden'
+const baseCell = 'ps-5 sm:ps-10 text-zinc-700 dark:text-zinc-50'
+
+export function TableStatusProcessingUnitsItemComponent({
+  children
+}: TableStatusProcessingUnitsItemComponentProps) {
+  const status = useTableStatusProcessingUnits()
+
+  return (
+    <TableRow>
+      <TableCell className={`${baseCell} ${truncateText} w-[60%] max-w-0`}>
+        <div className="flex flex-col gap-y-0.5 min-w-0 w-full">
+          <span title={status.description} className="truncate font-medium block">
+            {status.description}
+          </span>
+          <span
+            title={status.code}
+            className="truncate text-xs text-zinc-500 lg:hidden block mt-0.5"
+          >
+            Código: {status.code}
+          </span>
+        </div>
+      </TableCell>
+
+      <TableCell className={`${baseCell} ${truncateText} hidden lg:table-cell`}>
+        <span className="font-mono text-xs px-2 py-0.5 bg-zinc-100 dark:bg-zinc-800 rounded border border-zinc-200 dark:border-zinc-700">
+          {status.code}
+        </span>
+      </TableCell>
+
+      <TableCell className="pe-5 sm:pe-10 text-right" colSpan={1}>
+        {children}
+      </TableCell>
+    </TableRow>
+  )
+}
