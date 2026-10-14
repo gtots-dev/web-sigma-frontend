@@ -2,7 +2,8 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import type { GetProcessingUnitStatusListGateway, StatusListItem } from '../../domain/gateways/get-processing-unit-status-list.gateway'
+import type { GetProcessingUnitStatusListGateway } from '../../domain/gateways/get-processing-unit-status-list.gateway'
+import type { ProcessingUnitStatusInterface } from '../../domain/interfaces/processing-unit-status-interface'
 
 export class GetProcessingUnitStatusListService implements GetProcessingUnitStatusListGateway {
   constructor(
@@ -18,7 +19,9 @@ export class GetProcessingUnitStatusListService implements GetProcessingUnitStat
     }
   }
 
-  async execute(): Promise<HttpResponseInterface<StatusListItem[]>> {
+  async execute(): Promise<
+    HttpResponseInterface<ProcessingUnitStatusInterface[]>
+  > {
     const settingsAuthHTTP = this.getHttpRequestConfig()
     return await this.executeRequest.execute(settingsAuthHTTP)
   }

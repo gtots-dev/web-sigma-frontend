@@ -1,11 +1,6 @@
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
-
-export interface StatusListItem {
-  id: number
-  code: string
-  description: string
-}
+import type { ProcessingUnitStatusInterface } from '../interfaces/processing-unit-status-interface'
 
 export interface GetProcessingUnitStatusListGateway {
-  execute(): Promise<HttpResponseInterface<StatusListItem[]>>
+  execute(): Promise<HttpResponseInterface<ProcessingUnitStatusInterface[]>>
 }

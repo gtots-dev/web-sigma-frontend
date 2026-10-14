@@ -4,9 +4,14 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { GetProcessingUnitStatusListRouterApiService } from '../services/get-processing-unit-status-list-router-api.service'
 
 export class GetProcessingUnitStatusListRouterApiFactory {
-  static create(params: UrlParams): GetProcessingUnitStatusListRouterApiService {
+  static create(
+    params: UrlParams
+  ): GetProcessingUnitStatusListRouterApiService {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new GetProcessingUnitStatusListRouterApiService(executeRequest, params)
+    return new GetProcessingUnitStatusListRouterApiService(
+      executeRequest,
+      params
+    )
   }
 }
