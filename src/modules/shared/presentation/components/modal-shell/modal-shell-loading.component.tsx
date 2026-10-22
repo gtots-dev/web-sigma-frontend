@@ -18,7 +18,7 @@ export function ModalShellLoading({
 
   return (
     <div className="flex items-center justify-center p-12 h-full">
-      <LoadingSpinComponent />
+      <LoadingSpinComponent loading />
     </div>
   )
 }
