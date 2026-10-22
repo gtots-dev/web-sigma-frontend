@@ -9,8 +9,10 @@ import { MESSAGES_CONFIGURATION_CONTRACT } from '@/modules/shared/presentation/m
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import {
+  Activity,
   AlertTriangle,
   Car,
+  ServerCog,
   HardDrive,
   Map,
   MapPin,
@@ -117,6 +119,19 @@ export default async function ConfigurationsPage({
       icon: ShieldAlert,
       accessAllowed:
         isAdmin || userPermissions.has(PermissionEnum.RESTRICTIONS_VIEW)
+    },
+    {
+      title: MESSAGES_CONFIGURATION_CONTRACT['17.23'],
+      description: MESSAGES_CONFIGURATION_CONTRACT['17.24'],
+      pathName: PATHNAMES.STATUS(
+        Number(rawOperationId),
+        Number(rawContractId)
+      ),
+      icon: Activity,
+      accessAllowed:
+        isAdmin ||
+        userPermissions.has(PermissionEnum.STATUS_PROCESSING_UNITS_VIEW) ||
+        userPermissions.has(PermissionEnum.STATUS_LANES_VIEW)
     }
   ]
 
