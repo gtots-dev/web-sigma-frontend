@@ -14,4 +14,6 @@ export interface UrlParams {
   violationId?: string
   restrictionId?: string
   captureId?: string
+  ignoreId?: string
+  upId?: string
 }
