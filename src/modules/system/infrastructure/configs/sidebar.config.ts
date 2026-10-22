@@ -15,7 +15,8 @@ import {
   FileVideo2,
   AlertTriangle,
   ShieldAlert,
-  UsersRound
+  UsersRound,
+  Activity
 } from 'lucide-react'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { PermissionEnum } from '../../domain/enums/permissions.enum'
@@ -126,6 +127,17 @@ export function getSidebarData(
                   permissions: [
                     PermissionEnum.CONTRACTS_VIEW,
                     PermissionEnum.RESTRICTIONS_VIEW
+                  ]
+                },
+                {
+                  title: 'Status',
+                  url: PATHNAMES.STATUS(operationId, Number(contractId)),
+                  icon: Activity,
+                  isToExpand: true,
+                  permissions: [
+                    PermissionEnum.CONTRACTS_VIEW,
+                    PermissionEnum.STATUS_PROCESSING_UNITS_VIEW,
+                    PermissionEnum.STATUS_LANES_VIEW
                   ]
                 }
               ]
