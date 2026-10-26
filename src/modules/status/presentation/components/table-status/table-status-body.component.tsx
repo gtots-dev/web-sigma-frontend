@@ -6,7 +6,7 @@ import { TableMessage } from '@/modules/shared/presentation/components/table-add
 import { TableLoading } from '@/modules/shared/presentation/components/table-addons/table-loading.component'
 import { TableStatusProvider } from '../../contexts/table-status.context'
 import { useTableStatusHook } from '../../hooks/use-table-status.hook'
-import type { StatusItemInterface } from '../../domain/interfaces/status-item.interface'
+import type { StatusItemInterface } from '@/modules/status/domain/interfaces/status-item.interface'
 
 interface TableStatusBodyComponentProps {
   children?: ReactNode

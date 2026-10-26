@@ -30,7 +30,7 @@ interface SelectorGroup {
 }
 
 export function IgnoreStatusProcessingUnitsFormInputProcessingUnitsComponent({
-  require = true,
+  require = false,
   description,
   hasPermission = true
 }: IgnoreStatusProcessingUnitsFormInputProcessingUnitsProps) {

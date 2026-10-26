@@ -5,12 +5,12 @@ import {
   TableCell,
   TableRow
 } from '@/modules/shared/presentation/components/shadcn/table'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@/modules/shared/presentation/components/shadcn/tooltip'
+// import {
+//   Tooltip,
+//   TooltipContent,
+//   TooltipProvider,
+//   TooltipTrigger
+// } from '@/modules/shared/presentation/components/shadcn/tooltip'
 import { useTableStatus } from '../../contexts/table-status.context'
 
 interface TableStatusItemComponentProps {
@@ -29,7 +29,7 @@ export function TableStatusItemComponent({
   // Amostra visual de status de acordo com o escopo (UP ou LANE)
   const isUp = status.origin === 'UP'
   const originLabel = isUp ? 'U.P.' : 'Faixa'
-  const demoType = status.id % 3
+  // const demoType = status.id % 3
 
   return (
     <TableRow>

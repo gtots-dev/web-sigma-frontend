@@ -31,22 +31,25 @@ interface SelectorGroup {
 }
 
 export function IgnoreStatusLanesFormInputLanesComponent({
-  require = true,
+  require = false,
   description,
   hasPermission = true
 }: IgnoreStatusLanesFormInputLanesProps) {
   const { control } = useFormContext<IgnoreStatusLanesFormType>()
   const { contractLanes, loading } = useLanesOptions()
 
-  const selectorGroups: SelectorGroup[] = useMemo(() => [
-    {
-      name: 'Faixas',
-      items: contractLanes.map(({ lane }) => ({
-        id: lane.id,
-        name: lane.name
-      }))
-    }
-  ], [contractLanes])
+  const selectorGroups: SelectorGroup[] = useMemo(
+    () => [
+      {
+        name: 'Faixas',
+        items: contractLanes.map(({ lane }) => ({
+          id: lane.id,
+          name: lane.name
+        }))
+      }
+    ],
+    [contractLanes]
+  )
 
   return (
     <FormField
@@ -72,9 +75,7 @@ export function IgnoreStatusLanesFormInputLanesComponent({
                 <GroupSelector.Root>
                   <GroupSelector.Search
                     placeholder={
-                      loading
-                        ? 'Carregando faixas...'
-                        : 'Busque pela faixa...'
+                      loading ? 'Carregando faixas...' : 'Busque pela faixa...'
                     }
                   />
                   <GroupSelector.List<SelectorItem>
