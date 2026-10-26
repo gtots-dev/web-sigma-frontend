@@ -23,6 +23,7 @@ export enum PermissionEnum {
   RESTRICTIONS_EDIT = 'restrictions_edit',
   STATUS_VIEW = 'status_view',
   STATUS_EDIT = 'status_edit',
+  STATUS_DASHBOARD_VIEW = 'status_dashboard_view',
   USERS_VIEW = 'users_view',
   ACTIVITY_REPORT_VIEW = 'report_view',
   USERS_EDIT = 'users_edit',
