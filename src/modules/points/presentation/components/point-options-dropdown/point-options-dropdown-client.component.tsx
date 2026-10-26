@@ -47,9 +47,11 @@ export function PointOptionsDropdownClient({
                   <ViewMorePointMenu.Trigger />
                 </PointOptionsDropdown.Item>
 
-                <PointOptionsDropdown.Item>
-                  <PostPointLaneMenu.Trigger />
-                </PointOptionsDropdown.Item>
+                {(isAdmin || permissions.has(PermissionEnum.POINTS_EDIT)) && (
+                  <PointOptionsDropdown.Item>
+                    <PostPointLaneMenu.Trigger />
+                  </PointOptionsDropdown.Item>
+                )}
 
                 {(isAdmin || permissions.has(PermissionEnum.POINTS_EDIT)) && (
                   <PointOptionsDropdown.Item>
@@ -75,13 +77,15 @@ export function PointOptionsDropdownClient({
               />
             }
 
-            <PostPointLaneMenuComponent
-              title={postPointLaneTitle}
-              description={postPointLaneDescription}
-              isPermittedLane={
-                isAdmin || permissions.has(PermissionEnum.LANES_VIEW)
-              }
-            />
+            {(isAdmin || permissions.has(PermissionEnum.POINTS_EDIT)) && (
+              <PostPointLaneMenuComponent
+                title={postPointLaneTitle}
+                description={postPointLaneDescription}
+                isPermittedLane={
+                  isAdmin || permissions.has(PermissionEnum.LANES_VIEW)
+                }
+              />
+            )}
 
             {(isAdmin ||
               permissions.has(PermissionEnum.POINTS_ENABLE_AND_DISABLE)) && (

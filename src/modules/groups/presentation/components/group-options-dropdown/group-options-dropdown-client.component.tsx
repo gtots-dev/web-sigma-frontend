@@ -61,23 +61,25 @@ export function GroupOptionsDropdownClient({
                       <ViewMoreGroupMenu.Trigger />
                     </GroupOptionsDropdown.Item>
 
-                    <GroupOptionsDropdown.Item>
-                      <PostGroupLaneMenu.Trigger />
-                    </GroupOptionsDropdown.Item>
-
-                    <GroupOptionsDropdown.Item>
-                      <PostGroupPointMenu.Trigger />
-                    </GroupOptionsDropdown.Item>
-
-                    <GroupOptionsDropdown.Item>
-                      <PostGroupSubgroupMenu.Trigger />
-                    </GroupOptionsDropdown.Item>
-
                     {(isAdmin ||
                       permissions.has(PermissionEnum.GROUPS_EDIT)) && (
-                      <GroupOptionsDropdown.Item>
-                        <PatchGroupMenu.Trigger />
-                      </GroupOptionsDropdown.Item>
+                      <>
+                        <GroupOptionsDropdown.Item>
+                          <PostGroupLaneMenu.Trigger />
+                        </GroupOptionsDropdown.Item>
+
+                        <GroupOptionsDropdown.Item>
+                          <PostGroupPointMenu.Trigger />
+                        </GroupOptionsDropdown.Item>
+
+                        <GroupOptionsDropdown.Item>
+                          <PostGroupSubgroupMenu.Trigger />
+                        </GroupOptionsDropdown.Item>
+
+                        <GroupOptionsDropdown.Item>
+                          <PatchGroupMenu.Trigger />
+                        </GroupOptionsDropdown.Item>
+                      </>
                     )}
 
                     {(isAdmin ||
@@ -96,29 +98,33 @@ export function GroupOptionsDropdownClient({
                   description={ViewMoreGroupLaneDescription}
                 />
 
-                <PostGroupLaneMenuComponent
-                  title={postGroupLaneTitle}
-                  description={postGroupLaneDescription}
-                  isPermittedLane={
-                    isAdmin || permissions.has(PermissionEnum.LANES_VIEW)
-                  }
-                />
+                {(isAdmin || permissions.has(PermissionEnum.GROUPS_EDIT)) && (
+                  <>
+                    <PostGroupLaneMenuComponent
+                      title={postGroupLaneTitle}
+                      description={postGroupLaneDescription}
+                      isPermittedLane={
+                        isAdmin || permissions.has(PermissionEnum.LANES_VIEW)
+                      }
+                    />
 
-                <PostGroupPointMenuComponent
-                  title={postGroupPointTitle}
-                  description={postGroupPointDescription}
-                  isPermittedPoints={
-                    isAdmin || permissions.has(PermissionEnum.POINTS_VIEW)
-                  }
-                />
+                    <PostGroupPointMenuComponent
+                      title={postGroupPointTitle}
+                      description={postGroupPointDescription}
+                      isPermittedPoints={
+                        isAdmin || permissions.has(PermissionEnum.POINTS_VIEW)
+                      }
+                    />
 
-                <PostGroupSubgroupMenuComponent
-                  title={postGroupSubgroupTitle}
-                  description={postGroupSubgroupDescription}
-                  isPermittedGroups={
-                    isAdmin || permissions.has(PermissionEnum.GROUPS_VIEW)
-                  }
-                />
+                    <PostGroupSubgroupMenuComponent
+                      title={postGroupSubgroupTitle}
+                      description={postGroupSubgroupDescription}
+                      isPermittedGroups={
+                        isAdmin || permissions.has(PermissionEnum.GROUPS_VIEW)
+                      }
+                    />
+                  </>
+                )}
 
                 {(isAdmin ||
                   permissions.has(

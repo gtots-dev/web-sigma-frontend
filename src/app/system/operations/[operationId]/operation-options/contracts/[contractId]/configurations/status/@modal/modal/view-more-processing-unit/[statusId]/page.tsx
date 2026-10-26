@@ -22,7 +22,7 @@ export default async function ViewMoreStatusProcessingUnitsModalPage({
   )
 
   const canView =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_PROCESSING_UNITS_VIEW)
+    isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
   if (!canView) {
     return (
       <UnauthorizedModalToast message={MESSAGES_STATUS_PROCESSING_UNITS['25.8']} />

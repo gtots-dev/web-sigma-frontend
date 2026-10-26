@@ -22,7 +22,7 @@ export default async function IgnoreStatusProcessingUnitsModalPage({
   )
 
   const canEdit =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_PROCESSING_UNITS_EDIT)
+    isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
   if (!canEdit) {
     return (
       <UnauthorizedModalToast message={MESSAGES_STATUS_PROCESSING_UNITS['25.8']} />

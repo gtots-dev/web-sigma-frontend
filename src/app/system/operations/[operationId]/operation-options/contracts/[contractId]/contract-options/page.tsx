@@ -66,7 +66,12 @@ export default async function ContractOptionsPage({
       accessAllowed:
         isAdmin ||
         userPermissions.has(PermissionEnum.POINTS_VIEW) ||
-        userPermissions.has(PermissionEnum.PROCESSING_UNITS_VIEW)
+        userPermissions.has(PermissionEnum.PROCESSING_UNITS_VIEW) ||
+        userPermissions.has(PermissionEnum.GROUPS_VIEW) ||
+        userPermissions.has(PermissionEnum.VEHICLE_TYPES_VIEW) ||
+        userPermissions.has(PermissionEnum.VIOLATIONS_VIEW) ||
+        userPermissions.has(PermissionEnum.RESTRICTIONS_VIEW) ||
+        userPermissions.has(PermissionEnum.STATUS_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_CONTRACT['16.9'],
@@ -86,7 +91,8 @@ export default async function ContractOptionsPage({
         Number(rawContractId)
       ),
       icon: MonitorDot,
-      accessAllowed: true
+      accessAllowed:
+        isAdmin || userPermissions.has(PermissionEnum.STATUS_DASHBOARD_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_CONTRACT['16.13'],

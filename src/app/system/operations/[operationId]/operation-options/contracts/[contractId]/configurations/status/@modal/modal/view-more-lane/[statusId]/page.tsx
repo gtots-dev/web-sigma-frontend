@@ -22,7 +22,7 @@ export default async function ViewMoreStatusLanesModalPage({
   )
 
   const canView =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_LANES_VIEW)
+    isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
   if (!canView) {
     return (
       <UnauthorizedModalToast message={MESSAGES_STATUS_LANES['26.8']} />

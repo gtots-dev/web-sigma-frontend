@@ -25,15 +25,20 @@ export function PermissionProfileOptionsDropdownClientComponent({
 }) {
   return (
     <>
-      {(isAdmin || permissions.has(PermissionEnum.PERMISSIONS_EDIT)) && (
+      {(isAdmin ||
+        permissions.has(PermissionEnum.PERMISSIONS_EDIT) ||
+        permissions.has(PermissionEnum.PERMISSIONS_ENABLE_AND_DISABLE)) && (
         <EditPermissionProfileMenu.Provider>
           <PatchPermissionProfileStatusMenu.Provider>
             <PermissionProfileOptionsDropdown.Root>
               <PermissionProfileOptionsDropdown.Trigger />
               <PermissionProfileOptionsDropdown.Menu>
-                <PermissionProfileOptionsDropdown.Item>
-                  <EditPermissionProfileMenu.Trigger />
-                </PermissionProfileOptionsDropdown.Item>
+                {(isAdmin ||
+                  permissions.has(PermissionEnum.PERMISSIONS_EDIT)) && (
+                  <PermissionProfileOptionsDropdown.Item>
+                    <EditPermissionProfileMenu.Trigger />
+                  </PermissionProfileOptionsDropdown.Item>
+                )}
 
                 {(isAdmin ||
                   permissions.has(
@@ -56,10 +61,12 @@ export function PermissionProfileOptionsDropdownClientComponent({
               />
             )}
 
-            <EditPermissionProfileMenuComponent
-              title={editTitle}
-              description={editDescription}
-            />
+            {(isAdmin || permissions.has(PermissionEnum.PERMISSIONS_EDIT)) && (
+              <EditPermissionProfileMenuComponent
+                title={editTitle}
+                description={editDescription}
+              />
+            )}
           </PatchPermissionProfileStatusMenu.Provider>
         </EditPermissionProfileMenu.Provider>
       )}

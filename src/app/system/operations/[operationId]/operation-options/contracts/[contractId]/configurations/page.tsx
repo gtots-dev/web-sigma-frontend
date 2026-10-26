@@ -12,7 +12,6 @@ import {
   Activity,
   AlertTriangle,
   Car,
-  ServerCog,
   HardDrive,
   Map,
   MapPin,
@@ -128,10 +127,7 @@ export default async function ConfigurationsPage({
         Number(rawContractId)
       ),
       icon: Activity,
-      accessAllowed:
-        isAdmin ||
-        userPermissions.has(PermissionEnum.STATUS_PROCESSING_UNITS_VIEW) ||
-        userPermissions.has(PermissionEnum.STATUS_LANES_VIEW)
+      accessAllowed: isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
     }
   ]
 

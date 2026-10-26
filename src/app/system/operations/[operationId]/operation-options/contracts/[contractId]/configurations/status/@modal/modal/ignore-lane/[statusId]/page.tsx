@@ -22,7 +22,7 @@ export default async function IgnoreStatusLanesModalPage({
   )
 
   const canEdit =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_LANES_EDIT)
+    isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
   if (!canEdit) {
     return (
       <UnauthorizedModalToast message={MESSAGES_STATUS_LANES['26.8']} />

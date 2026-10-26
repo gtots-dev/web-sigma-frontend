@@ -30,13 +30,13 @@ export default async function StatusPage({ params }: StatusPageProps) {
   )
 
   const canViewUps =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_PROCESSING_UNITS_VIEW)
+    isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
   const canEditUps =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_PROCESSING_UNITS_EDIT)
+    isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
   const canViewLanes =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_LANES_VIEW)
+    isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
   const canEditLanes =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_LANES_EDIT)
+    isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
 
   const canViewAny = canViewUps || canViewLanes
 

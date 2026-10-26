@@ -10,6 +10,7 @@ import { MESSAGES_POINT } from '@/modules/shared/presentation/messages/points'
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 
 interface PointsPageProps {
   params: Promise<UrlParams>
@@ -70,15 +71,17 @@ export default async function PointsPage({ params }: PointsPageProps) {
         </div>
       </HeaderSection.Root>
       
-      <ActionSection.Root>
-        <PostPointMenu.Provider>
-          <PostPointMenu.Trigger />
-          <PostPointMenuComponent
-            title={data.menuPostPointTitle}
-            description={data.menuPostPointDescription}
-          />
-        </PostPointMenu.Provider>
-      </ActionSection.Root>
+      {(isAdmin || userPermissions.has(PermissionEnum.POINTS_EDIT)) && (
+        <ActionSection.Root>
+          <PostPointMenu.Provider>
+            <PostPointMenu.Trigger />
+            <PostPointMenuComponent
+              title={data.menuPostPointTitle}
+              description={data.menuPostPointDescription}
+            />
+          </PostPointMenu.Provider>
+        </ActionSection.Root>
+      )}
       <TablePoints.Root>
         <TablePoints.Header />
         <TablePoints.Body>

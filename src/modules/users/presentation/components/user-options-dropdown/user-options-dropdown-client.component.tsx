@@ -68,29 +68,28 @@ export function UserOptionsDropdownClient({
 
                     {(isAdmin ||
                       permissions.has(PermissionEnum.USERS_EDIT)) && (
-                      <UserOptionsDropdown.Item>
-                        <EditUserMenu.Trigger />
-                      </UserOptionsDropdown.Item>
-                    )}
+                      <>
+                        <UserOptionsDropdown.Item>
+                          <EditUserMenu.Trigger />
+                        </UserOptionsDropdown.Item>
 
-                    <UserOptionsDropdown.Item>
-                      <BindUserWithPermissionProfilesMenu.Trigger
-                        isPermittedViewContracts={
-                          isAdmin ||
-                          permissions.has(PermissionEnum.CONTRACTS_VIEW)
-                        }
-                        isPermittedViewPermissionsProfile={
-                          isAdmin ||
-                          permissions.has(PermissionEnum.PERMISSIONS_VIEW)
-                        }
-                      />
-                    </UserOptionsDropdown.Item>
+                        <UserOptionsDropdown.Item>
+                          <BindUserWithPermissionProfilesMenu.Trigger
+                            isPermittedViewContracts={
+                              isAdmin ||
+                              permissions.has(PermissionEnum.CONTRACTS_VIEW)
+                            }
+                            isPermittedViewPermissionsProfile={
+                              isAdmin ||
+                              permissions.has(PermissionEnum.PERMISSIONS_VIEW)
+                            }
+                          />
+                        </UserOptionsDropdown.Item>
 
-                    {(isAdmin ||
-                      permissions.has(PermissionEnum.USERS_EDIT)) && (
-                      <UserOptionsDropdown.Item>
-                        <AddUserFilesMenu.Trigger />
-                      </UserOptionsDropdown.Item>
+                        <UserOptionsDropdown.Item>
+                          <AddUserFilesMenu.Trigger />
+                        </UserOptionsDropdown.Item>
+                      </>
                     )}
 
                     {(isAdmin ||
@@ -117,16 +116,19 @@ export function UserOptionsDropdownClient({
                   description={viewMoreDescription}
                 />
 
-                <BindUserWithPermissionProfilesMenuComponent
-                  title={bindUserWithPermissionProfilesTitle}
-                  description={bindUserWithPermissionProfilesDescription}
-                  isPermittedViewContracts={
-                    isAdmin || permissions.has(PermissionEnum.CONTRACTS_VIEW)
-                  }
-                  isPermittedViewPermissionsProfile={
-                    isAdmin || permissions.has(PermissionEnum.PERMISSIONS_VIEW)
-                  }
-                />
+                {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
+                  <BindUserWithPermissionProfilesMenuComponent
+                    title={bindUserWithPermissionProfilesTitle}
+                    description={bindUserWithPermissionProfilesDescription}
+                    isPermittedViewContracts={
+                      isAdmin || permissions.has(PermissionEnum.CONTRACTS_VIEW)
+                    }
+                    isPermittedViewPermissionsProfile={
+                      isAdmin ||
+                      permissions.has(PermissionEnum.PERMISSIONS_VIEW)
+                    }
+                  />
+                )}
 
                 {(isAdmin ||
                   permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (

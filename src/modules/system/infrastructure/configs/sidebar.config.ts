@@ -48,7 +48,12 @@ export function getSidebarData(
               permissions: [
                 PermissionEnum.CONTRACTS_VIEW,
                 PermissionEnum.PROCESSING_UNITS_VIEW,
-                PermissionEnum.POINTS_VIEW
+                PermissionEnum.POINTS_VIEW,
+                PermissionEnum.GROUPS_VIEW,
+                PermissionEnum.VEHICLE_TYPES_VIEW,
+                PermissionEnum.VIOLATIONS_VIEW,
+                PermissionEnum.RESTRICTIONS_VIEW,
+                PermissionEnum.STATUS_VIEW
               ],
               isToExpand: true,
               items: [
@@ -107,14 +112,20 @@ export function getSidebarData(
                   url: PATHNAMES.VEHICLES(operationId, Number(contractId)),
                   icon: Car,
                   isToExpand: true,
-                  permissions: [PermissionEnum.CONTRACTS_VIEW]
+                  permissions: [
+                    PermissionEnum.CONTRACTS_VIEW,
+                    PermissionEnum.VEHICLE_TYPES_VIEW
+                  ]
                 },
                 {
                   title: 'Violações',
                   url: PATHNAMES.VIOLATIONS(operationId, Number(contractId)),
                   icon: AlertTriangle,
                   isToExpand: true,
-                  permissions: [PermissionEnum.CONTRACTS_VIEW]
+                  permissions: [
+                    PermissionEnum.CONTRACTS_VIEW,
+                    PermissionEnum.VIOLATIONS_VIEW
+                  ]
                 },
                 {
                   title: 'Restrições',
@@ -136,8 +147,7 @@ export function getSidebarData(
                   isToExpand: true,
                   permissions: [
                     PermissionEnum.CONTRACTS_VIEW,
-                    PermissionEnum.STATUS_PROCESSING_UNITS_VIEW,
-                    PermissionEnum.STATUS_LANES_VIEW
+                    PermissionEnum.STATUS_VIEW
                   ]
                 }
               ]
@@ -154,7 +164,10 @@ export function getSidebarData(
               url: PATHNAMES.MONITORING(operationId, Number(contractId)),
               icon: MonitorDot,
               isToExpand: true,
-              permissions: [PermissionEnum.CONTRACTS_VIEW]
+              permissions: [
+                PermissionEnum.CONTRACTS_VIEW,
+                PermissionEnum.STATUS_DASHBOARD_VIEW
+              ]
             },
             {
               title: 'Visualizador de registros',
