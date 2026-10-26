@@ -59,10 +59,12 @@ export async function RedirectToOperationsMiddleware(
 
     if (
       error instanceof HttpResponseError &&
-      String(error.status) === HttpStatusCodeEnum.UNAUTHORIZED
+      (String(error.status) === HttpStatusCodeEnum.UNAUTHORIZED ||
+        error.status === 403 ||
+        error.status >= 500)
     )
       return NextResponse.next()
 
-    throw error
+    return NextResponse.next()
   }
 }

@@ -63,10 +63,19 @@ export class FetchHttpClient implements HttpClientGateway {
     }
 
     if (!response.ok) {
-      throw new HttpResponseError(
-        this.extractErrorMessage.extract(parsedData),
-        response.status
-      )
+      const errorMessage = this.extractErrorMessage.extract(parsedData)
+
+      // No cliente, apenas 401 (Unauthorized) invalida a sessão e redireciona para o login;
+      // erros 403 e 5xx nunca redirecionam nem deslogam o usuário.
+      if (
+        typeof window !== 'undefined' &&
+        response.status === Number(HttpStatusCodeEnum.UNAUTHORIZED) &&
+        !window.location.pathname.startsWith('/authentication')
+      ) {
+        window.location.replace('/authentication?session_expired=1')
+      }
+
+      throw new HttpResponseError(errorMessage, response.status)
     }
 
     return {

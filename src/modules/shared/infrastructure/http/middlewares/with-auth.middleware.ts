@@ -36,6 +36,27 @@ export async function WithAuthMiddleware(req: NextRequest) {
   const isTwoFactorPage = pathname.startsWith(twoFactorPath)
   const isPublicPage = isPublicRoute(pathname)
   const isSystemPage = pathname.startsWith(systemPath)
+  const isSessionExpiredRedirect =
+    req.nextUrl.searchParams.get('session_expired') === '1'
+
+  // Se o backend retornou 401 (mesmo com JWT local ainda dentro do exp),
+  // limpa os cookies de sessão e permanece na tela de login sem redirecionar de volta para /system
+  if (isAuthPage && isSessionExpiredRedirect) {
+    const cleanUrl = new URL(authPath, req.url)
+    const response = NextResponse.redirect(cleanUrl)
+    const cookiesToClear = [
+      'authjs.session-token',
+      '__Secure-authjs.session-token',
+      'next-auth.session-token',
+      '__Secure-next-auth.session-token',
+      'operation',
+      'X-2FA-Code'
+    ]
+    for (const cookieName of cookiesToClear) {
+      response.cookies.delete(cookieName)
+    }
+    return response
+  }
 
   if (!isAuthenticated) {
     if (isSystemPage || isTwoFactorPage) {

@@ -20,6 +20,7 @@ import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.con
 import { TwoFactorChallengeProvider } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
 import { RouteTracker } from '@/modules/system/presentation/components/route-tracker/route-tracker.component'
+import { SystemErrorState } from '@/modules/system/presentation/components/system-error-state/system-error-state.component'
 
 interface LayoutProps {
   children: ReactNode
@@ -37,7 +38,9 @@ export default async function Layout({ children }: LayoutProps) {
   const decodedToken = jwtFactory.decode(accessToken)
   const isExpired = decodedToken?.exp ? decodedToken.exp * 1000 < Date.now() : true
 
-  if (!decodedToken || isExpired) redirect(PATHNAMES.AUTHENTICATION)
+  if (!decodedToken || isExpired) {
+    redirect(`${PATHNAMES.AUTHENTICATION}?session_expired=1`)
+  }
 
   const cookieStore = await cookies()
   const hasTrustedDevice =
@@ -49,25 +52,44 @@ export default async function Layout({ children }: LayoutProps) {
 
   if (requiresTwoFactor) redirect(PATHNAMES.TWO_FACTOR)
 
-  let name = ''
+  let name = String(decodedToken.login_name || session?.user?.username || 'Usuário')
   let email = ''
-  
+  let serverError = false
+  let accessDenied = false
+
   try {
     const getUserMe = GetUserMeFactory.create()
     const result = await getUserMe.execute()
     name = result.name
     email = result.email
   } catch (error) {
-    if (error instanceof HttpResponseError && error.message.includes('Two-factor authentication not completed')) {
+    if (
+      error instanceof HttpResponseError &&
+      error.message.includes('Two-factor authentication not completed')
+    ) {
       redirect(PATHNAMES.TWO_FACTOR)
     }
-    if (error instanceof HttpResponseError && (error.status === 401 || error.status === 403)) {
-      redirect(PATHNAMES.AUTHENTICATION)
+
+    // 401 Unauthorized: sessão/token inválido no backend -> limpa sessão e redireciona para login uma única vez
+    if (error instanceof HttpResponseError && error.status === 401) {
+      redirect(`${PATHNAMES.AUTHENTICATION}?session_expired=1`)
     }
-    if (error instanceof HttpResponseError) {
-      redirect(PATHNAMES.AUTHENTICATION)
+
+    // 403 Forbidden: usuário autenticado porém sem permissão -> exibe estado de acesso negado sem deslogar
+    if (error instanceof HttpResponseError && error.status === 403) {
+      accessDenied = true
+    } else {
+      // 5xx ou falha de conexão/rede -> mantém sessão ativa e exibe tela amigável de instabilidade
+      serverError = true
     }
-    throw error
+  }
+
+  if (serverError) {
+    return <SystemErrorState variant="server-error" />
+  }
+
+  if (accessDenied) {
+    return <SystemErrorState variant="forbidden" />
   }
 
   const permissions = decodedToken.permissions
