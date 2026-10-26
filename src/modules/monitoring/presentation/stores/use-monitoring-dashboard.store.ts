@@ -3,6 +3,7 @@ import {
   UpStatusMessage,
   LaneStatusMessage
 } from '../../domain/interfaces/monitoring-dashboard-websocket.interface'
+import { applyStatusIgnoreLayer } from '../utils/monitoring-status-ignore.utils'
 
 interface MonitoringDashboardState {
   upData: Map<string, UpStatusMessage>
@@ -26,7 +27,9 @@ export const useMonitoringDashboardStore = create<MonitoringDashboardState>((set
       const nextUp = new Map(state.upData)
       const nextLane = new Map(state.laneData)
 
-      updates.forEach((u) => {
+      updates.forEach((rawUpdate) => {
+        const u = applyStatusIgnoreLayer(rawUpdate)
+
         // 1. Check inside request object first
         if (u.request) {
           if ('lane_id' in u.request && u.request.lane_id !== undefined) {

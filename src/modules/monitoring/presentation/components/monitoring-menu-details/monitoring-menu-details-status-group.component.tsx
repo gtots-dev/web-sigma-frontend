@@ -4,6 +4,8 @@ import {
   getLevelColor,
   getLevelText
 } from '../../utils/monitoring-menu-details.utils'
+import { resolveDetailedStatusElement } from '../../utils/monitoring-status-ignore.utils'
+import { MonitoringStatusIgnoreBadge } from './monitoring-status-ignore-badge.component'
 
 interface MonitoringMenuDetailsStatusGroupProps {
   group: StatusGroup
@@ -19,6 +21,8 @@ export function MonitoringMenuDetailsStatusGroup({
       </span>
       <div className="flex flex-col gap-1 bg-muted/20 border rounded-lg p-3">
         {group.elements.map((el) => {
+          const { displayLevel, isIgnored } = resolveDetailedStatusElement(el)
+
           return (
             <div
               key={el.code || el.name}
@@ -38,21 +42,22 @@ export function MonitoringMenuDetailsStatusGroup({
                 )}
               </div>
               <div className="flex items-center gap-2 shrink-0 ml-4">
+                {isIgnored && <MonitoringStatusIgnoreBadge />}
                 <span
                   className="font-mono border font-bold text-foreground bg-muted/60 px-2 py-0.5 rounded text-xs"
                   style={{
-                    backgroundColor: `var(--monitoring-${el.level === 0 ? 'ok' : el.level === 1 ? 'warning' : 'error'})`
+                    backgroundColor: `var(--monitoring-${displayLevel === 0 ? 'ok' : displayLevel === 1 ? 'warning' : 'error'})`
                   }}
                 >
                   {el.value}
                 </span>
                 <span
                   className={`h-3 w-3 rounded-full shrink-0 ${getLevelColor(
-                    el.level,
+                    displayLevel,
                     true,
                     false
                   )}`}
-                  title={getLevelText(el.level, true, false)}
+                  title={getLevelText(displayLevel, true, false)}
                 />
               </div>
             </div>

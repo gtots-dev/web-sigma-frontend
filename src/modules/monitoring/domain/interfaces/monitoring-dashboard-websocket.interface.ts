@@ -11,6 +11,8 @@ export interface StatusElement {
   name: string
   value: string
   level: number
+  ignore?: boolean
+  originalLevel?: number
 }
 
 export interface StatusGroup {
