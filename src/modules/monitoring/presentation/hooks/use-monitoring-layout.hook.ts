@@ -124,13 +124,11 @@ export function useMonitoringLayout(
       ]
 
       let x = 0,
-        y = 0,
         z = 0
       let ring = 1
 
       while (dataIndex < processedCells.length) {
         x += directions[4].dx
-        y += directions[4].dy
         z += directions[4].dz
 
         for (let side = 0; side < 6; side++) {
@@ -145,7 +143,6 @@ export function useMonitoringLayout(
               cell: processedCells[dataIndex++]
             })
             x += directions[side].dx
-            y += directions[side].dy
             z += directions[side].dz
           }
         }

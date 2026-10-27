@@ -85,7 +85,7 @@ export function useVideoPlayback(): UseVideoPlaybackReturn {
    * @deprecated O loop RAF manipula atualizações de currentTime automaticamente.
    * Mantido para compatibilidade retroativa — os chamadores podem parar de usá-lo com segurança.
    */
-  const handleTimeUpdate = useCallback((_videoEl: HTMLVideoElement) => {
+  const handleTimeUpdate = useCallback(() => {
     // No-op: O loop RAF agora gerencia as atualizações de currentTime durante a reprodução.
   }, [])
 

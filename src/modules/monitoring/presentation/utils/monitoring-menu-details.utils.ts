@@ -37,7 +37,7 @@ export function formatBrDate(dateStr: string): string {
       const seconds = String(date.getSeconds()).padStart(2, '0')
       return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`
     }
-  } catch (e) {}
+  } catch {}
   return dateStr
 }
 

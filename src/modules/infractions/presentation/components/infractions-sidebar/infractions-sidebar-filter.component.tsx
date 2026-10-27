@@ -27,7 +27,6 @@ export function InfractionsSidebarFilter({
   onToggleOption,
   onSetCategoryOptions,
   onClear,
-  availableLanes = [],
   availableViolations = [],
   availableRestrictions = [],
   hasUnread = false,

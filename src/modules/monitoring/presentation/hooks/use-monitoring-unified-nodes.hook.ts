@@ -19,8 +19,7 @@ interface UseMonitoringUnifiedNodesProps {
 export function useMonitoringUnifiedNodes({
   points,
   contractLanes,
-  processingUnits,
-  contractId
+  processingUnits
 }: UseMonitoringUnifiedNodesProps) {
   return useMemo<UnifiedMonitoringNode[]>(() => {
     if (!points || !contractLanes) return []
@@ -30,7 +29,7 @@ export function useMonitoringUnifiedNodes({
         (laneData) => laneData.point_id === pointWithGroup.point.id
       )
 
-      let associatedUpIds = Array.from(
+      const associatedUpIds = Array.from(
         new Set(
           associatedLanes
             .map((l) => String(l.up_id || l.lane.up_id))
@@ -42,7 +41,7 @@ export function useMonitoringUnifiedNodes({
         console.warn(`Ponto ${pointWithGroup.point.name} (ID: ${pointWithGroup.point.id}) possui faixas associadas, mas nenhuma UP vinculada.`)
       }
 
-      let associatedUps = processingUnits.filter(
+      const associatedUps = processingUnits.filter(
         (pu) => pu.id !== undefined && associatedUpIds.includes(String(pu.id))
       )
 
@@ -52,5 +51,5 @@ export function useMonitoringUnifiedNodes({
         ups: associatedUps
       }
     }).filter((node) => node.ups.length > 0)
-  }, [points, contractLanes, processingUnits, contractId])
+  }, [points, contractLanes, processingUnits])
 }

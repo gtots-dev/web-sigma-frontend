@@ -1,4 +1,4 @@
-type HttpHeadersInterface = {
+export type HttpHeadersInterface = {
   date: string
   server: string
   'content-length': string

@@ -32,7 +32,6 @@ const contentVariants: Variants = {
 export function FrameSequenceRootComponent({
   children,
   isFullyReady,
-  capturedCount = 0,
   currentExtractingFrame = 0,
   totalFrames = 0,
   extractionProgress = 0,
