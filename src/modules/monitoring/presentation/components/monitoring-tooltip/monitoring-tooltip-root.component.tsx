@@ -33,12 +33,13 @@ export function MonitoringTooltip({
   return (
     <MonitoringTooltipRenderer
       cell={hoveredCell}
-      children={children}
       className={className}
       renderContainer={renderContainer}
       hoveredCellId={hoveredCellId}
       setHoveredCellId={setHoveredCellId}
       containerRef={containerRef}
-    />
+    >
+      {children}
+    </MonitoringTooltipRenderer>
   )
 }
