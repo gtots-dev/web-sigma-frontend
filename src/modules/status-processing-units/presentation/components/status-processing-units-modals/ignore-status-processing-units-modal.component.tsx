@@ -113,7 +113,10 @@ export function IgnoreStatusProcessingUnitsModal({
   onClose,
   onReturn
 }: IgnoreStatusProcessingUnitsModalProps) {
-  const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
+  const { handleClose, handleReturn } = useModalNavigation({
+    onClose,
+    onReturn
+  })
   const {
     status,
     loading: loadingStatus,

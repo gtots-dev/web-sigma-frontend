@@ -3,9 +3,7 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { DeleteStatusProcessingUnitIgnoreGateway } from '../../domain/gateways/delete-status-processing-unit-ignore.gateway'
 
-export class DeleteStatusProcessingUnitIgnoreService
-  implements DeleteStatusProcessingUnitIgnoreGateway
-{
+export class DeleteStatusProcessingUnitIgnoreService implements DeleteStatusProcessingUnitIgnoreGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

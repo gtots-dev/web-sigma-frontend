@@ -6,8 +6,7 @@ import type { PaginationInterface } from '@/modules/shared/domain/interfaces/pag
 import type { ActivityReportInterface } from '../../domain/interfaces/activity-report.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 export class PostActivityReportService implements PostActivityReportGateway {
-  constructor(
-    private readonly executeRequest: ExecuteRequest) {}
+  constructor(private readonly executeRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(filters: {
     filters: ActivityReportFiltersInterface

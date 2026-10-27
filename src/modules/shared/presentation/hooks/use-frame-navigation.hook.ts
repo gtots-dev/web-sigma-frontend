@@ -19,7 +19,10 @@ interface UseFrameNavigationReturn {
     targetTime: number,
     videoEl: HTMLVideoElement | null
   ) => void
-  syncVideoOnSeekEnd: (videoEl: HTMLVideoElement | null, currentTime: number) => void
+  syncVideoOnSeekEnd: (
+    videoEl: HTMLVideoElement | null,
+    currentTime: number
+  ) => void
   handleFrameBarSeek: (
     targetFrameNum: number,
     capturedFrames: CapturedFrame[],
@@ -70,7 +73,10 @@ export function useFrameNavigation(): UseFrameNavigationReturn {
 
       // Se possuir quadros capturados, seleciona a partir do array
       if (capturedFrames.length > 0) {
-        const nextIndex = Math.max(0, Math.min(currentFrame + delta, capturedFrames.length - 1))
+        const nextIndex = Math.max(
+          0,
+          Math.min(currentFrame + delta, capturedFrames.length - 1)
+        )
         const target = capturedFrames[nextIndex]
 
         if (target) {
@@ -83,7 +89,13 @@ export function useFrameNavigation(): UseFrameNavigationReturn {
       } else if (videoEl) {
         // Passo alternativo se a extração ainda estiver em andamento: altera o currentTime do vídeo diretamente
         const stepTime = 1 / 15 // passo de ~15 FPS
-        const newTime = Math.max(0, Math.min(videoEl.currentTime + delta * stepTime, videoEl.duration || 0))
+        const newTime = Math.max(
+          0,
+          Math.min(
+            videoEl.currentTime + delta * stepTime,
+            videoEl.duration || 0
+          )
+        )
         videoEl.currentTime = newTime
         setDisplayMode('video')
       }
@@ -161,6 +173,6 @@ export function useFrameNavigation(): UseFrameNavigationReturn {
     handleTimelineSeek,
     syncVideoOnSeekEnd,
     handleFrameBarSeek,
-    downloadActiveFrame,
+    downloadActiveFrame
   }
 }

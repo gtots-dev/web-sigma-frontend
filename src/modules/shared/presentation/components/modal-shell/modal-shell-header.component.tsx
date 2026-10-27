@@ -7,7 +7,10 @@ interface ModalShellHeaderProps {
   description: string
 }
 
-export function ModalShellHeader({ title, description }: ModalShellHeaderProps) {
+export function ModalShellHeader({
+  title,
+  description
+}: ModalShellHeaderProps) {
   return (
     <DrawerDialog.Header>
       <DrawerDialog.Title>{title}</DrawerDialog.Title>

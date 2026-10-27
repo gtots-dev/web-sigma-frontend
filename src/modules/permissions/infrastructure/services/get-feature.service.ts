@@ -5,9 +5,7 @@ import type { FeaturesInterface } from '../../domain/interfaces/features.interfa
 import type { GetFeatureGateway } from '../../domain/gateways/get-feature.gateway'
 
 export class GetFeatureService implements GetFeatureGateway {
-  constructor(
-    private readonly httpRequest: ExecuteRequest
-  ) {}
+  constructor(private readonly httpRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(): HttpRequestConfig {
     return {

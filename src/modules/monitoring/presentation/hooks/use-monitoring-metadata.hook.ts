@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react'
 import { usePointStore } from '@/modules/points/presentation/stores/point.store'
 import { useLaneStore } from '@/modules/lanes/presentation/stores/lanes.store'
 import { useProcessingUnitStore } from '@/modules/processing-units/presentation/stores/processing-units.store'
-import { useMonitoringUnifiedNodes, UnifiedMonitoringNode } from './use-monitoring-unified-nodes.hook'
+import {
+  useMonitoringUnifiedNodes,
+  UnifiedMonitoringNode
+} from './use-monitoring-unified-nodes.hook'
 
 export type { UnifiedMonitoringNode }
 
@@ -43,4 +46,3 @@ export function useMonitoringMetadata(operationId: string, contractId: string) {
     isLoading
   }
 }
-

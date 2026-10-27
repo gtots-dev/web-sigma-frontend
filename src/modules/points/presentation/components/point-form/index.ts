@@ -21,4 +21,3 @@ export const PointForm = {
     Longitude: PointFormInputLongitudeComponent
   }
 }
-

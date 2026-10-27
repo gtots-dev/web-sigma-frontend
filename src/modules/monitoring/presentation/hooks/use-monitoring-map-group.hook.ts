@@ -2,7 +2,14 @@
 
 import { useEffect, useRef } from 'react'
 import { circle, rectangle, polygon, latLng, point } from 'leaflet'
-import type { Map, LayerGroup, LatLngBounds, Circle, Rectangle, Polygon } from 'leaflet'
+import type {
+  Map,
+  LayerGroup,
+  LatLngBounds,
+  Circle,
+  Rectangle,
+  Polygon
+} from 'leaflet'
 import type { MonitoringMapCell } from '../../domain/interfaces/monitoring-cell.interface'
 
 type ShapeLayer = Circle | Rectangle | Polygon

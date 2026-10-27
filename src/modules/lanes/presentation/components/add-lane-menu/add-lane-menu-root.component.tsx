@@ -17,7 +17,7 @@ export function AddLaneMenuRootComponent({
   close
 }: AddLaneMenuRootComponentProps) {
   const { methods, defaultValues } = useAddLaneForm()
-  
+
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)
   }, [isOpen, defaultValues, methods])

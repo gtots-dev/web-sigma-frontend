@@ -14,6 +14,6 @@ export const TwoFactorForm = {
   Input: {
     OTP: TwoFactorFormInputOTPComponent,
     Resend: TwoFactorResendCodeComponent,
-    RememberMe: TwpFactorFormInputRememberMeComponente,
+    RememberMe: TwpFactorFormInputRememberMeComponente
   }
 }

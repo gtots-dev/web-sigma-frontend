@@ -29,7 +29,13 @@ export function useMonitoringLayout(
   const generateMapCells = useCallback((): MonitoringMapCell[] => {
     return processedCells
       .filter((cell) => {
-        if (cell.latitude === undefined || cell.latitude === null || cell.longitude === undefined || cell.longitude === null) return false
+        if (
+          cell.latitude === undefined ||
+          cell.latitude === null ||
+          cell.longitude === undefined ||
+          cell.longitude === null
+        )
+          return false
         const lat = Number(cell.latitude)
         const lng = Number(cell.longitude)
         return !isNaN(lat) && !isNaN(lng)
@@ -271,4 +277,3 @@ export function useMonitoringLayout(
     CELL_HEIGHT
   }
 }
-

@@ -4,7 +4,9 @@ interface RestrictionFormComponentProps {
   children: ReactNode
 }
 
-export function RestrictionFormComponent({ children }: RestrictionFormComponentProps) {
+export function RestrictionFormComponent({
+  children
+}: RestrictionFormComponentProps) {
   return (
     <main className="flex flex-col flex-1 h-full w-full gap-y-8 overflow-auto">
       <form

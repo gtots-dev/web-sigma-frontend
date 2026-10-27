@@ -5,9 +5,14 @@ import type { DeleteStatusProcessingUnitIgnoreRouterApiGateway } from '../../dom
 import { DeleteStatusProcessingUnitIgnoreRouterApiService } from '../services/delete-status-processing-unit-ignore-router-api.service'
 
 export class DeleteStatusProcessingUnitIgnoreFactory {
-  static create(params: UrlParams): DeleteStatusProcessingUnitIgnoreRouterApiGateway {
+  static create(
+    params: UrlParams
+  ): DeleteStatusProcessingUnitIgnoreRouterApiGateway {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new DeleteStatusProcessingUnitIgnoreRouterApiService(executeRequest, params)
+    return new DeleteStatusProcessingUnitIgnoreRouterApiService(
+      executeRequest,
+      params
+    )
   }
 }

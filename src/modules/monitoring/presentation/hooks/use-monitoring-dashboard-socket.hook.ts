@@ -44,7 +44,6 @@ export function useMonitoringDashboardSocket(
       enabled: nodes.length > 0 && status === 'authenticated'
     })
 
-
   // 2. Ouvindo Mudanças (Memorizamos a função de assinatura para evitar resubscrições)
   const subscribeData = useMemo(
     () => service.onDataUpdate.bind(service),
@@ -138,11 +137,19 @@ export function useMonitoringDashboardSocket(
       const rawLat = rawPoint.latitude
       const rawLng = rawPoint.longitude
 
-      const parsedLat = rawLat !== undefined && rawLat !== null && rawLat !== '' ? Number(rawLat) : undefined
-      const parsedLng = rawLng !== undefined && rawLng !== null && rawLng !== '' ? Number(rawLng) : undefined
+      const parsedLat =
+        rawLat !== undefined && rawLat !== null && rawLat !== ''
+          ? Number(rawLat)
+          : undefined
+      const parsedLng =
+        rawLng !== undefined && rawLng !== null && rawLng !== ''
+          ? Number(rawLng)
+          : undefined
 
-      const validLat = parsedLat !== undefined && !isNaN(parsedLat) ? parsedLat : undefined
-      const validLng = parsedLng !== undefined && !isNaN(parsedLng) ? parsedLng : undefined
+      const validLat =
+        parsedLat !== undefined && !isNaN(parsedLat) ? parsedLat : undefined
+      const validLng =
+        parsedLng !== undefined && !isNaN(parsedLng) ? parsedLng : undefined
 
       return {
         id: cellId,
@@ -150,7 +157,9 @@ export function useMonitoringDashboardSocket(
         status,
         connectionStatus,
         upIds: associatedUpIds,
-        laneIds: associatedLanes.map((laneDataObj) => String(laneDataObj.lane.id)),
+        laneIds: associatedLanes.map((laneDataObj) =>
+          String(laneDataObj.lane.id)
+        ),
         latitude: validLat,
         longitude: validLng
       }

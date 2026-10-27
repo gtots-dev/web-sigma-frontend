@@ -17,7 +17,7 @@ export function PostGroupMenuRootComponent({
   close
 }: PostGroupMenuRootComponentProps) {
   const { methods, defaultValues } = usePostGroupForm()
-  
+
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)
   }, [isOpen, defaultValues, methods])

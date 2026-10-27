@@ -26,7 +26,8 @@ export class PatchProcessingUnitStatusService implements PatchProcessingUnitStat
     processingUnitEnabledAndDisabled: ProcessingUnitEnableAndDisableInterface
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, processingUnitEnabledAndDisabled
+      this.params,
+      processingUnitEnabledAndDisabled
     )
     await this.executeRequest.execute(settingsAuthHTTP)
   }

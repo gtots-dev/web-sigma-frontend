@@ -10,24 +10,26 @@ type StatusProcessingUnitsState = {
   getStatusList: ({ operationId, contractId }: UrlParams) => Promise<void>
 }
 
-export const useStatusProcessingUnitsStore = create<StatusProcessingUnitsState>((set) => ({
-  statusList: [],
-  loading: false,
+export const useStatusProcessingUnitsStore = create<StatusProcessingUnitsState>(
+  (set) => ({
+    statusList: [],
+    loading: false,
 
-  getStatusList: async ({ operationId, contractId }: UrlParams) => {
-    set({ loading: true })
-    try {
-      const getStatusListService =
-        GetProcessingUnitStatusListRouterApiFactory.create({
-          operationId,
-          contractId
-        })
-      const { data: statusList } = await getStatusListService.execute()
-      set({ statusList: statusList ?? [] })
-    } catch (error) {
-      if (error instanceof HttpResponseError) throw error
-    } finally {
-      set({ loading: false })
+    getStatusList: async ({ operationId, contractId }: UrlParams) => {
+      set({ loading: true })
+      try {
+        const getStatusListService =
+          GetProcessingUnitStatusListRouterApiFactory.create({
+            operationId,
+            contractId
+          })
+        const { data: statusList } = await getStatusListService.execute()
+        set({ statusList: statusList ?? [] })
+      } catch (error) {
+        if (error instanceof HttpResponseError) throw error
+      } finally {
+        set({ loading: false })
+      }
     }
-  }
-}))
+  })
+)

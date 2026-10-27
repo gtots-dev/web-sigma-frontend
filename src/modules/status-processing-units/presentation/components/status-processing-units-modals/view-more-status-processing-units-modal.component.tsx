@@ -64,7 +64,10 @@ export function ViewMoreStatusProcessingUnitsModal({
   onClose,
   onReturn
 }: ViewMoreStatusProcessingUnitsModalProps) {
-  const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
+  const { handleClose, handleReturn } = useModalNavigation({
+    onClose,
+    onReturn
+  })
   const {
     status,
     loading: loadingStatus,

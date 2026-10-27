@@ -25,7 +25,9 @@ export const AddProcessingUnitMenuProviderComponent = ({
   const toggle = () => setIsOpen((prev) => !prev)
 
   return (
-    <AddProcessingUnitMenuContext.Provider value={{ isOpen, open, close, toggle }}>
+    <AddProcessingUnitMenuContext.Provider
+      value={{ isOpen, open, close, toggle }}
+    >
       {children}
     </AddProcessingUnitMenuContext.Provider>
   )

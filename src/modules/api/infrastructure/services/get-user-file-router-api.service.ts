@@ -5,9 +5,7 @@ import type { GetUserFileRouterApiGateway } from '../../domain/gateways/get-user
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { UrlFileInterface } from '@/modules/users/domain/interfaces/url-file.interface'
 
-export class GetUserFileRouterApiService
-  implements GetUserFileRouterApiGateway
-{
+export class GetUserFileRouterApiService implements GetUserFileRouterApiGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

@@ -64,7 +64,10 @@ export function ViewMoreStatusLanesModal({
   onClose,
   onReturn
 }: ViewMoreStatusLanesModalProps) {
-  const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
+  const { handleClose, handleReturn } = useModalNavigation({
+    onClose,
+    onReturn
+  })
   const {
     status,
     loading: loadingStatus,

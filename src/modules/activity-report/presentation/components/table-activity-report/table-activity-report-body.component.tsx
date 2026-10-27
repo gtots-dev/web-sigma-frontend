@@ -46,7 +46,10 @@ export function TableActivityReportBodyComponent({
   if (logs.data.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={colSpan} message={MESSAGES_ACTIVITY_REPORT['15.3']} />
+        <TableMessage
+          colSpan={colSpan}
+          message={MESSAGES_ACTIVITY_REPORT['15.3']}
+        />
       </TableBody>
     )
 

@@ -46,8 +46,10 @@ export const upsertLiveRecord = (
       data: {
         ...existingRecord.data,
         createdAt: existingRecord.data.createdAt || parsed.createdAt,
-        formattedDate: existingRecord.data.formattedDate || parsed.formattedDate,
-        formattedTime: existingRecord.data.formattedTime || parsed.formattedTime,
+        formattedDate:
+          existingRecord.data.formattedDate || parsed.formattedDate,
+        formattedTime:
+          existingRecord.data.formattedTime || parsed.formattedTime,
         files: updatedFiles,
         expiresAt: parsed.expiresAt
       }

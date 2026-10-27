@@ -21,12 +21,8 @@ export function MonitoringTooltip({
   className,
   renderContainer
 }: MonitoringTooltipProps) {
-  const {
-    hoveredCell,
-    hoveredCellId,
-    containerRef,
-    setHoveredCellId
-  } = useMonitoringContext()
+  const { hoveredCell, hoveredCellId, containerRef, setHoveredCellId } =
+    useMonitoringContext()
 
   if (!hoveredCell) return null
 

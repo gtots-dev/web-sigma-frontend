@@ -45,7 +45,10 @@ export function InfractionsMenuTriggerComponent({
   }
 
   return (
-    <div onClick={handleClick} className={`relative flex flex-col w-full h-full ${className}`}>
+    <div
+      onClick={handleClick}
+      className={`relative flex flex-col w-full h-full ${className}`}
+    >
       {children}
       {isLoading && (
         <div className="absolute inset-0 bg-background/70 backdrop-blur-[3px] flex flex-col items-center justify-center gap-1.5 rounded-lg z-20 transition-all duration-300 animate-in fade-in">

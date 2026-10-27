@@ -32,7 +32,6 @@ export function InfractionsSidebarFilter({
   hasUnread = false,
   unreadCount
 }: InfractionsSidebarFilterProps) {
-
   // 2. Items & Values for Violations MultiSelect
   const violationsItems = useMemo(() => {
     return availableViolations.map((v) => ({

@@ -4,9 +4,7 @@ import type { PutUserPermissionProfileAllInOneRouterApiGateway } from '../../dom
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { UserPermissionProfileWithFeaturesAndContractsInterface } from '@/modules/users/domain/interfaces/user-permission-profile-with-features-and-contracts.interface'
 
-export class PutUserPermissionProfileAllInOneRouterApiService
-  implements PutUserPermissionProfileAllInOneRouterApiGateway
-{
+export class PutUserPermissionProfileAllInOneRouterApiService implements PutUserPermissionProfileAllInOneRouterApiGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams

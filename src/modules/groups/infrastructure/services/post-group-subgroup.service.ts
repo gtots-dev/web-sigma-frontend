@@ -23,9 +23,7 @@ export class PostGroupSubgroupService implements PostGroupSubgroupGateway {
   }
 
   async execute(subgroupId: GroupSubgroupInterface): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, subgroupId
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, subgroupId)
     await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

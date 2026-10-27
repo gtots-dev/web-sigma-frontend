@@ -5,9 +5,7 @@ import { GetPermissionProfilesRouterApiService } from '../services/get-permissio
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class GetPermissionProfilesRouterApiFactory {
-  static create(
-    params: UrlParams
-  ): GetPermissionProfilesRouterApiGateway {
+  static create(params: UrlParams): GetPermissionProfilesRouterApiGateway {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     return new GetPermissionProfilesRouterApiService(executeRequest, params)

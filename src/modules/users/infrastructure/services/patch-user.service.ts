@@ -11,9 +11,7 @@ export class PatchUserService implements PatchUserGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    user: UserEntity
-  ): HttpRequestConfig<UserEntity> {
+  getHttpRequestConfig(user: UserEntity): HttpRequestConfig<UserEntity> {
     return {
       method: 'PATCH',
       url: `/operations/${this.params.operationId}/users/${this.params.userId}`,

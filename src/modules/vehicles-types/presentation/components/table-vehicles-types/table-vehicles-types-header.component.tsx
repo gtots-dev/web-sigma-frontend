@@ -14,9 +14,13 @@ export function TableVehiclesTypesHeaderComponent() {
           Nome
         </TableHead>
 
-        <TableHead className={`${baseClass} hidden lg:table-cell`}>Código</TableHead>
+        <TableHead className={`${baseClass} hidden lg:table-cell`}>
+          Código
+        </TableHead>
 
-        <TableHead className={`${baseClass} hidden lg:table-cell`}>Cor</TableHead>
+        <TableHead className={`${baseClass} hidden lg:table-cell`}>
+          Cor
+        </TableHead>
 
         <TableHead className={`${baseClass} rounded-tr-lg text-right`}>
           Opções

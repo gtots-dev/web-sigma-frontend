@@ -4,9 +4,7 @@ import type { PatchPermissionProfileStatusGateway } from '../../domain/gateways/
 import type { PermissionProfileEnableAndDisableInterface } from '../../domain/interfaces/permission-profile-enable-and-disable.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PatchPermissionProfileStatusService
-  implements PatchPermissionProfileStatusGateway
-{
+export class PatchPermissionProfileStatusService implements PatchPermissionProfileStatusGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -28,7 +26,8 @@ export class PatchPermissionProfileStatusService
     permissionProfileEnableAndDisable: PermissionProfileEnableAndDisableInterface
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, permissionProfileEnableAndDisable
+      this.params,
+      permissionProfileEnableAndDisable
     )
     await this.httpRequest.execute(settingsAuthHTTP)
   }

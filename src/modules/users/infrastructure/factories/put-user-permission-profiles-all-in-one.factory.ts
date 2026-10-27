@@ -7,9 +7,6 @@ export class PutUserPermissionProfileAllInOneFactory {
   static create(params: UrlParams) {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PutUserPermissionProfileAllInOneService(
-      executeRequest,
-      params
-    )
+    return new PutUserPermissionProfileAllInOneService(executeRequest, params)
   }
 }

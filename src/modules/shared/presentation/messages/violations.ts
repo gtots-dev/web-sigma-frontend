@@ -1,11 +1,4 @@
-type MessageKeys =
-  | '23.1'
-  | '23.2'
-  | '23.3'
-  | '23.4'
-  | '23.5'
-  | '23.6'
-  | '23.7'
+type MessageKeys = '23.1' | '23.2' | '23.3' | '23.4' | '23.5' | '23.6' | '23.7'
 
 export const MESSAGES_VIOLATIONS: Record<MessageKeys, string> = {
   '23.1': 'Violações',

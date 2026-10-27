@@ -8,10 +8,10 @@ const Item = {
   Root: InfractionsTimelineItemRoot,
   Image: InfractionsTimelineItemImage,
   Video: InfractionsTimelineItemVideo,
-  Label: InfractionsTimelineItemLabel,
+  Label: InfractionsTimelineItemLabel
 }
 
 export const InfractionsTimeline = {
   Root: InfractionsTimelineRoot,
-  Item,
+  Item
 }

@@ -40,13 +40,15 @@ function MonitoringGridCellComponent({
     fontSize
   })
 
-
-
   const upStatuses = useMonitoringDashboardStore(
-    useShallow((state) => (cell.cell.upIds || []).map((upId) => state.upData.get(upId)))
+    useShallow((state) =>
+      (cell.cell.upIds || []).map((upId) => state.upData.get(upId))
+    )
   )
   const laneStatuses = useMonitoringDashboardStore(
-    useShallow((state) => (cell.cell.laneIds || []).map((laneId) => state.laneData.get(laneId)))
+    useShallow((state) =>
+      (cell.cell.laneIds || []).map((laneId) => state.laneData.get(laneId))
+    )
   )
 
   const ups = (cell.cell.upIds || []).map((upId, idx) => {
@@ -290,8 +292,10 @@ export const MonitoringGridCell = memo(
       prev.cell.cell.status === next.cell.cell.status &&
       prev.cell.cell.name === next.cell.cell.name &&
       prev.cell.cell.connectionStatus === next.cell.cell.connectionStatus &&
-      (prev.cell.cell.upIds || []).join(',') === (next.cell.cell.upIds || []).join(',') &&
-      (prev.cell.cell.laneIds || []).join(',') === (next.cell.cell.laneIds || []).join(',') &&
+      (prev.cell.cell.upIds || []).join(',') ===
+        (next.cell.cell.upIds || []).join(',') &&
+      (prev.cell.cell.laneIds || []).join(',') ===
+        (next.cell.cell.laneIds || []).join(',') &&
       prev.isActive === next.isActive &&
       prev.width === next.width &&
       prev.height === next.height &&

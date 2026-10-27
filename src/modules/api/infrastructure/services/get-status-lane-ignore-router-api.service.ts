@@ -5,9 +5,7 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { GetStatusLaneIgnoreRouterApiGateway } from '../../domain/gateways/get-status-lane-ignore-router-api.gateway'
 import type { StatusLaneIgnoreInterface } from '@/modules/status-lanes/domain/interfaces/status-lane-ignore.interface'
 
-export class GetStatusLaneIgnoreRouterApiService
-  implements GetStatusLaneIgnoreRouterApiGateway
-{
+export class GetStatusLaneIgnoreRouterApiService implements GetStatusLaneIgnoreRouterApiGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

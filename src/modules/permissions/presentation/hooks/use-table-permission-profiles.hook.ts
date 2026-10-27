@@ -12,8 +12,11 @@ export interface useTablePermissionProfilesResult {
 }
 export function useTablePermissionProfiles(): useTablePermissionProfilesResult {
   const { operationId }: UrlParams = useParams()
-  const { getPermissionProfiles, permissionProfiles, loading: storeLoading } =
-    usePermissionProfileStore()
+  const {
+    getPermissionProfiles,
+    permissionProfiles,
+    loading: storeLoading
+  } = usePermissionProfileStore()
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {

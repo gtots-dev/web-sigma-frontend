@@ -66,14 +66,17 @@ export function generatePointSnapshotImage(cell?: MonitoringCell): string {
   // 5. Coordenadas Geográficas Exatas (Latitude e Longitude)
   ctx.fillStyle = 'rgba(255, 255, 255, 0.75)'
   ctx.font = 'bold 9px monospace'
-  const latStr = cell.latitude !== undefined ? cell.latitude.toFixed(4) : '-23.5505'
-  const lngStr = cell.longitude !== undefined ? cell.longitude.toFixed(4) : '-46.6333'
+  const latStr =
+    cell.latitude !== undefined ? cell.latitude.toFixed(4) : '-23.5505'
+  const lngStr =
+    cell.longitude !== undefined ? cell.longitude.toFixed(4) : '-46.6333'
   ctx.fillText(`Latitude: ${latStr} | Longitude: ${lngStr}`, 10, 60)
 
   // Nome do Ponto no Canto Direito
   ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
   ctx.font = '8px sans-serif'
-  const pointName = cell.name.length > 10 ? cell.name.slice(0, 10) + '...' : cell.name
+  const pointName =
+    cell.name.length > 10 ? cell.name.slice(0, 10) + '...' : cell.name
   ctx.fillText(pointName, 215, 60)
 
   return canvas.toDataURL('image/png')

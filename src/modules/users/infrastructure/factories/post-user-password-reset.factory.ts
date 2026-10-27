@@ -7,9 +7,6 @@ export class PostUserPasswordResetFactory {
   static create(params: UrlParams): PostUserPasswordResetGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PostUserPasswordResetService(
-      executeRequest,
-      params
-    )
+    return new PostUserPasswordResetService(executeRequest, params)
   }
 }

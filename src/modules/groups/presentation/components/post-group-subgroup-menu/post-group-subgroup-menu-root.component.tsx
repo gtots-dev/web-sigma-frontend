@@ -21,7 +21,10 @@ export function PostGroupSubgroupMenuRootComponent({
 }: PostGroupSubgroupMenuRootComponentProps) {
   const { methods } = usePostGroupSubgroupForm(groupId)
   return (
-    <FormProvider {...methods} key={`group-${groupId}-${isOpen ? 'open' : 'closed'}`}>
+    <FormProvider
+      {...methods}
+      key={`group-${groupId}-${isOpen ? 'open' : 'closed'}`}
+    >
       <DrawerDialog.Root open={isOpen} onOpenChange={close}>
         {children}
       </DrawerDialog.Root>

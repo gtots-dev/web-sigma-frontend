@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { formatFrameTimecode, formatVideoTimecode } from '../../hooks/use-video-format.hook'
+import {
+  formatFrameTimecode,
+  formatVideoTimecode
+} from '../../hooks/use-video-format.hook'
 import { cn } from '@/modules/shared/presentation/lib/utils'
 import { FlatProgressBar } from '../flat-progress-bar/flat-progress-bar.component'
 
@@ -20,14 +23,20 @@ export function VideoPlayerTimeSliderComponent({
   currentFrame,
   totalFrames,
   onInputScrub,
-  onSeekEnd,
+  onSeekEnd
 }: VideoPlayerTimeSliderProps) {
   const [dragTime, setDragTime] = useState<number | null>(null)
 
   const displayTime = dragTime !== null ? dragTime : currentTime
 
-  const safeFrame = Number.isNaN(currentFrame) || !currentFrame || currentFrame < 0 ? 0 : currentFrame
-  const safeTotal = Number.isNaN(totalFrames) || !totalFrames || totalFrames < 0 ? 0 : totalFrames
+  const safeFrame =
+    Number.isNaN(currentFrame) || !currentFrame || currentFrame < 0
+      ? 0
+      : currentFrame
+  const safeTotal =
+    Number.isNaN(totalFrames) || !totalFrames || totalFrames < 0
+      ? 0
+      : totalFrames
   const displayNum = safeTotal > 0 ? Math.min(safeFrame + 1, safeTotal) : 0
 
   const handleScrub = (t: number) => {
@@ -49,14 +58,17 @@ export function VideoPlayerTimeSliderComponent({
     >
       <div className="flex items-center justify-between text-xs text-muted-foreground font-mono">
         <span>
-          <strong className="text-foreground">{formatFrameTimecode(displayTime)}</strong>
+          <strong className="text-foreground">
+            {formatFrameTimecode(displayTime)}
+          </strong>
           {' / '}
           {formatVideoTimecode(duration)}
         </span>
 
         {safeTotal > 0 && (
           <span>
-            Imagem <strong className="text-foreground">#{displayNum}</strong> / {safeTotal}
+            Imagem <strong className="text-foreground">#{displayNum}</strong> /{' '}
+            {safeTotal}
           </span>
         )}
       </div>

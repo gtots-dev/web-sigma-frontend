@@ -41,7 +41,8 @@ export function LaneFormInputEnabledComponent({
               <div className="space-y-0.5">
                 <FormLabel>Habilitar Faixa?</FormLabel>
                 <FormDescription>
-                  Caso a opção correspondente esteja desabilitada, a faixa não poderá ser utilizado na aplicação.
+                  Caso a opção correspondente esteja desabilitada, a faixa não
+                  poderá ser utilizado na aplicação.
                 </FormDescription>
               </div>
               <Switch

@@ -32,8 +32,7 @@ const variants = {
   closed: { opacity: 0, height: 0, transition: { duration: 0.3 } }
 }
 
-interface SidebarSystemItemGrandchildComponentProps
-  extends SidebarSystemItemComponentProps {
+interface SidebarSystemItemGrandchildComponentProps extends SidebarSystemItemComponentProps {
   children?: (item: Item) => ReactNode
 }
 
@@ -44,12 +43,7 @@ export function SidebarSystemItemGrandchildComponent({
   children
 }: SidebarSystemItemGrandchildComponentProps) {
   const pathname = usePathname()
-  const {
-    operationId,
-    contractId,
-    processingUnitId
-  }: UrlParams =
-    useParams()
+  const { operationId, contractId, processingUnitId }: UrlParams = useParams()
   const { handleClick, isActive } = useSidebarSystemItem(item)
   const [isOpen, setIsOpen] = useState(true)
 

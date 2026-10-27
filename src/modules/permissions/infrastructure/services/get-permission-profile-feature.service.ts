@@ -5,17 +5,16 @@ import type { GetPermissionProfileFeatureGateway } from '../../domain/gateways/g
 import type { PermissionProfileWithFeatureInterface } from '../../domain/interfaces/permission-profile-with-feature.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class GetPermissionProfileFeatureService
-  implements GetPermissionProfileFeatureGateway
-{
+export class GetPermissionProfileFeatureService implements GetPermissionProfileFeatureGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    { operationId, permissionProfileId }: UrlParams
-  ): HttpRequestConfig {
+  getHttpRequestConfig({
+    operationId,
+    permissionProfileId
+  }: UrlParams): HttpRequestConfig {
     return {
       method: 'GET',
       url: `/operations/${operationId}/perm-profiles/${permissionProfileId}/features`,

@@ -1,7 +1,7 @@
-import { ExecuteRequestFactory } from "@/modules/shared/infrastructure/factories/request.factory"
-import { HttpClientFactory } from "@/modules/shared/infrastructure/factories/http-client.factory"
-import { PostTwoFactorVerifyService } from "../services/post-two-factor-verify.service"
-import type { PostTwoFactorVerifyGateway } from "../../domain/gateways/post-two-factor-verify.gateway"
+import { ExecuteRequestFactory } from '@/modules/shared/infrastructure/factories/request.factory'
+import { HttpClientFactory } from '@/modules/shared/infrastructure/factories/http-client.factory'
+import { PostTwoFactorVerifyService } from '../services/post-two-factor-verify.service'
+import type { PostTwoFactorVerifyGateway } from '../../domain/gateways/post-two-factor-verify.gateway'
 
 export class PostTwoFactorVerifyFactory {
   static create(): PostTwoFactorVerifyGateway {

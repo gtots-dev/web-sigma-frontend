@@ -18,9 +18,14 @@ interface TwoFactorChallengeContextData {
   isSubmitting: boolean
 }
 
-const TwoFactorChallengeContext = createContext<TwoFactorChallengeContextData | null>(null)
+const TwoFactorChallengeContext =
+  createContext<TwoFactorChallengeContextData | null>(null)
 
-export function TwoFactorChallengeProvider({ children }: { children: ReactNode }) {
+export function TwoFactorChallengeProvider({
+  children
+}: {
+  children: ReactNode
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -65,7 +70,9 @@ export function TwoFactorChallengeProvider({ children }: { children: ReactNode }
   }, [])
 
   return (
-    <TwoFactorChallengeContext.Provider value={{ challenge, onComplete, isOpen, isSubmitting }}>
+    <TwoFactorChallengeContext.Provider
+      value={{ challenge, onComplete, isOpen, isSubmitting }}
+    >
       {children}
       <TwoFactorChallengeDialog />
     </TwoFactorChallengeContext.Provider>
@@ -76,7 +83,9 @@ export function useTwoFactorChallenge() {
   const context = useContext(TwoFactorChallengeContext)
 
   if (!context) {
-    throw new Error('useTwoFactorChallenge must be used within a TwoFactorChallengeProvider')
+    throw new Error(
+      'useTwoFactorChallenge must be used within a TwoFactorChallengeProvider'
+    )
   }
 
   return context

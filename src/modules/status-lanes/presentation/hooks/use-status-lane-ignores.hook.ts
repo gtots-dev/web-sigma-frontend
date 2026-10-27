@@ -17,7 +17,9 @@ export function useStatusLaneIgnores(
 ) {
   const { operationId, contractId }: UrlParams = useParams()
   const [initialLaneIds, setInitialLaneIds] = useState<number[]>([])
-  const [ignoreMap, setIgnoreMap] = useState<Map<number, LaneIgnoreInfo>>(new Map())
+  const [ignoreMap, setIgnoreMap] = useState<Map<number, LaneIgnoreInfo>>(
+    new Map()
+  )
   const [fetchedKey, setFetchedKey] = useState<string | null>(null)
 
   // Chave estável: só refaz a busca se o conjunto de faixas realmente mudar
@@ -53,7 +55,9 @@ export function useStatusLaneIgnores(
             })
             const { data } = await service.execute()
             if (data && Array.isArray(data)) {
-              const match = data.find((ig) => ig.lane_status_list_id === statusId)
+              const match = data.find(
+                (ig) => ig.lane_status_list_id === statusId
+              )
               if (match) {
                 ignoredIds.push(laneId)
                 newIgnoreMap.set(laneId, { ignoreId: match.id, upId })

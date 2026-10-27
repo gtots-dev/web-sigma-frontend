@@ -8,9 +8,6 @@ export class PostBindUserWithPermissionProfileFactory {
   static create(params: UrlParams): PostBindUserWithPermissionProfileGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PostBindUserWithPermissionProfileService(
-      executeRequest,
-      params
-    )
+    return new PostBindUserWithPermissionProfileService(executeRequest, params)
   }
 }

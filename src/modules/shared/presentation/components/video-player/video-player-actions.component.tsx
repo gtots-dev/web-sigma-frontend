@@ -15,7 +15,7 @@ export function VideoPlayerActionsComponent({
   isInspecting,
   onDownload,
   onReturnToVideo,
-  onTriggerUpload,
+  onTriggerUpload
 }: VideoPlayerActionsProps) {
   return (
     <div className="flex items-center gap-2">

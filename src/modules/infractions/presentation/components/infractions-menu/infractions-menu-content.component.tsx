@@ -10,6 +10,9 @@ export function InfractionsMenuContentComponent({
   children,
   className
 }: InfractionsMenuContentComponentProps) {
-  return <DrawerDialog.Content className={className}>{children}</DrawerDialog.Content>
+  return (
+    <DrawerDialog.Content className={className}>
+      {children}
+    </DrawerDialog.Content>
+  )
 }
-

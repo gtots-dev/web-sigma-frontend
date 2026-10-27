@@ -5,9 +5,14 @@ import type { GetStatusProcessingUnitIgnoreRouterApiGateway } from '../../domain
 import { GetStatusProcessingUnitIgnoreRouterApiService } from '../services/get-status-processing-unit-ignore-router-api.service'
 
 export class GetStatusProcessingUnitIgnoreRouterApiFactory {
-  static create(params: UrlParams): GetStatusProcessingUnitIgnoreRouterApiGateway {
+  static create(
+    params: UrlParams
+  ): GetStatusProcessingUnitIgnoreRouterApiGateway {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new GetStatusProcessingUnitIgnoreRouterApiService(executeRequest, params)
+    return new GetStatusProcessingUnitIgnoreRouterApiService(
+      executeRequest,
+      params
+    )
   }
 }

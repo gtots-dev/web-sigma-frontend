@@ -4,7 +4,6 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { GetLanesGateway } from '../../domain/gateways/get-lanes.gateway'
 import { GetLanesService } from '../services/get-lanes.service'
 
-
 export class GetLanesFactory {
   static create(params: UrlParams): GetLanesGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)

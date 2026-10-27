@@ -6,9 +6,7 @@ import type { PostPermissionProfileGateway } from '../../domain/gateways/post-pe
 import { PermissionProfileEntity } from '../../domain/entities/permission-profile.entity'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PostPermissionProfileService
-  implements PostPermissionProfileGateway
-{
+export class PostPermissionProfileService implements PostPermissionProfileGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams

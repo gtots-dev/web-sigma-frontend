@@ -11,7 +11,9 @@ export function useStatusProcessingUnitIgnores(
   processingUnits: ProcessingUnitEntity[]
 ) {
   const { operationId, contractId }: UrlParams = useParams()
-  const [initialProcessingUnitIds, setInitialProcessingUnitIds] = useState<number[]>([])
+  const [initialProcessingUnitIds, setInitialProcessingUnitIds] = useState<
+    number[]
+  >([])
   const [ignoreMap, setIgnoreMap] = useState<Map<number, number>>(new Map())
   const [fetchedKey, setFetchedKey] = useState<string | null>(null)
 
@@ -34,14 +36,17 @@ export function useStatusProcessingUnitIgnores(
       await Promise.all(
         units.map(async (unit) => {
           try {
-            const service = GetStatusProcessingUnitIgnoreRouterApiFactory.create({
-              operationId,
-              contractId,
-              upId: String(unit.id)
-            })
+            const service =
+              GetStatusProcessingUnitIgnoreRouterApiFactory.create({
+                operationId,
+                contractId,
+                upId: String(unit.id)
+              })
             const { data } = await service.execute()
             if (data && Array.isArray(data)) {
-              const match = data.find((item) => item.up_status_list_id === statusId)
+              const match = data.find(
+                (item) => item.up_status_list_id === statusId
+              )
               if (match) {
                 ignoredIds.push(unit.id)
                 newIgnoreMap.set(unit.id, match.id)

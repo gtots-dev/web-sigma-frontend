@@ -77,7 +77,10 @@ export function PatchContractModal({
   onClose,
   onReturn
 }: PatchContractModalProps) {
-  const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
+  const { handleClose, handleReturn } = useModalNavigation({
+    onClose,
+    onReturn
+  })
   const { loading, getContractById } = useContracts()
   const contract = getContractById(contractId)
 

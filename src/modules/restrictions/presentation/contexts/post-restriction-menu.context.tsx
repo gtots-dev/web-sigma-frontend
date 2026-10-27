@@ -8,9 +8,14 @@ interface PostRestrictionMenuContextData {
   close: () => void
 }
 
-const PostRestrictionMenuContext = createContext<PostRestrictionMenuContextData | null>(null)
+const PostRestrictionMenuContext =
+  createContext<PostRestrictionMenuContextData | null>(null)
 
-export function PostRestrictionMenuContextProvider({ children }: { children: ReactNode }) {
+export function PostRestrictionMenuContextProvider({
+  children
+}: {
+  children: ReactNode
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const open = () => setIsOpen(true)
   const close = () => setIsOpen(false)
@@ -25,7 +30,9 @@ export function PostRestrictionMenuContextProvider({ children }: { children: Rea
 export function usePostRestrictionMenuContext() {
   const context = useContext(PostRestrictionMenuContext)
   if (!context) {
-    throw new Error('usePostRestrictionMenuContext must be used within PostRestrictionMenuContextProvider')
+    throw new Error(
+      'usePostRestrictionMenuContext must be used within PostRestrictionMenuContextProvider'
+    )
   }
   return context
 }

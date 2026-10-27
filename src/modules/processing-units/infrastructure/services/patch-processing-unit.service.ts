@@ -37,7 +37,8 @@ export class PatchProcessingUnitService implements PatchProcessingUnitGateway {
 
   async execute(processingUnit: ProcessingUnitEntity): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, processingUnit
+      this.params,
+      processingUnit
     )
     await this.executeRequest.execute(settingsAuthHTTP)
   }

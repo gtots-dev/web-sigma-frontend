@@ -13,7 +13,11 @@ export interface UseTableLanesResult {
 
 export function useTableLanes(): UseTableLanesResult {
   const { operationId, contractId, processingUnitId }: UrlParams = useParams()
-  const { lanes, getLanes: getLanesFromStore, loading: storeLoading } = useLaneStore()
+  const {
+    lanes,
+    getLanes: getLanesFromStore,
+    loading: storeLoading
+  } = useLaneStore()
   const [loading, setLoading] = useState(true)
 
   const getLanes = useCallback(async () => {

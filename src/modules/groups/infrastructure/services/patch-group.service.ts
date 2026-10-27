@@ -34,9 +34,7 @@ export class PatchGroupService implements PatchGroupGateway {
   }
 
   async execute(group: GroupEntity): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, group
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, group)
     await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

@@ -12,7 +12,8 @@ export function useMenuPosition(
   containerRef: RefObject<HTMLDivElement>,
   MenuRef: RefObject<HTMLDivElement>
 ) {
-  const [positionStyle, setPositionStyle] = useState<CSSProperties>(HIDDEN_STYLE)
+  const [positionStyle, setPositionStyle] =
+    useState<CSSProperties>(HIDDEN_STYLE)
 
   useLayoutEffect(() => {
     if (
@@ -30,11 +31,11 @@ export function useMenuPosition(
     // Ler padding real do container: SVG começa em (paddingLeft, paddingTop) dentro do border-box
     const cs = getComputedStyle(containerRef.current)
     const paddingLeft = parseFloat(cs.paddingLeft) || 0
-    const paddingTop  = parseFloat(cs.paddingTop)  || 0
+    const paddingTop = parseFloat(cs.paddingTop) || 0
 
     // --- Eixo X (horizontal flip) ---
     const spaceRight = containerRect.width - paddingLeft - activeCoords.x
-    const spaceLeft  = activeCoords.x
+    const spaceLeft = activeCoords.x
     const OFFSET = 30
 
     let xOffset = OFFSET // abre à direita por padrão

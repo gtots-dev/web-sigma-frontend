@@ -17,7 +17,7 @@ export function PostVehicleMenuRootComponent({
   close
 }: PostVehicleMenuRootComponentProps) {
   const { methods, defaultValues } = usePostVehicleTypeForm()
-  
+
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)
   }, [isOpen, defaultValues, methods])

@@ -17,7 +17,7 @@ export function AddProcessingUnitMenuRootComponent({
   close
 }: AddProcessingUnitMenuRootComponentProps) {
   const { methods, defaultValues } = useAddProcessingUnitForm()
-  
+
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)
   }, [isOpen, defaultValues, methods])

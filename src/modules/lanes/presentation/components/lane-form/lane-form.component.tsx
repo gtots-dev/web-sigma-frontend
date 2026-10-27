@@ -4,9 +4,7 @@ interface LaneComponentProps {
   children: ReactNode
 }
 
-export function LaneFormComponent({
-  children
-}: LaneComponentProps) {
+export function LaneFormComponent({ children }: LaneComponentProps) {
   return (
     <main className="flex flex-col flex-1 h-full w-full gap-y-8 overflow-auto">
       <form

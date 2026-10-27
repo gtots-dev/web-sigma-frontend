@@ -16,7 +16,7 @@ export function VideoPlayerBadgeComponent({
   extractionProgress,
   isInspecting,
   activeFrame,
-  isPlaying,
+  isPlaying
 }: VideoPlayerBadgeProps) {
   if (!isFullyReady) {
     return (

@@ -46,7 +46,9 @@ export function useMonitoringMenuDetails(cell: MonitoringCell) {
       const liveData = upData.get(upId)
       const hasUpData = upData.has(upId)
       const isUpOffline = !hasUpData
-      const upEntity = processingUnits.find((pu) => String(pu.id) === String(upId))
+      const upEntity = processingUnits.find(
+        (pu) => String(pu.id) === String(upId)
+      )
       const name = upEntity?.name || `UP ${upId}`
 
       let maxLevel = 0
@@ -74,9 +76,11 @@ export function useMonitoringMenuDetails(cell: MonitoringCell) {
     const parsedLanes: LaneInfo[] = cell.laneIds.map((laneId) => {
       const liveData = laneData.get(laneId)
       const hasLaneData = laneData.has(laneId)
-      const laneMeta = contractLanes.find((l) => String(l.lane.id) === String(laneId))
+      const laneMeta = contractLanes.find(
+        (l) => String(l.lane.id) === String(laneId)
+      )
       const name = laneMeta?.lane.name || `Faixa ${laneId}`
-      const upId = laneMeta ? (laneMeta.up_id || laneMeta.lane.up_id) : 0
+      const upId = laneMeta ? laneMeta.up_id || laneMeta.lane.up_id : 0
 
       let maxLevel = 0
       const requestData = liveData?.request
@@ -100,7 +104,14 @@ export function useMonitoringMenuDetails(cell: MonitoringCell) {
     })
 
     return { ups: parsedUps, lanes: parsedLanes }
-  }, [cell.upIds, cell.laneIds, upData, laneData, processingUnits, contractLanes])
+  }, [
+    cell.upIds,
+    cell.laneIds,
+    upData,
+    laneData,
+    processingUnits,
+    contractLanes
+  ])
 
   // Se a célula selecionada mudar, fecha o modal anterior
   useEffect(() => {

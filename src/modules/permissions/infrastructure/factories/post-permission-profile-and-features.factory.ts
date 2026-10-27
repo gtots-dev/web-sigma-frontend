@@ -8,9 +8,6 @@ export class PostPermissionProfileAndFeaturesFactory {
   static create(params: UrlParams): PostPermissionProfileAndFeaturesGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PostPermissionProfileAndFeaturesService(
-      executeRequest,
-      params
-    )
+    return new PostPermissionProfileAndFeaturesService(executeRequest, params)
   }
 }

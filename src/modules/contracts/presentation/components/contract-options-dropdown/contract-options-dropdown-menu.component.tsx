@@ -8,8 +8,7 @@ import {
 import type { DropdownMenuContentProps } from '@radix-ui/react-dropdown-menu'
 import type { ReactNode } from 'react'
 
-interface ContractOptionsDropdownMenuComponentProps
-  extends DropdownMenuContentProps {
+interface ContractOptionsDropdownMenuComponentProps extends DropdownMenuContentProps {
   children: ReactNode
 }
 
@@ -25,7 +24,9 @@ export function ContractOptionsDropdownMenuComponent({
       sideOffset={4}
       {...props}
     >
-      <DropdownMenuLabel className="font-normal p-1.5">Opções</DropdownMenuLabel>
+      <DropdownMenuLabel className="font-normal p-1.5">
+        Opções
+      </DropdownMenuLabel>
       <DropdownMenuSeparator />
       {children}
     </DropdownMenuContent>

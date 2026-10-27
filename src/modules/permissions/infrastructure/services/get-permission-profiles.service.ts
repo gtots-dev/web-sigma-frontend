@@ -4,9 +4,7 @@ import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/h
 import type { PermissionProfileInterface } from '../../domain/interfaces/permission-profiles.interface'
 import type { GetPermissionProfilesGateway } from '../../domain/gateways/get-permission-profiles.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-export class GetPermissionProfilesService
-  implements GetPermissionProfilesGateway
-{
+export class GetPermissionProfilesService implements GetPermissionProfilesGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

@@ -32,4 +32,3 @@ export interface MonitoringMapCell {
   longitude: number
   cell: MonitoringCell
 }
-

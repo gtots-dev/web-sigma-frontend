@@ -12,7 +12,7 @@ export async function applySetCookie(setCookie?: string | string[]) {
 
   for (const cookieStr of cookiesArray) {
     const { key, value, options } = parseSetCookie(cookieStr)
-    
+
     // Browser rejects __Secure- prefix on HTTP even if secure: false is set.
     // We must rename the cookie to its base name on non-HTTPS connections.
     let finalKey = key

@@ -7,7 +7,7 @@ interface InfractionDescriptionListItemProps {
 export function InfractionDescriptionListItem({
   label,
   value,
-  mono,
+  mono
 }: InfractionDescriptionListItemProps) {
   if (!value) return null
   return (
@@ -23,4 +23,3 @@ export function InfractionDescriptionListItem({
     </div>
   )
 }
-

@@ -9,7 +9,7 @@ interface FrameSequenceHeaderProps {
 export function FrameSequenceHeaderComponent({
   capturedCount,
   totalFrames,
-  fps,
+  fps
 }: FrameSequenceHeaderProps) {
   const safeCount = Number.isNaN(capturedCount) ? 0 : capturedCount
   const safeTotal = Number.isNaN(totalFrames) ? 0 : totalFrames
@@ -19,7 +19,8 @@ export function FrameSequenceHeaderComponent({
       <div>
         <h3 className="text-xs font-semibold text-foreground flex items-center gap-2">
           Imagens decodificadas —{' '}
-          <span style={{ color: 'var(--primary-600)' }}>{safeCount}</span> de {safeTotal}
+          <span style={{ color: 'var(--primary-600)' }}>{safeCount}</span> de{' '}
+          {safeTotal}
           {fps ? (
             <span className="text-[10px] px-1.5 py-0.5 rounded font-mono bg-muted text-muted-foreground border font-normal">
               {fps} FPS

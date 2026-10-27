@@ -29,8 +29,7 @@ const variants = {
   closed: { opacity: 0, height: 0, transition: { duration: 0.3 } }
 }
 
-interface SidebarSystemItemChildComponentProps
-  extends SidebarSystemItemComponentProps {
+interface SidebarSystemItemChildComponentProps extends SidebarSystemItemComponentProps {
   children?: (item: Item) => ReactNode
 }
 

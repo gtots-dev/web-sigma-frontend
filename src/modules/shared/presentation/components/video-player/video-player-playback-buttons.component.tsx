@@ -5,7 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
-  ChevronsRight,
+  ChevronsRight
 } from 'lucide-react'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { cn } from '@/modules/shared/presentation/lib/utils'
@@ -21,7 +21,7 @@ export function VideoPlayerPlaybackButtonsComponent({
   isVideoReady,
   isPlaying,
   onStep,
-  onTogglePlay,
+  onTogglePlay
 }: VideoPlayerPlaybackButtonsProps) {
   return (
     <div
@@ -32,7 +32,7 @@ export function VideoPlayerPlaybackButtonsComponent({
     >
       {[
         { title: 'Recuar 10 imagens', delta: -10, Icon: ChevronsLeft },
-        { title: 'Recuar 1 imagem', delta: -1, Icon: ChevronLeft },
+        { title: 'Recuar 1 imagem', delta: -1, Icon: ChevronLeft }
       ].map(({ title, delta, Icon }) => (
         <Button
           key={title}
@@ -63,7 +63,7 @@ export function VideoPlayerPlaybackButtonsComponent({
 
       {[
         { title: 'Avançar 1 imagem', delta: 1, Icon: ChevronRight },
-        { title: 'Avançar 10 imagens', delta: 10, Icon: ChevronsRight },
+        { title: 'Avançar 10 imagens', delta: 10, Icon: ChevronsRight }
       ].map(({ title, delta, Icon }) => (
         <Button
           key={title}

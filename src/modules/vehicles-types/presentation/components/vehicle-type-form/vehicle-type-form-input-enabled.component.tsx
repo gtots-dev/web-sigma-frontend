@@ -41,7 +41,8 @@ export function VehicleFormInputEnabledComponent({
               <div className="space-y-0.5">
                 <FormLabel>Habilitar Veículo?</FormLabel>
                 <FormDescription>
-                  Caso a opção correspondente esteja desabilitada, o veículo não poderá ser utilizado na aplicação.
+                  Caso a opção correspondente esteja desabilitada, o veículo não
+                  poderá ser utilizado na aplicação.
                 </FormDescription>
               </div>
               <Switch

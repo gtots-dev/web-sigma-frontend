@@ -9,12 +9,17 @@ interface PutContractStatusModalPageProps {
   params: Promise<{ operationId: string; contractId: string }>
 }
 
-export default async function PutContractStatusModalPage({ params }: PutContractStatusModalPageProps) {
+export default async function PutContractStatusModalPage({
+  params
+}: PutContractStatusModalPageProps) {
   const resolvedParams = await params
   const session = await auth()
   const JWT = session?.token
   const isAdmin = session?.user?.isAdmin ?? false
-  const { userPermissions } = await loadAuthContext(JWT, resolvedParams.operationId)
+  const { userPermissions } = await loadAuthContext(
+    JWT,
+    resolvedParams.operationId
+  )
 
   const canToggleStatus =
     isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_ENABLE_AND_DISABLE)

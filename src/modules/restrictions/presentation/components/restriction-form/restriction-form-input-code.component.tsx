@@ -40,7 +40,11 @@ export function RestrictionFormInputCodeComponent({
               max={999999999}
               placeholder="Digite o código"
               {...field}
-              onChange={(e) => field.onChange(e.target.value === '' ? '' : Number(e.target.value))}
+              onChange={(e) =>
+                field.onChange(
+                  e.target.value === '' ? '' : Number(e.target.value)
+                )
+              }
             />
           </FormControl>
           <FormMessage />

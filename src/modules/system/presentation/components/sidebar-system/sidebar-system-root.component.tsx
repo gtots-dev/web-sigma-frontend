@@ -4,8 +4,9 @@ import {
   SidebarRail
 } from '@/modules/shared/presentation/components/shadcn/sidebar'
 
-interface SidebarSystemRootComponentProps
-  extends ComponentProps<typeof Sidebar> {
+interface SidebarSystemRootComponentProps extends ComponentProps<
+  typeof Sidebar
+> {
   children: ReactNode
 }
 

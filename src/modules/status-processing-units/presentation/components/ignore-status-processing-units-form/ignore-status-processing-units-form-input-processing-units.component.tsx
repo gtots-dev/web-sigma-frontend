@@ -76,16 +76,12 @@ export function IgnoreStatusProcessingUnitsFormInputProcessingUnitsComponent({
                 <GroupSelector.Root>
                   <GroupSelector.Search
                     placeholder={
-                      loading
-                        ? 'Carregando U.P.s...'
-                        : 'Busque pela U.P....'
+                      loading ? 'Carregando U.P.s...' : 'Busque pela U.P....'
                     }
                   />
                   <GroupSelector.List<SelectorItem>
                     hasPermission={hasPermission}
-                    messagePermission={
-                      MESSAGES_STATUS_PROCESSING_UNITS['25.7']
-                    }
+                    messagePermission={MESSAGES_STATUS_PROCESSING_UNITS['25.7']}
                     messageItemEmpty="Nenhuma U.P. encontrada"
                     messageGroupEmpty="Nenhuma U.P. encontrada"
                     heading={(group, allSelected, toggleAll) => (

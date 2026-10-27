@@ -90,13 +90,19 @@ function MonitoringPageContent({
                 {/* Grupo 2: Submodo de Layout (Condicionado ao Hex) */}
                 <Monitoring.Controls.LayoutToggle />
 
-                <Separator orientation="vertical" className="h-5 w-[1px] hidden sm:block bg-border/80" />
+                <Separator
+                  orientation="vertical"
+                  className="h-5 w-[1px] hidden sm:block bg-border/80"
+                />
 
                 {/* Grupo 3: Ações de Viewport e Zoom */}
                 <Monitoring.Controls.ScalingSlider />
                 <Monitoring.Controls.ResetView />
 
-                <Separator orientation="vertical" className="h-5 w-[1px] hidden sm:block bg-border/80" />
+                <Separator
+                  orientation="vertical"
+                  className="h-5 w-[1px] hidden sm:block bg-border/80"
+                />
 
                 {/* Grupo 4: Painéis, Estado & Utilitários */}
                 {isMaximized && (
@@ -105,7 +111,10 @@ function MonitoringPageContent({
                     <Monitoring.Stats.TriggerMaximized>
                       <Monitoring.Stats.Content />
                     </Monitoring.Stats.TriggerMaximized>
-                    <Separator orientation="vertical" className="h-5 w-[1px] hidden sm:block bg-border/80" />
+                    <Separator
+                      orientation="vertical"
+                      className="h-5 w-[1px] hidden sm:block bg-border/80"
+                    />
                   </div>
                 )}
                 <Monitoring.Controls.TelemetryFilterToggle />

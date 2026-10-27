@@ -8,9 +8,7 @@ import type {
   StatusProcessingUnitIgnoreInterface
 } from '../../domain/interfaces/status-processing-unit-ignore.interface'
 
-export class PostStatusProcessingUnitIgnoreService
-  implements PostStatusProcessingUnitIgnoreGateway
-{
+export class PostStatusProcessingUnitIgnoreService implements PostStatusProcessingUnitIgnoreGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

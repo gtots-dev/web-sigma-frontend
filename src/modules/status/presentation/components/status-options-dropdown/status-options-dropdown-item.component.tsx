@@ -4,8 +4,7 @@ import { DropdownMenuItem } from '@/modules/shared/presentation/components/shadc
 import type { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import type { ReactNode } from 'react'
 
-interface StatusOptionsDropdownItemComponentProps
-  extends DropdownMenuItemProps {
+interface StatusOptionsDropdownItemComponentProps extends DropdownMenuItemProps {
   children?: ReactNode
 }
 

@@ -4,9 +4,7 @@ interface PointComponentProps {
   children: ReactNode
 }
 
-export function PointFormComponent({
-  children
-}: PointComponentProps) {
+export function PointFormComponent({ children }: PointComponentProps) {
   return (
     <main className="flex flex-col flex-1 h-full w-full gap-y-8 overflow-auto">
       <form

@@ -11,7 +11,9 @@ export function ChartGradientLineToolbar({
 }: ChartGradientLineToolbarProps) {
   return (
     <div className="flex justify-between items-center">
-      <div className="flex flex-col-reverse md:flex-row gap-2 w-full">{children}</div>
+      <div className="flex flex-col-reverse md:flex-row gap-2 w-full">
+        {children}
+      </div>
     </div>
   )
 }

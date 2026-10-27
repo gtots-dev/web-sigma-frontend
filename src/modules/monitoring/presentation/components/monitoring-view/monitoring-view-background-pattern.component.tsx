@@ -1,6 +1,10 @@
 'use client'
 
-export function MonitoringViewBackgroundPattern({ offset }: { offset: { x: number; y: number } }) {
+export function MonitoringViewBackgroundPattern({
+  offset
+}: {
+  offset: { x: number; y: number }
+}) {
   return (
     <div
       className="absolute inset-0 pointer-events-none opacity-[0.25]"

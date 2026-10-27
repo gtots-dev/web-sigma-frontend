@@ -28,7 +28,7 @@ export function MonitoringError({ onReconnect }: MonitoringErrorProps) {
         {/* Glow externo de erro */}
         <div className="absolute inset-0 rounded-full border border-destructive/10 animate-ping [animation-duration:2s]" />
         <div className="absolute w-14 h-14 rounded-full border border-destructive/20 animate-pulse duration-1000" />
-        
+
         {/* Icone central de rede offline */}
         <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-background border border-destructive/20 shadow-md">
           <WifiOff className="h-4.5 w-4.5 text-destructive" />
@@ -41,8 +41,8 @@ export function MonitoringError({ onReconnect }: MonitoringErrorProps) {
           Sem Conexão
         </span>
         <p className="text-sm font-semibold text-muted-foreground">
-          Falha ao estabelecer conexão em tempo real com os equipamentos.
-          O servidor pode estar temporariamente indisponível.
+          Falha ao estabelecer conexão em tempo real com os equipamentos. O
+          servidor pode estar temporariamente indisponível.
         </p>
       </div>
 

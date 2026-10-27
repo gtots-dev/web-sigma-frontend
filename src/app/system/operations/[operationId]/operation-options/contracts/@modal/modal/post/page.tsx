@@ -9,12 +9,17 @@ interface PostContractModalPageProps {
   params: Promise<{ operationId: string }>
 }
 
-export default async function PostContractModalPage({ params }: PostContractModalPageProps) {
+export default async function PostContractModalPage({
+  params
+}: PostContractModalPageProps) {
   const resolvedParams = await params
   const session = await auth()
   const JWT = session?.token
   const isAdmin = session?.user?.isAdmin ?? false
-  const { userPermissions } = await loadAuthContext(JWT, resolvedParams.operationId)
+  const { userPermissions } = await loadAuthContext(
+    JWT,
+    resolvedParams.operationId
+  )
 
   const canEdit = isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_EDIT)
   if (!canEdit) {

@@ -4,9 +4,7 @@ interface VehicleComponentProps {
   children: ReactNode
 }
 
-export function VehicleFormComponent({
-  children
-}: VehicleComponentProps) {
+export function VehicleFormComponent({ children }: VehicleComponentProps) {
   return (
     <main className="flex flex-col flex-1 h-full w-full gap-y-8 overflow-auto">
       <form

@@ -9,7 +9,7 @@ import { InfractionsSidebarFilter } from './infractions-sidebar-filter.component
 const Item = {
   Root: InfractionsSidebarItemRoot,
   Thumbnail: InfractionsSidebarItemThumbnail,
-  Info: InfractionsSidebarItemInfo,
+  Info: InfractionsSidebarItemInfo
 }
 
 const List = Object.assign(InfractionsSidebarList, { Item })
@@ -18,6 +18,5 @@ export const InfractionsSidebar = {
   Root: InfractionsSidebarRoot,
   Header: InfractionsSidebarHeader,
   Filter: InfractionsSidebarFilter,
-  List,
+  List
 }
-

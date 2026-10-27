@@ -8,9 +8,6 @@ export class GetUserWithPermissionProfileFactory {
   static create(params: UrlParams): GetUserWithPermissionProfileGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new GetUserWithPermissionProfileService(
-      executeRequest,
-      params
-    )
+    return new GetUserWithPermissionProfileService(executeRequest, params)
   }
 }

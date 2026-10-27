@@ -25,7 +25,9 @@ export const ViewMoreActivityReportMenuProviderComponent = ({
   const toggle = () => setIsOpen((prev) => !prev)
 
   return (
-    <ViewMoreActivityReportMenuContext.Provider value={{ isOpen, open, close, toggle }}>
+    <ViewMoreActivityReportMenuContext.Provider
+      value={{ isOpen, open, close, toggle }}
+    >
       {children}
     </ViewMoreActivityReportMenuContext.Provider>
   )

@@ -5,6 +5,4 @@ export const PatchLaneStatusFormSchema = z.object({
   enabled: z.boolean()
 })
 
-export type PatchLaneStatusFormType = z.infer<
-  typeof PatchLaneStatusFormSchema
->
+export type PatchLaneStatusFormType = z.infer<typeof PatchLaneStatusFormSchema>

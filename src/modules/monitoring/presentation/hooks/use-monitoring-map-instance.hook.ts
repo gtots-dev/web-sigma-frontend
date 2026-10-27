@@ -88,13 +88,16 @@ export function useMonitoringMapInstance({
 
     const activeLat = activeMapCell.latitude
     const activeLng = activeMapCell.longitude
-    if (activeLat === undefined || activeLng === undefined || isNaN(activeLat) || isNaN(activeLng)) return
+    if (
+      activeLat === undefined ||
+      activeLng === undefined ||
+      isNaN(activeLat) ||
+      isNaN(activeLng)
+    )
+      return
 
     const mapInst = leafletMapInstanceRef.current
-    const point = mapInst.latLngToContainerPoint([
-      activeLat,
-      activeLng
-    ])
+    const point = mapInst.latLngToContainerPoint([activeLat, activeLng])
 
     if (setCoords) {
       setCoords({
@@ -126,13 +129,16 @@ export function useMonitoringMapInstance({
 
     const hoveredLat = hoveredMapCell.latitude
     const hoveredLng = hoveredMapCell.longitude
-    if (hoveredLat === undefined || hoveredLng === undefined || isNaN(hoveredLat) || isNaN(hoveredLng)) return
+    if (
+      hoveredLat === undefined ||
+      hoveredLng === undefined ||
+      isNaN(hoveredLat) ||
+      isNaN(hoveredLng)
+    )
+      return
 
     const mapInst = leafletMapInstanceRef.current
-    const point = mapInst.latLngToContainerPoint([
-      hoveredLat,
-      hoveredLng
-    ])
+    const point = mapInst.latLngToContainerPoint([hoveredLat, hoveredLng])
 
     if (setCoords) {
       setCoords({

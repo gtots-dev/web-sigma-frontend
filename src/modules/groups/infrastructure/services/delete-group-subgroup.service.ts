@@ -9,9 +9,12 @@ export class DeleteGroupSubgroupService implements DeleteGroupSubgroupGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    { operationId, contractId, groupId, subgroupId }: UrlParams
-  ): HttpRequestConfig {
+  getHttpRequestConfig({
+    operationId,
+    contractId,
+    groupId,
+    subgroupId
+  }: UrlParams): HttpRequestConfig {
     return {
       method: 'DELETE',
       url: `/operations/${operationId}/contracts/${contractId}/groups/${groupId}/subgroups/${subgroupId}`,

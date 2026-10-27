@@ -8,9 +8,7 @@ import type {
   StatusProcessingUnitIgnoreInterface
 } from '@/modules/status-processing-units/domain/interfaces/status-processing-unit-ignore.interface'
 
-export class PostStatusProcessingUnitIgnoreRouterApiService
-  implements PostStatusProcessingUnitIgnoreRouterApiGateway
-{
+export class PostStatusProcessingUnitIgnoreRouterApiService implements PostStatusProcessingUnitIgnoreRouterApiGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

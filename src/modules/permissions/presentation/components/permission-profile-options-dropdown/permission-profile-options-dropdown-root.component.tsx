@@ -2,8 +2,7 @@ import { DropdownMenu } from '@/modules/shared/presentation/components/shadcn/dr
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu'
 import type { ReactNode } from 'react'
 
-interface PermissionProfileOptionsDropdownRootComponentProps
-  extends DropdownMenuProps {
+interface PermissionProfileOptionsDropdownRootComponentProps extends DropdownMenuProps {
   children: ReactNode
 }
 

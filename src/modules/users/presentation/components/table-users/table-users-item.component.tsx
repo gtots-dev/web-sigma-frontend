@@ -30,13 +30,21 @@ export function TableUsersItemComponent({
             <span className="block bg-green-500 outline-2 outline outline-green-600 h-1.5 w-1.5 rounded-full shrink-0"></span>
           )}
           <div className="flex flex-col min-w-0 w-full">
-            <span title={user.name} className="truncate font-medium">{user.name}</span>
+            <span title={user.name} className="truncate font-medium">
+              {user.name}
+            </span>
             {user.description && (
-              <span title={user.description} className="truncate text-xs text-zinc-500 block mt-0.5">
+              <span
+                title={user.description}
+                className="truncate text-xs text-zinc-500 block mt-0.5"
+              >
                 {user.description}
               </span>
             )}
-            <span title={user.email} className="truncate text-xs text-zinc-400 lg:hidden mt-0.5">
+            <span
+              title={user.email}
+              className="truncate text-xs text-zinc-400 lg:hidden mt-0.5"
+            >
               {user.email}
             </span>
           </div>

@@ -8,7 +8,7 @@ export function ActivityReportOptionsDropdownTriggerComponent(
 ) {
   return (
     <DropdownMenuTrigger asChild {...props}>
-      <Button className='h-[19px]' variant="ghost" aria-label="Mais ações">
+      <Button className="h-[19px]" variant="ghost" aria-label="Mais ações">
         <Ellipsis />
       </Button>
     </DropdownMenuTrigger>

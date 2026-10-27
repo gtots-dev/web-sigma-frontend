@@ -22,16 +22,9 @@ export function EditLaneMenuComponent({
   const { onAction } = useEditLaneSubmit()
 
   return (
-    <EditLaneMenu.Root
-      lane={lane}
-      isOpen={isOpen}
-      close={close}
-    >
+    <EditLaneMenu.Root lane={lane} isOpen={isOpen} close={close}>
       <EditLaneMenu.Content>
-        <EditLaneMenu.Header
-          title={title}
-          description={description}
-        />
+        <EditLaneMenu.Header title={title} description={description} />
         <LaneForm.Form>
           <LaneForm.Input.Name />
           <LaneForm.Input.cfg />
@@ -46,9 +39,7 @@ export function EditLaneMenuComponent({
             Cancelar
           </Button>
           <LaneForm.Submit<LaneEntity>
-            onSubmit={(lane: LaneEntity) =>
-              onAction(lane, close)
-            }
+            onSubmit={(lane: LaneEntity) => onAction(lane, close)}
           />
         </EditLaneMenu.Footer>
       </EditLaneMenu.Content>

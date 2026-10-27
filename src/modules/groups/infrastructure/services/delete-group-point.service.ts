@@ -9,9 +9,12 @@ export class DeleteGroupPointService implements DeleteGroupPointGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    { operationId, contractId, groupId, pointId }: UrlParams
-  ): HttpRequestConfig {
+  getHttpRequestConfig({
+    operationId,
+    contractId,
+    groupId,
+    pointId
+  }: UrlParams): HttpRequestConfig {
     return {
       method: 'DELETE',
       url: `/operations/${operationId}/contracts/${contractId}/groups/${groupId}/points/${pointId}`,

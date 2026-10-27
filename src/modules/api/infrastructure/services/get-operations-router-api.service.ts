@@ -4,9 +4,7 @@ import type { OperationEntity } from '@/modules/operations/domain/entities/opera
 import type { GetOperationsRouterApiGateway } from '../../domain/gateways/get-operations-router-api.gateway'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
-export class GetOperationsRouterApiService
-  implements GetOperationsRouterApiGateway
-{
+export class GetOperationsRouterApiService implements GetOperationsRouterApiGateway {
   constructor(private readonly executeRequest: ExecuteRequest) {}
   getHttpRequestConfig(): HttpRequestConfig {
     return {

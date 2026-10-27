@@ -3,5 +3,5 @@ import { SystemPaginationRootComponent } from './system-pagination-root.componen
 
 export const SystemPagination = {
   Root: SystemPaginationRootComponent,
-  Controls: SystemPaginationControlsComponent,
+  Controls: SystemPaginationControlsComponent
 }

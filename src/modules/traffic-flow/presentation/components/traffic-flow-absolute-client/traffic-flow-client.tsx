@@ -22,8 +22,13 @@ export function TrafficFlowAbsoluteClient() {
     granularity
   }
 
-  const { trafficsFlows, vehiclesTypes, isLoading, isFetched, fetchTrafficFlow } =
-    useTrafficFlowData(initialSettings)
+  const {
+    trafficsFlows,
+    vehiclesTypes,
+    isLoading,
+    isFetched,
+    fetchTrafficFlow
+  } = useTrafficFlowData(initialSettings)
   const { handleExport } = useTrafficFlowExport(
     trafficsFlows,
     vehiclesTypes,

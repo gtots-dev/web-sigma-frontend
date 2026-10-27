@@ -16,9 +16,7 @@ export function TabledProcessingUnitsHeaderComponent() {
         <TableHead className={`${baseClass} hidden xl:table-cell`}>
           Status
         </TableHead>
-        <TableHead className={`${baseClass} text-center`}>
-          Opções
-        </TableHead>
+        <TableHead className={`${baseClass} text-center`}>Opções</TableHead>
         <TableHead className={`${baseClass} rounded-tr-lg text-right`}>
           Faixas
         </TableHead>

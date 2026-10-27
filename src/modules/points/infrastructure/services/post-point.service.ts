@@ -34,9 +34,7 @@ export class PostPointService implements PostPointGateway {
   }
 
   async execute(point: PointEntity): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, point
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, point)
     await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

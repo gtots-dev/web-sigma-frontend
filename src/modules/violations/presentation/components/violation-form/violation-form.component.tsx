@@ -4,7 +4,9 @@ interface ViolationFormComponentProps {
   children: ReactNode
 }
 
-export function ViolationFormComponent({ children }: ViolationFormComponentProps) {
+export function ViolationFormComponent({
+  children
+}: ViolationFormComponentProps) {
   return (
     <main className="flex flex-col flex-1 h-full w-full gap-y-8 overflow-auto">
       <form

@@ -4,8 +4,7 @@ import { DropdownMenuItem } from '@/modules/shared/presentation/components/shadc
 import type { DropdownMenuItemProps } from '@radix-ui/react-dropdown-menu'
 import type { ReactNode } from 'react'
 
-interface ActivityReportOptionsDropdownItemComponentProps
-  extends DropdownMenuItemProps {
+interface ActivityReportOptionsDropdownItemComponentProps extends DropdownMenuItemProps {
   children?: ReactNode
 }
 

@@ -17,7 +17,9 @@ interface MonitoringMapContextType {
   setResetMapCenterHandler: (fn: (() => void) | null) => void
 }
 
-const MonitoringMapContext = createContext<MonitoringMapContextType | null>(null)
+const MonitoringMapContext = createContext<MonitoringMapContextType | null>(
+  null
+)
 
 export function MonitoringMapProvider({ children }: { children?: ReactNode }) {
   const [groupShape, setGroupShape] = useState<'circle' | 'line'>('circle')
@@ -25,7 +27,9 @@ export function MonitoringMapProvider({ children }: { children?: ReactNode }) {
   const [mapOpacity, setMapOpacity] = useState<number>(0.7)
   const [outerOpacity, setOuterOpacity] = useState<number>(0)
   const [isMapPanned, setIsMapPanned] = useState(false)
-  const [resetMapCenterHandler, setResetMapCenterHandlerState] = useState<(() => void) | null>(null)
+  const [resetMapCenterHandler, setResetMapCenterHandlerState] = useState<
+    (() => void) | null
+  >(null)
 
   const setResetMapCenterHandler = (fn: (() => void) | null) => {
     setResetMapCenterHandlerState(() => fn)
@@ -62,7 +66,9 @@ export function MonitoringMapProvider({ children }: { children?: ReactNode }) {
 export function useMonitoringMapContext() {
   const context = useContext(MonitoringMapContext)
   if (!context) {
-    throw new Error('useMonitoringMapContext deve ser utilizado dentro de um MonitoringMapProvider')
+    throw new Error(
+      'useMonitoringMapContext deve ser utilizado dentro de um MonitoringMapProvider'
+    )
   }
   return context
 }

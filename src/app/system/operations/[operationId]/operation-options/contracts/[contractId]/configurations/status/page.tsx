@@ -29,10 +29,8 @@ export default async function StatusPage({ params }: StatusPageProps) {
     Number(rawContractId)
   )
 
-  const canViewUps =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
-  const canEditUps =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
+  const canViewUps = isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
+  const canEditUps = isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
   const canViewLanes =
     isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
   const canEditLanes =

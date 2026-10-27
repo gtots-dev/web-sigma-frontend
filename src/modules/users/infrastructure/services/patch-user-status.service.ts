@@ -24,8 +24,7 @@ export class PatchUserStatusService implements PatchUserStatusGateway {
   async execute(
     userEnableAndDisable: UserEnableAndDisableInterface
   ): Promise<HttpResponseInterface<void>> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(userEnableAndDisable
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(userEnableAndDisable)
     return await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

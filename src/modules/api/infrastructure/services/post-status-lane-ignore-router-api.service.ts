@@ -8,9 +8,7 @@ import type {
   StatusLaneIgnoreInterface
 } from '@/modules/status-lanes/domain/interfaces/status-lane-ignore.interface'
 
-export class PostStatusLaneIgnoreRouterApiService
-  implements PostStatusLaneIgnoreRouterApiGateway
-{
+export class PostStatusLaneIgnoreRouterApiService implements PostStatusLaneIgnoreRouterApiGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

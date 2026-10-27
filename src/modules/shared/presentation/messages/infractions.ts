@@ -1,10 +1,4 @@
-type MessageKeys =
-  | '22.1'
-  | '22.2'
-  | '22.3'
-  | '22.4'
-  | '22.5'
-  | '22.6'
+type MessageKeys = '22.1' | '22.2' | '22.3' | '22.4' | '22.5' | '22.6'
 
 export const MESSAGES_INFRACTIONS: Record<MessageKeys, string> = {
   '22.1': 'Visualizador de Registros',

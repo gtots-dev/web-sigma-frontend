@@ -21,11 +21,12 @@ export default async function IgnoreStatusProcessingUnitsModalPage({
     resolvedParams.operationId
   )
 
-  const canEdit =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
+  const canEdit = isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
   if (!canEdit) {
     return (
-      <UnauthorizedModalToast message={MESSAGES_STATUS_PROCESSING_UNITS['25.8']} />
+      <UnauthorizedModalToast
+        message={MESSAGES_STATUS_PROCESSING_UNITS['25.8']}
+      />
     )
   }
 

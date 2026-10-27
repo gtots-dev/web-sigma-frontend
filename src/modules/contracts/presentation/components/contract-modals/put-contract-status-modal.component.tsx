@@ -71,7 +71,10 @@ export function PutContractStatusModal({
   onClose,
   onReturn
 }: PutContractStatusModalProps) {
-  const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
+  const { handleClose, handleReturn } = useModalNavigation({
+    onClose,
+    onReturn
+  })
   const { contracts, loading } = useTableContracts()
 
   const contract = useMemo(

@@ -22,7 +22,7 @@ export function useKeyboardShortcuts({
   isReady,
   onPlay,
   onStepBack,
-  onStepForward,
+  onStepForward
 }: UseKeyboardShortcutsOptions) {
   useEffect(() => {
     const FORM_TAGS = ['INPUT', 'SELECT', 'TEXTAREA']

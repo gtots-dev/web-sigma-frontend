@@ -21,11 +21,12 @@ export default async function ViewMoreStatusProcessingUnitsModalPage({
     resolvedParams.operationId
   )
 
-  const canView =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
+  const canView = isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
   if (!canView) {
     return (
-      <UnauthorizedModalToast message={MESSAGES_STATUS_PROCESSING_UNITS['25.8']} />
+      <UnauthorizedModalToast
+        message={MESSAGES_STATUS_PROCESSING_UNITS['25.8']}
+      />
     )
   }
 

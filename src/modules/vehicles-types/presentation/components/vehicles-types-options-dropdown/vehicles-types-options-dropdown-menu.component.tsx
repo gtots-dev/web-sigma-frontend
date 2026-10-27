@@ -8,8 +8,7 @@ import {
 import type { DropdownMenuContentProps } from '@radix-ui/react-dropdown-menu'
 import type { ReactNode } from 'react'
 
-interface VehiclesTypesOptionsDropdownMenuComponentProps
-  extends DropdownMenuContentProps {
+interface VehiclesTypesOptionsDropdownMenuComponentProps extends DropdownMenuContentProps {
   children: ReactNode
 }
 

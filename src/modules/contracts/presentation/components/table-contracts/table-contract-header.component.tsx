@@ -26,7 +26,9 @@ export function TableContractsHeaderComponent() {
           Opções
         </TableHead>
 
-        <TableHead className={`${baseClass} rounded-tr-lg text-right w-[100px]`}>
+        <TableHead
+          className={`${baseClass} rounded-tr-lg text-right w-[100px]`}
+        >
           Acessar
         </TableHead>
       </TableRow>

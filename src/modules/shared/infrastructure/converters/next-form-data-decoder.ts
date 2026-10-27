@@ -6,7 +6,7 @@ export class NextFormDataDecoder {
       if (key.startsWith('file:') && value instanceof File) {
         const originalName = key.replace('file:', '')
         const buffer = await value.arrayBuffer()
-        
+
         const safeFile = new File([buffer], originalName, {
           type: value.type
         })

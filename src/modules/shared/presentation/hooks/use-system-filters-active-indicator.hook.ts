@@ -9,7 +9,9 @@ export interface ActiveFilterItem {
   value: string
 }
 
-export interface UseSystemFiltersActiveIndicatorProps<T extends object = object> {
+export interface UseSystemFiltersActiveIndicatorProps<
+  T extends object = object
+> {
   labels?: Record<string, string>
   values?: T
   /** Função resolutora opcional para converter IDs em nomes amigáveis */
@@ -113,14 +115,26 @@ function extractActiveFilterItems(
         if (isStartDefault && isEndDefault) continue
       }
 
-      const startFormatted = parseAndFormatValue('start', range.start, valueResolver)
+      const startFormatted = parseAndFormatValue(
+        'start',
+        range.start,
+        valueResolver
+      )
       const endFormatted = parseAndFormatValue('end', range.end, valueResolver)
       const label = labels?.[key] ?? labels?.[fullKey] ?? key
 
       if (startFormatted && endFormatted) {
-        items.push({ key: fullKey, label, value: `${startFormatted} até ${endFormatted}` })
+        items.push({
+          key: fullKey,
+          label,
+          value: `${startFormatted} até ${endFormatted}`
+        })
       } else if (startFormatted) {
-        items.push({ key: fullKey, label, value: `A partir de ${startFormatted}` })
+        items.push({
+          key: fullKey,
+          label,
+          value: `A partir de ${startFormatted}`
+        })
       } else if (endFormatted) {
         items.push({ key: fullKey, label, value: `Até ${endFormatted}` })
       }

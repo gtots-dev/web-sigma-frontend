@@ -40,21 +40,18 @@ export function useMonitoringFilterResolver() {
     return filters
   }, [sortMode, connectionFilter, statusFilter, upErrorFilters])
 
-  const handleValueResolver = useCallback(
-    (key: string, val: unknown) => {
-      if (key === 'sortMode' && typeof val === 'string') {
-        return SORT_LABELS[val] ?? val
-      }
-      if (key === 'connectionFilter' && typeof val === 'string') {
-        return CONNECTION_LABELS[val] ?? val
-      }
-      if (key === 'statusFilter' && typeof val === 'string') {
-        return STATUS_LABELS[val] ?? val
-      }
-      return null
-    },
-    []
-  )
+  const handleValueResolver = useCallback((key: string, val: unknown) => {
+    if (key === 'sortMode' && typeof val === 'string') {
+      return SORT_LABELS[val] ?? val
+    }
+    if (key === 'connectionFilter' && typeof val === 'string') {
+      return CONNECTION_LABELS[val] ?? val
+    }
+    if (key === 'statusFilter' && typeof val === 'string') {
+      return STATUS_LABELS[val] ?? val
+    }
+    return null
+  }, [])
 
   return {
     activeFilters,

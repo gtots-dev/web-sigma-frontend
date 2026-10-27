@@ -55,7 +55,12 @@ export function ColorPickerFormField({ name, label, require }: Props) {
                   </Button>
                 </PopoverTrigger>
 
-                <PopoverContent align="start" side="bottom" sideOffset={6} className="w-80 z-50">
+                <PopoverContent
+                  align="start"
+                  side="bottom"
+                  sideOffset={6}
+                  className="w-80 z-50"
+                >
                   <ColorPicker
                     value={field.value ?? '#000000'}
                     onChange={(value) => field.onChange(value)}

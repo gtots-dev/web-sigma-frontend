@@ -70,9 +70,7 @@ export function MonitoringControlsScalingSlider() {
           >
             <span>{percentage}%</span>
             {value !== 1.0 && (
-              <RotateCcw
-                className="w-3.5 h-3.5 sm:w-2.5 sm:h-2.5 text-primary-500 animate-spin-once shrink-0"
-              />
+              <RotateCcw className="w-3.5 h-3.5 sm:w-2.5 sm:h-2.5 text-primary-500 animate-spin-once shrink-0" />
             )}
           </button>
         </TooltipTrigger>

@@ -25,7 +25,8 @@ export class PatchPointStatusService implements PatchPointStatusGateway {
     pointEnabledAndDisabled: PointEnableAndDisableInterface
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, pointEnabledAndDisabled
+      this.params,
+      pointEnabledAndDisabled
     )
     await this.executeRequest.execute(settingsAuthHTTP)
   }

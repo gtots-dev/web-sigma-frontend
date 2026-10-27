@@ -1,7 +1,12 @@
 import { WebSocketGateway } from '../../domain/gateways/web-socket.gateway'
 
-export abstract class BaseWebSocketAdapter<TIncoming = unknown, TOutgoing = unknown> {
-  constructor(protected readonly webSocketService: WebSocketGateway<TIncoming, TOutgoing>) {}
+export abstract class BaseWebSocketAdapter<
+  TIncoming = unknown,
+  TOutgoing = unknown
+> {
+  constructor(
+    protected readonly webSocketService: WebSocketGateway<TIncoming, TOutgoing>
+  ) {}
 
   async connect(url?: string): Promise<void> {
     await this.webSocketService.connect(url)

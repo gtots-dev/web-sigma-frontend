@@ -4,9 +4,7 @@ import type { PutUserPermissionProfileAllInOneGateway } from '../../domain/gatew
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { UserPermissionProfileWithFeaturesAndContractsInterface } from '../../domain/interfaces/user-permission-profile-with-features-and-contracts.interface'
 
-export class PutUserPermissionProfileAllInOneService
-  implements PutUserPermissionProfileAllInOneGateway
-{
+export class PutUserPermissionProfileAllInOneService implements PutUserPermissionProfileAllInOneGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -28,9 +26,7 @@ export class PutUserPermissionProfileAllInOneService
   async execute(
     profiles: UserPermissionProfileWithFeaturesAndContractsInterface
   ): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, profiles
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, profiles)
     await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

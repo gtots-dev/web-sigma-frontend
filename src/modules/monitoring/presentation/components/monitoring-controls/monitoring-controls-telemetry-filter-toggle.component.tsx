@@ -29,7 +29,9 @@ export function MonitoringControlsTelemetryFilterToggle() {
         </Button>
       </TooltipTrigger>
       <TooltipContent side="top" className="text-xs font-medium">
-        {isSidebarOpen ? 'Fechar Filtros de Telemetria (Alt + F)' : 'Abrir Filtros de Telemetria (Alt + F)'}
+        {isSidebarOpen
+          ? 'Fechar Filtros de Telemetria (Alt + F)'
+          : 'Abrir Filtros de Telemetria (Alt + F)'}
       </TooltipContent>
     </Tooltip>
   )

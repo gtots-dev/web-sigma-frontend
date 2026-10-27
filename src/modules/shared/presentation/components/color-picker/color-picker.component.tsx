@@ -20,14 +20,8 @@ interface Props {
 }
 
 export function ColorPicker({ value, onChange }: Props) {
-  const {
-    hsl,
-    rgb,
-    colorPlaneRef,
-    startPlaneDrag,
-    startHueDrag,
-    handleHue
-  } = useColorPicker({ value, onChange })
+  const { hsl, rgb, colorPlaneRef, startPlaneDrag, startHueDrag, handleHue } =
+    useColorPicker({ value, onChange })
 
   const {
     mode,
@@ -101,9 +95,15 @@ export function ColorPicker({ value, onChange }: Props) {
 
       <Tabs value={mode} onValueChange={(v) => setMode(v as typeof mode)}>
         <TabsList className="w-full">
-          <TabsTrigger value="hex" className="flex-1">Hex</TabsTrigger>
-          <TabsTrigger value="rgba" className="flex-1">RGBA</TabsTrigger>
-          <TabsTrigger value="hsla" className="flex-1">HSLA</TabsTrigger>
+          <TabsTrigger value="hex" className="flex-1">
+            Hex
+          </TabsTrigger>
+          <TabsTrigger value="rgba" className="flex-1">
+            RGBA
+          </TabsTrigger>
+          <TabsTrigger value="hsla" className="flex-1">
+            HSLA
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="hex">
@@ -114,7 +114,11 @@ export function ColorPicker({ value, onChange }: Props) {
               onBlur={() => (isEditingRef.current = false)}
               onChange={(e) => handleHex(e.target.value)}
             />
-            <Button size="icon" variant="ghost" onClick={() => copy(value, 'hex')}>
+            <Button
+              size="icon"
+              variant="ghost"
+              onClick={() => copy(value, 'hex')}
+            >
               {copied.hex ? <Check /> : <Copy />}
             </Button>
           </div>
@@ -124,7 +128,11 @@ export function ColorPicker({ value, onChange }: Props) {
           <div className="grid gap-3">
             <div className="flex gap-2">
               <Input value={rgba} readOnly />
-              <Button size="icon" variant="ghost" onClick={() => copy(rgba, 'rgba')}>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={() => copy(rgba, 'rgba')}
+              >
                 {copied.rgba ? <Check /> : <Copy />}
               </Button>
             </div>
@@ -156,7 +164,11 @@ export function ColorPicker({ value, onChange }: Props) {
           <div className="grid gap-3">
             <div className="flex gap-2">
               <Input value={hsla} readOnly />
-              <Button size="icon" variant="ghost" onClick={() => copy(hsla, 'hsla')}>
+              <Button
+                size="icon"
+                variant="ghost"
+                onClick={() => copy(hsla, 'hsla')}
+              >
                 {copied.hsla ? <Check /> : <Copy />}
               </Button>
             </div>

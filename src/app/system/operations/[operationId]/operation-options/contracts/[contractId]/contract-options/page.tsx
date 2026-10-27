@@ -8,7 +8,13 @@ import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.con
 import { MESSAGES_OPTIONS_CONTRACT } from '@/modules/shared/presentation/messages/options-contract'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { MonitorDot, ChartLine, Settings, type LucideIcon, FileVideo2 } from 'lucide-react'
+import {
+  MonitorDot,
+  ChartLine,
+  Settings,
+  type LucideIcon,
+  FileVideo2
+} from 'lucide-react'
 import { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 

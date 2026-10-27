@@ -8,9 +8,6 @@ export class PatchProcessingUnitStatusFactory {
   static create(params: UrlParams): PatchProcessingUnitStatusGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PatchProcessingUnitStatusService(
-      executeRequest,
-      params
-    )
+    return new PatchProcessingUnitStatusService(executeRequest, params)
   }
 }

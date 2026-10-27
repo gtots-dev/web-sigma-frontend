@@ -9,13 +9,13 @@ describe('PermissionProfileEntity', () => {
     const operation = new PermissionProfileEntity(
       namePermissionProfile,
       descriptionPermissionProfile,
-      idPermissionProfile,
+      idPermissionProfile
     )
 
     expect(operation).toMatchObject({
       name: namePermissionProfile,
       description: descriptionPermissionProfile,
-      id: idPermissionProfile,
+      id: idPermissionProfile
     })
   })
 })

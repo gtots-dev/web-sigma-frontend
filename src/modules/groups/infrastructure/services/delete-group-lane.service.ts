@@ -9,9 +9,12 @@ export class DeleteGroupLaneService implements DeleteGroupLaneGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    { operationId, contractId, groupId, laneId }: UrlParams
-  ): HttpRequestConfig {
+  getHttpRequestConfig({
+    operationId,
+    contractId,
+    groupId,
+    laneId
+  }: UrlParams): HttpRequestConfig {
     return {
       method: 'DELETE',
       url: `/operations/${operationId}/contracts/${contractId}/groups/${groupId}/lanes/${laneId}`,

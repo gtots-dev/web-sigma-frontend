@@ -37,7 +37,8 @@ export const parseLiveCaptureSocketEvent = (
   ttlMs: number = DEFAULT_TTL_MS
 ): ParsedLiveCaptureData => {
   const rawResponse = (incoming.response ?? {}) as RawCapturePayload
-  const rawId = incoming.response?.traffic_capture_id ?? rawResponse.traffic_capture_id
+  const rawId =
+    incoming.response?.traffic_capture_id ?? rawResponse.traffic_capture_id
   const expiresAt = now + ttlMs
   const fileUrl = rawResponse.file?.url
 

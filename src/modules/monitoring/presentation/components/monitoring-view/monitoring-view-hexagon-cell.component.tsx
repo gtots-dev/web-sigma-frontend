@@ -41,13 +41,15 @@ function MonitoringHexagonCellComponent({
     fontSize
   })
 
-
-
   const upStatuses = useMonitoringDashboardStore(
-    useShallow((state) => (hex.cell.upIds || []).map((upId) => state.upData.get(upId)))
+    useShallow((state) =>
+      (hex.cell.upIds || []).map((upId) => state.upData.get(upId))
+    )
   )
   const laneStatuses = useMonitoringDashboardStore(
-    useShallow((state) => (hex.cell.laneIds || []).map((laneId) => state.laneData.get(laneId)))
+    useShallow((state) =>
+      (hex.cell.laneIds || []).map((laneId) => state.laneData.get(laneId))
+    )
   )
 
   const ups = (hex.cell.upIds || []).map((upId, idx) => {
@@ -283,8 +285,10 @@ export const MonitoringHexagonCell = memo(
       prev.hex.cell.status === next.hex.cell.status &&
       prev.hex.cell.name === next.hex.cell.name &&
       prev.hex.cell.connectionStatus === next.hex.cell.connectionStatus &&
-      (prev.hex.cell.upIds || []).join(',') === (next.hex.cell.upIds || []).join(',') &&
-      (prev.hex.cell.laneIds || []).join(',') === (next.hex.cell.laneIds || []).join(',') &&
+      (prev.hex.cell.upIds || []).join(',') ===
+        (next.hex.cell.upIds || []).join(',') &&
+      (prev.hex.cell.laneIds || []).join(',') ===
+        (next.hex.cell.laneIds || []).join(',') &&
       prev.isActive === next.isActive &&
       prev.radius === next.radius &&
       prev.hex.cx === next.hex.cx &&

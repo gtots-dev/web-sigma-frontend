@@ -5,9 +5,7 @@ import { ContractEntity } from '@/modules/contracts/domain/entities/contract.ent
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
-export class PostContractRouterApiService
-  implements PostContractRouterApiGateway
-{
+export class PostContractRouterApiService implements PostContractRouterApiGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

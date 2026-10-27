@@ -4,7 +4,9 @@ interface InfractionsPanelEmptyProps {
   isLive?: boolean
 }
 
-export function InfractionsPanelEmpty({ isLive = false }: InfractionsPanelEmptyProps) {
+export function InfractionsPanelEmpty({
+  isLive = false
+}: InfractionsPanelEmptyProps) {
   if (isLive) {
     return (
       <div className="flex flex-1 items-center justify-center text-muted-foreground bg-card border rounded-xl h-[calc(100vh-180px)] p-6">
@@ -18,7 +20,8 @@ export function InfractionsPanelEmpty({ isLive = false }: InfractionsPanelEmptyP
               Aguardando capturas de tráfego
             </span>
             <span className="text-xs text-muted-foreground">
-              A transmissão ao vivo via WebSocket está ativa. Novas capturas aparecerão automaticamente nesta linha do tempo.
+              A transmissão ao vivo via WebSocket está ativa. Novas capturas
+              aparecerão automaticamente nesta linha do tempo.
             </span>
           </div>
         </div>
@@ -37,7 +40,8 @@ export function InfractionsPanelEmpty({ isLive = false }: InfractionsPanelEmptyP
             Nenhum registro encontrado
           </span>
           <span className="text-xs text-muted-foreground">
-            Nenhuma captura de tráfego foi encontrada para os filtros selecionados. Tente ajustar os parâmetros da busca.
+            Nenhuma captura de tráfego foi encontrada para os filtros
+            selecionados. Tente ajustar os parâmetros da busca.
           </span>
         </div>
       </div>

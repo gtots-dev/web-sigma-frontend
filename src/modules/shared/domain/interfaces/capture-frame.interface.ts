@@ -7,4 +7,3 @@ export interface CapturedFrame {
   width: number
   height: number
 }
-

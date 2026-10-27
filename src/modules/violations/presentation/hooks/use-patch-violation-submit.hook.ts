@@ -15,10 +15,7 @@ export function usePatchViolationSubmit() {
   const violation = useTableViolations()
 
   const onAction = useCallback(
-    async (
-      data: ViolationEntity,
-      onSuccess: VoidFunction
-    ): Promise<void> => {
+    async (data: ViolationEntity, onSuccess: VoidFunction): Promise<void> => {
       try {
         await patchViolation(
           {

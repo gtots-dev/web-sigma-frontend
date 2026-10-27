@@ -30,14 +30,17 @@ export function FlatProgressBar({
   disabled = false,
   className,
   onScrub,
-  onCommit,
+  onCommit
 }: FlatProgressBarProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const [dragging, setDragging] = useState(false)
 
   const clampedMax = max || 1
-  const fillPercent = Math.min(100, Math.max(0, ((value - min) / (clampedMax - min)) * 100))
+  const fillPercent = Math.min(
+    100,
+    Math.max(0, ((value - min) / (clampedMax - min)) * 100)
+  )
 
   /** Convert a pointer X position to a value within [min, max]. */
   const pointerToValue = useCallback(
@@ -108,7 +111,7 @@ export function FlatProgressBar({
         style={{
           width: `${fillPercent}%`,
           background: 'var(--primary-600)',
-          transition: dragging ? 'none' : undefined,
+          transition: dragging ? 'none' : undefined
         }}
       />
     </div>

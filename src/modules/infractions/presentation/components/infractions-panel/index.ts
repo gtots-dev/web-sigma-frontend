@@ -7,4 +7,3 @@ export const InfractionsPanel = {
   Empty: InfractionsPanelEmpty,
   RightSidebar: InfractionsPanelRightSidebar
 }
-

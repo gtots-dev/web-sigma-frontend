@@ -4,9 +4,7 @@ interface GroupComponentProps {
   children: ReactNode
 }
 
-export function GroupFormComponent({
-  children
-}: GroupComponentProps) {
+export function GroupFormComponent({ children }: GroupComponentProps) {
   return (
     <main className="flex flex-col flex-1 h-full w-full gap-y-8 overflow-auto">
       <form

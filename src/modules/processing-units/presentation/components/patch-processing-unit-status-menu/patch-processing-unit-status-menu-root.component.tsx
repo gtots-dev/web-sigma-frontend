@@ -20,7 +20,8 @@ export function PatchProcessingUnitsStatusMenuRootComponent({
   isOpen,
   close
 }: PatchProcessingUnitsStatusMenuRootComponentProps) {
-  const { methods, defaultValues } = usePatchProcessingUnitStatusForm(processingUnit)
+  const { methods, defaultValues } =
+    usePatchProcessingUnitStatusForm(processingUnit)
 
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)

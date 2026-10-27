@@ -5,17 +5,17 @@ import type { UserPermissionProfileContractInterface } from '../../domain/interf
 import type { GetUserPermissionProfileContractGateway } from '../../domain/gateways/get-user-permission-profiles-contract.gateway'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class GetUserPermissionProfileContractService
-  implements GetUserPermissionProfileContractGateway
-{
+export class GetUserPermissionProfileContractService implements GetUserPermissionProfileContractGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    { operationId, userId, permissionProfileId }: UrlParams
-  ): HttpRequestConfig {
+  getHttpRequestConfig({
+    operationId,
+    userId,
+    permissionProfileId
+  }: UrlParams): HttpRequestConfig {
     return {
       method: 'GET',
       url: `/operations/${operationId}/users/${userId}/perm-profiles/${permissionProfileId}/contracts`,
@@ -25,7 +25,9 @@ export class GetUserPermissionProfileContractService
 
   async execute(): Promise<UserPermissionProfileContractInterface[]> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
-    const { data }: HttpResponseInterface<UserPermissionProfileContractInterface[]> =
+    const {
+      data
+    }: HttpResponseInterface<UserPermissionProfileContractInterface[]> =
       await this.httpRequest.execute(settingsAuthHTTP)
     return data
   }

@@ -129,10 +129,7 @@ export function getSidebarData(
                 },
                 {
                   title: 'Restrições',
-                  url: PATHNAMES.RESTRICTIONS(
-                    operationId,
-                    Number(contractId)
-                  ),
+                  url: PATHNAMES.RESTRICTIONS(operationId, Number(contractId)),
                   icon: ShieldAlert,
                   isToExpand: true,
                   permissions: [

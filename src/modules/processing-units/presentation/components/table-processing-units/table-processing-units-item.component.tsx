@@ -32,7 +32,10 @@ export function TabledProcessingUnitsItemComponent({
     <TableRow>
       <TableCell className={`${baseCell} w-[30%] max-w-0`}>
         <div className="flex flex-col gap-y-0.5 w-full">
-          <span title={processingUnit.name} className={`${truncateText} !h-auto`}>
+          <span
+            title={processingUnit.name}
+            className={`${truncateText} !h-auto`}
+          >
             {processingUnit.name}
           </span>
         </div>

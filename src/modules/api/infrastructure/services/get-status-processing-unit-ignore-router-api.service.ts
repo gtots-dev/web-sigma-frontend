@@ -5,9 +5,7 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { GetStatusProcessingUnitIgnoreRouterApiGateway } from '../../domain/gateways/get-status-processing-unit-ignore-router-api.gateway'
 import type { StatusProcessingUnitIgnoreInterface } from '@/modules/status-processing-units/domain/interfaces/status-processing-unit-ignore.interface'
 
-export class GetStatusProcessingUnitIgnoreRouterApiService
-  implements GetStatusProcessingUnitIgnoreRouterApiGateway
-{
+export class GetStatusProcessingUnitIgnoreRouterApiService implements GetStatusProcessingUnitIgnoreRouterApiGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

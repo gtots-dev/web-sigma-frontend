@@ -29,9 +29,15 @@ export function useActiveContractWorkspace(): UseActiveContractWorkspaceResult {
   const pathname = normalizePathname(rawPathname)
   const params = useParams()
 
-  const operationId = params?.operationId ? Number(params.operationId) : undefined
-  const rawContractId = params?.contractId ? Number(params.contractId) : undefined
-  const processingUnitId = params?.processingUnitId ? Number(params.processingUnitId) : undefined
+  const operationId = params?.operationId
+    ? Number(params.operationId)
+    : undefined
+  const rawContractId = params?.contractId
+    ? Number(params.contractId)
+    : undefined
+  const processingUnitId = params?.processingUnitId
+    ? Number(params.processingUnitId)
+    : undefined
 
   const isWorkspace = isContractWorkspaceRoute(pathname)
   const isModal = isModalRoute(pathname)

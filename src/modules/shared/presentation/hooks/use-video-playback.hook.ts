@@ -16,7 +16,11 @@ interface UseVideoPlaybackReturn {
   /** @deprecated Não é mais necessário — o loop RAF manipula atualizações de currentTime automaticamente. Mantido para compatibilidade de API. */
   handleTimeUpdate: (videoEl: HTMLVideoElement) => void
   handleLoadedMetadata: (videoEl: HTMLVideoElement) => void
-  togglePlay: (videoEl: HTMLVideoElement, isReady: boolean, onSwitchToVideo: () => void) => void
+  togglePlay: (
+    videoEl: HTMLVideoElement,
+    isReady: boolean,
+    onSwitchToVideo: () => void
+  ) => void
   startRafLoop: (videoEl: HTMLVideoElement) => void
   stopRafLoop: () => void
   onEnded: () => void
@@ -36,7 +40,11 @@ export function useVideoPlayback(): UseVideoPlaybackReturn {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isVideoReady, setIsVideoReady] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
-  const [metadata, setMetadata] = useState<VideoMetadata>({ duration: 0, width: 0, height: 0 })
+  const [metadata, setMetadata] = useState<VideoMetadata>({
+    duration: 0,
+    width: 0,
+    height: 0
+  })
 
   // Referência para o ID de quadro da animação RAF para podermos cancelá-lo ao pausar/desmontar
   const rafIdRef = useRef<number | null>(null)
@@ -53,7 +61,11 @@ export function useVideoPlayback(): UseVideoPlaybackReturn {
     }
 
     const tick = () => {
-      if (!videoElRef.current || videoElRef.current.paused || videoElRef.current.ended) {
+      if (
+        !videoElRef.current ||
+        videoElRef.current.paused ||
+        videoElRef.current.ended
+      ) {
         rafIdRef.current = null
         return
       }
@@ -93,22 +105,29 @@ export function useVideoPlayback(): UseVideoPlaybackReturn {
     setMetadata({
       duration: videoEl.duration || 0,
       width: videoEl.videoWidth,
-      height: videoEl.videoHeight,
+      height: videoEl.videoHeight
     })
     setCurrentTime(videoEl.currentTime)
     setIsVideoReady(true)
   }, [])
 
   const togglePlay = useCallback(
-    (videoEl: HTMLVideoElement, isReady: boolean, onSwitchToVideo: () => void) => {
+    (
+      videoEl: HTMLVideoElement,
+      isReady: boolean,
+      onSwitchToVideo: () => void
+    ) => {
       if (!isReady) return
       onSwitchToVideo()
 
       if (videoEl.paused) {
-        videoEl.play().then(() => {
-          setIsPlaying(true)
-          startRafLoop(videoEl)
-        }).catch(console.error)
+        videoEl
+          .play()
+          .then(() => {
+            setIsPlaying(true)
+            startRafLoop(videoEl)
+          })
+          .catch(console.error)
       } else {
         videoEl.pause()
         stopRafLoop()
@@ -136,6 +155,6 @@ export function useVideoPlayback(): UseVideoPlaybackReturn {
     togglePlay,
     startRafLoop,
     stopRafLoop,
-    onEnded,
+    onEnded
   }
 }

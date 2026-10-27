@@ -1,7 +1,6 @@
 import type { ComponentProps } from 'react'
 
-interface TwoFactorFormCardDescriptionComponentProps
-  extends ComponentProps<'p'> {
+interface TwoFactorFormCardDescriptionComponentProps extends ComponentProps<'p'> {
   description: string
 }
 

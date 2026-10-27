@@ -61,7 +61,10 @@ export default async function ProcessingUnitsPage({
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
       <HeaderSection.Root>
         <SectionRedirectLink.Button href={previousSection} />
-        <Separator orientation="vertical" className="h-5 shrink-0 hidden sm:block" />
+        <Separator
+          orientation="vertical"
+          className="h-5 shrink-0 hidden sm:block"
+        />
         <div className="flex flex-col min-w-0 flex-1">
           <HeaderSection.Title>{data.title}</HeaderSection.Title>
           <HeaderSection.Description>
@@ -70,7 +73,6 @@ export default async function ProcessingUnitsPage({
         </div>
       </HeaderSection.Root>
 
-      
       {(isAdmin ||
         userPermissions.has(PermissionEnum.PROCESSING_UNITS_EDIT)) && (
         <ActionSection.Root>
@@ -88,12 +90,12 @@ export default async function ProcessingUnitsPage({
           <TabledProcessingUnits.Header />
           <TabledProcessingUnits.Body>
             <TabledProcessingUnits.Item>
-              {((isAdmin ||
-                userPermissions.has(PermissionEnum.PROCESSING_UNITS_EDIT)) ||
-                (isAdmin ||
-                  userPermissions.has(
-                    PermissionEnum.PROCESSING_UNITS_ENABLE_AND_DISABLE
-                  ))) ? (
+              {isAdmin ||
+              userPermissions.has(PermissionEnum.PROCESSING_UNITS_EDIT) ||
+              isAdmin ||
+              userPermissions.has(
+                PermissionEnum.PROCESSING_UNITS_ENABLE_AND_DISABLE
+              ) ? (
                 <PatchProcessingUnitsStatusMenu.Provider>
                   <EditProcessingUnitsMenu.Provider>
                     <ProcessingUnitsOptionsDropdown.Root>

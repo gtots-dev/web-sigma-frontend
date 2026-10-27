@@ -7,9 +7,7 @@ import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/h
 import type { OAuthResponseInterface } from '@/modules/authentication/domain/interfaces/o-auth-response.interface'
 
 export class PostTwoFactorVerifyService implements PostTwoFactorVerifyGateway {
-  constructor(
-    private readonly executeRequest: ExecuteRequest,
-  ) {}
+  constructor(private readonly executeRequest: ExecuteRequest) {}
 
   getHttpRequestConfig({
     otp_code,

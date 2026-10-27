@@ -8,7 +8,9 @@ interface MonitoringLegendContentProps {
   onMinimize?: () => void
 }
 
-export function MonitoringLegendContent({ onMinimize }: MonitoringLegendContentProps) {
+export function MonitoringLegendContent({
+  onMinimize
+}: MonitoringLegendContentProps) {
   return (
     <div className="select-none">
       {/* Header */}

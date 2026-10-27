@@ -18,7 +18,7 @@ export function MonitoringMapCanvas() {
     hoveredCellId,
     setHoveredCellId,
     setMapHoveredPixelCoords,
-    isSidebarOpen,
+    isSidebarOpen
   } = useMonitoringContext()
 
   const {
@@ -30,7 +30,7 @@ export function MonitoringMapCanvas() {
     setResetMapCenterHandler
   } = useMonitoringMapContext()
   const { theme, resolvedTheme } = useTheme()
-  
+
   const isDark = theme === 'dark' || resolvedTheme === 'dark'
   const mapRef = useRef<HTMLDivElement>(null)
 
@@ -99,4 +99,3 @@ export function MonitoringMapCanvas() {
 
   return <div ref={mapRef} className="w-full h-full min-h-0" />
 }
-

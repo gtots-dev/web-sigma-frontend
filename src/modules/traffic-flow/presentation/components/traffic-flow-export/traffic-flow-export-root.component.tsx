@@ -35,7 +35,8 @@ export function TrafficFlowExportRoot({
           <div className="min-w-0 flex-1">
             <SystemFilters.Title>Exportar dados em CSV</SystemFilters.Title>
             <SystemFilters.Description>
-              Selecione os modelos desejados para baixar os relatórios tabulares em arquivo CSV
+              Selecione os modelos desejados para baixar os relatórios tabulares
+              em arquivo CSV
             </SystemFilters.Description>
           </div>
         </div>

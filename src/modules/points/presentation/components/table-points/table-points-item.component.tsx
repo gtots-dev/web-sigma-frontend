@@ -29,7 +29,10 @@ export function TablePointsItemComponent({
             {point.name}
           </span>
           {point.description && (
-            <span title={point.description} className="truncate text-xs text-zinc-500 block mt-0.5">
+            <span
+              title={point.description}
+              className="truncate text-xs text-zinc-500 block mt-0.5"
+            >
               {point.description}
             </span>
           )}

@@ -6,7 +6,5 @@ import { MonitoringViewMap } from './monitoring-view-map.component'
 export const View = Object.assign(MonitoringViewRoot, {
   Background: MonitoringViewBackgroundPattern,
   Layer: MonitoringViewLayer,
-  Map: MonitoringViewMap,
+  Map: MonitoringViewMap
 })
-
-

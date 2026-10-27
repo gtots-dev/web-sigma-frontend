@@ -32,7 +32,12 @@ export function InfractionsSidebarHeader({
         )}
         <div className="flex flex-col">
           <span className="text-[11px] font-bold uppercase tracking-wider text-foreground">
-            {title ?? (showLiveControls ? (isLive ? 'Ao Vivo' : 'Pausado') : 'Registros')}
+            {title ??
+              (showLiveControls
+                ? isLive
+                  ? 'Ao Vivo'
+                  : 'Pausado'
+                : 'Registros')}
           </span>
         </div>
       </div>

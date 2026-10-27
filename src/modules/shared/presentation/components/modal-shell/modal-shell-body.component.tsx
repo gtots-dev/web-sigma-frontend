@@ -7,10 +7,7 @@ export interface ModalShellBodyProps {
   children?: ReactNode
 }
 
-export function ModalShellBody({
-  when = true,
-  children
-}: ModalShellBodyProps) {
+export function ModalShellBody({ when = true, children }: ModalShellBodyProps) {
   if (!when) return null
 
   return <>{children}</>

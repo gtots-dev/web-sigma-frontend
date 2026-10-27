@@ -4,9 +4,7 @@ import type { PostPermissionProfileAndFeaturesGateway } from '../../domain/gatew
 import type { PermissionProfileAndFeaturesInterface } from '../../domain/interfaces/permission-profile-and-features'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class PostPermissionProfileAndFeaturesService
-  implements PostPermissionProfileAndFeaturesGateway
-{
+export class PostPermissionProfileAndFeaturesService implements PostPermissionProfileAndFeaturesGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams
@@ -28,7 +26,8 @@ export class PostPermissionProfileAndFeaturesService
     permissionProfileAndFeatures: PermissionProfileAndFeaturesInterface
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, permissionProfileAndFeatures
+      this.params,
+      permissionProfileAndFeatures
     )
     await this.httpRequest.execute(settingsAuthHTTP)
   }

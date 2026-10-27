@@ -4,7 +4,9 @@ interface InfractionDescriptionListProps {
   children: ReactNode
 }
 
-export function InfractionDescriptionList({ children }: InfractionDescriptionListProps) {
+export function InfractionDescriptionList({
+  children
+}: InfractionDescriptionListProps) {
   return (
     <div
       className="flex-1 min-h-0 flex flex-col gap-4 p-4 overflow-y-auto
@@ -17,4 +19,3 @@ export function InfractionDescriptionList({ children }: InfractionDescriptionLis
     </div>
   )
 }
-

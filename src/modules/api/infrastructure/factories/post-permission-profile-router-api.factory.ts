@@ -5,9 +5,7 @@ import type { PostPermissionProfileRouterApiGateway } from '../../domain/gateway
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostPermissionProfileRouterApiFactory {
-  static create(
-    params: UrlParams
-  ): PostPermissionProfileRouterApiGateway {
+  static create(params: UrlParams): PostPermissionProfileRouterApiGateway {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     return new PostPermissionProfileRouterApiService(executeRequest, params)

@@ -10,7 +10,10 @@ interface TableStatusProviderProps {
   value: StatusItemInterface
 }
 
-export function TableStatusProvider({ children, value }: TableStatusProviderProps) {
+export function TableStatusProvider({
+  children,
+  value
+}: TableStatusProviderProps) {
   return (
     <TableStatusContext.Provider value={value}>
       {children}

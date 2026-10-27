@@ -5,7 +5,7 @@ export const AddProcessingUnitFormSchema = z.object({
   name: z.string().nonempty({
     message: MESSAGES_PROCESSING_UNIT['7.6']
   }),
-  cfg: z.string().nullable().optional(),
+  cfg: z.string().nullable().optional()
 })
 
 export type AddProcessingUnitFormType = z.infer<

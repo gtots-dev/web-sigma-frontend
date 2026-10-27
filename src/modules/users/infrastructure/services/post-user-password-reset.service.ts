@@ -5,9 +5,7 @@ import type { UserPasswordResetInterface } from '../../domain/interfaces/user-pa
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 
-export class PostUserPasswordResetService
-  implements PostUserPasswordResetGateway
-{
+export class PostUserPasswordResetService implements PostUserPasswordResetGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

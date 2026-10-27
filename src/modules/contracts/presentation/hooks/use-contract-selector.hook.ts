@@ -14,7 +14,7 @@ export function useContractSelector(
   useEffect(() => {
     if (!contractId || !contracts.length) return
 
-    const found = contracts.find((co) =>co.id === contractId)
+    const found = contracts.find((co) => co.id === contractId)
     if (found && found.id !== contract?.id) {
       setContract(found)
     }

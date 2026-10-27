@@ -87,10 +87,13 @@ export function SingleSelect<T extends SingleSelectItem>({
   }
 
   return (
-    <Popover open={open} onOpenChange={(v) => {
-      setOpen(v)
-      onOpenChange?.(v)
-    }}>
+    <Popover
+      open={open}
+      onOpenChange={(v) => {
+        setOpen(v)
+        onOpenChange?.(v)
+      }}
+    >
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>
@@ -160,7 +163,7 @@ export function SingleSelect<T extends SingleSelectItem>({
 
       <PopoverContent
         align={popoverAlign}
-        className={cn("p-2 flex flex-col gap-y-2", popoverClassName)}
+        className={cn('p-2 flex flex-col gap-y-2', popoverClassName)}
         style={{ width: popoverWidth ?? (triggerWidth || undefined) }}
       >
         {/* SEARCH */}

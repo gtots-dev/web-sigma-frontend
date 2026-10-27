@@ -29,7 +29,10 @@ export function TabledProcessingUnitsBodyComponent({
   if (processingUnits.length === 0)
     return (
       <TableBody>
-        <TableMessage colSpan={colSpan} message={MESSAGES_PROCESSING_UNIT['7.3']} />
+        <TableMessage
+          colSpan={colSpan}
+          message={MESSAGES_PROCESSING_UNIT['7.3']}
+        />
       </TableBody>
     )
 

@@ -25,9 +25,7 @@ export class PostFeatureService implements PostFeatureGateway {
   }
 
   async execute(features: FeaturesInterface['id'][]): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, features
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, features)
     await this.httpRequest.execute(settingsAuthHTTP)
   }
 }

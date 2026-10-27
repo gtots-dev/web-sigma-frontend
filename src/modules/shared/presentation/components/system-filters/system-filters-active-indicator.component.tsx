@@ -14,7 +14,9 @@ import {
 export type SystemFiltersActiveIndicatorProps<T extends object = object> =
   UseSystemFiltersActiveIndicatorProps<T>
 
-export function SystemFiltersActiveIndicatorComponent<T extends object = object>({
+export function SystemFiltersActiveIndicatorComponent<
+  T extends object = object
+>({
   labels,
   values: externalValues,
   valueResolver

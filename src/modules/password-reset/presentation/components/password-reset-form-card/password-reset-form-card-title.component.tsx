@@ -1,7 +1,6 @@
 import type { ComponentProps } from 'react'
 
-interface PasswordResetFormCardTitleComponentProps
-  extends ComponentProps<'h1'> {
+interface PasswordResetFormCardTitleComponentProps extends ComponentProps<'h1'> {
   title: string
 }
 

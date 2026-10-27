@@ -12,8 +12,6 @@ export function InfractionsParallelLayoutContentComponent({
   const { viewMode, records, live } = useInfractionsParallelLayoutContext()
 
   return (
-    <div className={className}>
-      {viewMode === 'records' ? records : live}
-    </div>
+    <div className={className}>{viewMode === 'records' ? records : live}</div>
   )
 }

@@ -24,32 +24,36 @@ export function useMonitoringUnifiedNodes({
   return useMemo<UnifiedMonitoringNode[]>(() => {
     if (!points || !contractLanes) return []
 
-    return points.map((pointWithGroup) => {
-      const associatedLanes = contractLanes.filter(
-        (laneData) => laneData.point_id === pointWithGroup.point.id
-      )
-
-      const associatedUpIds = Array.from(
-        new Set(
-          associatedLanes
-            .map((l) => String(l.up_id || l.lane.up_id))
-            .filter((id) => id !== 'undefined' && id !== 'null')
+    return points
+      .map((pointWithGroup) => {
+        const associatedLanes = contractLanes.filter(
+          (laneData) => laneData.point_id === pointWithGroup.point.id
         )
-      )
 
-      if (associatedUpIds.length === 0 && associatedLanes.length > 0) {
-        console.warn(`Ponto ${pointWithGroup.point.name} (ID: ${pointWithGroup.point.id}) possui faixas associadas, mas nenhuma UP vinculada.`)
-      }
+        const associatedUpIds = Array.from(
+          new Set(
+            associatedLanes
+              .map((l) => String(l.up_id || l.lane.up_id))
+              .filter((id) => id !== 'undefined' && id !== 'null')
+          )
+        )
 
-      const associatedUps = processingUnits.filter(
-        (pu) => pu.id !== undefined && associatedUpIds.includes(String(pu.id))
-      )
+        if (associatedUpIds.length === 0 && associatedLanes.length > 0) {
+          console.warn(
+            `Ponto ${pointWithGroup.point.name} (ID: ${pointWithGroup.point.id}) possui faixas associadas, mas nenhuma UP vinculada.`
+          )
+        }
 
-      return {
-        point: pointWithGroup,
-        lanes: associatedLanes,
-        ups: associatedUps
-      }
-    }).filter((node) => node.ups.length > 0)
+        const associatedUps = processingUnits.filter(
+          (pu) => pu.id !== undefined && associatedUpIds.includes(String(pu.id))
+        )
+
+        return {
+          point: pointWithGroup,
+          lanes: associatedLanes,
+          ups: associatedUps
+        }
+      })
+      .filter((node) => node.ups.length > 0)
   }, [points, contractLanes, processingUnits])
 }

@@ -38,4 +38,5 @@ export const normalizeInputValue = (v: string) => {
   return `${pad(Number(hh))}:${pad(Number(mm))}`
 }
 
-export const toInputHHMM = (v?: string) => (v && /^\d{2}:\d{2}$/.test(v) ? v : '00:00')
+export const toInputHHMM = (v?: string) =>
+  v && /^\d{2}:\d{2}$/.test(v) ? v : '00:00'

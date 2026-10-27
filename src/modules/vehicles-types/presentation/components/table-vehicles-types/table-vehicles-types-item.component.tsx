@@ -27,7 +27,10 @@ export function TableVehiclesTypesItemComponent({
           <span title={vehicleType.name} className="truncate font-medium block">
             {vehicleType.name}
           </span>
-          <span title={String(vehicleType.code)} className="truncate text-xs text-zinc-500 lg:hidden block mt-0.5">
+          <span
+            title={String(vehicleType.code)}
+            className="truncate text-xs text-zinc-500 lg:hidden block mt-0.5"
+          >
             Código: {vehicleType.code}
           </span>
           <div className="lg:hidden flex items-center gap-x-1.5 mt-0.5">

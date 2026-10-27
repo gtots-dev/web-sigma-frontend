@@ -8,9 +8,6 @@ export class PatchPermissionProfileStatusFactory {
   static create(params: UrlParams): PatchPermissionProfileStatusGateway {
     const httpClient = HttpClientFactory.create(process.env.HOST_API)
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PatchPermissionProfileStatusService(
-      executeRequest,
-      params
-    )
+    return new PatchPermissionProfileStatusService(executeRequest, params)
   }
 }

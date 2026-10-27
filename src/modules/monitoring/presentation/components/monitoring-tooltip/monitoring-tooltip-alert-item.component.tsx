@@ -13,8 +13,8 @@ export function MonitoringTooltipAlertItem({
     level >= 2
       ? 'bg-[rgb(var(--monitoring-error))]'
       : level === 1
-      ? 'bg-[rgb(var(--monitoring-warning))]'
-      : 'bg-[rgb(var(--monitoring-ok))]'
+        ? 'bg-[rgb(var(--monitoring-warning))]'
+        : 'bg-[rgb(var(--monitoring-ok))]'
 
   return (
     <div className="flex items-center justify-between gap-3">

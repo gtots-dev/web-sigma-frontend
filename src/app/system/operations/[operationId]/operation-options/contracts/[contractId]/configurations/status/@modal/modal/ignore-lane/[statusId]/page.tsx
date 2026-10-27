@@ -21,12 +21,9 @@ export default async function IgnoreStatusLanesModalPage({
     resolvedParams.operationId
   )
 
-  const canEdit =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
+  const canEdit = isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
   if (!canEdit) {
-    return (
-      <UnauthorizedModalToast message={MESSAGES_STATUS_LANES['26.8']} />
-    )
+    return <UnauthorizedModalToast message={MESSAGES_STATUS_LANES['26.8']} />
   }
 
   const hasPermissionLanes =

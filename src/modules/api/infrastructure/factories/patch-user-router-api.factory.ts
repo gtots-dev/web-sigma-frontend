@@ -8,9 +8,6 @@ export class PatchUserRouterApiFactory {
   static create(params: UrlParams): PatchUserRouterApiGateway {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
-    return new PatchUserRouterApiService(
-      executeRequest,
-      params
-    )
+    return new PatchUserRouterApiService(executeRequest, params)
   }
 }

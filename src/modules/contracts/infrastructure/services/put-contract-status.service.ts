@@ -26,9 +26,7 @@ export class PutContractStatusService implements PutContractStatusGateway {
   async execute(
     contract: ContractEntity
   ): Promise<HttpResponseInterface<ContractEntity>> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, contract
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, contract)
     return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

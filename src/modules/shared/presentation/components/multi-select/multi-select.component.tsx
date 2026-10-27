@@ -95,10 +95,13 @@ export function MultiSelect<T extends MultiSelectItem>({
   }
 
   return (
-    <Popover open={open} onOpenChange={(v) => {
-      setOpen(v)
-      onOpenChange?.(v)
-    }}>
+    <Popover
+      open={open}
+      onOpenChange={(v) => {
+        setOpen(v)
+        onOpenChange?.(v)
+      }}
+    >
       <Tooltip>
         <TooltipTrigger asChild>
           <PopoverTrigger asChild>
@@ -172,7 +175,7 @@ export function MultiSelect<T extends MultiSelectItem>({
 
       <PopoverContent
         align={popoverAlign}
-        className={cn("p-2 flex flex-col gap-y-2", popoverClassName)}
+        className={cn('p-2 flex flex-col gap-y-2', popoverClassName)}
         style={{ width: popoverWidth ?? (triggerWidth || undefined) }}
       >
         {searchable && (

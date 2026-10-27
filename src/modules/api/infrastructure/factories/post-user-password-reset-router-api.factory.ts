@@ -5,9 +5,7 @@ import type { PostUserPasswordResetRouterApiGateway } from '../../domain/gateway
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostUserPasswordResetRouterApiFactory {
-  static create(
-    params: UrlParams
-  ): PostUserPasswordResetRouterApiGateway {
+  static create(params: UrlParams): PostUserPasswordResetRouterApiGateway {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     return new PostUserPasswordResetRouterApiService(executeRequest, params)

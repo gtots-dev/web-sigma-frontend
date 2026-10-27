@@ -4,21 +4,24 @@ import { useMemo } from 'react'
 import { useMonitoringContext } from '../monitoring/monitoring-context.component'
 import { MonitoringGridCell } from './monitoring-view-grid-cell.component'
 import { MonitoringHexagonCell } from './monitoring-view-hexagon-cell.component'
-import { MonitoringGridCell as IGridCell, MonitoringHexCell as IHexCell } from '../../../domain/interfaces/monitoring-cell.interface'
+import {
+  MonitoringGridCell as IGridCell,
+  MonitoringHexCell as IHexCell
+} from '../../../domain/interfaces/monitoring-cell.interface'
 
 type ViewCellData = IGridCell | IHexCell
 
 export function MonitoringViewLayer() {
-  const { 
-    mode, 
-    hexes, 
-    cells, 
-    active, 
-    setActive, 
-    zoom, 
-    CELL_WIDTH, 
-    CELL_HEIGHT, 
-    points, 
+  const {
+    mode,
+    hexes,
+    cells,
+    active,
+    setActive,
+    zoom,
+    CELL_WIDTH,
+    CELL_HEIGHT,
+    points,
     radius,
     setHoveredCellId
   } = useMonitoringContext()

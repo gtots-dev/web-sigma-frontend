@@ -4,6 +4,7 @@ import { IgnoreStatusProcessingUnitsFormInputProcessingUnitsComponent } from './
 export const IgnoreStatusProcessingUnitsForm = {
   Form: IgnoreStatusProcessingUnitsFormComponent,
   Input: {
-    ProcessingUnits: IgnoreStatusProcessingUnitsFormInputProcessingUnitsComponent
+    ProcessingUnits:
+      IgnoreStatusProcessingUnitsFormInputProcessingUnitsComponent
   }
 }

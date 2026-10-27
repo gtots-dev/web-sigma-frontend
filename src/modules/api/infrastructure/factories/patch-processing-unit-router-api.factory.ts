@@ -5,9 +5,7 @@ import { PatchProcessingUnitRouterApiService } from '../services/patch-processin
 import type { PatchProcessingUnitRouterApiGateway } from '../../domain/gateways/patch-processing-unit-router-api.gateway'
 
 export class PatchProcessingUnitRouterApiFactory {
-  static create(
-    params: UrlParams
-  ): PatchProcessingUnitRouterApiGateway {
+  static create(params: UrlParams): PatchProcessingUnitRouterApiGateway {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     return new PatchProcessingUnitRouterApiService(executeRequest, params)

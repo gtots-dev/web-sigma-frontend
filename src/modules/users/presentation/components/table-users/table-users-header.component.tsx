@@ -10,7 +10,9 @@ export function TableUsersHeaderComponent() {
   return (
     <TableHeader>
       <TableRow className="bg-muted !border-0">
-        <TableHead className={`${baseClass} w-[30%] max-w-0 rounded-tl-lg`}>Nome</TableHead>
+        <TableHead className={`${baseClass} w-[30%] max-w-0 rounded-tl-lg`}>
+          Nome
+        </TableHead>
 
         <TableHead className={`${baseClass} hidden lg:table-cell`}>
           Email

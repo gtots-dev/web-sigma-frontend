@@ -89,7 +89,8 @@ export function useBidirectionalScroll({
   const isAtBottom = (container: HTMLElement | Window): boolean => {
     if (container instanceof HTMLElement) {
       return (
-        container.scrollHeight - container.scrollTop - container.clientHeight <= 3
+        container.scrollHeight - container.scrollTop - container.clientHeight <=
+        3
       )
     }
     const scrollHeight = document.documentElement.scrollHeight
@@ -280,17 +281,31 @@ export function useBidirectionalScroll({
       }
     }
 
-    target.addEventListener('wheel', handleWheel as EventListener, { passive: true })
-    target.addEventListener('touchstart', handleTouchStart as EventListener, { passive: true })
-    target.addEventListener('touchmove', handleTouchMove as EventListener, { passive: true })
+    target.addEventListener('wheel', handleWheel as EventListener, {
+      passive: true
+    })
+    target.addEventListener('touchstart', handleTouchStart as EventListener, {
+      passive: true
+    })
+    target.addEventListener('touchmove', handleTouchMove as EventListener, {
+      passive: true
+    })
     window.addEventListener('keydown', handleKeyDown)
 
     return () => {
       target.removeEventListener('wheel', handleWheel as EventListener)
-      target.removeEventListener('touchstart', handleTouchStart as EventListener)
+      target.removeEventListener(
+        'touchstart',
+        handleTouchStart as EventListener
+      )
       target.removeEventListener('touchmove', handleTouchMove as EventListener)
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [sentinelBottomId, sentinelTopId, cooldownMs, tryTriggerBottom, tryTriggerTop])
+  }, [
+    sentinelBottomId,
+    sentinelTopId,
+    cooldownMs,
+    tryTriggerBottom,
+    tryTriggerTop
+  ])
 }
-

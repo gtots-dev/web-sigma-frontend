@@ -5,9 +5,7 @@ import type { GetPermissionProfileFeatureRouterApiGateway } from '../../domain/g
 import type { PermissionProfileWithFeatureInterface } from '@/modules/permissions/domain/interfaces/permission-profile-with-feature.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
-export class GetPermissionProfileFeatureRouterApiService
-  implements GetPermissionProfileFeatureRouterApiGateway
-{
+export class GetPermissionProfileFeatureRouterApiService implements GetPermissionProfileFeatureRouterApiGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams

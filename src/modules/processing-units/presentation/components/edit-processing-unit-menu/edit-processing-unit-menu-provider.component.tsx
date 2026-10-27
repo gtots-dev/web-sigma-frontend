@@ -25,7 +25,9 @@ export const EditProcessingUnitsMenuProviderComponent = ({
   const toggle = () => setIsOpen((prev) => !prev)
 
   return (
-    <EditProcessingUnitsMenuContext.Provider value={{ isOpen, open, close, toggle }}>
+    <EditProcessingUnitsMenuContext.Provider
+      value={{ isOpen, open, close, toggle }}
+    >
       {children}
     </EditProcessingUnitsMenuContext.Provider>
   )

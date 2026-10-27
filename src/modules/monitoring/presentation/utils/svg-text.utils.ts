@@ -1,4 +1,8 @@
-export function truncateSvgText(text: string | undefined | null, maxWidth: number, fontSize: number): string {
+export function truncateSvgText(
+  text: string | undefined | null,
+  maxWidth: number,
+  fontSize: number
+): string {
   if (!text) return ''
   const charWidth = fontSize * 0.58
   const maxChars = Math.floor(maxWidth / charWidth)

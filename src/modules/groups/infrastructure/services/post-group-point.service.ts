@@ -23,9 +23,7 @@ export class PostGroupPointService implements PostGroupPointGateway {
   }
 
   async execute(pointId: GroupPointInterface): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, pointId
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, pointId)
     await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

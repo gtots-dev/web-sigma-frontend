@@ -41,7 +41,8 @@ export function PointFormInputEnabledComponent({
               <div className="space-y-0.5">
                 <FormLabel>Habilitar Ponto?</FormLabel>
                 <FormDescription>
-                  Caso a opção correspondente esteja desabilitada, o ponto não poderá ser utilizado na aplicação.
+                  Caso a opção correspondente esteja desabilitada, o ponto não
+                  poderá ser utilizado na aplicação.
                 </FormDescription>
               </div>
               <Switch

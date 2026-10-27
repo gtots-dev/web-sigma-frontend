@@ -24,7 +24,9 @@ export async function WithAuthMiddleware(req: NextRequest) {
   if (accessToken) {
     try {
       decodedToken = JwtTokenDecodeFactory.create().decode(accessToken)
-      isExpired = decodedToken?.exp ? decodedToken.exp * 1000 < Date.now() : true
+      isExpired = decodedToken?.exp
+        ? decodedToken.exp * 1000 < Date.now()
+        : true
     } catch (err) {
       console.error('Error decoding JWT token:', err)
     }

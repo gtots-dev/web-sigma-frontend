@@ -6,9 +6,9 @@ import {
   type UsePatchPointMenuReturn
 } from '../hooks/use-patch-point-menu.hook'
 
-const PatchPointMenuContext = createContext<UsePatchPointMenuReturn | undefined>(
-  undefined
-)
+const PatchPointMenuContext = createContext<
+  UsePatchPointMenuReturn | undefined
+>(undefined)
 
 export const PatchPointMenuProvider = ({
   children

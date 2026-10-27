@@ -24,4 +24,6 @@ export const InfractionsFiltersSchema = z.object({
   restriction_id: z.array(z.number()).nullable()
 })
 
-export type InfractionsFiltersSchemaType = z.infer<typeof InfractionsFiltersSchema>
+export type InfractionsFiltersSchemaType = z.infer<
+  typeof InfractionsFiltersSchema
+>

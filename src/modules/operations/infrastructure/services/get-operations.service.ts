@@ -5,9 +5,7 @@ import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/h
 import type { OperationEntity } from '../../domain/entities/operation.entity'
 
 export class GetOperationsService implements GetOperationsGateway {
-  constructor(
-    private readonly executeRequest: ExecuteRequest
-  ) {}
+  constructor(private readonly executeRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(): HttpRequestConfig {
     return {

@@ -21,12 +21,9 @@ export default async function ViewMoreStatusLanesModalPage({
     resolvedParams.operationId
   )
 
-  const canView =
-    isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
+  const canView = isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
   if (!canView) {
-    return (
-      <UnauthorizedModalToast message={MESSAGES_STATUS_LANES['26.8']} />
-    )
+    return <UnauthorizedModalToast message={MESSAGES_STATUS_LANES['26.8']} />
   }
 
   const hasPermissionLanes =

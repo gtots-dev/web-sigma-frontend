@@ -41,7 +41,8 @@ export function GroupFormInputEnabledComponent({
               <div className="space-y-0.5">
                 <FormLabel>Habilitar Grupo?</FormLabel>
                 <FormDescription>
-                  Caso a opção correspondente esteja desabilitada, o grupo não poderá ser utilizado na aplicação.
+                  Caso a opção correspondente esteja desabilitada, o grupo não
+                  poderá ser utilizado na aplicação.
                 </FormDescription>
               </div>
               <Switch

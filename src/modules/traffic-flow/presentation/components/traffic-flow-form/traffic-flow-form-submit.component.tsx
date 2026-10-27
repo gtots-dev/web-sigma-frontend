@@ -13,7 +13,8 @@ interface TrafficFlowFormSubmitComponentProps<T> {
 export function TrafficFlowFormSubmitComponent<T>({
   onSubmit
 }: TrafficFlowFormSubmitComponentProps<T>) {
-  const { handleSubmit, reset, formState } = useFormContext<TrafficFlowSchemaType>()
+  const { handleSubmit, reset, formState } =
+    useFormContext<TrafficFlowSchemaType>()
   const { isSubmitting } = formState
 
   const handleReset = () => {

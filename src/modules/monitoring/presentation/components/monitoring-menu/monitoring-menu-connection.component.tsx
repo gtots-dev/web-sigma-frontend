@@ -7,7 +7,9 @@ interface MonitoringMenuConnectionProps {
   connectionStatus: MonitoringCell['connectionStatus']
 }
 
-export function MonitoringMenuConnection({ connectionStatus }: MonitoringMenuConnectionProps) {
+export function MonitoringMenuConnection({
+  connectionStatus
+}: MonitoringMenuConnectionProps) {
   const isOffline = connectionStatus === 'offline'
 
   return (
@@ -21,7 +23,10 @@ export function MonitoringMenuConnection({ connectionStatus }: MonitoringMenuCon
         </div>
         {isOffline ? (
           <div className="flex items-center gap-1.5 px-2 py-1 bg-[rgb(var(--monitoring-offline)/0.1)]">
-            <WifiOff size={12} className="text-[rgb(var(--monitoring-offline))]" />
+            <WifiOff
+              size={12}
+              className="text-[rgb(var(--monitoring-offline))]"
+            />
             <span className="text-[10px] font-bold uppercase tracking-wider text-[rgb(var(--monitoring-offline))]">
               Offline
             </span>

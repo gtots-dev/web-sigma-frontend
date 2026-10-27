@@ -11,9 +11,7 @@ export class PostVehicleTypeService implements PostVehicleTypeServiceGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    vehicleType: VehicleTypeEntity
-  ): HttpRequestConfig {
+  getHttpRequestConfig(vehicleType: VehicleTypeEntity): HttpRequestConfig {
     return {
       method: 'POST',
       url: `/operations/${this.params.operationId}/contracts/${this.params.contractId}/vehicle-types`,

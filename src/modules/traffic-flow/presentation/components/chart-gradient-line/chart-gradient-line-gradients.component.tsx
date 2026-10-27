@@ -1,4 +1,4 @@
-import { useChartGradientLineContext } from "../../contexts/chart-gradient-line.context"
+import { useChartGradientLineContext } from '../../contexts/chart-gradient-line.context'
 
 export function TrafficFlowAbsoluteChartGradients() {
   const { orderedVisibleSeries: series } = useChartGradientLineContext()

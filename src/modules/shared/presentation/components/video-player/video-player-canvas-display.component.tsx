@@ -5,7 +5,9 @@ interface VideoPlayerCanvasDisplayProps {
   activeFrame: CapturedFrame
 }
 
-export function VideoPlayerCanvasDisplayComponent({ activeFrame }: VideoPlayerCanvasDisplayProps) {
+export function VideoPlayerCanvasDisplayComponent({
+  activeFrame
+}: VideoPlayerCanvasDisplayProps) {
   if (!activeFrame?.dataUrl) return null
 
   return (

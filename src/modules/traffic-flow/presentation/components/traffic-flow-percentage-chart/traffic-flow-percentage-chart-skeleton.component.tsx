@@ -19,9 +19,7 @@ export function TrafficFlowPercentageChartSkeleton() {
 
           {/* Bars */}
           <div className="absolute inset-0 flex items-end justify-between px-8 pb-6 pt-10 gap-4">
-            {[
-              60, 40, 75, 30, 85, 55, 70, 45
-            ].map((height, i) => (
+            {[60, 40, 75, 30, 85, 55, 70, 45].map((height, i) => (
               <div
                 key={i}
                 className="flex-1 bg-muted/70 rounded-sm"

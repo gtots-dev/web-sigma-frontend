@@ -10,9 +10,11 @@ export class DeleteBindUserWithPermissionProfileService implements DeleteBindUse
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    { operationId, userId, permissionProfileId }: UrlParams
-  ): HttpRequestConfig<FormData> {
+  getHttpRequestConfig({
+    operationId,
+    userId,
+    permissionProfileId
+  }: UrlParams): HttpRequestConfig<FormData> {
     return {
       method: 'DELETE',
       url: `/operations/${operationId}/users/${userId}/perm-profiles/${permissionProfileId}`,

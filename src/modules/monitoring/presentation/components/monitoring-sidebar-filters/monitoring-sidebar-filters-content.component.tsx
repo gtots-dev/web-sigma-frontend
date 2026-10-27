@@ -41,7 +41,9 @@ export function MonitoringSidebarFiltersContent({
   return (
     <div
       className={`w-[300px] h-full bg-white dark:bg-zinc-950 flex flex-col overflow-hidden transition-opacity duration-300 ${
-        isSidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        isSidebarOpen
+          ? 'opacity-100 pointer-events-auto'
+          : 'opacity-0 pointer-events-none'
       }`}
     >
       {/* Header */}
@@ -51,8 +53,8 @@ export function MonitoringSidebarFiltersContent({
             Filtros de Telemetria
           </h3>
           <p className="text-[11px] text-zinc-500 leading-normal mt-0.5">
-            Mostrando alertas e erros ativos nos equipamentos. Selecione-os
-            para filtrar ao lado pelos equipamentos e faixas afetados.
+            Mostrando alertas e erros ativos nos equipamentos. Selecione-os para
+            filtrar ao lado pelos equipamentos e faixas afetados.
           </p>
         </div>
         <Button

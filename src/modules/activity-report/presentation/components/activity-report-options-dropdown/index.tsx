@@ -1,4 +1,3 @@
-
 import { ActivityReportOptionsDropdownClient } from './activity-report-options-dropdown-client.component'
 import { ActivityReportOptionsDropdownItemComponent } from './activity-report-options-dropdown-item.component'
 import { ActivityReportOptionsDropdownMenuComponent } from './activity-report-options-dropdown-menu.component'

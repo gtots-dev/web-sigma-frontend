@@ -21,7 +21,7 @@ export function VideoPlayerMetadataComponent({
   hasActiveFrame,
   onDownload,
   onTriggerUpload,
-  onLoadUrl,
+  onLoadUrl
 }: VideoPlayerMetadataProps) {
   const [showUrlInput, setShowUrlInput] = useState(false)
   const [urlValue, setUrlValue] = useState('')
@@ -102,7 +102,9 @@ export function VideoPlayerMetadataComponent({
             size="sm"
             variant={showUrlInput ? 'default' : 'outline'}
             className="h-7 text-xs pointer-events-auto shrink-0"
-            style={showUrlInput ? { background: 'var(--primary-600)' } : undefined}
+            style={
+              showUrlInput ? { background: 'var(--primary-600)' } : undefined
+            }
             onClick={handleToggleUrl}
             title="Carregar vídeo por URL"
           >

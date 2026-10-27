@@ -17,5 +17,5 @@ export const VideoPlayer = {
   TimeSlider: VideoPlayerTimeSliderComponent,
   PlaybackButtons: VideoPlayerPlaybackButtonsComponent,
   Metadata: VideoPlayerMetadataComponent,
-  Footer: VideoPlayerFooterComponent,
+  Footer: VideoPlayerFooterComponent
 }

@@ -7,9 +7,7 @@ import type { UserEntity } from '../../domain/entities/user.entity'
 import type { UserPermissionsInterface } from '../../domain/interfaces/user-permissions.interface'
 
 export class GetUserMeService implements GetUserMeGateway {
-  constructor(
-    private readonly httpRequest: ExecuteRequest
-  ) {}
+  constructor(private readonly httpRequest: ExecuteRequest) {}
 
   getHttpRequestConfig(): HttpRequestConfig {
     return {

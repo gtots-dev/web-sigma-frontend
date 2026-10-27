@@ -40,22 +40,27 @@ const DrawerContent = React.forwardRef<
     onOverlayClick?: (e: React.MouseEvent) => void
     overlayClassName?: string
   }
->(({ className, children, onOverlayClick, overlayClassName, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay onClick={onOverlayClick} className={overlayClassName} />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        'fixed inset-x-0 bottom-0 z-[200] mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
-        className
-      )}
-      {...props}
-    >
-      <div className="mx-auto h-1.5 my-2 w-[100px] rounded-full bg-muted" />
-      {children}
-    </DrawerPrimitive.Content>
-  </DrawerPortal>
-))
+>(
+  (
+    { className, children, onOverlayClick, overlayClassName, ...props },
+    ref
+  ) => (
+    <DrawerPortal>
+      <DrawerOverlay onClick={onOverlayClick} className={overlayClassName} />
+      <DrawerPrimitive.Content
+        ref={ref}
+        className={cn(
+          'fixed inset-x-0 bottom-0 z-[200] mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background',
+          className
+        )}
+        {...props}
+      >
+        <div className="mx-auto h-1.5 my-2 w-[100px] rounded-full bg-muted" />
+        {children}
+      </DrawerPrimitive.Content>
+    </DrawerPortal>
+  )
+)
 DrawerContent.displayName = 'DrawerContent'
 
 const DrawerHeader = ({

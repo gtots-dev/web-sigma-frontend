@@ -20,14 +20,24 @@ export interface TelemetryFilterItem {
 }
 
 export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
-  const [statusFilter, setStatusFilter] = useState<MonitoringCell['status'] | 'all'>('all')
-  const [connectionFilter, setConnectionFilter] = useState<MonitoringCell['connectionStatus'] | 'all'>('all')
+  const [statusFilter, setStatusFilter] = useState<
+    MonitoringCell['status'] | 'all'
+  >('all')
+  const [connectionFilter, setConnectionFilter] = useState<
+    MonitoringCell['connectionStatus'] | 'all'
+  >('all')
   const [upErrorFilters, setUpErrorFilters] = useState<(string | number)[]>([])
-  const [laneErrorFilters, setLaneErrorFilters] = useState<(string | number)[]>([])
-  const [sortMode, setSortMode] = useState<'none' | 'highest' | 'lowest'>('none')
-  
+  const [laneErrorFilters, setLaneErrorFilters] = useState<(string | number)[]>(
+    []
+  )
+  const [sortMode, setSortMode] = useState<'none' | 'highest' | 'lowest'>(
+    'none'
+  )
+
   // States for Telemetry Filters
-  const [selectedTelemetryFilters, setSelectedTelemetryFilters] = useState<Set<string>>(() => new Set())
+  const [selectedTelemetryFilters, setSelectedTelemetryFilters] = useState<
+    Set<string>
+  >(() => new Set())
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const upData = useMonitoringDashboardStore((state) => state.upData)
@@ -43,8 +53,9 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
       cell.upIds.forEach((upId) => {
         const up = upData.get(upId)
         if (up) {
-          const elements = up.request?.items?.flatMap(item => item.elements) || []
-          elements.forEach(el => {
+          const elements =
+            up.request?.items?.flatMap((item) => item.elements) || []
+          elements.forEach((el) => {
             if (el && typeof el.level === 'number' && el.level >= 1) {
               const key = `up-${el.name}`
               cellKeys.add(key)
@@ -56,8 +67,9 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
       cell.laneIds.forEach((laneId) => {
         const lane = laneData.get(laneId)
         if (lane) {
-          const elements = lane.request?.items?.flatMap(item => item.elements) || []
-          elements.forEach(el => {
+          const elements =
+            lane.request?.items?.flatMap((item) => item.elements) || []
+          elements.forEach((el) => {
             if (el && typeof el.level === 'number' && el.level >= 1) {
               const key = `lane-${el.name}`
               cellKeys.add(key)
@@ -82,14 +94,18 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
     })
 
     // Sort alphabetically by name
-    return Array.from(itemsMap.values()).sort((a, b) => a.name.localeCompare(b.name))
+    return Array.from(itemsMap.values()).sort((a, b) =>
+      a.name.localeCompare(b.name)
+    )
   }, [cellsArray, upData, laneData])
 
   // Limpeza automática de filtros selecionados que deixaram de ser erros ativos (status resolvido para 'ok')
   useEffect(() => {
     if (selectedTelemetryFilters.size === 0) return
 
-    const validKeys = new Set(telemetryItems.map((item) => `${item.type}-${item.name}`))
+    const validKeys = new Set(
+      telemetryItems.map((item) => `${item.type}-${item.name}`)
+    )
     let needsPruning = false
 
     selectedTelemetryFilters.forEach((key) => {
@@ -113,18 +129,21 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
     }
   }, [telemetryItems, selectedTelemetryFilters])
 
-  const toggleTelemetryFilter = useCallback((name: string, type: 'up' | 'lane') => {
-    setSelectedTelemetryFilters((prev) => {
-      const next = new Set(prev)
-      const key = `${type}-${name}`
-      if (next.has(key)) {
-        next.delete(key)
-      } else {
-        next.add(key)
-      }
-      return next
-    })
-  }, [])
+  const toggleTelemetryFilter = useCallback(
+    (name: string, type: 'up' | 'lane') => {
+      setSelectedTelemetryFilters((prev) => {
+        const next = new Set(prev)
+        const key = `${type}-${name}`
+        if (next.has(key)) {
+          next.delete(key)
+        } else {
+          next.add(key)
+        }
+        return next
+      })
+    },
+    []
+  )
 
   const clearTelemetryFilters = useCallback(() => {
     setSelectedTelemetryFilters(new Set())
@@ -136,12 +155,15 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
     // 1. Status Filter (e.g. online, offline, ok, warning, error)
     if (statusFilter !== 'all') {
       result = result.filter(
-        (cell) => cell.status === statusFilter && cell.connectionStatus === 'online'
+        (cell) =>
+          cell.status === statusFilter && cell.connectionStatus === 'online'
       )
     }
 
     if (connectionFilter !== 'all') {
-      result = result.filter((cell) => cell.connectionStatus === connectionFilter)
+      result = result.filter(
+        (cell) => cell.connectionStatus === connectionFilter
+      )
     }
 
     // 2. UP error filter (status list)
@@ -156,7 +178,10 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
               if (!isActiveError) return false
               return upErrorFilters.some((filterVal) => {
                 const filterStr = String(filterVal)
-                return String(el.code) === filterStr || el.name.toLowerCase().includes(filterStr.toLowerCase())
+                return (
+                  String(el.code) === filterStr ||
+                  el.name.toLowerCase().includes(filterStr.toLowerCase())
+                )
               })
             })
           )
@@ -176,7 +201,10 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
               if (!isActiveError) return false
               return laneErrorFilters.some((filterVal) => {
                 const filterStr = String(filterVal)
-                return String(el.code) === filterStr || el.name.toLowerCase().includes(filterStr.toLowerCase())
+                return (
+                  String(el.code) === filterStr ||
+                  el.name.toLowerCase().includes(filterStr.toLowerCase())
+                )
               })
             })
           )
@@ -192,7 +220,8 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
         cell.upIds.forEach((upId) => {
           const up = upData.get(upId)
           if (up) {
-            const elements = up.request?.items?.flatMap(item => item.elements) || []
+            const elements =
+              up.request?.items?.flatMap((item) => item.elements) || []
             elements.forEach((el) => {
               if (el && typeof el.level === 'number' && el.level >= 1) {
                 const key = `up-${el.name}`
@@ -209,7 +238,8 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
         cell.laneIds.forEach((laneId) => {
           const lane = laneData.get(laneId)
           if (lane) {
-            const elements = lane.request?.items?.flatMap(item => item.elements) || []
+            const elements =
+              lane.request?.items?.flatMap((item) => item.elements) || []
             elements.forEach((el) => {
               if (el && typeof el.level === 'number' && el.level >= 1) {
                 const key = `lane-${el.name}`
@@ -233,7 +263,17 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
     }
 
     return result
-  }, [cellsArray, statusFilter, connectionFilter, upErrorFilters, laneErrorFilters, sortMode, selectedTelemetryFilters, upData, laneData])
+  }, [
+    cellsArray,
+    statusFilter,
+    connectionFilter,
+    upErrorFilters,
+    laneErrorFilters,
+    sortMode,
+    selectedTelemetryFilters,
+    upData,
+    laneData
+  ])
 
   return {
     statusFilter,
@@ -246,7 +286,7 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
     setLaneErrorFilters,
     sortMode,
     setSortMode,
-    
+
     // Telemetry filters state
     selectedTelemetryFilters,
     setSelectedTelemetryFilters,

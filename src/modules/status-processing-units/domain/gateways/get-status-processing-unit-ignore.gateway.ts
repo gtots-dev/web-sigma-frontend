@@ -2,5 +2,7 @@ import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/h
 import type { StatusProcessingUnitIgnoreInterface } from '../interfaces/status-processing-unit-ignore.interface'
 
 export interface GetStatusProcessingUnitIgnoreGateway {
-  execute(): Promise<HttpResponseInterface<StatusProcessingUnitIgnoreInterface[]>>
+  execute(): Promise<
+    HttpResponseInterface<StatusProcessingUnitIgnoreInterface[]>
+  >
 }

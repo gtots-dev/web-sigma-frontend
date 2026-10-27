@@ -43,7 +43,10 @@ export function TablePermissionProfilesItemComponent({
           <div className="flex flex-col min-w-0 w-full">
             <span className="truncate font-medium">{permission.name}</span>
             {permission.description && (
-              <span title={permission.description} className="truncate text-xs text-zinc-500 block mt-0.5">
+              <span
+                title={permission.description}
+                className="truncate text-xs text-zinc-500 block mt-0.5"
+              >
                 {permission.description}
               </span>
             )}

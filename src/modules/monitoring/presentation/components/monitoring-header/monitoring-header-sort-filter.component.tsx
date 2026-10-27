@@ -42,7 +42,9 @@ export function MonitoringHeaderSort() {
     <SingleSelect
       items={sortOptions}
       value={sortMode}
-      onChange={(v) => setSortMode((v || 'none') as 'none' | 'highest' | 'lowest')}
+      onChange={(v) =>
+        setSortMode((v || 'none') as 'none' | 'highest' | 'lowest')
+      }
       leftIcon={ListOrdered}
       innerIcon={activeSort.icon}
       innerIconColor={activeSort.color}

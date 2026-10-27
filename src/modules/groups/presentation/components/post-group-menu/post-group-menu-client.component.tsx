@@ -20,10 +20,7 @@ export function PostGroupMenuMenuClientComponent({
       {(isAdmin || permissions.has(PermissionEnum.GROUPS_EDIT)) && (
         <>
           <PostGroupMenu.Trigger />
-          <PostGroupMenuComponent
-            title={title}
-            description={description}
-          />
+          <PostGroupMenuComponent title={title} description={description} />
         </>
       )}
     </PostGroupMenu.Provider>

@@ -9,7 +9,11 @@ export function MonitoringStatsContent() {
   return (
     <div className="flex items-center gap-3 p-1.5 select-none">
       <div className="flex items-center gap-2">
-        <MonitoringStatsItem value={filteredCount} label="Exibidos" variant="primary" />
+        <MonitoringStatsItem
+          value={filteredCount}
+          label="Exibidos"
+          variant="primary"
+        />
         <MonitoringStatsItem value={totalCount} label="Total" variant="muted" />
       </div>
     </div>

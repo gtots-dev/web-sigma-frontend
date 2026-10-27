@@ -3,9 +3,7 @@ import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { DeleteStatusLaneIgnoreGateway } from '../../domain/gateways/delete-status-lane-ignore.gateway'
 
-export class DeleteStatusLaneIgnoreService
-  implements DeleteStatusLaneIgnoreGateway
-{
+export class DeleteStatusLaneIgnoreService implements DeleteStatusLaneIgnoreGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

@@ -15,10 +15,7 @@ export function usePatchRestrictionSubmit() {
   const restriction = useTableRestrictions()
 
   const onAction = useCallback(
-    async (
-      data: RestrictionEntity,
-      onSuccess: VoidFunction
-    ): Promise<void> => {
+    async (data: RestrictionEntity, onSuccess: VoidFunction): Promise<void> => {
       try {
         await patchRestriction(
           {

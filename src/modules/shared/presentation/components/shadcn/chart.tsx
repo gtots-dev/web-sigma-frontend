@@ -11,7 +11,10 @@ import {
 import type { Props as LegendProps } from 'recharts/types/component/Legend'
 import { TooltipContentProps } from 'recharts/types/component/Tooltip'
 
-import { cn, formatChartNumber } from 'src/modules/shared/presentation/lib/utils'
+import {
+  cn,
+  formatChartNumber
+} from 'src/modules/shared/presentation/lib/utils'
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: '', dark: '.dark' } as const

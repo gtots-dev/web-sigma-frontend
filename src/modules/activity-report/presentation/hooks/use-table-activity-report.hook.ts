@@ -13,7 +13,11 @@ export function useTableActivityReport(initSettings: {
   filters: ActivityReportFiltersInterface
   pagination: PaginationInterface
 }): UseTableActivityReportResult {
-  const { getActivityReport, logs, loading: storeLoading } = useActivityReportStore()
+  const {
+    getActivityReport,
+    logs,
+    loading: storeLoading
+  } = useActivityReportStore()
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {

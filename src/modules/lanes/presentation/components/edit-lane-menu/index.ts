@@ -5,7 +5,6 @@ import { EditLaneMenuProviderComponent } from './edit-lane-menu-provider.compone
 import { EditLaneMenuRootComponent } from './edit-lane-menu-root.component'
 import { EditLaneMenuTriggerComponent } from './edit-lane-menu-trigger.component'
 
-
 export const EditLaneMenu = {
   Root: EditLaneMenuRootComponent,
   Trigger: EditLaneMenuTriggerComponent,

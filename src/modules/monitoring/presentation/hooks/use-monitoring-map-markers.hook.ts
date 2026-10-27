@@ -2,7 +2,10 @@
 
 import { useEffect, RefObject } from 'react'
 import { marker, divIcon, DomEvent } from 'leaflet'
-import type { Map as LeafletMapInstance, LayerGroup as LeafletLayerGroup } from 'leaflet'
+import type {
+  Map as LeafletMapInstance,
+  LayerGroup as LeafletLayerGroup
+} from 'leaflet'
 import type { MonitoringMapCell } from '../../domain/interfaces/monitoring-cell.interface'
 
 interface UseMonitoringMapMarkersProps {
@@ -43,14 +46,19 @@ export function useMonitoringMapMarkers({
   updateHoveredPixelCoords
 }: UseMonitoringMapMarkersProps) {
   useEffect(() => {
-    if (!mapInstance || !markersGroupLayer || !isReady || !mapCells)
-      return
+    if (!mapInstance || !markersGroupLayer || !isReady || !mapCells) return
 
     markersGroupLayer.clearLayers()
 
     mapCells.forEach((mapCell) => {
       const { cell, latitude, longitude } = mapCell
-      if (latitude === undefined || longitude === undefined || isNaN(latitude) || isNaN(longitude)) return
+      if (
+        latitude === undefined ||
+        longitude === undefined ||
+        isNaN(latitude) ||
+        isNaN(longitude)
+      )
+        return
 
       const isSelected = active === cell.id
 
@@ -166,4 +174,3 @@ export function useMonitoringMapMarkers({
     updateHoveredPixelCoords
   ])
 }
-

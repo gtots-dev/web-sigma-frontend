@@ -25,7 +25,8 @@ export class PatchGroupStatusService implements PatchGroupStatusGateway {
     groupEnabledAndDisabled: GroupEnableAndDisableInterface
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, groupEnabledAndDisabled
+      this.params,
+      groupEnabledAndDisabled
     )
     await this.executeRequest.execute(settingsAuthHTTP)
   }

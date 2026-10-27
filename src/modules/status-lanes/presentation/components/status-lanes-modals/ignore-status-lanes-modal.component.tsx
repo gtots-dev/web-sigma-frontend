@@ -69,7 +69,9 @@ function IgnoreStatusLanesFormBody({
     <FormProvider {...methods}>
       <ModalShell.Header title={title} description={description} />
       <ModalShell.Content>
-        <IgnoreStatusLanesForm.Form onSubmit={methods.handleSubmit(handleSubmit)}>
+        <IgnoreStatusLanesForm.Form
+          onSubmit={methods.handleSubmit(handleSubmit)}
+        >
           <div className="flex flex-col gap-1 rounded-md border bg-muted/40 px-4 py-3 shrink-0">
             <span className="text-xs text-zinc-500">Status selecionado</span>
             <span
@@ -114,7 +116,10 @@ export function IgnoreStatusLanesModal({
   onClose,
   onReturn
 }: IgnoreStatusLanesModalProps) {
-  const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
+  const { handleClose, handleReturn } = useModalNavigation({
+    onClose,
+    onReturn
+  })
   const {
     status,
     loading: loadingStatus,

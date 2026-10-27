@@ -32,11 +32,7 @@ type Props = {
 
 export function TrafficFlowAbsoluteChartRoot<
   T extends BaseChartItem = BaseChartItem
->({
-  isLoading = false,
-  onRefresh,
-  onExport
-}: Props) {
+>({ isLoading = false, onRefresh, onExport }: Props) {
   const { data, granularity, selectedSeries, series, isFetched } =
     useTrafficFlowAbsoluteChartContext()
   const typedSeries = series as SeriesConfig<keyof T & string>[]
@@ -61,14 +57,16 @@ export function TrafficFlowAbsoluteChartRoot<
 
   const orderedVisibleSeries = useMemo(() => {
     return [...visibleSeries].sort((a, b) => {
-      const sum = (key: keyof typeof zoomedData[number]) =>
+      const sum = (key: keyof (typeof zoomedData)[number]) =>
         zoomedData.reduce((acc, item) => {
           const value = item[key]
           return acc + (typeof value === 'number' ? value : 0)
         }, 0)
 
-      return sum(a.key as keyof typeof zoomedData[number]) -
-        sum(b.key as keyof typeof zoomedData[number])
+      return (
+        sum(a.key as keyof (typeof zoomedData)[number]) -
+        sum(b.key as keyof (typeof zoomedData)[number])
+      )
     })
   }, [visibleSeries, zoomedData])
 

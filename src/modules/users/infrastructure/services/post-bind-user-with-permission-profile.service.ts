@@ -27,7 +27,8 @@ export class PostBindUserWithPermissionProfileService implements PostBindUserWit
   async execute(
     permissionProfileIds: PermissionProfileEntity['id'][]
   ): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(permissionProfileIds,
+    const settingsAuthHTTP = this.getHttpRequestConfig(
+      permissionProfileIds,
       this.params
     )
     await this.executeRequest.execute(settingsAuthHTTP)

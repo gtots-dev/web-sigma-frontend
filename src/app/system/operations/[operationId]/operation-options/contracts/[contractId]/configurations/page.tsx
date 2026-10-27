@@ -122,10 +122,7 @@ export default async function ConfigurationsPage({
     {
       title: MESSAGES_CONFIGURATION_CONTRACT['17.23'],
       description: MESSAGES_CONFIGURATION_CONTRACT['17.24'],
-      pathName: PATHNAMES.STATUS(
-        Number(rawOperationId),
-        Number(rawContractId)
-      ),
+      pathName: PATHNAMES.STATUS(Number(rawOperationId), Number(rawContractId)),
       icon: Activity,
       accessAllowed: isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
     }

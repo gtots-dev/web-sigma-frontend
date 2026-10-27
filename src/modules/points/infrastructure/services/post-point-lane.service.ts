@@ -23,9 +23,7 @@ export class PostPointLaneService implements PostPointLaneGateway {
   }
 
   async execute(laneId: PointLaneInterface): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, laneId
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, laneId)
     await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

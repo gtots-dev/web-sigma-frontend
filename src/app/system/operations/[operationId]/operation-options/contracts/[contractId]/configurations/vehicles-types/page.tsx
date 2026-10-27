@@ -52,7 +52,10 @@ export default async function VehiclesPage({ params }: VehiclesPageProps) {
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
       <HeaderSection.Root>
         <SectionRedirectLink.Button href={previousSection} />
-        <Separator orientation="vertical" className="h-5 shrink-0 hidden sm:block" />
+        <Separator
+          orientation="vertical"
+          className="h-5 shrink-0 hidden sm:block"
+        />
         <div className="flex flex-col min-w-0 flex-1">
           <HeaderSection.Title>{data.title}</HeaderSection.Title>
           <HeaderSection.Description>
@@ -60,7 +63,7 @@ export default async function VehiclesPage({ params }: VehiclesPageProps) {
           </HeaderSection.Description>
         </div>
       </HeaderSection.Root>
-      
+
       {(isAdmin || userPermissions.has(PermissionEnum.VEHICLE_TYPES_EDIT)) && (
         <ActionSection.Root>
           <PostVehicleMenu.Provider>

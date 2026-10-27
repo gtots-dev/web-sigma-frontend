@@ -10,10 +10,12 @@ import {
 import { useMonitoringMenuDetailsDialog } from '../../hooks/use-monitoring-menu-details-dialog.hook'
 
 const MonitoringMenuMapSnapshot = dynamic(
-  () => import('../monitoring-menu/monitoring-menu-map-snapshot.component').then((mod) => mod.MonitoringMenuMapSnapshot),
+  () =>
+    import('../monitoring-menu/monitoring-menu-map-snapshot.component').then(
+      (mod) => mod.MonitoringMenuMapSnapshot
+    ),
   { ssr: false }
 )
-
 
 interface MonitoringMenuDetailsDialogProps {
   isOpen: boolean

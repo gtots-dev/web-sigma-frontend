@@ -7,8 +7,10 @@ export interface PostActivityReportRouterApiGateway {
   execute(filters: {
     filters: ActivityReportFiltersInterface
     pagination: PaginationInterface
-  }): Promise<HttpResponseInterface<{
-    data: ActivityReportInterface[]
-    meta: PaginationInterface
-  }>>
+  }): Promise<
+    HttpResponseInterface<{
+      data: ActivityReportInterface[]
+      meta: PaginationInterface
+    }>
+  >
 }

@@ -49,7 +49,9 @@ export function ActivityReportTimeRangeComponent() {
           className="border rounded px-2 py-1 text-sm dark:bg-zinc-900 dark:text-zinc-50"
           value={toInputHHMM(value ?? '')}
           onChange={(e) =>
-            onChange(e.target.value ? normalizeInputValue(e.target.value) : null)
+            onChange(
+              e.target.value ? normalizeInputValue(e.target.value) : null
+            )
           }
         />
       </PopoverContent>

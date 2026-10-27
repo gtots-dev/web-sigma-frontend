@@ -6,9 +6,9 @@ import {
   type UsePatchGroupMenuReturn
 } from '../hooks/use-patch-group-menu.hook'
 
-const PatchGroupMenuContext = createContext<UsePatchGroupMenuReturn | undefined>(
-  undefined
-)
+const PatchGroupMenuContext = createContext<
+  UsePatchGroupMenuReturn | undefined
+>(undefined)
 
 export const PatchGroupMenuProvider = ({
   children

@@ -13,7 +13,7 @@ export function FrameSequenceFilmstripComponent({
   filmstripRef,
   children,
   onStepLeft,
-  onStepRight,
+  onStepRight
 }: FrameSequenceFilmstripProps) {
   const handleScrollLeft = () => {
     if (filmstripRef.current) {

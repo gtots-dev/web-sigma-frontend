@@ -51,7 +51,9 @@ export function MonitoringHeaderFilter() {
     <SingleSelect
       items={filters}
       value={statusFilter}
-      onChange={(v) => setStatusFilter((v || 'all') as MonitoringStatus | 'all')}
+      onChange={(v) =>
+        setStatusFilter((v || 'all') as MonitoringStatus | 'all')
+      }
       leftIcon={Filter}
       innerIcon={activeFilter.icon}
       innerIconColor={activeFilter.color}

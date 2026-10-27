@@ -1,6 +1,10 @@
 import { StatusGroup } from '../../domain/interfaces/monitoring-dashboard-websocket.interface'
 
-export function getLevelColor(level: number, hasData: boolean, offline = false) {
+export function getLevelColor(
+  level: number,
+  hasData: boolean,
+  offline = false
+) {
   if (!hasData || offline) return 'bg-[rgb(var(--monitoring-offline))]'
   if (level === 0) return 'bg-[rgb(var(--monitoring-ok))]'
   if (level === 1) return 'bg-[rgb(var(--monitoring-warning))]'
@@ -41,7 +45,10 @@ export function formatBrDate(dateStr: string): string {
   return dateStr
 }
 
-export function getLastUpdateText(hasData: boolean, items: StatusGroup[]): string {
+export function getLastUpdateText(
+  hasData: boolean,
+  items: StatusGroup[]
+): string {
   if (!hasData) return 'Sem atualizações'
   for (const group of items) {
     for (const el of group.elements) {

@@ -15,7 +15,6 @@ import { InfractionDescription } from '@/modules/infractions/presentation/compon
 import { InfractionsTimeline } from '@/modules/infractions/presentation/components/infractions-timeline'
 
 export default function LiveSlotPage() {
-
   const infractions = useInfractionsWebsocketStore((state) => state.infractions)
 
   const {

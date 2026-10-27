@@ -25,8 +25,8 @@ export function MonitoringHeaderFiltersComponent({
           <div className="min-w-0 flex-1">
             <SystemFilters.Title>Filtros de Busca</SystemFilters.Title>
             <SystemFilters.Description>
-              Refine a visualização por ordenação, conexão, condição e status
-              da UP
+              Refine a visualização por ordenação, conexão, condição e status da
+              UP
             </SystemFilters.Description>
           </div>
         </div>

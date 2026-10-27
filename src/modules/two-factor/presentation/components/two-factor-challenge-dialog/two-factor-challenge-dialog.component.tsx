@@ -33,7 +33,10 @@ export function TwoFactorChallengeDialog() {
   )
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && !isSubmitting && onComplete(null)}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => !open && !isSubmitting && onComplete(null)}
+    >
       <DialogContent className="sm:max-w-[425px] p-10 overflow-hidden">
         <DialogTitle className="sr-only">
           {MESSAGES_TWO_FACTOR['21.1']}
@@ -60,7 +63,10 @@ export function TwoFactorChallengeDialog() {
               onResend={postTwoFactor}
               cooldownSeconds={300}
             >
-              <TwoFactorForm.Submit onSubmit={handleVerify} disabled={isSubmitting} />
+              <TwoFactorForm.Submit
+                onSubmit={handleVerify}
+                disabled={isSubmitting}
+              />
             </TwoFactorForm.Input.Resend>
 
             <Button
@@ -78,4 +84,3 @@ export function TwoFactorChallengeDialog() {
     </Dialog>
   )
 }
-

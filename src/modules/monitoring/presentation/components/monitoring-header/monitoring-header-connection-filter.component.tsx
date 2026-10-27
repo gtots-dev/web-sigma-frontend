@@ -38,7 +38,9 @@ export function MonitoringHeaderConnectionFilter() {
     <SingleSelect
       items={filters}
       value={connectionFilter}
-      onChange={(v) => setConnectionFilter((v || 'all') as 'all' | 'online' | 'offline')}
+      onChange={(v) =>
+        setConnectionFilter((v || 'all') as 'all' | 'online' | 'offline')
+      }
       leftIcon={Filter}
       innerIcon={activeFilter.icon}
       innerIconColor={activeFilter.color}

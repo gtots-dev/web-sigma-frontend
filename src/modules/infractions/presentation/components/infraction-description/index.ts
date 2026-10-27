@@ -4,11 +4,11 @@ import { InfractionDescriptionList } from './infraction-description-list.compone
 import { InfractionDescriptionListItem } from './infraction-description-list-item.component'
 
 const List = Object.assign(InfractionDescriptionList, {
-  Item: InfractionDescriptionListItem,
+  Item: InfractionDescriptionListItem
 })
 
 export const InfractionDescription = {
   Root: InfractionDescriptionRoot,
   Header: InfractionDescriptionHeader,
-  List,
+  List
 }

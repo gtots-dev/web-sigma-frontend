@@ -11,9 +11,7 @@ export class PatchVehicleTypeService implements PatchVehicleTypeServiceGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    vehicleType: VehicleTypeEntity
-  ): HttpRequestConfig {
+  getHttpRequestConfig(vehicleType: VehicleTypeEntity): HttpRequestConfig {
     return {
       method: 'PATCH',
       url: `/operations/${this.params.operationId}/contracts/${this.params.contractId}/vehicle-types/${this.params.vehicleTypeId}`,

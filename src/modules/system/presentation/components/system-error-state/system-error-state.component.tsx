@@ -26,9 +26,7 @@ export function SystemErrorState({ variant, message }: SystemErrorStateProps) {
 
   const badgeLabel = isServerError ? 'Servidor Indisponível' : 'Acesso Restrito'
 
-  const title = isServerError
-    ? 'Falha na conexão'
-    : 'Acesso negado'
+  const title = isServerError ? 'Falha na conexão' : 'Acesso negado'
 
   const description =
     message ||
@@ -83,7 +81,7 @@ export function SystemErrorState({ variant, message }: SystemErrorStateProps) {
                 <footer className="flex flex-col gap-3 w-full mt-2">
                   <Button
                     type="button"
-                    variant='primary'
+                    variant="primary"
                     onClick={handleRetry}
                     disabled={reloading || signingOut}
                     className="w-full gap-2"

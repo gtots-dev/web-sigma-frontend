@@ -17,11 +17,10 @@ export const useStatusLanesStore = create<StatusLanesState>((set) => ({
   getStatusList: async ({ operationId, contractId }: UrlParams) => {
     set({ loading: true })
     try {
-      const getStatusListService =
-        GetLanesStatusListRouterApiFactory.create({
-          operationId,
-          contractId
-        })
+      const getStatusListService = GetLanesStatusListRouterApiFactory.create({
+        operationId,
+        contractId
+      })
       const { data: statusList } = await getStatusListService.execute()
       set({ statusList: statusList ?? [] })
     } catch (error) {

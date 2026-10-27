@@ -8,7 +8,7 @@ type UseFormattedDateOptions = {
 
 export function useFormattedDate(
   isoDate: string,
-  {options = {} }: UseFormattedDateOptions = {}
+  { options = {} }: UseFormattedDateOptions = {}
 ): {
   formatted: string
   hasMounted: boolean

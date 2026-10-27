@@ -20,9 +20,7 @@ export class GetStatusLaneIgnoreService implements GetStatusLaneIgnoreGateway {
     }
   }
 
-  async execute(): Promise<
-    HttpResponseInterface<StatusLaneIgnoreInterface[]>
-  > {
+  async execute(): Promise<HttpResponseInterface<StatusLaneIgnoreInterface[]>> {
     const settingsAuthHTTP = this.getHttpRequestConfig()
     return await this.executeRequest.execute(settingsAuthHTTP)
   }

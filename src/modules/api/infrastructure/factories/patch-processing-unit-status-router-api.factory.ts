@@ -5,9 +5,7 @@ import type { PatchProcessingUnitStatusRouterApiGateway } from '../../domain/gat
 import { PatchProcessingUnitStatusRouterApiService } from '../services/patch-processing-unit-status-router-api.service'
 
 export class PatchProcessingUnitStatusRouterApiFactory {
-  static create(
-    params: UrlParams
-  ): PatchProcessingUnitStatusRouterApiGateway {
+  static create(params: UrlParams): PatchProcessingUnitStatusRouterApiGateway {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     return new PatchProcessingUnitStatusRouterApiService(executeRequest, params)

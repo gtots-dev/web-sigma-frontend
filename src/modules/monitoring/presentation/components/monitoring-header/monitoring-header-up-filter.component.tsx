@@ -12,7 +12,9 @@ export function MonitoringHeaderUpFilter() {
   const { operationId, contractId }: UrlParams = useParams()
   const { upErrorFilters, setUpErrorFilters } = useMonitoringContext()
   const [items, setItems] = useState<{ id: string; label: string }[]>([])
-  const [loading, setLoading] = useState(() => Boolean(operationId && contractId))
+  const [loading, setLoading] = useState(() =>
+    Boolean(operationId && contractId)
+  )
 
   useEffect(() => {
     if (!operationId || !contractId) return

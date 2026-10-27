@@ -21,6 +21,8 @@ export const deduplicateById = <T extends WithId>(items: readonly T[]): T[] => {
 /**
  * Alias para Infraction[].
  */
-export const deduplicateInfractions = (items: readonly Infraction[]): Infraction[] => {
+export const deduplicateInfractions = (
+  items: readonly Infraction[]
+): Infraction[] => {
   return deduplicateById<Infraction>(items)
 }

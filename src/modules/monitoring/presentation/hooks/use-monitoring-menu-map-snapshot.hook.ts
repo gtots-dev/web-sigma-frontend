@@ -125,4 +125,3 @@ export function useMonitoringMenuMapSnapshot({
     hasCell: !!cell
   }
 }
-

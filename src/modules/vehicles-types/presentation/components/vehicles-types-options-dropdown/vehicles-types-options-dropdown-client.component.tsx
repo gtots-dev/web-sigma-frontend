@@ -18,7 +18,7 @@ export function VehiclesTypesOptionsDropdownClient({
 }) {
   return (
     <PatchVehicleTypeMenu.Provider>
-      {(isAdmin || permissions.has(PermissionEnum.VEHICLE_TYPES_EDIT)) ? (
+      {isAdmin || permissions.has(PermissionEnum.VEHICLE_TYPES_EDIT) ? (
         <VehiclesTypesOptionsDropdown.Root>
           <VehiclesTypesOptionsDropdown.Trigger />
           <VehiclesTypesOptionsDropdown.Menu>

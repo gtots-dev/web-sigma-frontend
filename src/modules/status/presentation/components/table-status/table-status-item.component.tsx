@@ -35,7 +35,10 @@ export function TableStatusItemComponent({
     <TableRow>
       <TableCell className={`${baseCell} ${truncateText} w-[46%] max-w-0`}>
         <div className="flex flex-col gap-y-0.5 min-w-0 w-full">
-          <span title={status.description} className="truncate font-medium block">
+          <span
+            title={status.description}
+            className="truncate font-medium block"
+          >
             {status.description}
           </span>
           <div className="flex items-center gap-2 mt-0.5 sm:hidden">
@@ -62,7 +65,9 @@ export function TableStatusItemComponent({
         </div>
       </TableCell>
 
-      <TableCell className={`${baseCell} ${truncateText} hidden sm:table-cell w-[20%]`}>
+      <TableCell
+        className={`${baseCell} ${truncateText} hidden sm:table-cell w-[20%]`}
+      >
         <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
           {originLabel}
         </span>

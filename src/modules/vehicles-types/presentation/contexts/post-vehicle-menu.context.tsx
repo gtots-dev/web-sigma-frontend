@@ -6,9 +6,9 @@ import {
   type usePostVehicleTypeMenuReturn
 } from '../hooks/use-post-vehicle-menu.hook'
 
-const PostVehicleMenuContext = createContext<usePostVehicleTypeMenuReturn | undefined>(
-  undefined
-)
+const PostVehicleMenuContext = createContext<
+  usePostVehicleTypeMenuReturn | undefined
+>(undefined)
 
 export const PostVehicleMenuProvider = ({
   children

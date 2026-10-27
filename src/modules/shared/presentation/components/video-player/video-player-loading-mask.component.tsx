@@ -16,7 +16,10 @@ export function VideoPlayerLoadingMaskComponent({
     e.stopPropagation()
   }
 
-  const currentDisplayNum = Math.min(currentExtractingFrame + 1, totalFrames || 1)
+  const currentDisplayNum = Math.min(
+    currentExtractingFrame + 1,
+    totalFrames || 1
+  )
 
   return (
     <div

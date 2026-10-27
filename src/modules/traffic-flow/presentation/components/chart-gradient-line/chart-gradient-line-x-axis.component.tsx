@@ -18,9 +18,7 @@ export function ChartGradientLineXAxis() {
       height={80}
       tickLine={false}
       axisLine={{ stroke: 'hsl(var(--border))' }}
-      tick={(props) => (
-        <ChartXAxisTick {...props} granularity={granularity} />
-      )}
+      tick={(props) => <ChartXAxisTick {...props} granularity={granularity} />}
     />
   )
 }

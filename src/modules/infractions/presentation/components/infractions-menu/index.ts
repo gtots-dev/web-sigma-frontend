@@ -15,4 +15,3 @@ export const InfractionsMenu = {
   Provider: InfractionsMenuProvider,
   Dialog: InfractionsMenuComponent
 }
-

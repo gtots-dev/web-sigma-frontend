@@ -5,9 +5,7 @@ import { PostProcessingUnitRouterApiService } from '../services/post-processing-
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 
 export class PostProcessingUnitRouterApiFactory {
-  static create(
-    params: UrlParams
-  ): PostProcessingUnitRouterApiGateway {
+  static create(params: UrlParams): PostProcessingUnitRouterApiGateway {
     const httpClient = HttpClientFactory.create('/')
     const executeRequest = ExecuteRequestFactory.create(httpClient)
     return new PostProcessingUnitRouterApiService(executeRequest, params)

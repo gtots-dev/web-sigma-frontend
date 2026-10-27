@@ -2,7 +2,10 @@ import { z } from 'zod'
 import { MESSAGES_RESTRICTIONS } from '@/modules/shared/presentation/messages/restrictions'
 
 export const postRestrictionSchema = z.object({
-  name: z.string().min(1, MESSAGES_RESTRICTIONS['24.6']).max(150, MESSAGES_RESTRICTIONS['24.7']),
+  name: z
+    .string()
+    .min(1, MESSAGES_RESTRICTIONS['24.6'])
+    .max(150, MESSAGES_RESTRICTIONS['24.7']),
   code: z
     .number({ invalid_type_error: MESSAGES_RESTRICTIONS['24.12'] })
     .min(1, MESSAGES_RESTRICTIONS['24.12'])

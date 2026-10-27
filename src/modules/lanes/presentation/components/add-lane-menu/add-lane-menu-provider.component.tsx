@@ -9,9 +9,9 @@ type AddLaneMenuContextType = {
   toggle: () => void
 }
 
-const AddLaneMenuContext = createContext<
-  AddLaneMenuContextType | undefined
->(undefined)
+const AddLaneMenuContext = createContext<AddLaneMenuContextType | undefined>(
+  undefined
+)
 
 export const AddLaneMenuProviderComponent = ({
   children

@@ -17,7 +17,9 @@ interface RestrictionsPageProps {
   params: Promise<UrlParams>
 }
 
-export default async function RestrictionsPage({ params }: RestrictionsPageProps) {
+export default async function RestrictionsPage({
+  params
+}: RestrictionsPageProps) {
   const [
     {
       token: JWT,
@@ -33,9 +35,14 @@ export default async function RestrictionsPage({ params }: RestrictionsPageProps
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
       <HeaderSection.Root>
         <SectionRedirectLink.Button href={previousSection} />
-        <Separator orientation="vertical" className="h-5 shrink-0 hidden sm:block" />
+        <Separator
+          orientation="vertical"
+          className="h-5 shrink-0 hidden sm:block"
+        />
         <div className="flex flex-col min-w-0 flex-1">
-          <HeaderSection.Title>{MESSAGES_RESTRICTIONS['24.1']}</HeaderSection.Title>
+          <HeaderSection.Title>
+            {MESSAGES_RESTRICTIONS['24.1']}
+          </HeaderSection.Title>
           <HeaderSection.Description>
             {MESSAGES_RESTRICTIONS['24.2']}
           </HeaderSection.Description>

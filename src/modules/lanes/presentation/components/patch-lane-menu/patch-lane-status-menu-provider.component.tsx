@@ -25,7 +25,9 @@ export const PatchLaneStatusMenuProviderComponent = ({
   const toggle = () => setIsOpen((prev) => !prev)
 
   return (
-    <PatchLaneStatusMenuContext.Provider value={{ isOpen, open, close, toggle }}>
+    <PatchLaneStatusMenuContext.Provider
+      value={{ isOpen, open, close, toggle }}
+    >
       {children}
     </PatchLaneStatusMenuContext.Provider>
   )

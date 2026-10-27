@@ -68,13 +68,15 @@ export function usePostStatusLanesSubmit() {
         for (const laneId of toDelete) {
           const info = ignoreMap.get(laneId)
           if (info) {
-            const deleteService = DeleteStatusLaneIgnoreRouterApiFactory.create({
-              operationId,
-              contractId,
-              upId: String(info.upId),
-              laneId: String(laneId),
-              ignoreId: String(info.ignoreId)
-            })
+            const deleteService = DeleteStatusLaneIgnoreRouterApiFactory.create(
+              {
+                operationId,
+                contractId,
+                upId: String(info.upId),
+                laneId: String(laneId),
+                ignoreId: String(info.ignoreId)
+              }
+            )
             await deleteService.execute()
           }
         }

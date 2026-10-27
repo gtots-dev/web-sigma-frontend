@@ -7,5 +7,9 @@ interface TwoFactorFormCardFooterComponentProps {
 export function TwoFactorFormCardFooterComponent({
   children
 }: TwoFactorFormCardFooterComponentProps) {
-  return <footer className="flex flex-col gap-5 h-full w-full mt-5">{children}</footer>
+  return (
+    <footer className="flex flex-col gap-5 h-full w-full mt-5">
+      {children}
+    </footer>
+  )
 }

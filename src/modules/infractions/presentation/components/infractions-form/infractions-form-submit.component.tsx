@@ -47,8 +47,14 @@ export function InfractionsFormSubmitComponent({
     const defaults = getDefaultInfractionsFilters()
     reset({
       places: { point_ids: [], lane_ids: [], group_ids: [] },
-      date_range: { start: defaults.date_range.start, end: defaults.date_range.end },
-      time_range: { start: defaults.time_range?.start, end: defaults.time_range?.end },
+      date_range: {
+        start: defaults.date_range.start,
+        end: defaults.date_range.end
+      },
+      time_range: {
+        start: defaults.time_range?.start,
+        end: defaults.time_range?.end
+      },
       violation_id: [],
       restriction_id: []
     })

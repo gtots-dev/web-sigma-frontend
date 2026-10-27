@@ -11,9 +11,10 @@ export class GetUserFilesService implements GetUserFilesGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    { operationId, userId }: UrlParams
-  ): HttpRequestConfig<FormData> {
+  getHttpRequestConfig({
+    operationId,
+    userId
+  }: UrlParams): HttpRequestConfig<FormData> {
     return {
       method: 'GET',
       url: `/operations/${operationId}/users/${userId}/files`,

@@ -12,4 +12,6 @@ export const usePostVehicleTypeMenu = () => {
   return { isOpen, open, close, toggle }
 }
 
-export type usePostVehicleTypeMenuReturn = ReturnType<typeof usePostVehicleTypeMenu>
+export type usePostVehicleTypeMenuReturn = ReturnType<
+  typeof usePostVehicleTypeMenu
+>

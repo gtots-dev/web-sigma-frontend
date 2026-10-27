@@ -10,9 +10,7 @@ export class PostUserFilesService implements PostUserFilesGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    files: FormData
-  ): HttpRequestConfig<FormData> {
+  getHttpRequestConfig(files: FormData): HttpRequestConfig<FormData> {
     return {
       method: 'POST',
       url: `/operations/${this.params.operationId}/users/${this.params.userId}/files`,

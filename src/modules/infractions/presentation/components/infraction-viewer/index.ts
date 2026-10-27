@@ -9,5 +9,5 @@ export const InfractionViewer = {
   Image: InfractionImageViewer,
   Video: InfractionVideoViewer,
   Empty: InfractionViewerEmpty,
-  Strip: InfractionViewerStrip,
+  Strip: InfractionViewerStrip
 }

@@ -8,7 +8,11 @@ interface MonitoringLegendSectionProps {
   children: ReactNode
 }
 
-export function MonitoringLegendSection({ icon, title, children }: MonitoringLegendSectionProps) {
+export function MonitoringLegendSection({
+  icon,
+  title,
+  children
+}: MonitoringLegendSectionProps) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-1.5 opacity-70">

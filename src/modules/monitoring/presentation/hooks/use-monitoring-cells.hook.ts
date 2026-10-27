@@ -3,10 +3,12 @@ import { MonitoringCell } from '../../domain/interfaces/monitoring-cell.interfac
 
 export function useMonitoringCells(initialCells: MonitoringCell[]) {
   // Estado local para overrides mutados manualmente (se houver)
-  const [localOverrides, setLocalOverrides] = useState<Record<string, Partial<MonitoringCell>>>({})
+  const [localOverrides, setLocalOverrides] = useState<
+    Record<string, Partial<MonitoringCell>>
+  >({})
   const [deletedIds, setDeletedIds] = useState<Set<string>>(() => new Set())
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
-  
+
   // Ref para o active (usado para limpar seleção se célula for deletada sem disparar re-renders extras)
   const activeRef = useRef<string | null>(null)
 
@@ -19,7 +21,9 @@ export function useMonitoringCells(initialCells: MonitoringCell[]) {
       if (deletedIds.has(cell.id)) return
 
       const override = localOverrides[cell.id]
-      const finalCell = override ? ({ ...cell, ...override } as MonitoringCell) : cell
+      const finalCell = override
+        ? ({ ...cell, ...override } as MonitoringCell)
+        : cell
       dict[cell.id] = finalCell
       array.push(finalCell)
     })
@@ -44,7 +48,13 @@ export function useMonitoringCells(initialCells: MonitoringCell[]) {
   }, [initialCells, localOverrides, deletedIds])
 
   const cellsFingerprint = useMemo(
-    () => initialCells.map((i) => `${i.id}-${i.status}-${i.connectionStatus}-${(i.upIds || []).join(',')}-${(i.laneIds || []).join(',')}`).join('|'),
+    () =>
+      initialCells
+        .map(
+          (i) =>
+            `${i.id}-${i.status}-${i.connectionStatus}-${(i.upIds || []).join(',')}-${(i.laneIds || []).join(',')}`
+        )
+        .join('|'),
     [initialCells]
   )
 
@@ -57,19 +67,22 @@ export function useMonitoringCells(initialCells: MonitoringCell[]) {
     })
   }, [cellsFingerprint])
 
-  const upsertCells = useCallback((newCells: (Partial<MonitoringCell> & { id: string })[]) => {
-    setLocalOverrides((prev) => {
-      const next = { ...prev }
-      newCells.forEach((cell) => {
-        next[cell.id] = {
-          ...next[cell.id],
-          ...cell
-        }
+  const upsertCells = useCallback(
+    (newCells: (Partial<MonitoringCell> & { id: string })[]) => {
+      setLocalOverrides((prev) => {
+        const next = { ...prev }
+        newCells.forEach((cell) => {
+          next[cell.id] = {
+            ...next[cell.id],
+            ...cell
+          }
+        })
+        return next
       })
-      return next
-    })
-    setLastUpdated(new Date())
-  }, [])
+      setLastUpdated(new Date())
+    },
+    []
+  )
 
   const removeCells = useCallback((ids: string[]) => {
     setDeletedIds((prev) => {
@@ -80,29 +93,37 @@ export function useMonitoringCells(initialCells: MonitoringCell[]) {
     setLastUpdated(new Date())
   }, [])
 
-  const updateCellsBatch = useCallback((updates: { action: 'upsert' | 'delete', cell: Partial<MonitoringCell> & { id: string } }[]) => {
-    setLocalOverrides((prev) => {
-      const nextOverrides = { ...prev }
-      setDeletedIds((prevDeleted) => {
-        const nextDeleted = new Set(prevDeleted)
-        updates.forEach(({ action, cell }) => {
-          if (action === 'upsert') {
-            nextOverrides[cell.id] = {
-              ...nextOverrides[cell.id],
-              ...cell
+  const updateCellsBatch = useCallback(
+    (
+      updates: {
+        action: 'upsert' | 'delete'
+        cell: Partial<MonitoringCell> & { id: string }
+      }[]
+    ) => {
+      setLocalOverrides((prev) => {
+        const nextOverrides = { ...prev }
+        setDeletedIds((prevDeleted) => {
+          const nextDeleted = new Set(prevDeleted)
+          updates.forEach(({ action, cell }) => {
+            if (action === 'upsert') {
+              nextOverrides[cell.id] = {
+                ...nextOverrides[cell.id],
+                ...cell
+              }
+              nextDeleted.delete(cell.id)
+            } else if (action === 'delete') {
+              nextDeleted.add(cell.id)
+              delete nextOverrides[cell.id]
             }
-            nextDeleted.delete(cell.id)
-          } else if (action === 'delete') {
-            nextDeleted.add(cell.id)
-            delete nextOverrides[cell.id]
-          }
+          })
+          return nextDeleted
         })
-        return nextDeleted
+        return nextOverrides
       })
-      return nextOverrides
-    })
-    setLastUpdated(new Date())
-  }, [])
+      setLastUpdated(new Date())
+    },
+    []
+  )
 
   return {
     cellsDict,

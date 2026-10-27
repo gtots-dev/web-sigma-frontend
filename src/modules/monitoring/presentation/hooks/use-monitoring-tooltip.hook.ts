@@ -2,14 +2,23 @@
 
 import { useRef, type RefObject } from 'react'
 import { useMonitoringContext } from '../components/monitoring/monitoring-context.component'
-import { useMonitoringMenuDetails, type UpInfo, type LaneInfo } from './use-monitoring-menu-details.hook'
+import {
+  useMonitoringMenuDetails,
+  type UpInfo,
+  type LaneInfo
+} from './use-monitoring-menu-details.hook'
 import { useMenuPosition } from './use-menu-position.hook'
 import type { MonitoringCell } from '../../domain/interfaces/monitoring-cell.interface'
 import type { StatusGroup } from '../../domain/interfaces/monitoring-dashboard-websocket.interface'
 
 // ── Extrai todos os elementos ordenados por gravidade ───────────────────────────
 export function getAlertElements(items: StatusGroup[]) {
-  const result: { name: string; value: string; level: number; group: string }[] = []
+  const result: {
+    name: string
+    value: string
+    level: number
+    group: string
+  }[] = []
   items.forEach((group) => {
     group.elements.forEach((el) => {
       result.push({ ...el, group: group.group })
@@ -38,16 +47,26 @@ function hasTooltipContent(ups: UpInfo[], lanes: LaneInfo[]): boolean {
   return ups.some((up) => {
     const upIsOk = up.hasData && !up.offline && up.level === 0
     if (!upIsOk) return true
-    return lanes.some((l) => l.up_id === up.up_id && (!l.hasData || l.level > 0))
+    return lanes.some(
+      (l) => l.up_id === up.up_id && (!l.hasData || l.level > 0)
+    )
   })
 }
 
-export function useMonitoringTooltip(cell: MonitoringCell, containerRef: RefObject<HTMLDivElement>) {
+export function useMonitoringTooltip(
+  cell: MonitoringCell,
+  containerRef: RefObject<HTMLDivElement>
+) {
   const { ups, lanes } = useMonitoringMenuDetails(cell)
   const tooltipRef = useRef<HTMLDivElement>(null)
 
   const { hoveredCoords } = useMonitoringContext()
-  const positionStyle = useMenuPosition(cell, hoveredCoords, containerRef, tooltipRef)
+  const positionStyle = useMenuPosition(
+    cell,
+    hoveredCoords,
+    containerRef,
+    tooltipRef
+  )
 
   const sortedUps = prioritize(ups)
   const sortedLanesByUp = (upId: number) =>

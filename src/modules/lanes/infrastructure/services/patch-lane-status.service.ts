@@ -25,7 +25,8 @@ export class PatchLaneStatusService implements PatchLaneStatusGateway {
     laneEnabledAndDisabled: LaneEnableAndDisableInterface
   ): Promise<void> {
     const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, laneEnabledAndDisabled
+      this.params,
+      laneEnabledAndDisabled
     )
     await this.executeRequest.execute(settingsAuthHTTP)
   }

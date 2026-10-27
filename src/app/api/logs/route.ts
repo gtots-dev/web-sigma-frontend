@@ -5,8 +5,10 @@ export async function POST(req: Request) {
     const body = await req.json()
     const { level = 'error', message, stack, url, timestamp } = body
 
-    const formattedTime = timestamp ? new Date(timestamp).toISOString() : new Date().toISOString()
-    
+    const formattedTime = timestamp
+      ? new Date(timestamp).toISOString()
+      : new Date().toISOString()
+
     // Extract only the path/search from URL to keep it compact
     let compactUrl = url || 'N/A'
     try {
@@ -16,7 +18,11 @@ export async function POST(req: Request) {
 
     // Get the first 2 lines of the stack trace to avoid bloating the logs
     const compactStack = stack
-      ? stack.split('\n').slice(0, 2).map(line => line.trim()).join(' | ')
+      ? stack
+          .split('\n')
+          .slice(0, 2)
+          .map((line) => line.trim())
+          .join(' | ')
       : 'N/A'
 
     // Output as a single, highly compact line
@@ -33,7 +39,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true })
   } catch (error) {
     // Keep internal logging error as a single line too
-    console.error(`[SERVER-ERROR] Failed logging client-side error: ${error instanceof Error ? error.message : String(error)}`)
+    console.error(
+      `[SERVER-ERROR] Failed logging client-side error: ${error instanceof Error ? error.message : String(error)}`
+    )
     return NextResponse.json({ success: false }, { status: 500 })
   }
 }

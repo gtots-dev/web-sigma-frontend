@@ -18,7 +18,7 @@ export function RestrictionsOptionsDropdownClient({
 }) {
   return (
     <PatchRestrictionMenu.Provider>
-      {(isAdmin || permissions.has(PermissionEnum.RESTRICTIONS_EDIT)) ? (
+      {isAdmin || permissions.has(PermissionEnum.RESTRICTIONS_EDIT) ? (
         <RestrictionsOptionsDropdown.Root>
           <RestrictionsOptionsDropdown.Trigger />
           <RestrictionsOptionsDropdown.Menu>

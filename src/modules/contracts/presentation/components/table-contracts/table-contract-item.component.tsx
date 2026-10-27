@@ -36,7 +36,10 @@ export function TableContractsItemComponent({
           <span title={contract.name} className="truncate font-medium block">
             {contract.name}
           </span>
-          <span title={contract.alias} className="truncate text-xs text-zinc-500 lg:hidden block mt-0.5">
+          <span
+            title={contract.alias}
+            className="truncate text-xs text-zinc-500 lg:hidden block mt-0.5"
+          >
             {contract.alias}
           </span>
         </div>

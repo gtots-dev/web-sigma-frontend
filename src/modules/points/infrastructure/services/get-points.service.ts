@@ -11,9 +11,10 @@ export class GetPointsService implements GetPointsGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    { operationId, contractId }: UrlParams
-  ): HttpRequestConfig<null> {
+  getHttpRequestConfig({
+    operationId,
+    contractId
+  }: UrlParams): HttpRequestConfig<null> {
     return {
       method: 'GET',
       url: `/operations/${operationId}/contracts/${contractId}/points`,

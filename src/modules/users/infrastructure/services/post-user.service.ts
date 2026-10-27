@@ -11,9 +11,7 @@ export class PostUserService implements PostUserGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    user: UserEntity
-  ): HttpRequestConfig<UserEntity> {
+  getHttpRequestConfig(user: UserEntity): HttpRequestConfig<UserEntity> {
     return {
       method: 'POST',
       url: `/operations/${this.params.operationId}/users`,

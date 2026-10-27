@@ -2,7 +2,9 @@ import type { RequestInterceptor } from '../services/execute-request.service'
 
 export const nextCookieInterceptor: RequestInterceptor = async (config) => {
   if (typeof window !== 'undefined') {
-    const match = document.cookie.match(/(?:^|; )(__Secure-trusted_device|trusted_device)=([^;]*)/)
+    const match = document.cookie.match(
+      /(?:^|; )(__Secure-trusted_device|trusted_device)=([^;]*)/
+    )
     const trustedDevice = match ? decodeURIComponent(match[2]) : null
 
     if (!trustedDevice) return config

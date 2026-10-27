@@ -37,8 +37,8 @@ export function InfractionsSidebarItemRoot({
           isSelected
             ? 'border-primary-500 bg-primary-500/10'
             : !isViewed
-            ? 'border-primary-500/40 bg-primary-500/5 hover:bg-primary-500/10'
-            : 'border-border/50 bg-card hover:bg-primary-500/10 hover:border-primary-500/40'
+              ? 'border-primary-500/40 bg-primary-500/5 hover:bg-primary-500/10'
+              : 'border-border/50 bg-card hover:bg-primary-500/10 hover:border-primary-500/40'
         }
       `}
     >

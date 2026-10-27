@@ -13,15 +13,9 @@ export function usePostRestrictionSubmit() {
   const { getRestrictions, postRestriction } = useRestrictionStore()
 
   const onAction = useCallback(
-    async (
-      data: RestrictionEntity,
-      onSuccess: VoidFunction
-    ): Promise<void> => {
+    async (data: RestrictionEntity, onSuccess: VoidFunction): Promise<void> => {
       try {
-        await postRestriction(
-          { operationId, contractId },
-          data
-        )
+        await postRestriction({ operationId, contractId }, data)
         toast({
           title: 'Restrição criada com sucesso!',
           variant: 'success'

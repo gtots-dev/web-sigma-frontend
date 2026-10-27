@@ -32,9 +32,14 @@ export default async function ViolationsPage({ params }: ViolationsPageProps) {
             Number(rawContractId)
           )}
         />
-        <Separator orientation="vertical" className="h-5 shrink-0 hidden sm:block" />
+        <Separator
+          orientation="vertical"
+          className="h-5 shrink-0 hidden sm:block"
+        />
         <div className="flex flex-col min-w-0 flex-1">
-          <HeaderSection.Title>{MESSAGES_VIOLATIONS['23.1']}</HeaderSection.Title>
+          <HeaderSection.Title>
+            {MESSAGES_VIOLATIONS['23.1']}
+          </HeaderSection.Title>
           <HeaderSection.Description>
             {MESSAGES_VIOLATIONS['23.2']}
           </HeaderSection.Description>

@@ -8,7 +8,9 @@ import {
 } from './use-infractions-filters-schema.hook'
 import { getDefaultInfractionsFilters } from '../utils/default-infractions-filters.util'
 
-export function useInfractionsFiltersForm(filters?: InfractionsFiltersInterface) {
+export function useInfractionsFiltersForm(
+  filters?: InfractionsFiltersInterface
+) {
   const defaultValues = useMemo<InfractionsFiltersSchemaType>(() => {
     const initial = filters ?? getDefaultInfractionsFilters()
     return {

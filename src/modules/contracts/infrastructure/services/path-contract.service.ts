@@ -34,10 +34,10 @@ export class PatchContractService implements PatchContractGateway {
     }
   }
 
-  async execute(contract: ContractEntity): Promise<HttpResponseInterface<ContractEntity>> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, contract
-    )
+  async execute(
+    contract: ContractEntity
+  ): Promise<HttpResponseInterface<ContractEntity>> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, contract)
     return await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

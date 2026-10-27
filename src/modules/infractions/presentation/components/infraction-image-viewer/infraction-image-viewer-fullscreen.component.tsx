@@ -56,14 +56,15 @@ export function InfractionImageViewerFullscreen({
           onClick={() => setIsFullscreen(false)}
         >
           {/* Item count badge in fullscreen mode */}
-          {typeof currentIndex === 'number' && typeof totalCount === 'number' && (
-            <div className="absolute top-6 left-6 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800/90 text-white backdrop-blur-md border border-white/10 text-xs font-mono font-semibold z-50 shadow-lg">
-              <span className="text-primary-400 font-bold">•</span>
-              <span>
-                {currentIndex + 1} de {totalCount}
-              </span>
-            </div>
-          )}
+          {typeof currentIndex === 'number' &&
+            typeof totalCount === 'number' && (
+              <div className="absolute top-6 left-6 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800/90 text-white backdrop-blur-md border border-white/10 text-xs font-mono font-semibold z-50 shadow-lg">
+                <span className="text-primary-400 font-bold">•</span>
+                <span>
+                  {currentIndex + 1} de {totalCount}
+                </span>
+              </div>
+            )}
 
           <button
             type="button"

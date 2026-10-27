@@ -17,7 +17,7 @@ export function PostPointMenuRootComponent({
   close
 }: PostPointMenuRootComponentProps) {
   const { methods, defaultValues } = usePostPointForm()
-  
+
   useEffect(() => {
     if (isOpen) methods.reset(defaultValues)
   }, [isOpen, defaultValues, methods])

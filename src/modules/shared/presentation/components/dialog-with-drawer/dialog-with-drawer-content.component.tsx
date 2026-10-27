@@ -1,6 +1,14 @@
 import type { ReactNode } from 'react'
-import { DialogContent, DialogDescription, DialogTitle } from '@/modules/shared/presentation/components/shadcn/dialog'
-import { DrawerContent, DrawerDescription, DrawerTitle } from '@/modules/shared/presentation/components/shadcn/drawer'
+import {
+  DialogContent,
+  DialogDescription,
+  DialogTitle
+} from '@/modules/shared/presentation/components/shadcn/dialog'
+import {
+  DrawerContent,
+  DrawerDescription,
+  DrawerTitle
+} from '@/modules/shared/presentation/components/shadcn/drawer'
 import { useMediaQuery } from '@/modules/shared/presentation/hooks/use-media-query'
 import { cn } from '../../lib/utils'
 

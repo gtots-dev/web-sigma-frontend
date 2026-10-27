@@ -36,10 +36,9 @@ interface UseInfractionsSidebarFilterProps<T extends FilterableInfractionItem> {
   viewedIds?: Set<string | number>
 }
 
-export function useInfractionsSidebarFilter<T extends FilterableInfractionItem>({
-  items,
-  viewedIds
-}: UseInfractionsSidebarFilterProps<T>) {
+export function useInfractionsSidebarFilter<
+  T extends FilterableInfractionItem
+>({ items, viewedIds }: UseInfractionsSidebarFilterProps<T>) {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedOptions, setSelectedOptions] = useState<Set<string>>(new Set())
 
@@ -86,7 +85,8 @@ export function useInfractionsSidebarFilter<T extends FilterableInfractionItem>(
       map.set(r.id, r.name)
     })
     items.forEach((item) => {
-      const list = item.restrictions_id ?? item.restrictionsId ?? item.restrictions ?? []
+      const list =
+        item.restrictions_id ?? item.restrictionsId ?? item.restrictions ?? []
       list.forEach((rId) => {
         if (rId !== undefined && rId !== null && !map.has(rId)) {
           map.set(rId, `Restrição #${rId}`)
@@ -128,7 +128,8 @@ export function useInfractionsSidebarFilter<T extends FilterableInfractionItem>(
     return items.filter((item) => {
       const itemLane = item.lane_id ?? item.laneId
       const itemViolation = item.violation_id ?? item.violationId
-      const itemRestrictions = item.restrictions_id ?? item.restrictionsId ?? item.restrictions ?? []
+      const itemRestrictions =
+        item.restrictions_id ?? item.restrictionsId ?? item.restrictions ?? []
 
       // 1. Text Search Filter
       if (searchQuery.trim()) {
@@ -151,8 +152,8 @@ export function useInfractionsSidebarFilter<T extends FilterableInfractionItem>(
           typeof rawDate === 'string'
             ? rawDate
             : rawDate instanceof Date
-            ? rawDate.toISOString()
-            : ''
+              ? rawDate.toISOString()
+              : ''
 
         if (!dateStr || !timeStr) {
           const formatted = formatCaptureDateTime(rawDateStr)
@@ -160,12 +161,18 @@ export function useInfractionsSidebarFilter<T extends FilterableInfractionItem>(
           if (!timeStr) timeStr = formatted.time.toLowerCase()
         }
 
-        const violationName = availableViolations
-          .find((v) => String(v.id) === String(itemViolation))
-          ?.label.toLowerCase() || ''
+        const violationName =
+          availableViolations
+            .find((v) => String(v.id) === String(itemViolation))
+            ?.label.toLowerCase() || ''
 
         const restrictionNames = itemRestrictions
-          .map((rId) => availableRestrictions.find((r) => String(r.id) === String(rId))?.label.toLowerCase() || '')
+          .map(
+            (rId) =>
+              availableRestrictions
+                .find((r) => String(r.id) === String(rId))
+                ?.label.toLowerCase() || ''
+          )
           .join(' ')
 
         const matchesText =
@@ -189,31 +196,48 @@ export function useInfractionsSidebarFilter<T extends FilterableInfractionItem>(
         }
 
         // Lane Filters
-        const activeLaneOptions = Array.from(selectedOptions).filter((opt) => opt.startsWith('lane_'))
+        const activeLaneOptions = Array.from(selectedOptions).filter((opt) =>
+          opt.startsWith('lane_')
+        )
         if (activeLaneOptions.length > 0) {
           const itemLaneKey = `lane_${itemLane}`
           if (!activeLaneOptions.includes(itemLaneKey)) return false
         }
 
         // Violation Filters
-        const activeViolationOptions = Array.from(selectedOptions).filter((opt) => opt.startsWith('violation_'))
+        const activeViolationOptions = Array.from(selectedOptions).filter(
+          (opt) => opt.startsWith('violation_')
+        )
         if (activeViolationOptions.length > 0) {
           const itemViolationKey = `violation_${itemViolation}`
           if (!activeViolationOptions.includes(itemViolationKey)) return false
         }
 
         // Restriction Filters
-        const activeRestrictionOptions = Array.from(selectedOptions).filter((opt) => opt.startsWith('restriction_'))
+        const activeRestrictionOptions = Array.from(selectedOptions).filter(
+          (opt) => opt.startsWith('restriction_')
+        )
         if (activeRestrictionOptions.length > 0) {
-          const itemRestrictionKeys = itemRestrictions.map((rId) => `restriction_${rId}`)
-          const hasMatchingRestriction = activeRestrictionOptions.some((opt) => itemRestrictionKeys.includes(opt))
+          const itemRestrictionKeys = itemRestrictions.map(
+            (rId) => `restriction_${rId}`
+          )
+          const hasMatchingRestriction = activeRestrictionOptions.some((opt) =>
+            itemRestrictionKeys.includes(opt)
+          )
           if (!hasMatchingRestriction) return false
         }
       }
 
       return true
     })
-  }, [items, searchQuery, selectedOptions, viewedIds, availableViolations, availableRestrictions])
+  }, [
+    items,
+    searchQuery,
+    selectedOptions,
+    viewedIds,
+    availableViolations,
+    availableRestrictions
+  ])
 
   return {
     searchQuery,

@@ -23,9 +23,7 @@ export class PostGroupLaneService implements PostGroupLaneGateway {
   }
 
   async execute(laneId: GroupLaneInterface): Promise<void> {
-    const settingsAuthHTTP = this.getHttpRequestConfig(
-      this.params, laneId
-    )
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params, laneId)
     await this.executeRequest.execute(settingsAuthHTTP)
   }
 }

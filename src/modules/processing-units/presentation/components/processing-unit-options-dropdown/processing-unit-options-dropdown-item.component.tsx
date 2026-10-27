@@ -14,7 +14,7 @@ export function ProcessingUnitsOptionsDropdownItemComponent({
 }: ProcessingUnitsOptionsDropdownItemComponentProps) {
   return (
     <DropdownMenuItem className="p-0" {...props}>
-      {children} 
+      {children}
     </DropdownMenuItem>
   )
 }

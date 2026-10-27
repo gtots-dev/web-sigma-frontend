@@ -9,9 +9,11 @@ export class DeleteFeatureService implements DeleteFeatureGateway {
     private readonly params: UrlParams
   ) {}
 
-  getHttpRequestConfig(
-    { operationId, permissionProfileId, featureId }: UrlParams
-  ): HttpRequestConfig {
+  getHttpRequestConfig({
+    operationId,
+    permissionProfileId,
+    featureId
+  }: UrlParams): HttpRequestConfig {
     return {
       method: 'DELETE',
       url: `/operations/${operationId}/perm-profiles/${permissionProfileId}/features/${featureId}`,

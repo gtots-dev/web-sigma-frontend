@@ -16,12 +16,14 @@ export function FrameSequenceSelectorComponent({
   currentFrame,
   totalFrames,
   isFullyReady,
-  onSeek,
+  onSeek
 }: FrameSequenceSelectorProps) {
   const [dragFrame, setDragFrame] = useState<number | null>(null)
 
-  const safeFrame = Number.isNaN(currentFrame) || currentFrame < 0 ? 0 : currentFrame
-  const safeTotal = Number.isNaN(totalFrames) || totalFrames < 0 ? 0 : totalFrames
+  const safeFrame =
+    Number.isNaN(currentFrame) || currentFrame < 0 ? 0 : currentFrame
+  const safeTotal =
+    Number.isNaN(totalFrames) || totalFrames < 0 ? 0 : totalFrames
   const maxFrame = safeTotal > 0 ? safeTotal - 1 : 0
 
   const displayFrame = dragFrame !== null ? dragFrame : safeFrame
@@ -37,7 +39,8 @@ export function FrameSequenceSelectorComponent({
       <div className="flex items-center justify-between text-xs text-muted-foreground font-mono">
         <span className="font-medium text-foreground">Seletor de Imagens</span>
         <span>
-          Imagem <strong className="text-foreground">#{displayNum}</strong> / {safeTotal}
+          Imagem <strong className="text-foreground">#{displayNum}</strong> /{' '}
+          {safeTotal}
         </span>
       </div>
 

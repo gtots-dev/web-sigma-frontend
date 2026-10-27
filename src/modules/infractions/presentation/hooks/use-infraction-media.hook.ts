@@ -30,7 +30,8 @@ export function useInfractionMedia(activeInfraction: Infraction | null) {
   )
 
   const activeMediaAssets = formatInfractionMediaAssets(activeInfraction)
-  const activeAsset = activeMediaAssets[activeAssetIndex] ?? activeMediaAssets[0] ?? null
+  const activeAsset =
+    activeMediaAssets[activeAssetIndex] ?? activeMediaAssets[0] ?? null
 
   return {
     activeAssetIndex,

@@ -6,7 +6,9 @@ interface InfractionsSidebarListProps {
   children: ReactNode
 }
 
-export function InfractionsSidebarList({ children }: InfractionsSidebarListProps) {
+export function InfractionsSidebarList({
+  children
+}: InfractionsSidebarListProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   return (

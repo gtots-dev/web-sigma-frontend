@@ -9,7 +9,6 @@ interface MonitoringLoadingProps {
 export function MonitoringLoading({
   isReconnecting = false
 }: MonitoringLoadingProps) {
-  
   const stopPropagation = (e: React.SyntheticEvent) => {
     e.stopPropagation()
   }
@@ -30,7 +29,7 @@ export function MonitoringLoading({
         {/* Glows externos pulsando em delay */}
         <div className="absolute inset-0 rounded-full border border-primary/10 animate-ping [animation-duration:1.5s]" />
         <div className="absolute w-14 h-14 rounded-full border border-primary/20 animate-pulse duration-1000" />
-        
+
         {/* Icone Loader Central com Sombra */}
         <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-background border shadow-md border-muted">
           {isReconnecting ? (

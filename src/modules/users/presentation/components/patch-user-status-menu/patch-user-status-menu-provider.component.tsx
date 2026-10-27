@@ -25,7 +25,9 @@ export const PatchUserStatusMenuProviderComponent = ({
   const toggle = () => setIsOpen((prev) => !prev)
 
   return (
-    <PatchUserStatusMenuContext.Provider value={{ isOpen, open, close, toggle }}>
+    <PatchUserStatusMenuContext.Provider
+      value={{ isOpen, open, close, toggle }}
+    >
       {children}
     </PatchUserStatusMenuContext.Provider>
   )
