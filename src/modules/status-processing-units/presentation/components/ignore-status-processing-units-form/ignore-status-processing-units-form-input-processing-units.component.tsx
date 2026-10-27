@@ -13,7 +13,7 @@ import { HelpMeButtonComponent } from '@/modules/shared/presentation/components/
 import { GroupSelector } from '@/modules/shared/presentation/components/group-item-selector'
 import type { BaseItem } from '@/modules/shared/presentation/components/group-item-selector/group-item-selector-list.component'
 import { MESSAGES_STATUS_PROCESSING_UNITS } from '@/modules/shared/presentation/messages/status-processing-units'
-import { useProcessingUnitsOptions } from '../../hooks/use-processing-units-options.hook'
+import { useProcessingUnitStore } from '@/modules/processing-units/presentation/stores/processing-units.store'
 import type { IgnoreStatusProcessingUnitsFormType } from '../../schemas/ignore-status-processing-units-form.schema'
 
 interface IgnoreStatusProcessingUnitsFormInputProcessingUnitsProps {
@@ -35,7 +35,7 @@ export function IgnoreStatusProcessingUnitsFormInputProcessingUnitsComponent({
   hasPermission = true
 }: IgnoreStatusProcessingUnitsFormInputProcessingUnitsProps) {
   const { control } = useFormContext<IgnoreStatusProcessingUnitsFormType>()
-  const { processingUnits, loading } = useProcessingUnitsOptions()
+  const { processingUnits, loading } = useProcessingUnitStore()
 
   const selectorGroups: SelectorGroup[] = useMemo(
     () => [

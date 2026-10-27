@@ -5,6 +5,7 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { ModalShell } from '@/modules/shared/presentation/components/modal-shell'
 import { LoadingSpinComponent } from '@/modules/shared/presentation/components/loading-spin/loading-spin.component'
 import { useModalNavigation } from '@/modules/shared/presentation/hooks/use-modal-navigation.hook'
+import { UnauthorizedModalToast } from '@/modules/system/presentation/components/unauthorized-modal-toast/unauthorized-modal-toast.component'
 import type { ProcessingUnitStatusInterface } from '@/modules/processing-units/domain/interfaces/processing-unit-status-interface'
 import { MESSAGES_STATUS_PROCESSING_UNITS } from '@/modules/shared/presentation/messages/status-processing-units'
 import { IgnoreStatusProcessingUnitsForm } from '../ignore-status-processing-units-form'
@@ -94,7 +95,7 @@ function IgnoreStatusProcessingUnitsFormBody({
         <Button
           className="w-full sm:w-[150px]"
           variant="primary"
-          disabled={submitting}
+          disabled={submitting || !hasPermission}
           onClick={methods.handleSubmit(handleSubmit)}
         >
           Confirmar <LoadingSpinComponent loading={submitting} />
@@ -113,8 +114,16 @@ export function IgnoreStatusProcessingUnitsModal({
   onReturn
 }: IgnoreStatusProcessingUnitsModalProps) {
   const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
-  const { status, loading: loadingStatus } = useStatusProcessingUnitById(statusId)
-  const { processingUnits, loading: loadingUnits } = useProcessingUnitsOptions()
+  const {
+    status,
+    loading: loadingStatus,
+    error: statusError
+  } = useStatusProcessingUnitById(statusId)
+  const {
+    processingUnits,
+    loading: loadingUnits,
+    error: unitsError
+  } = useProcessingUnitsOptions(hasPermission)
   const {
     initialProcessingUnitIds,
     ignoreMap,
@@ -122,6 +131,11 @@ export function IgnoreStatusProcessingUnitsModal({
   } = useStatusProcessingUnitIgnores(statusId, processingUnits)
 
   const loading = loadingStatus || loadingUnits || loadingIgnores
+  const effectiveHasPermission = hasPermission && unitsError?.status !== 403
+
+  if (statusError?.status === 403) {
+    return <UnauthorizedModalToast message={statusError.message} />
+  }
 
   if (!loading && !status) {
     return (
@@ -144,7 +158,7 @@ export function IgnoreStatusProcessingUnitsModal({
           status={status}
           initialProcessingUnitIds={initialProcessingUnitIds}
           ignoreMap={ignoreMap}
-          hasPermission={hasPermission}
+          hasPermission={effectiveHasPermission}
           onClose={handleClose}
         />
       )}

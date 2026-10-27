@@ -4,6 +4,7 @@ import { useMemo, type ReactNode } from 'react'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { ModalShell } from '@/modules/shared/presentation/components/modal-shell'
 import { useModalNavigation } from '@/modules/shared/presentation/hooks/use-modal-navigation.hook'
+import { UnauthorizedModalToast } from '@/modules/system/presentation/components/unauthorized-modal-toast/unauthorized-modal-toast.component'
 import { MESSAGES_STATUS_PROCESSING_UNITS } from '@/modules/shared/presentation/messages/status-processing-units'
 import { useStatusProcessingUnitById } from '../../hooks/use-status-processing-unit-by-id.hook'
 import { useProcessingUnitsOptions } from '../../hooks/use-processing-units-options.hook'
@@ -64,12 +65,21 @@ export function ViewMoreStatusProcessingUnitsModal({
   onReturn
 }: ViewMoreStatusProcessingUnitsModalProps) {
   const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
-  const { status, loading: loadingStatus } = useStatusProcessingUnitById(statusId)
-  const { processingUnits, loading: loadingUnits } = useProcessingUnitsOptions()
+  const {
+    status,
+    loading: loadingStatus,
+    error: statusError
+  } = useStatusProcessingUnitById(statusId)
+  const {
+    processingUnits,
+    loading: loadingUnits,
+    error: unitsError
+  } = useProcessingUnitsOptions(hasPermission)
   const { initialProcessingUnitIds, loading: loadingIgnores } =
     useStatusProcessingUnitIgnores(statusId, processingUnits)
 
   const loading = loadingStatus || loadingUnits || loadingIgnores
+  const effectiveHasPermission = hasPermission && unitsError?.status !== 403
 
   const ignoredUnits = useMemo(
     () =>
@@ -82,6 +92,9 @@ export function ViewMoreStatusProcessingUnitsModal({
   )
 
   const monitoringSummary = useMemo(() => {
+    if (!effectiveHasPermission) {
+      return MESSAGES_STATUS_PROCESSING_UNITS['25.7']
+    }
     if (ignoredUnits.length === 0) {
       return 'Ativo em todas as U.P.s'
     }
@@ -92,7 +105,11 @@ export function ViewMoreStatusProcessingUnitsModal({
       return 'Ignorado em todas as U.P.s'
     }
     return `Ignorado em ${ignoredUnits.length} de ${processingUnits.length} U.P.(s)`
-  }, [ignoredUnits.length, processingUnits.length])
+  }, [effectiveHasPermission, ignoredUnits.length, processingUnits.length])
+
+  if (statusError?.status === 403) {
+    return <UnauthorizedModalToast message={statusError.message} />
+  }
 
   if (!loading && !status) {
     return (
@@ -143,12 +160,12 @@ export function ViewMoreStatusProcessingUnitsModal({
                 <ViewMoreItem
                   title="U.P.s com este Status Ignorado"
                   notFoundData={
-                    hasPermission
+                    effectiveHasPermission
                       ? 'Nenhuma U.P. configurada para ignorar este status'
                       : MESSAGES_STATUS_PROCESSING_UNITS['25.7']
                   }
                 >
-                  {hasPermission && ignoredUnits.length > 0 ? (
+                  {effectiveHasPermission && ignoredUnits.length > 0 ? (
                     <div className="flex flex-wrap gap-1.5">
                       {ignoredUnits.map((unit) => (
                         <div
