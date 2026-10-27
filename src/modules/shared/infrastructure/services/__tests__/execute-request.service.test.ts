@@ -21,6 +21,7 @@ describe('ExecuteRequest', () => {
     }
 
     const mockResponse: HttpResponseInterface<string> = {
+      headers: {},
       success: true,
       status: 200,
       data: 'Success'

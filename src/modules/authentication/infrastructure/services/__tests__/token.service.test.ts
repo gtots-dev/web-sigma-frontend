@@ -37,6 +37,7 @@ describe('TokenService', () => {
     }
 
     const mockResponse: HttpResponseInterface<OAuthResponseInterface> = {
+      headers: {},
       success: true,
       data: {
         access_token: 'fakeAccessToken123',
