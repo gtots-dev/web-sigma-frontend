@@ -50,9 +50,11 @@ export function useMonitoringCells(initialCells: MonitoringCell[]) {
 
   // Atualizar lastUpdated e limpar overrides locais quando os dados iniciais do socket mudarem (resetar cache local)
   useEffect(() => {
-    setLocalOverrides({})
-    setDeletedIds(new Set())
-    setLastUpdated(new Date())
+    queueMicrotask(() => {
+      setLocalOverrides({})
+      setDeletedIds(new Set())
+      setLastUpdated(new Date())
+    })
   }, [cellsFingerprint])
 
   const upsertCells = useCallback((newCells: (Partial<MonitoringCell> & { id: string })[]) => {

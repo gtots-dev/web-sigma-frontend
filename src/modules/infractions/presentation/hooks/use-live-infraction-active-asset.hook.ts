@@ -1,16 +1,32 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import type { LiveInfractionCapture } from '../../domain/interfaces/infractions-websocket.interface'
 
 export function useLiveInfractionActiveAsset(
   activeItem: LiveInfractionCapture | null
 ) {
-  const [activeFileIndex, setActiveFileIndex] = useState<number>(0)
+  const [fileState, setFileState] = useState<{
+    item: LiveInfractionCapture | null
+    index: number
+  }>({
+    item: activeItem,
+    index: 0
+  })
 
-  useEffect(() => {
-    setActiveFileIndex(0)
-  }, [activeItem])
+  const activeFileIndex = fileState.item === activeItem ? fileState.index : 0
+
+  const setActiveFileIndex = useCallback(
+    (index: number | ((prev: number) => number)) => {
+      setFileState((prev) => {
+        const currentIndex = prev.item === activeItem ? prev.index : 0
+        const nextIndex =
+          typeof index === 'function' ? index(currentIndex) : index
+        return { item: activeItem, index: nextIndex }
+      })
+    },
+    [activeItem]
+  )
 
   const lane_id = activeItem?.laneId ?? 1
   const activeFiles = activeItem?.files ?? []

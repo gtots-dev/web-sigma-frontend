@@ -21,16 +21,19 @@ export function useTableVehiclesTypes(): UseTableVehiclesTypesResult {
   const [loading, setLoading] = useState(true)
 
   const getVehiclesTypes = useCallback(async () => {
-    setLoading(true)
     await getVehiclesTypesFromStore({
       operationId,
       contractId
     })
-    setLoading(false)
   }, [getVehiclesTypesFromStore, operationId, contractId])
 
   useEffect(() => {
-    getVehiclesTypes()
+    Promise.resolve()
+      .then(() => {
+        setLoading(true)
+        return getVehiclesTypes()
+      })
+      .finally(() => setLoading(false))
   }, [getVehiclesTypes])
 
   return { vehiclesTypes, loading: loading || storeLoading }

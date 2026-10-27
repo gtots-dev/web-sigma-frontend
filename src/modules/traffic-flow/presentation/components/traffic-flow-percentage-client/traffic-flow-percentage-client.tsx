@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { TrafficFlowGranularityInterface } from '@/modules/traffic-flow/domain/interfaces/traffic-flow-granularity.interface'
 import type { TrafficFlowFiltersInterface } from '@/modules/traffic-flow/domain/interfaces/traffic-flow-filters.interface'
 import { useTrafficFlowData } from '../../hooks/use-traffic-flow-data.hook'
@@ -34,9 +34,11 @@ export function TrafficFlowPercentageClient() {
     trafficsFlows?.volume_percentage ?? []
   )
 
-  useEffect(() => {
+  const [prevSeries, setPrevSeries] = useState(series)
+  if (prevSeries !== series) {
+    setPrevSeries(series)
     setSelectedSeries(series.map((s) => s.key))
-  }, [series])
+  }
 
   return (
     <>

@@ -32,7 +32,7 @@ export function ActivityReportOperationsComponent({
 }: ActivityReportOperationsComponentProps) {
   const { control } = useFormContext<ActivityReportSchemaType>()
   const { operations, getOperations } = useOperationsStore()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(() => operations.length === 0)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [triggerWidth, setTriggerWidth] = useState(0)
 
@@ -44,8 +44,18 @@ export function ActivityReportOperationsComponent({
 
   useEffect(() => {
     if (operations.length === 0) {
-      setLoading(true)
-      getOperations().finally(() => setLoading(false))
+      let active = true
+      Promise.resolve()
+        .then(() => {
+          if (active) setLoading(true)
+          return getOperations()
+        })
+        .finally(() => {
+          if (active) setLoading(false)
+        })
+      return () => {
+        active = false
+      }
     }
   }, [operations.length, getOperations])
 

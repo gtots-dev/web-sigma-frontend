@@ -34,9 +34,11 @@ export function useColorPickerUI({ value, rgb, hsl, onChange }: Props) {
     const nextRgb = ColorUtils.hexToRgb(value)
     const nextHsl = ColorUtils.rgbToHsl(nextRgb)
 
-    setHexInput(value)
-    setRgbInput(nextRgb)
-    setHslInput(nextHsl)
+    queueMicrotask(() => {
+      setHexInput(value)
+      setRgbInput(nextRgb)
+      setHslInput(nextHsl)
+    })
   }, [value])
 
   const copy = (text: string, type: ColorMode) => {

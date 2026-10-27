@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { TrafficFlowGranularityInterface } from '@/modules/traffic-flow/domain/interfaces/traffic-flow-granularity.interface'
 import type { TrafficFlowFiltersInterface } from '@/modules/traffic-flow/domain/interfaces/traffic-flow-filters.interface'
 import { useTrafficFlowData } from '../../hooks/use-traffic-flow-data.hook'
@@ -42,9 +42,11 @@ export function TrafficFlowAbsoluteClient() {
     }))
   }, [trafficsFlows])
 
-  useEffect(() => {
+  const [prevSeries, setPrevSeries] = useState(series)
+  if (prevSeries !== series) {
+    setPrevSeries(series)
     setSelectedSeries(series.map((s) => s.key))
-  }, [series])
+  }
 
   return (
     <>

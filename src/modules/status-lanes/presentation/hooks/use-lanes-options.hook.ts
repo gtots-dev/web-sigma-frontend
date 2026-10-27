@@ -9,18 +9,21 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 export function useLanesOptions(enabled = true) {
   const { operationId, contractId }: UrlParams = useParams()
   const { contractLanes, getContractLanes } = useLaneStore()
-  const [loading, setLoading] = useState(enabled)
+  const canFetch = Boolean(enabled && operationId && contractId)
+  const [loading, setLoading] = useState(canFetch)
   const [error, setError] = useState<HttpResponseError | null>(null)
 
   useEffect(() => {
-    if (!enabled || !operationId || !contractId) {
-      setLoading(false)
-      return
-    }
+    if (!canFetch) return
+
     let active = true
-    setLoading(true)
-    setError(null)
-    getContractLanes({ operationId, contractId })
+    Promise.resolve()
+      .then(() => {
+        if (!active) return
+        setLoading(true)
+        setError(null)
+        return getContractLanes({ operationId, contractId })
+      })
       .catch((err: unknown) => {
         if (active && err instanceof HttpResponseError) setError(err)
       })
@@ -30,11 +33,11 @@ export function useLanesOptions(enabled = true) {
     return () => {
       active = false
     }
-  }, [enabled, getContractLanes, operationId, contractId])
+  }, [canFetch, getContractLanes, operationId, contractId])
 
   return {
     contractLanes: enabled && !error ? contractLanes : [],
-    loading,
+    loading: canFetch ? loading : false,
     error
   }
 }

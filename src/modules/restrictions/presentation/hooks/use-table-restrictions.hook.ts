@@ -21,16 +21,19 @@ export function useTableRestrictionsHook(): UseTableRestrictionsResult {
   const [loading, setLoading] = useState(true)
 
   const getRestrictions = useCallback(async () => {
-    setLoading(true)
     await getRestrictionsFromStore({
       operationId,
       contractId
     })
-    setLoading(false)
   }, [getRestrictionsFromStore, operationId, contractId])
 
   useEffect(() => {
-    getRestrictions()
+    Promise.resolve()
+      .then(() => {
+        setLoading(true)
+        return getRestrictions()
+      })
+      .finally(() => setLoading(false))
   }, [getRestrictions])
 
   return { restrictions, loading: loading || storeLoading }

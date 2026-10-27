@@ -9,7 +9,7 @@ export function useMediaQuery(query: string): boolean | undefined {
     const mediaQuery = window.matchMedia(query)
 
     const handleChange = () => setMatches(mediaQuery.matches)
-    setMatches(mediaQuery.matches)
+    queueMicrotask(handleChange)
 
     mediaQuery.addEventListener('change', handleChange)
 

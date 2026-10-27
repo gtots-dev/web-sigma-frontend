@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, type ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Loader2 } from 'lucide-react'
 
 interface InfractionImageViewerDisplayProps {
@@ -14,11 +14,8 @@ export function InfractionImageViewerDisplay({
   alt = 'Registro da infração',
   children
 }: InfractionImageViewerDisplayProps) {
-  const [imageLoaded, setImageLoaded] = useState(false)
-
-  useEffect(() => {
-    setImageLoaded(false)
-  }, [src])
+  const [loadedSrc, setLoadedSrc] = useState<string | null>(null)
+  const imageLoaded = Boolean(src && loadedSrc === src)
 
   if (!src) {
     return <>{children}</>
@@ -32,11 +29,12 @@ export function InfractionImageViewerDisplay({
         </div>
       )}
 
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         key={src}
         src={src}
         alt={alt}
-        onLoad={() => setImageLoaded(true)}
+        onLoad={() => setLoadedSrc(src)}
         className={`w-full max-h-full object-contain rounded-lg transition-opacity duration-300 ${
           imageLoaded ? 'opacity-100' : 'opacity-0'
         }`}

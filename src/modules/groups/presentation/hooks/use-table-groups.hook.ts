@@ -17,16 +17,25 @@ export function useTableGroups(): UseTableGroupsResult {
   const [loading, setLoading] = useState(true)
 
   const getGroups = useCallback(async () => {
-    setLoading(true)
     await getGroupsFromStore({
       operationId,
       contractId
     })
-    setLoading(false)
   }, [getGroupsFromStore, operationId, contractId])
 
   useEffect(() => {
-    getGroups()
+    let active = true
+    Promise.resolve()
+      .then(() => {
+        if (active) setLoading(true)
+        return getGroups()
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+    return () => {
+      active = false
+    }
   }, [getGroups])
 
   return { groups, loading: loading || storeLoading }

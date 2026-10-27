@@ -21,13 +21,16 @@ export function useTableProcessingUnits(): UseTableProcessingUnitsResult {
   const [loading, setLoading] = useState(true)
 
   const getProcessingUnits = useCallback(async () => {
-    setLoading(true)
     await getProcessingUnitsFromStore({ operationId, contractId })
-    setLoading(false)
   }, [getProcessingUnitsFromStore, operationId, contractId])
 
   useEffect(() => {
-    getProcessingUnits()
+    Promise.resolve()
+      .then(() => {
+        setLoading(true)
+        return getProcessingUnits()
+      })
+      .finally(() => setLoading(false))
   }, [getProcessingUnits])
 
   return { processingUnits, loading: loading || storeLoading }

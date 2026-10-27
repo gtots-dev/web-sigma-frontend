@@ -104,8 +104,10 @@ export function useMonitoringMenuDetails(cell: MonitoringCell) {
 
   // Se a célula selecionada mudar, fecha o modal anterior
   useEffect(() => {
-    setActiveDialog({ type: 'list' })
-    setAccessing(null)
+    queueMicrotask(() => {
+      setActiveDialog({ type: 'list' })
+      setAccessing(null)
+    })
   }, [cell.id])
 
   const handleAccess = (type: 'up' | 'lane', id: string) => {

@@ -17,16 +17,19 @@ export function useTablePoints(): UseTablePointsResult {
   const [loading, setLoading] = useState(true)
 
   const getPoints = useCallback(async () => {
-    setLoading(true)
     await getPointsFromStore({
       operationId,
       contractId
     })
-    setLoading(false)
   }, [getPointsFromStore, operationId, contractId])
 
   useEffect(() => {
-    getPoints()
+    Promise.resolve()
+      .then(() => {
+        setLoading(true)
+        return getPoints()
+      })
+      .finally(() => setLoading(false))
   }, [getPoints])
 
   return { points, loading: loading || storeLoading }

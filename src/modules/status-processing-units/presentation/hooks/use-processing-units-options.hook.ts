@@ -9,18 +9,21 @@ import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-r
 export function useProcessingUnitsOptions(enabled = true) {
   const { operationId, contractId }: UrlParams = useParams()
   const { processingUnits, getProcessingUnits } = useProcessingUnitStore()
-  const [loading, setLoading] = useState(enabled)
+  const canFetch = Boolean(enabled && operationId && contractId)
+  const [loading, setLoading] = useState(canFetch)
   const [error, setError] = useState<HttpResponseError | null>(null)
 
   useEffect(() => {
-    if (!enabled || !operationId || !contractId) {
-      setLoading(false)
-      return
-    }
+    if (!canFetch) return
+
     let active = true
-    setLoading(true)
-    setError(null)
-    getProcessingUnits({ operationId, contractId })
+    Promise.resolve()
+      .then(() => {
+        if (!active) return
+        setLoading(true)
+        setError(null)
+        return getProcessingUnits({ operationId, contractId })
+      })
       .catch((err: unknown) => {
         if (active && err instanceof HttpResponseError) setError(err)
       })
@@ -30,11 +33,11 @@ export function useProcessingUnitsOptions(enabled = true) {
     return () => {
       active = false
     }
-  }, [enabled, getProcessingUnits, operationId, contractId])
+  }, [canFetch, getProcessingUnits, operationId, contractId])
 
   return {
     processingUnits: enabled && !error ? processingUnits : [],
-    loading,
+    loading: canFetch ? loading : false,
     error
   }
 }

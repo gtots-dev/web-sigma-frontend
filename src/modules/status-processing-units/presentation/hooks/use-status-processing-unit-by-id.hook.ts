@@ -23,16 +23,16 @@ export function useStatusProcessingUnitById(statusId: number) {
   const [error, setError] = useState<HttpResponseError | null>(null)
 
   useEffect(() => {
-    if (hasData) {
-      setLoading(false)
-      return
-    }
-    if (!operationId || !contractId) return
+    if (hasData || !operationId || !contractId) return
 
     let active = true
-    setLoading(true)
-    setError(null)
-    getStatusList({ operationId, contractId })
+    Promise.resolve()
+      .then(() => {
+        if (!active) return
+        setLoading(true)
+        setError(null)
+        return getStatusList({ operationId, contractId })
+      })
       .catch((err: unknown) => {
         if (active && err instanceof HttpResponseError) setError(err)
       })
@@ -49,5 +49,5 @@ export function useStatusProcessingUnitById(statusId: number) {
     [cachedFromUnified, statusList, statusId]
   )
 
-  return { status, loading, error }
+  return { status, loading: hasData ? false : loading, error }
 }

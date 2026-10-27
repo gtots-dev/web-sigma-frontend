@@ -99,14 +99,16 @@ export function useMonitoringFilters(cellsArray: MonitoringCell[]) {
     })
 
     if (needsPruning) {
-      setSelectedTelemetryFilters((prev) => {
-        const next = new Set<string>()
-        prev.forEach((key) => {
-          if (validKeys.has(key)) {
-            next.add(key)
-          }
+      queueMicrotask(() => {
+        setSelectedTelemetryFilters((prev) => {
+          const next = new Set<string>()
+          prev.forEach((key) => {
+            if (validKeys.has(key)) {
+              next.add(key)
+            }
+          })
+          return next
         })
-        return next
       })
     }
   }, [telemetryItems, selectedTelemetryFilters])

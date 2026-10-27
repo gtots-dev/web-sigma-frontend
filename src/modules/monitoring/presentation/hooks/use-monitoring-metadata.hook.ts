@@ -16,14 +16,18 @@ export function useMonitoringMetadata(operationId: string, contractId: string) {
 
   useEffect(() => {
     if (operationId && contractId) {
-      setIsLoading(true)
-      Promise.all([
-        getPoints({ operationId, contractId }),
-        getContractLanes({ operationId, contractId }),
-        getProcessingUnits({ operationId, contractId })
-      ]).finally(() => {
-        setIsLoading(false)
-      })
+      Promise.resolve()
+        .then(() => {
+          setIsLoading(true)
+          return Promise.all([
+            getPoints({ operationId, contractId }),
+            getContractLanes({ operationId, contractId }),
+            getProcessingUnits({ operationId, contractId })
+          ])
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
     }
   }, [operationId, contractId, getPoints, getContractLanes, getProcessingUnits])
 

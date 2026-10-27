@@ -1,16 +1,18 @@
 import { useLayoutEffect, useState, CSSProperties, RefObject } from 'react'
 import type { MonitoringCell } from '../../domain/interfaces/monitoring-cell.interface'
 
+const HIDDEN_STYLE: CSSProperties = {
+  visibility: 'hidden',
+  opacity: 0
+}
+
 export function useMenuPosition(
   activeCell: MonitoringCell | null,
   activeCoords: { x: number; y: number; itemHeight?: number } | null,
   containerRef: RefObject<HTMLDivElement>,
   MenuRef: RefObject<HTMLDivElement>
 ) {
-  const [positionStyle, setPositionStyle] = useState<CSSProperties>({
-    visibility: 'hidden',
-    opacity: 0
-  })
+  const [positionStyle, setPositionStyle] = useState<CSSProperties>(HIDDEN_STYLE)
 
   useLayoutEffect(() => {
     if (
@@ -19,7 +21,6 @@ export function useMenuPosition(
       !containerRef.current ||
       !MenuRef.current
     ) {
-      setPositionStyle({ visibility: 'hidden', opacity: 0 })
       return
     }
 
@@ -67,13 +68,19 @@ export function useMenuPosition(
       x = containerRect.width - infoRect.width - margin
     }
 
-    setPositionStyle({
-      left: x,
-      top: y,
-      visibility: 'visible',
-      opacity: 1
+    queueMicrotask(() => {
+      setPositionStyle({
+        left: x,
+        top: y,
+        visibility: 'visible',
+        opacity: 1
+      })
     })
-  }, [activeCell, activeCoords, containerRef])
+  }, [activeCell, activeCoords, containerRef, MenuRef])
+
+  if (!activeCell || !activeCoords) {
+    return HIDDEN_STYLE
+  }
 
   return positionStyle
 }

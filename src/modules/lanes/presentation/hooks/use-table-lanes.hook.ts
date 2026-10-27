@@ -17,13 +17,22 @@ export function useTableLanes(): UseTableLanesResult {
   const [loading, setLoading] = useState(true)
 
   const getLanes = useCallback(async () => {
-    setLoading(true)
     await getLanesFromStore({ operationId, contractId, processingUnitId })
-    setLoading(false)
   }, [getLanesFromStore, operationId, contractId, processingUnitId])
 
   useEffect(() => {
-    getLanes()
+    let active = true
+    Promise.resolve()
+      .then(() => {
+        if (active) setLoading(true)
+        return getLanes()
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+    return () => {
+      active = false
+    }
   }, [getLanes])
 
   return { lanes, loading: loading || storeLoading }

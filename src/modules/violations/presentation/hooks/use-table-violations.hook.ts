@@ -21,16 +21,19 @@ export function useTableViolationsHook(): UseTableViolationsResult {
   const [loading, setLoading] = useState(true)
 
   const getViolations = useCallback(async () => {
-    setLoading(true)
     await getViolationsFromStore({
       operationId,
       contractId
     })
-    setLoading(false)
   }, [getViolationsFromStore, operationId, contractId])
 
   useEffect(() => {
-    getViolations()
+    Promise.resolve()
+      .then(() => {
+        setLoading(true)
+        return getViolations()
+      })
+      .finally(() => setLoading(false))
   }, [getViolations])
 
   return { violations, loading: loading || storeLoading }

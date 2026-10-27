@@ -24,24 +24,22 @@ export function InfractionsMenuTriggerComponent({
   const contextInfraction = useInfractionGrid()
   const infraction = propInfraction ?? contextInfraction
 
-  useEffect(() => {
-    if (isOpen && selectedInfraction?.id === infraction?.id) {
-      setLoading(false)
-    }
-  }, [isOpen, selectedInfraction, infraction?.id])
+  const isDialogReady = isOpen && selectedInfraction?.id === infraction?.id
+  const isLoading = loading && !isDialogReady
 
   useEffect(() => {
-    let timer: NodeJS.Timeout
-    if (loading) {
-      timer = setTimeout(() => {
+    if (!loading) return
+    const timer = setTimeout(
+      () => {
         setLoading(false)
-      }, 4000)
-    }
+      },
+      isDialogReady ? 0 : 4000
+    )
     return () => clearTimeout(timer)
-  }, [loading])
+  }, [loading, isDialogReady])
 
   const handleClick = () => {
-    if (!infraction || loading) return
+    if (!infraction || isLoading) return
     setLoading(true)
     loadInfractionOpenDialog(infraction)
   }
@@ -49,7 +47,7 @@ export function InfractionsMenuTriggerComponent({
   return (
     <div onClick={handleClick} className={`relative flex flex-col w-full h-full ${className}`}>
       {children}
-      {loading && (
+      {isLoading && (
         <div className="absolute inset-0 bg-background/70 backdrop-blur-[3px] flex flex-col items-center justify-center gap-1.5 rounded-lg z-20 transition-all duration-300 animate-in fade-in">
           <Loader2 className="w-7 h-7 animate-spin text-primary" />
           <span className="text-[10px] font-medium font-mono text-muted-foreground uppercase tracking-wider">

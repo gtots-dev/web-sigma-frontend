@@ -12,19 +12,23 @@ export function MonitoringHeaderUpFilter() {
   const { operationId, contractId }: UrlParams = useParams()
   const { upErrorFilters, setUpErrorFilters } = useMonitoringContext()
   const [items, setItems] = useState<{ id: string; label: string }[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(() => Boolean(operationId && contractId))
 
   useEffect(() => {
     if (!operationId || !contractId) return
 
-    setLoading(true)
+    let active = true
     const getStatusList = GetProcessingUnitStatusListRouterApiFactory.create({
       operationId,
       contractId
     })
-    getStatusList
-      .execute()
+    Promise.resolve()
+      .then(() => {
+        if (active) setLoading(true)
+        return getStatusList.execute()
+      })
       .then(({ data }) => {
+        if (!active) return
         const mapped = data.map((item) => ({
           id: item.code,
           label: item.description
@@ -35,8 +39,12 @@ export function MonitoringHeaderUpFilter() {
         console.error('Error fetching UP status list:', err)
       })
       .finally(() => {
-        setLoading(false)
+        if (active) setLoading(false)
       })
+
+    return () => {
+      active = false
+    }
   }, [operationId, contractId])
 
   return (
