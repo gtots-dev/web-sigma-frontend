@@ -35,9 +35,11 @@ export function InfractionsParallelLayoutRootComponent({
 
   const handleViewChange = (newMode: InfractionViewMode) => {
     const newParams = new URLSearchParams(searchParams.toString())
-    newMode === 'live'
-      ? newParams.set('view', 'live')
-      : newParams.delete('view')
+    if (newMode === 'live') {
+      newParams.set('view', 'live')
+    } else {
+      newParams.delete('view')
+    }
 
     startTransition(() => {
       const queryString = newParams.toString()
