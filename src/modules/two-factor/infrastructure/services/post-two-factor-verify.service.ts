@@ -2,6 +2,7 @@ import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/ex
 import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
 import type { PostTwoFactorVerifyGateway } from '../../domain/gateways/post-two-factor-verify.gateway'
 import type { TwoFactorInterface } from '../../domain/interfaces/two-factor.interface'
+import type { HttpHeadersInterface } from '@/modules/shared/domain/interfaces/http-headers.interface'
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { OAuthResponseInterface } from '@/modules/authentication/domain/interfaces/o-auth-response.interface'
 
