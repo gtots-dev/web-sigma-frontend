@@ -1,7 +1,13 @@
 PROD_COMPOSE_FILE = docker-compose.yaml
 DEV_COMPOSE_FILE = docker-compose.dev.yaml
+CONTAINER_NAME = sigma-frontend-dev
 
 default: dev
+
+validate:
+	@echo "Iniciando varredura no Next.js (ESLint + TypeScript)..."
+	docker exec $(CONTAINER_NAME) npm run validate
+	@echo "Projeto pronto para o build!"
 
 prod:
 	docker compose -f ${PROD_COMPOSE_FILE} up --build
