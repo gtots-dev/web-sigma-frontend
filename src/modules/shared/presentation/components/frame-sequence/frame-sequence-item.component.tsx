@@ -34,6 +34,7 @@ export const FrameSequenceItemComponent = React.memo(
       >
         <div className="h-14 bg-black rounded overflow-hidden">
           {frame.dataUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={frame.dataUrl}
               alt={`Thumbnail ${frameIndexDisplay}`}

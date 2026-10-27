@@ -32,6 +32,7 @@ export function InfractionsTimelineItemVideo({
             className="w-full h-full object-cover opacity-80 pointer-events-none"
           />
         ) : (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={src}
             alt="Vídeo"

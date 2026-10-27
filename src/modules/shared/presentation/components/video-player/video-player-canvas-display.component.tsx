@@ -10,6 +10,7 @@ export function VideoPlayerCanvasDisplayComponent({ activeFrame }: VideoPlayerCa
 
   return (
     <div className="w-full h-full flex items-center justify-center bg-black">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={activeFrame.dataUrl}
         alt={`Frame ${activeFrame.frameNumber}`}

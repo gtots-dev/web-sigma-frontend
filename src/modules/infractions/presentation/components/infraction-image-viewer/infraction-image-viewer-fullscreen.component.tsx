@@ -99,6 +99,7 @@ export function InfractionImageViewerFullscreen({
             </button>
           )}
 
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={src}
             alt="Registro em tela cheia"

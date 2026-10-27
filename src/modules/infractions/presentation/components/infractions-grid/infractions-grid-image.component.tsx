@@ -11,6 +11,7 @@ export function InfractionsGridImageComponent() {
   return (
     <div className="relative w-full aspect-square bg-muted/30 flex items-center justify-center overflow-hidden rounded-lg">
       {imgSrc ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={imgSrc}
           alt={`Infração #${infraction.id}`}
