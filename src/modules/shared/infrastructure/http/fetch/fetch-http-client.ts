@@ -36,7 +36,7 @@ export class FetchHttpClient implements HttpClientGateway {
       config.headers
     )
 
-    let headers = { ...resolvedHeaders } as Record<string, string>
+    const headers = { ...resolvedHeaders } as Record<string, string>
 
     let response: Response
     let parsedData: T
