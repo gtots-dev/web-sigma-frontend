@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useStatusLanesStore } from '../stores/status-lanes.store'
 import { useStatusStore } from '@/modules/status/presentation/stores/status.store'
+import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 
 export function useStatusLaneById(statusId: number) {
   const { operationId, contractId }: UrlParams = useParams()
@@ -21,6 +22,7 @@ export function useStatusLaneById(statusId: number) {
 
   const hasData = Boolean(cachedFromUnified) || statusList.length > 0
   const [loading, setLoading] = useState(!hasData)
+  const [error, setError] = useState<HttpResponseError | null>(null)
 
   useEffect(() => {
     if (hasData) {
@@ -31,9 +33,14 @@ export function useStatusLaneById(statusId: number) {
 
     let active = true
     setLoading(true)
-    getStatusList({ operationId, contractId }).finally(() => {
-      if (active) setLoading(false)
-    })
+    setError(null)
+    getStatusList({ operationId, contractId })
+      .catch((err: unknown) => {
+        if (active && err instanceof HttpResponseError) setError(err)
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
     return () => {
       active = false
     }
@@ -44,5 +51,5 @@ export function useStatusLaneById(statusId: number) {
     [cachedFromUnified, statusList, statusId]
   )
 
-  return { status, loading }
+  return { status, loading, error }
 }

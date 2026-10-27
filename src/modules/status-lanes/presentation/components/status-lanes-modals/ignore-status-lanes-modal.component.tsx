@@ -5,6 +5,7 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { ModalShell } from '@/modules/shared/presentation/components/modal-shell'
 import { LoadingSpinComponent } from '@/modules/shared/presentation/components/loading-spin/loading-spin.component'
 import { useModalNavigation } from '@/modules/shared/presentation/hooks/use-modal-navigation.hook'
+import { UnauthorizedModalToast } from '@/modules/system/presentation/components/unauthorized-modal-toast/unauthorized-modal-toast.component'
 import type { LaneStatusInterface } from '@/modules/lanes/domain/interfaces/lane-status.interface'
 import { MESSAGES_STATUS_LANES } from '@/modules/shared/presentation/messages/status-lanes'
 import { IgnoreStatusLanesForm } from '../ignore-status-lanes-form'
@@ -95,7 +96,7 @@ function IgnoreStatusLanesFormBody({
         <Button
           className="w-full sm:w-[150px]"
           variant="primary"
-          disabled={submitting}
+          disabled={submitting || !hasPermission}
           onClick={methods.handleSubmit(handleSubmit)}
         >
           Confirmar <LoadingSpinComponent loading={submitting} />
@@ -114,8 +115,16 @@ export function IgnoreStatusLanesModal({
   onReturn
 }: IgnoreStatusLanesModalProps) {
   const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
-  const { status, loading: loadingStatus } = useStatusLaneById(statusId)
-  const { contractLanes, loading: loadingLanes } = useLanesOptions()
+  const {
+    status,
+    loading: loadingStatus,
+    error: statusError
+  } = useStatusLaneById(statusId)
+  const {
+    contractLanes,
+    loading: loadingLanes,
+    error: lanesError
+  } = useLanesOptions(hasPermission)
   const {
     initialLaneIds,
     ignoreMap,
@@ -123,6 +132,11 @@ export function IgnoreStatusLanesModal({
   } = useStatusLaneIgnores(statusId, contractLanes)
 
   const loading = loadingStatus || loadingLanes || loadingIgnores
+  const effectiveHasPermission = hasPermission && lanesError?.status !== 403
+
+  if (statusError?.status === 403) {
+    return <UnauthorizedModalToast message={statusError.message} />
+  }
 
   if (!loading && !status) {
     return (
@@ -146,7 +160,7 @@ export function IgnoreStatusLanesModal({
           contractLanes={contractLanes}
           initialLaneIds={initialLaneIds}
           ignoreMap={ignoreMap}
-          hasPermission={hasPermission}
+          hasPermission={effectiveHasPermission}
           onClose={handleClose}
         />
       )}

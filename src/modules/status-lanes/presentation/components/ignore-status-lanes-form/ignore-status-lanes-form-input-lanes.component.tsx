@@ -14,7 +14,7 @@ import { GroupSelector } from '@/modules/shared/presentation/components/group-it
 import type { BaseItem } from '@/modules/shared/presentation/components/group-item-selector/group-item-selector-list.component'
 import { MESSAGES_STATUS_LANES } from '@/modules/shared/presentation/messages/status-lanes'
 import { MESSAGES_LANE } from '@/modules/shared/presentation/messages/lanes'
-import { useLanesOptions } from '../../hooks/use-lanes-options.hook'
+import { useLaneStore } from '@/modules/lanes/presentation/stores/lanes.store'
 import type { IgnoreStatusLanesFormType } from '../../schemas/ignore-status-lanes-form.schema'
 
 interface IgnoreStatusLanesFormInputLanesProps {
@@ -36,7 +36,7 @@ export function IgnoreStatusLanesFormInputLanesComponent({
   hasPermission = true
 }: IgnoreStatusLanesFormInputLanesProps) {
   const { control } = useFormContext<IgnoreStatusLanesFormType>()
-  const { contractLanes, loading } = useLanesOptions()
+  const { contractLanes, loading } = useLaneStore()
 
   const selectorGroups: SelectorGroup[] = useMemo(
     () => [

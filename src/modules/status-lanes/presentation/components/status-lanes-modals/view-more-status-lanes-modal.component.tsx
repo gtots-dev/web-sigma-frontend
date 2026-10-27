@@ -4,6 +4,7 @@ import { useMemo, type ReactNode } from 'react'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { ModalShell } from '@/modules/shared/presentation/components/modal-shell'
 import { useModalNavigation } from '@/modules/shared/presentation/hooks/use-modal-navigation.hook'
+import { UnauthorizedModalToast } from '@/modules/system/presentation/components/unauthorized-modal-toast/unauthorized-modal-toast.component'
 import { MESSAGES_STATUS_LANES } from '@/modules/shared/presentation/messages/status-lanes'
 import { useStatusLaneById } from '../../hooks/use-status-lane-by-id.hook'
 import { useLanesOptions } from '../../hooks/use-lanes-options.hook'
@@ -64,14 +65,23 @@ export function ViewMoreStatusLanesModal({
   onReturn
 }: ViewMoreStatusLanesModalProps) {
   const { handleClose, handleReturn } = useModalNavigation({ onClose, onReturn })
-  const { status, loading: loadingStatus } = useStatusLaneById(statusId)
-  const { contractLanes, loading: loadingLanes } = useLanesOptions()
+  const {
+    status,
+    loading: loadingStatus,
+    error: statusError
+  } = useStatusLaneById(statusId)
+  const {
+    contractLanes,
+    loading: loadingLanes,
+    error: lanesError
+  } = useLanesOptions(hasPermission)
   const { initialLaneIds, loading: loadingIgnores } = useStatusLaneIgnores(
     statusId,
     contractLanes
   )
 
   const loading = loadingStatus || loadingLanes || loadingIgnores
+  const effectiveHasPermission = hasPermission && lanesError?.status !== 403
 
   const ignoredLanes = useMemo(
     () =>
@@ -82,6 +92,9 @@ export function ViewMoreStatusLanesModal({
   )
 
   const monitoringSummary = useMemo(() => {
+    if (!effectiveHasPermission) {
+      return MESSAGES_STATUS_LANES['26.7']
+    }
     if (ignoredLanes.length === 0) {
       return 'Ativo em todas as faixas'
     }
@@ -92,7 +105,11 @@ export function ViewMoreStatusLanesModal({
       return 'Ignorado em todas as faixas'
     }
     return `Ignorado em ${ignoredLanes.length} de ${contractLanes.length} faixa(s)`
-  }, [ignoredLanes.length, contractLanes.length])
+  }, [effectiveHasPermission, ignoredLanes.length, contractLanes.length])
+
+  if (statusError?.status === 403) {
+    return <UnauthorizedModalToast message={statusError.message} />
+  }
 
   if (!loading && !status) {
     return (
@@ -143,12 +160,12 @@ export function ViewMoreStatusLanesModal({
                 <ViewMoreItem
                   title="Faixas com este Status Ignorado"
                   notFoundData={
-                    hasPermission
+                    effectiveHasPermission
                       ? 'Nenhuma faixa configurada para ignorar este status'
                       : MESSAGES_STATUS_LANES['26.7']
                   }
                 >
-                  {hasPermission && ignoredLanes.length > 0 ? (
+                  {effectiveHasPermission && ignoredLanes.length > 0 ? (
                     <div className="flex flex-wrap gap-1.5">
                       {ignoredLanes.map((lane) => (
                         <div
