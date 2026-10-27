@@ -35,35 +35,35 @@ export type HandlerCallback<P, R> = (
 ) => Promise<HandlerResult<R>>
 
 export interface RouterApiGateway {
-  GET<P = {}, R = unknown>(
+  GET<P = object, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
     context: NextRouteContext<P>
   ) => Promise<Response | NextResponse>
 
-  POST<P = {}, R = unknown>(
+  POST<P = object, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
     context: NextRouteContext<P>
   ) => Promise<Response | NextResponse>
 
-  PUT<P = {}, R = unknown>(
+  PUT<P = object, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
     context: NextRouteContext<P>
   ) => Promise<Response | NextResponse>
 
-  PATCH<P = {}, R = unknown>(
+  PATCH<P = object, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
     context: NextRouteContext<P>
   ) => Promise<Response | NextResponse>
 
-  DELETE<P = {}, R = unknown>(
+  DELETE<P = object, R = unknown>(
     callback: HandlerCallback<P, R>
   ): (
     req: NextRequest,
