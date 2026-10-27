@@ -1,0 +1,31 @@
+# Dependências e Builds
+node_modules
+.next
+.swc
+build
+dist
+out
+coverage
+
+# Arquivos gerados e caches
+*.tsbuildinfo
+next-env.d.ts
+package-lock.json
+
+# Git e Histórico
+.git
+.git-blame-ignore-revs
+
+# Arquivos estáticos
+public
+
+# Variáveis de ambiente
+.env*
+!.env.example
+
+# Projeto
+*.md
+
+# Infra e CI/CD
+.github
+aws-task-definition.json
