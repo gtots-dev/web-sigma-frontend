@@ -35,7 +35,18 @@ export function useMonitoringMapInstance({
   const leafletMapInstanceRef = useRef<Map | null>(null)
   const groupRadiusLayerRef = useRef<LayerGroup | null>(null)
   const markersGroupRef = useRef<LayerGroup | null>(null)
-  const [isReady, setIsReady] = useState(false)
+  const [mapState, setMapState] = useState<{
+    mapInstance: Map | null
+    markersGroupLayer: LayerGroup | null
+    groupRadiusLayer: LayerGroup | null
+    isReady: boolean
+  }>({
+    mapInstance: null,
+    markersGroupLayer: null,
+    groupRadiusLayer: null,
+    isReady: false
+  })
+  const isReady = mapState.isReady
 
   // Stable refs para callbacks para evitar re-criação ou encerramento desnecessário do mapa
   const setActiveRef = useRef(setActive)
@@ -151,10 +162,12 @@ export function useMonitoringMapInstance({
       maxBoundsViscosity: 1.0
     })
 
-    leafletMapInstanceRef.current = mapInst
+    const markersLayer = layerGroup().addTo(mapInst)
+    const radiusLayer = layerGroup().addTo(mapInst)
 
-    markersGroupRef.current = layerGroup().addTo(mapInst)
-    groupRadiusLayerRef.current = layerGroup().addTo(mapInst)
+    leafletMapInstanceRef.current = mapInst
+    markersGroupRef.current = markersLayer
+    groupRadiusLayerRef.current = radiusLayer
 
     const handleMapMove = () => {
       updateActivePixelCoords()
@@ -172,7 +185,12 @@ export function useMonitoringMapInstance({
         setMapActivePixelCoordsRef.current(null)
     })
 
-    setIsReady(true)
+    setMapState({
+      mapInstance: mapInst,
+      markersGroupLayer: markersLayer,
+      groupRadiusLayer: radiusLayer,
+      isReady: true
+    })
 
     return () => {
       mapInst.off('move', handleMapMove)
@@ -181,7 +199,14 @@ export function useMonitoringMapInstance({
       mapInst.off('viewreset', handleMapMove)
       mapInst.remove()
       leafletMapInstanceRef.current = null
-      setIsReady(false)
+      markersGroupRef.current = null
+      groupRadiusLayerRef.current = null
+      setMapState({
+        mapInstance: null,
+        markersGroupLayer: null,
+        groupRadiusLayer: null,
+        isReady: false
+      })
     }
   }, [mapRef, updateActivePixelCoords, updateHoveredPixelCoords])
 
@@ -223,9 +248,9 @@ export function useMonitoringMapInstance({
   }, [mapRef, isReady, updateActivePixelCoords, updateHoveredPixelCoords])
 
   return {
-    mapInstance: leafletMapInstanceRef.current,
-    markersGroupLayer: markersGroupRef.current,
-    groupRadiusLayer: groupRadiusLayerRef.current,
+    mapInstance: mapState.mapInstance,
+    markersGroupLayer: mapState.markersGroupLayer,
+    groupRadiusLayer: mapState.groupRadiusLayer,
     isReady,
     updateActivePixelCoords,
     updateHoveredPixelCoords,

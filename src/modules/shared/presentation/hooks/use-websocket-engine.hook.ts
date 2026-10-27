@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useWebSocketConnection } from './use-websocket-connection.hook'
 import { useWebSocketReconnect } from './use-websocket-reconnect.hook'
 
@@ -12,15 +12,7 @@ export function useWebSocketEngine<
     TOutgoing
   >
 >(factory: () => TService, options: { enabled?: boolean } = { enabled: true }) {
-  const factoryRef = useRef(factory)
-  factoryRef.current = factory
-
-  const serviceRef = useRef<TService | null>(null)
-  if (!serviceRef.current) {
-    serviceRef.current = factory()
-  }
-
-  const service = serviceRef.current
+  const [service] = useState<TService>(() => factory())
 
   const [isConnected, setIsConnected] = useState(false)
 

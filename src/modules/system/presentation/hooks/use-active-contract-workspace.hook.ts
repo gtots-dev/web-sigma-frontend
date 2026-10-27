@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams, usePathname } from 'next/navigation'
-import { useEffect, useRef } from 'react'
+import { useState } from 'react'
 import {
   isContractWorkspaceRoute,
   isModalRoute,
@@ -36,23 +36,21 @@ export function useActiveContractWorkspace(): UseActiveContractWorkspaceResult {
   const isWorkspace = isContractWorkspaceRoute(pathname)
   const isModal = isModalRoute(pathname)
 
-  const lastContractIdRef = useRef<number | undefined>(undefined)
+  const [lastContractId, setLastContractId] = useState<number | undefined>(
+    isWorkspace ? rawContractId : undefined
+  )
 
-  if (isWorkspace && rawContractId) {
-    lastContractIdRef.current = rawContractId
+  if (isWorkspace && rawContractId && lastContractId !== rawContractId) {
+    setLastContractId(rawContractId)
+  } else if (!isWorkspace && !isModal && lastContractId !== undefined) {
+    setLastContractId(undefined)
   }
 
   const activeContractId = isWorkspace
     ? rawContractId
     : isModal
-      ? (rawContractId ?? lastContractIdRef.current)
+      ? (rawContractId ?? lastContractId)
       : undefined
-
-  useEffect(() => {
-    if (!isWorkspace && !isModal) {
-      lastContractIdRef.current = undefined
-    }
-  }, [isWorkspace, isModal])
 
   return {
     pathname,

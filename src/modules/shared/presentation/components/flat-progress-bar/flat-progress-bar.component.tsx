@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useState } from 'react'
 import { cn } from '@/modules/shared/presentation/lib/utils'
 
 interface FlatProgressBarProps {
@@ -34,6 +34,7 @@ export function FlatProgressBar({
 }: FlatProgressBarProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
+  const [dragging, setDragging] = useState(false)
 
   const clampedMax = max || 1
   const fillPercent = Math.min(100, Math.max(0, ((value - min) / (clampedMax - min)) * 100))
@@ -53,6 +54,7 @@ export function FlatProgressBar({
     (e: React.PointerEvent<HTMLDivElement>) => {
       if (disabled) return
       isDragging.current = true
+      setDragging(true)
       ;(e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId)
       const val = pointerToValue(e.clientX)
       onScrub?.(val)
@@ -73,6 +75,7 @@ export function FlatProgressBar({
     (e: React.PointerEvent<HTMLDivElement>) => {
       if (!isDragging.current) return
       isDragging.current = false
+      setDragging(false)
       const val = pointerToValue(e.clientX)
       onCommit(val)
     },
@@ -105,7 +108,7 @@ export function FlatProgressBar({
         style={{
           width: `${fillPercent}%`,
           background: 'var(--primary-600)',
-          transition: isDragging.current ? 'none' : undefined,
+          transition: dragging ? 'none' : undefined,
         }}
       />
     </div>

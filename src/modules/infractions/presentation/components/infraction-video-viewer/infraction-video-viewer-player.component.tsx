@@ -24,8 +24,7 @@ export function InfractionVideoViewerPlayer({
   } = useInfractionVideoViewerContext()
 
   const videoSrc = src || contextSrc
-  const isVideoReady =
-    playback.isVideoReady || (videoRef.current?.readyState ?? 0) >= 1
+  const isVideoReady = playback.isVideoReady
 
   return (
     <VideoPlayer.Root>

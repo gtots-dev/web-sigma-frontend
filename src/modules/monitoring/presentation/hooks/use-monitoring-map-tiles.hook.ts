@@ -48,6 +48,4 @@ export function useMonitoringMapTiles({
       tileLayerRef.current.setOpacity(mapOpacity)
     }
   }, [mapOpacity])
-
-  return tileLayerRef.current
 }

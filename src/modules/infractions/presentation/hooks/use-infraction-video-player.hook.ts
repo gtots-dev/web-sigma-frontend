@@ -18,13 +18,14 @@ export function useInfractionVideoPlayer(src: string) {
   const navigation = useFrameNavigation()
 
   const extractionRef = useRef(extraction)
-  extractionRef.current = extraction
-
   const playbackRef = useRef(playback)
-  playbackRef.current = playback
-
   const navigationRef = useRef(navigation)
-  navigationRef.current = navigation
+
+  useEffect(() => {
+    extractionRef.current = extraction
+    playbackRef.current = playback
+    navigationRef.current = navigation
+  })
 
   const handleLoadedMetadata = useCallback(async () => {
     const videoEl = videoRef.current
