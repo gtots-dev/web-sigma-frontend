@@ -1,6 +1,6 @@
 'use client'
 
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, type SubmitHandler } from 'react-hook-form'
 import { LoadingSpinComponent } from '@/modules/shared/presentation/components/loading-spin/loading-spin.component'
 import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { Filter, FilterX } from 'lucide-react'
@@ -43,7 +43,9 @@ export function TrafficFlowFormSubmitComponent<T>({
         type="button"
         variant="primary"
         disabled={isSubmitting}
-        onClick={handleSubmit(onSubmit as any)}
+        onClick={handleSubmit(
+          onSubmit as unknown as SubmitHandler<TrafficFlowSchemaType>
+        )}
         className="flex-1 lg:flex-initial gap-2 min-w-[110px] shadow-sm hover:shadow-md transition-all duration-200"
       >
         {!isSubmitting && <Filter className="w-3.5 h-3.5" />}

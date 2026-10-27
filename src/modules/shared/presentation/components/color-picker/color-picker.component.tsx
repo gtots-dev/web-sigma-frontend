@@ -99,7 +99,7 @@ export function ColorPicker({ value, onChange }: Props) {
         />
       </div>
 
-      <Tabs value={mode} onValueChange={(v) => setMode(v as any)}>
+      <Tabs value={mode} onValueChange={(v) => setMode(v as typeof mode)}>
         <TabsList className="w-full">
           <TabsTrigger value="hex" className="flex-1">Hex</TabsTrigger>
           <TabsTrigger value="rgba" className="flex-1">RGBA</TabsTrigger>
