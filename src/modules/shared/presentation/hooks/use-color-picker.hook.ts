@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   hexToRgb,
   hslToRgb,
@@ -48,28 +48,34 @@ export function useColorPicker({
     })
   }, [value])
 
-  const updateHSL = (h: number, s: number, l: number) => {
-    const next = { h, s, l }
+  const updateHSL = useCallback(
+    (h: number, s: number, l: number) => {
+      const next = { h, s, l }
 
-    hslRef.current = next
-    setHsl(next)
+      hslRef.current = next
+      setHsl(next)
 
-    const rgb = hslToRgb(next)
-    onChange?.(rgbToHex(rgb))
-  }
+      const rgb = hslToRgb(next)
+      onChange?.(rgbToHex(rgb))
+    },
+    [onChange]
+  )
 
-  const handlePlane = (clientX: number, clientY: number) => {
-    if (!colorPlaneRef.current) return
+  const handlePlane = useCallback(
+    (clientX: number, clientY: number) => {
+      if (!colorPlaneRef.current) return
 
-    const rect = colorPlaneRef.current.getBoundingClientRect()
+      const rect = colorPlaneRef.current.getBoundingClientRect()
 
-    const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
-    const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height))
+      const x = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
+      const y = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height))
 
-    const { h } = hslRef.current
+      const { h } = hslRef.current
 
-    updateHSL(h, Math.round(x * 100), Math.round((1 - y) * 100))
-  }
+      updateHSL(h, Math.round(x * 100), Math.round((1 - y) * 100))
+    },
+    [updateHSL]
+  )
 
   const startPlaneDrag = (e: React.MouseEvent | React.TouchEvent) => {
     isDragging.current = true
@@ -78,12 +84,15 @@ export function useColorPicker({
     handlePlane(point.clientX, point.clientY)
   }
 
-  const movePlane = (e: MouseEvent | TouchEvent) => {
-    if (!isDragging.current) return
+  const movePlane = useCallback(
+    (e: MouseEvent | TouchEvent) => {
+      if (!isDragging.current) return
 
-    const point = 'touches' in e ? e.touches[0] : e
-    handlePlane(point.clientX, point.clientY)
-  }
+      const point = 'touches' in e ? e.touches[0] : e
+      handlePlane(point.clientX, point.clientY)
+    },
+    [handlePlane]
+  )
 
   const stopDrag = () => {
     isDragging.current = false
@@ -103,7 +112,7 @@ export function useColorPicker({
       window.removeEventListener('touchmove', movePlane)
       window.removeEventListener('touchend', stopDrag)
     }
-  }, [])
+  }, [movePlane])
 
   const handleHue = (clientX: number, el: HTMLDivElement) => {
     const rect = el.getBoundingClientRect()

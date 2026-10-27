@@ -84,9 +84,9 @@ export function usePostGroupPointSubmit() {
       deleteGroupPoint,
       getGroups,
       points,
-      group?.id,
+      group,
       operationId,
-      contractId,
+      contractId
     ]
   )
 

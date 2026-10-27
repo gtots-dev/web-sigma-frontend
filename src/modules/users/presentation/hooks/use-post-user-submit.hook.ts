@@ -51,7 +51,7 @@ export function useAddUserSubmit() {
         }
       }
     },
-    [addUser, getUsers, operationId]
+    [addUser, getUsers, operationId, postUserFiles]
   )
 
   return { onAction }

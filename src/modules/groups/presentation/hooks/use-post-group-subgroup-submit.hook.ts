@@ -80,9 +80,9 @@ export function usePostGroupSubgroupSubmit() {
       deleteGroupSubgroup,
       getGroups,
       groups,
-      group?.id,
+      group,
       operationId,
-      contractId,
+      contractId
     ]
   )
 

@@ -56,10 +56,13 @@ export function useMonitoringCellStyles({
   const isOffline = cell.connectionStatus === 'offline'
 
   // Seleciona a configuração baseada no tema atual
-  const config = {
-    size: CELL_SIZE_CONFIG,
-    style: isDark ? CELL_VISUAL_CONFIG.DARK : CELL_VISUAL_CONFIG.LIGHT
-  }
+  const config = useMemo(
+    () => ({
+      size: CELL_SIZE_CONFIG,
+      style: isDark ? CELL_VISUAL_CONFIG.DARK : CELL_VISUAL_CONFIG.LIGHT
+    }),
+    [isDark]
+  )
 
   // Cores base extraídas dos tokens do CSS
   const healthStatus = cell.status || 'ok'

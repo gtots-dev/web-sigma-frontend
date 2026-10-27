@@ -39,7 +39,7 @@ export function useGetTrafficFlowSubmit() {
         }
       }
     },
-    [getTrafficFlow]
+    [getTrafficFlow, operationId, contractId]
   )
 
   return { onAction }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 interface BidirectionalScrollOptions {
   onNearTop: () => void
@@ -106,53 +106,59 @@ export function useBidirectionalScroll({
     return scrollTop <= 3
   }
 
-  const tryTriggerBottom = (container: HTMLElement | Window | null) => {
-    if (
-      !inFlightBottom.current &&
-      hasMoreRef.current.bottom &&
-      !loadingRef.current.bottom
-    ) {
-      const el =
-        container instanceof HTMLElement
-          ? container
-          : resolveScrollContainer(document.getElementById(sentinelBottomId))
+  const tryTriggerBottom = useCallback(
+    (container: HTMLElement | Window | null) => {
+      if (
+        !inFlightBottom.current &&
+        hasMoreRef.current.bottom &&
+        !loadingRef.current.bottom
+      ) {
+        const el =
+          container instanceof HTMLElement
+            ? container
+            : resolveScrollContainer(document.getElementById(sentinelBottomId))
 
-      if (el) {
-        captureVisibleAnchorCard(el)
-      }
-
-      inFlightBottom.current = true
-      onNearBottomRef.current()
-    }
-  }
-
-  const tryTriggerTop = (container: HTMLElement | Window | null) => {
-    if (
-      !inFlightTop.current &&
-      hasMoreRef.current.top &&
-      !loadingRef.current.top
-    ) {
-      const el =
-        container instanceof HTMLElement
-          ? container
-          : resolveScrollContainer(document.getElementById(sentinelTopId))
-
-      if (el) {
-        captureVisibleAnchorCard(el)
-        if (el.scrollHeight > el.clientHeight) {
-          prevScrollHeightRef.current = el.scrollHeight
-          prevScrollTopRef.current = el.scrollTop
+        if (el) {
+          captureVisibleAnchorCard(el)
         }
-      } else {
-        prevScrollHeightRef.current = document.documentElement.scrollHeight
-        prevScrollTopRef.current =
-          window.scrollY || document.documentElement.scrollTop
-      }
 
-      inFlightTop.current = true
-      onNearTopRef.current()
-    }
-  }
+        inFlightBottom.current = true
+        onNearBottomRef.current()
+      }
+    },
+    [sentinelBottomId]
+  )
+
+  const tryTriggerTop = useCallback(
+    (container: HTMLElement | Window | null) => {
+      if (
+        !inFlightTop.current &&
+        hasMoreRef.current.top &&
+        !loadingRef.current.top
+      ) {
+        const el =
+          container instanceof HTMLElement
+            ? container
+            : resolveScrollContainer(document.getElementById(sentinelTopId))
+
+        if (el) {
+          captureVisibleAnchorCard(el)
+          if (el.scrollHeight > el.clientHeight) {
+            prevScrollHeightRef.current = el.scrollHeight
+            prevScrollTopRef.current = el.scrollTop
+          }
+        } else {
+          prevScrollHeightRef.current = document.documentElement.scrollHeight
+          prevScrollTopRef.current =
+            window.scrollY || document.documentElement.scrollTop
+        }
+
+        inFlightTop.current = true
+        onNearTopRef.current()
+      }
+    },
+    [sentinelTopId]
+  )
 
   // Restaura a posição de rolagem travando o elemento ancorado exatamente no mesmo deslocamento
   useEffect(() => {
@@ -285,6 +291,6 @@ export function useBidirectionalScroll({
       target.removeEventListener('touchmove', handleTouchMove as EventListener)
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [sentinelBottomId, sentinelTopId, cooldownMs])
+  }, [sentinelBottomId, sentinelTopId, cooldownMs, tryTriggerBottom, tryTriggerTop])
 }
 

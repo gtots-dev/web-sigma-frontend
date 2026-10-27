@@ -32,6 +32,7 @@ export function ModalShellEmpty({
 }: ModalShellEmptyProps) {
   const router = useRouter()
   const params = useParams() as UrlParams | null
+  const operationId = params?.operationId
   const hasFiredRef = useRef(false)
 
   const handleReturn = useCallback(() => {
@@ -43,11 +44,11 @@ export function ModalShellEmpty({
       typeof window !== 'undefined'
         ? sessionStorage.getItem('last_visited_route')
         : null
-    const fallbackPath = params?.operationId
-      ? PATHNAMES.CONTRACTS(Number(params.operationId))
+    const fallbackPath = operationId
+      ? PATHNAMES.CONTRACTS(Number(operationId))
       : '/'
     router.replace(lastRoute ?? fallbackPath)
-  }, [onReturn, router, params?.operationId])
+  }, [onReturn, router, operationId])
 
   useEffect(() => {
     if (when && asToast && !hasFiredRef.current) {

@@ -82,7 +82,7 @@ export function usePostPointLaneSubmit() {
       deletePointLane,
       getPoints,
       contractLanes,
-      point?.id,
+      point,
       operationId,
       contractId
     ]

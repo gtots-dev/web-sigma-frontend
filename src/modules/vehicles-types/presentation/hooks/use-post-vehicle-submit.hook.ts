@@ -35,7 +35,7 @@ export function usePostVehicleTypeSubmit() {
         }
       }
     },
-    [getVehiclesTypes, operationId, contractId]
+    [getVehiclesTypes, postVehicleType, operationId, contractId]
   )
 
   return { onAction }

@@ -157,20 +157,24 @@ export function useSystemFiltersActiveIndicator<T extends object = object>({
   values: externalValues,
   valueResolver
 }: UseSystemFiltersActiveIndicatorProps<T>) {
-  let values: Record<string, unknown> = {}
+  let rawValues: unknown
 
   try {
     const formContext = useFormContext()
-    const rawValues =
-      externalValues ?? formContext?.watch?.() ?? formContext?.getValues?.() ?? {}
-    values = (rawValues ?? {}) as Record<string, unknown>
+    rawValues =
+      externalValues ?? formContext?.watch?.() ?? formContext?.getValues?.()
   } catch {
-    values = (externalValues ?? {}) as Record<string, unknown>
+    rawValues = externalValues
   }
 
   const activeItems = useMemo(
-    () => extractActiveFilterItems(values, labels, valueResolver),
-    [values, labels, valueResolver]
+    () =>
+      extractActiveFilterItems(
+        (rawValues ?? {}) as Record<string, unknown>,
+        labels,
+        valueResolver
+      ),
+    [rawValues, labels, valueResolver]
   )
 
   return {

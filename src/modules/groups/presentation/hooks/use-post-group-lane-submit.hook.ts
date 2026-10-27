@@ -82,7 +82,7 @@ export function usePostGroupLaneSubmit() {
       deleteGroupLane,
       getGroups,
       contractLanes,
-      group?.id,
+      group,
       operationId,
       contractId
     ]

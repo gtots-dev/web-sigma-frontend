@@ -140,7 +140,18 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
         itemHeight: CELL_HEIGHT * zoom
       }
     }
-  }, [active, mode, hexes, cells, mapActivePixelCoords, zoom, offset, radius])
+  }, [
+    active,
+    mode,
+    hexes,
+    cells,
+    mapActivePixelCoords,
+    zoom,
+    offset,
+    radius,
+    CELL_WIDTH,
+    CELL_HEIGHT
+  ])
 
   const activeCell = useMemo(() => {
     return active ? cellsDict[active] : null
@@ -180,7 +191,9 @@ export function useMonitoring(initialCells: MonitoringCell[]) {
     mapHoveredPixelCoords,
     zoom,
     offset,
-    radius
+    radius,
+    CELL_WIDTH,
+    CELL_HEIGHT
   ])
 
   return {

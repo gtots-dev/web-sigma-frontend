@@ -20,19 +20,19 @@ const GRANULARITY_LABELS: Record<TrafficFlowGranularityInterface, string> = {
   year: 'Ano'
 }
 
+const GRANULARITIES: TrafficFlowGranularityInterface[] = [
+  'day',
+  'hour',
+  'month',
+  'year'
+]
+
 export function TrafficFlowGranularityComponent() {
   const { control } = useFormContext<TrafficFlowSchemaType>()
 
-  const granularities: TrafficFlowGranularityInterface[] = [
-    'day',
-    'hour',
-    'month',
-    'year'
-  ]
-
   const granularityItems = useMemo(
     () =>
-      granularities.map((granularity) => ({
+      GRANULARITIES.map((granularity) => ({
         id: granularity,
         label: GRANULARITY_LABELS[granularity]
       })),

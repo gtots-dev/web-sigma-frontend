@@ -12,21 +12,22 @@ export interface UseModalNavigationOptions {
 }
 
 export function useModalNavigation(options: UseModalNavigationOptions = {}) {
+  const { onClose, onReturn, fallbackPath } = options
   const router = useRouter()
   const params = useParams() as UrlParams | null
   const operationId = params?.operationId
 
   const handleClose = useCallback(() => {
-    if (options.onClose) {
-      options.onClose()
+    if (onClose) {
+      onClose()
       return
     }
     router.back()
-  }, [options.onClose, router])
+  }, [onClose, router])
 
   const handleReturn = useCallback(() => {
-    if (options.onReturn) {
-      options.onReturn()
+    if (onReturn) {
+      onReturn()
       return
     }
     const lastRoute =
@@ -36,8 +37,8 @@ export function useModalNavigation(options: UseModalNavigationOptions = {}) {
     const defaultFallback = operationId
       ? PATHNAMES.CONTRACTS(Number(operationId))
       : '/'
-    router.replace(lastRoute ?? options.fallbackPath ?? defaultFallback)
-  }, [options.onReturn, router, operationId, options.fallbackPath])
+    router.replace(lastRoute ?? fallbackPath ?? defaultFallback)
+  }, [onReturn, router, operationId, fallbackPath])
 
   return {
     handleClose,
