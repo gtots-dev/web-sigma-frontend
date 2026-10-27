@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react'
 import { cn } from '@/modules/shared/presentation/lib/utils'
 
-export interface HeaderSectionDescriptionComponentProps extends ComponentProps<'div'> {}
+export type HeaderSectionDescriptionComponentProps = ComponentProps<'div'>
 
 export function HeaderSectionDescriptionComponent({
   className,
