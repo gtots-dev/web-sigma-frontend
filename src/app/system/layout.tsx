@@ -40,7 +40,7 @@ export default async function Layout({ children }: LayoutProps) {
               <SidebarTrigger className="h-12 w-12 aspect-square" />
               <Separator orientation="vertical" className="h-9" />
             </div>
-            <div className="sm:hidden">
+            <div className="sm:hidden order-3">
               <UserDropdown.Root>
                 <UserDropdown.Trigger
                   className="ms-auto h-auto w-auto aspect-square"
