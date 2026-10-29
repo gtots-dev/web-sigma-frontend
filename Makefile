@@ -9,6 +9,11 @@ validate:
 	docker exec $(CONTAINER_NAME) npm run validate
 	@echo "Projeto pronto para o build!"
 
+format:
+	@echo "Formatando arquivos do projeto com Prettier..."
+	docker exec -u $$(id -u):$$(id -g) -e HOME=/tmp $(CONTAINER_NAME) npm run format
+	@echo "Formatação concluída!"
+
 prod:
 	docker compose -f ${PROD_COMPOSE_FILE} up --build
 
