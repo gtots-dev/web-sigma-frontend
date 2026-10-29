@@ -43,15 +43,17 @@ export function useFileInput(
     (newFiles: File[]) => {
       const filesToProcess =
         multiple === false || maxFiles === 1 ? newFiles.slice(-1) : newFiles
-      const current =
-        multiple === false || maxFiles === 1 ? [] : files
+      const current = multiple === false || maxFiles === 1 ? [] : files
 
-      const { combinedFiles, errors: newErrors } = processNewFiles(filesToProcess, {
-        currentFiles: current,
-        maxFiles,
-        maxSizeInBytes,
-        acceptTypes
-      })
+      const { combinedFiles, errors: newErrors } = processNewFiles(
+        filesToProcess,
+        {
+          currentFiles: current,
+          maxFiles,
+          maxSizeInBytes,
+          acceptTypes
+        }
+      )
 
       setFiles(combinedFiles)
       setErrors(newErrors)

@@ -1,11 +1,7 @@
 import { MESSAGES_CONTRACTS } from '@/modules/shared/presentation/messages/contracts'
 import { z } from 'zod'
 
-const VALID_IMAGE_TYPES = [
-  'image/png',
-  'image/jpg',
-  'image/jpeg'
-]
+const VALID_IMAGE_TYPES = ['image/png', 'image/jpg', 'image/jpeg']
 const MAX_SIZE_MB = 10
 
 export const AddContractFormSchema = z.object({

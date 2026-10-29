@@ -20,7 +20,13 @@ export function useContractLogo() {
       operationId: String(operationId),
       contractId: String(activeContractId)
     })
-  }, [hasActiveContract, activeContractId, operationId, loadContractLogo, setLogoUrl])
+  }, [
+    hasActiveContract,
+    activeContractId,
+    operationId,
+    loadContractLogo,
+    setLogoUrl
+  ])
 
   return {
     logoUrl,

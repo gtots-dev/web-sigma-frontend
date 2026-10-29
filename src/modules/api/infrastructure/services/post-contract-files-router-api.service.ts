@@ -5,9 +5,7 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
 import type { ContractFilesInterface } from '@/modules/contracts/domain/interfaces/contract-files.interface'
 
-export class PostContractFilesRouterApiService
-  implements PostContractFilesRouterApiGateway
-{
+export class PostContractFilesRouterApiService implements PostContractFilesRouterApiGateway {
   constructor(
     private readonly httpRequest: ExecuteRequest,
     private readonly params: UrlParams

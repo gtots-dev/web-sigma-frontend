@@ -17,7 +17,7 @@ export class PatchContractRouterApiService implements PatchContractRouterApiGate
     return {
       method: 'PATCH',
       data: contract,
-      url: `api/operations/${this.params.operationId}/contracts`,
+      url: `api/operations/${this.params.operationId}/contracts`
     }
   }
 

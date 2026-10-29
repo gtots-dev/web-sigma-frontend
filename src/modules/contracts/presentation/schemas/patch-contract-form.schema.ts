@@ -1,11 +1,7 @@
 import { z } from 'zod'
 import { MESSAGES_CONTRACTS } from '@/modules/shared/presentation/messages/contracts'
 
-const VALID_IMAGE_TYPES = [
-  'image/png',
-  'image/jpg',
-  'image/jpeg'
-]
+const VALID_IMAGE_TYPES = ['image/png', 'image/jpg', 'image/jpeg']
 const MAX_SIZE_MB = 10
 
 export const PatchContractFormSchema = z.object({

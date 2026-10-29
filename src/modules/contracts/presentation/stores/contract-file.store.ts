@@ -16,15 +16,19 @@ type ContractFileState = {
     { contractId, operationId }: UrlParams,
     files: ContractFilesInterface
   ) => Promise<void>
-  getContractFiles: (
-    { contractId, operationId }: UrlParams
-  ) => Promise<ContractFileInterface[]>
-  getContractFile: (
-    { contractId, fileId, operationId }: UrlParams
-  ) => Promise<UrlFileInterface>
-  loadContractLogo: (
-    { contractId, operationId }: UrlParams
-  ) => Promise<string | null>
+  getContractFiles: ({
+    contractId,
+    operationId
+  }: UrlParams) => Promise<ContractFileInterface[]>
+  getContractFile: ({
+    contractId,
+    fileId,
+    operationId
+  }: UrlParams) => Promise<UrlFileInterface>
+  loadContractLogo: ({
+    contractId,
+    operationId
+  }: UrlParams) => Promise<string | null>
   setLogoUrl: (logoUrl: string | null) => void
 }
 

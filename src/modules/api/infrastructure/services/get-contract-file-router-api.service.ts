@@ -5,9 +5,7 @@ import type { GetContractFileRouterApiGateway } from '../../domain/gateways/get-
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import type { UrlFileInterface } from '@/modules/contracts/domain/interfaces/url-file.interface'
 
-export class GetContractFileRouterApiService
-  implements GetContractFileRouterApiGateway
-{
+export class GetContractFileRouterApiService implements GetContractFileRouterApiGateway {
   constructor(
     private readonly executeRequest: ExecuteRequest,
     private readonly params: UrlParams

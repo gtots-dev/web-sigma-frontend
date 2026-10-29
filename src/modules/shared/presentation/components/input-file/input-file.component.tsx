@@ -66,7 +66,8 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             className="flex flex-col items-center justify-center flex-1 gap-y-3 cursor-pointer hover:bg-zinc-100/35 dark:hover:bg-zinc-900/35"
           >
             <p className="text-center text-sm px-10">
-              Arraste e solte {isSingleFile ? 'o arquivo' : 'os arquivos'} dentro da marcação <br /> ou <br />
+              Arraste e solte {isSingleFile ? 'o arquivo' : 'os arquivos'}{' '}
+              dentro da marcação <br /> ou <br />
               <b className="underline underline-offset-4">
                 clique aqui para o envio
               </b>
