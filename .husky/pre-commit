@@ -1,0 +1,53 @@
+CONTAINER_NAME="sigma-frontend-dev"
+ DIVIDER="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+run_cmd() {
+  if command -v npx >/dev/null 2>&1; then
+    "$@"
+  else
+    docker exec -u "$(id -u):$(id -g)" -e HOME=/tmp "${CONTAINER_NAME}" "$@"
+  fi
+}
+
+if ! command -v npx >/dev/null 2>&1 && ! docker ps --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+  echo ""
+  echo "${DIVIDER}"
+  echo "❌ ERRO: AMBIENTE DE DESENVOLVIMENTO INATIVO"
+  echo "${DIVIDER}"
+  echo "O container '${CONTAINER_NAME}' não está em execução e o Node.js"
+  echo "não foi encontrado instalado localmente na máquina."
+  echo ""
+  echo "💡 Solução: Inicie o container rodando:"
+  echo "   make dev"
+  echo "${DIVIDER}"
+  exit 1
+fi
+
+echo ""
+echo "🔍 [1/2] Executando ESLint, Prettier e Testes nos arquivos alterados..."
+if ! run_cmd ./node_modules/.bin/lint-staged; then
+  echo ""
+  echo "${DIVIDER}"
+  echo "❌ ERRO NA VALIDAÇÃO DOS ARQUIVOS (LINT / PRETTIER / TESTES)"
+  echo "${DIVIDER}"
+  echo "O commit foi bloqueado porque um ou mais arquivos modificados"
+  echo "apresentaram erros no ESLint, Prettier ou nos testes do Jest."
+  echo ""
+  echo "💡 Verifique os erros listados acima, corrija-os e tente novamente."
+  echo "${DIVIDER}"
+  exit 1
+fi
+
+echo "🔎 [2/2] Verificando tipagem TypeScript (tsc --noEmit)..."
+if ! run_cmd ./node_modules/.bin/tsc --noEmit; then
+  echo ""
+  echo "${DIVIDER}"
+  echo "❌ ERRO DE TIPAGEM TYPESCRIPT (tsc --noEmit)"
+  echo "${DIVIDER}"
+  echo "Foram encontrados erros de tipagem no projeto."
+  echo "💡 Corrija os erros apontados acima antes de realizar o commit."
+  echo "${DIVIDER}"
+  exit 1
+fi
+
+echo "✅ Pré-validação de código concluída com sucesso!"

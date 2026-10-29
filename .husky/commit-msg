@@ -1,0 +1,55 @@
+CONTAINER_NAME="sigma-frontend-dev"
+COMMIT_MSG_FILE="$1"
+COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE" 2>/dev/null || echo "")
+DIVIDER="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+run_commitlint() {
+  if command -v npx >/dev/null 2>&1; then
+    npx --no -- commitlint --edit "$COMMIT_MSG_FILE"
+  else
+    docker exec -u "$(id -u):$(id -g)" -e HOME=/tmp "${CONTAINER_NAME}" ./node_modules/.bin/commitlint --edit "$COMMIT_MSG_FILE"
+  fi
+}
+
+echo "📝 Validando padrão da mensagem de commit..."
+
+if ! OUTPUT=$(run_commitlint 2>&1); then
+  echo ""
+  echo "${DIVIDER}"
+  echo "❌ ERRO: MENSAGEM DE COMMIT FORA DO PADRÃO SIGMA"
+  echo "${DIVIDER}"
+  echo "Sua mensagem: \"${COMMIT_MSG}\""
+  echo ""
+  echo "⚠️  Detalhes técnicos da validação:"
+  echo "$OUTPUT" | sed \
+    -e 's/subject may not be empty/A descrição do commit não pode estar vazia/g' \
+    -e 's/type may not be empty/O tipo do commit (ex: feat:, fix:) é obrigatório/g' \
+    -e 's/type must be one of/O tipo informado é inválido. Use um dos permitidos/g' \
+    -e 's/header must not be longer than/O título do commit ultrapassou o limite de caracteres/g' \
+    -e 's/found \([0-9]*\) problems, \([0-9]*\) warnings/Encontrados \1 erro(s) e \2 aviso(s)/g' \
+    -e '/Get help:/d'
+  echo ""
+  echo "📋 Formato esperado:"
+  echo "   <tipo>: <Descrição da alteração>"
+  echo ""
+  echo "🏷️  Tipos permitidos:"
+  echo "   • feat     → Nova funcionalidade"
+  echo "   • fix      → Correção de bug"
+  echo "   • refactor → Refatoração de código sem alterar comportamento"
+  echo "   • style    → Formatação (Prettier, espaços, ponto e vírgula)"
+  echo "   • chore    → Configurações, pacotes, infraestrutura"
+  echo "   • test     → Criação ou ajuste de testes automatizados"
+  echo "   • docs     → Alterações em documentação (README, etc.)"
+  echo "   • perf     → Melhoria de performance"
+  echo "   • ci       → Ajustes em pipelines de CI/CD"
+  echo "   • build    → Alterações em Docker, Makefile ou dependências"
+  echo ""
+  echo "💡 Exemplos válidos no padrão do projeto:"
+  echo "   feat: Suporte ao envio de logotipo na edição de contrato"
+  echo "   fix: Proteção contra envio de dados não mutados no submit"
+  echo "   chore: Configuração do Husky, lint-staged e Commitlint"
+  echo "${DIVIDER}"
+  exit 1
+fi
+
+echo "✅ Mensagem de commit validada com sucesso!"
