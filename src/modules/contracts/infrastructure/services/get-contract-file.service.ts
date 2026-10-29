@@ -1,0 +1,32 @@
+import type { ExecuteRequest } from '@/modules/shared/infrastructure/services/execute-request.service'
+import type { HttpRequestConfig } from '@/modules/shared/domain/interfaces/http-request-config.interface'
+import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/http-response.interface'
+import type { GetContractFileGateway } from '../../domain/gateways/get-contract-file.gateway'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { UrlFileInterface } from '../../domain/interfaces/url-file.interface'
+
+export class GetContractFileService implements GetContractFileGateway {
+  constructor(
+    private readonly executeRequest: ExecuteRequest,
+    private readonly params: UrlParams
+  ) {}
+
+  getHttpRequestConfig({
+    operationId,
+    contractId,
+    fileId
+  }: UrlParams): HttpRequestConfig {
+    return {
+      method: 'GET',
+      url: `/operations/${operationId}/contracts/${contractId}/files/${fileId}`,
+      requiresAuth: true
+    }
+  }
+
+  async execute(): Promise<UrlFileInterface> {
+    const settingsAuthHTTP = this.getHttpRequestConfig(this.params)
+    const { data }: HttpResponseInterface<UrlFileInterface> =
+      await this.executeRequest.execute(settingsAuthHTTP)
+    return data
+  }
+}
