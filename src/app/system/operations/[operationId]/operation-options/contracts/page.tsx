@@ -90,9 +90,14 @@ export default async function ContractsPage({ params }: ContractsPageProps) {
                 <ContractOptionsDropdown.Menu>
                   {(isAdmin ||
                     userPermissions.has(PermissionEnum.CONTRACTS_EDIT)) && (
-                    <ContractOptionsDropdown.Item>
-                      <ContractModalTrigger.Patch />
-                    </ContractOptionsDropdown.Item>
+                    <>
+                      <ContractOptionsDropdown.Item>
+                        <ContractModalTrigger.Patch />
+                      </ContractOptionsDropdown.Item>
+                      <ContractOptionsDropdown.Item>
+                        <ContractModalTrigger.Files />
+                      </ContractOptionsDropdown.Item>
+                    </>
                   )}
 
                   {(isAdmin ||
