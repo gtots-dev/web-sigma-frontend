@@ -22,6 +22,11 @@ type MessageKeys =
   | '3.24'
   | '3.25'
   | '3.26'
+  | '3.27'
+  | '3.28'
+  | '3.29'
+  | '3.30'
+  | '3.31'
 
 export const MESSAGES_CONTRACTS: Record<MessageKeys, string> = {
   '3.1': 'Contratos',
@@ -49,5 +54,11 @@ export const MESSAGES_CONTRACTS: Record<MessageKeys, string> = {
   '3.24': 'Altere os dados desejados para editar o contrato.',
   '3.25': 'Habilitar/Desabilitar',
   '3.26':
-    'Caso a opção correspondente esteja desabilitada, o contrato não estará mais disponível na lista para usuários comuns.'
+    'Caso a opção correspondente esteja desabilitada, o contrato não estará mais disponível na lista para usuários comuns.',
+  '3.27': 'Anexar logotipo',
+  '3.28': 'Selecione a imagem do logotipo do contrato.',
+  '3.29':
+    'Formato de arquivo inválido. O arquivo deve ser uma imagem (PNG, JPG ou JPEG).',
+  '3.30': 'A imagem deve ter no máximo 10MB.',
+  '3.31': 'Apenas uma imagem pode ser adicionada por vez.'
 }

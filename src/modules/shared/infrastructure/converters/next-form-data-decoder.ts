@@ -1,5 +1,8 @@
 export class NextFormDataDecoder {
-  static async decode(incomingFormData: FormData): Promise<FormData> {
+  static async decode(
+    incomingFormData: FormData,
+    targetFieldName: string = 'files'
+  ): Promise<FormData> {
     const newFormData = new FormData()
 
     for (const [key, value] of incomingFormData.entries()) {
@@ -11,7 +14,13 @@ export class NextFormDataDecoder {
           type: value.type
         })
 
-        newFormData.append('files', safeFile, originalName)
+        newFormData.append(targetFieldName, safeFile, originalName)
+      } else if (value instanceof File) {
+        const buffer = await value.arrayBuffer()
+        const safeFile = new File([buffer], value.name, {
+          type: value.type
+        })
+        newFormData.append(targetFieldName, safeFile, value.name)
       } else {
         newFormData.append(key, value)
       }

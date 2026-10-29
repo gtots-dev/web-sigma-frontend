@@ -8,6 +8,7 @@ export interface UseFileInputOptions extends FileValidationOptions {
   initialFiles?: File[]
   onChange?: (files: File[]) => void
   maxFiles?: number
+  multiple?: boolean
 }
 
 export interface UseFileInputResult {
@@ -29,6 +30,7 @@ export function useFileInput(
     initialFiles = [],
     onChange,
     maxFiles,
+    multiple,
     maxSizeInBytes,
     acceptTypes
   } = options
@@ -39,8 +41,13 @@ export function useFileInput(
 
   const updateFiles = useCallback(
     (newFiles: File[]) => {
-      const { combinedFiles, errors: newErrors } = processNewFiles(newFiles, {
-        currentFiles: files,
+      const filesToProcess =
+        multiple === false || maxFiles === 1 ? newFiles.slice(-1) : newFiles
+      const current =
+        multiple === false || maxFiles === 1 ? [] : files
+
+      const { combinedFiles, errors: newErrors } = processNewFiles(filesToProcess, {
+        currentFiles: current,
         maxFiles,
         maxSizeInBytes,
         acceptTypes
@@ -50,7 +57,7 @@ export function useFileInput(
       setErrors(newErrors)
       onChange?.(combinedFiles)
     },
-    [files, onChange, maxFiles, maxSizeInBytes, acceptTypes]
+    [files, onChange, maxFiles, multiple, maxSizeInBytes, acceptTypes]
   )
 
   const removeFile = useCallback(

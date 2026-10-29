@@ -12,10 +12,24 @@ type FileInputProps = {
   accept?: string
   multiple?: boolean
   className?: string
+  maxFiles?: number
+  description?: string
 }
 
 const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
-  ({ id, value = [], onChange, accept, multiple, className }, ref) => {
+  (
+    {
+      id,
+      value = [],
+      onChange,
+      accept,
+      multiple = true,
+      className,
+      maxFiles,
+      description
+    },
+    ref
+  ) => {
     const {
       files,
       isDragging,
@@ -27,8 +41,13 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
       formatFileSize
     } = useFileInput({
       initialFiles: value,
-      onChange
+      onChange,
+      multiple,
+      maxFiles
     })
+
+    const isSingleFile = multiple === false || maxFiles === 1
+    const canAddMore = !isSingleFile && files.length < (maxFiles ?? Infinity)
 
     return (
       <div
@@ -47,13 +66,13 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             className="flex flex-col items-center justify-center flex-1 gap-y-3 cursor-pointer hover:bg-zinc-100/35 dark:hover:bg-zinc-900/35"
           >
             <p className="text-center text-sm px-10">
-              Arraste e solte os arquivos dentro da marcação <br /> ou <br />
+              Arraste e solte {isSingleFile ? 'o arquivo' : 'os arquivos'} dentro da marcação <br /> ou <br />
               <b className="underline underline-offset-4">
                 clique aqui para o envio
               </b>
             </p>
             <p className="text-center text-sm opacity-45">
-              PDF, PNG, JPEG e JPG (Máximo 10.0 MB)
+              {description ?? 'PDF, PNG, JPEG e JPG (Máximo 10.0 MB)'}
             </p>
           </label>
         ) : (
@@ -79,15 +98,17 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
                 </Button>
               </li>
             ))}
-            <li className="w-full rounded-md hover:bg-zinc-100/35 dark:hover:bg-zinc-900/35 cursor-pointer mt-auto">
-              <label
-                htmlFor={id}
-                className="flex justify-center items-center h-[37px] text-sm px-10 py-2 gap-x-1.5 opacity-70 cursor-pointer"
-              >
-                <p>Arraste os arquivos ou</p>
-                <b className="underline underline-offset-4">clique aqui</b>
-              </label>
-            </li>
+            {canAddMore && (
+              <li className="w-full rounded-md hover:bg-zinc-100/35 dark:hover:bg-zinc-900/35 cursor-pointer mt-auto">
+                <label
+                  htmlFor={id}
+                  className="flex justify-center items-center h-[37px] text-sm px-10 py-2 gap-x-1.5 opacity-70 cursor-pointer"
+                >
+                  <p>Arraste os arquivos ou</p>
+                  <b className="underline underline-offset-4">clique aqui</b>
+                </label>
+              </li>
+            )}
           </ul>
         )}
 
