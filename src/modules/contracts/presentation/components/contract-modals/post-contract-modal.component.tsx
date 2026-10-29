@@ -38,6 +38,7 @@ export function PostContractModal({
             <ContractForm.Input.Name require />
             <ContractForm.Input.Alias require />
             <ContractForm.Input.cfg />
+            <ContractForm.Input.Files />
           </ContractForm.Form>
         </ModalShell.Content>
         <ModalShell.Footer>
