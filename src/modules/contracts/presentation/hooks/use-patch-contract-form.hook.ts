@@ -13,14 +13,15 @@ import {
 export function usePatchContractForm(contract?: ContractEntity) {
   const previousContractIdRef = useRef<number | undefined>(undefined)
 
-  const defaultValues = useMemo<Partial<ContractEntity>>(
+  const defaultValues = useMemo<Partial<PatchContractFormType>>(
     () => ({
       id: contract?.id,
       name: contract?.name ?? '',
       alias: contract?.alias ?? '',
       cfg: JSON.stringify(
         contract?.cfg === null || !contract?.cfg ? {} : contract.cfg
-      )
+      ),
+      files: []
     }),
     [contract]
   )

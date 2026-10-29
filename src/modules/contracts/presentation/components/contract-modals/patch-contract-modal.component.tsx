@@ -9,6 +9,7 @@ import { usePatchContractSubmit } from '../../hooks/use-patch-contract-submit.ho
 import { useContracts } from '../../hooks/use-contracts.hook'
 import { SmartFormProvider } from '@/modules/shared/presentation/contexts/smart-form.context'
 import type { ContractEntity } from '@/modules/contracts/domain/entities/contract.entity'
+import type { ContractWithFiles } from '@/modules/contracts/domain/types/contract-with-files'
 import { FormProvider } from 'react-hook-form'
 
 export interface PatchContractModalProps {
@@ -35,12 +36,12 @@ function PatchContractFormBody({
   const { methods } = usePatchContractForm(contract)
   const { onAction } = usePatchContractSubmit()
 
-  const handleSubmit = (contractData: Partial<ContractEntity>) => {
-    const updatedContract = {
+  const handleSubmit = (contractData: Partial<ContractWithFiles>) => {
+    const updatedContract: Partial<ContractWithFiles> = {
       id: contract.id,
       ...contractData
-    } as ContractEntity
-    onAction(updatedContract, onClose)
+    }
+    return onAction(updatedContract, onClose)
   }
 
   return (
@@ -52,6 +53,7 @@ function PatchContractFormBody({
             <ContractForm.Input.Name />
             <ContractForm.Input.Alias />
             <ContractForm.Input.cfg />
+            <ContractForm.Input.Files />
           </ContractForm.Form>
         </ModalShell.Content>
         <ModalShell.Footer>
