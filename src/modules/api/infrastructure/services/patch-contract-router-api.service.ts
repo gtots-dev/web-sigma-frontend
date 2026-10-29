@@ -12,17 +12,17 @@ export class PatchContractRouterApiService implements PatchContractRouterApiGate
   ) {}
 
   getHttpRequestConfig(
-    contract: ContractEntity
-  ): HttpRequestConfig<ContractEntity> {
+    contract: Partial<ContractEntity>
+  ): HttpRequestConfig<Partial<ContractEntity>> {
     return {
       method: 'PATCH',
       data: contract,
-      url: `api/operations/${this.params.operationId}/contracts`
+      url: `api/operations/${this.params.operationId}/contracts`,
     }
   }
 
   async execute(
-    contract: ContractEntity
+    contract: Partial<ContractEntity>
   ): Promise<HttpResponseInterface<ContractEntity>> {
     const settingsAuthHTTP = this.getHttpRequestConfig(contract)
     return await this.executeRequest.execute<ContractEntity>(settingsAuthHTTP)

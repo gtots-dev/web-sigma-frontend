@@ -3,6 +3,6 @@ import type { ContractEntity } from '../entities/contract.entity'
 
 export interface PatchContractGateway {
   execute(
-    contract: ContractEntity
+    contract: Partial<ContractEntity>
   ): Promise<HttpResponseInterface<ContractEntity>>
 }

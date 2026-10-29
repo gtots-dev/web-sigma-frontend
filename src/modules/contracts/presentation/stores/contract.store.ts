@@ -19,7 +19,7 @@ type ContractState = {
   ) => Promise<HttpResponseInterface<ContractEntity>>
   patchContract: (
     { operationId }: UrlParams,
-    contract: ContractEntity
+    contract: Partial<ContractEntity>
   ) => Promise<HttpResponseInterface<ContractEntity>>
   updateStatus: (
     { operationId }: UrlParams,
@@ -65,7 +65,7 @@ export const useContractStore = create<ContractState>((set) => ({
 
   patchContract: async (
     { operationId }: UrlParams,
-    contract: ContractEntity
+    contract: Partial<ContractEntity>
   ) => {
     try {
       const putContractsRouterApiFactory = PatchContractRouterApiFactory.create(

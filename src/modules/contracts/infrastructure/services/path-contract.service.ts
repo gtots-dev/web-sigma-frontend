@@ -11,21 +11,20 @@ export class PatchContractService implements PatchContractGateway {
     private readonly params: UrlParams
   ) {}
 
-  private normalizeContract(contract: ContractEntity): ContractEntity {
-    const cfg =
-      typeof contract.cfg === 'string'
-        ? contract.cfg.trim() === ''
-          ? {}
-          : JSON.parse(contract.cfg)
-        : contract.cfg
-
-    return { ...contract, cfg }
+  private normalizeContract(
+    contract: Partial<ContractEntity>
+  ): Partial<ContractEntity> {
+    if ('cfg' in contract && typeof contract.cfg === 'string') {
+      const cfg = contract.cfg.trim() === '' ? {} : JSON.parse(contract.cfg)
+      return { ...contract, cfg }
+    }
+    return contract
   }
 
   getHttpRequestConfig(
     { operationId }: UrlParams,
-    contract: ContractEntity
-  ): HttpRequestConfig<ContractEntity> {
+    contract: Partial<ContractEntity>
+  ): HttpRequestConfig<Partial<ContractEntity>> {
     return {
       method: 'PATCH',
       url: `/operations/${operationId}/contracts/${contract.id}`,
@@ -35,7 +34,7 @@ export class PatchContractService implements PatchContractGateway {
   }
 
   async execute(
-    contract: ContractEntity
+    contract: Partial<ContractEntity>
   ): Promise<HttpResponseInterface<ContractEntity>> {
     const settingsAuthHTTP = this.getHttpRequestConfig(this.params, contract)
     return await this.executeRequest.execute(settingsAuthHTTP)

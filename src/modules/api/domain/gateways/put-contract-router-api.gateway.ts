@@ -3,6 +3,6 @@ import type { HttpResponseInterface } from '@/modules/shared/domain/interfaces/h
 
 export interface PatchContractRouterApiGateway {
   execute(
-    contract: ContractEntity
+    contract: Partial<ContractEntity>
   ): Promise<HttpResponseInterface<ContractEntity>>
 }
