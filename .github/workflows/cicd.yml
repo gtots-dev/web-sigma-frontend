@@ -2,7 +2,7 @@ name: AWS CI/CD Pipeline
 
 on:
   push:
-    branches: ['main', 'refactor/otimizacao_building']
+    branches: ['main']
 
 env:
   AWS_REGION: us-east-2
