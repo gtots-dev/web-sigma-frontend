@@ -1,63 +1,114 @@
 'use client'
 
 import { useEffect, useCallback } from 'react'
-import { useParams, usePathname } from 'next/navigation'
-import { FileText } from 'lucide-react'
+import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { Skeleton } from '@/modules/shared/presentation/components/shadcn/skeleton'
 import { useContractStore } from '../../stores/contract.store'
-import { isContractWorkspaceRoute } from '@/modules/shared/infrastructure/configs/pathnames.config'
-import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useActiveContractWorkspace } from '@/modules/system/presentation/hooks/use-active-contract-workspace.hook'
+import { ContractOrganizationLogo } from '../contract-organization-logo'
+import { useContractLogo } from '../../hooks/use-contract-logo.hook'
 
 export function ContractSelectedLabelComponent() {
-  const pathname = usePathname()
-  const { contract, contracts, getContracts, setContract } = useContractStore()
-  const { contractId, operationId }: UrlParams = useParams()
-
-  const isWorkspaceActive = isContractWorkspaceRoute(pathname)
+  const { contract, contracts, getContracts, setContract, loading } =
+    useContractStore()
+  const { operationId, activeContractId, hasActiveContract } =
+    useActiveContractWorkspace()
+  const { logoUrl } = useContractLogo()
 
   const loadSelectedContract = useCallback(async () => {
-    if (!contractId || !isWorkspaceActive) return
-    if (!contracts?.length) await getContracts({ operationId })
-    const selected = contracts.find((c) => c.id === Number(contractId))
+    if (!activeContractId || !operationId || !hasActiveContract) return
+
+    if (!contracts?.length) {
+      await getContracts({ operationId: String(operationId) })
+      return
+    }
+
+    const selected = contracts.find((c) => c.id === Number(activeContractId))
     if (selected) setContract(selected)
   }, [
-    contractId,
-    isWorkspaceActive,
+    activeContractId,
+    operationId,
+    hasActiveContract,
     contracts,
     getContracts,
-    setContract,
-    operationId
+    setContract
   ])
 
   useEffect(() => {
-    if (isWorkspaceActive && !contract.id) loadSelectedContract()
-  }, [isWorkspaceActive, contract, loadSelectedContract])
+    if (
+      hasActiveContract &&
+      activeContractId &&
+      contract?.id !== Number(activeContractId) &&
+      !loading
+    ) {
+      loadSelectedContract()
+    }
+  }, [
+    hasActiveContract,
+    activeContractId,
+    contract?.id,
+    loading,
+    loadSelectedContract
+  ])
 
-  if (!contractId || !isWorkspaceActive) return null
+  if (!hasActiveContract || !activeContractId) return null
+
+  const isContractReady =
+    Boolean(contract?.name) && contract?.id === Number(activeContractId)
+  const hasAlias =
+    Boolean(contract?.alias) &&
+    contract.alias.trim().toLowerCase() !== contract.name.trim().toLowerCase()
 
   return (
-    <div className="h-full flex rounded-lg w-full gap-x-4 p-1.5 xl:w-[350px] select-none">
-      <div className="flex flex-col items-end justify-center h-full w-full">
-        {contract?.name ? (
-          <span className="w-full text-end underline-offset-4 text-[13px] font-semibold">
-            {contract.name}
-          </span>
+    <div className="order-2 sm:order-none h-full flex items-center justify-end w-auto max-w-full ms-auto gap-x-3 sm:gap-x-3.5 px-1 min-w-0 select-none">
+      <div
+        className="hidden min-[400px]:flex flex-col items-end justify-center min-w-0 max-w-[160px] sm:max-w-[240px] xl:max-w-[320px]"
+        title={
+          isContractReady
+            ? [contract.name, hasAlias ? contract.alias : null]
+                .filter(Boolean)
+                .join(' — ')
+            : undefined
+        }
+      >
+        {isContractReady ? (
+          <>
+            <span className="max-w-full truncate text-[13px] font-semibold leading-5 text-zinc-900 dark:text-zinc-50">
+              {contract.name}
+            </span>
+            {hasAlias && (
+              <span className="max-w-full truncate text-xs leading-4 text-muted-foreground">
+                {contract.alias}
+              </span>
+            )}
+          </>
         ) : (
-          <Skeleton className="w-[150px] h-[10px] mt-1.5 rounded-full" />
-        )}
-
-        {contract?.alias ? (
-          <span className="w-full text-end text-[11.5px] font-medium text-zinc-950/90 dark:text-white/90">
-            {contract.alias}
-          </span>
-        ) : (
-          <Skeleton className="w-[100px] h-[10px] mt-1.5 rounded-full" />
+          <>
+            <Skeleton className="w-[140px] h-[11px] rounded-full" />
+            <Skeleton className="w-[90px] h-[9px] mt-1.5 rounded-full" />
+          </>
         )}
       </div>
 
-      <div className="grid place-content-center h-full aspect-square rounded-md bg-primary-600">
-        <FileText className="h-4 w-4 text-white" />
-      </div>
+      {logoUrl && (
+        <>
+          <Separator
+            orientation="vertical"
+            className="hidden min-[400px]:block h-7 bg-border/80 shrink-0"
+          />
+
+          <ContractOrganizationLogo.Root
+            url={logoUrl}
+            contractName={isContractReady ? contract.name : undefined}
+            contractAlias={isContractReady ? contract.alias : undefined}
+            alt={
+              isContractReady
+                ? `Logotipo da organização responsável por ${contract.name}`
+                : 'Logotipo da organização responsável pelo contrato'
+            }
+          />
+        </>
+      )}
     </div>
   )
 }
