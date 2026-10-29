@@ -23,19 +23,16 @@ WORKDIR /app
 ARG APP_PORT
 
 ENV PORT=${APP_PORT}
+ENV HOSTNAME="0.0.0.0"
 
 ENV NODE_ENV=production
 
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/next.config.ts ./
-
-RUN chown -R node:node /app/.next
+COPY --from=builder --chown=node:node /app/.next/standalone ./
+COPY --from=builder --chown=node:node /app/.next/static ./.next/static
 
 USER node
 
 EXPOSE ${APP_PORT}
 
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
