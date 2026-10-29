@@ -1,22 +1,29 @@
 'use client'
 
+import { useRef } from 'react'
 import { useFormContext, type FieldValues } from 'react-hook-form'
 import { getDirtyValues } from '../utils/get-dirty-values.util'
 import { toast } from '../components/hooks/use-toast'
 import { useFormSubmitMode } from '../contexts/smart-form.context'
 
+const isEmptyObject = (obj: object) =>
+  Boolean(obj && Object.keys(obj).length === 0 && obj.constructor === Object)
+
 export function useSmartFormSubmit<T extends FieldValues = FieldValues>(
-  onSubmit: (values: T | Partial<T>) => void
+  onSubmit: (values: T | Partial<T>) => Promise<void> | void
 ) {
   const { isPatch } = useFormSubmitMode()
+  const isSubmittingRef = useRef(false)
   const {
     handleSubmit,
     formState: { dirtyFields, isDirty }
   } = useFormContext<T>()
 
-  return handleSubmit((allValues) => {
+  return handleSubmit(async (allValues) => {
+    if (isSubmittingRef.current) return
+
     if (isPatch) {
-      if (!isDirty) {
+      if (!isDirty || isEmptyObject(dirtyFields)) {
         toast({
           title: 'Nenhuma alteração foi realizada.',
           variant: 'default'
@@ -24,9 +31,19 @@ export function useSmartFormSubmit<T extends FieldValues = FieldValues>(
         return
       }
       const mutatedValues = getDirtyValues(dirtyFields, allValues)
-      onSubmit(mutatedValues)
+      isSubmittingRef.current = true
+      try {
+        await onSubmit(mutatedValues)
+      } finally {
+        isSubmittingRef.current = false
+      }
     } else {
-      onSubmit(allValues)
+      isSubmittingRef.current = true
+      try {
+        await onSubmit(allValues)
+      } finally {
+        isSubmittingRef.current = false
+      }
     }
   })
 }

@@ -6,14 +6,14 @@ import { useSmartFormSubmit } from '@/modules/shared/presentation/hooks/use-smar
 import { useFormContext } from 'react-hook-form'
 
 interface ContractFormSubmitComponentProps<T extends object> {
-  onSubmit: (contract: T | Partial<T>) => void
+  onSubmit: (contract: T | Partial<T>) => Promise<void> | void
 }
 
 export function ContractFormSubmitComponent<T extends object>({
   onSubmit
 }: ContractFormSubmitComponentProps<T>) {
   const handleSmartSubmit = useSmartFormSubmit<T & object>(
-    onSubmit as (v: (T & object) | Partial<T & object>) => void
+    onSubmit as (v: (T & object) | Partial<T & object>) => Promise<void> | void
   )
   const { formState } = useFormContext()
   const { isSubmitting } = formState

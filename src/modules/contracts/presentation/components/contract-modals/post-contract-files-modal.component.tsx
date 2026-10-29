@@ -35,9 +35,8 @@ function PostContractFilesFormBody({
   const { methods } = usePostContractFilesForm()
   const { onAction } = usePostContractFilesSubmit(contract.id)
 
-  const handleSubmit = (files: ContractFilesInterface) => {
+  const handleSubmit = (files: ContractFilesInterface) =>
     onAction(files, onClose)
-  }
 
   return (
     <FormProvider {...methods}>
