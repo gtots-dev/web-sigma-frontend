@@ -6,12 +6,9 @@ import { HeaderSection } from '@/modules/system/presentation/components/header-s
 import { MESSAGES_RESTRICTIONS } from '@/modules/shared/presentation/messages/restrictions'
 import { TableRestrictions } from '@/modules/restrictions/presentation/components/table-restrictions'
 import { RestrictionsOptionsDropdownClient } from '@/modules/restrictions/presentation/components/restrictions-options-dropdown/restrictions-options-dropdown-client.component'
-import { PostRestrictionMenuContextProvider } from '@/modules/restrictions/presentation/contexts/post-restriction-menu.context'
-import { PostRestrictionMenuTriggerComponent } from '@/modules/restrictions/presentation/components/post-restriction-menu/post-restriction-menu-trigger.component'
-import { PostRestrictionMenuComponent } from '@/modules/restrictions/presentation/components/post-restriction-menu/post-restriction-menu.component'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { auth } from '@/auth'
+import { getOperationAuthContext } from '@/modules/system/presentation/contexts/get-operation-auth.context'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
+import { RestrictionModalTrigger } from '@/modules/restrictions/presentation/components/restriction-modal-triggers'
 
 interface RestrictionsPageProps {
   params: Promise<UrlParams>
@@ -20,14 +17,10 @@ interface RestrictionsPageProps {
 export default async function RestrictionsPage({
   params
 }: RestrictionsPageProps) {
-  const [
-    {
-      token: JWT,
-      user: { isAdmin }
-    },
-    { operationId: rawOperationId, contractId: rawContractId }
-  ] = await Promise.all([auth(), params])
-  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+  const { operationId: rawOperationId, contractId: rawContractId } =
+    await params
+  const { isAdmin, userPermissions, hasPermission } =
+    await getOperationAuthContext(rawOperationId)
 
   const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/configurations`
 
@@ -49,15 +42,9 @@ export default async function RestrictionsPage({
         </div>
       </HeaderSection.Root>
 
-      {(isAdmin || userPermissions.has(PermissionEnum.RESTRICTIONS_EDIT)) && (
+      {hasPermission(PermissionEnum.RESTRICTIONS_EDIT) && (
         <ActionSection.Root>
-          <PostRestrictionMenuContextProvider>
-            <PostRestrictionMenuTriggerComponent />
-            <PostRestrictionMenuComponent
-              title={MESSAGES_RESTRICTIONS['24.4']}
-              description={MESSAGES_RESTRICTIONS['24.5']}
-            />
-          </PostRestrictionMenuContextProvider>
+          <RestrictionModalTrigger.Post />
         </ActionSection.Root>
       )}
 
@@ -68,8 +55,6 @@ export default async function RestrictionsPage({
             <RestrictionsOptionsDropdownClient
               isAdmin={isAdmin}
               permissions={userPermissions}
-              patchTitle={MESSAGES_RESTRICTIONS['24.10']}
-              patchDescription={MESSAGES_RESTRICTIONS['24.11']}
             />
           </TableRestrictions.Item>
         </TableRestrictions.Body>
