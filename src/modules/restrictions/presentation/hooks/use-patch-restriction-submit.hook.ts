@@ -7,12 +7,10 @@ import { useRestrictionStore } from '../stores/restrictions.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
 import type { RestrictionEntity } from '../../domain/entities/restriction.entity'
-import { useTableRestrictions } from '../contexts/table-restrictions.context'
 
-export function usePatchRestrictionSubmit() {
+export function usePatchRestrictionSubmit(restrictionId: number) {
   const { operationId, contractId }: UrlParams = useParams()
   const { getRestrictions, patchRestriction } = useRestrictionStore()
-  const restriction = useTableRestrictions()
 
   const onAction = useCallback(
     async (data: RestrictionEntity, onSuccess: VoidFunction): Promise<void> => {
@@ -21,7 +19,7 @@ export function usePatchRestrictionSubmit() {
           {
             operationId: String(operationId),
             contractId: String(contractId),
-            restrictionId: String(restriction.id)
+            restrictionId: String(restrictionId)
           },
           data
         )
@@ -41,7 +39,7 @@ export function usePatchRestrictionSubmit() {
         }
       }
     },
-    [getRestrictions, patchRestriction, operationId, contractId, restriction.id]
+    [getRestrictions, patchRestriction, operationId, contractId, restrictionId]
   )
 
   return { onAction }
