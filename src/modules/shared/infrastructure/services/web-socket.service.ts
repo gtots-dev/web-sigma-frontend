@@ -69,11 +69,6 @@ export class NativeWebSocketService<
       }
 
       this.url = finalUrl
-      console.log(
-        '%c[WebSocket Native Service] Conectando na URL completa:',
-        'color: #00ffff; font-weight: bold; font-size: 13px;',
-        finalUrl
-      )
 
       this.socket = new WebSocket(finalUrl)
 

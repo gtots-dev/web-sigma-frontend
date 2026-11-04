@@ -13,11 +13,5 @@ export const webSocketAuthInterceptor: WebSocketInterceptor = async (url) => {
   urlObj.searchParams.set('token', session.token.access_token)
   const finalUrl = urlObj.toString()
 
-  console.log(
-    '%c[WebSocket Auth Interceptor] URL COMPLETA DE CONEXÃO:',
-    'color: #00ff00; font-weight: bold; font-size: 13px;',
-    finalUrl
-  )
-
   return finalUrl
 }
