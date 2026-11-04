@@ -5,8 +5,7 @@ import { HeaderSection } from '@/modules/system/presentation/components/header-s
 import { MESSAGES_VIOLATIONS } from '@/modules/shared/presentation/messages/violations'
 import { TableViolations } from '@/modules/violations/presentation/components/table-violations'
 import { ViolationsOptionsDropdownClient } from '@/modules/violations/presentation/components/violations-options-dropdown/violations-options-dropdown-client.component'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { auth } from '@/auth'
+import { getOperationAuthContext } from '@/modules/system/presentation/contexts/get-operation-auth.context'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
 interface ViolationsPageProps {
@@ -14,14 +13,10 @@ interface ViolationsPageProps {
 }
 
 export default async function ViolationsPage({ params }: ViolationsPageProps) {
-  const [
-    {
-      token: JWT,
-      user: { isAdmin }
-    },
-    { operationId: rawOperationId, contractId: rawContractId }
-  ] = await Promise.all([auth(), params])
-  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+  const { operationId: rawOperationId, contractId: rawContractId } =
+    await params
+  const { isAdmin, userPermissions } =
+    await getOperationAuthContext(rawOperationId)
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
@@ -53,8 +48,6 @@ export default async function ViolationsPage({ params }: ViolationsPageProps) {
             <ViolationsOptionsDropdownClient
               isAdmin={isAdmin}
               permissions={userPermissions}
-              patchTitle={MESSAGES_VIOLATIONS['23.4']}
-              patchDescription={MESSAGES_VIOLATIONS['23.5']}
             />
           </TableViolations.Item>
         </TableViolations.Body>
