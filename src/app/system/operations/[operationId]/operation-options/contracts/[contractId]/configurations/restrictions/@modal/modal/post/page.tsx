@@ -1,5 +1,4 @@
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
-import { MESSAGES_CONTRACTS } from '@/modules/shared/presentation/messages/contracts'
 import { MESSAGES_RESTRICTIONS } from '@/modules/shared/presentation/messages/restrictions'
 import { ModalPermissionGuard } from '@/modules/system/presentation/components/modal-permission-guard/modal-permission-guard.component'
 import { RestrictionModal } from '@/modules/restrictions/presentation/components/restriction-modals'
@@ -17,7 +16,7 @@ export default async function PostRestrictionModalPage({
     <ModalPermissionGuard
       operationId={operationId}
       permission={PermissionEnum.RESTRICTIONS_EDIT}
-      unauthorizedMessage={MESSAGES_CONTRACTS['3.22']}
+      unauthorizedMessage={MESSAGES_RESTRICTIONS['24.13']}
     >
       <RestrictionModal.Post
         title={MESSAGES_RESTRICTIONS['24.4']}

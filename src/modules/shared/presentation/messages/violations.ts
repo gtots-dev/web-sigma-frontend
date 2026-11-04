@@ -1,4 +1,12 @@
-type MessageKeys = '23.1' | '23.2' | '23.3' | '23.4' | '23.5' | '23.6' | '23.7'
+type MessageKeys =
+  | '23.1'
+  | '23.2'
+  | '23.3'
+  | '23.4'
+  | '23.5'
+  | '23.6'
+  | '23.7'
+  | '23.8'
 
 export const MESSAGES_VIOLATIONS: Record<MessageKeys, string> = {
   '23.1': 'Violações',
@@ -7,5 +15,7 @@ export const MESSAGES_VIOLATIONS: Record<MessageKeys, string> = {
   '23.4': 'Editar Violação',
   '23.5': 'Altere a cor desejada para a violação.',
   '23.6': 'A cor da violação é obrigatória.',
-  '23.7': 'A cor da violação é inválida.'
+  '23.7': 'A cor da violação é inválida.',
+  '23.8':
+    'Você não possui permissão para visualizar as violações disponíveis. Por favor, verifique com o seu responsável.'
 }

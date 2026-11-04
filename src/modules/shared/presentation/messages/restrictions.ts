@@ -11,6 +11,7 @@ type MessageKeys =
   | '24.10'
   | '24.11'
   | '24.12'
+  | '24.13'
 
 export const MESSAGES_RESTRICTIONS: Record<MessageKeys, string> = {
   '24.1': 'Restrições',
@@ -24,5 +25,7 @@ export const MESSAGES_RESTRICTIONS: Record<MessageKeys, string> = {
   '24.9': 'A cor da restrição é inválida.',
   '24.10': 'Editar Restrição',
   '24.11': 'Altere os dados desejados para editar a restrição.',
-  '24.12': 'O campo código é obrigatório.'
+  '24.12': 'O campo código é obrigatório.',
+  '24.13':
+    'Você não possui permissão para visualizar as restrições disponíveis. Por favor, verifique com o seu responsável.'
 }
