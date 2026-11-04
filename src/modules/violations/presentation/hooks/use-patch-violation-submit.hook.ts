@@ -7,12 +7,10 @@ import { useViolationStore } from '../stores/violations.store'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
 import type { ViolationEntity } from '../../domain/entities/violation.entity'
-import { useTableViolations } from '../contexts/table-violations.context'
 
-export function usePatchViolationSubmit() {
+export function usePatchViolationSubmit(violationId: number) {
   const { operationId, contractId }: UrlParams = useParams()
   const { getViolations, patchViolation } = useViolationStore()
-  const violation = useTableViolations()
 
   const onAction = useCallback(
     async (data: ViolationEntity, onSuccess: VoidFunction): Promise<void> => {
@@ -21,7 +19,7 @@ export function usePatchViolationSubmit() {
           {
             operationId: String(operationId),
             contractId: String(contractId),
-            violationId: String(violation.id)
+            violationId: String(violationId)
           },
           data
         )
@@ -41,7 +39,7 @@ export function usePatchViolationSubmit() {
         }
       }
     },
-    [getViolations, patchViolation, operationId, contractId, violation.id]
+    [getViolations, patchViolation, operationId, contractId, violationId]
   )
 
   return { onAction }
