@@ -11,6 +11,7 @@ type MessageKeys =
   | '20.10'
   | '20.11'
   | '20.12'
+  | '20.13'
 
 export const MESSAGES_VEHICLES: Record<MessageKeys, string> = {
   '20.1': 'Tipos de Veículos',
@@ -25,5 +26,7 @@ export const MESSAGES_VEHICLES: Record<MessageKeys, string> = {
   '20.9': 'A cor do tipo veículo é invalida.',
   '20.10': 'Editar Tipo de Veículo',
   '20.11': 'Altere os dados desejados para editar o tipo do veículo.',
-  '20.12': 'O campo código deve ser obrigatório.'
+  '20.12': 'O campo código deve ser obrigatório.',
+  '20.13':
+    'Você não possui permissão para visualizar os tipos de veículos disponíveis. Por favor, verifique com o seu responsável.'
 }
