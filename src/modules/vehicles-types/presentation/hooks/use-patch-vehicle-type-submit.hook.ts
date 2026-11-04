@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation'
 import type { VehicleTypeEntity } from '../../domain/entities/vehicle-types.entity'
 import { useVehiclesTypeStore } from '../stores/vehicles-types.store'
 
-export function usePatchVehicleTypeSubmit() {
+export function usePatchVehicleTypeSubmit(vehicleTypeId: number) {
   const { operationId, contractId }: UrlParams = useParams()
   const { getVehiclesTypes, patchVehicleType } = useVehiclesTypeStore()
 
@@ -19,11 +19,15 @@ export function usePatchVehicleTypeSubmit() {
     ): Promise<void> => {
       try {
         await patchVehicleType(
-          { operationId, contractId, vehicleTypeId: String(vehicleType.id) },
+          {
+            operationId: String(operationId),
+            contractId: String(contractId),
+            vehicleTypeId: String(vehicleTypeId)
+          },
           vehicleType
         )
         toast({
-          title: 'Tipos de veículos adicionado com sucesso!',
+          title: 'Tipo de veículo atualizado com sucesso!',
           variant: 'success'
         })
         await getVehiclesTypes({ operationId, contractId })
@@ -31,14 +35,14 @@ export function usePatchVehicleTypeSubmit() {
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao adicionar o tipos de veículos',
+            title: 'Erro ao atualizar o tipo de veículo',
             description: error.message,
             variant: 'destructive'
           })
         }
       }
     },
-    [getVehiclesTypes, patchVehicleType, operationId, contractId]
+    [getVehiclesTypes, patchVehicleType, operationId, contractId, vehicleTypeId]
   )
 
   return { onAction }
