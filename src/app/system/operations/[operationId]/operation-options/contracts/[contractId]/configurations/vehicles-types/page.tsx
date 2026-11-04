@@ -1,52 +1,26 @@
-// import { auth } from '@/auth'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
-// import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { MESSAGES_VEHICLES } from '@/modules/shared/presentation/messages/vehicles'
-import { PostVehicleMenu } from '@/modules/vehicles-types/presentation/components/post-vehicle-menu'
-import { PostVehicleMenuComponent } from '@/modules/vehicles-types/presentation/components/post-vehicle-menu/post-vehicle-menu.component'
 import { TableVehiclesTypes } from '@/modules/vehicles-types/presentation/components/table-vehicles-types'
 import { VehiclesTypesOptionsDropdown } from '@/modules/vehicles-types/presentation/components/vehicles-types-options-dropdown'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
-import { auth } from '@/auth'
+import { getOperationAuthContext } from '@/modules/system/presentation/contexts/get-operation-auth.context'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
+import { VehicleTypeModalTrigger } from '@/modules/vehicles-types/presentation/components/vehicle-type-modal-triggers'
 
 interface VehiclesPageProps {
   params: Promise<UrlParams>
 }
 
-interface Data {
-  title: string
-  description: string
-  menuPostVehicleTypeTitle: string
-  menuPostVehicleTypeDescription: string
-  menuPatchVehicleTypeTitle: string
-  menuPatchVehicleTypeDescription: string
-}
-
 export default async function VehiclesPage({ params }: VehiclesPageProps) {
-  const [
-    {
-      token: JWT,
-      user: { isAdmin }
-    },
-    { operationId: rawOperationId, contractId: rawContractId }
-  ] = await Promise.all([auth(), params])
-  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+  const { operationId: rawOperationId, contractId: rawContractId } =
+    await params
+  const { isAdmin, userPermissions, hasPermission } =
+    await getOperationAuthContext(rawOperationId)
 
   const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/configurations`
-
-  const data: Data = {
-    title: MESSAGES_VEHICLES['20.1'],
-    description: MESSAGES_VEHICLES['20.2'],
-    menuPostVehicleTypeTitle: MESSAGES_VEHICLES['20.4'],
-    menuPostVehicleTypeDescription: MESSAGES_VEHICLES['20.5'],
-    menuPatchVehicleTypeTitle: MESSAGES_VEHICLES['20.10'],
-    menuPatchVehicleTypeDescription: MESSAGES_VEHICLES['20.11']
-  }
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
@@ -57,22 +31,16 @@ export default async function VehiclesPage({ params }: VehiclesPageProps) {
           className="h-5 shrink-0 hidden sm:block"
         />
         <div className="flex flex-col min-w-0 flex-1">
-          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Title>{MESSAGES_VEHICLES['20.1']}</HeaderSection.Title>
           <HeaderSection.Description>
-            {data.description}
+            {MESSAGES_VEHICLES['20.2']}
           </HeaderSection.Description>
         </div>
       </HeaderSection.Root>
 
-      {(isAdmin || userPermissions.has(PermissionEnum.VEHICLE_TYPES_EDIT)) && (
+      {hasPermission(PermissionEnum.VEHICLE_TYPES_EDIT) && (
         <ActionSection.Root>
-          <PostVehicleMenu.Provider>
-            <PostVehicleMenu.Trigger />
-            <PostVehicleMenuComponent
-              title={data.menuPostVehicleTypeTitle}
-              description={data.menuPostVehicleTypeDescription}
-            />
-          </PostVehicleMenu.Provider>
+          <VehicleTypeModalTrigger.Post />
         </ActionSection.Root>
       )}
       <TableVehiclesTypes.Root>
@@ -82,8 +50,6 @@ export default async function VehiclesPage({ params }: VehiclesPageProps) {
             <VehiclesTypesOptionsDropdown.Client
               isAdmin={isAdmin}
               permissions={userPermissions}
-              patchTitle={data.menuPatchVehicleTypeTitle}
-              patchDescription={data.menuPatchVehicleTypeDescription}
             />
           </TableVehiclesTypes.Item>
         </TableVehiclesTypes.Body>
