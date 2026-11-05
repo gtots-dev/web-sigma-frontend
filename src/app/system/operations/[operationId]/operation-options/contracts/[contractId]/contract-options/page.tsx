@@ -1,13 +1,12 @@
-import { auth } from '@/auth'
 import { GetContractsFactory } from '@/modules/contracts/infrastructure/factories/get-contracts.factory'
-import { ContractSelector } from '@/modules/contracts/presentation/components/contract-selector'
+import { ContractModalTrigger } from '@/modules/contracts/presentation/components/contract-modal-triggers'
 import { FrameOptions } from '@/modules/system/presentation/components/frame-options'
 import { CardOption } from '@/modules/system/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/system/presentation/components/header-options'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_OPTIONS_CONTRACT } from '@/modules/shared/presentation/messages/options-contract'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import { getOperationAuthContext } from '@/modules/system/presentation/contexts/get-operation-auth.context'
 import {
   MonitorDot,
   ChartLine,
@@ -15,7 +14,7 @@ import {
   type LucideIcon,
   FileVideo2
 } from 'lucide-react'
-import { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 
 interface ContractOptionsPageProps {
@@ -33,19 +32,14 @@ interface ContractCardOption {
 export default async function ContractOptionsPage({
   params
 }: ContractOptionsPageProps) {
-  const [
-    {
-      token: JWT,
-      user: { isAdmin }
-    },
-    { operationId: rawOperationId, contractId: rawContractId }
-  ] = await Promise.all([auth(), params])
+  const { operationId: rawOperationId, contractId: rawContractId } =
+    await params
 
   const getContractFactory = GetContractsFactory.create({
     operationId: rawOperationId
   })
-  const [{ userPermissions }, { data: contracts }] = await Promise.all([
-    loadAuthContext(JWT, rawOperationId),
+  const [{ hasPermission }, { data: contracts }] = await Promise.all([
+    getOperationAuthContext(rawOperationId),
     getContractFactory.execute()
   ])
 
@@ -56,8 +50,6 @@ export default async function ContractOptionsPage({
   const title = MESSAGES_OPTIONS_CONTRACT['16.1']
   const description = MESSAGES_OPTIONS_CONTRACT['16.2']
   const subDescription = MESSAGES_OPTIONS_CONTRACT['16.3']
-  const contractSelectionMenuTitle = MESSAGES_OPTIONS_CONTRACT['16.7']
-  const contractSelectionMenuDescription = MESSAGES_OPTIONS_CONTRACT['16.8']
   const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts`
 
   const operationOptions: ContractCardOption[] = [
@@ -70,14 +62,13 @@ export default async function ContractOptionsPage({
       ),
       icon: Settings,
       accessAllowed:
-        isAdmin ||
-        userPermissions.has(PermissionEnum.POINTS_VIEW) ||
-        userPermissions.has(PermissionEnum.PROCESSING_UNITS_VIEW) ||
-        userPermissions.has(PermissionEnum.GROUPS_VIEW) ||
-        userPermissions.has(PermissionEnum.VEHICLE_TYPES_VIEW) ||
-        userPermissions.has(PermissionEnum.VIOLATIONS_VIEW) ||
-        userPermissions.has(PermissionEnum.RESTRICTIONS_VIEW) ||
-        userPermissions.has(PermissionEnum.STATUS_VIEW)
+        hasPermission(PermissionEnum.POINTS_VIEW) ||
+        hasPermission(PermissionEnum.PROCESSING_UNITS_VIEW) ||
+        hasPermission(PermissionEnum.GROUPS_VIEW) ||
+        hasPermission(PermissionEnum.VEHICLE_TYPES_VIEW) ||
+        hasPermission(PermissionEnum.VIOLATIONS_VIEW) ||
+        hasPermission(PermissionEnum.RESTRICTIONS_VIEW) ||
+        hasPermission(PermissionEnum.STATUS_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_CONTRACT['16.9'],
@@ -97,8 +88,7 @@ export default async function ContractOptionsPage({
         Number(rawContractId)
       ),
       icon: MonitorDot,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.STATUS_DASHBOARD_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.STATUS_DASHBOARD_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_CONTRACT['16.13'],
@@ -129,15 +119,13 @@ export default async function ContractOptionsPage({
                 {description}
               </HeaderOptions.Description>
               <HeaderOptions.SubDescription
-                name={contractSelectedMoreInfo.name}
+                name={contractSelectedMoreInfo?.name}
               >
                 {subDescription}
               </HeaderOptions.SubDescription>
             </div>
           </div>
-          <ContractSelector.Root
-            title={contractSelectionMenuTitle}
-            description={contractSelectionMenuDescription}
+          <ContractModalTrigger.Select
             contractId={Number(rawContractId)}
             contracts={contracts}
           />

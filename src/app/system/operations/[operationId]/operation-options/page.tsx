@@ -1,14 +1,13 @@
-import { auth } from '@/auth'
 import { FrameOptions } from '@/modules/system/presentation/components/frame-options'
 import { CardOption } from '@/modules/system/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/system/presentation/components/header-options'
-import { OperationSelector } from '@/modules/operations/presentation/components/operation-selector'
+import { OperationModalTrigger } from '@/modules/operations/presentation/components/operation-modal-triggers'
 import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/messages/configuration-operation'
 import { MESSAGES_OPTIONS_OPERATION } from '@/modules/shared/presentation/messages/options-operation'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import { getOperationAuthContext } from '@/modules/system/presentation/contexts/get-operation-auth.context'
 import {
   FileText,
   Settings,
@@ -33,25 +32,17 @@ interface OperationCardOption {
 export default async function OperationOptionsPage({
   params
 }: OperationOptionsPageProps) {
-  const [session, resolvedParams] = await Promise.all([auth(), params])
-  const JWT = session?.token
-  const isAdmin = session?.user?.isAdmin ?? false
-  const rawOperationId = resolvedParams.operationId
+  const { operationId: rawOperationId } = await params
 
   const getOperationFactory = GetOperationsFactory.create()
-  const [authCtx, operationsRes] = await Promise.all([
-    loadAuthContext(JWT, rawOperationId),
+  const [{ hasPermission }, { data: operations }] = await Promise.all([
+    getOperationAuthContext(rawOperationId),
     getOperationFactory.execute()
   ])
-
-  const userPermissions = authCtx.userPermissions
-  const operations = operationsRes.data
 
   const title = MESSAGES_OPTIONS_OPERATION['11.1']
   const description = MESSAGES_OPTIONS_OPERATION['11.2']
   const subDescription = MESSAGES_OPTIONS_OPERATION['11.3']
-  const operationSelectionMenuTitle = MESSAGES_OPTIONS_OPERATION['11.8']
-  const operationSelectionMenuDescription = MESSAGES_OPTIONS_OPERATION['11.9']
   const previousSection = '/system/operations'
 
   const operationOptions: OperationCardOption[] = [
@@ -61,25 +52,22 @@ export default async function OperationOptionsPage({
       pathName: PATHNAMES.OPERATION_CONFIGURATIONS(Number(rawOperationId)),
       icon: Settings,
       accessAllowed:
-        isAdmin ||
-        userPermissions.has(PermissionEnum.USERS_VIEW) ||
-        userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
+        hasPermission(PermissionEnum.USERS_VIEW) ||
+        hasPermission(PermissionEnum.PERMISSIONS_VIEW)
     },
     {
       title: MESSAGES_CONFIGURATION_OPERATION['14.4'],
       description: MESSAGES_CONFIGURATION_OPERATION['14.5'],
       pathName: PATHNAMES.CONTRACTS(Number(rawOperationId)),
       icon: FileText,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.CONTRACTS_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.CONTRACTS_VIEW)
     },
     {
       title: MESSAGES_OPTIONS_OPERATION['11.6'],
       description: MESSAGES_OPTIONS_OPERATION['11.7'],
       pathName: PATHNAMES.ACTIVITY_REPORT(Number(rawOperationId)),
       icon: UserRoundSearch,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.ACTIVITY_REPORT_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.ACTIVITY_REPORT_VIEW)
     }
   ]
 
@@ -103,15 +91,13 @@ export default async function OperationOptionsPage({
                 {description}
               </HeaderOptions.Description>
               <HeaderOptions.SubDescription
-                name={operationSelectedMoreInfo.name}
+                name={operationSelectedMoreInfo?.name}
               >
                 {subDescription}
               </HeaderOptions.SubDescription>
             </div>
           </div>
-          <OperationSelector.Root
-            title={operationSelectionMenuTitle}
-            description={operationSelectionMenuDescription}
+          <OperationModalTrigger.Select
             operationId={rawOperationId}
             operations={operations}
           />

@@ -1,13 +1,12 @@
-import { auth } from '@/auth'
 import { FrameOptions } from '@/modules/system/presentation/components/frame-options'
 import { CardOption } from '@/modules/system/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/system/presentation/components/header-options'
-import { OperationSelector } from '@/modules/operations/presentation/components/operation-selector'
+import { OperationModalTrigger } from '@/modules/operations/presentation/components/operation-modal-triggers'
 import { GetOperationsFactory } from '@/modules/operations/infrastructure/factories/get-operations.factory'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_CONFIGURATION_OPERATION } from '@/modules/shared/presentation/messages/configuration-operation'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import { getOperationAuthContext } from '@/modules/system/presentation/contexts/get-operation-auth.context'
 import { FileKey2, UsersRound, type LucideIcon } from 'lucide-react'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
@@ -27,26 +26,17 @@ interface ConfigurationCardOption {
 export default async function ConfigurationOptionsPage({
   params
 }: ConfigurationOptionsPageProps) {
-  const [
-    {
-      token: JWT,
-      user: { isAdmin }
-    },
-    { operationId: rawOperationId }
-  ] = await Promise.all([auth(), params])
+  const { operationId: rawOperationId } = await params
 
   const getOperationsFactory = GetOperationsFactory.create()
-  const [{ userPermissions }, { data: operations }] = await Promise.all([
-    loadAuthContext(JWT, rawOperationId),
+  const [{ hasPermission }, { data: operations }] = await Promise.all([
+    getOperationAuthContext(rawOperationId),
     getOperationsFactory.execute()
   ])
 
   const title = MESSAGES_CONFIGURATION_OPERATION['14.1']
   const description = MESSAGES_CONFIGURATION_OPERATION['14.2']
   const subDescription = MESSAGES_CONFIGURATION_OPERATION['14.3']
-  const operationSelectionMenuTitle = MESSAGES_CONFIGURATION_OPERATION['14.10']
-  const operationSelectionMenuDescription =
-    MESSAGES_CONFIGURATION_OPERATION['14.11']
   const previousSection = `/system/operations/${rawOperationId}/operation-options`
 
   const operationOptions: ConfigurationCardOption[] = [
@@ -55,15 +45,14 @@ export default async function ConfigurationOptionsPage({
       description: MESSAGES_CONFIGURATION_OPERATION['14.7'],
       pathName: PATHNAMES.USERS(Number(rawOperationId)),
       icon: UsersRound,
-      accessAllowed: isAdmin || userPermissions.has(PermissionEnum.USERS_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.USERS_VIEW)
     },
     {
       title: MESSAGES_CONFIGURATION_OPERATION['14.8'],
       description: MESSAGES_CONFIGURATION_OPERATION['14.9'],
       pathName: PATHNAMES.PERMISSIONS(Number(rawOperationId)),
       icon: FileKey2,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.PERMISSIONS_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.PERMISSIONS_VIEW)
     }
   ]
 
@@ -88,15 +77,13 @@ export default async function ConfigurationOptionsPage({
                 {description}
               </HeaderOptions.Description>
               <HeaderOptions.SubDescription
-                name={operationSelectedMoreInfo.name}
+                name={operationSelectedMoreInfo?.name}
               >
                 {subDescription}
               </HeaderOptions.SubDescription>
             </div>
           </div>
-          <OperationSelector.Root
-            title={operationSelectionMenuTitle}
-            description={operationSelectionMenuDescription}
+          <OperationModalTrigger.Select
             operationId={rawOperationId}
             operations={operations}
           />

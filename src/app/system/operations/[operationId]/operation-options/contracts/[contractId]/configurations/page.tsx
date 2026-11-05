@@ -1,13 +1,12 @@
-import { auth } from '@/auth'
 import { GetContractsFactory } from '@/modules/contracts/infrastructure/factories/get-contracts.factory'
-import { ContractSelector } from '@/modules/contracts/presentation/components/contract-selector'
+import { ContractModalTrigger } from '@/modules/contracts/presentation/components/contract-modal-triggers'
 import { FrameOptions } from '@/modules/system/presentation/components/frame-options'
 import { CardOption } from '@/modules/system/presentation/components/card-option'
 import { HeaderOptions } from '@/modules/system/presentation/components/header-options'
 import { PATHNAMES } from '@/modules/shared/infrastructure/configs/pathnames.config'
 import { MESSAGES_CONFIGURATION_CONTRACT } from '@/modules/shared/presentation/messages/configuration-contract'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import { getOperationAuthContext } from '@/modules/system/presentation/contexts/get-operation-auth.context'
 import {
   Activity,
   AlertTriangle,
@@ -36,28 +35,20 @@ interface ConfigurationCardOption {
 export default async function ConfigurationsPage({
   params
 }: ConfigurationsPageProps) {
-  const [
-    {
-      token: JWT,
-      user: { isAdmin }
-    },
-    { operationId: rawOperationId, contractId: rawContractId }
-  ] = await Promise.all([auth(), params])
+  const { operationId: rawOperationId, contractId: rawContractId } =
+    await params
 
   const getContractFactory = GetContractsFactory.create({
     operationId: rawOperationId
   })
-  const [{ userPermissions }, { data: contracts }] = await Promise.all([
-    loadAuthContext(JWT, rawOperationId),
+  const [{ hasPermission }, { data: contracts }] = await Promise.all([
+    getOperationAuthContext(rawOperationId),
     getContractFactory.execute()
   ])
 
   const title = MESSAGES_CONFIGURATION_CONTRACT['17.1']
   const description = MESSAGES_CONFIGURATION_CONTRACT['17.2']
   const subDescription = MESSAGES_CONFIGURATION_CONTRACT['17.3']
-  const contractSelectionMenuTitle = MESSAGES_CONFIGURATION_CONTRACT['17.8']
-  const contractSelectionMenuDescription =
-    MESSAGES_CONFIGURATION_CONTRACT['17.9']
   const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/contract-options`
 
   const operationOptions: ConfigurationCardOption[] = [
@@ -69,22 +60,21 @@ export default async function ConfigurationsPage({
         Number(rawContractId)
       ),
       icon: HardDrive,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.PROCESSING_UNITS_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.PROCESSING_UNITS_VIEW)
     },
     {
       title: MESSAGES_CONFIGURATION_CONTRACT['17.4'],
       description: MESSAGES_CONFIGURATION_CONTRACT['17.5'],
       pathName: PATHNAMES.POINTS(Number(rawOperationId), Number(rawContractId)),
       icon: MapPin,
-      accessAllowed: isAdmin || userPermissions.has(PermissionEnum.POINTS_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.POINTS_VIEW)
     },
     {
       title: MESSAGES_CONFIGURATION_CONTRACT['17.11'],
       description: MESSAGES_CONFIGURATION_CONTRACT['17.12'],
       pathName: PATHNAMES.GROUPS(Number(rawOperationId), Number(rawContractId)),
       icon: Map,
-      accessAllowed: isAdmin || userPermissions.has(PermissionEnum.GROUPS_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.GROUPS_VIEW)
     },
     {
       title: MESSAGES_CONFIGURATION_CONTRACT['17.13'],
@@ -94,8 +84,7 @@ export default async function ConfigurationsPage({
         Number(rawContractId)
       ),
       icon: Car,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.VEHICLE_TYPES_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.VEHICLE_TYPES_VIEW)
     },
     {
       title: MESSAGES_CONFIGURATION_CONTRACT['17.15'],
@@ -105,8 +94,7 @@ export default async function ConfigurationsPage({
         Number(rawContractId)
       ),
       icon: AlertTriangle,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.VIOLATIONS_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.VIOLATIONS_VIEW)
     },
     {
       title: MESSAGES_CONFIGURATION_CONTRACT['17.17'],
@@ -116,15 +104,14 @@ export default async function ConfigurationsPage({
         Number(rawContractId)
       ),
       icon: ShieldAlert,
-      accessAllowed:
-        isAdmin || userPermissions.has(PermissionEnum.RESTRICTIONS_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.RESTRICTIONS_VIEW)
     },
     {
       title: MESSAGES_CONFIGURATION_CONTRACT['17.23'],
       description: MESSAGES_CONFIGURATION_CONTRACT['17.24'],
       pathName: PATHNAMES.STATUS(Number(rawOperationId), Number(rawContractId)),
       icon: Activity,
-      accessAllowed: isAdmin || userPermissions.has(PermissionEnum.STATUS_VIEW)
+      accessAllowed: hasPermission(PermissionEnum.STATUS_VIEW)
     }
   ]
 
@@ -149,15 +136,13 @@ export default async function ConfigurationsPage({
                 {description}
               </HeaderOptions.Description>
               <HeaderOptions.SubDescription
-                name={contractSelectedMoreInfo.name}
+                name={contractSelectedMoreInfo?.name}
               >
                 {subDescription}
               </HeaderOptions.SubDescription>
             </div>
           </div>
-          <ContractSelector.Root
-            title={contractSelectionMenuTitle}
-            description={contractSelectionMenuDescription}
+          <ContractModalTrigger.Select
             contractId={Number(rawContractId)}
             contracts={contracts}
           />
