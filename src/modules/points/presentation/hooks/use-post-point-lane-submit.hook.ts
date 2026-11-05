@@ -8,12 +8,9 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { usePointStore } from '../stores/point.store'
 import type { PointLaneInterface } from '../../domain/interfaces/point-lane.interface'
 import { useLaneStore } from '@/modules/lanes/presentation/stores/lanes.store'
-import { useTablePoint } from '../contexts/table-point.context'
-
-export function usePostPointLaneSubmit() {
+export function usePostPointLaneSubmit(pointId: number) {
   const { operationId, contractId }: UrlParams = useParams()
-  const { point } = useTablePoint()
-  const { contractLanes } = useLaneStore()
+  const { contractLanes, getContractLanes } = useLaneStore()
   const { getPoints, postPointLane, deletePointLane } = usePointStore()
 
   const onAction = useCallback(
@@ -23,7 +20,7 @@ export function usePostPointLaneSubmit() {
     ) => {
       try {
         const apiLanesSelected = contractLanes
-          .filter((item) => item.point_id === point.id)
+          .filter((item) => item.point_id === pointId)
           .map((item) => item.lane.id)
 
         const toAdd = formLaneIds.filter((id) => !apiLanesSelected.includes(id))
@@ -33,7 +30,7 @@ export function usePostPointLaneSubmit() {
 
         for (const laneId of toAdd) {
           await postPointLane(
-            { operationId, contractId, pointId: String(point.id) },
+            { operationId, contractId, pointId: String(pointId) },
             laneId
           )
         }
@@ -42,7 +39,7 @@ export function usePostPointLaneSubmit() {
           await getPoints({ contractId, operationId })
 
           const freshApiLanesSelected = contractLanes
-            .filter((item) => item.point_id === point.id)
+            .filter((item) => item.point_id === pointId)
             .map((item) => item.lane.id)
 
           toDelete = freshApiLanesSelected.filter(
@@ -54,12 +51,15 @@ export function usePostPointLaneSubmit() {
           await deletePointLane({
             operationId,
             contractId,
-            pointId: String(point.id),
+            pointId: String(pointId),
             laneId: String(laneId)
           })
         }
 
-        await getPoints({ contractId, operationId })
+        await Promise.all([
+          getPoints({ contractId, operationId }),
+          getContractLanes({ contractId, operationId })
+        ])
 
         toast({
           title: 'Ponto atualizado com sucesso!',
@@ -81,8 +81,9 @@ export function usePostPointLaneSubmit() {
       postPointLane,
       deletePointLane,
       getPoints,
+      getContractLanes,
       contractLanes,
-      point,
+      pointId,
       operationId,
       contractId
     ]

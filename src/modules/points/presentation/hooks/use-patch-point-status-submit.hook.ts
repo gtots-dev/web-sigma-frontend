@@ -20,7 +20,7 @@ export function usePatchPointStatusSubmit() {
       try {
         await patchPointStatus({ operationId, contractId }, point)
         toast({
-          title: 'Ponto adicionado com sucesso!',
+          title: 'Status do ponto atualizado com sucesso!',
           variant: 'success'
         })
         await getPoints({ operationId, contractId })
@@ -28,7 +28,7 @@ export function usePatchPointStatusSubmit() {
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao adicionar o ponto',
+            title: 'Erro ao atualizar o status do ponto',
             description: error.message,
             variant: 'destructive'
           })
