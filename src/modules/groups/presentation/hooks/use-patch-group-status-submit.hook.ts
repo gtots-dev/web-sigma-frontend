@@ -20,7 +20,7 @@ export function usePatchGroupStatusSubmit() {
       try {
         await patchGroupStatus({ operationId, contractId }, group)
         toast({
-          title: 'Grupo adicionado com sucesso!',
+          title: 'Status do grupo atualizado com sucesso!',
           variant: 'success'
         })
         await getGroups({ operationId, contractId })
@@ -28,7 +28,7 @@ export function usePatchGroupStatusSubmit() {
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao adicionar o grupo',
+            title: 'Erro ao atualizar o status do grupo',
             description: error.message,
             variant: 'destructive'
           })

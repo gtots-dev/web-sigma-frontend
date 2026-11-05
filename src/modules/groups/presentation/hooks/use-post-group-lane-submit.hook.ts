@@ -8,12 +8,9 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { useGroupStore } from '../stores/group.store'
 import type { GroupLaneInterface } from '../../domain/interfaces/group-lane.interface'
 import { useLaneStore } from '@/modules/lanes/presentation/stores/lanes.store'
-import { useTableGroup } from '../contexts/table-group.context'
-
-export function usePostGroupLaneSubmit() {
+export function usePostGroupLaneSubmit(groupId: number) {
   const { operationId, contractId }: UrlParams = useParams()
-  const { group } = useTableGroup()
-  const { contractLanes } = useLaneStore()
+  const { contractLanes, getContractLanes } = useLaneStore()
   const { getGroups, postGroupLane, deleteGroupLane } = useGroupStore()
 
   const onAction = useCallback(
@@ -23,7 +20,7 @@ export function usePostGroupLaneSubmit() {
     ) => {
       try {
         const apiLanesSelected = contractLanes
-          .filter((item) => item.group_id.includes(group.id))
+          .filter((item) => item.group_id.includes(groupId))
           .map((item) => item.lane.id)
 
         const toAdd = formLaneIds.filter((id) => !apiLanesSelected.includes(id))
@@ -33,7 +30,7 @@ export function usePostGroupLaneSubmit() {
 
         for (const laneId of toAdd) {
           await postGroupLane(
-            { operationId, contractId, groupId: String(group.id) },
+            { operationId, contractId, groupId: String(groupId) },
             laneId
           )
         }
@@ -42,7 +39,7 @@ export function usePostGroupLaneSubmit() {
           await getGroups({ contractId, operationId })
 
           const freshApiLanesSelected = contractLanes
-            .filter((item) => item.group_id.includes(group.id))
+            .filter((item) => item.group_id.includes(groupId))
             .map((item) => item.lane.id)
 
           toDelete = freshApiLanesSelected.filter(
@@ -54,12 +51,15 @@ export function usePostGroupLaneSubmit() {
           await deleteGroupLane({
             operationId,
             contractId,
-            groupId: String(group.id),
+            groupId: String(groupId),
             laneId: String(laneId)
           })
         }
 
-        await getGroups({ contractId, operationId })
+        await Promise.all([
+          getGroups({ contractId, operationId }),
+          getContractLanes({ contractId, operationId })
+        ])
 
         toast({
           title: 'Grupo atualizado com sucesso!',
@@ -81,8 +81,9 @@ export function usePostGroupLaneSubmit() {
       postGroupLane,
       deleteGroupLane,
       getGroups,
+      getContractLanes,
       contractLanes,
-      group,
+      groupId,
       operationId,
       contractId
     ]

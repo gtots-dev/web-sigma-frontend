@@ -8,12 +8,9 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import { useGroupStore } from '../stores/group.store'
 import type { GroupPointInterface } from '../../domain/interfaces/group-point.interface.ts'
 import { usePointStore } from '@/modules/points/presentation/stores/point.store'
-import { useTableGroup } from '../contexts/table-group.context'
-
-export function usePostGroupPointSubmit() {
+export function usePostGroupPointSubmit(groupId: number) {
   const { operationId, contractId }: UrlParams = useParams()
-  const { group } = useTableGroup()
-  const { points } = usePointStore()
+  const { points, getPoints } = usePointStore()
   const { getGroups, postGroupPoint, deleteGroupPoint } = useGroupStore()
 
   const onAction = useCallback(
@@ -23,7 +20,7 @@ export function usePostGroupPointSubmit() {
     ) => {
       try {
         const apiPointsSelected = points
-          .filter((item) => item.group_id.includes(group.id))
+          .filter((item) => item.group_id.includes(groupId))
           .map((item) => item.point.id)
 
         const toAdd = formPointIds.filter(
@@ -35,7 +32,7 @@ export function usePostGroupPointSubmit() {
 
         for (const pointId of toAdd) {
           await postGroupPoint(
-            { operationId, contractId, groupId: String(group.id) },
+            { operationId, contractId, groupId: String(groupId) },
             pointId
           )
         }
@@ -44,7 +41,7 @@ export function usePostGroupPointSubmit() {
           await getGroups({ contractId, operationId })
 
           const freshApiPointsSelected = points
-            .filter((item) => item.group_id.includes(group.id))
+            .filter((item) => item.group_id.includes(groupId))
             .map((item) => item.point.id)
 
           toDelete = freshApiPointsSelected.filter(
@@ -56,12 +53,15 @@ export function usePostGroupPointSubmit() {
           await deleteGroupPoint({
             operationId,
             contractId,
-            groupId: String(group.id),
+            groupId: String(groupId),
             pointId: String(pointId)
           })
         }
 
-        await getGroups({ contractId, operationId })
+        await Promise.all([
+          getGroups({ contractId, operationId }),
+          getPoints({ contractId, operationId })
+        ])
 
         toast({
           title: 'Grupo atualizado com sucesso!',
@@ -83,8 +83,9 @@ export function usePostGroupPointSubmit() {
       postGroupPoint,
       deleteGroupPoint,
       getGroups,
+      getPoints,
       points,
-      group,
+      groupId,
       operationId,
       contractId
     ]

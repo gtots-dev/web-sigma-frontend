@@ -9,11 +9,8 @@ import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.in
 import type { GroupSubgroupInterface } from '../../domain/interfaces/group-subgroup.interface'
 
 import { useGroupStore } from '@/modules/groups/presentation/stores/group.store'
-import { useTableGroup } from '../contexts/table-group.context'
-
-export function usePostGroupSubgroupSubmit() {
+export function usePostGroupSubgroupSubmit(groupId: number) {
   const { operationId, contractId }: UrlParams = useParams()
-  const { group } = useTableGroup()
 
   const { getGroups, postGroupSubgroup, deleteGroupSubgroup, groups } =
     useGroupStore()
@@ -24,10 +21,10 @@ export function usePostGroupSubgroupSubmit() {
       onSuccess?: VoidFunction
     ) => {
       try {
-        if (!group?.id) return
+        if (!groupId) return
 
         const apiSubgroupsSelected =
-          groups.find((item) => item.group.id === group.id)?.group_id ?? []
+          groups.find((item) => item.group.id === groupId)?.group_id ?? []
 
         const toAdd = formSubgroupIds.filter(
           (id) => !apiSubgroupsSelected.includes(id)
@@ -42,7 +39,7 @@ export function usePostGroupSubgroupSubmit() {
             {
               operationId,
               contractId,
-              groupId: String(group.id)
+              groupId: String(groupId)
             },
             subgroupId
           )
@@ -52,7 +49,7 @@ export function usePostGroupSubgroupSubmit() {
           await deleteGroupSubgroup({
             operationId,
             contractId,
-            groupId: String(group.id),
+            groupId: String(groupId),
             subgroupId: String(subgroupId)
           })
         }
@@ -80,7 +77,7 @@ export function usePostGroupSubgroupSubmit() {
       deleteGroupSubgroup,
       getGroups,
       groups,
-      group,
+      groupId,
       operationId,
       contractId
     ]
