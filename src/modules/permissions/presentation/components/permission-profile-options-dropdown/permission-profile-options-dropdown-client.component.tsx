@@ -1,75 +1,40 @@
 'use client'
 
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
-import { EditPermissionProfileMenu } from '../edit-permission-profile-menu'
-import { EditPermissionProfileMenuComponent } from '../edit-permission-profile-menu/edit-permission-profile-menu.component'
 import { PermissionProfileOptionsDropdown } from '.'
-
-import { PatchPermissionProfileStatusMenu } from '../patch-permission-profile-status-menu'
-import { PatchPermissionProfileStatusMenuComponent } from '../patch-permission-profile-status-menu/patch-permission-profile-status-menu.component'
+import { PermissionProfileModalTrigger } from '../permission-profile-modal-triggers'
 
 export function PermissionProfileOptionsDropdownClientComponent({
   isAdmin,
-  editTitle,
-  editDescription,
-  permissionProfileTitle,
-  permissionProfileDescription,
   permissions
 }: {
   isAdmin: boolean
-  editTitle: string
-  editDescription: string
-  permissionProfileTitle: string
-  permissionProfileDescription: string
   permissions: Set<PermissionEnum>
 }) {
+  const canEdit = isAdmin || permissions.has(PermissionEnum.PERMISSIONS_EDIT)
+  const canToggleStatus =
+    isAdmin || permissions.has(PermissionEnum.PERMISSIONS_ENABLE_AND_DISABLE)
+
+  if (!canEdit && !canToggleStatus) {
+    return null
+  }
+
   return (
-    <>
-      {(isAdmin ||
-        permissions.has(PermissionEnum.PERMISSIONS_EDIT) ||
-        permissions.has(PermissionEnum.PERMISSIONS_ENABLE_AND_DISABLE)) && (
-        <EditPermissionProfileMenu.Provider>
-          <PatchPermissionProfileStatusMenu.Provider>
-            <PermissionProfileOptionsDropdown.Root>
-              <PermissionProfileOptionsDropdown.Trigger />
-              <PermissionProfileOptionsDropdown.Menu>
-                {(isAdmin ||
-                  permissions.has(PermissionEnum.PERMISSIONS_EDIT)) && (
-                  <PermissionProfileOptionsDropdown.Item>
-                    <EditPermissionProfileMenu.Trigger />
-                  </PermissionProfileOptionsDropdown.Item>
-                )}
+    <PermissionProfileOptionsDropdown.Root>
+      <PermissionProfileOptionsDropdown.Trigger />
+      <PermissionProfileOptionsDropdown.Menu>
+        {canEdit && (
+          <PermissionProfileOptionsDropdown.Item>
+            <PermissionProfileModalTrigger.Patch />
+          </PermissionProfileOptionsDropdown.Item>
+        )}
 
-                {(isAdmin ||
-                  permissions.has(
-                    PermissionEnum.PERMISSIONS_ENABLE_AND_DISABLE
-                  )) && (
-                  <PermissionProfileOptionsDropdown.Item>
-                    <PatchPermissionProfileStatusMenu.Trigger />
-                  </PermissionProfileOptionsDropdown.Item>
-                )}
-              </PermissionProfileOptionsDropdown.Menu>
-            </PermissionProfileOptionsDropdown.Root>
-
-            {(isAdmin ||
-              permissions.has(
-                PermissionEnum.PERMISSIONS_ENABLE_AND_DISABLE
-              )) && (
-              <PatchPermissionProfileStatusMenuComponent
-                title={permissionProfileTitle}
-                description={permissionProfileDescription}
-              />
-            )}
-
-            {(isAdmin || permissions.has(PermissionEnum.PERMISSIONS_EDIT)) && (
-              <EditPermissionProfileMenuComponent
-                title={editTitle}
-                description={editDescription}
-              />
-            )}
-          </PatchPermissionProfileStatusMenu.Provider>
-        </EditPermissionProfileMenu.Provider>
-      )}
-    </>
+        {canToggleStatus && (
+          <PermissionProfileOptionsDropdown.Item>
+            <PermissionProfileModalTrigger.PatchStatus />
+          </PermissionProfileOptionsDropdown.Item>
+        )}
+      </PermissionProfileOptionsDropdown.Menu>
+    </PermissionProfileOptionsDropdown.Root>
   )
 }
