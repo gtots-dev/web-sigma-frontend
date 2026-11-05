@@ -9,6 +9,7 @@ type MessageKeys =
   | '7.8'
   | '7.9'
   | '7.10'
+  | '7.11'
 
 export const MESSAGES_PROCESSING_UNIT: Record<MessageKeys, string> = {
   '7.1': 'Unidade de Processamento',
@@ -22,5 +23,7 @@ export const MESSAGES_PROCESSING_UNIT: Record<MessageKeys, string> = {
   '7.8': 'Altere os dados desejados para editar a unidade de processamento.',
   '7.9': 'Habilitar/Desabilitar',
   '7.10':
-    'Caso a opção correspondente esteja desabilitada, a unidade de processamento não estará mais disponível na lista.'
+    'Caso a opção correspondente esteja desabilitada, a unidade de processamento não estará mais disponível na lista.',
+  '7.11':
+    'Você não possui permissão para visualizar as unidades de processamento disponíveis. Por favor, verifique com o seu responsável.'
 }
