@@ -15,7 +15,7 @@ export function usePatchUserStatusForm(user: UserEnableAndDisableInterface) {
       id: user.id,
       enabled: user.enabled
     }),
-    [user]
+    [user.id, user.enabled]
   )
 
   const methods = useForm<PatchUserStatusFormType>({
