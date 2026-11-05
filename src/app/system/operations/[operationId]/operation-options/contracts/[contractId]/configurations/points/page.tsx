@@ -1,7 +1,5 @@
-import { auth } from '@/auth'
 import { PointOptionsDropdown } from '@/modules/points/presentation/components/point-options-dropdown'
-import { PostPointMenu } from '@/modules/points/presentation/components/post-point-menu'
-import { PostPointMenuComponent } from '@/modules/points/presentation/components/post-point-menu/post-point-menu.component'
+import { PointModalTrigger } from '@/modules/points/presentation/components/point-modal-triggers'
 import { TablePoints } from '@/modules/points/presentation/components/table-points'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
@@ -9,54 +7,20 @@ import { Separator } from '@/modules/shared/presentation/components/shadcn/separ
 import { MESSAGES_POINT } from '@/modules/shared/presentation/messages/points'
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import { getOperationAuthContext } from '@/modules/system/presentation/contexts/get-operation-auth.context'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 
 interface PointsPageProps {
   params: Promise<UrlParams>
 }
 
-interface Data {
-  title: string
-  description: string
-  menuPostPointTitle: string
-  menuPostPointDescription: string
-  menuPatchPointTitle: string
-  menuPatchPointDescription: string
-  menuPatchPointStatusTitle: string
-  menuPatchPointStatusDescription: string
-  menuPostPointLaneTitle: string
-  menuPostPointLaneDescription: string
-  menuViewMorePointTitle: string
-  menuViewMorePointDescription: string
-}
-
 export default async function PointsPage({ params }: PointsPageProps) {
-  const [
-    {
-      token: JWT,
-      user: { isAdmin }
-    },
-    { operationId: rawOperationId, contractId: rawContractId }
-  ] = await Promise.all([auth(), params])
-  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+  const { operationId: rawOperationId, contractId: rawContractId } =
+    await params
+  const { isAdmin, userPermissions, hasPermission } =
+    await getOperationAuthContext(rawOperationId)
 
   const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/configurations`
-
-  const data: Data = {
-    title: MESSAGES_POINT['14.1'],
-    description: MESSAGES_POINT['14.2'],
-    menuPostPointTitle: MESSAGES_POINT['14.4'],
-    menuPostPointDescription: MESSAGES_POINT['14.5'],
-    menuPatchPointTitle: MESSAGES_POINT['14.7'],
-    menuPatchPointDescription: MESSAGES_POINT['14.8'],
-    menuPatchPointStatusTitle: MESSAGES_POINT['14.9'],
-    menuPatchPointStatusDescription: MESSAGES_POINT['14.10'],
-    menuPostPointLaneTitle: MESSAGES_POINT['14.11'],
-    menuPostPointLaneDescription: MESSAGES_POINT['14.12'],
-    menuViewMorePointTitle: MESSAGES_POINT['14.15'],
-    menuViewMorePointDescription: MESSAGES_POINT[14.16]
-  }
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
@@ -67,22 +31,16 @@ export default async function PointsPage({ params }: PointsPageProps) {
           className="h-5 shrink-0 hidden sm:block"
         />
         <div className="flex flex-col min-w-0 flex-1">
-          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Title>{MESSAGES_POINT['14.1']}</HeaderSection.Title>
           <HeaderSection.Description>
-            {data.description}
+            {MESSAGES_POINT['14.2']}
           </HeaderSection.Description>
         </div>
       </HeaderSection.Root>
 
-      {(isAdmin || userPermissions.has(PermissionEnum.POINTS_EDIT)) && (
+      {hasPermission(PermissionEnum.POINTS_EDIT) && (
         <ActionSection.Root>
-          <PostPointMenu.Provider>
-            <PostPointMenu.Trigger />
-            <PostPointMenuComponent
-              title={data.menuPostPointTitle}
-              description={data.menuPostPointDescription}
-            />
-          </PostPointMenu.Provider>
+          <PointModalTrigger.Post />
         </ActionSection.Root>
       )}
       <TablePoints.Root>
@@ -91,14 +49,6 @@ export default async function PointsPage({ params }: PointsPageProps) {
           <TablePoints.Item>
             <PointOptionsDropdown.Client
               isAdmin={isAdmin}
-              patchTitle={data.menuPatchPointTitle}
-              patchDescription={data.menuPatchPointDescription}
-              patchStatusTitle={data.menuPatchPointStatusTitle}
-              patchStatusDescription={data.menuPatchPointStatusDescription}
-              postPointLaneTitle={data.menuPostPointLaneTitle}
-              postPointLaneDescription={data.menuPostPointLaneDescription}
-              viewMorePointLaneTitle={data.menuViewMorePointTitle}
-              ViewMorePointLaneDescription={data.menuViewMorePointDescription}
               permissions={userPermissions}
             />
           </TablePoints.Item>
