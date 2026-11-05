@@ -5,13 +5,11 @@ import { toast } from '@/modules/shared/presentation/components/hooks/use-toast'
 import { HttpResponseError } from '@/modules/shared/infrastructure/errors/http-response.error'
 import { usePermissionProfileStore } from '../stores/permission-profile.store'
 import type { ExtendedPermissionProfile } from './use-add-permission-profile-submit.hook'
-import { useTablePermissionProfile } from '../contexts/table-permission-profiles.context'
 import type { PermissionProfileWithFeatureInterface } from '../../domain/interfaces/permission-profile-with-feature.interface'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
 import { useParams } from 'next/navigation'
 
-export function useEditPermissionProfileSubmit() {
-  const { id: permissionProfileId } = useTablePermissionProfile()
+export function useEditPermissionProfileSubmit(permissionProfileId: number) {
   const { operationId }: UrlParams = useParams()
   const {
     addFeatures,

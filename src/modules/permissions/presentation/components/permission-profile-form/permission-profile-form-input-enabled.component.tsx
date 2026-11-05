@@ -8,18 +8,18 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/form'
 import { Switch } from '@/modules/shared/presentation/components/shadcn/switch'
 import { useFormContext } from 'react-hook-form'
-import { useTablePermissionProfile } from '../../contexts/table-permission-profiles.context'
 
 interface PermissionProfileFormInputEnabledComponentProps {
   require?: boolean
   description?: string
+  name?: string
 }
 
 export function PermissionProfileFormInputEnabledComponent({
-  description
+  description,
+  name
 }: PermissionProfileFormInputEnabledComponentProps) {
   const { control } = useFormContext()
-  const permissionProfile = useTablePermissionProfile()
 
   return (
     <FormField
@@ -42,9 +42,7 @@ export function PermissionProfileFormInputEnabledComponent({
                 </FormLabel>
                 <FormDescription>
                   Permissão{' '}
-                  <b className="text-zinc-950 dark:text-white/80">
-                    {permissionProfile.name}
-                  </b>{' '}
+                  <b className="text-zinc-950 dark:text-white/80">{name}</b>{' '}
                   será{' '}
                   <b className="text-zinc-950 dark:text-white/80">
                     {' '}

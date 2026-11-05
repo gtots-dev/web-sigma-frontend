@@ -14,6 +14,7 @@ type MessageKeys =
   | '6.13'
   | '6.14'
   | '6.15'
+  | '6.16'
 
 export const MESSAGES_PERMISSIONS: Record<MessageKeys, string> = {
   '6.1': 'Permissões',
@@ -32,5 +33,7 @@ export const MESSAGES_PERMISSIONS: Record<MessageKeys, string> = {
     'O perfil de permissão selecionado será aplicado apenas aos contratos escolhidos. Caso nenhum contrato seja selecionado, as permissões serão aplicadas globalmente a todos os contratos.',
   '6.14': 'Habilitar/Desabilitar',
   '6.15':
-    'Caso a opção correspondente esteja desabilitada, a permissão não estará mais disponível na lista para usuários comuns.'
+    'Caso a opção correspondente esteja desabilitada, a permissão não estará mais disponível na lista para usuários comuns.',
+  '6.16':
+    'Você não possui permissão para visualizar os perfis de permissão disponíveis. Por favor, verifique com o seu responsável.'
 }
