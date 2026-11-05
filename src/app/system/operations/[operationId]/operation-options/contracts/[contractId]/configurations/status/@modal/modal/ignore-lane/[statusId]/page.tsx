@@ -1,9 +1,7 @@
-import { auth } from '@/auth'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { MESSAGES_STATUS_LANES } from '@/modules/shared/presentation/messages/status-lanes'
 import { StatusLanesModal } from '@/modules/status-lanes/presentation/components/status-lanes-modals'
-import { UnauthorizedModalToast } from '@/modules/system/presentation/components/unauthorized-modal-toast/unauthorized-modal-toast.component'
+import { ModalPermissionGuard } from '@/modules/system/presentation/components/modal-permission-guard/modal-permission-guard.component'
 
 interface IgnoreStatusLanesModalPageProps {
   params: Promise<{ operationId: string; contractId: string; statusId: string }>
@@ -12,29 +10,25 @@ interface IgnoreStatusLanesModalPageProps {
 export default async function IgnoreStatusLanesModalPage({
   params
 }: IgnoreStatusLanesModalPageProps) {
-  const resolvedParams = await params
-  const session = await auth()
-  const JWT = session?.token
-  const isAdmin = session?.user?.isAdmin ?? false
-  const { userPermissions } = await loadAuthContext(
-    JWT,
-    resolvedParams.operationId
-  )
+  const { operationId, statusId } = await params
+  const parsedId = Number(statusId)
 
-  const canEdit = isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
-  if (!canEdit) {
-    return <UnauthorizedModalToast message={MESSAGES_STATUS_LANES['26.8']} />
-  }
-
-  const hasPermissionLanes =
-    isAdmin || userPermissions.has(PermissionEnum.LANES_VIEW)
+  if (!Number.isInteger(parsedId) || parsedId <= 0) return null
 
   return (
-    <StatusLanesModal.Ignore
-      title={MESSAGES_STATUS_LANES['26.5']}
-      description={MESSAGES_STATUS_LANES['26.6']}
-      statusId={Number(resolvedParams.statusId)}
-      hasPermission={hasPermissionLanes}
-    />
+    <ModalPermissionGuard
+      operationId={operationId}
+      permission={PermissionEnum.STATUS_EDIT}
+      unauthorizedMessage={MESSAGES_STATUS_LANES['26.8']}
+    >
+      {({ hasPermission }) => (
+        <StatusLanesModal.Ignore
+          title={MESSAGES_STATUS_LANES['26.5']}
+          description={MESSAGES_STATUS_LANES['26.6']}
+          statusId={parsedId}
+          hasPermission={hasPermission(PermissionEnum.LANES_VIEW)}
+        />
+      )}
+    </ModalPermissionGuard>
   )
 }

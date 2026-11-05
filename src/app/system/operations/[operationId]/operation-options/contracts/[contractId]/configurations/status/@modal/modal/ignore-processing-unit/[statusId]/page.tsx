@@ -1,9 +1,7 @@
-import { auth } from '@/auth'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
 import { MESSAGES_STATUS_PROCESSING_UNITS } from '@/modules/shared/presentation/messages/status-processing-units'
 import { StatusProcessingUnitsModal } from '@/modules/status-processing-units/presentation/components/status-processing-units-modals'
-import { UnauthorizedModalToast } from '@/modules/system/presentation/components/unauthorized-modal-toast/unauthorized-modal-toast.component'
+import { ModalPermissionGuard } from '@/modules/system/presentation/components/modal-permission-guard/modal-permission-guard.component'
 
 interface IgnoreStatusProcessingUnitsModalPageProps {
   params: Promise<{ operationId: string; contractId: string; statusId: string }>
@@ -12,33 +10,25 @@ interface IgnoreStatusProcessingUnitsModalPageProps {
 export default async function IgnoreStatusProcessingUnitsModalPage({
   params
 }: IgnoreStatusProcessingUnitsModalPageProps) {
-  const resolvedParams = await params
-  const session = await auth()
-  const JWT = session?.token
-  const isAdmin = session?.user?.isAdmin ?? false
-  const { userPermissions } = await loadAuthContext(
-    JWT,
-    resolvedParams.operationId
-  )
+  const { operationId, statusId } = await params
+  const parsedId = Number(statusId)
 
-  const canEdit = isAdmin || userPermissions.has(PermissionEnum.STATUS_EDIT)
-  if (!canEdit) {
-    return (
-      <UnauthorizedModalToast
-        message={MESSAGES_STATUS_PROCESSING_UNITS['25.8']}
-      />
-    )
-  }
-
-  const hasPermissionUnits =
-    isAdmin || userPermissions.has(PermissionEnum.PROCESSING_UNITS_VIEW)
+  if (!Number.isInteger(parsedId) || parsedId <= 0) return null
 
   return (
-    <StatusProcessingUnitsModal.Ignore
-      title={MESSAGES_STATUS_PROCESSING_UNITS['25.5']}
-      description={MESSAGES_STATUS_PROCESSING_UNITS['25.6']}
-      statusId={Number(resolvedParams.statusId)}
-      hasPermission={hasPermissionUnits}
-    />
+    <ModalPermissionGuard
+      operationId={operationId}
+      permission={PermissionEnum.STATUS_EDIT}
+      unauthorizedMessage={MESSAGES_STATUS_PROCESSING_UNITS['25.8']}
+    >
+      {({ hasPermission }) => (
+        <StatusProcessingUnitsModal.Ignore
+          title={MESSAGES_STATUS_PROCESSING_UNITS['25.5']}
+          description={MESSAGES_STATUS_PROCESSING_UNITS['25.6']}
+          statusId={parsedId}
+          hasPermission={hasPermission(PermissionEnum.PROCESSING_UNITS_VIEW)}
+        />
+      )}
+    </ModalPermissionGuard>
   )
 }
