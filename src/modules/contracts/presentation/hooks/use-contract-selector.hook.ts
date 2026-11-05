@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import type { ContractEntity } from '../../domain/entities/contract.entity'
 import { useContractStore } from '../stores/contract.store'
 
@@ -8,21 +8,20 @@ export function useContractSelector(
   contractId: ContractEntity['id'],
   contracts: ContractEntity[]
 ) {
-  const [open, setOpen] = useState(false)
-  const { contract, setContract } = useContractStore()
+  const { contract, setContract, setContracts } = useContractStore()
 
   useEffect(() => {
-    if (!contractId || !contracts.length) return
+    if (!contracts?.length) return
+    setContracts(contracts)
 
-    const found = contracts.find((co) => co.id === contractId)
-    if (found && found.id !== contract?.id) {
+    if (!contractId) return
+    const found = contracts.find((co) => String(co.id) === String(contractId))
+    if (found) {
       setContract(found)
     }
-  }, [contractId, contracts, setContract, contract?.id])
+  }, [contractId, contracts, setContract, setContracts])
 
   return {
-    open,
-    setOpen,
     contract
   }
 }

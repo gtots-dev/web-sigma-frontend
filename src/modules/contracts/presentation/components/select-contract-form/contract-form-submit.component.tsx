@@ -9,7 +9,7 @@ import { useContractStore } from '../../stores/contract.store'
 import { useCallback } from 'react'
 
 interface ContractFormSubmitComponentProps {
-  close: VoidFunction
+  close?: VoidFunction
 }
 
 export function ContractFormSubmitComponent({
@@ -30,8 +30,11 @@ export function ContractFormSubmitComponent({
 
       parts[contractIndex + 1] = String(newContractId)
 
+      const modalIndex = parts.findIndex((p) => p === 'modal')
+      const baseParts = modalIndex !== -1 ? parts.slice(0, modalIndex) : parts
+
       const newPath =
-        parts.join('/') +
+        baseParts.join('/') +
         (searchParams.toString() ? `?${searchParams.toString()}` : '')
 
       router.replace(newPath)
@@ -40,7 +43,7 @@ export function ContractFormSubmitComponent({
   )
 
   const onSubmit = ({ contract }: { contract: ContractEntity }) => {
-    if (contract.id === SelectContract.id) {
+    if (contract.id === SelectContract?.id) {
       return toast({
         variant: 'destructive',
         title: 'Contrato já selecionado',
@@ -49,7 +52,7 @@ export function ContractFormSubmitComponent({
     }
     setContract(contract)
     replaceContractId(contract.id)
-    close()
+    close?.()
     toast({
       variant: 'success',
       title: 'Contrato selecionado',

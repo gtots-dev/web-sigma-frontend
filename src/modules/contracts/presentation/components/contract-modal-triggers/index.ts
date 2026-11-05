@@ -2,10 +2,12 @@ import { PostContractModalTriggerComponent } from './post-contract-modal-trigger
 import { PatchContractModalTriggerComponent } from './patch-contract-modal-trigger.component'
 import { PutContractStatusModalTriggerComponent } from './put-contract-status-modal-trigger.component'
 import { PostContractFilesModalTriggerComponent } from './post-contract-files-modal-trigger.component'
+import { SelectContractModalTriggerComponent } from './select-contract-modal-trigger.component'
 
 export const ContractModalTrigger = {
   Post: PostContractModalTriggerComponent,
   Patch: PatchContractModalTriggerComponent,
   PutStatus: PutContractStatusModalTriggerComponent,
-  Files: PostContractFilesModalTriggerComponent
+  Files: PostContractFilesModalTriggerComponent,
+  Select: SelectContractModalTriggerComponent
 }

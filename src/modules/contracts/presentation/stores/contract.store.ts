@@ -25,6 +25,7 @@ type ContractState = {
     { operationId }: UrlParams,
     contract: ContractEntity
   ) => Promise<void>
+  setContracts: (contracts: ContractEntity[]) => void
   setContract: (contract: ContractEntity) => Promise<void>
 }
 
@@ -88,6 +89,10 @@ export const useContractStore = create<ContractState>((set) => ({
     } catch (error) {
       if (error instanceof HttpResponseError) throw error
     }
+  },
+
+  setContracts: (contracts: ContractEntity[]): void => {
+    set({ contracts })
   },
 
   setContract: async (contract: ContractEntity): Promise<void> => {

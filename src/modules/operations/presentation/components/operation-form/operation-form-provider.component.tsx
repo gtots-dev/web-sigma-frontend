@@ -1,7 +1,7 @@
 'use client'
 
+import { useEffect, type ReactNode } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
-import type { ReactNode } from 'react'
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
 import type { OperationEntity } from '@/modules/operations/domain/entities/operation.entity'
 
@@ -12,7 +12,7 @@ interface FormValues {
 
 interface OperationFormContextProviderComponentProps {
   children: ReactNode
-  operation: OperationEntity
+  operation: OperationEntity | null
 }
 
 export function OperationFormContextProviderComponent({
@@ -22,9 +22,19 @@ export function OperationFormContextProviderComponent({
   const formMethods = useForm<FormValues>({
     defaultValues: {
       search: '',
-      operation: operation
+      operation: operation ?? { id: null, name: null }
     }
   })
+
+  useEffect(() => {
+    const currentOperationId = formMethods.getValues('operation')?.id
+    if (!currentOperationId && operation?.id) {
+      formMethods.reset({
+        search: '',
+        operation
+      })
+    }
+  }, [operation, formMethods])
 
   return <FormProvider {...formMethods}>{children}</FormProvider>
 }

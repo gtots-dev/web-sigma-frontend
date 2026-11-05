@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import type { OperationInterface } from '@/modules/operations/domain/interfaces/operation.interface'
 import { useOperationStore } from '@/modules/system/presentation/store/operation.store'
 
@@ -8,21 +8,20 @@ export function useOperationSelector(
   operationId: OperationInterface['id'],
   operations: OperationInterface[]
 ) {
-  const [open, setOpen] = useState(false)
-  const { operation, setOperation } = useOperationStore()
+  const { operation, setOperation, setOperations } = useOperationStore()
 
   useEffect(() => {
-    if (!operationId || !operations.length) return
+    if (!operations?.length) return
+    setOperations(operations)
 
-    const found = operations.find((op) => String(op.id) === operationId)
-    if (found && found.id !== operation?.id) {
+    if (!operationId) return
+    const found = operations.find((op) => String(op.id) === String(operationId))
+    if (found) {
       setOperation(found)
     }
-  }, [operationId, operations, setOperation, operation?.id])
+  }, [operationId, operations, setOperation, setOperations])
 
   return {
-    open,
-    setOpen,
     operation
   }
 }

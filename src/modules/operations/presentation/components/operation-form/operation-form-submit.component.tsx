@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { useFormContext } from 'react-hook-form'
 
 interface OperationFormSubmitComponentProps {
-  close: VoidFunction
+  close?: VoidFunction
 }
 
 export function OperationFormSubmitComponent({
@@ -21,7 +21,7 @@ export function OperationFormSubmitComponent({
   const { replace } = useRouter()
 
   const onSubmit = ({ operation }: { operation: OperationInterface }) => {
-    if (operation.id === SelectOperation.id) {
+    if (operation.id === SelectOperation?.id) {
       return toast({
         variant: 'destructive',
         title: 'Operação já selecionada',
@@ -30,7 +30,7 @@ export function OperationFormSubmitComponent({
     }
     setOperation(operation)
     replace(PATHNAMES.OPERATION_OPTIONS(Number(operation.id)))
-    close()
+    close?.()
     toast({
       variant: 'success',
       title: 'Operação selecionada',
