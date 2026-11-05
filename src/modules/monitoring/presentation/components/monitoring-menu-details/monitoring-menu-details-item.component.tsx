@@ -10,14 +10,14 @@ import type {
 
 interface MonitoringMenuDetailsItemProps {
   data: UpInfo | LaneInfo
-  isAccessing: boolean
+  isAccessing?: boolean
   onAccess: () => void
   isNested?: boolean
 }
 
 export function MonitoringMenuDetailsItem({
   data,
-  isAccessing,
+  isAccessing = false,
   onAccess,
   isNested = false
 }: MonitoringMenuDetailsItemProps) {

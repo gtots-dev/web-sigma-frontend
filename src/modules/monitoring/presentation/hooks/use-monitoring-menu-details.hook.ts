@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { MonitoringCell } from '../../domain/interfaces/monitoring-cell.interface'
 import { StatusGroup } from '../../domain/interfaces/monitoring-dashboard-websocket.interface'
 import { useMonitoringDashboardStore } from '../stores/use-monitoring-dashboard.store'
@@ -23,25 +23,13 @@ export interface LaneInfo {
   hasData: boolean
 }
 
-export type ActiveView =
-  | { type: 'list' }
-  | { type: 'up'; id: string }
-  | { type: 'lane'; id: string }
-
 export function useMonitoringMenuDetails(cell: MonitoringCell) {
-  const [activeDialog, setActiveDialog] = useState<ActiveView>({ type: 'list' })
-  const [accessing, setAccessing] = useState<{
-    type: 'up' | 'lane'
-    id: string
-  } | null>(null)
-
   const upData = useMonitoringDashboardStore((state) => state.upData)
   const laneData = useMonitoringDashboardStore((state) => state.laneData)
   const { processingUnits } = useProcessingUnitStore()
   const { contractLanes } = useLaneStore()
 
   const { ups, lanes } = useMemo(() => {
-    // 1. Mapeia as UPs da célula
     const parsedUps: UpInfo[] = cell.upIds.map((upId) => {
       const liveData = upData.get(upId)
       const hasUpData = upData.has(upId)
@@ -72,7 +60,6 @@ export function useMonitoringMenuDetails(cell: MonitoringCell) {
       }
     })
 
-    // 2. Mapeia as Lanes da célula
     const parsedLanes: LaneInfo[] = cell.laneIds.map((laneId) => {
       const liveData = laneData.get(laneId)
       const hasLaneData = laneData.has(laneId)
@@ -113,51 +100,8 @@ export function useMonitoringMenuDetails(cell: MonitoringCell) {
     contractLanes
   ])
 
-  // Se a célula selecionada mudar, fecha o modal anterior
-  useEffect(() => {
-    queueMicrotask(() => {
-      setActiveDialog({ type: 'list' })
-      setAccessing(null)
-    })
-  }, [cell.id])
-
-  const handleAccess = (type: 'up' | 'lane', id: string) => {
-    setAccessing({ type, id })
-    setTimeout(() => {
-      setActiveDialog({ type, id })
-      setAccessing(null)
-    }, 600)
-  }
-
-  const closeDialog = () => {
-    setActiveDialog({ type: 'list' })
-  }
-
-  const isUpDialog = activeDialog.type === 'up'
-  const dialogId = activeDialog.type !== 'list' ? activeDialog.id : ''
-
-  const dialogItem = isUpDialog
-    ? ups.find((u) => String(u.up_id) === String(dialogId))
-    : lanes.find((l) => String(l.lane_id) === String(dialogId))
-
-  const dialogData = {
-    title: isUpDialog
-      ? (dialogItem as UpInfo)?.name || `UP ${dialogId}`
-      : (dialogItem as LaneInfo)?.name || `Faixa ${dialogId}`,
-    hasData: dialogItem?.hasData || false,
-    offline: isUpDialog ? (dialogItem as UpInfo)?.offline : false,
-    level: dialogItem?.level || 0,
-    items: dialogItem?.items || [],
-    isUpDialog
-  }
-
   return {
     ups,
-    lanes,
-    activeDialog,
-    accessing,
-    handleAccess,
-    closeDialog,
-    dialogData
+    lanes
   }
 }
