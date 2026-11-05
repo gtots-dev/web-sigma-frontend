@@ -36,6 +36,7 @@ type MessageKeys =
   | '5.36'
   | '5.37'
   | '5.38'
+  | '5.39'
 
 export const MESSAGES_USERS: Record<MessageKeys, string> = {
   '5.1': 'Usuários',
@@ -78,5 +79,7 @@ export const MESSAGES_USERS: Record<MessageKeys, string> = {
     'Você não possui permissão para visualizar os perfis de permissão disponíveis. Por favor, verifique com o seu responsável.',
   '5.36': 'O campo deve ter no máximo 150 caracteres.',
   '5.37': 'Anexar arquivos',
-  '5.38': 'Selecione os arquivos que deseja anexar ao usuário.'
+  '5.38': 'Selecione os arquivos que deseja anexar ao usuário.',
+  '5.39':
+    'Você não possui permissão para visualizar os usuários disponíveis. Por favor, verifique com o seu responsável.'
 }

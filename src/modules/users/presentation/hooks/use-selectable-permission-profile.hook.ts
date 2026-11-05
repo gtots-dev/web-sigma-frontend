@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { PermissionProfileInterface } from '@/modules/permissions/domain/interfaces/permission-profiles.interface'
 
-export function useSelectablePermissionProfile(isOpen: boolean) {
+export function useSelectablePermissionProfile(isOpen = true) {
   const [selectedProfile, setSelectedProfile] =
     useState<PermissionProfileInterface | null>(null)
 

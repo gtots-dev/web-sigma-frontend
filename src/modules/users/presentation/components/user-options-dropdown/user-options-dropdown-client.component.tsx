@@ -1,169 +1,71 @@
 'use client'
 
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
-import { ViewMoreUserMenu } from '../view-more-user-menu'
-import { EditUserMenu } from '../edit-user-menu'
-import { PutUserPasswordResetMenu } from '../put-user-password-reset-menu'
 import { UserOptionsDropdown } from '.'
-import { ViewMoreUserMenuComponent } from '../view-more-user-menu/view-more-user-menu.component'
-import { PutUserPasswordResetMenuComponent } from '../put-user-password-reset-menu/put-user-password-reset-menu.component'
-import { EditUserMenuComponent } from '../edit-user-menu/edit-user-menu.component'
-import { BindUserWithPermissionProfilesMenu } from '../bind-user-with-permission-profiles-menu'
-import { BindUserWithPermissionProfilesMenuComponent } from '../bind-user-with-permission-profiles-menu/bind-user-with-permission-profiles-menu.component'
-import { PatchUserStatusMenuComponent } from '../patch-user-status-menu/patch-user-status-menu.component'
-import { PatchUserStatusMenu } from '../patch-user-status-menu'
+import { UserModalTriggers } from '../user-modal-triggers'
 import { useTableUser } from '../../contexts/table-user.context'
-import { AddUserFilesMenu } from '../add-user-files-menu'
-import { AddUserFilesMenuComponent } from '../add-user-files-menu/add-user-files-menu.component'
 
 export function UserOptionsDropdownClient({
-  userAuthenticated,
   isAdmin,
-  viewMoreTitle,
-  viewMoreDescription,
-  editTitle,
-  editDescription,
-  attachFilesTitle,
-  attachFilesDescription,
-  resetTitle,
-  resetDescription,
   permissions,
-  bindUserWithPermissionProfilesTitle,
-  bindUserWithPermissionProfilesDescription,
-  userStatusTitle,
-  userStatusDescription
+  userAuthenticated
 }: {
-  userAuthenticated: string
   isAdmin: boolean
-  viewMoreTitle: string
-  viewMoreDescription: string
-  editTitle: string
-  editDescription: string
-  attachFilesTitle: string
-  attachFilesDescription: string
-  resetTitle: string
-  resetDescription: string
-  bindUserWithPermissionProfilesTitle: string
-  bindUserWithPermissionProfilesDescription: string
-  userStatusTitle: string
-  userStatusDescription: string
   permissions: Set<PermissionEnum>
+  userAuthenticated: string
 }) {
   const { id: userListId } = useTableUser()
   const isSameUser = userAuthenticated === String(userListId)
 
+  const hasAnyValidPermission =
+    isAdmin ||
+    permissions.has(PermissionEnum.USERS_VIEW) ||
+    permissions.has(PermissionEnum.USERS_EDIT) ||
+    permissions.has(PermissionEnum.USERS_PASSWORD_RESET) ||
+    permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)
+
+  if (!hasAnyValidPermission) return null
+
   return (
-    <BindUserWithPermissionProfilesMenu.Provider>
-      <ViewMoreUserMenu.Provider>
-        <AddUserFilesMenu.Provider>
-          <EditUserMenu.Provider>
-            <PutUserPasswordResetMenu.Provider>
-              <PatchUserStatusMenu.Provider>
-                <UserOptionsDropdown.Root>
-                  <UserOptionsDropdown.Trigger />
-                  <UserOptionsDropdown.Menu>
-                    <UserOptionsDropdown.Item>
-                      <ViewMoreUserMenu.Trigger />
-                    </UserOptionsDropdown.Item>
+    <UserOptionsDropdown.Root>
+      <UserOptionsDropdown.Trigger />
+      <UserOptionsDropdown.Menu>
+        <UserOptionsDropdown.Item>
+          <UserModalTriggers.ViewMore />
+        </UserOptionsDropdown.Item>
 
-                    {(isAdmin ||
-                      permissions.has(PermissionEnum.USERS_EDIT)) && (
-                      <>
-                        <UserOptionsDropdown.Item>
-                          <EditUserMenu.Trigger />
-                        </UserOptionsDropdown.Item>
+        {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
+          <UserOptionsDropdown.Item>
+            <UserModalTriggers.Patch />
+          </UserOptionsDropdown.Item>
+        )}
 
-                        <UserOptionsDropdown.Item>
-                          <BindUserWithPermissionProfilesMenu.Trigger
-                            isPermittedViewContracts={
-                              isAdmin ||
-                              permissions.has(PermissionEnum.CONTRACTS_VIEW)
-                            }
-                            isPermittedViewPermissionsProfile={
-                              isAdmin ||
-                              permissions.has(PermissionEnum.PERMISSIONS_VIEW)
-                            }
-                          />
-                        </UserOptionsDropdown.Item>
+        {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
+          <UserOptionsDropdown.Item>
+            <UserModalTriggers.BindPermissionProfiles />
+          </UserOptionsDropdown.Item>
+        )}
 
-                        <UserOptionsDropdown.Item>
-                          <AddUserFilesMenu.Trigger />
-                        </UserOptionsDropdown.Item>
-                      </>
-                    )}
+        {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
+          <UserOptionsDropdown.Item>
+            <UserModalTriggers.PostFiles />
+          </UserOptionsDropdown.Item>
+        )}
 
-                    {(isAdmin ||
-                      permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (
-                      <UserOptionsDropdown.Item>
-                        <PutUserPasswordResetMenu.Trigger />
-                      </UserOptionsDropdown.Item>
-                    )}
+        {(isAdmin || permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (
+          <UserOptionsDropdown.Item>
+            <UserModalTriggers.PutPasswordReset />
+          </UserOptionsDropdown.Item>
+        )}
 
-                    {!isSameUser &&
-                      (isAdmin ||
-                        permissions.has(
-                          PermissionEnum.USERS_ENABLE_AND_DISABLE
-                        )) && (
-                        <UserOptionsDropdown.Item>
-                          <PatchUserStatusMenu.Trigger />
-                        </UserOptionsDropdown.Item>
-                      )}
-                  </UserOptionsDropdown.Menu>
-                </UserOptionsDropdown.Root>
-
-                <ViewMoreUserMenuComponent
-                  title={viewMoreTitle}
-                  description={viewMoreDescription}
-                />
-
-                {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
-                  <BindUserWithPermissionProfilesMenuComponent
-                    title={bindUserWithPermissionProfilesTitle}
-                    description={bindUserWithPermissionProfilesDescription}
-                    isPermittedViewContracts={
-                      isAdmin || permissions.has(PermissionEnum.CONTRACTS_VIEW)
-                    }
-                    isPermittedViewPermissionsProfile={
-                      isAdmin ||
-                      permissions.has(PermissionEnum.PERMISSIONS_VIEW)
-                    }
-                  />
-                )}
-
-                {(isAdmin ||
-                  permissions.has(PermissionEnum.USERS_PASSWORD_RESET)) && (
-                  <PutUserPasswordResetMenuComponent
-                    title={resetTitle}
-                    description={resetDescription}
-                  />
-                )}
-
-                {(isAdmin ||
-                  permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)) && (
-                  <PatchUserStatusMenuComponent
-                    title={userStatusTitle}
-                    description={userStatusDescription}
-                  />
-                )}
-
-                {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
-                  <EditUserMenuComponent
-                    title={editTitle}
-                    description={editDescription}
-                  />
-                )}
-
-                {(isAdmin || permissions.has(PermissionEnum.USERS_EDIT)) && (
-                  <AddUserFilesMenuComponent
-                    title={attachFilesTitle}
-                    description={attachFilesDescription}
-                  />
-                )}
-              </PatchUserStatusMenu.Provider>
-            </PutUserPasswordResetMenu.Provider>
-          </EditUserMenu.Provider>
-        </AddUserFilesMenu.Provider>
-      </ViewMoreUserMenu.Provider>
-    </BindUserWithPermissionProfilesMenu.Provider>
+        {!isSameUser &&
+          (isAdmin ||
+            permissions.has(PermissionEnum.USERS_ENABLE_AND_DISABLE)) && (
+            <UserOptionsDropdown.Item>
+              <UserModalTriggers.PatchStatus />
+            </UserOptionsDropdown.Item>
+          )}
+      </UserOptionsDropdown.Menu>
+    </UserOptionsDropdown.Root>
   )
 }

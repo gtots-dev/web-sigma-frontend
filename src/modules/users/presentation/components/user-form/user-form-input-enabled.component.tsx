@@ -8,18 +8,18 @@ import {
 } from '@/modules/shared/presentation/components/shadcn/form'
 import { Switch } from '@/modules/shared/presentation/components/shadcn/switch'
 import { useFormContext } from 'react-hook-form'
-import { useTableUser } from '../../contexts/table-user.context'
 
 interface UserFormInputEnabledComponentProps {
   require?: boolean
   description?: string
+  name?: string
 }
 
 export function UserFormInputEnabledComponent({
-  description
+  description,
+  name
 }: UserFormInputEnabledComponentProps) {
   const { control } = useFormContext()
-  const user = useTableUser()
 
   return (
     <FormField
@@ -42,9 +42,7 @@ export function UserFormInputEnabledComponent({
                 </FormLabel>
                 <FormDescription>
                   Usuário{' '}
-                  <b className="text-zinc-950 dark:text-white/80">
-                    {user.name}
-                  </b>{' '}
+                  <b className="text-zinc-950 dark:text-white/80">{name}</b>{' '}
                   será{' '}
                   <b className="text-zinc-950 dark:text-white/80">
                     {' '}

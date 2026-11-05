@@ -8,12 +8,10 @@ import type { UserPasswordResetInterface } from '../../domain/interfaces/user-pa
 import { useUserPasswordResetStore } from '../stores/user-password-reset.store'
 import { useParams } from 'next/navigation'
 import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { useTableUser } from '../contexts/table-user.context'
 import { useTwoFactorChallenge } from '@/modules/two-factor/presentation/contexts/two-factor-challenge.context'
 
-export function usePutUserPasswordResetSubmit() {
+export function usePutUserPasswordResetSubmit(userId: number) {
   const { getUsers } = useUserStore()
-  const { id: userId } = useTableUser()
   const { operationId }: UrlParams = useParams()
   const { solicitedNewPassword } = useUserPasswordResetStore()
   const { challenge } = useTwoFactorChallenge()
