@@ -5,6 +5,7 @@ import { useState } from 'react'
 import {
   isContractWorkspaceRoute,
   isModalRoute,
+  isSelectionProcessingUnitRoute,
   normalizePathname
 } from '@/modules/shared/infrastructure/configs/pathnames.config'
 
@@ -29,18 +30,19 @@ export function useActiveContractWorkspace(): UseActiveContractWorkspaceResult {
   const pathname = normalizePathname(rawPathname)
   const params = useParams()
 
+  const isWorkspace = isContractWorkspaceRoute(pathname)
+  const isProcessingUnitWorkspace = isSelectionProcessingUnitRoute(pathname)
+  const isModal = isModalRoute(rawPathname)
+
   const operationId = params?.operationId
     ? Number(params.operationId)
     : undefined
-  const rawContractId = params?.contractId
-    ? Number(params.contractId)
-    : undefined
-  const processingUnitId = params?.processingUnitId
-    ? Number(params.processingUnitId)
-    : undefined
-
-  const isWorkspace = isContractWorkspaceRoute(pathname)
-  const isModal = isModalRoute(pathname)
+  const rawContractId =
+    isWorkspace && params?.contractId ? Number(params.contractId) : undefined
+  const processingUnitId =
+    isProcessingUnitWorkspace && params?.processingUnitId
+      ? Number(params.processingUnitId)
+      : undefined
 
   const [lastContractId, setLastContractId] = useState<number | undefined>(
     isWorkspace ? rawContractId : undefined
@@ -55,7 +57,7 @@ export function useActiveContractWorkspace(): UseActiveContractWorkspaceResult {
   const activeContractId = isWorkspace
     ? rawContractId
     : isModal
-      ? (rawContractId ?? lastContractId)
+      ? lastContractId
       : undefined
 
   return {

@@ -18,14 +18,13 @@ import { Button } from '@/modules/shared/presentation/components/shadcn/button'
 import { cn } from '@/modules/shared/presentation/lib/utils'
 import type { ReactNode } from 'react'
 import type { Item } from '.'
-import { useParams, usePathname } from 'next/navigation'
 import {
   isSelectionContractRoute,
   isSelectionProcessingUnitRoute,
   normalizePathname,
   PATHNAMES
 } from '@/modules/shared/infrastructure/configs/pathnames.config'
-import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { useActiveContractWorkspace } from '../../hooks/use-active-contract-workspace.hook'
 
 const variants = {
   open: { opacity: 1, height: 'auto', transition: { duration: 0.3 } },
@@ -42,8 +41,12 @@ export function SidebarSystemItemGrandchildComponent({
   className,
   children
 }: SidebarSystemItemGrandchildComponentProps) {
-  const pathname = usePathname()
-  const { operationId, contractId, processingUnitId }: UrlParams = useParams()
+  const {
+    pathname,
+    operationId,
+    activeContractId: contractId,
+    processingUnitId
+  } = useActiveContractWorkspace()
   const { handleClick, isActive } = useSidebarSystemItem(item)
   const [isOpen, setIsOpen] = useState(true)
 
