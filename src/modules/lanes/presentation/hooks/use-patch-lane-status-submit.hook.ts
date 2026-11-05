@@ -23,7 +23,7 @@ export function usePatchLaneStatusSubmit() {
           laneEnableAndDisable
         )
         toast({
-          title: 'Contrato atualizado com sucesso!',
+          title: 'Status da faixa atualizado com sucesso!',
           variant: 'success'
         })
         await getLanes({ operationId, contractId, processingUnitId })
@@ -31,7 +31,7 @@ export function usePatchLaneStatusSubmit() {
       } catch (error) {
         if (error instanceof HttpResponseError) {
           toast({
-            title: 'Erro ao atualizar o status contrato',
+            title: 'Erro ao atualizar o status da faixa',
             description: error.message,
             variant: 'destructive'
           })
