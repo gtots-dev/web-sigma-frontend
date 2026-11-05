@@ -1,31 +1,14 @@
-import { AddProcessingUnitMenu } from '@/modules/processing-units/presentation/components/add-processing-unit-menu'
-import { AddProcessingUnitMenuComponent } from '@/modules/processing-units/presentation/components/add-processing-unit-menu/add-processing-unit-menu.component'
-import { EditProcessingUnitsMenu } from '@/modules/processing-units/presentation/components/edit-processing-unit-menu'
-import { EditProcessingUnitsMenuComponent } from '@/modules/processing-units/presentation/components/edit-processing-unit-menu/edit-processing-unit-menu.component'
 import { ProcessingUnitsOptionsDropdown } from '@/modules/processing-units/presentation/components/processing-unit-options-dropdown'
-import { PatchProcessingUnitsStatusMenu } from '@/modules/processing-units/presentation/components/patch-processing-unit-status-menu'
-import { PatchProcessingUnitsStatusMenuComponent } from '@/modules/processing-units/presentation/components/patch-processing-unit-status-menu/patch-processing-unit-status-menu.component'
+import { ProcessingUnitModalTrigger } from '@/modules/processing-units/presentation/components/processing-unit-modal-triggers'
 import { TabledProcessingUnits } from '@/modules/processing-units/presentation/components/table-processing-units'
+import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
+import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
 import { Separator } from '@/modules/shared/presentation/components/shadcn/separator'
 import { MESSAGES_PROCESSING_UNIT } from '@/modules/shared/presentation/messages/processing-unit'
 import { ActionSection } from '@/modules/system/presentation/components/actions-section'
 import { HeaderSection } from '@/modules/system/presentation/components/header-section'
-import { SectionRedirectLink } from '@/modules/shared/presentation/components/section-redirect-link'
-import type { UrlParams } from '@/modules/shared/domain/interfaces/url-params.interface'
-import { auth } from '@/auth'
-import { loadAuthContext } from '@/modules/system/presentation/contexts/load-auth.context'
+import { getOperationAuthContext } from '@/modules/system/presentation/contexts/get-operation-auth.context'
 import { PermissionEnum } from '@/modules/system/domain/enums/permissions.enum'
-
-interface Data {
-  title: string
-  description: string
-  titleAdd: string
-  descriptionAdd: string
-  titleEdit: string
-  descriptionEdit: string
-  titlePutStatus: string
-  descriptionPutStatus: string
-}
 
 interface ProcessingUnitsPageProps {
   params: Promise<UrlParams>
@@ -34,28 +17,12 @@ interface ProcessingUnitsPageProps {
 export default async function ProcessingUnitsPage({
   params
 }: ProcessingUnitsPageProps) {
-  const [
-    {
-      token: JWT,
-      user: { isAdmin }
-    },
-    { operationId: rawOperationId, contractId: rawContractId }
-  ] = await Promise.all([auth(), params])
-
-  const { userPermissions } = await loadAuthContext(JWT, rawOperationId)
+  const { operationId: rawOperationId, contractId: rawContractId } =
+    await params
+  const { isAdmin, userPermissions, hasPermission } =
+    await getOperationAuthContext(rawOperationId)
 
   const previousSection = `/system/operations/${rawOperationId}/operation-options/contracts/${rawContractId}/configurations`
-
-  const data: Data = {
-    title: MESSAGES_PROCESSING_UNIT['7.1'],
-    description: MESSAGES_PROCESSING_UNIT['7.2'],
-    titleAdd: MESSAGES_PROCESSING_UNIT['7.4'],
-    descriptionAdd: MESSAGES_PROCESSING_UNIT['7.5'],
-    titleEdit: MESSAGES_PROCESSING_UNIT['7.7'],
-    descriptionEdit: MESSAGES_PROCESSING_UNIT['7.8'],
-    titlePutStatus: MESSAGES_PROCESSING_UNIT['7.9'],
-    descriptionPutStatus: MESSAGES_PROCESSING_UNIT['7.10']
-  }
 
   return (
     <main className="flex flex-col flex-1 p-8 sm:p-10 gap-5">
@@ -66,23 +33,18 @@ export default async function ProcessingUnitsPage({
           className="h-5 shrink-0 hidden sm:block"
         />
         <div className="flex flex-col min-w-0 flex-1">
-          <HeaderSection.Title>{data.title}</HeaderSection.Title>
+          <HeaderSection.Title>
+            {MESSAGES_PROCESSING_UNIT['7.1']}
+          </HeaderSection.Title>
           <HeaderSection.Description>
-            {data.description}
+            {MESSAGES_PROCESSING_UNIT['7.2']}
           </HeaderSection.Description>
         </div>
       </HeaderSection.Root>
 
-      {(isAdmin ||
-        userPermissions.has(PermissionEnum.PROCESSING_UNITS_EDIT)) && (
+      {hasPermission(PermissionEnum.PROCESSING_UNITS_EDIT) && (
         <ActionSection.Root>
-          <AddProcessingUnitMenu.Provider>
-            <AddProcessingUnitMenu.Trigger />
-            <AddProcessingUnitMenuComponent
-              title={data.titleAdd}
-              description={data.descriptionAdd}
-            />
-          </AddProcessingUnitMenu.Provider>
+          <ProcessingUnitModalTrigger.Post />
         </ActionSection.Root>
       )}
       <ActionSection.Root>
@@ -90,58 +52,10 @@ export default async function ProcessingUnitsPage({
           <TabledProcessingUnits.Header />
           <TabledProcessingUnits.Body>
             <TabledProcessingUnits.Item>
-              {isAdmin ||
-              userPermissions.has(PermissionEnum.PROCESSING_UNITS_EDIT) ||
-              isAdmin ||
-              userPermissions.has(
-                PermissionEnum.PROCESSING_UNITS_ENABLE_AND_DISABLE
-              ) ? (
-                <PatchProcessingUnitsStatusMenu.Provider>
-                  <EditProcessingUnitsMenu.Provider>
-                    <ProcessingUnitsOptionsDropdown.Root>
-                      <ProcessingUnitsOptionsDropdown.Trigger />
-                      <ProcessingUnitsOptionsDropdown.Menu>
-                        {(isAdmin ||
-                          userPermissions.has(
-                            PermissionEnum.PROCESSING_UNITS_EDIT
-                          )) && (
-                          <ProcessingUnitsOptionsDropdown.Item>
-                            <EditProcessingUnitsMenu.Trigger />
-                          </ProcessingUnitsOptionsDropdown.Item>
-                        )}
-
-                        {(isAdmin ||
-                          userPermissions.has(
-                            PermissionEnum.PROCESSING_UNITS_ENABLE_AND_DISABLE
-                          )) && (
-                          <ProcessingUnitsOptionsDropdown.Item>
-                            <PatchProcessingUnitsStatusMenu.Trigger />
-                          </ProcessingUnitsOptionsDropdown.Item>
-                        )}
-                      </ProcessingUnitsOptionsDropdown.Menu>
-
-                      {(isAdmin ||
-                        userPermissions.has(
-                          PermissionEnum.PROCESSING_UNITS_EDIT
-                        )) && (
-                        <EditProcessingUnitsMenuComponent
-                          title={data.titleEdit}
-                          description={data.descriptionEdit}
-                        />
-                      )}
-                      {(isAdmin ||
-                        userPermissions.has(
-                          PermissionEnum.PROCESSING_UNITS_ENABLE_AND_DISABLE
-                        )) && (
-                        <PatchProcessingUnitsStatusMenuComponent
-                          title={data.titlePutStatus}
-                          description={data.descriptionPutStatus}
-                        />
-                      )}
-                    </ProcessingUnitsOptionsDropdown.Root>
-                  </EditProcessingUnitsMenu.Provider>
-                </PatchProcessingUnitsStatusMenu.Provider>
-              ) : null}
+              <ProcessingUnitsOptionsDropdown.Client
+                isAdmin={isAdmin}
+                permissions={userPermissions}
+              />
             </TabledProcessingUnits.Item>
           </TabledProcessingUnits.Body>
         </TabledProcessingUnits.Root>
